@@ -1,0 +1,17 @@
+{
+  "character_id": "han-tin",
+  "name": "Han Xin",
+  "aliases": ["Han Tin", "Marquis of Huaiyin"],
+  "country": "China",
+  "period": "late 3rd century BCE",
+  "dynasty": "early Han",
+  "role": "Military general",
+  "known_facts": [
+    "Served Liu Bang during the Chu-Han Contention",
+    "Known for major campaigns and the Battle of Jingxing",
+    "Died in 196 BCE"
+  ],
+  "interpretation": "Historically inspired Qin-Han transitional military dress based on the user reference.",
+  "unknowns": ["No verified life portrait survives"],
+  "reference": "public/characters/hantin.png"
+}

@@ -1,0 +1,283 @@
+# QUANG TRUNG vs HÀN TÍN
+
+## characters
+
+quang-trung = public/characters/quangtrung.png
+han-tin = public/characters/hantin.png
+
+## scene 1
+
+char: quang-trung
+narration: Hai vị danh tướng, cách nhau hơn hai nghìn năm.
+prompt: Standing alone and commanding at the crest of a battlefield at cold dawn, one hand lifted in a leader's gesture, gazing forward as if across the centuries. Setting: a late-18th-century Đại Việt northern winter battlefield under pale morning mist; ranks of Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with rattan shields and plain crimson cloth banners on bare poles stand behind him; on the horizon a long low wide rampart of packed earth faced with dark brick, broken by one round-arched tunnel gateway, its top a bare flat walkway with plain square merlons and open sky above. Timeless, monumental framing, cold dawn light. No Qing/Chinese armour or banners on the Vietnamese troops, no European faces or architecture.
+title: HAI DANH TƯỚNG LỪNG DANH
+cue: CÁCH NHAU HƠN HAI NGHÌN NĂM
+host: explain
+
+## scene 2
+
+char: quang-trung
+narration: Người thứ nhất là Quang Trung của nhà Tây Sơn, người đánh tan quân Thanh trong mùa xuân năm một nghìn bảy trăm tám mươi chín.
+prompt: Standing at the head of his army in a confident commanding stance, arm sweeping forward before battle. Setting: late-18th-century Đại Việt winter battlefield; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with spears and crimson cloth banners massed behind him; far across the horizon the distinctly different enemy — Qing-dynasty Chinese soldiers in Qing lamellar armour and rounded helmets under dark banners — breaking apart. Cold triumphant dawn light. No Qing armour or rounded helmets on the Tây Sơn troops, no European faces or architecture.
+title: QUANG TRUNG — NHÀ TÂY SƠN
+cue: ĐẠI PHÁ QUÂN THANH • MÙA XUÂN 1789
+host: point-left
+
+## scene 3
+
+char: han-tin
+narration: Người thứ hai là Hàn Tín, đại tướng khai quốc của nhà Hán, người giúp Lưu Bang đánh bại các đối thủ và giành lấy thiên hạ.
+prompt: Standing composed at the head of his troops, gazing forward as he presents himself before battle. Setting: 204–202 BCE early Han China during the Chu–Han Contention; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar-and-lacquer armour with tower shields, dagger-axes and crossbows stand in ordered ranks behind him under plain dark cloth banners on bare poles, across a broad loess-plain battlefield under cold morning light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: HÀN TÍN — NHÀ HÁN
+cue: ĐẠI TƯỚNG KHAI QUỐC • GIÚP LƯU BANG
+host: point-right
+
+## scene 4
+
+char: han-tin
+narration: Hai người tuy khác thời đại, nhưng đều nổi tiếng với một điểm chung: dùng tài năng quân sự để thay đổi cục diện chiến tranh.
+prompt: Directing a battle line with cold, deliberate control, arm extended to command the manoeuvre that will decide the day. Setting: 204 BCE Chu–Han Contention loess plain; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour wheel into formation with wooden war chariots, tower shields and crossbows under plain dark banners; steep loess hills frame the field under tense dawn light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: TÀI QUÂN SỰ ĐỔI CỤC DIỆN
+cue: KHÁC THỜI ĐẠI • CHUNG MỘT ĐIỂM
+host: explain
+
+## scene 5
+
+char: quang-trung
+narration: Quang Trung, tên thật là Nguyễn Huệ, xuất hiện trong thời kỳ Đại Việt đầy biến động.
+prompt: Striding forward with resolve as unrest stirs, one hand on his sword hilt, surveying a country in upheaval. Setting: a late-18th-century Đại Việt countryside of bamboo groves, thatched stilt houses and rice paddies under a heavy grey sky; scattered Tây Sơn Vietnamese followers — East-Asian faces, never European — in plain tunics and conical nón lá gathering behind him. Overcast, restless, human-scale atmosphere. No Chinese architecture, no Qing dress, no European elements.
+title: NGUYỄN HUỆ XUẤT HIỆN
+cue: ĐẠI VIỆT ĐẦY BIẾN ĐỘNG
+host: point-left
+
+## scene 6
+
+char: quang-trung
+narration: Nhà Tây Sơn nổi dậy, nhanh chóng đánh bại nhiều thế lực lớn và tiến vào Thăng Long.
+prompt: At the head of a marching column, arm raised to drive the rapid advance forward. Setting: late-18th-century Đại Việt; long columns of Tây Sơn Vietnamese foot soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá pour through cold winter countryside behind him with crimson cloth banners; ahead on the horizon a long low wide rampart of packed earth faced with dark brick, broken by round-arched tunnel gateways, its top a bare flat walkway with plain square merlons and open sky above. Low-angle heroic framing, dust and cold mist. No Qing/Chinese armour on the troops, no European architecture.
+title: TÂY SƠN NỔI DẬY
+cue: TIẾN VÀO THĂNG LONG
+host: point-left
+
+## scene 7
+
+narration: Đến năm một nghìn bảy trăm tám mươi tám, quân Thanh tiến vào Đại Việt.
+prompt: A long Qing-dynasty Chinese army column advancing across a frozen northern frontier into Đại Việt — soldiers in Qing lamellar armour and rounded helmets with dark banners, cavalry and horse-drawn baggage winding through snowbound hills under a leaden winter sky. Cold, ominous, invasive mood; wide establishing composition. Han-Chinese East-Asian faces, never European; this is the invading army — no conical nón lá, no crimson Tây Sơn banners, visually distinct from the Vietnamese.
+title: 1788 — QUÂN THANH SANG
+cue: TIẾN VÀO ĐẠI VIỆT
+host: think
+
+## scene 8
+
+char: quang-trung
+narration: Nguyễn Huệ lên ngôi Hoàng đế với niên hiệu Quang Trung, rồi lập tức tiến quân ra Bắc.
+prompt: Newly proclaimed emperor turning from a raised field altar to lead his army north at once, arm thrust forward in command. Setting: late-18th-century Đại Việt / Tây Sơn; a packed-earth altar draped with plain undyed silk and a crimson banner behind him; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá already forming marching columns. Cold urgent dawn light, sense of immediate departure. No Qing/Chinese dress on the troops, no European elements.
+title: LÊN NGÔI HOÀNG ĐẾ
+cue: QUANG TRUNG • LẬP TỨC RA BẮC
+host: point-left
+
+## scene 9
+
+char: han-tin
+narration: Còn Hàn Tín sống vào cuối thời nhà Tần.
+prompt: Walking a dusty road as a young unknown, thoughtful and watchful in an unsettled land. Setting: a late-3rd-century-BCE Qin / early-Chu–Han Chinese village — rammed-earth huts with thatched roofs, wooden fences and a Han-Chinese farmer — East-Asian face, never European — working a field in the distance. Muted overcast light, quiet uncertainty. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: HÀN TÍN — CUỐI THỜI TẦN
+cue: MỘT THỜI LOẠN LẠC
+host: point-right
+
+## scene 10
+
+narration: Trung Hoa rơi vào nội chiến sau khi nhà Tần sụp đổ.
+search: Chu-Han contention map 206 BC China warlords historical
+title: TRUNG HOA NỘI CHIẾN
+cue: NHÀ TẦN SỤP ĐỔ
+host: think
+
+## scene 11
+
+char: han-tin
+narration: Hàn Tín ban đầu chưa được trọng dụng, nhưng sau khi gia nhập lực lượng của Lưu Bang, tài năng quân sự của ông bắt đầu được thể hiện.
+prompt: Being handed a general's bronze seal and tally at a military review, straightening with new authority as officers look on. Setting: an early Han army camp, late-3rd-century-BCE China; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour drawn up on parade behind a raised wooden platform under plain dark banners. Turning-point mood, cold clear light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: GẶP MINH CHỦ
+cue: THEO LƯU BANG • TÀI NĂNG TỎ RÕ
+host: point-right
+
+## scene 12
+
+char: quang-trung
+narration: Điều thú vị là cả hai đều không bắt đầu với vị trí cao nhất trong quân đội.
+prompt: As a young rebel among a small band, turning to rally ordinary followers with an open, urging gesture — a movement built from the ground up, not yet an army. Setting: a modest late-18th-century Đại Việt village of bamboo, thatched stilt houses and rice paddies; his followers are ordinary Vietnamese peasants — East-Asian faces, never European — in plain tunics and khăn head cloths with farm-forged spears and plain red cloth banners. Grounded, human scale, overcast day. No Chinese architecture, no Qing dress, no European elements.
+title: KHÔNG XUẤT PHÁT TỪ ĐỈNH CAO
+cue: CẢ HAI ĐỀU ĐI LÊN TỪ THẤP
+host: explain
+
+## scene 13
+
+char: quang-trung
+narration: Nguyễn Huệ nổi lên từ phong trào Tây Sơn, cùng các anh em xây dựng lực lượng và từng bước giành quyền kiểm soát.
+prompt: Standing among fellow rebels planning by torchlight, leaning over a rough map on a wooden board, building a movement step by step. Setting: a late-18th-century Đại Việt village longhouse of timber and thatch; Tây Sơn Vietnamese followers — East-Asian faces, never European — in plain tunics and conical nón lá gathered close around, a plain crimson cloth banner on the wall. Warm torch light, conspiratorial, determined mood. No Chinese architecture, no Qing dress, no European elements.
+title: DỰNG NGHIỆP TÂY SƠN
+cue: ANH EM TÂY SƠN GÂY DỰNG LỰC LƯỢNG
+host: point-left
+
+## scene 14
+
+char: han-tin
+narration: Hàn Tín thậm chí từng trải qua thời gian rất khó khăn trước khi trở thành danh tướng.
+prompt: Sitting alone and hungry beside a river, downcast and overlooked, enduring a hard, obscure life. He wears a coarse patched hemp commoner's robe worn thin and travel-stained — no armour, no rank. Setting: a humble late-3rd-century-BCE Chinese riverbank with wooden fishing weirs and reed nets; an old Han-Chinese washerwoman — East-Asian face, never European — works in the distance. Muted overcast light, quiet melancholy. No later-dynasty Tang/Ming/Qing silk robes, no Vietnamese or European elements.
+title: TỪ GIAN KHÓ
+cue: NHỮNG NĂM CƠ HÀN
+host: point-right
+
+## scene 15
+
+char: han-tin
+narration: Nhưng điểm chung của họ là: không cần xuất phát từ vị trí quyền lực nhất để trở thành người quyết định chiến trường.
+prompt: Rising to address assembled officers with calm authority for the first time, gesturing toward a battle map on a wooden stand — a man proving worth by skill, not birth. Setting: an early Han command tent, late-3rd-century-BCE China; Han-Chinese officers — East-Asian faces, never European — in lamellar armour seated on mats, plain dark banners and lamplight. Steady, ascendant mood. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: KHÔNG CẦN QUYỀN LỰC SẴN
+cue: TÀI NĂNG QUYẾT ĐỊNH CHIẾN TRƯỜNG
+host: explain
+
+## scene 16
+
+char: quang-trung
+narration: Quang Trung nổi tiếng nhất với cuộc hành quân thần tốc ra Bắc.
+prompt: Leading a hard forced march at speed, arm raised urging the columns on through cold country. Setting: late-18th-century Đại Việt winter; long files of Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá hurry behind him with crimson cloth banners streaming in motion, some soldiers carried in relays. Dust, cold mist, dynamic low-angle framing conveying speed. No Qing/Chinese armour on the troops, no European elements.
+title: HÀNH QUÂN THẦN TỐC
+cue: CUỘC TIẾN QUÂN RA BẮC
+host: point-left
+
+## scene 17
+
+char: quang-trung
+narration: Tết Kỷ Dậu năm một nghìn bảy trăm tám mươi chín, quân Tây Sơn liên tiếp đánh bại quân Thanh và tiến vào Thăng Long.
+prompt: Leading from the very front of a lightning night assault, sword thrust forward to drive the charge home. Setting: late-18th-century northern Đại Việt in cold winter dark; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá storm forward with war elephants, blazing torches and crimson banners against a fortified camp; the defenders ahead are Qing-dynasty Chinese soldiers in Qing lamellar armour and rounded helmets breaking behind timber palisades — the two sides unmistakably different. Firelight against cold night. No European fortifications, no shared uniform between the two sides.
+title: TẾT KỶ DẬU 1789
+cue: ĐẠI PHÁ QUÂN THANH • VÀO THĂNG LONG
+host: point-left
+
+## scene 18
+
+char: quang-trung
+narration: Chỉ trong một thời gian rất ngắn, cục diện chiến tranh đã hoàn toàn thay đổi.
+prompt: Standing amid a captured, smoking enemy camp at first light, calm and victorious as the battle ends. Setting: late-18th-century Đại Việt winter dawn; broken timber palisades and abandoned Qing rounded helmets and dark banners on the ground, Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá moving through the wreckage behind him; a long low dark-brick rampart with a round-arched tunnel gateway beyond. Cold clearing light, decisive aftermath. No Qing armour on the Tây Sơn troops, no European architecture.
+title: CỤC DIỆN THAY ĐỔI
+cue: CHỈ TRONG THỜI GIAN RẤT NGẮN
+host: point-left
+
+## scene 19
+
+char: han-tin
+narration: Còn Hàn Tín nổi tiếng với hàng loạt chiến dịch trong cuộc chiến giữa Lưu Bang và Hạng Vũ.
+prompt: Commanding a large field battle from a low rise, arm extended directing several columns at once with cold control. Setting: 204–202 BCE Chu–Han Contention loess plain; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour advance in disciplined blocks with wooden chariots and crossbows under plain dark banners; across the field an enemy Chu army masses under banners of a different colour. Tense grey daylight, grand scale. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: HÀNG LOẠT CHIẾN DỊCH
+cue: LƯU BANG • HẠNG VŨ
+host: point-right
+
+## scene 20
+
+char: han-tin
+narration: Ông sử dụng nhiều chiến thuật táo bạo, trong đó có trận Tỉnh Hình, nơi quân Hán đặt mình vào thế không thể lui để buộc binh sĩ chiến đấu quyết liệt.
+prompt: Commanding the Battle of Jingxing, arm extended to hold his line, having set his soldiers with their backs to a river in a desperate no-retreat formation. Setting: 204 BCE; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour fight with tower shields and dagger-axes at the water's edge; across the field the Zhao army masses under plain banners of a different colour; a cold river behind them and steep loess hills around. Tense dawn light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: TRẬN TỈNH HÌNH
+cue: THẾ KHÔNG THỂ LUI
+host: point-right
+
+## scene 21
+
+char: han-tin
+narration: Về sau, số phận của hai người lại rất khác nhau.
+prompt: Pausing alone at the edge of a victory hall, half-turned and quietly wary as if sensing a change in the wind. Setting: an early Western Han hall, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves under dim lamplight; distant Han officials — East-Asian faces, never European — watch him from the shadows. Foreboding, ambiguous mood, long shadows. No Ming/Qing palace, no Vietnamese or European elements.
+title: SỐ PHẬN RẼ ĐÔI
+cue: VỀ SAU RẤT KHÁC NHAU
+host: point-right
+
+## scene 22
+
+char: quang-trung
+narration: Quang Trung trở thành Hoàng đế và tiếp tục xây dựng nhà nước Tây Sơn.
+prompt: Seated on the throne as reigning emperor, receiving officials with calm dignity — a ruler consolidating a young dynasty. Setting: a solemn late-18th-century Đại Việt / Tây Sơn court — a low, wide single-storey timber hall, one broad dark tiled roof sweeping close to the ground on stout plain lacquered red-and-gold posts; Vietnamese officials — East-Asian faces, never European — in áo dài court robes and cánh chuồn caps bow before him, plain undyed silk hangings and paper lanterns line the hall. Symmetrical composition, warm indoor light. No Chinese/Qing court dress, no European elements.
+title: LÊN NGÔI HOÀNG ĐẾ
+cue: XÂY DỰNG NHÀ NƯỚC TÂY SƠN
+host: point-left
+
+## scene 23
+
+char: quang-trung
+narration: Ông qua đời năm một nghìn bảy trăm chín mươi hai, khi triều Tây Sơn vẫn đang trong quá trình củng cố.
+prompt: Standing alone at a palace doorway at dusk, weary and reflective, looking out over a realm not yet secure — the quiet weight of a reign cut short. Setting: a late-18th-century Đại Việt / Tây Sơn timber hall interior — plain lacquered red-and-gold posts, undyed silk hangings and a single paper lantern; muted evening light through the doorway. Solemn, elegiac mood. No Chinese/Qing palace, no European elements.
+title: QUA ĐỜI NĂM 1792
+cue: TRIỀU TÂY SƠN CÒN NON TRẺ
+host: point-left
+
+## scene 24
+
+char: han-tin
+narration: Còn Hàn Tín trở thành một trong những công thần quan trọng nhất của nhà Hán.
+prompt: Honoured at the Han court, standing tall as officials acknowledge his merit, calm and dignified at the height of his standing. Setting: an early Western Han hall, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves; Han officials — East-Asian faces, never European — in early-Han silk robes and lacquered caps stand in ordered rows, plain dark hangings. Warm, formal light. No Ming/Qing palace, no Vietnamese or European elements.
+title: CÔNG THẦN BẬC NHẤT
+cue: KHAI QUỐC NHÀ HÁN
+host: point-right
+
+## scene 25
+
+char: han-tin
+narration: Nhưng sau khi Lưu Bang giành được thiên hạ, vai trò của Hàn Tín dần trở thành mối lo ngại đối với triều đình.
+prompt: Standing alone and tense in a shadowed palace corridor, glancing back over his shoulder as suspicion quietly closes in. Setting: an early Western Han palace, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves; distant Han officials — East-Asian faces, never European — watch him coldly, guards with dagger-axes at the edges. Dim cold light, long hard shadows, foreboding. No Ming/Qing palace, no Vietnamese or European elements.
+title: CÔNG CAO CHẤN CHỦ
+cue: MỐI LO CỦA TRIỀU ĐÌNH
+host: point-right
+
+## scene 26
+
+char: han-tin
+narration: Ông bị giết năm một trăm chín mươi sáu trước Công nguyên.
+prompt: Cornered alone in a dim palace hall at night, unarmed and surrounded, the moment before the end — dramatic and tragic, without gore. Setting: an early Western Han interior, late-3rd-century-BCE China — tall lacquered timber columns and low tiled eaves, Han guards — East-Asian faces, never European — with dagger-axes closing from the shadows, a single guttering lamp. Cold blue night light, deep shadow, sense of doom. No Ming/Qing palace, no Vietnamese or European elements.
+title: BỊ GIẾT NĂM 196 TCN
+cue: KẾT CỤC BI THẢM
+host: point-right
+
+## scene 27
+
+char: quang-trung
+narration: Hai người không cùng thời đại, không cùng hoàn cảnh, cũng không cùng số phận.
+prompt: Standing alone on a hilltop at dusk, seen from a slight low angle, looking out over a battlefield fallen silent — reflective and resolute. Setting: late-18th-century Đại Việt / Tây Sơn; weathered plain crimson cloth banners lean in the earth beside him; far below, a long low wide rampart of packed earth faced with dark brick, broken by one round-arched tunnel gateway with a flat merloned walkway, rests under a wide calm glowing evening sky. Contemplative dusk, long soft light. No Chinese/Qing or European architecture.
+title: KHÔNG CÙNG SỐ PHẬN
+cue: KHÁC THỜI • KHÁC CẢNH • KHÁC KẾT CỤC
+host: think
+
+## scene 28
+
+char: han-tin
+narration: Nhưng cả hai đều cho thấy một điều: một vị tướng giỏi có thể thay đổi cả cục diện lịch sử.
+prompt: Standing resolute and alone before a vast battlefield at first light, gaze level and certain — a commander whose gift for war reshaped an age. Setting: 204–202 BCE Chu–Han loess plain stretching to the horizon; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour stand in disciplined ranks behind him under plain dark banners. Wide, monumental framing, cold clear dawn. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: TƯỚNG GIỎI ĐỔI LỊCH SỬ
+cue: CẢ HAI ĐỀU CHỨNG MINH
+host: explain
+
+## scene 29
+
+char: quang-trung
+narration: Quang Trung để lại dấu ấn với chiến thắng mùa xuân Kỷ Dậu, nổi bật với tốc độ và khả năng tổ chức chiến dịch.
+prompt: Standing tall and victorious among his troops after the spring campaign, calm and proud, honoured as a swift and decisive commander. Setting: late-18th-century Đại Việt / Tây Sơn; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá stand in ordered ranks beneath tall crimson cloth banners behind him; a long low dark-brick rampart with a round-arched tunnel gateway beyond under a bright clearing sky. Bright triumphant light. No Qing/Chinese armour on the troops, no European architecture.
+title: DI SẢN — TÂY SƠN
+cue: TỐC ĐỘ • TỔ CHỨC CHIẾN DỊCH
+host: point-left
+
+## scene 30
+
+char: han-tin
+narration: Còn Hàn Tín trở thành biểu tượng của mưu lược và tài điều binh.
+prompt: Standing composed among his troops as a revered master strategist, calm and quietly triumphant, honoured as a military legend. Setting: 204–202 BCE Chu–Han early Han China; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour with tower shields and dagger-axes stand in disciplined ordered ranks beneath plain dark banners behind him, across a broad loess plain under a bright open sky. Bright celebratory light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements.
+title: DI SẢN — NHÀ HÁN
+cue: MƯU LƯỢC • ĐIỀU BINH
+host: point-right
+
+## scene 31
+
+char: quang-trung
+narration: Hai con người, hai thời đại, nhưng đều là những cái tên khiến lịch sử nhớ đến tài cầm quân.
+prompt: Standing heroic and calm on a rise at golden hour, gaze to the horizon, a solitary symbolic figure whom history remembers for the art of command. Setting: late-18th-century Đại Việt / Tây Sơn; weathered plain crimson cloth banners beside him; far below a long low wide dark-brick rampart with a round-arched tunnel gateway rests under a wide glowing evening sky. Warm, elegiac, monumental closing framing. No Chinese/Qing or European architecture.
+title: LỊCH SỬ GHI DANH
+cue: HAI NGƯỜI • HAI THỜI ĐẠI
+host: think

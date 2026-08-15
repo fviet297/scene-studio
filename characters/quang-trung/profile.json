@@ -1,0 +1,17 @@
+{
+  "character_id": "quang-trung",
+  "name": "Quang Trung",
+  "aliases": ["Nguyen Hue", "Bac Binh Vuong"],
+  "country": "Dai Viet",
+  "period": "late 18th century",
+  "dynasty": "Tay Son",
+  "role": "Emperor and military commander",
+  "known_facts": [
+    "Led the Tay Son forces",
+    "Defeated the Qing invasion in 1789",
+    "Reigned as Emperor Quang Trung"
+  ],
+  "interpretation": "Historically inspired late-18th-century Tay Son military dress based on the user reference.",
+  "unknowns": ["No verified life portrait survives"],
+  "reference": "public/characters/quangtrung.png"
+}
