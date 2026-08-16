@@ -1,468 +1,205 @@
 {
   "characters": {
-    "quang-trung": "public/characters/quangtrung.png",
-    "han-tin": "public/characters/hantin.png"
+    "ly-thai-to": "public/characters/lythaito.png",
+    "ly-the-dan": "public/characters/lythedan.png"
   },
   "scenes": [
     {
       "scene": 1,
-      "narration": "Hai vị danh tướng, cách nhau hơn hai nghìn năm.",
+      "narration": "Hai vị hoàng đế, cách nhau hơn một thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-thai-to",
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "Standing alone and commanding at the crest of a battlefield at cold dawn, one hand lifted in a leader's gesture, gazing forward as if across the centuries. Setting: a late-18th-century Đại Việt northern winter battlefield under pale morning mist; ranks of Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with rattan shields and plain crimson cloth banners on bare poles stand behind him; on the horizon a long low wide rampart of packed earth faced with dark brick, broken by one round-arched tunnel gateway, its top a bare flat walkway with plain square merlons and open sky above. Timeless, monumental framing, cold dawn light. No Qing/Chinese armour or banners on the Vietnamese troops, no European faces or architecture."
+        "prompt": "The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls, wide timber halls and ordered ceremonial ranks. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning."
       },
-      "title": "HAI DANH TƯỚNG LỪNG DANH",
-      "cue": "CÁCH NHAU HƠN HAI NGHÌN NĂM",
+      "title": "HAI BẬC KHAI MỞ",
+      "cue": "Hai thế kỷ · hai đế chế",
       "host": "explain"
     },
     {
       "scene": 2,
-      "narration": "Người thứ nhất là Quang Trung của nhà Tây Sơn, người đánh tan quân Thanh trong mùa xuân năm một nghìn bảy trăm tám mươi chín.",
+      "narration": "Một người sáng lập nhà Lý, một người đưa nhà Đường bước vào thời kỳ huy hoàng.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-thai-to",
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "Standing at the head of his army in a confident commanding stance, arm sweeping forward before battle. Setting: late-18th-century Đại Việt winter battlefield; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with spears and crimson cloth banners massed behind him; far across the horizon the distinctly different enemy — Qing-dynasty Chinese soldiers in Qing lamellar armour and rounded helmets under dark banners — breaking apart. Cold triumphant dawn light. No Qing armour or rounded helmets on the Tây Sơn troops, no European faces or architecture."
+        "prompt": "The first character stands lower-left overlooking a compact early-11th-century Đại Việt river citadel where builders raise low brick walls, timber halls and storehouses. The second character stands upper-right above a vast ordered 7th-century Tang avenue of markets, granaries and administrative compounds. A diagonal band of warm morning light splits the two halves and brightens toward the horizon: foundations being laid on the left, full imperial prosperity on the right. Small East-Asian builders, officials and soldiers work only inside their own half, in period-correct dress."
       },
-      "title": "QUANG TRUNG — NHÀ TÂY SƠN",
-      "cue": "ĐẠI PHÁ QUÂN THANH • MÙA XUÂN 1789",
-      "host": "point-left"
-    },
-    {
-      "scene": 3,
-      "narration": "Người thứ hai là Hàn Tín, đại tướng khai quốc của nhà Hán, người giúp Lưu Bang đánh bại các đối thủ và giành lấy thiên hạ.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Standing composed at the head of his troops, gazing forward as he presents himself before battle. Setting: 204–202 BCE early Han China during the Chu–Han Contention; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar-and-lacquer armour with tower shields, dagger-axes and crossbows stand in ordered ranks behind him under plain dark cloth banners on bare poles, across a broad loess-plain battlefield under cold morning light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "HÀN TÍN — NHÀ HÁN",
-      "cue": "ĐẠI TƯỚNG KHAI QUỐC • GIÚP LƯU BANG",
-      "host": "point-right"
-    },
-    {
-      "scene": 4,
-      "narration": "Hai người tuy khác thời đại, nhưng đều nổi tiếng với một điểm chung: dùng tài năng quân sự để thay đổi cục diện chiến tranh.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Directing a battle line with cold, deliberate control, arm extended to command the manoeuvre that will decide the day. Setting: 204 BCE Chu–Han Contention loess plain; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour wheel into formation with wooden war chariots, tower shields and crossbows under plain dark banners; steep loess hills frame the field under tense dawn light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "TÀI QUÂN SỰ ĐỔI CỤC DIỆN",
-      "cue": "KHÁC THỜI ĐẠI • CHUNG MỘT ĐIỂM",
+      "title": "NHÀ LÝ · NHÀ ĐƯỜNG",
+      "cue": "Khởi nghiệp và thịnh trị",
       "host": "explain"
     },
     {
-      "scene": 5,
-      "narration": "Quang Trung, tên thật là Nguyễn Huệ, xuất hiện trong thời kỳ Đại Việt đầy biến động.",
+      "scene": 3,
+      "narration": "Lý Thái Tổ, tên thật Lý Công Uẩn, lên ngôi năm một nghìn không trăm mười.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-thai-to"
         ],
         "identity": "full",
-        "prompt": "Striding forward with resolve as unrest stirs, one hand on his sword hilt, surveying a country in upheaval. Setting: a late-18th-century Đại Việt countryside of bamboo groves, thatched stilt houses and rice paddies under a heavy grey sky; scattered Tây Sơn Vietnamese followers — East-Asian faces, never European — in plain tunics and conical nón lá gathering behind him. Overcast, restless, human-scale atmosphere. No Chinese architecture, no Qing dress, no European elements."
+        "prompt": "Standing before assembled officials at his accession in 1010, receiving the imperial seal with both hands and turning toward the court with composed resolve. Setting: early Lý-dynasty Đại Việt, a compact timber audience hall with stout plain columns, low heavy dark-tiled roofs and a brick courtyard. Vietnamese court officials with East-Asian faces wear early-11th-century robes and simple caps; guards carry spears and stand beneath plain crimson cloth banners. Solemn ceremonial light, medium-wide environmental framing, no Nguyễn-dynasty dress, no Qing costume, no European architecture."
       },
-      "title": "NGUYỄN HUỆ XUẤT HIỆN",
-      "cue": "ĐẠI VIỆT ĐẦY BIẾN ĐỘNG",
+      "title": "LÝ CÔNG UẨN LÊN NGÔI",
+      "cue": "Đại Việt · năm 1010",
+      "host": "point-left"
+    },
+    {
+      "scene": 4,
+      "narration": "Việc đầu tiên ông làm là dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "A vertical symbol-only geographic illustration of a royal capital relocation within a pre-modern Southeast Asian kingdom. Show one plain circular origin marker inside a southern inland limestone basin and one plain circular destination marker farther north beside a broad river delta. Connect them with one continuous route ending at the northern marker. Include simplified coastline, major rivers, mountain silhouettes and contrasting terrain regions. Add one small secondary royal procession without banners or documents. Use an antique earth, jade, ochre and natural-blue palette. The composition contains only geography, colour fields, two circles and one route line; all surfaces remain blank and non-symbolic."
+      },
+      "title": "DỜI ĐÔ RA ĐẠI LA",
+      "cue": "Hoa Lư → Thăng Long",
+      "host": "point-left"
+    },
+    {
+      "scene": 5,
+      "narration": "Quyết định ấy tạo nền móng cho kinh đô của Đại Việt trong nhiều thế kỷ sau.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Standing beside the first organized works of Thăng Long, looking across a new riverside capital as builders raise low brick walls, timber halls and storehouses. Setting: early-11th-century Đại Việt near the Red River, with compact practical urban planning, stout timber posts, dark unglazed tiles and a wide open civic courtyard. Vietnamese builders, officials and guards have East-Asian faces and wear plain early-Lý tunics, robes and simple head cloths; the construction feels like a durable foundation rather than a finished imperial metropolis. Warm morning light, hopeful medium-wide composition. No later Nguyễn or Qing costume, no Chinese palace scale, no European towers."
+      },
+      "title": "NỀN MÓNG THĂNG LONG",
+      "cue": "Kinh đô nhiều thế kỷ",
       "host": "point-left"
     },
     {
       "scene": 6,
-      "narration": "Nhà Tây Sơn nổi dậy, nhanh chóng đánh bại nhiều thế lực lớn và tiến vào Thăng Long.",
+      "narration": "Còn Lý Thế Dân, tức Đường Thái Tông, lên ngôi năm sáu trăm hai mươi sáu.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "At the head of a marching column, arm raised to drive the rapid advance forward. Setting: late-18th-century Đại Việt; long columns of Tây Sơn Vietnamese foot soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá pour through cold winter countryside behind him with crimson cloth banners; ahead on the horizon a long low wide rampart of packed earth faced with dark brick, broken by round-arched tunnel gateways, its top a bare flat walkway with plain square merlons and open sky above. Low-angle heroic framing, dust and cold mist. No Qing/Chinese armour on the troops, no European architecture."
+        "prompt": "Standing at the center of a formal accession ceremony in 626, accepting the imperial seal while officials bow in ordered rows. Setting: early Tang-dynasty China, a broad palace courtyard enclosed by rammed-earth walls and large timber halls with restrained 7th-century roof forms. Tang Chinese officials and guards have East-Asian faces, period-correct robes, caps, lamellar armour and long spears. The atmosphere is controlled and politically charged rather than celebratory, with cool dawn light and a medium-wide composition. No Ming or Qing costume, no fantasy palace, no European elements."
       },
-      "title": "TÂY SƠN NỔI DẬY",
-      "cue": "TIẾN VÀO THĂNG LONG",
-      "host": "point-left"
+      "title": "ĐƯỜNG THÁI TÔNG",
+      "cue": "Nhà Đường · năm 626",
+      "host": "point-right"
     },
     {
       "scene": 7,
-      "narration": "Đến năm một nghìn bảy trăm tám mươi tám, quân Thanh tiến vào Đại Việt.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A long Qing-dynasty Chinese army column advancing across a frozen northern frontier into Đại Việt — soldiers in Qing lamellar armour and rounded helmets with dark banners, cavalry and horse-drawn baggage winding through snowbound hills under a leaden winter sky. Cold, ominous, invasive mood; wide establishing composition. Han-Chinese East-Asian faces, never European; this is the invading army — no conical nón lá, no crimson Tây Sơn banners, visually distinct from the Vietnamese."
-      },
-      "title": "1788 — QUÂN THANH SANG",
-      "cue": "TIẾN VÀO ĐẠI VIỆT",
-      "host": "think"
-    },
-    {
-      "scene": 8,
-      "narration": "Nguyễn Huệ lên ngôi Hoàng đế với niên hiệu Quang Trung, rồi lập tức tiến quân ra Bắc.",
+      "narration": "Ông nổi tiếng với việc đánh bại nhiều đối thủ, củng cố nhà Đường và mở ra thời kỳ Trinh Quán chi trị.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "Newly proclaimed emperor turning from a raised field altar to lead his army north at once, arm thrust forward in command. Setting: late-18th-century Đại Việt / Tây Sơn; a packed-earth altar draped with plain undyed silk and a crimson banner behind him; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá already forming marching columns. Cold urgent dawn light, sense of immediate departure. No Qing/Chinese dress on the troops, no European elements."
+        "prompt": "Directing a Tang army from a raised position after victory, one arm extended toward disciplined formations while officers carry orders between cavalry and infantry. Setting: 7th-century Tang China on a broad northern plain near a fortified command camp. Tang Chinese soldiers with East-Asian faces wear period-correct lamellar armour and carry spears, bows and plain dark cloth standards; ordinary troops use simpler gear than the emperor. The rear of the scene transitions into an orderly civilian landscape of roads, granaries and cultivated fields, suggesting military consolidation becoming stable governance. No later Ming or Qing equipment, no guns, no European armour."
       },
-      "title": "LÊN NGÔI HOÀNG ĐẾ",
-      "cue": "QUANG TRUNG • LẬP TỨC RA BẮC",
+      "title": "TRINH QUÁN CHI TRỊ",
+      "cue": "Chiến thắng · củng cố · thịnh trị",
+      "host": "point-right"
+    },
+    {
+      "scene": 8,
+      "narration": "Lý Thái Tổ nổi bật ở khả năng xây dựng một quốc gia ổn định sau thời kỳ loạn lạc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Reviewing the construction of a stable new capital, gesturing calmly toward planners, builders and officials organizing roads, storehouses and defensive walls. Setting: early-11th-century Thăng Long in Đại Việt beside the Red River, with low brick ramparts, round-arched passages, timber halls on stout posts and dark unglazed tiles. Vietnamese workers and soldiers have East-Asian faces and wear plain early-Lý tunics, head cloths and simple guard equipment. The scene should feel practical, orderly and hopeful, with clear evidence of administration replacing disorder. No Chinese imperial megacity, no Nguyễn-dynasty costume, no European masonry."
+      },
+      "title": "XÂY NỀN QUỐC GIA",
+      "cue": "Ổn định sau loạn lạc",
       "host": "point-left"
     },
     {
       "scene": 9,
-      "narration": "Còn Hàn Tín sống vào cuối thời nhà Tần.",
+      "narration": "Lý Thế Dân nổi bật ở tài năng quân sự, chính trị và khả năng mở rộng sức mạnh của đế quốc.",
       "image": {
         "kind": "ai",
         "characters": [
-          "han-tin"
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "Walking a dusty road as a young unknown, thoughtful and watchful in an unsettled land. Setting: a late-3rd-century-BCE Qin / early-Chu–Han Chinese village — rammed-earth huts with thatched roofs, wooden fences and a Han-Chinese farmer — East-Asian face, never European — working a field in the distance. Muted overcast light, quiet uncertainty. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
+        "prompt": "Standing over a large campaign map on a wooden field table, issuing precise orders to Tang officers while mounted messengers depart toward distant frontier routes. Setting: a 7th-century Tang command pavilion overlooking an expansive dry plain, with cavalry, supply carts and fortified waystations visible in depth. Tang Chinese officers and soldiers have East-Asian faces, period-correct lamellar armour, bows and spears; their equipment remains distinct by rank. Strong controlled afternoon light, strategic rather than chaotic mood, medium-wide environmental composition. No invented map lettering, no later Ming or Qing armour, no firearms or European elements."
       },
-      "title": "HÀN TÍN — CUỐI THỜI TẦN",
-      "cue": "MỘT THỜI LOẠN LẠC",
+      "title": "QUÂN SỰ VÀ ĐẾ QUỐC",
+      "cue": "Sức mạnh nhà Đường",
       "host": "point-right"
     },
     {
       "scene": 10,
-      "narration": "Trung Hoa rơi vào nội chiến sau khi nhà Tần sụp đổ.",
+      "narration": "Một người đặt nền móng cho Thăng Long, một người tạo nên thời kỳ thịnh trị bậc nhất lịch sử Trung Hoa.",
       "image": {
-        "kind": "search",
-        "characters": [],
-        "query": "Chu-Han contention map 206 BC China warlords historical"
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to",
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands left on a finished low brick rampart of early Thăng Long beside the Red River, above compact timber halls, storehouses and active builders. The second character stands right on a raised terrace above prosperous 7th-century Tang Chang'an, its vast ordered avenue, markets and administrative compounds running into depth. Each ruler stays on their own side and never crosses into the other's city. East-Asian citizens and officials remain small supporting figures in culture-specific period dress. One continuous golden horizon links both achievements while the difference in physical scale stays visible."
       },
-      "title": "TRUNG HOA NỘI CHIẾN",
-      "cue": "NHÀ TẦN SỤP ĐỔ",
-      "host": "think"
+      "title": "HAI DI SẢN",
+      "cue": "Thăng Long · Trinh Quán",
+      "host": "explain"
     },
     {
       "scene": 11,
-      "narration": "Hàn Tín ban đầu chưa được trọng dụng, nhưng sau khi gia nhập lực lượng của Lưu Bang, tài năng quân sự của ông bắt đầu được thể hiện.",
+      "narration": "Nếu so về xây dựng quốc gia, Lý Thái Tổ để lại dấu ấn đặc biệt.",
       "image": {
         "kind": "ai",
         "characters": [
-          "han-tin"
+          "ly-thai-to"
         ],
         "identity": "full",
-        "prompt": "Being handed a general's bronze seal and tally at a military review, straightening with new authority as officers look on. Setting: an early Han army camp, late-3rd-century-BCE China; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour drawn up on parade behind a raised wooden platform under plain dark banners. Turning-point mood, cold clear light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
+        "prompt": "Standing on a finished section of Thăng Long's new low brick rampart, looking across an organized capital of roads, storehouses, villages and timber halls, one hand open in a measured gesture of stewardship. Setting: early-11th-century Đại Việt beside the Red River. Vietnamese officials, builders and guards have East-Asian faces and wear plain early-Lý robes, tunics and simple helmets; the city architecture remains compact, low and practical. Warm late-afternoon light emphasizes continuity and civic order rather than conquest. No Nguyễn-dynasty clothing, no Chinese imperial palace scale, no European towers."
       },
-      "title": "GẶP MINH CHỦ",
-      "cue": "THEO LƯU BANG • TÀI NĂNG TỎ RÕ",
-      "host": "point-right"
+      "title": "DẤU ẤN LÝ THÁI TỔ",
+      "cue": "Xây dựng quốc gia",
+      "host": "point-left"
     },
     {
       "scene": 12,
-      "narration": "Điều thú vị là cả hai đều không bắt đầu với vị trí cao nhất trong quân đội.",
+      "narration": "Nhưng nếu so về quân sự và quy mô đế quốc, Lý Thế Dân vượt trội hơn.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "As a young rebel among a small band, turning to rally ordinary followers with an open, urging gesture — a movement built from the ground up, not yet an army. Setting: a modest late-18th-century Đại Việt village of bamboo, thatched stilt houses and rice paddies; his followers are ordinary Vietnamese peasants — East-Asian faces, never European — in plain tunics and khăn head cloths with farm-forged spears and plain red cloth banners. Grounded, human scale, overcast day. No Chinese architecture, no Qing dress, no European elements."
+        "prompt": "Overlooking an immense Tang military review from a raised command platform, lifting one hand as cavalry, infantry and supply columns move in disciplined depth across a broad plain. Setting: 7th-century Tang China at the height of early imperial expansion, with distant frontier forts and roads connecting the horizon. Tang Chinese troops have East-Asian faces, period-correct lamellar armour, bows and spears; ordinary soldiers wear simpler equipment than the emperor. Grand scale, clear formations and strong wind across plain undecorated standards. No Ming or Qing armour, no firearms, no fantasy weapons, no European features."
       },
-      "title": "KHÔNG XUẤT PHÁT TỪ ĐỈNH CAO",
-      "cue": "CẢ HAI ĐỀU ĐI LÊN TỪ THẤP",
-      "host": "explain"
+      "title": "ƯU THẾ LÝ THẾ DÂN",
+      "cue": "Quân sự · quy mô đế quốc",
+      "host": "point-right"
     },
     {
       "scene": 13,
-      "narration": "Nguyễn Huệ nổi lên từ phong trào Tây Sơn, cùng các anh em xây dựng lực lượng và từng bước giành quyền kiểm soát.",
+      "narration": "Hai vị hoàng đế, hai thời đại, nhưng đều được lịch sử nhớ đến như những người khai mở một thời kỳ hưng thịnh.",
       "image": {
         "kind": "ai",
         "characters": [
-          "quang-trung"
+          "ly-thai-to",
+          "ly-the-dan"
         ],
         "identity": "full",
-        "prompt": "Standing among fellow rebels planning by torchlight, leaning over a rough map on a wooden board, building a movement step by step. Setting: a late-18th-century Đại Việt village longhouse of timber and thatch; Tây Sơn Vietnamese followers — East-Asian faces, never European — in plain tunics and conical nón lá gathered close around, a plain crimson cloth banner on the wall. Warm torch light, conspiratorial, determined mood. No Chinese architecture, no Qing dress, no European elements."
+        "prompt": "A quiet closing image of two legacies at dawn. The first character stands at the left edge in calm profile, looking out over early Thăng Long's river citadel as it awakens with markets, officials and families among low compact Đại Việt timber halls. The second character stands at the right edge in calm profile, looking out over Tang Chang'an's great avenue as its broad monumental city awakens. The two landscapes meet in the centre under a shared band of golden sky. Keep all other people small, East-Asian and dressed for their own culture and era. Reflective, dignified ending."
       },
-      "title": "DỰNG NGHIỆP TÂY SƠN",
-      "cue": "ANH EM TÂY SƠN GÂY DỰNG LỰC LƯỢNG",
-      "host": "point-left"
-    },
-    {
-      "scene": 14,
-      "narration": "Hàn Tín thậm chí từng trải qua thời gian rất khó khăn trước khi trở thành danh tướng.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Sitting alone and hungry beside a river, downcast and overlooked, enduring a hard, obscure life. He wears a coarse patched hemp commoner's robe worn thin and travel-stained — no armour, no rank. Setting: a humble late-3rd-century-BCE Chinese riverbank with wooden fishing weirs and reed nets; an old Han-Chinese washerwoman — East-Asian face, never European — works in the distance. Muted overcast light, quiet melancholy. No later-dynasty Tang/Ming/Qing silk robes, no Vietnamese or European elements."
-      },
-      "title": "TỪ GIAN KHÓ",
-      "cue": "NHỮNG NĂM CƠ HÀN",
-      "host": "point-right"
-    },
-    {
-      "scene": 15,
-      "narration": "Nhưng điểm chung của họ là: không cần xuất phát từ vị trí quyền lực nhất để trở thành người quyết định chiến trường.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Rising to address assembled officers with calm authority for the first time, gesturing toward a battle map on a wooden stand — a man proving worth by skill, not birth. Setting: an early Han command tent, late-3rd-century-BCE China; Han-Chinese officers — East-Asian faces, never European — in lamellar armour seated on mats, plain dark banners and lamplight. Steady, ascendant mood. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "KHÔNG CẦN QUYỀN LỰC SẴN",
-      "cue": "TÀI NĂNG QUYẾT ĐỊNH CHIẾN TRƯỜNG",
-      "host": "explain"
-    },
-    {
-      "scene": 16,
-      "narration": "Quang Trung nổi tiếng nhất với cuộc hành quân thần tốc ra Bắc.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Leading a hard forced march at speed, arm raised urging the columns on through cold country. Setting: late-18th-century Đại Việt winter; long files of Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá hurry behind him with crimson cloth banners streaming in motion, some soldiers carried in relays. Dust, cold mist, dynamic low-angle framing conveying speed. No Qing/Chinese armour on the troops, no European elements."
-      },
-      "title": "HÀNH QUÂN THẦN TỐC",
-      "cue": "CUỘC TIẾN QUÂN RA BẮC",
-      "host": "point-left"
-    },
-    {
-      "scene": 17,
-      "narration": "Tết Kỷ Dậu năm một nghìn bảy trăm tám mươi chín, quân Tây Sơn liên tiếp đánh bại quân Thanh và tiến vào Thăng Long.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Leading from the very front of a lightning night assault, sword thrust forward to drive the charge home. Setting: late-18th-century northern Đại Việt in cold winter dark; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá storm forward with war elephants, blazing torches and crimson banners against a fortified camp; the defenders ahead are Qing-dynasty Chinese soldiers in Qing lamellar armour and rounded helmets breaking behind timber palisades — the two sides unmistakably different. Firelight against cold night. No European fortifications, no shared uniform between the two sides."
-      },
-      "title": "TẾT KỶ DẬU 1789",
-      "cue": "ĐẠI PHÁ QUÂN THANH • VÀO THĂNG LONG",
-      "host": "point-left"
-    },
-    {
-      "scene": 18,
-      "narration": "Chỉ trong một thời gian rất ngắn, cục diện chiến tranh đã hoàn toàn thay đổi.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Standing amid a captured, smoking enemy camp at first light, calm and victorious as the battle ends. Setting: late-18th-century Đại Việt winter dawn; broken timber palisades and abandoned Qing rounded helmets and dark banners on the ground, Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá moving through the wreckage behind him; a long low dark-brick rampart with a round-arched tunnel gateway beyond. Cold clearing light, decisive aftermath. No Qing armour on the Tây Sơn troops, no European architecture."
-      },
-      "title": "CỤC DIỆN THAY ĐỔI",
-      "cue": "CHỈ TRONG THỜI GIAN RẤT NGẮN",
-      "host": "point-left"
-    },
-    {
-      "scene": 19,
-      "narration": "Còn Hàn Tín nổi tiếng với hàng loạt chiến dịch trong cuộc chiến giữa Lưu Bang và Hạng Vũ.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Commanding a large field battle from a low rise, arm extended directing several columns at once with cold control. Setting: 204–202 BCE Chu–Han Contention loess plain; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour advance in disciplined blocks with wooden chariots and crossbows under plain dark banners; across the field an enemy Chu army masses under banners of a different colour. Tense grey daylight, grand scale. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "HÀNG LOẠT CHIẾN DỊCH",
-      "cue": "LƯU BANG • HẠNG VŨ",
-      "host": "point-right"
-    },
-    {
-      "scene": 20,
-      "narration": "Ông sử dụng nhiều chiến thuật táo bạo, trong đó có trận Tỉnh Hình, nơi quân Hán đặt mình vào thế không thể lui để buộc binh sĩ chiến đấu quyết liệt.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Commanding the Battle of Jingxing, arm extended to hold his line, having set his soldiers with their backs to a river in a desperate no-retreat formation. Setting: 204 BCE; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour fight with tower shields and dagger-axes at the water's edge; across the field the Zhao army masses under plain banners of a different colour; a cold river behind them and steep loess hills around. Tense dawn light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "TRẬN TỈNH HÌNH",
-      "cue": "THẾ KHÔNG THỂ LUI",
-      "host": "point-right"
-    },
-    {
-      "scene": 21,
-      "narration": "Về sau, số phận của hai người lại rất khác nhau.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Pausing alone at the edge of a victory hall, half-turned and quietly wary as if sensing a change in the wind. Setting: an early Western Han hall, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves under dim lamplight; distant Han officials — East-Asian faces, never European — watch him from the shadows. Foreboding, ambiguous mood, long shadows. No Ming/Qing palace, no Vietnamese or European elements."
-      },
-      "title": "SỐ PHẬN RẼ ĐÔI",
-      "cue": "VỀ SAU RẤT KHÁC NHAU",
-      "host": "point-right"
-    },
-    {
-      "scene": 22,
-      "narration": "Quang Trung trở thành Hoàng đế và tiếp tục xây dựng nhà nước Tây Sơn.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Seated on the throne as reigning emperor, receiving officials with calm dignity — a ruler consolidating a young dynasty. Setting: a solemn late-18th-century Đại Việt / Tây Sơn court — a low, wide single-storey timber hall, one broad dark tiled roof sweeping close to the ground on stout plain lacquered red-and-gold posts; Vietnamese officials — East-Asian faces, never European — in áo dài court robes and cánh chuồn caps bow before him, plain undyed silk hangings and paper lanterns line the hall. Symmetrical composition, warm indoor light. No Chinese/Qing court dress, no European elements."
-      },
-      "title": "LÊN NGÔI HOÀNG ĐẾ",
-      "cue": "XÂY DỰNG NHÀ NƯỚC TÂY SƠN",
-      "host": "point-left"
-    },
-    {
-      "scene": 23,
-      "narration": "Ông qua đời năm một nghìn bảy trăm chín mươi hai, khi triều Tây Sơn vẫn đang trong quá trình củng cố.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Standing alone at a palace doorway at dusk, weary and reflective, looking out over a realm not yet secure — the quiet weight of a reign cut short. Setting: a late-18th-century Đại Việt / Tây Sơn timber hall interior — plain lacquered red-and-gold posts, undyed silk hangings and a single paper lantern; muted evening light through the doorway. Solemn, elegiac mood. No Chinese/Qing palace, no European elements."
-      },
-      "title": "QUA ĐỜI NĂM 1792",
-      "cue": "TRIỀU TÂY SƠN CÒN NON TRẺ",
-      "host": "point-left"
-    },
-    {
-      "scene": 24,
-      "narration": "Còn Hàn Tín trở thành một trong những công thần quan trọng nhất của nhà Hán.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Honoured at the Han court, standing tall as officials acknowledge his merit, calm and dignified at the height of his standing. Setting: an early Western Han hall, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves; Han officials — East-Asian faces, never European — in early-Han silk robes and lacquered caps stand in ordered rows, plain dark hangings. Warm, formal light. No Ming/Qing palace, no Vietnamese or European elements."
-      },
-      "title": "CÔNG THẦN BẬC NHẤT",
-      "cue": "KHAI QUỐC NHÀ HÁN",
-      "host": "point-right"
-    },
-    {
-      "scene": 25,
-      "narration": "Nhưng sau khi Lưu Bang giành được thiên hạ, vai trò của Hàn Tín dần trở thành mối lo ngại đối với triều đình.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Standing alone and tense in a shadowed palace corridor, glancing back over his shoulder as suspicion quietly closes in. Setting: an early Western Han palace, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves; distant Han officials — East-Asian faces, never European — watch him coldly, guards with dagger-axes at the edges. Dim cold light, long hard shadows, foreboding. No Ming/Qing palace, no Vietnamese or European elements."
-      },
-      "title": "CÔNG CAO CHẤN CHỦ",
-      "cue": "MỐI LO CỦA TRIỀU ĐÌNH",
-      "host": "point-right"
-    },
-    {
-      "scene": 26,
-      "narration": "Ông bị giết năm một trăm chín mươi sáu trước Công nguyên.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Cornered alone in a dim palace hall at night, unarmed and surrounded, the moment before the end — dramatic and tragic, without gore. Setting: an early Western Han interior, late-3rd-century-BCE China — tall lacquered timber columns and low tiled eaves, Han guards — East-Asian faces, never European — with dagger-axes closing from the shadows, a single guttering lamp. Cold blue night light, deep shadow, sense of doom. No Ming/Qing palace, no Vietnamese or European elements."
-      },
-      "title": "BỊ GIẾT NĂM 196 TCN",
-      "cue": "KẾT CỤC BI THẢM",
-      "host": "point-right"
-    },
-    {
-      "scene": 27,
-      "narration": "Hai người không cùng thời đại, không cùng hoàn cảnh, cũng không cùng số phận.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Standing alone on a hilltop at dusk, seen from a slight low angle, looking out over a battlefield fallen silent — reflective and resolute. Setting: late-18th-century Đại Việt / Tây Sơn; weathered plain crimson cloth banners lean in the earth beside him; far below, a long low wide rampart of packed earth faced with dark brick, broken by one round-arched tunnel gateway with a flat merloned walkway, rests under a wide calm glowing evening sky. Contemplative dusk, long soft light. No Chinese/Qing or European architecture."
-      },
-      "title": "KHÔNG CÙNG SỐ PHẬN",
-      "cue": "KHÁC THỜI • KHÁC CẢNH • KHÁC KẾT CỤC",
-      "host": "think"
-    },
-    {
-      "scene": 28,
-      "narration": "Nhưng cả hai đều cho thấy một điều: một vị tướng giỏi có thể thay đổi cả cục diện lịch sử.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Standing resolute and alone before a vast battlefield at first light, gaze level and certain — a commander whose gift for war reshaped an age. Setting: 204–202 BCE Chu–Han loess plain stretching to the horizon; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour stand in disciplined ranks behind him under plain dark banners. Wide, monumental framing, cold clear dawn. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "TƯỚNG GIỎI ĐỔI LỊCH SỬ",
-      "cue": "CẢ HAI ĐỀU CHỨNG MINH",
-      "host": "explain"
-    },
-    {
-      "scene": 29,
-      "narration": "Quang Trung để lại dấu ấn với chiến thắng mùa xuân Kỷ Dậu, nổi bật với tốc độ và khả năng tổ chức chiến dịch.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Standing tall and victorious among his troops after the spring campaign, calm and proud, honoured as a swift and decisive commander. Setting: late-18th-century Đại Việt / Tây Sơn; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá stand in ordered ranks beneath tall crimson cloth banners behind him; a long low dark-brick rampart with a round-arched tunnel gateway beyond under a bright clearing sky. Bright triumphant light. No Qing/Chinese armour on the troops, no European architecture."
-      },
-      "title": "DI SẢN — TÂY SƠN",
-      "cue": "TỐC ĐỘ • TỔ CHỨC CHIẾN DỊCH",
-      "host": "point-left"
-    },
-    {
-      "scene": 30,
-      "narration": "Còn Hàn Tín trở thành biểu tượng của mưu lược và tài điều binh.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "han-tin"
-        ],
-        "identity": "full",
-        "prompt": "Standing composed among his troops as a revered master strategist, calm and quietly triumphant, honoured as a military legend. Setting: 204–202 BCE Chu–Han early Han China; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar armour with tower shields and dagger-axes stand in disciplined ordered ranks beneath plain dark banners behind him, across a broad loess plain under a bright open sky. Bright celebratory light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-      },
-      "title": "DI SẢN — NHÀ HÁN",
-      "cue": "MƯU LƯỢC • ĐIỀU BINH",
-      "host": "point-right"
-    },
-    {
-      "scene": 31,
-      "narration": "Hai con người, hai thời đại, nhưng đều là những cái tên khiến lịch sử nhớ đến tài cầm quân.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "quang-trung"
-        ],
-        "identity": "full",
-        "prompt": "Standing heroic and calm on a rise at golden hour, gaze to the horizon, a solitary symbolic figure whom history remembers for the art of command. Setting: late-18th-century Đại Việt / Tây Sơn; weathered plain crimson cloth banners beside him; far below a long low wide dark-brick rampart with a round-arched tunnel gateway rests under a wide glowing evening sky. Warm, elegiac, monumental closing framing. No Chinese/Qing or European architecture."
-      },
-      "title": "LỊCH SỬ GHI DANH",
-      "cue": "HAI NGƯỜI • HAI THỜI ĐẠI",
-      "host": "think"
+      "title": "KHAI MỞ THỊNH THẾ",
+      "cue": "Hai thời đại · một tầm vóc",
+      "host": "happy"
     }
   ]
 }

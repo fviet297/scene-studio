@@ -20,7 +20,12 @@ export const MANIFEST = `${IMAGE_DIR}/asset-manifest.json`;
 // direction; editing this line restyles the whole video.
 export const STYLE_DNA = `2D vector chibi game-asset art — 2.5-head chibi proportions, oversized round head, stubby body and limbs, mitten hands; bold uniform dark-brown lineart; flat cel-shading, one soft shadow tone, no gradients, glossy highlights or texture noise; small almond eyes with dark pupils, thick sharp black brows, dot nose, small mouth, determined serious expression; muted historical palette of crimson, antique gold, ochre, teal, olive, deep purple and leather brown`;
 
-const GUARD = 'historically appropriate for the period, 9:16 vertical, clear central subject, negative space at top, no text, no watermark, no modern objects, no anachronistic equipment, no fantasy armor';
+const GUARD = 'historically appropriate for the period, 9:16 vertical, clear central subject, negative space at top, completely blank surfaces, no writing, no symbols, no watermark, no modern objects, no anachronistic equipment, no fantasy armor';
+
+// Appended after every editable template so a saved UI override cannot weaken this rule.
+// Text is added later by Remotion, never baked into generated scene artwork.
+export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: render a purely visual scene with zero typographic glyphs from any writing system and zero numeric glyphs. All surfaces are blank and non-symbolic. Maps communicate only through coastline, terrain, rivers, colour regions, plain circles and continuous plain lines. Banners and objects show only material, colour, folds and borders. Remotion adds all titles and labels later, outside this image.`;
+const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: remove every glyph-like mark before output; the image must remain understandable using pictures and geometry alone.';
 
 // Kontext (image-to-image) character-lock template. The scene's action/setting prompt is
 // substituted into [SCENE-SPECIFIC PROMPT]; everything else forces identity from the reference.
@@ -34,7 +39,9 @@ ONE CULTURE ONLY: Follow the SCENE’s country + century for architecture, costu
 
 MAIN CHARACTER: Locked to reference — same face, hair, skin, proportions, costume, armour, colours and weapon. Only pose, expression, orientation, action, camera angle and lighting may change. Never redesign face/armour. Extras wear plainer gear; never copy main character’s face, helmet or golden armour.
 
-BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all of them completely bare. A period banner is a plain coloured cloth, never a signboard; Latin or Vietnamese quốc-ngữ lettering on a pre-modern banner is doubly wrong.
+BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all surfaces completely blank and non-symbolic.
+
+TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
 
 SCENE:
 [SCENE-SPECIFIC PROMPT]
@@ -58,7 +65,9 @@ REFERENCE = FACE + IDENTITY only: keep exact face shape/features, eyes, nose, mo
 
 CLOTHING + POSE follow the SCENE (not the reference). Dress according to the scene even if the reference wears armour. Everything else (other people, buildings, terrain) also comes from the SCENE.
 
-BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all of them completely bare. A period banner is a plain coloured cloth, never a signboard; Latin or Vietnamese quốc-ngữ lettering on a pre-modern banner is doubly wrong.
+BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all surfaces completely blank and non-symbolic.
+
+TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
 
 SCENE:
 [SCENE-SPECIFIC PROMPT]
@@ -67,11 +76,35 @@ COMPOSITION: 9:16 vertical, medium environmental shot (not full-frame portrait).
 
 NEGATIVE (style qualities only — never name a drawable object here, the model renders whatever is named): mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, different face/hairstyle/person/age, empty background, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
 
+// Multi-reference variant for scenes listing two or more characters (`char: a, b`). Every
+// reference is uploaded and each figure is locked to its own one; without this the model gets a
+// single reference for a two-person scene and paints the same face onto both figures.
+const MULTI_CHAR_PROMPT = `SEVERAL DIFFERENT PEOPLE IN ONE SCENE — ONE flat chibi cartoon illustration. References = art style for the ENTIRE image (not stickers).
+
+STYLE: [STYLE]. Distant scenery = flat outlined cartoon shapes in cooler tones only. No painted backdrop, haze or blur.
+
+ALL figures (soldiers, crowds, bystanders) share the main characters' 2.5-head chibi proportions, round head, mitten hands, line weight, eyes, cel-shading and detail. A crowd = many small chibi characters, never a textured mass.
+
+ONE REFERENCE PER CHARACTER: the references are DIFFERENT PEOPLE, in the order the SCENE names them — reference 1 → first character named, reference 2 → second. Each figure is locked to its own reference: same face, hair, skin, proportions, costume, armour, colours and weapon; only pose, expression, orientation, camera angle and lighting may change. Never give two figures the same face, hairstyle, headwear or armour, never draw one character twice, never mirror one into the other's place. Extras wear plainer gear and copy no main face or armour.
+
+EACH CHARACTER KEEPS THEIR OWN CULTURE: follow each character's own country + century for architecture, costume, armour, banners and weapons, on that character's own side. No mixing or swapping (especially Chinese ↔ Vietnamese).
+
+BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour — dyed cloth showing only folds and hem, plain painted wood, bare stone. All surfaces stay blank and non-symbolic.
+
+TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame.
+
+SCENE:
+[SCENE-SPECIFIC PROMPT]
+
+COMPOSITION: 9:16 vertical, medium-wide environmental shot, not full-frame portraits. Each main character fills ⅓–½ frame height and reads as its own person. Heads uncropped; calm negative space only at top for captions.
+
+NEGATIVE (style qualities only — never name a drawable object here): two characters sharing one face, cloned or mirrored main characters, mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, redesigned main faces/costumes, empty background, extras in a main character's armour, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
+
 // Text-to-image template for scenes with no character reference (e.g. an enemy army,
 // a symbolic shot). Placeholders below are filled at generate time.
 const TEXT2IMG_TEMPLATE = `Historical reconstruction. [SCENE-SPECIFIC PROMPT]. [STYLE], [GUARD].`;
 
-// The five editable prompt pieces the review UI exposes. Every generated image combines the
+// The editable prompt pieces the review UI exposes. Every generated image combines the
 // scene's own prompt with these. Placeholders: [STYLE] = style DNA, [GUARD] = the text2img
 // guard/negative line, [SCENE-SPECIFIC PROMPT] = that scene's prompt from the plan.
 const TEMPLATE_DEFAULTS = {
@@ -79,6 +112,7 @@ const TEMPLATE_DEFAULTS = {
   guard: GUARD,
   masterPrompt: MASTER_PROMPT,
   faceLockPrompt: FACE_LOCK_PROMPT,
+  multiCharPrompt: MULTI_CHAR_PROMPT,
   text2img: TEXT2IMG_TEMPLATE,
 };
 export const TEMPLATE_KEYS = Object.keys(TEMPLATE_DEFAULTS);
@@ -108,16 +142,16 @@ export const saveTemplates = (partial) => {
   return next;
 };
 
-const buildCharPrompt = (t, scenePrompt, face) =>
-  (face ? t.faceLockPrompt : t.masterPrompt)
+const buildCharPrompt = (t, scenePrompt, template) =>
+  `${NO_TEXT_POLICY}\n\n${template
     .replaceAll('[STYLE]', t.styleDna)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt);
+    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
 
 const buildTextPrompt = (t, scenePrompt) =>
-  t.text2img
+  `${NO_TEXT_POLICY}\n\n${t.text2img
     .replaceAll('[STYLE]', t.styleDna)
     .replaceAll('[GUARD]', t.guard)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt);
+    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
 
 // Default image model: ByteDance Seedream 4.5 does both text-to-image and image-to-image
 // (character reference) from one endpoint — pass image_input to keep the reference identity.
@@ -133,17 +167,18 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const SEEDREAM_PROMPT_LIMIT = 4000;
 
 // Build the Replicate `input` for a model. Seedream and FLUX take different fields, so the
-// caller passes intent (prompt, optional reference data-URI) and we shape it per provider.
-export const buildInput = (model, { prompt, refUri }) => {
+// caller passes intent (prompt, reference data-URIs) and we shape it per provider.
+// Seedream accepts 1–14 references (multi-reference generation); FLUX takes a single one.
+export const buildInput = (model, { prompt, refUris = [] }) => {
   if (model.startsWith('bytedance/seedream')) {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
-    return { prompt, aspect_ratio: '9:16', size: '2K', ...(refUri ? { image_input: [refUri] } : {}) };
+    return { prompt, aspect_ratio: '9:16', size: '2K', ...(refUris.length ? { image_input: refUris } : {}) };
   }
   // FLUX Kontext / FLUX dev fallback (kept so REPLICATE_*_MODEL can still point at them).
-  return refUri
-    ? { prompt, input_image: refUri, aspect_ratio: '9:16', output_format: 'jpg' }
+  return refUris.length
+    ? { prompt, input_image: refUris[0], aspect_ratio: '9:16', output_format: 'jpg' }
     : { prompt, aspect_ratio: '9:16', output_format: 'jpg', num_outputs: 1 };
 };
 
@@ -213,19 +248,28 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
 
   const file = `scene-${String(scene.scene).padStart(2, '0')}.jpg`;
-  const refs = scene.image.characters.map((id) => characters[id]).filter((p) => p && existsSync(p));
+  // Kept in plan order: the multi-character template maps reference N to the Nth character named
+  // in the scene, so a silently dropped reference would shift every character after it.
+  const refs = scene.image.characters.map((id) => {
+    const path = characters[id];
+    if (!path || !existsSync(path)) throw new Error(`scene ${scene.scene}: no reference image for character "${id}"`);
+    return path;
+  });
   const t = getTemplates();
   let url;
   let via;
 
   if (refs.length) {
-    const others = scene.image.characters.slice(1).join(', ');
-    const scenePrompt = `${scene.image.prompt}${others ? ` Also include ${others}.` : ''}`;
+    // Every reference is uploaded, in plan order, so each character keeps its own face.
     // identity: 'face' unlocks costume so the prompt can re-dress the figure; default full-lock.
-    const face = scene.image.identity === 'face';
-    const prompt = buildCharPrompt(t, scenePrompt, face);
-    url = await predict(token, kontext, buildInput(kontext, { prompt, refUri: dataUri(refs[0]) }));
-    via = `${kontext}${face ? ' face-lock' : ' char-lock'}`;
+    // It does not apply to multi-character scenes — unlocking costume there is what lets the
+    // model blend the people together.
+    const multi = refs.length > 1;
+    const face = !multi && scene.image.identity === 'face';
+    const template = multi ? t.multiCharPrompt : face ? t.faceLockPrompt : t.masterPrompt;
+    const prompt = buildCharPrompt(t, scene.image.prompt, template);
+    url = await predict(token, kontext, buildInput(kontext, { prompt, refUris: refs.map(dataUri) }));
+    via = `${kontext} ${multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock'}`;
   } else {
     const prompt = buildTextPrompt(t, scene.image.prompt);
     url = await predict(token, text, buildInput(text, { prompt }));

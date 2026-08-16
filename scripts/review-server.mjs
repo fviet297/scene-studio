@@ -2,7 +2,8 @@
 // before audio" step). No framework — Node's built-in http only. Serves one self-contained
 // control-panel page plus a small JSON/SSE API:
 //
-//   GET  /                    → the control panel (public/review/panel.html)
+//   GET  /                    → the control panel (scripts/review-panel.html)
+//   GET  /panel.css|/panel.js → the panel's stylesheet and script
 //   GET  /api/state           → scenes from src/scene-plan.json + which images exist
 //   GET  /images/scene-NN.jpg → serve the current scene image (no-cache so regen shows)
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md, reparse
@@ -33,6 +34,11 @@ const OUT_MP4 = `${OUT_DIR}/ScenePlanVideo.mp4`;
 const FPS = 30;
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PANEL = join(HERE, 'review-panel.html');
+// The panel's stylesheet and script, served as-is next to the page.
+const PANEL_ASSETS = {
+  '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
+  '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
+};
 
 const sceneFile = (n) => `scene-${String(n).padStart(2, '0')}.jpg`;
 const audioFile = (n) => `scene-${String(n).padStart(2, '0')}.mp3`;
@@ -53,6 +59,7 @@ const reparse = () => execFileSync('node', [join(HERE, 'parse-scene-plan.mjs'), 
 // Write a scene's prompt back into scene-plan.md under its "## scene N" heading, replacing an
 // existing `prompt:` line or inserting one after `narration:`. Leaves every other line intact.
 const writePromptToPlan = (sceneNo, prompt) => {
+  const clean = prompt.replace(/\s*\n\s*/g, ' ').trim();
   const lines = readFileSync(PLAN_MD, 'utf8').split('\n');
   const headRe = new RegExp(`^##\\s+scene\\s+${sceneNo}\\b`, 'i');
   const start = lines.findIndex((l) => headRe.test(l.trim()));
@@ -60,15 +67,22 @@ const writePromptToPlan = (sceneNo, prompt) => {
   let end = lines.findIndex((l, i) => i > start && /^##\s+/.test(l));
   if (end < 0) end = lines.length;
 
-  const promptLine = `prompt: ${prompt}`;
+  const promptLine = `prompt: ${clean}`;
   const pi = lines.findIndex((l, i) => i > start && i < end && /^prompt\s*:/i.test(l));
   if (pi >= 0) {
     lines[pi] = promptLine;
+    // Prompt is a single parser field. Remove stale markdown continuation lines
+    // left by older saves, while preserving any recognized scene fields after it.
+    const fieldRe = /^(time|char|identity|narration|prompt|search|title|cue|host)\s*:/i;
+    let next = pi + 1;
+    while (next < end && (!lines[next].trim() || !fieldRe.test(lines[next].trim()))) next++;
+    lines.splice(pi + 1, next - pi - 1);
   } else {
     const ni = lines.findIndex((l, i) => i > start && i < end && /^narration\s*:/i.test(l));
     lines.splice((ni >= 0 ? ni : start) + 1, 0, promptLine);
   }
   writeFileSync(PLAN_MD, lines.join('\n'));
+  return clean;
 };
 
 // Write a scene's narration back into scene-plan.md, replacing its single `narration:` line.
@@ -241,6 +255,13 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'GET' && PANEL_ASSETS[pathname]) {
+      const [file, type] = PANEL_ASSETS[pathname];
+      res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-store' });
+      res.end(readFileSync(join(HERE, file)));
+      return;
+    }
+
     if (req.method === 'GET' && pathname === '/api/state') {
       sendJson(res, 200, buildState());
       return;
@@ -316,9 +337,9 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/prompt') {
       const { scene, prompt } = await readBody(req);
       if (!Number.isFinite(scene) || typeof prompt !== 'string') { sendJson(res, 400, { error: 'scene + prompt required' }); return; }
-      writePromptToPlan(scene, prompt.trim());
+      const clean = writePromptToPlan(scene, prompt);
       reparse();
-      sendJson(res, 200, { ok: true, scene, prompt: prompt.trim() });
+      sendJson(res, 200, { ok: true, scene, prompt: clean });
       return;
     }
 

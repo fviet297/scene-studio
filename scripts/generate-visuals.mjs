@@ -32,7 +32,7 @@ for (const s of scenes) {
 
   const { file, via } = await generateSceneImage(s, characters);
   count += 1;
-  process.stdout.write(`✓ ${file} ← ${via}${s.image.characters.length ? ` (${s.image.characters[0]})` : ''}\n`);
+  process.stdout.write(`✓ ${file} ← ${via}${s.image.characters.length ? ` (${s.image.characters.join(', ')})` : ''}\n`);
 }
 
 process.stdout.write(`Generated ${count} AI scene image(s). All labelled AI_RECONSTRUCTION.\n`);

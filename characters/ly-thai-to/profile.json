@@ -1,0 +1,17 @@
+{
+  "character_id": "ly-thai-to",
+  "name": "Ly Thai To",
+  "aliases": ["Ly Cong Uan"],
+  "country": "Dai Viet",
+  "period": "late 10th to early 11th century",
+  "dynasty": "Ly dynasty",
+  "role": "Founding emperor",
+  "known_facts": [
+    "Founded the Ly dynasty in 1009",
+    "Moved the capital from Hoa Lu to Dai La in 1010",
+    "Renamed the capital Thang Long"
+  ],
+  "interpretation": "Historically inspired early-Ly imperial dress based on the user reference.",
+  "unknowns": ["No verified life portrait survives"],
+  "reference": "public/characters/lythaito.png"
+}

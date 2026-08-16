@@ -66,7 +66,7 @@ for (const [id, path] of Object.entries(characters)) {
   const url = await predict(
     process.env.REPLICATE_API_TOKEN,
     MODEL,
-    buildInput(MODEL, { prompt: RESTYLE_PROMPT, refUri: dataUri(source) }),
+    buildInput(MODEL, { prompt: RESTYLE_PROMPT, refUris: [dataUri(source)] }),
   );
   await download(url, path);
   process.stdout.write(`✓ ${path} ← ${MODEL} chibi restyle (${id})\n`);

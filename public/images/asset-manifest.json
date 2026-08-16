@@ -3,253 +3,194 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Standing alone and commanding at the crest of a battlefield at cold dawn, one ha",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "subject": "The first character sits on the left half on a plain dark timber throne in an ea",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-thai-to",
+      "ly-the-dan"
     ],
-    "prompt": "Standing alone and commanding at the crest of a battlefield at cold dawn, one hand lifted in a leader's gesture, gazing forward as if across the centuries. Setting: a late-18th-century Đại Việt northern winter battlefield under pale morning mist; ranks of Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with rattan shields and plain crimson cloth banners on bare poles stand behind him; on the horizon a long low wide rampart of packed earth faced with dark brick, broken by one round-arched tunnel gateway, its top a bare flat walkway with plain square merlons and open sky above. Timeless, monumental framing, cold dawn light. No Qing/Chinese armour or banners on the Vietnamese troops, no European faces or architecture."
+    "prompt": "The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls, wide timber halls and ordered ceremonial ranks. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Standing at the head of his army in a confident commanding stance, arm sweeping ",
+    "subject": "The first character stands lower-left overlooking a compact early-11th-century Đ",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-thai-to",
+      "ly-the-dan"
     ],
-    "prompt": "Standing at the head of his army in a confident commanding stance, arm sweeping forward before battle. Setting: late-18th-century Đại Việt winter battlefield; Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in quilted tunics and conical nón lá with spears and crimson cloth banners massed behind him; far across the horizon the distinctly different enemy — Qing-dynasty Chinese soldiers in Qing lamellar armour and rounded helmets under dark banners — breaking apart. Cold triumphant dawn light. No Qing armour or rounded helmets on the Tây Sơn troops, no European faces or architecture."
+    "prompt": "The first character stands lower-left overlooking a compact early-11th-century Đại Việt river citadel where builders raise low brick walls, timber halls and storehouses. The second character stands upper-right above a vast ordered 7th-century Tang avenue of markets, granaries and administrative compounds. A diagonal band of warm morning light splits the two halves and brightens toward the horizon: foundations being laid on the left, full imperial prosperity on the right. Small East-Asian builders, officials and soldiers work only inside their own half, in period-correct dress."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Standing composed at the head of his troops, gazing forward as he presents himse",
+    "subject": "Standing before assembled officials at his accession in 1010, receiving the impe",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "han-tin"
+      "ly-thai-to"
     ],
-    "prompt": "Standing composed at the head of his troops, gazing forward as he presents himself before battle. Setting: 204–202 BCE early Han China during the Chu–Han Contention; Han-Chinese soldiers — East-Asian faces, never European — in late-3rd-century-BCE lamellar-and-lacquer armour with tower shields, dagger-axes and crossbows stand in ordered ranks behind him under plain dark cloth banners on bare poles, across a broad loess-plain battlefield under cold morning light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
+    "prompt": "Standing before assembled officials at his accession in 1010, receiving the imperial seal with both hands and turning toward the court with composed resolve. Setting: early Lý-dynasty Đại Việt, a compact timber audience hall with stout plain columns, low heavy dark-tiled roofs and a brick courtyard. Vietnamese court officials with East-Asian faces wear early-11th-century robes and simple caps; guards carry spears and stand beneath plain crimson cloth banners. Solemn ceremonial light, medium-wide environmental framing, no Nguyễn-dynasty dress, no Qing costume, no European architecture."
   },
   {
     "id": "scene-04",
     "scene": 4,
-    "type": "search",
-    "subject": "Chu-Han contention map 206 BC China historical",
-    "source": "to be sourced",
+    "type": "ai_reconstruction",
+    "subject": "A vertical symbol-only geographic illustration of a royal capital relocation wit",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
-    "license": "see source",
-    "credit": "",
-    "authenticity": "SEARCH_PENDING",
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "query": "Chu-Han contention map 206 BC China historical"
+    "prompt": "A vertical symbol-only geographic illustration of a royal capital relocation within a pre-modern Southeast Asian kingdom. Show one plain circular origin marker inside a southern inland limestone basin and one plain circular destination marker farther north beside a broad river delta. Connect them with one continuous route ending at the northern marker. Include simplified coastline, major rivers, mountain silhouettes and contrasting terrain regions. Add one small secondary royal procession without banners or documents. Use an antique earth, jade, ochre and natural-blue palette. The composition contains only geography, colour fields, two circles and one route line; all surfaces remain blank and non-symbolic."
   },
   {
     "id": "scene-05",
     "scene": 5,
     "type": "ai_reconstruction",
-    "subject": "Standing among a small band of early rebels, turning to rally his supporters wit",
+    "subject": "Standing beside the first organized works of Thăng Long, looking across a new ri",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-thai-to"
     ],
-    "prompt": "Standing among a small band of early rebels, turning to rally his supporters with an open, urging gesture at the very start of an uprising — a leader building a movement from the ground up, not yet at the head of an empire. Setting: a modest rural late-18th-century Đại Việt village (Vietnamese, not Chinese) — bamboo groves, thatched-roof stilt houses, rice paddies, distant blue mountains. His followers are ordinary Vietnamese peasants and regional fighters — all with distinctly East-Asian faces (never European or Western features) — in plain tunics and khăn head cloths, carrying farm-forged spears and simple red cloth banners, clearly not a uniformed imperial army and dressed far more plainly than the main leader. Daytime overcast light, grounded and human scale. Medium wide shot; no Chinese architecture, no Qing dress, no European buildings."
+    "prompt": "Standing beside the first organized works of Thăng Long, looking across a new riverside capital as builders raise low brick walls, timber halls and storehouses. Setting: early-11th-century Đại Việt near the Red River, with compact practical urban planning, stout timber posts, dark unglazed tiles and a wide open civic courtyard. Vietnamese builders, officials and guards have East-Asian faces and wear plain early-Lý tunics, robes and simple head cloths; the construction feels like a durable foundation rather than a finished imperial metropolis. Warm morning light, hopeful medium-wide composition. No later Nguyễn or Qing costume, no Chinese palace scale, no European towers."
   },
   {
     "id": "scene-06",
     "scene": 6,
     "type": "ai_reconstruction",
-    "subject": "Sitting alone and hungry beside a river, downcast and overlooked, enduring a har",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 face-lock)",
+    "subject": "Standing at the center of a formal accession ceremony in 626, accepting the impe",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 face-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "han-tin"
+      "ly-the-dan"
     ],
-    "prompt": "Sitting alone and hungry beside a river, downcast and overlooked, enduring a hard, obscure life long before his rise to fame. He wears a coarse patched hemp commoner's robe and a plain cloth headwrap, worn thin and travel-stained — no armour, no rank, the humble dress of a poor young man. Setting: a humble late-3rd-century-BCE Chinese village of the late Qin / early Chu-Han period. Rammed-earth huts with thatched roofs, wooden fishing weirs and reed nets along the muddy riverbank; an old washerwoman works in the distance. Muted overcast light, quiet melancholy of hardship. No Vietnamese elements, no later-dynasty silk robes."
+    "prompt": "Standing at the center of a formal accession ceremony in 626, accepting the imperial seal while officials bow in ordered rows. Setting: early Tang-dynasty China, a broad palace courtyard enclosed by rammed-earth walls and large timber halls with restrained 7th-century roof forms. Tang Chinese officials and guards have East-Asian faces, period-correct robes, caps, lamellar armour and long spears. The atmosphere is controlled and politically charged rather than celebratory, with cool dawn light and a medium-wide composition. No Ming or Qing costume, no fantasy palace, no European elements."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Leading from the very front of a lightning night assault during the 1789 Lunar N",
+    "subject": "Directing a Tang army from a raised position after victory, one arm extended tow",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-the-dan"
     ],
-    "prompt": "Leading from the very front of a lightning night assault during the 1789 Lunar New Year (Tết Kỷ Dậu) campaign, sword thrust forward to drive the charge home. Setting: late-18th-century northern Đại Việt battlefield in the cold dark of winter. His attacking troops are Tây Sơn Vietnamese infantry — East-Asian Vietnamese faces (never European) — in simple quilted tunics, conical nón lá and rattan shields, advancing with war elephants, blazing torches and tall red Tây Sơn banners as they storm a fortified enemy camp; these foot soldiers wear plain gear clearly different from the commander's golden armour. The defenders ahead are clearly Qing-dynasty Chinese soldiers with East-Asian faces in Qing lamellar armour and rounded helmets, breaking behind timber palisades — the two sides must read as unmistakably different: Vietnamese attackers vs Qing defenders, never the same uniform or banners. Cinematic wide battle shot with strong foreground, mid-ground and background depth, firelight against cold night. No modern weapons, no European fortifications."
+    "prompt": "Directing a Tang army from a raised position after victory, one arm extended toward disciplined formations while officers carry orders between cavalry and infantry. Setting: 7th-century Tang China on a broad northern plain near a fortified command camp. Tang Chinese soldiers with East-Asian faces wear period-correct lamellar armour and carry spears, bows and plain dark cloth standards; ordinary troops use simpler gear than the emperor. The rear of the scene transitions into an orderly civilian landscape of roads, granaries and cultivated fields, suggesting military consolidation becoming stable governance. No later Ming or Qing equipment, no guns, no European armour."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "Commanding the Battle of Jingxing with cold, deliberate tactical control — arm e",
+    "subject": "Reviewing the construction of a stable new capital, gesturing calmly toward plan",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "han-tin"
+      "ly-thai-to"
     ],
-    "prompt": "Commanding the Battle of Jingxing with cold, deliberate tactical control — arm extended to direct his line, having deliberately positioned his soldiers with their backs to a river in a desperate no-retreat formation that forces them to fight to the last. Setting: 204 BCE, Chu-Han Contention (ancient Han-Chinese culture only, not Vietnamese, not Ming/Qing). His soldiers are all Han-Chinese men with distinctly East-Asian faces — never European or Western features — in late-3rd-century-BCE Han lamellar-and-lacquer armour, holding rectangular tower shields, dagger-axes (ge) and crossbows, with wooden war chariots and dark Han command banners; these rank-and-file troops wear plainer, more uniform gear clearly different from the main general's own costume. Across the field the enemy Zhao army masses under different banners. A cold river at their backs and steep loess hills frame the battlefield. Cinematic wide shot with layered depth, tense dawn light. No later-dynasty armour, no Tang/Ming/Qing elements, no Vietnamese elements."
+    "prompt": "Reviewing the construction of a stable new capital, gesturing calmly toward planners, builders and officials organizing roads, storehouses and defensive walls. Setting: early-11th-century Thăng Long in Đại Việt beside the Red River, with low brick ramparts, round-arched passages, timber halls on stout posts and dark unglazed tiles. Vietnamese workers and soldiers have East-Asian faces and wear plain early-Lý tunics, head cloths and simple guard equipment. The scene should feel practical, orderly and hopeful, with clear evidence of administration replacing disorder. No Chinese imperial megacity, no Nguyễn-dynasty costume, no European masonry."
   },
   {
     "id": "scene-09",
     "scene": 9,
     "type": "ai_reconstruction",
-    "subject": "Seated on the throne as newly proclaimed emperor, receiving his officials after ",
+    "subject": "Standing over a large campaign map on a wooden field table, issuing precise orde",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-the-dan"
     ],
-    "prompt": "Seated on the throne as newly proclaimed emperor, receiving his officials after victory, calm, dignified and slightly wary — a ruler of a dynasty still being built. Setting: a solemn late-18th-century Đại Việt / Tây Sơn imperial court — not the later Nguyễn dynasty. A wooden pillared hall with Vietnamese Later-Lê-style tiled roofs, upturned eaves and lacquered red-and-gold columns; Vietnamese court officials in áo dài court robes and cánh chuồn caps bow before him, guards hold spears, silk ceremonial banners and lanterns line the hall. Restrained atmosphere of a young dynasty consolidating power, not a grand established empire. Symmetrical composition, warm indoor light. No Chinese Forbidden-City architecture, no Qing court dress, no European hall."
+    "prompt": "Standing over a large campaign map on a wooden field table, issuing precise orders to Tang officers while mounted messengers depart toward distant frontier routes. Setting: a 7th-century Tang command pavilion overlooking an expansive dry plain, with cavalry, supply carts and fortified waystations visible in depth. Tang Chinese officers and soldiers have East-Asian faces, period-correct lamellar armour, bows and spears; their equipment remains distinct by rank. Strong controlled afternoon light, strategic rather than chaotic mood, medium-wide environmental composition. No invented map lettering, no later Ming or Qing armour, no firearms or European elements."
   },
   {
     "id": "scene-10",
     "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "Standing alone and tense in a shadowed palace corridor, glancing back over his s",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "subject": "A symbolic architectural comparison without portraits: on one side, early Thăng ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "han-tin"
-    ],
-    "prompt": "Standing alone and tense in a shadowed palace corridor, glancing back over his shoulder, isolated as the court's suspicion quietly closes in — a great meritorious general who has become a threat in the eyes of the throne. Setting: an early Western Han palace, late-3rd / early-2nd-century BCE China. Han-era rammed-earth walls, tall lacquered timber columns and low tiled eaves; in the background distant Han officials — East-Asian faces, never European — in early-Han silk robes and lacquered caps watch him coldly, Han guards with dagger-axes stand at the edges. Dim cold light and long hard shadows, a foreboding air of a hero fallen out of favour and about to be struck down. No Ming/Qing palace, no Vietnamese or European elements."
+    "characters": [],
+    "prompt": "A symbolic architectural comparison without portraits: on one side, early Thăng Long rising beside the Red River with compact brick ramparts, low timber halls and active builders; on the other, prosperous 7th-century Tang Chang'an with a vast ordered avenue, markets, granaries and administrative compounds. East-Asian citizens and officials remain small supporting figures in culture-specific period dress. A continuous golden horizon connects both achievements while the physical scale remains visibly different. Clear vertical composition, historically grounded materials, bare cloth banners, no modern structures, no later-dynasty costume."
   },
   {
     "id": "scene-11",
     "scene": 11,
     "type": "ai_reconstruction",
-    "subject": "Being handed a general's bronze seal and tally at a military review, straighteni",
+    "subject": "Standing on a finished section of Thăng Long's new low brick rampart, looking ac",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "han-tin"
+      "ly-thai-to"
     ],
-    "prompt": "Being handed a general's bronze seal and tally at a military review, straightening with new authority as officers look on. Setting: an early Han army camp, late-3rd-century-BCE China; Han-Chinese soldiers — East-Asian faces, never European — in lamellar armour drawn up on parade behind a raised wooden platform under plain dark banners. Turning-point mood, cold clear light. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
+    "prompt": "Standing on a finished section of Thăng Long's new low brick rampart, looking across an organized capital of roads, storehouses, villages and timber halls, one hand open in a measured gesture of stewardship. Setting: early-11th-century Đại Việt beside the Red River. Vietnamese officials, builders and guards have East-Asian faces and wear plain early-Lý robes, tunics and simple helmets; the city architecture remains compact, low and practical. Warm late-afternoon light emphasizes continuity and civic order rather than conquest. No Nguyễn-dynasty clothing, no Chinese imperial palace scale, no European towers."
   },
   {
     "id": "scene-12",
     "scene": 12,
     "type": "ai_reconstruction",
-    "subject": "Standing tall and victorious among his troops after the spring campaign, calm an",
+    "subject": "Overlooking an immense Tang military review from a raised command platform, lift",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "quang-trung"
+      "ly-the-dan"
     ],
-    "prompt": "Standing tall and victorious among his troops after the spring campaign, calm and proud, honoured as a swift and decisive commander. Setting: late-18th-century Đại Việt / Tây Sơn. Behind and around him, Tây Sơn Vietnamese soldiers — East-Asian faces, never European — in simple quilted tunics and conical nón lá stand in ordered ranks beneath tall red Tây Sơn command banners, with a citadel gate behind — a long low wide wall of dark brick pierced by one round-arched tunnel passage, its top a bare flat walkway with plain square merlons and open sky directly above — and a bright clearing sky. The banners are plain solid crimson cloth, undecorated. Bright triumphant light."
+    "prompt": "Overlooking an immense Tang military review from a raised command platform, lifting one hand as cavalry, infantry and supply columns move in disciplined depth across a broad plain. Setting: 7th-century Tang China at the height of early imperial expansion, with distant frontier forts and roads connecting the horizon. Tang Chinese troops have East-Asian faces, period-correct lamellar armour, bows and spears; ordinary soldiers wear simpler equipment than the emperor. Grand scale, clear formations and strong wind across plain undecorated standards. No Ming or Qing armour, no firearms, no fantasy weapons, no European features."
   },
   {
     "id": "scene-13",
     "scene": 13,
     "type": "ai_reconstruction",
-    "subject": "Standing composed among his troops as a revered master strategist, calm and quie",
+    "subject": "A quiet closing image of two legacies at dawn. The first character stands at the",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "han-tin"
+      "ly-thai-to",
+      "ly-the-dan"
     ],
-    "prompt": "Standing composed among his troops as a revered master strategist, calm and quietly triumphant, honoured as a military legend whose name history remembers for the art of command. Setting: 204–202 BCE, Chu-Han Contention, early Han China. Behind and around him, soldiers — Han-Chinese, East-Asian faces, never European — in late-3rd-century-BCE lamellar armour with tower shields and dagger-axes stand in disciplined ordered ranks beneath dark Han command banners. A broad loess-plain battlefield stretches out under a bright open sky. Bright celebratory light. No later-dynasty, Tang/Ming/Qing, Vietnamese or European elements."
-  },
-  {
-    "id": "scene-14",
-    "scene": 14,
-    "type": "ai_reconstruction",
-    "subject": "Sitting alone and hungry beside a river, downcast and overlooked, enduring a har",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "han-tin"
-    ],
-    "prompt": "Sitting alone and hungry beside a river, downcast and overlooked, enduring a hard, obscure life. He wears a coarse patched hemp commoner's robe worn thin and travel-stained — no armour, no rank. Setting: a humble late-3rd-century-BCE Chinese riverbank with wooden fishing weirs and reed nets; an old Han-Chinese washerwoman — East-Asian face, never European — works in the distance. Muted overcast light, quiet melancholy. No later-dynasty Tang/Ming/Qing silk robes, no Vietnamese or European elements."
-  },
-  {
-    "id": "scene-15",
-    "scene": 15,
-    "type": "ai_reconstruction",
-    "subject": "Rising to address assembled officers with calm authority for the first time, ges",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "han-tin"
-    ],
-    "prompt": "Rising to address assembled officers with calm authority for the first time, gesturing toward a battle map on a wooden stand — a man proving worth by skill, not birth. Setting: an early Han command tent, late-3rd-century-BCE China; Han-Chinese officers — East-Asian faces, never European — in lamellar armour seated on mats, plain dark banners and lamplight. Steady, ascendant mood. No later-dynasty Tang/Ming/Qing, no Vietnamese or European elements."
-  },
-  {
-    "id": "scene-25",
-    "scene": 25,
-    "type": "ai_reconstruction",
-    "subject": "Standing alone and tense in a shadowed palace corridor, glancing back over his s",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "han-tin"
-    ],
-    "prompt": "Standing alone and tense in a shadowed palace corridor, glancing back over his shoulder as suspicion quietly closes in. Setting: an early Western Han palace, late-3rd-century-BCE China — rammed-earth walls, tall lacquered timber columns and low tiled eaves; distant Han officials — East-Asian faces, never European — watch him coldly, guards with dagger-axes at the edges. Dim cold light, long hard shadows, foreboding. No Ming/Qing palace, no Vietnamese or European elements."
-  },
-  {
-    "id": "scene-26",
-    "scene": 26,
-    "type": "ai_reconstruction",
-    "subject": "Cornered alone in a dim palace hall at night, unarmed and surrounded, the moment",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "han-tin"
-    ],
-    "prompt": "Cornered alone in a dim palace hall at night, unarmed and surrounded, the moment before the end — dramatic and tragic, without gore. Setting: an early Western Han interior, late-3rd-century-BCE China — tall lacquered timber columns and low tiled eaves, Han guards — East-Asian faces, never European — with dagger-axes closing from the shadows, a single guttering lamp. Cold blue night light, deep shadow, sense of doom. No Ming/Qing palace, no Vietnamese or European elements."
+    "prompt": "A quiet closing image of two legacies at dawn. The first character stands at the left edge in calm profile, looking out over early Thăng Long's river citadel as it awakens with markets, officials and families among low compact Đại Việt timber halls. The second character stands at the right edge in calm profile, looking out over Tang Chang'an's great avenue as its broad monumental city awakens. The two landscapes meet in the centre under a shared band of golden sky. Keep all other people small, East-Asian and dressed for their own culture and era. Reflective, dignified ending."
   }
 ]
