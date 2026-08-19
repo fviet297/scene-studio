@@ -56,7 +56,14 @@ const STATE_LABEL = {
   done: "done",
 };
 
-let state = { title: "Scene Studio", scenes: [], characters: {} };
+let state = {
+  title: "Scene Studio",
+  scenes: [],
+  characters: {},
+  characterList: [],
+  project: null,
+  projects: [],
+};
 let currentScene = null;
 let filter = "all";
 let view = "stage";
@@ -89,10 +96,101 @@ const pips = (s) => {
 function render() {
   $("title").textContent = state.title;
   if (!findScene(currentScene)) currentScene = state.scenes[0]?.scene ?? null;
+  renderProjectSwitch();
+  renderMotionModelSelect();
+  renderCharGallery();
   renderPipeline();
   renderRail();
   renderStage();
   renderSheet();
+}
+
+function renderProjectSwitch() {
+  const options = (state.projects || [])
+    .map(
+      (p) =>
+        `<option value="${escapeHtml(p.slug)}"${p.slug === state.project?.slug ? " selected" : ""}>${escapeHtml(p.title)}</option>`,
+    )
+    .join("");
+  $("projectSelect").innerHTML = options;
+}
+
+// Built once: the model list is static for the session, and rebuilding on every refresh()
+// would reset whatever model the user picked mid-workflow.
+function renderMotionModelSelect() {
+  const select = $("motionModelSelect");
+  if (select.options.length) return;
+  select.innerHTML = (state.motionVideoModels || [])
+    .map(
+      (m) =>
+        `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`,
+    )
+    .join("");
+}
+
+function charById(id) {
+  return (state.characterList || []).find((c) => c.id === id) ?? null;
+}
+
+function renderCharGallery() {
+  const list = state.characterList || [];
+  $("charGallery").innerHTML = list
+    .map((c) => {
+      const thumbs = [
+        c.refUrl
+          ? `<img class="char-thumb" src="${c.refUrl}" alt="" loading="lazy" title="Reference" />`
+          : '<span class="char-thumb blank">?</span>',
+        c.puppetUrl
+          ? `<img class="char-thumb" src="${c.puppetUrl}" alt="" loading="lazy" title="Puppet (v2)" />`
+          : "",
+      ].join("");
+      const chips = (c.scenes || [])
+        .map(
+          (n) =>
+            `<button type="button" class="char-chip" data-scene="${n}">#${n}</button>`,
+        )
+        .join("");
+      return `<div class="char-card">
+        <div class="char-thumbs">${thumbs}</div>
+        <div class="char-meta">
+          <span class="char-name">${escapeHtml(c.name)}</span>
+          <span class="char-id num">${escapeHtml(c.id)}</span>
+          <div class="char-scenes">${chips}</div>
+          <div class="char-actions">
+            <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}">Upload ref</button>
+            <button type="button" class="char-action" data-action="puppet" data-id="${escapeHtml(c.id)}">Puppet</button>
+          </div>
+        </div>
+      </div>`;
+    })
+    .join("");
+
+  for (const chip of $("charGallery").querySelectorAll(".char-chip")) {
+    chip.addEventListener("click", () =>
+      selectScene(Number(chip.dataset.scene)),
+    );
+  }
+}
+
+function syncSetupBlock(s) {
+  if (document.activeElement !== $("titleBox"))
+    $("titleBox").value = s.title || "";
+  if (document.activeElement !== $("cueBox")) $("cueBox").value = s.cue || "";
+  if (document.activeElement !== $("hostBox"))
+    $("hostBox").value = s.host || "";
+  const list = state.characterList || [];
+  $("charPicker").innerHTML = list
+    .map((c) => {
+      const checked = (s.characters || []).includes(c.id);
+      return `<label class="char-check${checked ? " checked" : ""}">
+        <input type="checkbox" data-id="${escapeHtml(c.id)}" ${checked ? "checked" : ""} />
+        ${escapeHtml(c.name)}
+      </label>`;
+    })
+    .join("");
+  for (const input of $("charPicker").querySelectorAll("input")) {
+    input.addEventListener("change", () => saveCharSelection(s.scene));
+  }
 }
 
 function renderPipeline() {
@@ -179,7 +277,14 @@ function renderStage() {
   $("stState").hidden = false;
   $("stState").textContent = STATE_LABEL[status];
   $("stState").classList.toggle("on", status === "done");
-  $("stChars").textContent = (s.characters || []).join(" · ");
+  $("stChars").innerHTML = (s.characters || [])
+    .map((id) => {
+      const c = charById(id);
+      const thumb = c?.puppetUrl || c?.refUrl;
+      const label = escapeHtml(c?.name || id);
+      return `<span class="chip">${thumb ? `<img src="${thumb}" alt="" loading="lazy" />` : ""}${label}</span>`;
+    })
+    .join("");
 
   if (s.hasImage) {
     $("canvasEmpty").hidden = true;
@@ -224,13 +329,21 @@ function renderStage() {
   $("btnRenderScene").disabled = busy || !(s.hasImage && s.hasAudio);
   $("btnRenderScene").title =
     s.hasImage && s.hasAudio ? "" : "Needs an image and audio first";
-  $("btnMotionVideo").textContent = s.hasMotionVideo ? "Regenerate motion video" : "Generate motion video";
-  $("btnMotionVideo").disabled = busy || !s.hasImage;
+  $("btnMotionVideo").textContent = s.hasMotionVideo
+    ? "Regenerate motion video"
+    : "Generate motion video";
+  $("btnMotionVideo").disabled = busy || !s.hasImage || !s.hasAudio;
+  $("btnMotionVideo").title =
+    s.hasImage && s.hasAudio
+      ? ""
+      : "Needs an image and audio first (video length is matched to the audio)";
   const motionPrompt = $("motionPromptBox");
-  if (document.activeElement !== motionPrompt) motionPrompt.value = s.motionPrompt || "";
+  if (document.activeElement !== motionPrompt)
+    motionPrompt.value = s.motionPrompt || "";
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
   if (s.hasMotionVideo) $("motionVideo").src = s.motionVideoUrl;
 
+  syncSetupBlock(s);
   syncInspector(s);
 }
 
@@ -263,6 +376,7 @@ function syncInspector(s) {
       ? "Regenerate image"
       : "Generate image";
     $("btnGen").disabled = busy;
+    $("btnGenPrompt").disabled = busy || !(s.narration || "").trim();
   } else {
     $("searchQuery").textContent = s.query || "no query";
   }
@@ -287,13 +401,22 @@ function renderSheet() {
   $("tiles").innerHTML = state.scenes
     .map((s) => {
       const status = sceneStatus(s);
-      const inner = s.hasImage
+      const imageInner = s.hasImage
         ? `<img src="${s.imageUrl}" alt="Scene ${s.scene}" loading="lazy" />`
         : `<span class="empty">${s.kind === "search" ? "search scene" : "not generated"}</span>`;
+      const videoInner = s.hasSceneVideo
+        ? `<span class="ready-mark">${ICON_OK}<span>Video ready</span></span>`
+        : `<span class="empty">no video yet</span>`;
       return `<div class="tile${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
-      <button type="button" class="tile-btn" data-role="open" title="Open scene ${s.scene} in the workbench">
-        ${inner}<span class="no">${s.scene}</span>${pips(s)}
-      </button>
+      <div class="tile-head"><span class="tile-no">${s.scene}</span></div>
+      <div class="tile-media">
+        <button type="button" class="media-pane" data-role="open" title="Open scene ${s.scene} in the workbench">
+          ${imageInner}${pips(s)}
+        </button>
+        <button type="button" class="media-pane video-pane${s.hasSceneVideo ? " ready" : ""}" data-role="open" title="Open scene ${s.scene} in the workbench">
+          ${videoInner}
+        </button>
+      </div>
       <div class="tile-foot">
         <label>
           <input type="checkbox" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} />
@@ -306,10 +429,12 @@ function renderSheet() {
 
   for (const tile of $("tiles").querySelectorAll(".tile")) {
     const n = Number(tile.dataset.scene);
-    tile.querySelector('[data-role="open"]').addEventListener("click", () => {
-      selectScene(n);
-      setView("stage");
-    });
+    for (const btn of tile.querySelectorAll('[data-role="open"]')) {
+      btn.addEventListener("click", () => {
+        selectScene(n);
+        setView("stage");
+      });
+    }
     tile.querySelector('[data-role="pick"]').addEventListener("change", (e) => {
       if (e.target.checked) selected.add(n);
       else selected.delete(n);
@@ -326,6 +451,7 @@ function renderSelection() {
   $("sheetSelInfo").innerHTML = chosen.length
     ? `<b>${chosen.length}</b> selected: scene ${chosen.map((s) => s.scene).join(", ")}`
     : "Nothing selected";
+  $("batchPrompt").disabled = busy || aiCount === 0;
   $("batchImg").disabled = busy || aiCount === 0;
   $("batchAud").disabled = busy || chosen.length === 0;
 }
@@ -398,26 +524,92 @@ function setBusy(on, label = "working") {
   }
   for (const id of [
     "btnGen",
+    "btnGenPrompt",
     "btnAudio",
     "btnUpload",
     "btnRenderScene",
     "btnRender",
     "btnApprove",
+    "batchPrompt",
     "batchImg",
     "batchAud",
+    "projectSelect",
+    "btnNewProject",
+    "btnImport",
+    "btnAddChar",
+    "btnGenPuppets",
   ])
     $(id).disabled = on;
   if (!on) {
     renderPipeline();
     renderSelection();
     const s = current();
-    if (s) syncInspector(s);
+    if (s) {
+      syncSetupBlock(s);
+      syncInspector(s);
+    }
   }
 }
 
 async function refresh() {
   state = await api("/api/state");
   render();
+}
+
+// Unsaved edits and selection are per-project; carrying them across a switch would silently
+// apply scene N's draft narration/prompt to a different project's scene N.
+function clearProjectLocalState() {
+  drafts.prompt.clear();
+  drafts.narr.clear();
+  selected.clear();
+  currentScene = null;
+}
+
+async function switchProject(slug) {
+  if (busy || !slug || slug === state.project?.slug) return;
+  setBusy(true, `switching to ${slug}`);
+  try {
+    clearProjectLocalState();
+    state = await api("/api/project", { slug });
+    render();
+    toast(`Switched to "${state.project.title}".`);
+  } catch (e) {
+    toast(e.message, false);
+    renderProjectSwitch();
+  } finally {
+    setBusy(false);
+  }
+}
+
+// Returns [] when char is valid or omitted, an array of unknown ids, or null on a bad type.
+// Mirrors the server's normalizeImportChar so a bad row is caught before Apply.
+function unknownCharIds(value, idSet) {
+  if (value === undefined || value === null) return [];
+  let ids;
+  if (Array.isArray(value)) ids = value.map(String);
+  else if (typeof value === "string") {
+    const v = value.trim().toLowerCase();
+    if (v === "" || v === "none" || v === "both" || v === "all") return [];
+    ids = value
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  } else return null;
+  return ids.filter((id) => !idSet.has(id));
+}
+
+function buildExportJson() {
+  return JSON.stringify(
+    state.scenes.map((s) => ({
+      scene: s.scene,
+      narration: s.narration,
+      // Which character(s) the scene is about: [] = none (text-to-image), one id, or several.
+      char: s.characters ?? [],
+      prompt: s.prompt || undefined,
+    })),
+    null,
+    2,
+  );
 }
 
 // Streams an SSE endpoint into the console. Opens the log on failure only, so a
@@ -538,6 +730,29 @@ async function generateImage() {
   }
 }
 
+async function generatePromptFromNarration() {
+  const s = current();
+  if (!s) return;
+  if (!(s.narration || "").trim()) {
+    showError("Narration is empty — write it first.");
+    return;
+  }
+  setBusy(true, `writing prompt for scene ${s.scene}`);
+  setConsole("running", `Writing prompt for scene ${s.scene} from narration`);
+  try {
+    const res = await api("/api/generate-prompt", { scene: s.scene });
+    setConsole("idle", `Scene ${s.scene} prompt written.`);
+    toast(`Scene ${s.scene}: prompt written from narration.`);
+    await refresh();
+  } catch (e) {
+    showError(e.message);
+    setConsole("error", e.message);
+    toast(e.message, false);
+  } finally {
+    setBusy(false);
+  }
+}
+
 async function uploadImage(file) {
   const s = current();
   if (!s || !file) return;
@@ -610,6 +825,7 @@ $("promptSave").addEventListener("click", () =>
   saveField("prompt", $("promptBox").value),
 );
 $("btnGen").addEventListener("click", generateImage);
+$("btnGenPrompt").addEventListener("click", generatePromptFromNarration);
 
 $("btnUpload").addEventListener("click", () => $("fileInput").click());
 $("fileInput").addEventListener("change", (e) => {
@@ -652,13 +868,17 @@ $("btnRenderScene").addEventListener("click", () => {
 $("btnMotionVideo").addEventListener("click", async () => {
   const s = current();
   if (!s) return;
+  const model = $("motionModelSelect").value;
   setBusy(true, `Generating motion video for scene ${s.scene}`);
-  setConsole("running", `Generating VMedia video for scene ${s.scene}`);
+  setConsole(
+    "running",
+    `Generating motion video for scene ${s.scene} (${model})`,
+  );
   try {
     await streamJob(
       "/api/generate-motion-video",
-      { scene: s.scene },
-      `Generating VMedia video for scene ${s.scene}`,
+      { scene: s.scene, model },
+      `Generating motion video for scene ${s.scene} (${model})`,
     );
   } catch (e) {
     showError(e.message);
@@ -702,9 +922,20 @@ $("selNeedImg").addEventListener("click", () =>
   pickWhere((s) => !s.hasImage && s.kind === "ai"),
 );
 $("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
+$("selNeedPrompt").addEventListener("click", () =>
+  pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
+);
 $("selNone").addEventListener("click", () => {
   selected.clear();
   renderSheet();
+});
+$("batchPrompt").addEventListener("click", () => {
+  const scenes = [...selected].sort((a, b) => a - b);
+  streamJob(
+    "/api/generate-prompts-batch",
+    { scenes },
+    `Writing prompts for scene ${scenes.join(", ")}`,
+  );
 });
 $("batchImg").addEventListener("click", () => {
   const scenes = [...selected].sort((a, b) => a - b);
@@ -770,6 +1001,18 @@ window.addEventListener("keydown", (e) => {
       $("tplOverlay").hidden = true;
       return;
     }
+    if (!$("impOverlay").hidden) {
+      $("impOverlay").hidden = true;
+      return;
+    }
+    if (!$("npOverlay").hidden) {
+      $("npOverlay").hidden = true;
+      return;
+    }
+    if (!$("acOverlay").hidden) {
+      $("acOverlay").hidden = true;
+      return;
+    }
     if ($("console").classList.contains("open")) {
       openLog(false);
       return;
@@ -801,6 +1044,290 @@ for (const box of [$("narrBox"), $("promptBox")]) {
     }
   });
 }
+
+// ------------------------------------------------------------------ projects
+
+$("projectSelect").addEventListener("change", (e) =>
+  switchProject(e.target.value),
+);
+
+$("btnNewProject").addEventListener("click", () => {
+  $("npSlug").value = "";
+  $("npTitleInput").value = "";
+  $("npNote").textContent =
+    "Scaffolds from projects/_template and switches to it.";
+  $("npOverlay").hidden = false;
+  $("npSlug").focus();
+});
+$("npClose").addEventListener("click", () => {
+  $("npOverlay").hidden = true;
+});
+$("npOverlay").addEventListener("click", (e) => {
+  if (e.target === $("npOverlay")) $("npOverlay").hidden = true;
+});
+$("npCreate").addEventListener("click", async () => {
+  const slug = $("npSlug").value.trim();
+  const title = $("npTitleInput").value.trim();
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) {
+    $("npNote").textContent =
+      "Slug must be lowercase letters, numbers and hyphens, starting with a letter or number.";
+    return;
+  }
+  $("npCreate").disabled = true;
+  try {
+    clearProjectLocalState();
+    state = await api("/api/project-create", { slug, title });
+    render();
+    $("npOverlay").hidden = true;
+    toast(`Created project "${state.project.title}".`);
+  } catch (e) {
+    $("npNote").textContent = e.message;
+  } finally {
+    $("npCreate").disabled = false;
+  }
+});
+
+// ------------------------------------------------------------------ import JSON
+
+let importRows = null;
+
+$("btnImport").addEventListener("click", () => {
+  $("impBox").value = "";
+  $("impPreview").hidden = true;
+  $("impApply").disabled = true;
+  const ids = (state.characterList || []).map((c) => c.id);
+  $("impNote").textContent = ids.length
+    ? `Fields per row: scene, narration, char, prompt?. char = "${ids.join('" | "')}" | "both" | "none" (which character the narration is about → prompt). Paste, then Validate.`
+    : "Paste JSON, then Validate.";
+  $("impOverlay").hidden = false;
+  $("impBox").focus();
+});
+$("impClose").addEventListener("click", () => {
+  $("impOverlay").hidden = true;
+});
+$("impOverlay").addEventListener("click", (e) => {
+  if (e.target === $("impOverlay")) $("impOverlay").hidden = true;
+});
+$("impCopy").addEventListener("click", async () => {
+  const json = buildExportJson();
+  try {
+    await navigator.clipboard.writeText(json);
+    toast("Copied current scenes as JSON.");
+  } catch {
+    $("impBox").value = json;
+    toast("Clipboard unavailable, pasted into the box instead.", false);
+  }
+});
+$("impValidate").addEventListener("click", () => {
+  importRows = null;
+  $("impApply").disabled = true;
+  let parsed;
+  try {
+    parsed = JSON.parse($("impBox").value);
+  } catch (e) {
+    $("impPreview").hidden = false;
+    $("impPreviewText").textContent = `Invalid JSON: ${e.message}`;
+    return;
+  }
+  const rows = Array.isArray(parsed)
+    ? parsed
+    : Array.isArray(parsed?.scenes)
+      ? parsed.scenes
+      : null;
+  if (!rows || !rows.length) {
+    $("impPreview").hidden = false;
+    $("impPreviewText").textContent =
+      "Expected an array of {scene, narration, ...} or {scenes:[...]}.";
+    return;
+  }
+  const errors = [];
+  const known = new Set(state.scenes.map((s) => s.scene));
+  const charIds = new Set((state.characterList || []).map((c) => c.id));
+  let updateCount = 0;
+  let appendCount = 0;
+  rows.forEach((row, i) => {
+    if (!row || !Number.isFinite(row.scene) || row.scene < 1) {
+      errors.push(`row ${i}: scene must be a positive number`);
+      return;
+    }
+    if (typeof row.narration !== "string" || !row.narration.trim())
+      errors.push(`row ${i} (scene ${row.scene}): narration is required`);
+    const unknown = unknownCharIds(row.char, charIds);
+    if (unknown === null)
+      errors.push(
+        `row ${i} (scene ${row.scene}): char must be a string or array of ids`,
+      );
+    else if (unknown.length)
+      errors.push(
+        `row ${i} (scene ${row.scene}): unknown char ${unknown.join(", ")}`,
+      );
+    if (known.has(row.scene)) updateCount++;
+    else appendCount++;
+  });
+  $("impPreview").hidden = false;
+  if (errors.length) {
+    $("impPreviewText").innerHTML = errors
+      .map((e) => escapeHtml(e))
+      .join("<br />");
+    return;
+  }
+  importRows = rows;
+  $("impPreviewText").textContent =
+    `${rows.length} row(s): ${updateCount} update existing scene(s), ${appendCount} append new scene(s).`;
+  $("impApply").disabled = false;
+});
+$("impApply").addEventListener("click", async () => {
+  if (!importRows) return;
+  $("impApply").disabled = true;
+  $("impApply").textContent = "Applying...";
+  try {
+    const res = await api("/api/narration-import", importRows);
+    toast(
+      `Imported: ${res.updated.length} updated, ${res.appended.length} appended.`,
+    );
+    $("impOverlay").hidden = true;
+    await refresh();
+  } catch (e) {
+    $("impPreviewText").textContent = e.message;
+  } finally {
+    $("impApply").disabled = false;
+    $("impApply").textContent = "Apply";
+  }
+});
+
+// ------------------------------------------------------------------ scene setup (title/cue/host/char)
+
+async function saveSceneField(field, value) {
+  const s = current();
+  if (!s) return;
+  try {
+    state = await api("/api/scene-field", { scene: s.scene, field, value });
+    render();
+  } catch (e) {
+    toast(e.message, false);
+  }
+}
+
+function saveCharSelection(sceneNo) {
+  const ids = [...$("charPicker").querySelectorAll("input:checked")].map(
+    (i) => i.dataset.id,
+  );
+  const s = current();
+  if (!s || s.scene !== sceneNo) return;
+  saveSceneField("char", ids.join(", "));
+}
+
+$("titleBox").addEventListener("blur", (e) => {
+  const s = current();
+  if (s && e.target.value.trim() !== (s.title || ""))
+    saveSceneField("title", e.target.value.trim());
+});
+$("cueBox").addEventListener("blur", (e) => {
+  const s = current();
+  if (s && e.target.value.trim() !== (s.cue || ""))
+    saveSceneField("cue", e.target.value.trim());
+});
+$("hostBox").addEventListener("blur", (e) => {
+  const s = current();
+  if (s && e.target.value.trim() !== (s.host || ""))
+    saveSceneField("host", e.target.value.trim());
+});
+
+// ------------------------------------------------------------------ characters
+
+let pendingUploadCharId = null;
+
+async function uploadCharacterFile(id, file) {
+  const res = await fetch(
+    `/api/character-upload?id=${encodeURIComponent(id)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": file.type },
+      body: await file.arrayBuffer(),
+    },
+  );
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  state = data;
+  render();
+}
+
+$("btnAddChar").addEventListener("click", () => {
+  $("acId").value = "";
+  $("acName").value = "";
+  $("acFile").value = "";
+  $("acNote").textContent =
+    "Adds to the ## characters block and creates profile.json.";
+  $("acOverlay").hidden = false;
+  $("acId").focus();
+});
+$("acClose").addEventListener("click", () => {
+  $("acOverlay").hidden = true;
+});
+$("acOverlay").addEventListener("click", (e) => {
+  if (e.target === $("acOverlay")) $("acOverlay").hidden = true;
+});
+$("acCreate").addEventListener("click", async () => {
+  const id = $("acId").value.trim();
+  const name = $("acName").value.trim();
+  const file = $("acFile").files[0];
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
+    $("acNote").textContent =
+      "Id must be lowercase letters, numbers and hyphens.";
+    return;
+  }
+  if (!name) {
+    $("acNote").textContent = "Display name is required.";
+    return;
+  }
+  $("acCreate").disabled = true;
+  try {
+    state = await api("/api/character-create", { id, name });
+    if (file) await uploadCharacterFile(id, file);
+    else render();
+    $("acOverlay").hidden = true;
+    toast(`Added character "${name}".`);
+  } catch (e) {
+    $("acNote").textContent = e.message;
+  } finally {
+    $("acCreate").disabled = false;
+  }
+});
+
+$("charGallery").addEventListener("click", (e) => {
+  const btn = e.target.closest(".char-action");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (btn.dataset.action === "upload") {
+    pendingUploadCharId = id;
+    $("charFileInput").click();
+  } else if (btn.dataset.action === "puppet") {
+    streamJob("/api/generate-puppets", { id }, `Generating puppet for ${id}`);
+  }
+});
+$("charFileInput").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file || !pendingUploadCharId) return;
+  const id = pendingUploadCharId;
+  pendingUploadCharId = null;
+  setBusy(true, `uploading ${id}`);
+  try {
+    await uploadCharacterFile(id, file);
+    toast(`Updated reference for "${id}".`);
+  } catch (err) {
+    toast(err.message, false);
+  } finally {
+    setBusy(false);
+  }
+});
+$("btnGenPuppets").addEventListener("click", () => {
+  streamJob(
+    "/api/generate-puppets",
+    {},
+    "Generating puppet references for every character",
+  );
+});
 
 setConsole("idle", "Loading scenes...");
 refresh().catch((e) => {

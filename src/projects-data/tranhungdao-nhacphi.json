@@ -1,0 +1,127 @@
+{
+  "slug": "tranhungdao-nhacphi",
+  "title": "trần hưng đạo và nhạc phi",
+  "publicPrefix": "projects/tranhungdao-nhacphi",
+  "fps": 30,
+  "durationInFrames": 960,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Trần Hưng Đạo và Nhạc Phi, hai danh tướng cách nhau gần một thế kỷ, đều trở thành biểu tượng của lòng trung nghĩa và tài cầm quân.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands on a raised stone platform in the foreground, gesturing toward a distant battlefield, while the second character stands beside him, holding a command baton. Around them, Vietnamese and Song Dynasty soldiers in accurate 13th and 12th-century armor practice drills in the middle ground; fluttering banners and war drums animate the scene. In the background, Vietnamese pagoda roofs and Song city walls rise under a cloudy sky."
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 2,
+      "narration": "Trần Hưng Đạo, tên thật là Trần Quốc Tuấn, sinh khoảng năm 1228 dưới thời nhà Trần.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 3,
+      "narration": "Nhạc Phi sinh năm 1103 dưới thời Nam Tống, từ một người lính trở thành danh tướng chống quân Kim.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 4,
+      "narration": "Trần Hưng Đạo nổi bật với ba lần chỉ huy quân Đại Việt chống quân Mông Nguyên, đặc biệt là chiến thắng Bạch Đằng năm 1288.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 5,
+      "narration": "Nhạc Phi cũng lập nhiều chiến công trước quân Kim, xây dựng Nhạc gia quân nổi tiếng với kỷ luật và sức chiến đấu.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 6,
+      "narration": "Trần Hưng Đạo không chỉ giỏi cầm quân mà còn nổi tiếng với tư tưởng quân sự, thể hiện qua Hịch tướng sĩ.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 7,
+      "narration": "Nhạc Phi trung thành với Nam Tống nhưng cuối cùng bị Tần Cối hãm hại và xử tử năm 1142, dù công lao chống quân Kim rất lớn.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    },
+    {
+      "scene": 8,
+      "narration": "Một người được tôn vinh là Hưng Đạo Đại Vương, một người trở thành biểu tượng trung nghĩa của Trung Hoa. Cả hai đều được hậu thế nhớ đến như những danh tướng kiệt xuất.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": ""
+      },
+      "hasAudio": false
+    }
+  ],
+  "sceneDurations": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "captionGroups": [],
+  "uploadedScenes": []
+}

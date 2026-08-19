@@ -1,136 +1,274 @@
 ---
 name: history-video
-description: Build or revise vertical historical explainer and comparison videos in Remotion from a narration script. Use when the task is to source historically relevant scene visuals, organize left/right subjects without implying competition, use a rigged host that points toward the mentioned subject, generate narration through a local WebSocket TTS voice, synchronize incremental subtitles to actual audio, preserve source/license metadata, name assets by scene, render previews, or export a verified MP4.
+description: "Build or revise vertical historical Remotion videos from a scene plan and character references: generate physically coherent AI image prompts, source or generate visuals, preserve identity and period accuracy, label AI assets, run a review UI with editable image/video prompts, generate optional image-to-video previews from public image URLs with job polling/logs, generate per-scene TTS with controlled pauses, synchronize captions, render, and verify MP4 output. Do not add a mascot/host unless explicitly requested."
 ---
 
 # Historical Remotion Video
 
-Build around narration. Never build around whichever images are easiest to find.
+Build around narration **and identity**. Never build around whichever images are easiest to
+find. The goal for each line is the image the viewer needs to see — not any image that
+merely contains the name.
+
+```
+transcript → historical analysis → character detection → profile → character reference
+→ scene analysis → visual concept → search OR generate → validate → asset → Remotion
+```
+
+Do **not** do: transcript → search a name → download a random image → drop it in.
 
 ## Start
 
-1. Inspect project `AGENTS.md`, `CODEBASE.md`, Remotion root, composition, character components, narration, audio, and existing image manifest.
-2. Preserve existing project conventions and user assets.
-3. Create a short project-root task plan for multi-scene work.
-4. Read [references/workflow.md](references/workflow.md) before implementing a full video or revising several scenes.
-5. Read [references/visual-sourcing.md](references/visual-sourcing.md) whenever selecting or replacing historical imagery.
+1. Inspect `src/Root.tsx`, composition size/FPS/duration, the scene component, and existing
+   `public/characters/`, `public/images/`, `public/audio/`, and
+   `asset-manifest.json`. Preserve project conventions and user assets.
+
+   **Multi-project layout (optional):** some repos host several comparison videos side by
+   side instead of one (see the `compare-image` reference implementation). Detect this by a
+   `projects/` directory at the repo root. When present: `scene-plan.md` lives at
+   `projects/<slug>/scene-plan.md`, character references and generated assets sit under
+   `public/projects/<slug>/` instead of `public/`, the active project is read from
+   `projects/active.json` (or `--project <slug>` / a `PROJECT` env var passed to each
+   script), and `parse-scene-plan.mjs` also emits `src/characters-data.json` (character
+   gallery data for the review panel). A new project scaffolds from `projects/_template/`.
+   Everything else in this skill is unchanged; without a `projects/` directory, use the
+   root-level paths described below.
+
+2. Read [references/scene-plan.md](references/scene-plan.md) — the input is one scene-plan
+   markdown plus pasted `public/characters/<id>.png`; parse it with
+   [scripts/parse-scene-plan.mjs](scripts/parse-scene-plan.mjs).
+3. Read [references/workflow.md](references/workflow.md) for the full pipeline before a new
+   video or a multi-scene revision.
+4. Read [references/character-system.md](references/character-system.md) (identity/consistency),
+   [references/visual-sourcing.md](references/visual-sourcing.md) (search vs generate),
+   [references/ai-generation.md](references/ai-generation.md) (image models, on-style prompts),
+   [references/layout.md](references/layout.md) (frame regions/safe areas).
+
+Stay generic. No `if character == "..."` logic; per-character facts live in
+`characters/<id>/profile.json`, never in this skill. It must work for any pair — Đinh Bộ
+Lĩnh vs Tần Thủy Hoàng, Lê Lợi vs Lưu Bang, Napoleon vs Quang Trung — with no edit here.
+
+## Input: the scene plan
+
+The user supplies **one markdown file** — the transcript split into scenes, each scene giving
+only its **narration** (+ optional `char:`/`search:`) — plus **pasted character reference
+images** in `public/characters/<id>.png`. The user does **not** write image prompts. For each
+AI scene the skill generates the `prompt:` from that scene's narration (see **Prompt
+generation** below) and writes it back into the plan file, then parses with
+[scripts/parse-scene-plan.mjs](scripts/parse-scene-plan.mjs) → `src/scene-plan.json` (visual
+panels) + `scripts/narration-segments.mjs` (TTS). See
+[references/scene-plan.md](references/scene-plan.md) for the exact format. The plan is the
+single source of truth for images, audio, captions, and timing.
+
+## Prompt generation (from narration)
+
+The user gives narration only; the skill writes each AI scene's image prompt from it under two
+rules:
+
+- **Never describe the character's appearance** (face, costume, build, hair). Identity is
+  carried by the pasted `char:` reference through image-to-image generation; restating looks
+  fights the reference and drifts identity.
+- **Describe only action and gesture** that fit that scene's narration (marching, pointing
+  across a map, raising a sword, kneeling, rallying troops), plus setting, atmosphere, and
+  composition. The same holds for scenes with no `char:` — action and scene, not a face.
+- **Validate physical continuity** before saving the prompt: every person, animal, vehicle,
+  and prop must be placed in a physically plausible environment and share the same mode of
+  travel. If a convoy is on a river, specify boats/barges for the whole convoy and explicitly
+  exclude carts, horses, oxen, or buffalo from the water; keep any land transport on the bank.
+  Resolve contradictory cues instead of leaving them for the image model to interpret.
+
+Write the generated `prompt:` back into the scene plan so it is visible, hand-editable, and
+stable across re-runs. `search:` scenes get no prompt. Details and an example:
+[references/scene-plan.md](references/scene-plan.md).
+
+## Characters and style
+
+Character references are **user-provided** — the skill never invents a face. Each panel that
+depicts a person is generated from its pasted reference; keep face/costume/silhouette, vary
+only pose/action/setting. A profile (fact vs interpretation vs unknown) is a prompting aid,
+not a substitute for the reference. Fix one **style** for the project — default **2D
+hand-drawn historical illustration**, not 3D/photoreal, unless the project commits to a
+real-sourced/archival treatment. See [character-system.md](references/character-system.md)
+and [ai-generation.md](references/ai-generation.md).
 
 ## Scene model
 
-Represent every visual beat as data with:
+One image per scene, from `src/scene-plan.json`:
 
-```ts
+```json
 {
-  from: 23,
-  to: 32,
-  left: 'scene-03-left-12-warlords-map.svg',
-  right: 'scene-03-right-qin-empire-map.png',
-  title: 'MỘT BÊN CHIA CẮT',
-  cue: '12 SỨ QUÂN • 7 NƯỚC GIAO CHIẾN',
-  animation: 'point-left',
-  focus: 'left',
+  "scene": 3,
+  "narration": "Trung Hoa rơi vào nội chiến sau khi nhà Tần sụp đổ...",
+  "image": {
+    "kind": "search",
+    "characters": [],
+    "query": "Chu-Han contention map"
+  }
 }
 ```
 
-Use `left` for the first subject and `right` for the second. Use `focus` to dim the unmentioned side. Point the host toward the focused side.
-
-Do not display names twice. Keep one identity label per panel. Do not use `VS` unless the user explicitly wants a competitive framing.
+The full-frame scene image sits under an auto-derived title/cue and caption track. A generated
+image shows an on-screen "AI phục dựng" tag; never mislabel it as authentic. No `VS` framing
+unless the user asks.
 
 ## Asset naming
 
-Use one independent file per scene and side:
+One canonical file per scene in `public/images/`, written by whichever step produced it
+(Kontext, text-to-image, or search). Replacing one scene never touches another.
 
 ```text
-scene-01-left-subject.jpg
-scene-01-right-subject.jpg
-scene-03-left-12-warlords-map.svg
+scene-01.jpg   scene-02.jpg   scene-03.jpg
 ```
-
-If the same source appears in multiple scenes, duplicate it under scene-specific names. This lets users replace one scene without affecting others.
-
-Store project images in `public/images/`. Keep the exact filenames referenced by scene data.
 
 ## Visual selection
 
-Before searching, identify subject, action, location, period, object, event, and visual concept. Create 3–5 queries per narration segment.
+For each beat identify subject, action, location, period, object, event, and visual concept;
+turn meaning into a concept before choosing an image. One narration ≠ one image; avoid
+literal-text images and repeated portraits (war → battlefield, march → army, unification →
+map, origins → childhood, legacy → monument).
 
-Prefer a visual that explains the spoken claim. A map is usually better than a portrait for territorial unification. An artifact is usually better than a portrait for currency, writing, measurement, or administration.
-
-Source across multiple repositories, never one. Use [scripts/source-assets.mjs](scripts/source-assets.mjs): each asset declares a query and an ordered provider fallback chain (Wikimedia, Met, Art Institute of Chicago, Library of Congress, optional Europeana). The script refuses any image already used by another scene, so no portrait repeats. If one provider still supplies most assets, widen queries or reorder the chain.
-
-Use maps with `objectFit: contain`; use portraits, locations, and artworks with `cover`. Confirm vertical crop in a representative still.
-
-When no authentic visual fits a concept or action beat, generate one — see [references/ai-generation.md](references/ai-generation.md) and [scripts/generate-visuals.mjs](scripts/generate-visuals.mjs). Generate for concepts, action, and atmosphere; source for real for identities, territory, and artifacts. Label every generated image `AI_RECONSTRUCTION` and never present it as an authentic portrait or photograph.
+One image per scene, `kind: "ai"` (has a `prompt` the skill wrote from the narration — see
+**Prompt generation**) or `kind: "search"` (has a `search:` query — use for maps, artifacts,
+real places). **AI scenes**: write the
+prompt into the plan and stop — **the user generates them from the review UI** (see
+**Review gate**). Generation runs image-to-image on the scene's pasted character reference +
+prompt (default model Seedream 4.5; FLUX Kontext as a fallback), or plain text-to-image when
+no `char` → `public/images/scene-NN.jpg`. **Search scenes**: source a real image across repositories via
+[scripts/source-assets.mjs](scripts/source-assets.mjs) (Wikimedia, Met, Art Institute, LoC,
+optional Europeana) → same canonical filename. Label every generated image
+`AI_RECONSTRUCTION`, show a small on-screen "AI phục dựng" tag, and never present it as
+authentic. Maps use `objectFit: contain`; other images use `cover` — confirm the vertical
+crop in a still.
 
 ## Source manifest
 
-Record every selected asset in `public/images/asset-manifest.json`:
+Record every asset in `public/images/asset-manifest.json` with `id, scene, type, subject,
+source, sourceUrl, license, credit, authenticity` (searched images add provenance; generated
+images add `prompt`, `character_references`, `style_reference`). The `source` field names the
+actual provider, not a fixed default; open and verify each source page. After sourcing run
+[scripts/check-assets.mjs](scripts/check-assets.mjs): it fails on missing files and warns on
+reused images, one source over 60%, or a subject in more than two scenes.
 
-```json
-{
-  "id": "twelve-warlords-map",
-  "scene": 3,
-  "type": "historical_map",
-  "subject": "Anarchy of the 12 Warlords",
-  "source": "Wikimedia Commons",
-  "sourceUrl": "https://...",
-  "license": "Public domain",
-  "credit": "...",
-  "authenticity": "historical_reconstruction"
-}
-```
+## Review gate — approve images before voice (mandatory)
 
-The `source` field must name the actual provider each asset came from, not a fixed default. Do not infer reuse rights from an image-search result. Open and verify the source page.
+The user reviews and generates the scene images in a local web UI, then approves; approval
+triggers audio. Start it with [scripts/review-server.mjs](scripts/review-server.mjs)
+(`node scripts/review-server.mjs`, opens `http://127.0.0.1:8080`) after parsing the plan and
+pasting the character references.
 
-After sourcing, run [scripts/check-assets.mjs](scripts/check-assets.mjs). It fails on missing files and warns on reused images, one source supplying more than 60% of assets, or a subject that repeats across more than two scenes.
+**Never generate images yourself.** Do not run
+[scripts/generate-visuals.mjs](scripts/generate-visuals.mjs) or any other paid
+image/audio call on your own initiative — each one costs the user Replicate credit and
+overwrites committed assets. Write the prompts, start this server, hand over the URL, and wait.
+Approval of a style, a prompt, or a plan is **not** approval to generate; only a button press
+in this panel is. If the user explicitly asks you to run a batch from the CLI, say how many
+calls it will make and get a yes for that specific run. The panel lists every scene with its narration and, for AI
+scenes, the generated **prompt in an editable box**; the user can edit a prompt and hit
+**Generate/Regenerate** to run Replicate for that one scene (via the shared
+[scripts/lib/replicate-image.mjs](scripts/lib/replicate-image.mjs)), sees the resulting 9:16
+image inline, and repeats until every AI scene is right. A saved prompt is written back into
+`scene-plan.md`. Search scenes are shown read-only (source them with
+[scripts/source-assets.mjs](scripts/source-assets.mjs)). When all AI scene images exist the
+**Approve & generate audio** button enables; pressing it runs
+[scripts/generate-narration.mjs](scripts/generate-narration.mjs) and streams its log into the
+page. Rationale: images are the failure-prone, review-heavy part; no TTS runs until the user
+signs off in the UI. ([scripts/contact-sheet.mjs](scripts/contact-sheet.mjs) still produces a
+static tiled `public/review/contact-sheet.jpg` for a quick offline glance if needed.)
 
-## Voice generation
+The panel also exposes, all still user-driven (no paid call happens without a button press):
 
-When the project uses OmniVoice at `ws://127.0.0.1:8765/ws`, copy [scripts/generate-narration.mjs](scripts/generate-narration.mjs) into the project and adapt constants only.
+- **Editable master / template prompts** — a collapsible editor for the five prompt pieces
+  every generation combines with the scene prompt (`styleDna`, `masterPrompt`, `faceLockPrompt`,
+  `text2img`, `guard`; placeholders `[STYLE]`, `[GUARD]`, `[SCENE-SPECIFIC PROMPT]`). Saved to
+  `scripts/prompt-templates.json`, which `getTemplates()`/`saveTemplates()` in
+  [scripts/lib/replicate-image.mjs](scripts/lib/replicate-image.mjs) merge over the built-in
+  defaults; a blank field falls back to the default. This overrides globally — it changes every
+  later generation.
+- **Editable narration** per scene — written back to `scene-plan.md` and reparsed (so audio
+  segments and captions follow).
+- **Per-scene audio** — a Gen/Regen button on each card runs
+  [scripts/generate-narration.mjs](scripts/generate-narration.mjs) `<sceneN>` for that one scene
+  and plays the result inline; the footer **Approve** still does all scenes at once.
+- **Multi-select batch** — tick scenes to batch-generate images (AI scenes, one reference per
+  frame, sequential) or audio (a single narration run for the list).
 
-Use:
+## Optional image-to-video motion previews
 
-```json
-{
-  "lang": "Vietnamese",
-  "mode": "clone",
-  "voice": "remotion"
-}
-```
+After a scene image is approved, expose an editable motion prompt in the review UI. Keep motion
+restrained and preserve source identity, costume, architecture, props, period, and composition;
+allow only subtle camera push-in/parallax and natural cloth, water, or background movement. No
+redesign, new people or objects, anachronism, text, watermark, or cuts. Never start paid video
+generation automatically.
 
-Split long narration into short chunks. Generate sequentially, save WAV chunks, concatenate, then encode the final MP3 at natural pace. Do not time-stretch the completed audio to a predetermined duration unless the user explicitly accepts accelerated speech. Instead measure the final MP3 with `ffprobe` and set the composition `durationInFrames` from it; [scripts/align-captions.mjs](scripts/align-captions.mjs) reads the same real duration so captions and video length share one source of truth.
+For VMedia, upload the local image first and send the returned public `image_url` to the video job;
+never send a filesystem path or data URI. Read API key, model, mode, domain, project, ratio,
+resolution, duration, and endpoint overrides from `.env`. Include required `resolution` (`720p`),
+log request/response summaries without exposing the key, poll the job id through the status
+endpoint, download success to `public/scene-videos/scene-NN.mp4`, and show live logs and the
+result in the review panel. Missing public URL, job id, status, or video URL is an explicit error.
+
+## Voice generation (per scene) — triggered by the UI's Approve button
+
+Approving in the review UI runs this step; only regenerate scenes by hand afterwards. With
+OmniVoice at `ws://127.0.0.1:8765/ws`, copy
+[scripts/generate-narration.mjs](scripts/generate-narration.mjs) and adapt constants only.
+Use `{ "lang": "Vietnamese", "mode": "clone", "voice": "history" }`. Keep narration split
+**per scene** (`public/audio/scene-NN.mp3`) so a mispronounced part regenerates in isolation
+(`node scripts/generate-narration.mjs <sceneN>`). Apply conservative silence removal to cap
+long internal pauses at about 0.18s retained silence without making speech rushed. Measure
+each file with `ffprobe` and set `durationInFrames` from real totals — never time-stretch to a
+preset length. If audio is regenerated, always regenerate captions from the same narration
+segments and new durations.
 
 ## Subtitle synchronization
 
-Never assign captions by evenly dividing the full video duration.
+Never divide the full duration evenly. Prefer TTS/ASR word timestamps; else forced
+alignment/Whisper; else [scripts/align-captions.mjs](scripts/align-captions.mjs) (real
+speech/silence regions, per segment, weighted tokens — approximate). Reveal 3–8 word groups
+on their timestamps; do not show a whole long sentence at once.
 
-Preferred order:
+## Finalize & render (from the UI)
 
-1. Use word timestamps returned by TTS or ASR.
-2. Otherwise run forced alignment/Whisper with the known transcript.
-3. If unavailable, use [scripts/align-captions.mjs](scripts/align-captions.mjs) as a fallback. It uses actual speech/silence regions and weighted transcript tokens; label this as approximate alignment.
+Once every scene has both an image and audio, the review panel drives the rest of the pipeline
+so the user never touches the CLI:
 
-Display short groups, usually 3–8 words. Reveal words when their timestamps are reached. Avoid showing a complete long sentence at once.
+- **Finalize & render MP4** (footer) runs, streaming each step's log:
+  [measure-audio.mjs](scripts/measure-audio.mjs) → `src/audio-durations.ts`,
+  [align-captions.mjs](scripts/align-captions.mjs) → `src/caption-data.ts`,
+  [check-assets.mjs](scripts/check-assets.mjs) (a hard gate — a missing file stops the run),
+  then `remotion render ScenePlanVideo out/ScenePlanVideo.mp4`. It is disabled, and its guard
+  reports the missing scenes, until every image + audio exists. A play/download link to
+  `/video` appears when the render finishes.
+- **Per-scene MP4 preview** — each card's Render button renders a single-scene composition
+  `SceneOne` (that scene's cinematic image + title/cue overlay + its own audio) to
+  `out/scene-NN.mp4` and shows it inline. Duration comes from the scene's measured audio, passed
+  as props and read by the composition's `calculateMetadata`, so a preview renders independently
+  of the full timeline (no need for `audio-durations.ts` to be current). Captions are a
+  whole-video concern and are omitted from the per-scene preview.
+
+This assumes the project's `src/Root.tsx` registers both the full `ScenePlanVideo` composition
+and a single-scene `SceneOne` composition (props `{ scene, durationInFrames }`, duration set via
+`calculateMetadata`). The skill ships the review tooling, not those Remotion components — they
+live in the project.
 
 ## Host behavior
 
-- Mention first/left subject: `point-left`.
-- Mention second/right subject: `point-right`.
-- Discuss both or abstract comparison: `explain`, `think`, `celebrate`, or `happy`.
-- Keep host clear of captions and primary imagery.
-
-Use the character already present in `src/characters`. Do not recreate it.
+No host is rendered by default. Do not derive host poses, reserve host space, import
+`HistoryHost`, or add mascot overlays. Keep the lower frame available for captions and imagery.
+Only add a host after an explicit user request, then document placement and animation in the
+project plan before implementation.
 
 ## Verification
 
-After edits:
-
-1. Run project lint and TypeScript checks.
-2. Run [scripts/check-assets.mjs](scripts/check-assets.mjs): every asset exists, no image is reused across scenes, no single source dominates.
-3. For each scene, confirm the chosen visual depicts the narration claim itself, not merely the named person. A portrait is not an army, a battle, or a reform.
-4. Render stills at the start, middle, scene boundaries, map scenes, and ending.
-5. Inspect stills visually for crop, duplicate names, direction, overlap, and subtitle size.
-6. Render MP4 only after stills pass.
-7. Verify codec, resolution, duration, audio stream, and output size with `ffprobe`.
+1. Project lint and TypeScript checks.
+2. [scripts/check-assets.mjs](scripts/check-assets.mjs): every asset exists, none reused, no
+   single source dominates.
+3. Per scene, confirm the visual depicts the narration claim itself, not merely the named
+   person, and that period/country identity is correct with no anachronism.
+4. For each generated prompt, check spatial/physical continuity (terrain, water, roads,
+   vehicles, animals, and direction of travel) before approving the image.
+5. Render stills at start, middle, scene boundaries, map scenes, and ending; inspect crop,
+   duplicate names, direction, overlap, subtitle size, and AI tags.
+6. Render MP4 only after stills pass; verify codec, resolution, duration, audio stream, and
+   size with `ffprobe`.
 
 Do not commit or push unless explicitly requested.

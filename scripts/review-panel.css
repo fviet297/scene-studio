@@ -101,6 +101,9 @@ button { cursor: pointer; }
 
 .grow { flex: 1; min-width: 0; }
 
+.project-switch { display: flex; align-items: center; gap: 6px; }
+.project-switch .mini { max-width: 220px; }
+
 .segmented { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r-ctl); overflow: hidden; }
 .segmented button {
   border: 0; background: var(--surface-2); color: var(--muted);
@@ -158,6 +161,7 @@ select.mini {
   height: 26px; padding: 0 6px; border-radius: var(--r-ctl);
   border: 1px solid var(--line); background: var(--surface-2); font-size: 12px;
 }
+select.mini.wide { width: 100%; }
 
 /* ---------------------------------------------------------------- rail */
 
@@ -192,6 +196,49 @@ select.mini {
 .pip { width: 13px; height: 3px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px #343a42; }
 .pip.on { background: var(--accent); box-shadow: none; }
 
+.char-gallery-head { display: flex; gap: 6px; padding: 8px 8px 0; }
+
+/* Character gallery: reference (v1) + puppet (v2, when generated) side by side per
+   character, so the panel judges likeness without leaving the workbench. */
+.char-gallery { display: flex; flex-direction: column; gap: 6px; padding: 8px; border-bottom: 1px solid var(--line); }
+.char-card { display: flex; gap: 8px; padding: 6px; border-radius: var(--r-ctl); background: var(--surface-2); border: 1px solid var(--line-soft); }
+.char-thumbs { display: flex; gap: 4px; flex: none; }
+.char-thumb {
+  width: 26px; aspect-ratio: 3 / 4; border-radius: 4px; background: var(--stage);
+  object-fit: contain; display: block; border: 1px solid var(--line-soft);
+}
+.char-thumb.blank { display: grid; place-items: center; color: var(--faint); font-size: 8px; }
+.char-meta { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
+.char-name { font-size: 12px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.char-id { font-family: var(--mono); font-size: 10px; color: var(--faint); }
+.char-scenes { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 1px; }
+.char-chip {
+  font-family: var(--mono); font-size: 10px; line-height: 1; padding: 3px 6px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface-3); color: var(--muted);
+  transition: color .15s ease, border-color .15s ease;
+}
+.char-chip:hover { color: var(--text); border-color: #3d454e; }
+.char-actions { display: flex; gap: 4px; margin-top: 3px; }
+.char-action {
+  font-family: var(--sans); font-size: 10px; font-weight: 600; line-height: 1; padding: 4px 7px;
+  border-radius: var(--r-ctl); border: 1px solid var(--line); background: var(--surface-3); color: var(--muted);
+  transition: color .15s ease, border-color .15s ease;
+}
+.char-action:hover { color: var(--text); border-color: #3d454e; }
+
+/* Scene-setup checkboxes: shape (border + fill) carries selection, matching the pip convention
+   elsewhere, so state reads even without relying on the checkbox's own contrast. */
+.field-row { display: flex; gap: 10px; }
+.field-row .field { flex: 1; min-width: 0; }
+.char-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.char-check {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px 5px 7px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface-2); font-size: 11.5px; color: var(--muted);
+  cursor: pointer; transition: border-color .15s ease, color .15s ease;
+}
+.char-check input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; }
+.char-check.checked { border-color: rgba(72, 183, 166, .4); color: var(--text); background: var(--accent-dim); }
+
 /* ---------------------------------------------------------------- stage */
 
 .stage-head {
@@ -206,7 +253,18 @@ select.mini {
   background: var(--surface-2);
 }
 .tag.on { color: var(--accent); border-color: rgba(72, 183, 166, .4); background: var(--accent-dim); }
-.stage-head .chars { margin-left: auto; font-size: 11px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stage-chars { margin-left: auto; display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; }
+.stage-chars .chip {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  padding: 2px 8px 2px 2px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface-2);
+  font-size: 10.5px; color: var(--muted); white-space: nowrap;
+}
+.stage-chars .chip img { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; background: var(--stage); flex: none; }
+
+/* Image and its motion clip side by side, so approving one against the other never
+   needs a scroll. Each pane keeps the 9:16 aspect the rest of the app uses. */
+.stage-media { flex: 1; min-height: 0; display: flex; }
 
 /* Flex centring, not grid: an auto-sized grid row cannot resolve the image's
    max-height:100%, so a portrait frame overflows and gets clipped. */
@@ -215,6 +273,12 @@ select.mini {
   background: var(--stage);
   display: flex; align-items: center; justify-content: center; padding: 14px;
 }
+.motion-pane {
+  flex: 1; position: relative; min-height: 0;
+  background: var(--stage); border-left: 1px solid var(--line-soft);
+  display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+.motion-pane video { max-width: 100%; max-height: 100%; border-radius: var(--r-ctl); display: block; }
 /* The frame shrink-wraps the image so overlays anchor to the picture edge,
    not to the empty stage around it. */
 .canvas .frame { position: relative; display: flex; max-width: 100%; max-height: 100%; }
@@ -285,8 +349,8 @@ textarea::placeholder { color: var(--faint); }
   font-family: var(--mono); font-size: 12px; color: var(--muted); word-break: break-word;
 }
 
-.btn-row { display: flex; gap: 7px; }
-.btn-row .grow { flex: 1; }
+.btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
+.btn-row .grow { flex: 1; min-width: 0; }
 
 .alert {
   display: flex; gap: 8px; padding: 8px 9px; border-radius: var(--r-ctl);
@@ -308,23 +372,46 @@ textarea::placeholder { color: var(--faint); }
 
 .tiles {
   flex: 1; overflow-y: auto; padding: 14px;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 12px; align-content: start;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; align-content: start;
 }
-.tile { position: relative; display: flex; flex-direction: column; gap: 6px; }
-.tile-btn {
-  position: relative; padding: 0; border: 1px solid var(--line); border-radius: var(--r-panel);
-  background: var(--stage); overflow: hidden; aspect-ratio: 9 / 16; display: block;
+.tile {
+  position: relative; display: flex; flex-direction: column; gap: 8px;
+  padding: 8px; border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--surface);
   transition: border-color .15s ease;
 }
-.tile-btn:hover { border-color: #3d454e; }
-.tile.selected .tile-btn { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-.tile-btn img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.tile-btn .empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--faint); font-size: 11.5px; }
-.tile-btn .no {
-  position: absolute; left: 6px; top: 6px; padding: 2px 6px; border-radius: var(--r-ctl);
-  background: rgba(7, 8, 10, .76); font-family: var(--mono); font-size: 11px; font-weight: 600;
+.tile.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+
+.tile-head { display: flex; align-items: center; gap: 8px; }
+.tile-no {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 20px; height: 20px; border-radius: 999px;
+  background: var(--accent); color: var(--accent-ink); font-family: var(--mono); font-size: 11px; font-weight: 700;
 }
-.tile-btn .pips { position: absolute; left: 6px; bottom: 6px; padding: 3px 5px; border-radius: var(--r-ctl); background: rgba(7, 8, 10, .76); }
+
+/* The pair the redesign is about: scene image and its rendered Remotion clip, side by
+   side at the same 9:16 as the rest of the app, so the two read as one comparison. */
+.tile-media { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.media-pane {
+  position: relative; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: var(--r-ctl);
+  background: var(--stage); overflow: hidden; aspect-ratio: 9 / 16; display: block; width: 100%;
+  transition: border-color .15s ease;
+}
+button.media-pane:hover { border-color: #3d454e; }
+.media-pane img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.media-pane .empty {
+  position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
+  color: var(--faint); font-size: 11px; padding: 8px;
+}
+.media-pane .pips { position: absolute; left: 6px; bottom: 6px; padding: 3px 5px; border-radius: var(--r-ctl); background: rgba(7, 8, 10, .76); }
+
+.video-pane.ready { border-color: var(--accent-dim); background: var(--accent-dim); cursor: pointer; }
+.video-pane.ready:hover { border-color: var(--accent); }
+.video-pane .ready-mark {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  color: var(--accent); font-size: 10.5px; font-weight: 650; text-align: center; padding: 8px;
+}
+.video-pane .ready-mark svg { width: 20px; height: 20px; }
+
 .tile-foot { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--faint); }
 .tile-foot label { display: flex; align-items: center; gap: 6px; cursor: pointer; min-width: 0; }
 .tile-foot .state { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -364,11 +451,21 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .dialog-head h2 { margin: 0; font-size: 14px; font-weight: 650; }
 .dialog-head .note { font-size: 11.5px; color: var(--faint); }
 .dialog-body { padding: 14px; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.dialog-body.single { grid-template-columns: 1fr; }
+.dialog.narrow { width: min(420px, 100%); }
 .dialog-foot { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-top: 1px solid var(--line-soft); }
 .dialog-foot .note { font-size: 11.5px; color: var(--faint); flex: 1; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
 .field textarea { min-height: 128px; }
+.text-input {
+  height: 32px; padding: 0 9px;
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-ctl);
+  font-family: var(--sans); font-size: 12.5px;
+  transition: border-color .15s ease;
+}
+.text-input:hover { border-color: #333941; }
+.text-input::placeholder { color: var(--faint); }
 code { font-family: var(--mono); font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 1px 5px; border-radius: 4px; }
 
 .icon-btn {
@@ -414,6 +511,8 @@ code { font-family: var(--mono); font-size: 11px; color: var(--accent); backgrou
      image renders at full width and the whole point of the stage is lost. */
   .canvas { min-height: 0; }
   .canvas .frame, .canvas img { max-height: 70vh; }
+  .stage-media { flex-direction: column; }
+  .motion-pane { border-left: 0; border-top: 1px solid var(--line-soft); }
   .rail-list { flex-direction: row; overflow-x: auto; }
   .rail-item { width: 128px; flex: none; }
   .console { position: sticky; bottom: 0; }

@@ -5,12 +5,12 @@ import {
   staticFile,
   useCurrentFrame,
   useVideoConfig,
-} from 'remotion';
-import { HISTORICAL_CHARACTERS } from './characterRegistry';
+} from "remotion";
+import { getCharacter } from "./characterRegistry";
 import type {
   HistoricalCharacterAnimation,
   HistoricalCharacterProps,
-} from './HistoricalCharacter.types';
+} from "./HistoricalCharacter.types";
 
 interface MotionState {
   x: number;
@@ -24,8 +24,8 @@ const STILL: MotionState = { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 };
 
 export function HistoricalCharacter({
   character,
-  animation = 'idle',
-  referenceVersion = 'current',
+  animation = "idle",
+  referenceVersion = "current",
   width = 640,
   height,
   style,
@@ -33,21 +33,23 @@ export function HistoricalCharacter({
 }: HistoricalCharacterProps) {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-  const definition = HISTORICAL_CHARACTERS[character];
+  const definition = getCharacter(character);
   const motion = resolveMotion(animation, frame, fps, durationInFrames);
 
   return (
     <Img
       alt={definition.name}
       className={className}
-      src={staticFile(referenceVersion === 'v2' ? definition.imageV2 : definition.image)}
+      src={staticFile(
+        referenceVersion === "v2" ? definition.imageV2 : definition.image,
+      )}
       width={width}
       height={height ?? width}
       style={{
-        display: 'block',
-        objectFit: 'contain',
+        display: "block",
+        objectFit: "contain",
         transform: `translate3d(${motion.x}px, ${motion.y}px, 0) rotate(${motion.rotate}deg) scale(${motion.scale})`,
-        transformOrigin: '50% 82%',
+        transformOrigin: "50% 82%",
         opacity: motion.opacity,
         ...style,
       }}
@@ -61,14 +63,16 @@ function resolveMotion(
   fps: number,
   durationInFrames: number,
 ): MotionState {
-  if (animation === 'still') return STILL;
-  if (animation === 'idle') return idleMotion(frame, fps);
-  if (animation === 'emphasis') return emphasisMotion(frame, fps);
+  if (animation === "still") return STILL;
+  if (animation === "idle") return idleMotion(frame, fps);
+  if (animation === "emphasis") return emphasisMotion(frame, fps);
 
-  const isExit = animation.startsWith('exit');
-  const direction = animation.endsWith('left') ? -1 : 1;
+  const isExit = animation.startsWith("exit");
+  const direction = animation.endsWith("left") ? -1 : 1;
   const progress = spring({
-    frame: isExit ? Math.max(0, frame - Math.max(0, durationInFrames - fps * 0.6)) : frame,
+    frame: isExit
+      ? Math.max(0, frame - Math.max(0, durationInFrames - fps * 0.6))
+      : frame,
     fps,
     config: { damping: 18, stiffness: 120, mass: 0.8 },
   });

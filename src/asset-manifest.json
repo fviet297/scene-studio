@@ -1,0 +1,63 @@
+[
+  {
+    "id": "scene-01",
+    "scene": 1,
+    "type": "ai_reconstruction",
+    "subject": "The first character stands confidently on a raised wooden platform in the center",
+    "source": "AI generated (Replicate, black-forest-labs/flux-dev char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (black-forest-labs/flux-dev char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The first character stands confidently on a raised wooden platform in the center of a bustling Đại Việt village square, surrounded by villagers in 15th-century Vietnamese peasant attire. In the foreground, woven baskets and farming tools rest beside workers pausing to listen. In the background, traditional thatched houses and bamboo groves set the rural scene, with fluttering red-and-gold banners and distant water buffalo adding life and depth."
+  },
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "The first character stands confidently at the front of a Han dynasty military ca",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The first character stands confidently at the front of a Han dynasty military camp, surrounded by Han Chinese soldiers in lamellar armor and red-tasseled helmets, with iron-tipped spears and rectangular Han banners fluttering. In the background, Han-style tents and the curved tiled roofs of a command pavilion set the scene. The general gestures toward a strategy map placed on a wooden table before him, exuding command and authority."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "The first character stands on a raised earth platform in the foreground, pointin",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character stands on a raised earth platform in the foreground, pointing toward a battlefield map spread out on a wooden table. The second character stands beside him, gesturing with a folded fan toward distant troops drilling on open plains in the middle ground. In the background, Vietnamese soldiers in Tây Sơn uniforms and Han dynasty troops drill separately, istant fortress walls under a cloudy sky."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "The first character walks alone along a dusty village road, carrying a simple bu",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The first character walks alone along a dusty village road, carrying a simple bundle over one shoulder. In the foreground, worn wooden huts and farmers in Han dynasty peasant attire work the fields with oxen. Farther back, a small market bustle hints at daily hardship. Distant Han-style rooftops and tattered banners frame the background, while chickens scatter near the roadside, emphasizing a humble rural atmosphere."
+  }
+]

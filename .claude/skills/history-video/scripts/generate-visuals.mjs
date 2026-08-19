@@ -1,85 +1,38 @@
-// AI image generation for concept/action beats that have no authentic source.
+// Generate one AI image per scene from src/scene-plan.json (see references/scene-plan.md).
+// - scene with a `char` reference → FLUX Kontext (keeps the pasted character's identity)
+// - scene with a prompt but no char → FLUX text-to-image (no identity to preserve)
+// Writes the canonical file public/images/scene-NN.jpg. Search scenes are handled by
+// source-assets.mjs, not here. The Replicate call + manifest record live in
+// scripts/lib/replicate-image.mjs (shared with the review UI server).
 //
-// USE for: army marching, battle dynamics, atmosphere, abstract "legacy", filler that
-//   would otherwise force a repeated portrait.
-// DO NOT use for: a real figure's face presented as authentic, territorial maps, or
-//   artifacts (coins, weights) — source those for real. See references/ai-generation.md.
+// Every output is labelled AI_RECONSTRUCTION and shown with an on-screen "AI phục dựng" tag.
+// Requires REPLICATE_API_TOKEN (loaded from ./.env).
+//   Kontext model : REPLICATE_KONTEXT_MODEL  (default black-forest-labs/flux-kontext-dev)
+//   text2img model: REPLICATE_TEXT_MODEL     (default black-forest-labs/flux-dev)
 //
-// Every output is labelled AI_RECONSTRUCTION and must be credited on screen as such.
-// Requires FAL_KEY. Model via FAL_MODEL (default fal-ai/flux/dev).
-// Run: FAL_KEY=... node scripts/generate-visuals.mjs
+// All scenes:  node scripts/generate-visuals.mjs
+// Some scenes: node scripts/generate-visuals.mjs 2 6 7
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { generateSceneImage, loadEnv } from './lib/replicate-image.mjs';
 
-const FAL_KEY = process.env.FAL_KEY;
-const MODEL = process.env.FAL_MODEL ?? 'fal-ai/flux/dev';
-const IMAGE_DIR = 'public/images';
-const MANIFEST = `${IMAGE_DIR}/asset-manifest.json`;
+loadEnv();
 
-// ─── Adapt this ──────────────────────────────────────────────────────────────
-// Prompt template: [period] + [subject/action] + [medium] + [composition] + vertical framing.
-// Keep it a reconstruction, never a claim of authenticity.
-const beats = [
-  {
-    file: 'scene-05-right-yue-fei-army.jpg',
-    scene: 5,
-    subject: 'Nhạc Gia Quân hành quân',
-    prompt:
-      'Historical reconstruction, 12th-century Song dynasty army marching under banners, '
-      + 'ink-and-color scroll painting style, dramatic overcast sky, vertical composition '
-      + 'with central subject and clear negative space at top, no text, no modern elements.',
-  },
-];
-// ─────────────────────────────────────────────────────────────────────────────
+const PLAN = 'src/scene-plan.json';
+if (!process.env.REPLICATE_API_TOKEN) { process.stderr.write('REPLICATE_API_TOKEN not set (put it in .env).\n'); process.exit(1); }
+if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 
-if (!FAL_KEY) {
-  process.stderr.write('FAL_KEY not set. export FAL_KEY=... then re-run.\n');
-  process.exit(1);
+const { characters, scenes } = JSON.parse(readFileSync(PLAN, 'utf8'));
+const only = process.argv.slice(2).map(Number).filter(Number.isFinite);
+
+let count = 0;
+for (const s of scenes) {
+  if (only.length && !only.includes(s.scene)) continue;
+  if (s.image.kind !== 'ai') continue;
+
+  const { file, via } = await generateSceneImage(s, characters);
+  count += 1;
+  process.stdout.write(`✓ ${file} ← ${via}${s.image.characters.length ? ` (${s.image.characters.join(', ')})` : ''}\n`);
 }
 
-const generate = async (prompt) => {
-  const res = await fetch(`https://fal.run/${MODEL}`, {
-    method: 'POST',
-    headers: { Authorization: `Key ${FAL_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, image_size: 'portrait_16_9', num_images: 1, enable_safety_checker: true }),
-  });
-  if (!res.ok) throw new Error(`fal ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  const url = data.images?.[0]?.url;
-  if (!url) throw new Error('fal returned no image');
-  return url;
-};
-
-const download = async (url, path) => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`download ${res.status}`);
-  writeFileSync(path, Buffer.from(await res.arrayBuffer()));
-};
-
-const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : [];
-const upsert = (entry) => {
-  const index = manifest.findIndex((m) => m.id === entry.id);
-  if (index >= 0) manifest[index] = entry;
-  else manifest.push(entry);
-};
-
-for (const beat of beats) {
-  const imageUrl = await generate(beat.prompt);
-  await download(imageUrl, `${IMAGE_DIR}/${beat.file}`);
-  upsert({
-    id: beat.file.replace(/\.[^.]+$/, ''),
-    scene: beat.scene,
-    type: 'ai_reconstruction',
-    subject: beat.subject,
-    source: `AI generated (${MODEL})`,
-    sourceUrl: null,
-    license: 'AI-generated — no third-party rights; label on screen',
-    credit: `AI reconstruction (${MODEL})`,
-    authenticity: 'AI_RECONSTRUCTION',
-    prompt: beat.prompt,
-  });
-  process.stdout.write(`✓ ${beat.file} (AI_RECONSTRUCTION)\n`);
-}
-
-writeFileSync(MANIFEST, `${JSON.stringify(manifest, null, 2)}\n`);
-process.stdout.write(`Generated ${beats.length} AI beats. All labelled AI_RECONSTRUCTION.\n`);
+process.stdout.write(`Generated ${count} AI scene image(s). All labelled AI_RECONSTRUCTION.\n`);

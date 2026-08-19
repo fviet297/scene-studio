@@ -7,17 +7,23 @@
 // Some scenes:        node scripts/source-assets.mjs 3 9
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { activePaths, parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
 
 const UA = 'HistoryVideoBot/1.0 ()';
-const IMAGE_DIR = 'public/images';
-const MANIFEST = `${IMAGE_DIR}/asset-manifest.json`;
 const PLAN = 'src/scene-plan.json';
 const ORDER = ['wikimedia', 'met', 'artic', 'loc'];
 const REJECT = /\.pdf|barcode|logo/i;
 
 if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
-const { scenes } = JSON.parse(readFileSync(PLAN, 'utf8'));
-const only = process.argv.slice(2).map(Number).filter(Number.isFinite);
+const argv = process.argv.slice(2);
+const slug = resolveSlug(argv);
+const paths = activePaths(argv);
+const IMAGE_DIR = paths.imageDir;
+const MANIFEST = paths.manifest;
+const { scenes, project } = JSON.parse(readFileSync(PLAN, 'utf8'));
+if (project !== slug) { process.stderr.write(`src/scene-plan.json was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { rest } = parseProjectArg(argv);
+const only = rest.map(Number).filter(Number.isFinite);
 const targets = scenes.filter((s) => s.image.kind === 'search' && (!only.length || only.includes(s.scene)));
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -1,0 +1,2142 @@
+{
+  "slug": "quangtrung-hantin",
+  "title": "Quang Trung - Hàn Tín",
+  "publicPrefix": "projects/quangtrung-hantin",
+  "fps": 30,
+  "durationInFrames": 2569,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Một người là vị hoàng đế áo vải của Đại Việt.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands confidently on a raised wooden platform in the center of a bustling Đại Việt village square, surrounded by villagers in late-18th-century Vietnamese peasant attire. In the foreground, woven baskets and farming tools rest beside workers pausing to listen. In the background, traditional thatched houses and bamboo groves set the rural scene, with fluttering red-and-gold banners and distant water buffalo adding life and depth."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 2,
+      "narration": "Một người là đại tướng lừng danh của nhà Hán.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands confidently on a raised wooden platform in a bustling Han dynasty military camp, pointing outward as Han Chinese soldiers in ancient lamellar armor drill with spears in the middle ground. Foreground features fluttering command banners and stacked shields, while the background shows military tents and Han-era buildings under a cloudy sky. Dust swirls around marching units, creating a sense of energy and preparation for battle."
+      },
+      "motionVideo": true,
+      "hasAudio": true
+    },
+    {
+      "scene": 3,
+      "narration": "Quang Trung và Hàn Tín, hai thiên tài quân sự cách nhau hơn một nghìn năm.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands confidently on a grassy hilltop in the foreground, pointing toward a bustling battlefield below. The second character stands beside him, gesturing with a command baton toward orderly lines of ancient soldiers in distinct uniforms—Vietnamese Tây Sơn troops with banners on one side, Han Chinese infantry with tall spears and silk standards on the other. Misty mountains and a winding river fill the background, visually contrasting Đại Việt and Han China."
+      },
+      "motionVideo": true,
+      "hasAudio": true
+    },
+    {
+      "scene": 4,
+      "narration": "Hàn Tín xuất thân nghèo khó.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character walks alone along a dusty village road, carrying a simple bundle over one shoulder. In the foreground, worn wooden huts and farmers in Han dynasty peasant attire work the fields with oxen. Farther back, a small market bustle hints at daily hardship. Distant Han-style rooftops frame the background, while chickens scatter near the roadside, emphasizing a humble rural atmosphere."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 5,
+      "narration": "Ông từng chịu nhục dưới háng một kẻ bán thịt.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character kneels reluctantly beneath the legs of a large local butcher in an ancient Chinese market, illustrating the famous humiliation of Han Xin. The butcher stands arrogantly while market-goers watch from around the stalls. Baskets of meat, wooden tables, Han-era clothing, tiled roofs and hanging banners establish an authentic ancient Chinese marketplace. The scene should feel historical and dramatic rather than comedic."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 6,
+      "narration": "Quang Trung cũng không sinh ra trong hoàng tộc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands confidently in the courtyard of a simple 18th-century Vietnamese village, surrounded by thatched houses and commoners in traditional peasant attire. In the foreground, villagers carry baskets and work with farming tools, while bamboo groves and wooden fences set the rural scene. The first character gestures outward, emphasizing his humble origins before becoming emperor."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 7,
+      "narration": "Ông trưởng thành từ phong trào Tây Sơn.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands in a bustling Tây Sơn military encampment, surrounded by Vietnamese soldiers in authentic 18th-century Tây Sơn military attire drilling with spears and carrying banners. In the background, thatched barracks and bamboo palisades stretch across a grassy field, with distant hills beyond. In the foreground, blacksmiths forge weapons while drummers signal military training, creating an energetic revolutionary atmosphere."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 8,
+      "narration": "Hàn Tín nổi tiếng với khả năng dùng binh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands confidently on a wooden platform in a Han dynasty military camp, gesturing toward a large battlefield map spread across a table. Han officers in ancient armor gather around him while wooden troop markers represent different formations. In the middle ground, disciplined Han soldiers drill with spears and banners, while a fortified military camp and rolling hills fill the background."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 9,
+      "narration": "Ông từng giành chiến thắng vang dội trong nhiều trận đánh thời Hán Sở.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Han Xin commands a dramatic battlefield during the Chu-Han contention, standing on a raised position while Han soldiers advance in disciplined formations. In the foreground, infantry wield spears and shields, while cavalry moves along a diagonal ridge in the middle ground. Han banners and command flags flutter through swirling dust. A fortified ancient Chinese city stands in the background beneath a dramatic cloudy sky."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 10,
+      "narration": "Những chiến công của Hàn Tín góp phần giúp Lưu Bang đánh bại Hạng Vũ.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Han Xin commands Han dynasty forces during a major campaign against the Chu army. Han infantry charge from the left while Chu troops retreat toward the right amid rising dust. Command banners and war drums fill the middle ground. The background shows a walled ancient Chinese city and rolling hills, visually conveying the military campaigns that helped Liu Bang defeat Xiang Yu."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 11,
+      "narration": "Quang Trung lại nổi bật với những cuộc hành quân thần tốc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung leads a rapidly marching Tây Sơn army along a winding dirt road through lush Vietnamese fields. 18th-century Tây Sơn soldiers carrying spears and banners move quickly behind him, while mounted officers lead the formation. Dust billows beneath their feet and horses, with village rooftops and distant mountains in the background. Streaming banners and diagonal troop movement emphasize extraordinary speed."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 12,
+      "narration": "Đỉnh cao là mùa xuân Kỷ Dậu năm 1789.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung leads Tây Sơn soldiers during the Spring of Kỷ Dậu in 1789, advancing toward Thăng Long. In the foreground, drummers and flag bearers energize the ranks. In the middle ground, large formations of Tây Sơn soldiers march through the northern Vietnamese landscape. Traditional tiled rooftops, ancient city walls, green trees and spring blossoms fill the background, creating an atmosphere of determination and impending victory."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 13,
+      "narration": "Quân Tây Sơn tiến ra Bắc với tốc độ đáng kinh ngạc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung leads columns of Tây Sơn soldiers swiftly marching along a dusty road through rice paddies. Soldiers in authentic 18th-century Vietnamese military attire carry spears and banners while drummers urge them forward. Ox-drawn supply carts and messengers move rapidly through the middle ground. Misty northern mountains rise in the background, while dust clouds and diagonal composition emphasize the astonishing speed of the campaign."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 14,
+      "narration": "Chỉ trong thời gian ngắn, Quang Trung đã đánh tan quân Thanh tại Thăng Long.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung leads a victorious Tây Sơn army in a dramatic battle near Thăng Long during the 1789 campaign. Vietnamese soldiers charge forward with banners and drums while Qing forces retreat in disorder. Scattered weapons and debris cover the foreground. The background shows the ancient gates and tiled rooftops of Thăng Long amid dust and smoke, with Tây Sơn banners rising above the battlefield."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 15,
+      "narration": "Điểm giống nhau của họ là khả năng đánh giá tình hình cực nhanh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung and Han Xin stand together inside a dramatic symbolic strategy tent, studying a large battlefield map spread across a wooden table. Quang Trung points toward one route while Han Xin points toward another, both analyzing the battlefield with intense focus. On one side are Tây Sơn banners and Vietnamese military equipment; on the other are Han dynasty banners and ancient Chinese weapons. Soldiers and scouts move outside the tent in the background."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 16,
+      "narration": "Cả hai đều biết tận dụng địa hình và điểm yếu của đối thủ.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "A symbolic battlefield landscape shows Quang Trung and Han Xin studying opposing armies positioned across hills, forests and a winding river. Each commander identifies strategic terrain and enemy weaknesses while scouts signal from elevated positions. Vietnamese Tây Sơn soldiers occupy one side of the landscape and Han dynasty soldiers occupy the other. Rice fields, forests, hills and rivers create a clear visual representation of tactical terrain."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 17,
+      "narration": "Hàn Tín thiên về nghệ thuật dụng binh và những chiến thuật đầy biến hóa.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Han Xin stands over a large bamboo battlefield map inside a Han dynasty command tent, moving wooden troop markers to demonstrate a complex maneuver. Ancient Chinese officers watch attentively around him. In the background, Han soldiers practice changing formations while cavalry scouts ride across the camp. Banners ripple above the tents and war drums signal movements, emphasizing Han Xin's mastery of flexible tactics."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 18,
+      "narration": "Quang Trung nổi bật ở tốc độ hành quân và khả năng chỉ huy trực tiếp.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung rides at the front of a rapidly advancing Tây Sơn army, giving direct commands to soldiers while moving along a dusty battlefield road. Soldiers in black-and-red Tây Sơn military attire follow in organized ranks, with drummers and flag bearers maintaining the pace. Dust rises along the diagonal formation, while Vietnamese villages and distant mountains fill the background."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 19,
+      "narration": "Hàn Tín góp công lớn giúp Lưu Bang lập nên nhà Hán.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Han Xin stands in a Han dynasty military camp after a major victory, surrounded by disciplined soldiers and officers beneath fluttering Han banners. Strategists gather around a wooden table covered with bamboo maps and campaign plans. Messengers and cavalry move through the background toward a fortified city, symbolizing Han Xin's major contribution to Liu Bang's eventual establishment of the Han dynasty."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 20,
+      "narration": "Nhưng cuối cùng ông lại bị chính triều đình nghi kỵ và sát hại.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "A somber Han dynasty palace courtyard at dusk, with Han Xin standing under guard after being accused by the imperial court. Palace guards surround him while officials watch from a distant covered walkway. Ancient Chinese palace architecture, stone courtyards and flickering torches create a tense atmosphere. The composition should convey political suspicion, betrayal and tragedy without graphic violence."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 21,
+      "narration": "Quang Trung thì trở thành hoàng đế và tiếp tục xây dựng đất nước.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung sits on a raised imperial throne inside an 18th-century Vietnamese royal court, addressing mandarins and scholars. Officials present scrolls and plans while artisans and workers construct buildings in the background. Traditional Vietnamese wooden architecture, tiled roofs, imperial banners and ceremonial objects establish the Tây Sơn court. The atmosphere conveys nation-building, reform and prosperity."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 22,
+      "narration": "Tuy nhiên, ông cũng qua đời rất sớm.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "A quiet and solemn royal chamber in late-18th-century Vietnam, symbolically depicting the death of Emperor Quang Trung at a young age. A traditional Vietnamese imperial room contains a simple altar with incense smoke, ceremonial objects and royal banners. Courtiers and guards stand respectfully in the background with lowered heads. Soft morning light enters through wooden lattice windows, creating a dignified and mournful atmosphere."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 23,
+      "narration": "Nhiều kế hoạch cải cách của ông vẫn còn dang dở.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "An 18th-century Tây Sơn royal study filled with unfinished reform documents, bamboo manuscripts, ink brushes, architectural plans and military maps. Quang Trung stands beside a large wooden table examining the incomplete plans. A half-finished model of a fortified city sits nearby. Through the open window, Vietnamese scholars and officials discuss plans in the royal courtyard, emphasizing the reforms left unfinished after his early death."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 24,
+      "narration": "Nếu Hàn Tín là bậc thầy của nghệ thuật dụng binh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Han Xin stands at the center of a vast ancient Chinese military camp, studying a battlefield map while officers arrange wooden troop markers around him. Rows of Han dynasty soldiers drill in the middle ground under large command banners. Cavalry scouts and war drums animate the background. The composition emphasizes Han Xin as a master strategist and commander."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 25,
+      "narration": "Thì Quang Trung là vị vua kiêm danh tướng với khả năng đánh nhanh thắng nhanh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Quang Trung leads a fast-moving Tây Sơn army across a Vietnamese battlefield, riding at the front while soldiers charge behind him with streaming banners and drums. The army advances rapidly through dust and smoke toward enemy positions. A traditional Vietnamese village and distant mountains appear in the background. The composition emphasizes speed, direct leadership and decisive victory."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 26,
+      "narration": "Hai con người, hai thời đại.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "A symbolic split-era composition featuring Quang Trung and Han Xin standing on opposite sides of a flowing river. Quang Trung appears in 18th-century Tây Sơn military attire on one side, while Han Xin appears in Han dynasty armor on the other. The Vietnamese landscape features rice fields, bamboo and tiled villages, while the Chinese side features ancient Han architecture and military banners. The river visually separates two different historical eras."
+      },
+      "hasAudio": true
+    },
+    {
+      "scene": 27,
+      "narration": "Nhưng cả hai đều chứng minh rằng thiên tài quân sự có thể thay đổi cả lịch sử.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "A grand symbolic historical panorama featuring Quang Trung and Han Xin standing prominently in the foreground, each overlooking the armies and battles that defined their legacies. Quang Trung's Tây Sơn army advances across a Vietnamese landscape on one side, while Han Xin's Han dynasty army maneuvers across an ancient Chinese battlefield on the other. Banners, war drums, mountains, rivers and distant cities connect the two eras, creating a powerful final image about military genius changing the course of history."
+      },
+      "hasAudio": true
+    }
+  ],
+  "sceneDurations": [
+    2.52,
+    5.875,
+    5.875,
+    1.76,
+    2.44,
+    2.36,
+    2.16,
+    2.15,
+    3.78,
+    3.63,
+    2.78,
+    2.79,
+    2.64,
+    4.09,
+    3.43,
+    3.11,
+    3.97,
+    3.64,
+    2.9,
+    3.28,
+    3.38,
+    2.11,
+    2.59,
+    2.43,
+    4.22,
+    1.79,
+    3.92
+  ],
+  "captionGroups": [
+    [
+      {
+        "text": "Một",
+        "start": 0.216,
+        "end": 0.405
+      },
+      {
+        "text": "người",
+        "start": 0.405,
+        "end": 0.656
+      },
+      {
+        "text": "là",
+        "start": 0.656,
+        "end": 0.807
+      },
+      {
+        "text": "vị",
+        "start": 0.807,
+        "end": 0.958
+      },
+      {
+        "text": "hoàng",
+        "start": 0.958,
+        "end": 1.209
+      },
+      {
+        "text": "đế",
+        "start": 1.209,
+        "end": 1.36
+      },
+      {
+        "text": "áo",
+        "start": 1.36,
+        "end": 1.511
+      }
+    ],
+    [
+      {
+        "text": "vải",
+        "start": 1.511,
+        "end": 1.701
+      },
+      {
+        "text": "của",
+        "start": 1.701,
+        "end": 1.89
+      },
+      {
+        "text": "Đại",
+        "start": 1.89,
+        "end": 2.079
+      },
+      {
+        "text": "Việt.",
+        "start": 2.079,
+        "end": 2.301
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 2.726,
+        "end": 2.923
+      },
+      {
+        "text": "người",
+        "start": 2.923,
+        "end": 3.185
+      },
+      {
+        "text": "là",
+        "start": 3.185,
+        "end": 3.343
+      },
+      {
+        "text": "đại",
+        "start": 3.343,
+        "end": 3.541
+      },
+      {
+        "text": "tướng",
+        "start": 3.541,
+        "end": 3.802
+      },
+      {
+        "text": "lừng",
+        "start": 3.802,
+        "end": 4.034
+      },
+      {
+        "text": "danh",
+        "start": 4.034,
+        "end": 4.265
+      }
+    ],
+    [
+      {
+        "text": "của",
+        "start": 4.265,
+        "end": 4.463
+      },
+      {
+        "text": "nhà",
+        "start": 4.463,
+        "end": 4.66
+      },
+      {
+        "text": "Hán.",
+        "start": 4.66,
+        "end": 4.858
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 8.605,
+        "end": 8.869
+      },
+      {
+        "text": "Trung",
+        "start": 8.869,
+        "end": 9.134
+      },
+      {
+        "text": "và",
+        "start": 9.134,
+        "end": 9.294
+      },
+      {
+        "text": "Hàn",
+        "start": 9.294,
+        "end": 9.493
+      },
+      {
+        "text": "Tín,",
+        "start": 9.493,
+        "end": 9.693
+      },
+      {
+        "text": "hai",
+        "start": 9.693,
+        "end": 9.893
+      },
+      {
+        "text": "thiên",
+        "start": 9.893,
+        "end": 10.157
+      }
+    ],
+    [
+      {
+        "text": "tài",
+        "start": 10.157,
+        "end": 10.357
+      },
+      {
+        "text": "quân",
+        "start": 10.357,
+        "end": 10.591
+      },
+      {
+        "text": "sự",
+        "start": 10.591,
+        "end": 10.751
+      },
+      {
+        "text": "cách",
+        "start": 10.751,
+        "end": 10.985
+      },
+      {
+        "text": "nhau",
+        "start": 10.985,
+        "end": 11.218
+      },
+      {
+        "text": "hơn",
+        "start": 11.218,
+        "end": 11.418
+      },
+      {
+        "text": "một",
+        "start": 11.418,
+        "end": 11.618
+      }
+    ],
+    [
+      {
+        "text": "nghìn",
+        "start": 11.618,
+        "end": 11.882
+      },
+      {
+        "text": "năm.",
+        "start": 11.882,
+        "end": 12.082
+      }
+    ],
+    [
+      {
+        "text": "Hàn",
+        "start": 14.481,
+        "end": 14.713
+      },
+      {
+        "text": "Tín",
+        "start": 14.713,
+        "end": 14.946
+      },
+      {
+        "text": "xuất",
+        "start": 14.946,
+        "end": 15.218
+      },
+      {
+        "text": "thân",
+        "start": 15.218,
+        "end": 15.49
+      },
+      {
+        "text": "nghèo",
+        "start": 15.49,
+        "end": 15.798
+      },
+      {
+        "text": "khó.",
+        "start": 15.798,
+        "end": 16.03
+      }
+    ],
+    [
+      {
+        "text": "Ông",
+        "start": 16.237,
+        "end": 16.423
+      },
+      {
+        "text": "từng",
+        "start": 16.423,
+        "end": 16.641
+      },
+      {
+        "text": "chịu",
+        "start": 16.641,
+        "end": 16.859
+      },
+      {
+        "text": "nhục",
+        "start": 16.859,
+        "end": 17.077
+      },
+      {
+        "text": "dưới",
+        "start": 17.077,
+        "end": 17.295
+      },
+      {
+        "text": "háng",
+        "start": 17.295,
+        "end": 17.513
+      },
+      {
+        "text": "một",
+        "start": 17.513,
+        "end": 17.699
+      }
+    ],
+    [
+      {
+        "text": "kẻ",
+        "start": 17.699,
+        "end": 17.847
+      },
+      {
+        "text": "bán",
+        "start": 17.847,
+        "end": 18.033
+      },
+      {
+        "text": "thịt.",
+        "start": 18.033,
+        "end": 18.251
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 18.673,
+        "end": 18.911
+      },
+      {
+        "text": "Trung",
+        "start": 18.911,
+        "end": 19.149
+      },
+      {
+        "text": "cũng",
+        "start": 19.149,
+        "end": 19.36
+      },
+      {
+        "text": "không",
+        "start": 19.36,
+        "end": 19.598
+      },
+      {
+        "text": "sinh",
+        "start": 19.598,
+        "end": 19.808
+      },
+      {
+        "text": "ra",
+        "start": 19.808,
+        "end": 19.952
+      },
+      {
+        "text": "trong",
+        "start": 19.952,
+        "end": 20.19
+      }
+    ],
+    [
+      {
+        "text": "hoàng",
+        "start": 20.19,
+        "end": 20.428
+      },
+      {
+        "text": "tộc.",
+        "start": 20.428,
+        "end": 20.608
+      }
+    ],
+    [
+      {
+        "text": "Ông",
+        "start": 21.042,
+        "end": 21.231
+      },
+      {
+        "text": "trưởng",
+        "start": 21.231,
+        "end": 21.507
+      },
+      {
+        "text": "thành",
+        "start": 21.507,
+        "end": 21.757
+      },
+      {
+        "text": "từ",
+        "start": 21.757,
+        "end": 21.908
+      },
+      {
+        "text": "phong",
+        "start": 21.908,
+        "end": 22.158
+      },
+      {
+        "text": "trào",
+        "start": 22.158,
+        "end": 22.38
+      },
+      {
+        "text": "Tây",
+        "start": 22.38,
+        "end": 22.568
+      }
+    ],
+    [
+      {
+        "text": "Sơn.",
+        "start": 22.568,
+        "end": 22.757
+      }
+    ],
+    [
+      {
+        "text": "Hàn",
+        "start": 23.217,
+        "end": 23.389
+      },
+      {
+        "text": "Tín",
+        "start": 23.389,
+        "end": 23.562
+      },
+      {
+        "text": "nổi",
+        "start": 23.562,
+        "end": 23.734
+      },
+      {
+        "text": "tiếng",
+        "start": 23.734,
+        "end": 23.963
+      },
+      {
+        "text": "với",
+        "start": 23.963,
+        "end": 24.135
+      },
+      {
+        "text": "khả",
+        "start": 24.135,
+        "end": 24.308
+      },
+      {
+        "text": "năng",
+        "start": 24.308,
+        "end": 24.51
+      }
+    ],
+    [
+      {
+        "text": "dùng",
+        "start": 24.51,
+        "end": 24.712
+      },
+      {
+        "text": "binh.",
+        "start": 24.712,
+        "end": 24.914
+      }
+    ],
+    [
+      {
+        "text": "Ông",
+        "start": 25.355,
+        "end": 25.56
+      },
+      {
+        "text": "từng",
+        "start": 25.56,
+        "end": 25.8
+      },
+      {
+        "text": "giành",
+        "start": 25.8,
+        "end": 26.071
+      },
+      {
+        "text": "chiến",
+        "start": 26.071,
+        "end": 26.343
+      },
+      {
+        "text": "thắng",
+        "start": 26.343,
+        "end": 26.614
+      },
+      {
+        "text": "vang",
+        "start": 26.614,
+        "end": 26.854
+      },
+      {
+        "text": "dội",
+        "start": 26.854,
+        "end": 27.059
+      }
+    ],
+    [
+      {
+        "text": "trong",
+        "start": 27.059,
+        "end": 27.33
+      },
+      {
+        "text": "nhiều",
+        "start": 27.33,
+        "end": 27.601
+      },
+      {
+        "text": "trận",
+        "start": 27.601,
+        "end": 27.841
+      },
+      {
+        "text": "đánh",
+        "start": 27.841,
+        "end": 28.081
+      },
+      {
+        "text": "thời",
+        "start": 28.081,
+        "end": 28.321
+      },
+      {
+        "text": "Hán",
+        "start": 28.321,
+        "end": 28.526
+      },
+      {
+        "text": "Sở.",
+        "start": 28.526,
+        "end": 28.69
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 29.127,
+        "end": 29.385
+      },
+      {
+        "text": "chiến",
+        "start": 29.385,
+        "end": 29.642
+      },
+      {
+        "text": "công",
+        "start": 29.642,
+        "end": 29.87
+      },
+      {
+        "text": "của",
+        "start": 29.87,
+        "end": 30.065
+      },
+      {
+        "text": "Hàn",
+        "start": 30.065,
+        "end": 30.259
+      },
+      {
+        "text": "Tín",
+        "start": 30.259,
+        "end": 30.453
+      },
+      {
+        "text": "góp",
+        "start": 30.453,
+        "end": 30.648
+      }
+    ],
+    [
+      {
+        "text": "phần",
+        "start": 30.648,
+        "end": 30.876
+      },
+      {
+        "text": "giúp",
+        "start": 30.876,
+        "end": 31.103
+      },
+      {
+        "text": "Lưu",
+        "start": 31.103,
+        "end": 31.298
+      },
+      {
+        "text": "Bang",
+        "start": 31.298,
+        "end": 31.526
+      },
+      {
+        "text": "đánh",
+        "start": 31.526,
+        "end": 31.753
+      },
+      {
+        "text": "bại",
+        "start": 31.753,
+        "end": 31.948
+      },
+      {
+        "text": "Hạng",
+        "start": 31.948,
+        "end": 32.176
+      }
+    ],
+    [
+      {
+        "text": "Vũ.",
+        "start": 32.176,
+        "end": 32.331
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 32.754,
+        "end": 32.984
+      },
+      {
+        "text": "Trung",
+        "start": 32.984,
+        "end": 33.213
+      },
+      {
+        "text": "lại",
+        "start": 33.213,
+        "end": 33.387
+      },
+      {
+        "text": "nổi",
+        "start": 33.387,
+        "end": 33.56
+      },
+      {
+        "text": "bật",
+        "start": 33.56,
+        "end": 33.734
+      },
+      {
+        "text": "với",
+        "start": 33.734,
+        "end": 33.907
+      },
+      {
+        "text": "những",
+        "start": 33.907,
+        "end": 34.137
+      }
+    ],
+    [
+      {
+        "text": "cuộc",
+        "start": 34.137,
+        "end": 34.34
+      },
+      {
+        "text": "hành",
+        "start": 34.34,
+        "end": 34.543
+      },
+      {
+        "text": "quân",
+        "start": 34.543,
+        "end": 34.746
+      },
+      {
+        "text": "thần",
+        "start": 34.746,
+        "end": 34.95
+      },
+      {
+        "text": "tốc.",
+        "start": 34.95,
+        "end": 35.123
+      }
+    ],
+    [
+      {
+        "text": "Đỉnh",
+        "start": 35.536,
+        "end": 35.868
+      },
+      {
+        "text": "cao",
+        "start": 35.868,
+        "end": 36.152
+      },
+      {
+        "text": "là",
+        "start": 36.152,
+        "end": 36.378
+      },
+      {
+        "text": "mùa",
+        "start": 36.378,
+        "end": 36.662
+      },
+      {
+        "text": "xuân",
+        "start": 36.662,
+        "end": 36.994
+      },
+      {
+        "text": "Kỷ",
+        "start": 36.994,
+        "end": 37.221
+      },
+      {
+        "text": "Dậu",
+        "start": 37.221,
+        "end": 37.504
+      }
+    ],
+    [
+      {
+        "text": "năm",
+        "start": 37.504,
+        "end": 37.788
+      },
+      {
+        "text": "1789.",
+        "start": 37.788,
+        "end": 38.12
+      }
+    ],
+    [
+      {
+        "text": "Quân",
+        "start": 38.328,
+        "end": 38.536
+      },
+      {
+        "text": "Tây",
+        "start": 38.536,
+        "end": 38.714
+      },
+      {
+        "text": "Sơn",
+        "start": 38.714,
+        "end": 38.892
+      },
+      {
+        "text": "tiến",
+        "start": 38.892,
+        "end": 39.1
+      },
+      {
+        "text": "ra",
+        "start": 39.1,
+        "end": 39.242
+      },
+      {
+        "text": "Bắc",
+        "start": 39.242,
+        "end": 39.419
+      },
+      {
+        "text": "với",
+        "start": 39.419,
+        "end": 39.597
+      }
+    ],
+    [
+      {
+        "text": "tốc",
+        "start": 39.597,
+        "end": 39.775
+      },
+      {
+        "text": "độ",
+        "start": 39.775,
+        "end": 39.917
+      },
+      {
+        "text": "đáng",
+        "start": 39.917,
+        "end": 40.125
+      },
+      {
+        "text": "kinh",
+        "start": 40.125,
+        "end": 40.333
+      },
+      {
+        "text": "ngạc.",
+        "start": 40.333,
+        "end": 40.541
+      }
+    ],
+    [
+      {
+        "text": "Chỉ",
+        "start": 40.964,
+        "end": 41.152
+      },
+      {
+        "text": "trong",
+        "start": 41.152,
+        "end": 41.4
+      },
+      {
+        "text": "thời",
+        "start": 41.4,
+        "end": 41.62
+      },
+      {
+        "text": "gian",
+        "start": 41.62,
+        "end": 41.84
+      },
+      {
+        "text": "ngắn,",
+        "start": 41.84,
+        "end": 42.06
+      },
+      {
+        "text": "Quang",
+        "start": 42.06,
+        "end": 42.706
+      },
+      {
+        "text": "Trung",
+        "start": 42.706,
+        "end": 42.954
+      }
+    ],
+    [
+      {
+        "text": "đã",
+        "start": 42.954,
+        "end": 43.104
+      },
+      {
+        "text": "đánh",
+        "start": 43.104,
+        "end": 43.324
+      },
+      {
+        "text": "tan",
+        "start": 43.324,
+        "end": 43.512
+      },
+      {
+        "text": "quân",
+        "start": 43.512,
+        "end": 43.732
+      },
+      {
+        "text": "Thanh",
+        "start": 43.732,
+        "end": 43.98
+      },
+      {
+        "text": "tại",
+        "start": 43.98,
+        "end": 44.168
+      },
+      {
+        "text": "Thăng",
+        "start": 44.168,
+        "end": 44.416
+      }
+    ],
+    [
+      {
+        "text": "Long.",
+        "start": 44.416,
+        "end": 44.636
+      }
+    ],
+    [
+      {
+        "text": "Điểm",
+        "start": 45.069,
+        "end": 45.27
+      },
+      {
+        "text": "giống",
+        "start": 45.27,
+        "end": 45.498
+      },
+      {
+        "text": "nhau",
+        "start": 45.498,
+        "end": 45.7
+      },
+      {
+        "text": "của",
+        "start": 45.7,
+        "end": 45.872
+      },
+      {
+        "text": "họ",
+        "start": 45.872,
+        "end": 46.009
+      },
+      {
+        "text": "là",
+        "start": 46.009,
+        "end": 46.504
+      },
+      {
+        "text": "khả",
+        "start": 46.504,
+        "end": 46.676
+      }
+    ],
+    [
+      {
+        "text": "năng",
+        "start": 46.676,
+        "end": 46.877
+      },
+      {
+        "text": "đánh",
+        "start": 46.877,
+        "end": 47.079
+      },
+      {
+        "text": "giá",
+        "start": 47.079,
+        "end": 47.251
+      },
+      {
+        "text": "tình",
+        "start": 47.251,
+        "end": 47.452
+      },
+      {
+        "text": "hình",
+        "start": 47.452,
+        "end": 47.653
+      },
+      {
+        "text": "cực",
+        "start": 47.653,
+        "end": 47.825
+      },
+      {
+        "text": "nhanh.",
+        "start": 47.825,
+        "end": 48.053
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 48.484,
+        "end": 48.633
+      },
+      {
+        "text": "hai",
+        "start": 48.633,
+        "end": 48.819
+      },
+      {
+        "text": "đều",
+        "start": 48.819,
+        "end": 49.006
+      },
+      {
+        "text": "biết",
+        "start": 49.006,
+        "end": 49.224
+      },
+      {
+        "text": "tận",
+        "start": 49.224,
+        "end": 49.41
+      },
+      {
+        "text": "dụng",
+        "start": 49.41,
+        "end": 49.629
+      },
+      {
+        "text": "địa",
+        "start": 49.629,
+        "end": 49.815
+      }
+    ],
+    [
+      {
+        "text": "hình",
+        "start": 49.815,
+        "end": 50.033
+      },
+      {
+        "text": "và",
+        "start": 50.033,
+        "end": 50.182
+      },
+      {
+        "text": "điểm",
+        "start": 50.182,
+        "end": 50.401
+      },
+      {
+        "text": "yếu",
+        "start": 50.401,
+        "end": 50.587
+      },
+      {
+        "text": "của",
+        "start": 50.587,
+        "end": 50.774
+      },
+      {
+        "text": "đối",
+        "start": 50.774,
+        "end": 50.96
+      },
+      {
+        "text": "thủ.",
+        "start": 50.96,
+        "end": 51.146
+      }
+    ],
+    [
+      {
+        "text": "Hàn",
+        "start": 51.609,
+        "end": 51.806
+      },
+      {
+        "text": "Tín",
+        "start": 51.806,
+        "end": 52.003
+      },
+      {
+        "text": "thiên",
+        "start": 52.003,
+        "end": 52.264
+      },
+      {
+        "text": "về",
+        "start": 52.264,
+        "end": 52.422
+      },
+      {
+        "text": "nghệ",
+        "start": 52.422,
+        "end": 52.653
+      },
+      {
+        "text": "thuật",
+        "start": 52.653,
+        "end": 52.914
+      },
+      {
+        "text": "dụng",
+        "start": 52.914,
+        "end": 53.146
+      }
+    ],
+    [
+      {
+        "text": "binh",
+        "start": 53.146,
+        "end": 53.377
+      },
+      {
+        "text": "và",
+        "start": 53.377,
+        "end": 53.734
+      },
+      {
+        "text": "những",
+        "start": 53.734,
+        "end": 53.995
+      },
+      {
+        "text": "chiến",
+        "start": 53.995,
+        "end": 54.256
+      },
+      {
+        "text": "thuật",
+        "start": 54.256,
+        "end": 54.517
+      },
+      {
+        "text": "đầy",
+        "start": 54.517,
+        "end": 54.714
+      },
+      {
+        "text": "biến",
+        "start": 54.714,
+        "end": 54.946
+      }
+    ],
+    [
+      {
+        "text": "hóa.",
+        "start": 54.946,
+        "end": 55.36
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 55.568,
+        "end": 55.807
+      },
+      {
+        "text": "Trung",
+        "start": 55.807,
+        "end": 56.045
+      },
+      {
+        "text": "nổi",
+        "start": 56.045,
+        "end": 56.226
+      },
+      {
+        "text": "bật",
+        "start": 56.226,
+        "end": 56.406
+      },
+      {
+        "text": "ở",
+        "start": 56.406,
+        "end": 56.504
+      },
+      {
+        "text": "tốc",
+        "start": 56.504,
+        "end": 56.685
+      },
+      {
+        "text": "độ",
+        "start": 56.685,
+        "end": 56.829
+      }
+    ],
+    [
+      {
+        "text": "hành",
+        "start": 56.829,
+        "end": 57.04
+      },
+      {
+        "text": "quân",
+        "start": 57.04,
+        "end": 57.251
+      },
+      {
+        "text": "và",
+        "start": 57.251,
+        "end": 57.619
+      },
+      {
+        "text": "khả",
+        "start": 57.619,
+        "end": 57.8
+      },
+      {
+        "text": "năng",
+        "start": 57.8,
+        "end": 58.011
+      },
+      {
+        "text": "chỉ",
+        "start": 58.011,
+        "end": 58.191
+      },
+      {
+        "text": "huy",
+        "start": 58.191,
+        "end": 58.371
+      }
+    ],
+    [
+      {
+        "text": "trực",
+        "start": 58.371,
+        "end": 58.582
+      },
+      {
+        "text": "tiếp.",
+        "start": 58.582,
+        "end": 58.794
+      }
+    ],
+    [
+      {
+        "text": "Hàn",
+        "start": 59.218,
+        "end": 59.414
+      },
+      {
+        "text": "Tín",
+        "start": 59.414,
+        "end": 59.611
+      },
+      {
+        "text": "góp",
+        "start": 59.611,
+        "end": 59.808
+      },
+      {
+        "text": "công",
+        "start": 59.808,
+        "end": 60.039
+      },
+      {
+        "text": "lớn",
+        "start": 60.039,
+        "end": 60.236
+      },
+      {
+        "text": "giúp",
+        "start": 60.236,
+        "end": 60.466
+      },
+      {
+        "text": "Lưu",
+        "start": 60.466,
+        "end": 60.663
+      }
+    ],
+    [
+      {
+        "text": "Bang",
+        "start": 60.663,
+        "end": 60.894
+      },
+      {
+        "text": "lập",
+        "start": 60.894,
+        "end": 61.09
+      },
+      {
+        "text": "nên",
+        "start": 61.09,
+        "end": 61.287
+      },
+      {
+        "text": "nhà",
+        "start": 61.287,
+        "end": 61.484
+      },
+      {
+        "text": "Hán.",
+        "start": 61.484,
+        "end": 61.681
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 62.107,
+        "end": 62.341
+      },
+      {
+        "text": "cuối",
+        "start": 62.341,
+        "end": 62.548
+      },
+      {
+        "text": "cùng",
+        "start": 62.548,
+        "end": 62.961
+      },
+      {
+        "text": "ông",
+        "start": 62.961,
+        "end": 63.138
+      },
+      {
+        "text": "lại",
+        "start": 63.138,
+        "end": 63.315
+      },
+      {
+        "text": "bị",
+        "start": 63.315,
+        "end": 63.456
+      },
+      {
+        "text": "chính",
+        "start": 63.456,
+        "end": 63.69
+      }
+    ],
+    [
+      {
+        "text": "triều",
+        "start": 63.69,
+        "end": 63.924
+      },
+      {
+        "text": "đình",
+        "start": 63.924,
+        "end": 64.132
+      },
+      {
+        "text": "nghi",
+        "start": 64.132,
+        "end": 64.339
+      },
+      {
+        "text": "kỵ",
+        "start": 64.339,
+        "end": 64.48
+      },
+      {
+        "text": "và",
+        "start": 64.48,
+        "end": 64.621
+      },
+      {
+        "text": "sát",
+        "start": 64.621,
+        "end": 64.798
+      },
+      {
+        "text": "hại.",
+        "start": 64.798,
+        "end": 64.975
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 65.387,
+        "end": 65.642
+      },
+      {
+        "text": "Trung",
+        "start": 65.642,
+        "end": 65.896
+      },
+      {
+        "text": "thì",
+        "start": 65.896,
+        "end": 66.089
+      },
+      {
+        "text": "trở",
+        "start": 66.089,
+        "end": 66.281
+      },
+      {
+        "text": "thành",
+        "start": 66.281,
+        "end": 66.536
+      },
+      {
+        "text": "hoàng",
+        "start": 66.536,
+        "end": 66.79
+      },
+      {
+        "text": "đế",
+        "start": 66.79,
+        "end": 66.944
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 66.944,
+        "end": 67.098
+      },
+      {
+        "text": "tiếp",
+        "start": 67.098,
+        "end": 67.323
+      },
+      {
+        "text": "tục",
+        "start": 67.323,
+        "end": 67.515
+      },
+      {
+        "text": "xây",
+        "start": 67.515,
+        "end": 67.708
+      },
+      {
+        "text": "dựng",
+        "start": 67.708,
+        "end": 67.933
+      },
+      {
+        "text": "đất",
+        "start": 67.933,
+        "end": 68.125
+      },
+      {
+        "text": "nước.",
+        "start": 68.125,
+        "end": 68.351
+      }
+    ],
+    [
+      {
+        "text": "Tuy",
+        "start": 68.764,
+        "end": 68.955
+      },
+      {
+        "text": "nhiên,",
+        "start": 68.955,
+        "end": 69.489
+      },
+      {
+        "text": "ông",
+        "start": 69.489,
+        "end": 69.68
+      },
+      {
+        "text": "cũng",
+        "start": 69.68,
+        "end": 69.904
+      },
+      {
+        "text": "qua",
+        "start": 69.904,
+        "end": 70.096
+      },
+      {
+        "text": "đời",
+        "start": 70.096,
+        "end": 70.287
+      },
+      {
+        "text": "rất",
+        "start": 70.287,
+        "end": 70.479
+      }
+    ],
+    [
+      {
+        "text": "sớm.",
+        "start": 70.479,
+        "end": 70.67
+      }
+    ],
+    [
+      {
+        "text": "Nhiều",
+        "start": 70.885,
+        "end": 71.129
+      },
+      {
+        "text": "kế",
+        "start": 71.129,
+        "end": 71.277
+      },
+      {
+        "text": "hoạch",
+        "start": 71.277,
+        "end": 71.521
+      },
+      {
+        "text": "cải",
+        "start": 71.521,
+        "end": 71.706
+      },
+      {
+        "text": "cách",
+        "start": 71.706,
+        "end": 71.922
+      },
+      {
+        "text": "của",
+        "start": 71.922,
+        "end": 72.107
+      },
+      {
+        "text": "ông",
+        "start": 72.107,
+        "end": 72.291
+      }
+    ],
+    [
+      {
+        "text": "vẫn",
+        "start": 72.291,
+        "end": 72.476
+      },
+      {
+        "text": "còn",
+        "start": 72.476,
+        "end": 72.66
+      },
+      {
+        "text": "dang",
+        "start": 72.66,
+        "end": 72.877
+      },
+      {
+        "text": "dở.",
+        "start": 72.877,
+        "end": 73.024
+      }
+    ],
+    [
+      {
+        "text": "Nếu",
+        "start": 73.468,
+        "end": 73.638
+      },
+      {
+        "text": "Hàn",
+        "start": 73.638,
+        "end": 73.807
+      },
+      {
+        "text": "Tín",
+        "start": 73.807,
+        "end": 73.976
+      },
+      {
+        "text": "là",
+        "start": 73.976,
+        "end": 74.112
+      },
+      {
+        "text": "bậc",
+        "start": 74.112,
+        "end": 74.281
+      },
+      {
+        "text": "thầy",
+        "start": 74.281,
+        "end": 74.479
+      },
+      {
+        "text": "của",
+        "start": 74.479,
+        "end": 74.648
+      }
+    ],
+    [
+      {
+        "text": "nghệ",
+        "start": 74.648,
+        "end": 74.846
+      },
+      {
+        "text": "thuật",
+        "start": 74.846,
+        "end": 75.071
+      },
+      {
+        "text": "dụng",
+        "start": 75.071,
+        "end": 75.269
+      },
+      {
+        "text": "binh.",
+        "start": 75.269,
+        "end": 75.467
+      }
+    ],
+    [
+      {
+        "text": "Thì",
+        "start": 75.896,
+        "end": 76.117
+      },
+      {
+        "text": "Quang",
+        "start": 76.117,
+        "end": 76.408
+      },
+      {
+        "text": "Trung",
+        "start": 76.408,
+        "end": 76.7
+      },
+      {
+        "text": "là",
+        "start": 76.7,
+        "end": 76.876
+      },
+      {
+        "text": "vị",
+        "start": 76.876,
+        "end": 77.052
+      },
+      {
+        "text": "vua",
+        "start": 77.052,
+        "end": 77.272
+      },
+      {
+        "text": "kiêm",
+        "start": 77.272,
+        "end": 77.53
+      }
+    ],
+    [
+      {
+        "text": "danh",
+        "start": 77.53,
+        "end": 77.788
+      },
+      {
+        "text": "tướng",
+        "start": 77.788,
+        "end": 78.079
+      },
+      {
+        "text": "với",
+        "start": 78.079,
+        "end": 78.299
+      },
+      {
+        "text": "khả",
+        "start": 78.299,
+        "end": 78.52
+      },
+      {
+        "text": "năng",
+        "start": 78.52,
+        "end": 78.777
+      },
+      {
+        "text": "đánh",
+        "start": 78.777,
+        "end": 79.035
+      },
+      {
+        "text": "nhanh",
+        "start": 79.035,
+        "end": 79.327
+      }
+    ],
+    [
+      {
+        "text": "thắng",
+        "start": 79.327,
+        "end": 79.618
+      },
+      {
+        "text": "nhanh.",
+        "start": 79.618,
+        "end": 79.91
+      }
+    ],
+    [
+      {
+        "text": "Hai",
+        "start": 80.126,
+        "end": 80.291
+      },
+      {
+        "text": "con",
+        "start": 80.291,
+        "end": 80.456
+      },
+      {
+        "text": "người,",
+        "start": 80.456,
+        "end": 80.674
+      },
+      {
+        "text": "hai",
+        "start": 80.674,
+        "end": 81.109
+      },
+      {
+        "text": "thời",
+        "start": 81.109,
+        "end": 81.302
+      },
+      {
+        "text": "đại.",
+        "start": 81.302,
+        "end": 81.7
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 81.91,
+        "end": 82.157
+      },
+      {
+        "text": "cả",
+        "start": 82.157,
+        "end": 82.305
+      },
+      {
+        "text": "hai",
+        "start": 82.305,
+        "end": 82.491
+      },
+      {
+        "text": "đều",
+        "start": 82.491,
+        "end": 82.677
+      },
+      {
+        "text": "chứng",
+        "start": 82.677,
+        "end": 82.923
+      },
+      {
+        "text": "minh",
+        "start": 82.923,
+        "end": 83.141
+      },
+      {
+        "text": "rằng",
+        "start": 83.141,
+        "end": 83.359
+      }
+    ],
+    [
+      {
+        "text": "thiên",
+        "start": 83.359,
+        "end": 83.605
+      },
+      {
+        "text": "tài",
+        "start": 83.605,
+        "end": 83.791
+      },
+      {
+        "text": "quân",
+        "start": 83.791,
+        "end": 84.009
+      },
+      {
+        "text": "sự",
+        "start": 84.009,
+        "end": 84.158
+      },
+      {
+        "text": "có",
+        "start": 84.158,
+        "end": 84.307
+      },
+      {
+        "text": "thể",
+        "start": 84.307,
+        "end": 84.492
+      },
+      {
+        "text": "thay",
+        "start": 84.492,
+        "end": 84.71
+      }
+    ],
+    [
+      {
+        "text": "đổi",
+        "start": 84.71,
+        "end": 84.896
+      },
+      {
+        "text": "cả",
+        "start": 84.896,
+        "end": 85.045
+      },
+      {
+        "text": "lịch",
+        "start": 85.045,
+        "end": 85.263
+      },
+      {
+        "text": "sử.",
+        "start": 85.263,
+        "end": 85.412
+      }
+    ]
+  ],
+  "uploadedScenes": []
+}

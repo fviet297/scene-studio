@@ -1,76 +1,125 @@
 # End-to-end workflow
 
+Build around narration and identity, never around whichever images are easiest to find.
+
+```
+transcript → historical analysis → character detection → profiles → character references
+→ style reference → scene analysis → visual concept → search OR generate → validate
+→ asset manifest → Remotion
+```
+
 ## 1. Inspect
 
-- Find `src/Root.tsx`, composition dimensions, FPS, and duration.
-- Find the main scene component and all character animation names.
-- Measure narration duration with `ffprobe`.
-- List existing images and identify repeated generic portraits.
+- Find `src/Root.tsx`, composition dimensions, FPS, duration, the scene component, and the
+  host character's animation names.
+- List existing assets (`characters/`, `style/`, `public/images/`, `public/audio/`,
+  `asset-manifest.json`) and reuse them before generating anything new.
+- If the repo has a `projects/` directory, it hosts multiple comparison videos side by side
+  (see `compare-image`): `scene-plan.md` is `projects/<slug>/scene-plan.md`, assets live
+  under `public/projects/<slug>/`, and the active project comes from `projects/active.json`
+  (or `--project <slug>` / `PROJECT` env). Otherwise use the root-level paths below.
 
-## 2. Segment narration
+## 2. Parse the scene plan
 
-Create visual beats shorter than broad script chapters. A two-minute video usually needs 8–14 beats.
+The input is one scene-plan markdown (per scene: narration + prompt) plus pasted
+`public/characters/<id>.png` references. Run
+[parse-scene-plan.mjs](../scripts/parse-scene-plan.mjs) → `src/scene-plan.json` (one image
+per scene, `kind: ai|search`) + `scripts/narration-segments.mjs` (per-scene TTS). See
+[scene-plan.md](scene-plan.md). References are **user-provided** — the skill never invents a
+face; profiles/consistency guidance in [character-system.md](character-system.md) inform the
+prompts, not a generated reference. Title, cue, and host pose are derived by the skill from
+the narration.
 
-For each beat record:
+## 3. Scenes come from the plan
 
-- time range
-- narration claim
-- left visual need
-- right visual need
-- host direction
-- title/cue
-- authenticity class
+Each scene carries one image (its prompt or search query) plus narration. Sanity-check the
+split — a two-minute video usually needs 8–14 scenes — and that each `kind` matches its
+content (map/artifact/real place → search; person/action → ai). Split a scene when one line
+mixes a map event with distinct military action.
 
-Split a sentence across multiple assets when it contains a map event plus military action or object standardization.
+Visual types: character portrait/action/comparison, historical event, battle, army, map,
+timeline, architecture, city, village, landscape, artifact, weapon, document, symbolic,
+environment, reconstruction.
 
-## 3. Source visuals
+## 4. Visual concept, then search or generate
 
-Source with [scripts/source-assets.mjs](../scripts/source-assets.mjs) — a per-asset provider
-fallback chain across museums, Commons, Library of Congress, and more, with URL de-duplication
-so no image repeats. Use bare image search only for discovery, never as the download path.
+Turn each beat's meaning into a concept, then decide per the table in
+[visual-sourcing.md](visual-sourcing.md): source real for identities/maps/artifacts/real
+places; generate 2D reconstructions for characters/action/battle/atmosphere, always through
+the style + character references. Avoid literal-text images and repeated portraits.
 
-Examples:
+## 5. Write the prompts — do not generate
 
-- “Loạn 12 sứ quân” -> territorial map, not Hoa Lư landscape.
-- “Qin defeats six states” -> Warring States map plus army artifact.
-- “standardized currency and measurement” -> Ban Liang coin and Qin standard weight.
-- “legacy” -> surviving locations, artifacts, maps, or institutional diagrams.
+The skill's job here is **text, not pixels**: write each AI scene's `prompt:` into
+`scene-plan.md` and reparse. One canonical file per scene lands later at
+`public/images/scene-NN.jpg`; replacing one scene never touches another.
 
-For any beat the chain cannot fill — an action, a concept, or a shot that would otherwise
-force a repeated portrait — generate it with [scripts/generate-visuals.mjs](../scripts/generate-visuals.mjs)
-and label it `AI_RECONSTRUCTION`. See [ai-generation.md](ai-generation.md) for the boundary
-between what to generate and what to source for real.
+**Never call Replicate yourself.** Do not run
+[generate-visuals.mjs](../scripts/generate-visuals.mjs) or any other paid image/audio
+generation on your own initiative — every call costs the user credit and overwrites committed
+assets. Image generation happens only when the user clicks **Generate** in the review UI
+(step 7). Approving a style direction, a prompt, or a plan is **not** approval to generate.
 
-## 4. Organize assets
+The one exception is search scenes: [source-assets.mjs](../scripts/source-assets.mjs) only
+downloads free public-domain stills and is safe to run.
 
-Create exact scene filenames. Never reference one generic source filename from multiple scene entries. Preserve originals if they might still be useful; scene-specific copies are safe and reversible.
+When the prompts are ready, go straight to the review gate and hand control to the user. Run
+[check-assets.mjs](../scripts/check-assets.mjs) to report what is still missing.
 
-## 5. Implement layout
+## 6. Validate each image (after the user has generated it)
 
-- 1080x1920, commonly 30 FPS.
-- Keep comparison panels in the upper area.
-- Keep the host below panels and above/beside captions.
-- Use one name label per panel.
-- Avoid `VS` for neutral historical comparison.
-- Dim the non-focused side instead of removing it.
+Character: identity/age/costume/armor/weapon correct and consistent with the reference.
+Historical: country/period/dynasty/architecture/weapons correct, no anachronism. Visual:
+on-style, good contrast, readable on mobile, depicts the narration _claim_ (a portrait is not
+an army or a battle). Technical: 9:16, high-res, no watermark/unwanted text, no malformed
+anatomy. On failure, name the fault and regenerate deliberately (see ai-generation.md) or
+re-source with a sharper search. Run [check-assets.mjs](../scripts/check-assets.mjs).
 
-## 6. Voice and captions
+## 7. Review gate — user generates & approves images in a web UI (mandatory)
 
-Generate voice first when possible. Let natural narration duration determine composition length:
-measure the final MP3 with `ffprobe` and set `durationInFrames` from it. Do not time-stretch the
-audio to hit a preset length. Generate or align timestamps from the final audio, not pre-generation
-estimates — [scripts/align-captions.mjs](../scripts/align-captions.mjs) reads the same `ffprobe`
-duration.
+As soon as every prompt is written, start [review-server.mjs](../scripts/review-server.mjs)
+(`node scripts/review-server.mjs` → `http://127.0.0.1:8080`), give the user the URL, and stop.
+This is the hand-off point: **the user reads the prompts and presses the buttons**, not you.
 
-If voice is regenerated, regenerate caption data. If audio is ever time-stretched, all existing
-timestamps become invalid unless transformed by the exact same factor.
+The user works each AI scene in the panel: read the narration, edit
+the generated prompt if needed, hit **Generate/Regenerate** (Replicate, via
+[lib/replicate-image.mjs](../scripts/lib/replicate-image.mjs)), and check the 9:16 result.
+Saved prompts write back into `scene-plan.md`; search scenes are read-only (source them with
+[source-assets.mjs](../scripts/source-assets.mjs)). Only when every AI scene image exists does
+the **Approve & generate audio** button enable. Do **not** run OmniVoice any other way — the
+UI's approve step launches it. Images are the review-heavy, failure-prone part, and TTS should
+not run against visuals that may change. ([contact-sheet.mjs](../scripts/contact-sheet.mjs)
+still makes a static `public/review/contact-sheet.jpg` for a quick offline glance.)
 
-## 7. Review loop
+## 8. Voice and captions (per scene) — launched by the UI's approve step
 
-Run [scripts/check-assets.mjs](../scripts/check-assets.mjs) first — fix missing files, reused
-images, and single-source warnings before rendering anything. Then, per scene, confirm the visual
-depicts the narration claim itself, not just the named person.
+Keep narration audio split per scene (`public/audio/scene-NN.mp3`) so a mispronounced part
+regenerates in isolation. Measure each file with `ffprobe` and drive `durationInFrames` from
+the real totals — never time-stretch to a preset length. Align captions per segment from the
+real audio ([align-captions.mjs](../scripts/align-captions.mjs) reads the same durations);
+reveal 3–8 word groups on their timestamps.
 
-Render representative stills. Inspect maps separately because `cover` often cuts labels. Use `contain` with a compatible panel background.
+## 9. Final render & verify
 
-After stills pass, render the full file. Keep versioned output names during iteration (`-v2`, `-synced`, etc.), and expose the newest verified file clearly.
+Assemble the composition, render stills at start, middle, scene boundaries, and ending; check
+crop, host direction, overlap, subtitle size, and AI tags. Render the MP4 only after stills
+pass, then verify codec, resolution, duration, audio stream, and size with `ffprobe`.
+
+## Directory (reference layout)
+
+```
+transcript/  characters/<id>/{profile.json,reference.png,prompt.md}  style/style-reference.png
+scenes/<id>/{visual-concept.md,prompt.md,image.png,metadata.json}    asset-manifest.json
+```
+
+In a Remotion project this maps onto `public/images/`, `public/audio/`, `src/`, and
+`public/images/asset-manifest.json`; keep the manifest the single record of every asset.
+
+## Quality gate (do not finish until)
+
+Profiles + approved references + style reference exist · every scene has a concept and an
+appropriate asset · character scenes use references · period and country identity correct ·
+no obvious anachronism · images 9:16 · no unwanted text/watermark · no major AI artifacts ·
+source metadata for searched images · AI images marked `AI_RECONSTRUCTION` · manifest
+generated · every AI image was generated by the user in the review UI, never by the skill.
+Do not commit or push unless explicitly requested.

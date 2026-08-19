@@ -1,0 +1,165 @@
+# Quang Trung - Hàn Tín
+
+## characters
+
+char-a = public/projects/quangtrung-hantin/characters/char-a.png
+char-b = public/projects/quangtrung-hantin/characters/char-b.png
+
+## scene 1
+
+title:
+cue:
+host:
+narration: Một người là vị hoàng đế áo vải của Đại Việt.
+char: char-a
+prompt: The first character stands confidently on a raised wooden platform in the center of a bustling Đại Việt village square, surrounded by villagers in 15th-century Vietnamese peasant attire. In the foreground, woven baskets and farming tools rest beside workers pausing to listen. In the background, traditional thatched houses and bamboo groves set the rural scene, with fluttering red-and-gold banners and distant water buffalo adding life and depth.
+## scene 2
+
+title:
+cue:
+host:
+narration: Một người là đại tướng lừng danh của nhà Hán.
+char: char-b
+prompt: The first character stands confidently on a raised wooden platform in a bustling Han dynasty military camp, pointing outward as Han Chinese soldiers in lamellar armor drill with spears in the middle ground. Foreground features fluttering command banners and stacked shields, while background shows tents and the tiled roofs of Han-era buildings under a cloudy sky. Dust swirls around marching units, creating a sense of energy and preparation for battle.
+## scene 3
+
+title:
+cue:
+host:
+narration: Quang Trung và Hàn Tín, hai thiên tài quân sự cách nhau hơn một nghìn năm.
+char: char-a, char-b
+prompt: The first character stands confidently on a grassy hilltop in the foreground, pointing toward a bustling battlefield below. The second character stands beside him, gesturing with a command baton toward orderly lines of ancient soldiers in distinct uniforms—Vietnamese troops with Đông Sơn bronze drums and banners on one side, Han Chinese infantry with tall spears and silk standards on the other. Misty mountains and a winding river fill the background.
+## scene 4
+
+title:
+cue:
+host:
+narration: Hàn Tín xuất thân nghèo khó.
+char: char-b
+prompt: The first character walks alone along a dusty village road, carrying a simple bundle over one shoulder. In the foreground, worn wooden huts and farmers in Han dynasty peasant attire work the fields with oxen. Farther back, a small market bustle hints at daily hardship. Distant Han-style rooftops and tattered banners frame the background, while chickens scatter near the roadside, emphasizing a humble rural atmosphere.
+## scene 5
+
+title:
+cue:
+host:
+narration: Ông từng chịu nhục dưới háng một kẻ bán thịt.
+char: char-b
+prompt: The first character crouches awkwardly beneath a bustling village market stall, surrounded by baskets of meat and busy Vietnamese butchers in 15th-century peasant clothing. Foreground baskets overflow with cuts of pork and chicken, while market-goers in simple áo tứ thân robes pass by. In the background, wooden market stalls with thatched roofs and red banners flutter in the breeze, creating a lively, slightly chaotic atmosphere.
+## scene 6
+
+title:
+cue:
+host:
+narration: Quang Trung cũng không sinh ra trong hoàng tộc.
+char: char-a
+prompt: The first character stands confidently in the bustling courtyard of a simple 18th-century Vietnamese village, surrounded by thatched houses and commoners in peasant attire. In the foreground, villagers carry baskets and work the land, while in the background, bamboo groves and wooden fences set the rural scene. The first character gestures outward, emphasizing humble origins amidst the energetic daily life, with a diagonal flow from the busy foreground to the serene background.
+## scene 7
+
+title:
+cue:
+host:
+narration: Ông trưởng thành từ phong trào Tây Sơn.
+char: char-b
+prompt: The first character stands in the bustling Tây Sơn military encampment, surrounded by Vietnamese soldiers in 18th-century Tây Sơn uniforms drilling with spears and flags. In the background, thatched barracks and bamboo palisades stretch across a grassy field, with distant hills beyond. In the foreground, blacksmiths hammer at weapons, and a drummer signals the start of training, adding energy and motion to the lively revolutionary setting.
+## scene 8
+
+title:
+cue:
+host:
+narration: Hàn Tín nổi tiếng với khả năng dùng binh.
+char: char-a, char-b
+prompt: The first character stands confidently on a wooden platform in the foreground, gesturing toward a large map spread on a table, surrounded by Han dynasty officers in traditional armor. The second character observes from the side, taking notes. In the middle ground, ranks of Han soldiers drill with spears and banners, while in the background, a walled Han military camp and rolling hills set the scene, dust swirling with the troop movement.
+## scene 9
+
+narration: Ông từng giành chiến thắng vang dội trong nhiều trận đánh thời Hán Sở.
+prompt: A dynamic battlefield stretches across the foreground with Han and Chu armies clashing; dense lines of ancient Chinese infantry wielding spears and banners surge forward amid swirling dust and scattered arrow volleys. In the middle ground, war drums are beaten by Han soldiers, while Chu cavalry charges along a diagonal ridge. The background shows a walled city in Han dynasty style, smoke rising above its rooftops under a cloudy, dramatic sky.
+
+## scene 10
+
+narration: Những chiến công của Hàn Tín góp phần giúp Lưu Bang đánh bại Hạng Vũ.
+prompt: A dynamic battlefield stretches across the foreground, with Han dynasty infantry charging in loose formation from the left, banners fluttering and drummers urging them forward. In the middle ground, Chu troops retreat toward the right amid rising dust, some casting aside weapons. The background shows a walled ancient Chinese city and rolling hills under a dramatic sky, evoking the intensity and scale of Han Xin's victorious campaigns.
+
+## scene 11
+
+narration: Quang Trung lại nổi bật với những cuộc hành quân thần tốc.
+prompt: A lively scene of a Vietnamese army rapidly marching along a winding dirt road through lush fields, with 18th-century Tây Sơn soldiers in period dress carrying spears and banners in the middle ground, horses and officers leading at the front. In the foreground, dust billows underfoot, while the background shows distant village rooftops and a dramatic sky, emphasizing swift movement and urgency with diagonal lines and streaming banners.
+
+## scene 12
+
+narration: Đỉnh cao là mùa xuân Kỷ Dậu năm 1789.
+prompt: A lively spring morning in 1789 Hanoi: bustling Vietnamese soldiers in 18th-century Tây Sơn uniforms march through a city gate, banners fluttering in the breeze. In the foreground, drummers and flag bearers energize the ranks; in the middle ground, troops stream past ancient Lý-Trần style stone walls. Cherry blossoms and fresh green trees frame the background, with tiled rooftops and distant pagodas hinting at festive victory and renewal.
+
+## scene 13
+
+narration: Quân Tây Sơn tiến ra Bắc với tốc độ đáng kinh ngạc.
+prompt: A lively Vietnamese landscape from the late 18th century, with columns of Tây Sơn soldiers in traditional lamellar armor swiftly marching along a dusty road through rice paddies. In the foreground, banners emblazoned with Tây Sơn symbols wave energetically, while drummers and flag bearers urge the troops forward. The middle ground features ox-drawn supply carts and hurried messengers, with a dynamic diagonal composition leading toward misty northern mountains in the background.
+
+## scene 14
+
+narration: Chỉ trong thời gian ngắn, Quang Trung đã đánh tan quân Thanh tại Thăng Long.
+prompt: A sweeping battlefield outside the Thăng Long citadel, with rows of Vietnamese soldiers charging forward in the middle ground, banners fluttering and drums beating. In the foreground, Qing troops in disarray flee amid scattered weapons and debris. The background shows the distinctive tiled rooftops and ancient gates of Thăng Long, shrouded in dust and smoke, while Vietnamese flags wave triumphantly above the chaos, capturing the sense of rapid victory.
+
+## scene 15
+
+narration: Điểm giống nhau của họ là khả năng đánh giá tình hình cực nhanh.
+prompt: A lively strategy tent during a tense campaign, maps and wooden tokens scattered across a long table in the middle ground, with two chibi generals pointing animatedly at different routes. Vietnamese soldiers in 15th-century lamellar armor bustle in the foreground, one carrying rolled scrolls, another adjusting a lacquered shield. In the background, the flaps of the canvas tent open to reveal a moonlit Đại Việt military camp dotted with bamboo torches and fluttering red banners.
+
+## scene 16
+
+narration: Cả hai đều biết tận dụng địa hình và điểm yếu của đối thủ.
+prompt: Two opposing armies maneuver across a rugged Vietnamese landscape, each force positioned on opposite hillsides divided by a winding river in the middle ground. Soldiers in 15th-century lamellar armor take cover behind rocky outcrops and dense forest edges, scouts signaling with raised flags. In the background, a patchwork of rice fields and distant village rooftops dot the horizon under a cloudy sky, while banners ripple and dust clouds swirl from marching feet.
+
+## scene 17
+
+narration: Hàn Tín thiên về nghệ thuật dụng binh và những chiến thuật đầy biến hóa.
+prompt: A lively Han dynasty military camp spreads across the middle ground, filled with Chinese soldiers in period armor practicing complex battlefield maneuvers and shifting formations. In the foreground, officers gather around a large bamboo map table scattered with wooden troop markers. Banners ripple above the tents, while distant drummers and mounted scouts animate the background, all set against the rolling hills of northern China under a dynamic sky.
+
+## scene 18
+
+narration: Quang Trung nổi bật ở tốc độ hành quân và khả năng chỉ huy trực tiếp.
+prompt: A bustling Vietnamese 18th-century battlefield with columns of Tây Sơn soldiers in traditional black-and-red uniforms rapidly advancing across a dirt road, some beating war drums and others waving banners. In the middle ground, officers on foot give swift hand signals; the background shows a rural village with thatched roofs and distant mountains under a dynamic cloudy sky. Dust rises along the diagonal flow of troops, capturing urgency and motion.
+
+## scene 19
+
+narration: Hàn Tín góp công lớn giúp Lưu Bang lập nên nhà Hán.
+prompt: A lively Han dynasty military camp sprawls across the middle ground, with armored Han Chinese soldiers assembling under fluttering red banners marked with early Han script. In the foreground, strategists gather around a low wooden table scattered with bamboo maps, gesturing animatedly. In the background, a fortified city gate and tiled rooflines rise beyond a haze of dust and movement, while messengers dash between tents and horsemen patrol the perimeter, creating a dynamic, bustling wartime atmosphere.
+
+## scene 20
+
+narration: Nhưng cuối cùng ông lại bị chính triều đình nghi kỵ và sát hại.
+prompt: A shadowy palace courtyard at dusk, with distant Vietnamese imperial architecture in the background. In the foreground, armored guards quietly surround a lone official who kneels beside a stone lantern, hands bound, casting a long shadow. Middle ground shows tense palace attendants peeking from behind columns. Flickering torchlight and falling cherry petals add a somber, suspenseful atmosphere.
+
+## scene 21
+
+narration: Quang Trung thì trở thành hoàng đế và tiếp tục xây dựng đất nước.
+prompt: A lively Vietnamese royal court scene in the late 18th century, with an emperor seated on a raised lacquered throne in the middle ground, addressing mandarins and courtiers in áo dài and khăn đóng. Scholars present scrolls and plans in the foreground, while artisans and workers build new structures in the background, featuring traditional Vietnamese wooden architecture with tiled roofs. Banners flutter and drums are played, capturing an atmosphere of nation-building and prosperity.
+
+## scene 22
+
+narration: Tuy nhiên, ông cũng qua đời rất sớm.
+prompt: A small traditional Vietnamese house stands quietly in the middle ground, its wooden door slightly ajar, with incense smoke curling up from a simple altar in the foreground. In the background, lush rice paddies and distant palm trees under a gentle early morning sky evoke a somber, tranquil atmosphere. A few villagers in 15th-century Lê dynasty attire gather respectfully outside the house, some bowing their heads, while a gentle breeze stirs prayer flags and fallen leaves across the scene.
+
+## scene 23
+
+narration: Nhiều kế hoạch cải cách của ông vẫn còn dang dở.
+prompt: A Vietnamese royal study room in the late 19th century, filled with scrolls, ink brushes, unfinished architectural sketches and open strategy maps scattered on a low wooden table. Sunlight streams through latticed windows, casting long shadows. In the foreground, a half-built model of a citadel sits amid piles of unrolled reform documents, while outside the window, distant mandarins in áo dài and khăn đóng discuss fervently beside a blooming frangipani tree.
+
+## scene 24
+
+narration: Nếu Hàn Tín là bậc thầy của nghệ thuật dụng binh.
+prompt: A lively ancient Chinese military camp stretches across a riverbank at dawn, with rows of Han dynasty soldiers drilling in the middle ground and large command tents in the background. In the foreground, bright banners with Han calligraphy flutter in the breeze, and smoke rises from campfires. Officers consult bamboo scrolls at a strategy table while drummers signal maneuvers. The scene is filled with movement, order, and the disciplined energy of a master strategist’s army.
+
+## scene 25
+
+narration: Thì Quang Trung là vị vua kiêm danh tướng với khả năng đánh nhanh thắng nhanh.
+prompt: A dynamic battlefield scene unfolds with Vietnamese soldiers in Tây Sơn-era uniforms charging forward across a grassy plain, banners streaming behind them in the middle ground. Drummers beat out a rapid rhythm at the edge of the formation, adding urgency. The background features smoke rising from distant enemy positions near a traditional Vietnamese village with thatched roofs. In the foreground, dust swirls around the soldiers' feet, emphasizing swift movement and determination.
+
+## scene 26
+
+narration: Hai con người, hai thời đại.
+prompt: In the foreground, a stone bridge arches over a river, dividing the scene diagonally. On the left bank, an ancient Đông Sơn village bustles with people in bronze-age dress, working near stilt houses and carrying tools. On the right bank, a bustling 19th-century Hanoi street features tiled shopfronts and locals in áo dài, bicycles passing by. Misty mountains and rice paddies stretch into the background, highlighting the contrast of eras.
+
+## scene 27
+
+narration: Nhưng cả hai đều chứng minh rằng thiên tài quân sự có thể thay đổi cả lịch sử.
+prompt: A dramatic battlefield panorama with dynamic diagonal composition: in the foreground, scattered weapons and banners flutter among churned earth and footprints. In the middle ground, two opposing armies clash fiercely, their generals commanding from horseback amid swirling dust and raised flags. Distant traditional Đông Sơn-style drums and bronze war horns signal through the chaos. The background shows a misty Vietnamese landscape with rice paddies and stilt houses under a stormy sky.

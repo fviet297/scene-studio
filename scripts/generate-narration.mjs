@@ -10,17 +10,25 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import WebSocket from 'ws';
-import { SEGMENTS } from './narration-segments.mjs';
+import { PROJECT, SEGMENTS } from './narration-segments.mjs';
+import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
-const VOICE = 'remotion';
-const AUDIO_DIR = 'public/audio';
+const VOICE = 'history';
 const TEMP_DIR = 'tmp/narration';
 const MAX_CHUNK = 320;
 const NARRATION_FILTER =
   'silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-35dB:stop_silence=0.18';
 
-const only = process.argv.slice(2).map(Number).filter((n) => Number.isFinite(n));
+const argv = process.argv.slice(2);
+const paths = activePaths(argv);
+if (paths.slug !== PROJECT) {
+  process.stderr.write(`narration-segments.mjs was built for project "${PROJECT}" but "${paths.slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`);
+  process.exit(1);
+}
+const AUDIO_DIR = paths.audioDir;
+const { rest } = parseProjectArg(argv);
+const only = rest.map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;
 
 const toChunks = (text) =>

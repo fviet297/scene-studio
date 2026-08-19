@@ -1,14 +1,7 @@
 import React from "react";
 import { Composition } from "remotion";
-import {
-  HistoryComparison,
-  FPS,
-  totalDurationInFrames,
-} from "./HistoryComparison";
-import {
-  ScenePlanVideo,
-  totalDurationInFrames as planFrames,
-} from "./ScenePlanVideo";
+import { ScenePlanVideo, FPS } from "./ScenePlanVideo";
+import { PROJECTS } from "./projects-data";
 import { SceneOneVideo } from "./SceneOneVideo";
 import {
   CharacterPuppetPreview,
@@ -16,24 +9,24 @@ import {
   CHARACTER_PREVIEW_FPS,
 } from "./CharacterPuppetPreview";
 
+// One composition per project (id = slug), built by scripts/build-remotion.mjs into
+// src/projects-data. Switching or adding a project no longer overwrites a single shared
+// composition — every comparison shows up in the studio under its own name. Re-run the builder
+// after changing any project's scenes/audio: node scripts/build-remotion.mjs
 export const RemotionRoot: React.FC = () => (
   <>
-    <Composition
-      id="QuangTrungHanTin"
-      component={HistoryComparison}
-      durationInFrames={totalDurationInFrames}
-      fps={FPS}
-      width={1080}
-      height={1920}
-    />
-    <Composition
-      id="ScenePlanVideo"
-      component={ScenePlanVideo}
-      durationInFrames={planFrames}
-      fps={FPS}
-      width={1080}
-      height={1920}
-    />
+    {PROJECTS.map((project) => (
+      <Composition
+        key={project.slug}
+        id={project.slug}
+        component={ScenePlanVideo}
+        defaultProps={{ project }}
+        durationInFrames={Math.max(1, project.durationInFrames)}
+        fps={project.fps}
+        width={1080}
+        height={1920}
+      />
+    ))}
     {/* Single-scene preview. Duration is set per render from the scene's audio (props). */}
     <Composition
       id="SceneOne"

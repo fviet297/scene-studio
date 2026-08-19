@@ -4,9 +4,11 @@
 
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { activePaths } from './lib/project-paths.mjs';
 
-const IMAGE_DIR = 'public/images';
-const OUT_DIR = 'public/review';
+const paths = activePaths();
+const IMAGE_DIR = paths.imageDir;
+const OUT_DIR = paths.reviewDir;
 const OUT = `${OUT_DIR}/contact-sheet.jpg`;
 const COLS = 4;
 const CELL_W = 320;
@@ -15,7 +17,7 @@ const CELL_H = 568; // 9:16
 const scenes = readdirSync(IMAGE_DIR)
   .filter((f) => /^scene-\d+\.(jpe?g|png)$/i.test(f))
   .sort();
-if (!scenes.length) { process.stderr.write('No scene-NN images in public/images.\n'); process.exit(1); }
+if (!scenes.length) { process.stderr.write(`No scene-NN images in ${IMAGE_DIR}.\n`); process.exit(1); }
 
 // Contiguous scene-01.jpg.. is required for the %02d sequence input; verify.
 const contiguous = scenes.every((f, i) => f.startsWith(`scene-${String(i + 1).padStart(2, '0')}.`));

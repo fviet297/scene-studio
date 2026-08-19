@@ -87,7 +87,7 @@ const pollVideo = async (body, model, log) => {
   throw new Error('VMedia video generation timed out after 6 minutes.');
 };
 
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', duration, onLog }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const model = process.env.VMEDIA_VIDEO_MODEL;
   if (!model) throw new Error('Missing VMEDIA_VIDEO_MODEL in .env');
@@ -99,7 +99,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
     image_url: imageUrl,
     ratio: process.env.VMEDIA_VIDEO_RATIO ?? '9:16',
     resolution: process.env.VMEDIA_VIDEO_RESOLUTION ?? '720p',
-    duration: process.env.VMEDIA_VIDEO_DURATION ?? '5',
+    duration: String(duration ?? process.env.VMEDIA_VIDEO_DURATION ?? '5'),
     mode: process.env.VMEDIA_VIDEO_MODE ?? 'relax',
     prompt: prompt || 'Subtle cinematic motion, preserve the historical illustration and character identity.',
   };

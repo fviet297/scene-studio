@@ -1,0 +1,19 @@
+{
+  "project": "quangtrung-hantin",
+  "characters": [
+    {
+      "id": "char-a",
+      "name": "char-a",
+      "aliases": [],
+      "image": "projects/quangtrung-hantin/characters/char-a.png",
+      "imageV2": "projects/quangtrung-hantin/characters/v2/char-a.png"
+    },
+    {
+      "id": "char-b",
+      "name": "char-b",
+      "aliases": [],
+      "image": "projects/quangtrung-hantin/characters/char-b.png",
+      "imageV2": "projects/quangtrung-hantin/characters/char-b.png"
+    }
+  ]
+}

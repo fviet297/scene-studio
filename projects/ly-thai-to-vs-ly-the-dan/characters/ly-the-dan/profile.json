@@ -1,0 +1,18 @@
+{
+  "character_id": "ly-the-dan",
+  "name": "Li Shimin",
+  "display_name": "Lý Thế Dân",
+  "aliases": ["Tang Taizong", "Ly The Dan", "Duong Thai Tong"],
+  "country": "China",
+  "period": "late 6th to mid 7th century",
+  "dynasty": "Tang dynasty",
+  "role": "Emperor and military commander",
+  "known_facts": [
+    "Became emperor in 626",
+    "Consolidated the Tang dynasty",
+    "His reign is associated with the Zhenguan era"
+  ],
+  "interpretation": "Historically inspired early-Tang imperial and military dress based on the user reference.",
+  "unknowns": ["The user reference is the visual identity source for generated scenes"],
+  "reference": "public/projects/ly-thai-to-vs-ly-the-dan/characters/lythedan.png"
+}

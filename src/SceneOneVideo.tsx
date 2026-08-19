@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, staticFile } from "remotion";
 import scenePlan from "./scene-plan.json";
+import assetManifest from "./asset-manifest.json";
 import { SceneView, FPS, type Scene } from "./ScenePlanVideo";
 
 // Single-scene preview composition: one scene's cinematic image + overlay (title/cue/AI tag)
@@ -14,6 +15,12 @@ export const SCENE_ONE_FPS = FPS;
 export type SceneOneProps = { scene: number; durationInFrames: number };
 
 const scenes = scenePlan.scenes as unknown as Scene[];
+const publicPrefix = `projects/${scenePlan.project}`;
+const uploadedScenes = (
+  assetManifest as { scene: number; authenticity: string }[]
+)
+  .filter((m) => m.authenticity === "USER_UPLOAD")
+  .map((m) => m.scene);
 
 export const SceneOneVideo: React.FC<SceneOneProps> = ({
   scene,
@@ -21,10 +28,15 @@ export const SceneOneVideo: React.FC<SceneOneProps> = ({
 }) => {
   const s = scenes.find((x) => x.scene === scene);
   if (!s) return <AbsoluteFill style={{ background: "#191716" }} />;
-  const audio = `audio/scene-${String(scene).padStart(2, "0")}.mp3`;
+  const audio = `${publicPrefix}/audio/scene-${String(scene).padStart(2, "0")}.mp3`;
   return (
     <AbsoluteFill style={{ background: "#191716" }}>
-      <SceneView scene={s} durationInFrames={durationInFrames} />
+      <SceneView
+        scene={s}
+        durationInFrames={durationInFrames}
+        publicPrefix={publicPrefix}
+        uploadedScenes={uploadedScenes}
+      />
       <Audio src={staticFile(audio)} />
     </AbsoluteFill>
   );

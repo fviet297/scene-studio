@@ -3,6 +3,7 @@
 export * from "./types";
 export * from "./motion";
 export { CinematicScene } from "./CinematicScene";
+export { CinematicVideoScene } from "./CinematicVideoScene";
 export { CinematicCamera } from "./CinematicCamera";
 export { ParallaxLayer } from "./ParallaxLayer";
 export { AnimatedCharacter } from "./AnimatedCharacter";

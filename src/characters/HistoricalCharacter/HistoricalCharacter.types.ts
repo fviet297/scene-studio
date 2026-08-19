@@ -1,17 +1,20 @@
-import type React from 'react';
+import type React from "react";
 
-export type HistoricalCharacterId = 'ly-thai-to' | 'ly-the-dan';
+// Any id present in the active project's src/characters-data.json (generated from that
+// project's scene-plan.md `## characters` block) — not a fixed union, since the character set
+// changes per project.
+export type HistoricalCharacterId = string;
 
 export type HistoricalCharacterAnimation =
-  | 'still'
-  | 'idle'
-  | 'enter-left'
-  | 'enter-right'
-  | 'emphasis'
-  | 'exit-left'
-  | 'exit-right';
+  | "still"
+  | "idle"
+  | "enter-left"
+  | "enter-right"
+  | "emphasis"
+  | "exit-left"
+  | "exit-right";
 
-export type HistoricalCharacterReferenceVersion = 'current' | 'v2';
+export type HistoricalCharacterReferenceVersion = "current" | "v2";
 
 export interface HistoricalCharacterProps {
   character: HistoricalCharacterId;

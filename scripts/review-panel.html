@@ -15,6 +15,11 @@
     <span class="sub">review workbench</span>
   </div>
 
+  <div class="project-switch">
+    <select class="mini" id="projectSelect" aria-label="Active project"></select>
+    <button class="btn sm" type="button" id="btnNewProject" title="Start a new comparison project">New project</button>
+  </div>
+
   <div class="pipeline" id="pipeline">
     <div class="stage-meter">
       <span class="lbl">Image</span>
@@ -41,6 +46,7 @@
   </div>
 
   <button class="btn" type="button" id="btnTemplates">Prompt templates</button>
+  <button class="btn" type="button" id="btnImport">Import JSON</button>
   <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Open MP4</a>
   <button class="btn primary" type="button" id="btnRender" disabled>Render MP4</button>
 </header>
@@ -61,6 +67,11 @@
       </select>
     </div>
     <div class="pane-scroll">
+      <div class="char-gallery-head">
+        <button class="btn sm" type="button" id="btnAddChar">Add character</button>
+        <button class="btn sm" type="button" id="btnGenPuppets">Generate puppets</button>
+      </div>
+      <div class="char-gallery" id="charGallery"></div>
       <ul class="rail-list" id="railList"></ul>
     </div>
   </aside>
@@ -72,22 +83,24 @@
       <span class="tag" id="stKind">AI</span>
       <span class="tag" id="stSource" hidden></span>
       <span class="tag" id="stState">loading</span>
-      <span class="chars" id="stChars"></span>
+      <div class="stage-chars" id="stChars"></div>
     </div>
 
-    <div class="canvas" id="canvas">
-      <div class="empty" id="canvasEmpty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-        <span id="canvasEmptyText">No scenes loaded.</span>
+    <div class="stage-media">
+      <div class="canvas" id="canvas">
+        <div class="empty" id="canvasEmpty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          <span id="canvasEmptyText">No scenes loaded.</span>
+        </div>
+        <div class="dropveil"><span>Drop image to use for this scene</span></div>
       </div>
-      <div class="dropveil"><span>Drop image to use for this scene</span></div>
+      <div class="motion-pane" id="motionVideoWrap" hidden>
+        <video id="motionVideo" controls preload="none"></video>
+      </div>
     </div>
 
     <div class="scene-video" id="sceneVideoWrap" hidden>
       <video id="sceneVideo" controls preload="none"></video>
-    </div>
-    <div class="scene-video" id="motionVideoWrap" hidden>
-      <video id="motionVideo" controls preload="none"></video>
     </div>
 
     <div class="transport">
@@ -104,6 +117,19 @@
 
       <div class="block" id="errBlock" hidden>
         <div class="alert" id="errText" role="alert"></div>
+      </div>
+
+      <div class="block" id="setupBlock">
+        <div class="block-head"><span class="ttl">Scene setup</span></div>
+        <div class="field-row">
+          <div class="field"><label for="titleBox">Title</label><input class="text-input" id="titleBox" type="text" /></div>
+          <div class="field"><label for="cueBox">Cue</label><input class="text-input" id="cueBox" type="text" /></div>
+        </div>
+        <div class="field"><label for="hostBox">Host</label><input class="text-input" id="hostBox" type="text" placeholder="e.g. explain, point-left (unused by rendering today)" /></div>
+        <div class="field">
+          <label>Characters in scene</label>
+          <div class="char-picker" id="charPicker"></div>
+        </div>
       </div>
 
       <div class="block">
@@ -127,6 +153,7 @@
         <textarea id="promptBox" rows="7" spellcheck="false" aria-label="Image prompt for the selected scene" placeholder="Action and gesture only. Appearance comes from the character reference."></textarea>
         <div class="btn-row">
           <button class="btn sm" type="button" id="promptSave" disabled>Save prompt</button>
+          <button class="btn sm" type="button" id="btnGenPrompt">Generate prompt from narration</button>
           <span class="grow"></span>
           <button class="btn sm primary" type="button" id="btnGen">Generate image</button>
         </div>
@@ -150,7 +177,8 @@
 
       <div class="block">
         <div class="block-head"><span class="ttl">Image to video</span></div>
-        <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to VMedia"></textarea>
+        <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
+        <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to the model"></textarea>
         <button class="btn sm wide" type="button" id="btnMotionVideo">Generate motion video</button>
       </div>
 
@@ -171,8 +199,10 @@
     <button class="btn quiet sm" type="button" id="selAll">All</button>
     <button class="btn quiet sm" type="button" id="selNeedImg">Need image</button>
     <button class="btn quiet sm" type="button" id="selNeedAud">Need audio</button>
+    <button class="btn quiet sm" type="button" id="selNeedPrompt">Need prompt</button>
     <button class="btn quiet sm" type="button" id="selNone">Clear</button>
     <span class="sep"></span>
+    <button class="btn sm" type="button" id="batchPrompt" disabled>Generate prompts</button>
     <button class="btn sm" type="button" id="batchImg" disabled>Generate images</button>
     <button class="btn sm" type="button" id="batchAud" disabled>Generate audio</button>
   </div>
@@ -212,6 +242,83 @@
       <span class="note">Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char, face, multi-character and text templates, or the scene prompt is never inserted.</span>
       <button class="btn" type="button" id="tplReload">Reload</button>
       <button class="btn primary" type="button" id="tplSave">Save templates</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="impOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="impTitle">
+  <div class="dialog">
+    <div class="dialog-head">
+      <h2 id="impTitle">Import narration JSON</h2>
+      <span class="note">Array of <code>{scene, narration, title?, cue?, prompt?}</code>. Existing scenes update in place; new scene numbers are appended.</span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="impClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field">
+        <label for="impBox">JSON</label>
+        <textarea id="impBox" spellcheck="false" placeholder='[{&quot;scene&quot;: 1, &quot;narration&quot;: &quot;...&quot;, &quot;char&quot;: &quot;both&quot;}]'></textarea>
+      </div>
+      <div class="block" id="impPreview" hidden>
+        <div class="readonly-field" id="impPreviewText"></div>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="impNote">Paste JSON, then Validate.</span>
+      <button class="btn" type="button" id="impCopy">Copy current as JSON</button>
+      <button class="btn" type="button" id="impValidate">Validate</button>
+      <button class="btn primary" type="button" id="impApply" disabled>Apply</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="charFileInput" accept="image/png,image/jpeg,image/webp" aria-label="Choose a reference image for this character" hidden />
+
+<div class="overlay" id="acOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="acTitle">
+  <div class="dialog narrow">
+    <div class="dialog-head">
+      <h2 id="acTitle">Add character</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="acClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field"><label for="acId">Id</label><input class="text-input" id="acId" type="text" placeholder="e.g. tran-hung-dao" spellcheck="false" autocomplete="off" /></div>
+      <div class="field"><label for="acName">Display name</label><input class="text-input" id="acName" type="text" placeholder="e.g. Trần Hưng Đạo" autocomplete="off" /></div>
+      <div class="field"><label for="acFile">Reference image (optional now, upload later)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="acNote">Adds to the ## characters block and creates profile.json.</span>
+      <button class="btn primary" type="button" id="acCreate">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="npOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="npTitle">
+  <div class="dialog narrow">
+    <div class="dialog-head">
+      <h2 id="npTitle">New project</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="npClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field">
+        <label for="npSlug">Slug</label>
+        <input class="text-input" id="npSlug" type="text" placeholder="e.g. tran-hung-dao-vs-nhac-phi" spellcheck="false" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="npTitleInput">Title</label>
+        <input class="text-input" id="npTitleInput" type="text" placeholder="e.g. Trần Hưng Đạo vs Nhạc Phi" autocomplete="off" />
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="npNote">Scaffolds from projects/_template and switches to it.</span>
+      <button class="btn primary" type="button" id="npCreate">Create</button>
     </div>
   </div>
 </div>

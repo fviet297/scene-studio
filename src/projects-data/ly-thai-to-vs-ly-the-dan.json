@@ -1,0 +1,1592 @@
+{
+  "slug": "ly-thai-to-vs-ly-the-dan",
+  "title": "LÝ THÁI TỔ vs LÝ THẾ DÂN",
+  "publicPrefix": "projects/ly-thai-to-vs-ly-the-dan",
+  "fps": 30,
+  "durationInFrames": 1832,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Hai vị hoàng đế, cách nhau hơn 4 thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to",
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls, wide timber halls and ordered ceremonial ranks. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning."
+      },
+      "title": "HAI BẬC KHAI MỞ",
+      "cue": "Hai thế kỷ · hai đế chế",
+      "host": "explain",
+      "hasAudio": true
+    },
+    {
+      "scene": 2,
+      "narration": "Một người sáng lập nhà Lý, một người đưa nhà Đường bước vào thời kỳ huy hoàng.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to",
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands lower-left overlooking a compact early-11th-century Đại Việt river citadel where builders raise low brick walls, timber halls and storehouses. The second character stands upper-right above a vast ordered 7th-century Tang avenue of markets, granaries and administrative compounds. A diagonal band of warm morning light splits the two halves and brightens toward the horizon: foundations being laid on the left, full imperial prosperity on the right. Small East-Asian builders, officials and soldiers work only inside their own half, in period-correct dress."
+      },
+      "title": "NHÀ LÝ · NHÀ ĐƯỜNG",
+      "cue": "Khởi nghiệp và thịnh trị",
+      "host": "explain",
+      "hasAudio": true
+    },
+    {
+      "scene": 3,
+      "narration": "Lý Thái Tổ, tên thật Lý Công Uẩn, lên ngôi năm một nghìn không trăm mười.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Standing before assembled officials at his accession in 1010, receiving the imperial seal with both hands and turning toward the court with composed resolve. Setting: early Lý-dynasty Đại Việt, a compact timber audience hall with stout plain columns, low heavy dark-tiled roofs and a brick courtyard. Vietnamese court officials with East-Asian faces wear early-11th-century robes and simple caps; guards carry spears and stand beneath plain crimson cloth banners. Solemn ceremonial light, medium-wide environmental framing, no Nguyễn-dynasty dress, no Qing costume, no European architecture."
+      },
+      "title": "LÝ CÔNG UẨN LÊN NGÔI",
+      "cue": "Đại Việt · năm 1010",
+      "host": "point-left",
+      "hasAudio": true
+    },
+    {
+      "scene": 4,
+      "narration": "Việc đầu tiên ông làm là dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Standing at the bow of a covered wooden river boat leading the capital relocation, one hand on the rail, looking north down a wide brown river. The entire relocation party travels on the water: a single-file convoy of covered wooden boats, cargo barges and small ferry boats follows behind, carrying people, household goods and supplies. No horses, oxen, buffalo, carts or wheeled vehicles are on the river or on the boats; any animals remain only on the distant riverbank. Behind, steep grey limestone hills recede into the valley; ahead, the river opens into a green delta with a low walled riverside town. Setting: early-11th-century Đại Việt. Vietnamese travellers and guards wear plain early-Lý tunics, head cloths and simple spears. Warm morning light ahead, dark limestone behind, hopeful medium-wide composition. No Nguyễn-dynasty dress, no Qing costume, no Chinese palace architecture."
+      },
+      "title": "DỜI ĐÔ RA ĐẠI LA",
+      "cue": "Hoa Lư → Thăng Long",
+      "host": "point-left",
+      "hasAudio": true
+    },
+    {
+      "scene": 5,
+      "narration": "Quyết định ấy tạo nền móng cho kinh đô của Đại Việt trong nhiều thế kỷ sau.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Standing beside the first organized works of Thăng Long, looking across a new riverside capital as builders raise low brick walls, timber halls and storehouses. Setting: early-11th-century Đại Việt near the Red River, with compact practical urban planning, stout timber posts, dark unglazed tiles and a wide open civic courtyard. Vietnamese builders, officials and guards have East-Asian faces and wear plain early-Lý tunics, robes and simple head cloths; the construction feels like a durable foundation rather than a finished imperial metropolis. Warm morning light, hopeful medium-wide composition. No later Nguyễn or Qing costume, no Chinese palace scale, no European towers."
+      },
+      "title": "NỀN MÓNG THĂNG LONG",
+      "cue": "Kinh đô nhiều thế kỷ",
+      "host": "point-left",
+      "hasAudio": true
+    },
+    {
+      "scene": 6,
+      "narration": "Còn Lý Thế Dân, tức Đường Thái Tông, lên ngôi năm sáu trăm hai mươi sáu.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "Standing at the center of a formal accession ceremony in 626, accepting the imperial seal while officials bow in ordered rows. Setting: early Tang-dynasty China, a broad palace courtyard enclosed by rammed-earth walls and large timber halls with restrained 7th-century roof forms. Tang Chinese officials and guards have East-Asian faces, period-correct robes, caps, lamellar armour and long spears. The atmosphere is controlled and politically charged rather than celebratory, with cool dawn light and a medium-wide composition. No Ming or Qing costume, no fantasy palace, no European elements."
+      },
+      "title": "ĐƯỜNG THÁI TÔNG",
+      "cue": "Nhà Đường · năm 626",
+      "host": "point-right",
+      "hasAudio": true
+    },
+    {
+      "scene": 7,
+      "narration": "Ông nổi tiếng với việc đánh bại nhiều đối thủ, củng cố nhà Đường và mở ra thời kỳ Trinh Quán chi trị.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "Directing a Tang army from a raised position after victory, one arm extended toward disciplined formations while officers carry orders between cavalry and infantry. Setting: 7th-century Tang China on a broad northern plain near a fortified command camp. Tang Chinese soldiers with East-Asian faces wear period-correct lamellar armour and carry spears, bows and plain dark cloth standards; ordinary troops use simpler gear than the emperor. The rear of the scene transitions into an orderly civilian landscape of roads, granaries and cultivated fields, suggesting military consolidation becoming stable governance. No later Ming or Qing equipment, no guns, no European armour."
+      },
+      "title": "TRINH QUÁN CHI TRỊ",
+      "cue": "Chiến thắng · củng cố · thịnh trị",
+      "host": "point-right",
+      "hasAudio": true
+    },
+    {
+      "scene": 8,
+      "narration": "Lý Thái Tổ nổi bật ở khả năng xây dựng một quốc gia ổn định sau thời kỳ loạn lạc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Reviewing the construction of a stable new capital, gesturing calmly toward planners, builders and officials organizing roads, storehouses and defensive walls. Setting: early-11th-century Thăng Long in Đại Việt beside the Red River, with low brick ramparts, round-arched passages, timber halls on stout posts and dark unglazed tiles. Vietnamese workers and soldiers have East-Asian faces and wear plain early-Lý tunics, head cloths and simple guard equipment. The scene should feel practical, orderly and hopeful, with clear evidence of administration replacing disorder. No Chinese imperial megacity, no Nguyễn-dynasty costume, no European masonry."
+      },
+      "title": "XÂY NỀN QUỐC GIA",
+      "cue": "Ổn định sau loạn lạc",
+      "host": "point-left",
+      "hasAudio": true
+    },
+    {
+      "scene": 9,
+      "narration": "Lý Thế Dân nổi bật ở tài năng quân sự, chính trị và khả năng mở rộng sức mạnh của đế quốc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "Standing over a large campaign map on a wooden field table, issuing precise orders to Tang officers while mounted messengers depart toward distant frontier routes. Setting: a 7th-century Tang command pavilion overlooking an expansive dry plain, with cavalry, supply carts and fortified waystations visible in depth. Tang Chinese officers and soldiers have East-Asian faces, period-correct lamellar armour, bows and spears; their equipment remains distinct by rank. Strong controlled afternoon light, strategic rather than chaotic mood, medium-wide environmental composition. No invented map lettering, no later Ming or Qing armour, no firearms or European elements."
+      },
+      "title": "QUÂN SỰ VÀ ĐẾ QUỐC",
+      "cue": "Sức mạnh nhà Đường",
+      "host": "point-right",
+      "hasAudio": true
+    },
+    {
+      "scene": 10,
+      "narration": "Một người đặt nền móng cho Thăng Long, một người tạo nên thời kỳ thịnh trị bậc nhất lịch sử Trung Hoa.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to",
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "The first character stands left on a finished low brick rampart of early Thăng Long beside the Red River, above compact timber halls, storehouses and active builders. The second character stands right on a raised terrace above prosperous 7th-century Tang Chang'an, its vast ordered avenue, markets and administrative compounds running into depth. Each ruler stays on their own side and never crosses into the other's city. East-Asian citizens and officials remain small supporting figures in culture-specific period dress. One continuous golden horizon links both achievements while the difference in physical scale stays visible."
+      },
+      "title": "HAI DI SẢN",
+      "cue": "Thăng Long · Trinh Quán",
+      "host": "explain",
+      "hasAudio": true
+    },
+    {
+      "scene": 11,
+      "narration": "Nếu so về xây dựng quốc gia, Lý Thái Tổ để lại dấu ấn đặc biệt.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to"
+        ],
+        "identity": "full",
+        "prompt": "Standing on a finished section of Thăng Long's new low brick rampart, looking across an organized capital of roads, storehouses, villages and timber halls, one hand open in a measured gesture of stewardship. Setting: early-11th-century Đại Việt beside the Red River. Vietnamese officials, builders and guards have East-Asian faces and wear plain early-Lý robes, tunics and simple helmets; the city architecture remains compact, low and practical. Warm late-afternoon light emphasizes continuity and civic order rather than conquest. No Nguyễn-dynasty clothing, no Chinese imperial palace scale, no European towers."
+      },
+      "title": "DẤU ẤN LÝ THÁI TỔ",
+      "cue": "Xây dựng quốc gia",
+      "host": "point-left",
+      "hasAudio": true
+    },
+    {
+      "scene": 12,
+      "narration": "Nhưng nếu so về quân sự và quy mô đế quốc, Lý Thế Dân vượt trội hơn.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "Overlooking an immense Tang military review from a raised command platform, lifting one hand as cavalry, infantry and supply columns move in disciplined depth across a broad plain. Setting: 7th-century Tang China at the height of early imperial expansion, with distant frontier forts and roads connecting the horizon. Tang Chinese troops have East-Asian faces, period-correct lamellar armour, bows and spears; ordinary soldiers wear simpler equipment than the emperor. Grand scale, clear formations and strong wind across plain undecorated standards. No Ming or Qing armour, no firearms, no fantasy weapons, no European features."
+      },
+      "title": "ƯU THẾ LÝ THẾ DÂN",
+      "cue": "Quân sự · quy mô đế quốc",
+      "host": "point-right",
+      "hasAudio": true
+    },
+    {
+      "scene": 13,
+      "narration": "Hai vị hoàng đế, hai thời đại, nhưng đều được lịch sử nhớ đến như những người khai mở một thời kỳ hưng thịnh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "ly-thai-to",
+          "ly-the-dan"
+        ],
+        "identity": "full",
+        "prompt": "A quiet closing image of two legacies at dawn. The first character stands at the left edge in calm profile, looking out over early Thăng Long's river citadel as it awakens with markets, officials and families among low compact Đại Việt timber halls. The second character stands at the right edge in calm profile, looking out over Tang Chang'an's great avenue as its broad monumental city awakens. The two landscapes meet in the centre under a shared band of golden sky. Keep all other people small, East-Asian and dressed for their own culture and era. Reflective, dignified ending."
+      },
+      "title": "KHAI MỞ THỊNH THẾ",
+      "cue": "Hai thời đại · một tầm vóc",
+      "host": "happy",
+      "hasAudio": true
+    }
+  ],
+  "sceneDurations": [
+    6.088,
+    2.68,
+    4.22,
+    4.31,
+    4.33,
+    4.25,
+    5.85,
+    4.46,
+    5.09,
+    5.87,
+    3.62,
+    3.94,
+    6.284
+  ],
+  "captionGroups": [
+    [
+      {
+        "text": "Hai",
+        "start": 0.214,
+        "end": 0.402
+      },
+      {
+        "text": "vị",
+        "start": 0.402,
+        "end": 0.552
+      },
+      {
+        "text": "hoàng",
+        "start": 0.552,
+        "end": 0.801
+      },
+      {
+        "text": "đế,",
+        "start": 0.801,
+        "end": 0.951
+      },
+      {
+        "text": "cách",
+        "start": 0.951,
+        "end": 1.646
+      },
+      {
+        "text": "nhau",
+        "start": 1.646,
+        "end": 1.866
+      },
+      {
+        "text": "hơn",
+        "start": 1.866,
+        "end": 2.054
+      }
+    ],
+    [
+      {
+        "text": "4",
+        "start": 2.054,
+        "end": 2.156
+      },
+      {
+        "text": "thế",
+        "start": 2.156,
+        "end": 2.344
+      },
+      {
+        "text": "kỷ,",
+        "start": 2.344,
+        "end": 2.495
+      },
+      {
+        "text": "nhưng",
+        "start": 2.495,
+        "end": 3.215
+      },
+      {
+        "text": "đều",
+        "start": 3.215,
+        "end": 3.403
+      },
+      {
+        "text": "là",
+        "start": 3.403,
+        "end": 3.553
+      },
+      {
+        "text": "những",
+        "start": 3.553,
+        "end": 3.802
+      }
+    ],
+    [
+      {
+        "text": "người",
+        "start": 3.802,
+        "end": 4.051
+      },
+      {
+        "text": "đặt",
+        "start": 4.051,
+        "end": 4.239
+      },
+      {
+        "text": "nền",
+        "start": 4.239,
+        "end": 4.427
+      },
+      {
+        "text": "móng",
+        "start": 4.427,
+        "end": 4.647
+      },
+      {
+        "text": "cho",
+        "start": 4.647,
+        "end": 4.835
+      },
+      {
+        "text": "một",
+        "start": 4.835,
+        "end": 5.023
+      },
+      {
+        "text": "thời",
+        "start": 5.023,
+        "end": 5.243
+      }
+    ],
+    [
+      {
+        "text": "kỳ",
+        "start": 5.243,
+        "end": 5.393
+      },
+      {
+        "text": "hưng",
+        "start": 5.393,
+        "end": 5.613
+      },
+      {
+        "text": "thịnh.",
+        "start": 5.613,
+        "end": 5.862
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 6.297,
+        "end": 6.415
+      },
+      {
+        "text": "người",
+        "start": 6.415,
+        "end": 6.571
+      },
+      {
+        "text": "sáng",
+        "start": 6.571,
+        "end": 6.71
+      },
+      {
+        "text": "lập",
+        "start": 6.71,
+        "end": 6.827
+      },
+      {
+        "text": "nhà",
+        "start": 6.827,
+        "end": 6.945
+      },
+      {
+        "text": "Lý,",
+        "start": 6.945,
+        "end": 7.04
+      },
+      {
+        "text": "một",
+        "start": 7.04,
+        "end": 7.158
+      }
+    ],
+    [
+      {
+        "text": "người",
+        "start": 7.158,
+        "end": 7.314
+      },
+      {
+        "text": "đưa",
+        "start": 7.314,
+        "end": 7.432
+      },
+      {
+        "text": "nhà",
+        "start": 7.432,
+        "end": 7.549
+      },
+      {
+        "text": "Đường",
+        "start": 7.549,
+        "end": 7.706
+      },
+      {
+        "text": "bước",
+        "start": 7.706,
+        "end": 7.844
+      },
+      {
+        "text": "vào",
+        "start": 7.844,
+        "end": 7.962
+      },
+      {
+        "text": "thời",
+        "start": 7.962,
+        "end": 8.1
+      }
+    ],
+    [
+      {
+        "text": "kỳ",
+        "start": 8.1,
+        "end": 8.194
+      },
+      {
+        "text": "huy",
+        "start": 8.194,
+        "end": 8.312
+      },
+      {
+        "text": "hoàng.",
+        "start": 8.312,
+        "end": 8.468
+      }
+    ],
+    [
+      {
+        "text": "Lý",
+        "start": 8.97,
+        "end": 9.131
+      },
+      {
+        "text": "Thái",
+        "start": 9.131,
+        "end": 9.367
+      },
+      {
+        "text": "Tổ,",
+        "start": 9.367,
+        "end": 9.528
+      },
+      {
+        "text": "tên",
+        "start": 9.528,
+        "end": 9.729
+      },
+      {
+        "text": "thật",
+        "start": 9.729,
+        "end": 9.965
+      },
+      {
+        "text": "Lý",
+        "start": 9.965,
+        "end": 10.44
+      },
+      {
+        "text": "Công",
+        "start": 10.44,
+        "end": 10.676
+      }
+    ],
+    [
+      {
+        "text": "Uẩn,",
+        "start": 10.676,
+        "end": 10.877
+      },
+      {
+        "text": "lên",
+        "start": 10.877,
+        "end": 11.078
+      },
+      {
+        "text": "ngôi",
+        "start": 11.078,
+        "end": 11.314
+      },
+      {
+        "text": "năm",
+        "start": 11.314,
+        "end": 11.515
+      },
+      {
+        "text": "một",
+        "start": 11.515,
+        "end": 11.716
+      },
+      {
+        "text": "nghìn",
+        "start": 11.716,
+        "end": 11.983
+      },
+      {
+        "text": "không",
+        "start": 11.983,
+        "end": 12.249
+      }
+    ],
+    [
+      {
+        "text": "trăm",
+        "start": 12.249,
+        "end": 12.485
+      },
+      {
+        "text": "mười.",
+        "start": 12.485,
+        "end": 12.988
+      }
+    ],
+    [
+      {
+        "text": "Việc",
+        "start": 13.197,
+        "end": 13.425
+      },
+      {
+        "text": "đầu",
+        "start": 13.425,
+        "end": 13.619
+      },
+      {
+        "text": "tiên",
+        "start": 13.619,
+        "end": 13.846
+      },
+      {
+        "text": "ông",
+        "start": 13.846,
+        "end": 14.04
+      },
+      {
+        "text": "làm",
+        "start": 14.04,
+        "end": 14.233
+      },
+      {
+        "text": "là",
+        "start": 14.233,
+        "end": 14.389
+      },
+      {
+        "text": "dời",
+        "start": 14.389,
+        "end": 14.582
+      }
+    ],
+    [
+      {
+        "text": "đô",
+        "start": 14.582,
+        "end": 14.738
+      },
+      {
+        "text": "từ",
+        "start": 14.738,
+        "end": 14.893
+      },
+      {
+        "text": "Hoa",
+        "start": 14.893,
+        "end": 15.087
+      },
+      {
+        "text": "Lư",
+        "start": 15.087,
+        "end": 15.242
+      },
+      {
+        "text": "về",
+        "start": 15.242,
+        "end": 15.397
+      },
+      {
+        "text": "Đại",
+        "start": 15.397,
+        "end": 15.591
+      },
+      {
+        "text": "La,",
+        "start": 15.591,
+        "end": 15.746
+      }
+    ],
+    [
+      {
+        "text": "đặt",
+        "start": 15.746,
+        "end": 16.23
+      },
+      {
+        "text": "tên",
+        "start": 16.23,
+        "end": 16.424
+      },
+      {
+        "text": "là",
+        "start": 16.424,
+        "end": 16.579
+      },
+      {
+        "text": "Thăng",
+        "start": 16.579,
+        "end": 16.836
+      },
+      {
+        "text": "Long.",
+        "start": 16.836,
+        "end": 17.298
+      }
+    ],
+    [
+      {
+        "text": "Quyết",
+        "start": 17.499,
+        "end": 17.784
+      },
+      {
+        "text": "định",
+        "start": 17.784,
+        "end": 18.036
+      },
+      {
+        "text": "ấy",
+        "start": 18.036,
+        "end": 18.208
+      },
+      {
+        "text": "tạo",
+        "start": 18.208,
+        "end": 18.424
+      },
+      {
+        "text": "nền",
+        "start": 18.424,
+        "end": 18.639
+      },
+      {
+        "text": "móng",
+        "start": 18.639,
+        "end": 18.891
+      },
+      {
+        "text": "cho",
+        "start": 18.891,
+        "end": 19.106
+      }
+    ],
+    [
+      {
+        "text": "kinh",
+        "start": 19.106,
+        "end": 19.358
+      },
+      {
+        "text": "đô",
+        "start": 19.358,
+        "end": 19.53
+      },
+      {
+        "text": "của",
+        "start": 19.53,
+        "end": 19.745
+      },
+      {
+        "text": "Đại",
+        "start": 19.745,
+        "end": 19.961
+      },
+      {
+        "text": "Việt",
+        "start": 19.961,
+        "end": 20.213
+      },
+      {
+        "text": "trong",
+        "start": 20.213,
+        "end": 20.498
+      },
+      {
+        "text": "nhiều",
+        "start": 20.498,
+        "end": 20.783
+      }
+    ],
+    [
+      {
+        "text": "thế",
+        "start": 20.783,
+        "end": 20.998
+      },
+      {
+        "text": "kỷ",
+        "start": 20.998,
+        "end": 21.17
+      },
+      {
+        "text": "sau.",
+        "start": 21.17,
+        "end": 21.385
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 21.838,
+        "end": 22.027
+      },
+      {
+        "text": "Lý",
+        "start": 22.027,
+        "end": 22.179
+      },
+      {
+        "text": "Thế",
+        "start": 22.179,
+        "end": 22.368
+      },
+      {
+        "text": "Dân,",
+        "start": 22.368,
+        "end": 22.557
+      },
+      {
+        "text": "tức",
+        "start": 22.557,
+        "end": 23.028
+      },
+      {
+        "text": "Đường",
+        "start": 23.028,
+        "end": 23.278
+      },
+      {
+        "text": "Thái",
+        "start": 23.278,
+        "end": 23.5
+      }
+    ],
+    [
+      {
+        "text": "Tông,",
+        "start": 23.5,
+        "end": 23.722
+      },
+      {
+        "text": "lên",
+        "start": 23.722,
+        "end": 24.233
+      },
+      {
+        "text": "ngôi",
+        "start": 24.233,
+        "end": 24.454
+      },
+      {
+        "text": "năm",
+        "start": 24.454,
+        "end": 24.643
+      },
+      {
+        "text": "sáu",
+        "start": 24.643,
+        "end": 24.833
+      },
+      {
+        "text": "trăm",
+        "start": 24.833,
+        "end": 25.054
+      },
+      {
+        "text": "hai",
+        "start": 25.054,
+        "end": 25.244
+      }
+    ],
+    [
+      {
+        "text": "mươi",
+        "start": 25.244,
+        "end": 25.465
+      },
+      {
+        "text": "sáu.",
+        "start": 25.465,
+        "end": 25.654
+      }
+    ],
+    [
+      {
+        "text": "Ông",
+        "start": 26.084,
+        "end": 26.271
+      },
+      {
+        "text": "nổi",
+        "start": 26.271,
+        "end": 26.457
+      },
+      {
+        "text": "tiếng",
+        "start": 26.457,
+        "end": 26.704
+      },
+      {
+        "text": "với",
+        "start": 26.704,
+        "end": 27.101
+      },
+      {
+        "text": "việc",
+        "start": 27.101,
+        "end": 27.319
+      },
+      {
+        "text": "đánh",
+        "start": 27.319,
+        "end": 27.537
+      },
+      {
+        "text": "bại",
+        "start": 27.537,
+        "end": 27.723
+      }
+    ],
+    [
+      {
+        "text": "nhiều",
+        "start": 27.723,
+        "end": 27.97
+      },
+      {
+        "text": "đối",
+        "start": 27.97,
+        "end": 28.156
+      },
+      {
+        "text": "thủ,",
+        "start": 28.156,
+        "end": 28.758
+      },
+      {
+        "text": "củng",
+        "start": 28.758,
+        "end": 28.976
+      },
+      {
+        "text": "cố",
+        "start": 28.976,
+        "end": 29.125
+      },
+      {
+        "text": "nhà",
+        "start": 29.125,
+        "end": 29.311
+      },
+      {
+        "text": "Đường",
+        "start": 29.311,
+        "end": 29.846
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 29.846,
+        "end": 29.995
+      },
+      {
+        "text": "mở",
+        "start": 29.995,
+        "end": 30.145
+      },
+      {
+        "text": "ra",
+        "start": 30.145,
+        "end": 30.294
+      },
+      {
+        "text": "thời",
+        "start": 30.294,
+        "end": 30.512
+      },
+      {
+        "text": "kỳ",
+        "start": 30.512,
+        "end": 30.661
+      },
+      {
+        "text": "Trinh",
+        "start": 30.661,
+        "end": 30.908
+      },
+      {
+        "text": "Quán",
+        "start": 30.908,
+        "end": 31.126
+      }
+    ],
+    [
+      {
+        "text": "chi",
+        "start": 31.126,
+        "end": 31.312
+      },
+      {
+        "text": "trị.",
+        "start": 31.312,
+        "end": 31.498
+      }
+    ],
+    [
+      {
+        "text": "Lý",
+        "start": 31.931,
+        "end": 32.08
+      },
+      {
+        "text": "Thái",
+        "start": 32.08,
+        "end": 32.3
+      },
+      {
+        "text": "Tổ",
+        "start": 32.3,
+        "end": 32.45
+      },
+      {
+        "text": "nổi",
+        "start": 32.45,
+        "end": 32.637
+      },
+      {
+        "text": "bật",
+        "start": 32.637,
+        "end": 32.824
+      },
+      {
+        "text": "ở",
+        "start": 32.824,
+        "end": 32.926
+      },
+      {
+        "text": "khả",
+        "start": 32.926,
+        "end": 33.114
+      }
+    ],
+    [
+      {
+        "text": "năng",
+        "start": 33.114,
+        "end": 33.333
+      },
+      {
+        "text": "xây",
+        "start": 33.333,
+        "end": 33.52
+      },
+      {
+        "text": "dựng",
+        "start": 33.52,
+        "end": 33.739
+      },
+      {
+        "text": "một",
+        "start": 33.739,
+        "end": 33.927
+      },
+      {
+        "text": "quốc",
+        "start": 33.927,
+        "end": 34.146
+      },
+      {
+        "text": "gia",
+        "start": 34.146,
+        "end": 34.333
+      },
+      {
+        "text": "ổn",
+        "start": 34.333,
+        "end": 34.483
+      }
+    ],
+    [
+      {
+        "text": "định",
+        "start": 34.483,
+        "end": 34.933
+      },
+      {
+        "text": "sau",
+        "start": 34.933,
+        "end": 35.12
+      },
+      {
+        "text": "thời",
+        "start": 35.12,
+        "end": 35.339
+      },
+      {
+        "text": "kỳ",
+        "start": 35.339,
+        "end": 35.489
+      },
+      {
+        "text": "loạn",
+        "start": 35.489,
+        "end": 35.709
+      },
+      {
+        "text": "lạc.",
+        "start": 35.709,
+        "end": 35.896
+      }
+    ],
+    [
+      {
+        "text": "Lý",
+        "start": 36.395,
+        "end": 36.543
+      },
+      {
+        "text": "Thế",
+        "start": 36.543,
+        "end": 36.728
+      },
+      {
+        "text": "Dân",
+        "start": 36.728,
+        "end": 36.912
+      },
+      {
+        "text": "nổi",
+        "start": 36.912,
+        "end": 37.097
+      },
+      {
+        "text": "bật",
+        "start": 37.097,
+        "end": 37.281
+      },
+      {
+        "text": "ở",
+        "start": 37.281,
+        "end": 37.382
+      },
+      {
+        "text": "tài",
+        "start": 37.382,
+        "end": 37.567
+      }
+    ],
+    [
+      {
+        "text": "năng",
+        "start": 37.567,
+        "end": 37.783
+      },
+      {
+        "text": "quân",
+        "start": 37.783,
+        "end": 37.999
+      },
+      {
+        "text": "sự,",
+        "start": 37.999,
+        "end": 38.147
+      },
+      {
+        "text": "chính",
+        "start": 38.147,
+        "end": 38.626
+      },
+      {
+        "text": "trị",
+        "start": 38.626,
+        "end": 39.116
+      },
+      {
+        "text": "và",
+        "start": 39.116,
+        "end": 39.264
+      },
+      {
+        "text": "khả",
+        "start": 39.264,
+        "end": 39.448
+      }
+    ],
+    [
+      {
+        "text": "năng",
+        "start": 39.448,
+        "end": 39.665
+      },
+      {
+        "text": "mở",
+        "start": 39.665,
+        "end": 39.812
+      },
+      {
+        "text": "rộng",
+        "start": 39.812,
+        "end": 40.029
+      },
+      {
+        "text": "sức",
+        "start": 40.029,
+        "end": 40.213
+      },
+      {
+        "text": "mạnh",
+        "start": 40.213,
+        "end": 40.429
+      },
+      {
+        "text": "của",
+        "start": 40.429,
+        "end": 40.614
+      },
+      {
+        "text": "đế",
+        "start": 40.614,
+        "end": 40.762
+      }
+    ],
+    [
+      {
+        "text": "quốc.",
+        "start": 40.762,
+        "end": 41.278
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 41.48,
+        "end": 41.69
+      },
+      {
+        "text": "người",
+        "start": 41.69,
+        "end": 41.968
+      },
+      {
+        "text": "đặt",
+        "start": 41.968,
+        "end": 42.179
+      },
+      {
+        "text": "nền",
+        "start": 42.179,
+        "end": 42.389
+      },
+      {
+        "text": "móng",
+        "start": 42.389,
+        "end": 42.635
+      },
+      {
+        "text": "cho",
+        "start": 42.635,
+        "end": 42.845
+      },
+      {
+        "text": "Thăng",
+        "start": 42.845,
+        "end": 43.123
+      }
+    ],
+    [
+      {
+        "text": "Long,",
+        "start": 43.123,
+        "end": 43.716
+      },
+      {
+        "text": "một",
+        "start": 43.716,
+        "end": 43.926
+      },
+      {
+        "text": "người",
+        "start": 43.926,
+        "end": 44.204
+      },
+      {
+        "text": "tạo",
+        "start": 44.204,
+        "end": 44.415
+      },
+      {
+        "text": "nên",
+        "start": 44.415,
+        "end": 44.625
+      },
+      {
+        "text": "thời",
+        "start": 44.625,
+        "end": 44.871
+      },
+      {
+        "text": "kỳ",
+        "start": 44.871,
+        "end": 45.039
+      }
+    ],
+    [
+      {
+        "text": "thịnh",
+        "start": 45.039,
+        "end": 45.317
+      },
+      {
+        "text": "trị",
+        "start": 45.317,
+        "end": 45.527
+      },
+      {
+        "text": "bậc",
+        "start": 45.527,
+        "end": 45.737
+      },
+      {
+        "text": "nhất",
+        "start": 45.737,
+        "end": 45.983
+      },
+      {
+        "text": "lịch",
+        "start": 45.983,
+        "end": 46.229
+      },
+      {
+        "text": "sử",
+        "start": 46.229,
+        "end": 46.398
+      },
+      {
+        "text": "Trung",
+        "start": 46.398,
+        "end": 46.676
+      }
+    ],
+    [
+      {
+        "text": "Hoa.",
+        "start": 46.676,
+        "end": 46.886
+      }
+    ],
+    [
+      {
+        "text": "Nếu",
+        "start": 47.356,
+        "end": 47.541
+      },
+      {
+        "text": "so",
+        "start": 47.541,
+        "end": 47.688
+      },
+      {
+        "text": "về",
+        "start": 47.688,
+        "end": 47.836
+      },
+      {
+        "text": "xây",
+        "start": 47.836,
+        "end": 48.02
+      },
+      {
+        "text": "dựng",
+        "start": 48.02,
+        "end": 48.236
+      },
+      {
+        "text": "quốc",
+        "start": 48.236,
+        "end": 48.452
+      },
+      {
+        "text": "gia,",
+        "start": 48.452,
+        "end": 48.637
+      }
+    ],
+    [
+      {
+        "text": "Lý",
+        "start": 48.637,
+        "end": 49.058
+      },
+      {
+        "text": "Thái",
+        "start": 49.058,
+        "end": 49.274
+      },
+      {
+        "text": "Tổ",
+        "start": 49.274,
+        "end": 49.422
+      },
+      {
+        "text": "để",
+        "start": 49.422,
+        "end": 49.57
+      },
+      {
+        "text": "lại",
+        "start": 49.57,
+        "end": 49.754
+      },
+      {
+        "text": "dấu",
+        "start": 49.754,
+        "end": 49.939
+      },
+      {
+        "text": "ấn",
+        "start": 49.939,
+        "end": 50.086
+      }
+    ],
+    [
+      {
+        "text": "đặc",
+        "start": 50.086,
+        "end": 50.271
+      },
+      {
+        "text": "biệt.",
+        "start": 50.271,
+        "end": 50.487
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 50.974,
+        "end": 51.227
+      },
+      {
+        "text": "nếu",
+        "start": 51.227,
+        "end": 51.418
+      },
+      {
+        "text": "so",
+        "start": 51.418,
+        "end": 51.571
+      },
+      {
+        "text": "về",
+        "start": 51.571,
+        "end": 51.723
+      },
+      {
+        "text": "quân",
+        "start": 51.723,
+        "end": 51.947
+      },
+      {
+        "text": "sự",
+        "start": 51.947,
+        "end": 52.1
+      },
+      {
+        "text": "và",
+        "start": 52.1,
+        "end": 52.252
+      }
+    ],
+    [
+      {
+        "text": "quy",
+        "start": 52.252,
+        "end": 52.443
+      },
+      {
+        "text": "mô",
+        "start": 52.443,
+        "end": 52.596
+      },
+      {
+        "text": "đế",
+        "start": 52.596,
+        "end": 52.749
+      },
+      {
+        "text": "quốc,",
+        "start": 52.749,
+        "end": 52.972
+      },
+      {
+        "text": "Lý",
+        "start": 52.972,
+        "end": 53.444
+      },
+      {
+        "text": "Thế",
+        "start": 53.444,
+        "end": 53.635
+      },
+      {
+        "text": "Dân",
+        "start": 53.635,
+        "end": 53.826
+      }
+    ],
+    [
+      {
+        "text": "vượt",
+        "start": 53.826,
+        "end": 54.049
+      },
+      {
+        "text": "trội",
+        "start": 54.049,
+        "end": 54.273
+      },
+      {
+        "text": "hơn.",
+        "start": 54.273,
+        "end": 54.463
+      }
+    ],
+    [
+      {
+        "text": "Hai",
+        "start": 54.925,
+        "end": 55.126
+      },
+      {
+        "text": "vị",
+        "start": 55.126,
+        "end": 55.287
+      },
+      {
+        "text": "hoàng",
+        "start": 55.287,
+        "end": 55.553
+      },
+      {
+        "text": "đế,",
+        "start": 55.553,
+        "end": 55.714
+      },
+      {
+        "text": "hai",
+        "start": 55.714,
+        "end": 56.12
+      },
+      {
+        "text": "thời",
+        "start": 56.12,
+        "end": 56.355
+      },
+      {
+        "text": "đại,",
+        "start": 56.355,
+        "end": 56.556
+      }
+    ],
+    [
+      {
+        "text": "nhưng",
+        "start": 56.556,
+        "end": 57.278
+      },
+      {
+        "text": "đều",
+        "start": 57.278,
+        "end": 57.479
+      },
+      {
+        "text": "được",
+        "start": 57.479,
+        "end": 57.714
+      },
+      {
+        "text": "lịch",
+        "start": 57.714,
+        "end": 57.95
+      },
+      {
+        "text": "sử",
+        "start": 57.95,
+        "end": 58.111
+      },
+      {
+        "text": "nhớ",
+        "start": 58.111,
+        "end": 58.312
+      },
+      {
+        "text": "đến",
+        "start": 58.312,
+        "end": 58.513
+      }
+    ],
+    [
+      {
+        "text": "như",
+        "start": 58.513,
+        "end": 58.714
+      },
+      {
+        "text": "những",
+        "start": 58.714,
+        "end": 58.98
+      },
+      {
+        "text": "người",
+        "start": 58.98,
+        "end": 59.246
+      },
+      {
+        "text": "khai",
+        "start": 59.246,
+        "end": 59.482
+      },
+      {
+        "text": "mở",
+        "start": 59.482,
+        "end": 59.643
+      },
+      {
+        "text": "một",
+        "start": 59.643,
+        "end": 59.844
+      },
+      {
+        "text": "thời",
+        "start": 59.844,
+        "end": 60.079
+      }
+    ],
+    [
+      {
+        "text": "kỳ",
+        "start": 60.079,
+        "end": 60.24
+      },
+      {
+        "text": "hưng",
+        "start": 60.24,
+        "end": 60.476
+      },
+      {
+        "text": "thịnh.",
+        "start": 60.476,
+        "end": 60.992
+      }
+    ]
+  ],
+  "uploadedScenes": []
+}

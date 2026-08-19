@@ -7,16 +7,16 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { captionGroups } from "./caption-data";
-import { sceneDurations } from "./audio-durations";
-import scenePlan from "./scene-plan.json";
-import assetManifest from "../public/images/asset-manifest.json";
-import { CinematicScene, transitionOpacity } from "./animation";
+import {
+  CinematicScene,
+  CinematicVideoScene,
+  transitionOpacity,
+} from "./animation";
 import { getSceneMotion } from "./scene-motion";
 
-// Single-image-per-scene composition driven entirely by src/scene-plan.json (see the
-// history-video skill: scene-plan.md + layout.md). Full-bleed scene image with an
-// auto title/cue and the caption track. One <Audio> per scene.
+// One composition per project, each fed a ProjectData bundle built by scripts/build-remotion.mjs
+// (src/projects-data/*.json) from that project's projects/<slug>/scene-plan.md + audio. Full-bleed
+// scene image (or motion clip) with an auto title/cue and the caption track. One <Audio> per scene.
 
 export const FPS = 30;
 const COLORS = {
@@ -33,6 +33,12 @@ export type Scene = {
   title?: string;
   cue?: string;
   host?: string;
+  // Stamped by the builder when a review-panel-generated motion clip exists for this scene
+  // (public/projects/<slug>/scene-videos/scene-NN.mp4) — plays in place of the image.
+  motionVideo?: boolean;
+  // Stamped by the builder: whether public/projects/<slug>/audio/scene-NN.mp3 exists. A missing
+  // file must NOT be handed to <Audio>, which errors when the source is absent.
+  hasAudio?: boolean;
   image: {
     kind: "ai" | "search";
     characters: string[];
@@ -41,25 +47,40 @@ export type Scene = {
   };
 };
 
-const scenes = scenePlan.scenes as unknown as Scene[];
+export type CaptionWord = { text: string; start: number; end: number };
+export type CaptionGroup = CaptionWord[];
 
-// Scenes whose image is a user-uploaded photo (per the asset manifest) must NOT show the
-// "AI phục dựng" tag. Everything else generated as AI keeps it.
-const uploadedScenes = new Set(
-  (assetManifest as { scene: number; authenticity: string }[])
-    .filter((m) => m.authenticity === "USER_UPLOAD")
-    .map((m) => m.scene),
-);
-const showsAiTag = (scene: Scene) =>
-  scene.image.kind === "ai" && !uploadedScenes.has(scene.scene);
-const sceneFrames = sceneDurations.map((s) => Math.round(s * FPS));
-const sceneStarts = sceneFrames.reduce<number[]>(
-  (acc, f) => [...acc, acc[acc.length - 1] + f],
-  [0],
-);
-export const totalDurationInFrames = sceneStarts[sceneStarts.length - 1];
+export type ProjectData = {
+  slug: string;
+  title: string;
+  publicPrefix: string;
+  fps: number;
+  durationInFrames: number;
+  scenes: Scene[];
+  sceneDurations: number[];
+  captionGroups: CaptionGroup[];
+  uploadedScenes: number[];
+};
 
-function CaptionTrack() {
+const PLACEHOLDER_SCENE_SECONDS = 4;
+
+// Cumulative per-scene frame counts + starts from measured audio durations. Keyed off scenes so a
+// missing/short duration falls back to a placeholder instead of feeding NaN into interpolate().
+function sceneTimeline(scenes: Scene[], sceneDurations: number[]) {
+  const frames = scenes.map((_, i) => {
+    const seconds = sceneDurations[i];
+    return Math.round(
+      (Number.isFinite(seconds) ? seconds : PLACEHOLDER_SCENE_SECONDS) * FPS,
+    );
+  });
+  const starts = frames.reduce<number[]>(
+    (acc, f) => [...acc, acc[acc.length - 1] + f],
+    [0],
+  );
+  return { frames, starts };
+}
+
+function CaptionTrack({ captionGroups }: { captionGroups: CaptionGroup[] }) {
   const { fps } = useVideoConfig();
   const seconds = useCurrentFrame() / fps;
   const group = captionGroups.find(
@@ -71,11 +92,14 @@ function CaptionTrack() {
     <div
       style={{
         position: "absolute",
-        left: 48,
-        right: 48,
-        // Low in the frame (where the mascot host used to sit) but still above TikTok/Reels
-        // bottom chrome (username + caption occupy y >= ~1500). Box bottom ~1470.
-        bottom: 450,
+        // Right-heavy on purpose: the caption sits in the same vertical band as TikTok/Reels'
+        // right-edge action rail (like/comment/bookmark, roughly x >= 900 on this 1080-wide
+        // canvas), so only a narrower right inset keeps clear of it at every scroll position.
+        left: 60,
+        right: 190,
+        // Low in the frame (where the mascot host used to sit) but still above the
+        // username/caption/progress-bar chrome (starts around y ~1490).
+        bottom: 480,
         padding: "18px 24px",
         background: COLORS.paper,
         border: `4px solid ${COLORS.ink}`,
@@ -98,9 +122,13 @@ function CaptionTrack() {
 export function SceneView({
   scene,
   durationInFrames,
+  publicPrefix,
+  uploadedScenes = [],
 }: {
   scene: Scene;
   durationInFrames: number;
+  publicPrefix: string;
+  uploadedScenes?: number[];
 }) {
   const local = useCurrentFrame();
   const motion = getSceneMotion(scene.scene);
@@ -112,18 +140,32 @@ export function SceneView({
     motion.transitionIn ?? 12,
     motion.transitionOut ?? 10,
   );
-  const src = `images/scene-${String(scene.scene).padStart(2, "0")}.jpg`;
+  const sceneNo = String(scene.scene).padStart(2, "0");
+  const src = `${publicPrefix}/images/scene-${sceneNo}.jpg`;
+  const videoSrc = `${publicPrefix}/scene-videos/scene-${sceneNo}.mp4`;
+  // A user-uploaded photo (per the asset manifest) must NOT show the "AI phục dựng" tag.
+  const showsAiTag =
+    scene.image.kind === "ai" && !new Set(uploadedScenes).has(scene.scene);
   return (
     <AbsoluteFill
       style={{ opacity, background: motion.background ?? COLORS.ink }}
     >
-      <CinematicScene
-        src={src}
-        durationInFrames={durationInFrames}
-        motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
-      />
+      {scene.motionVideo ? (
+        <CinematicVideoScene
+          src={videoSrc}
+          motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
+        />
+      ) : (
+        <CinematicScene
+          src={src}
+          durationInFrames={durationInFrames}
+          motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
+        />
+      )}
 
-      {/* top scrim + title/cue */}
+      {/* top scrim + title/cue. Insets and the top offset clear TikTok/Reels/Shorts' own
+          chrome: a back button + search icon sit roughly in the top ~150px, and their share
+          button rail runs down the right edge, so text stays out of both. */}
       <div
         style={{
           position: "absolute",
@@ -138,14 +180,14 @@ export function SceneView({
         <div
           style={{
             position: "absolute",
-            top: 60,
-            left: 48,
-            right: 48,
+            top: 260,
+            left: 110,
+            right: 110,
             textAlign: "center",
             fontFamily: "Arial, sans-serif",
             fontWeight: 1000,
-            fontSize: 62,
-            lineHeight: 1.04,
+            fontSize: 52,
+            lineHeight: 1.1,
             color: "white",
             textShadow: "0 2px 8px rgba(0,0,0,.6)",
           }}
@@ -157,13 +199,13 @@ export function SceneView({
         <div
           style={{
             position: "absolute",
-            top: 190,
-            left: 60,
-            right: 60,
+            top: 396,
+            left: 110,
+            right: 110,
             textAlign: "center",
             fontFamily: "Arial, sans-serif",
             fontWeight: 800,
-            fontSize: 28,
+            fontSize: 26,
             color: COLORS.gold,
             textShadow: "0 2px 6px rgba(0,0,0,.7)",
           }}
@@ -172,12 +214,12 @@ export function SceneView({
         </div>
       )}
 
-      {/* AI reconstruction tag */}
-      {showsAiTag(scene) && (
+      {/* AI reconstruction tag — kept clear of the top-left back button */}
+      {showsAiTag && (
         <div
           style={{
             position: "absolute",
-            top: 14,
+            top: 200,
             left: 14,
             padding: "4px 9px",
             background: "rgba(25,23,22,.82)",
@@ -203,37 +245,51 @@ export function SceneView({
           background: "linear-gradient(transparent, rgba(0,0,0,.82))",
         }}
       />
-
     </AbsoluteFill>
   );
 }
 
-export const ScenePlanVideo: React.FC = () => (
-  <AbsoluteFill style={{ background: COLORS.ink }}>
-    {scenes.map((scene, i) => (
-      <Sequence
-        key={scene.scene}
-        from={sceneStarts[i]}
-        durationInFrames={sceneFrames[i]}
-      >
-        <SceneView scene={scene} durationInFrames={sceneFrames[i]} />
-        <Audio
-          src={staticFile(
-            `audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
+export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
+  project,
+}) => {
+  const { frames, starts } = sceneTimeline(
+    project.scenes,
+    project.sceneDurations,
+  );
+  return (
+    <AbsoluteFill style={{ background: COLORS.ink }}>
+      {project.scenes.map((scene, i) => (
+        <Sequence
+          key={scene.scene}
+          from={starts[i]}
+          durationInFrames={frames[i]}
+        >
+          <SceneView
+            scene={scene}
+            durationInFrames={frames[i]}
+            publicPrefix={project.publicPrefix}
+            uploadedScenes={project.uploadedScenes}
+          />
+          {scene.hasAudio && (
+            <Audio
+              src={staticFile(
+                `${project.publicPrefix}/audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
+              )}
+            />
           )}
-        />
-      </Sequence>
-    ))}
-    <div
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 14,
-        background: COLORS.jade,
-      }}
-    />
-    <CaptionTrack />
-  </AbsoluteFill>
-);
+        </Sequence>
+      ))}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 14,
+          background: COLORS.jade,
+        }}
+      />
+      <CaptionTrack captionGroups={project.captionGroups} />
+    </AbsoluteFill>
+  );
+};

@@ -14,11 +14,13 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { basename } from 'node:path';
 import { STYLE_DNA, buildInput, dataUri, download, loadEnv, predict } from './lib/replicate-image.mjs';
+import { activePaths, resolveSlug } from './lib/project-paths.mjs';
 
 loadEnv();
 
 const PLAN = 'src/scene-plan.json';
-const ORIGINAL_DIR = 'public/characters/_original';
+const slug = resolveSlug();
+const ORIGINAL_DIR = activePaths().charOriginalDir;
 const MODEL = process.env.REPLICATE_KONTEXT_MODEL ?? 'bytedance/seedream-4.5';
 
 const RESTYLE_PROMPT = `Redraw the person in the attached reference image as a chibi-style 2D vector game character
@@ -54,7 +56,8 @@ cropped head or feet, multiple characters, text, logo, watermark.`;
 if (!process.env.REPLICATE_API_TOKEN) { process.stderr.write('REPLICATE_API_TOKEN not set (put it in .env).\n'); process.exit(1); }
 if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 
-const { characters } = JSON.parse(readFileSync(PLAN, 'utf8'));
+const { characters, project } = JSON.parse(readFileSync(PLAN, 'utf8'));
+if (project !== slug) { process.stderr.write(`src/scene-plan.json was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 const only = process.argv.slice(2);
 
 for (const [id, path] of Object.entries(characters)) {

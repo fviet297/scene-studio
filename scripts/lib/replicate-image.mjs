@@ -10,10 +10,18 @@
 // Requires REPLICATE_API_TOKEN. Only kind === 'ai' scenes are generated here;
 // search scenes are handled by source-assets.mjs.
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { activePaths } from './project-paths.mjs';
 
-export const IMAGE_DIR = 'public/images';
-export const MANIFEST = `${IMAGE_DIR}/asset-manifest.json`;
+// Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
+// writes. CLI scripts (generate-visuals.mjs, restyle-characters.mjs) get the active project once
+// at startup; the long-running review server calls setProjectPaths() on every project switch, so
+// a frozen const here would silently write into the wrong project after a switch.
+let paths = activePaths();
+export const setProjectPaths = (next) => { paths = next; };
+export const imageDir = () => paths.imageDir;
+export const manifestPath = () => paths.manifest;
 
 // Style DNA — the project Style Reference, transcribed from prompt-chibi-lich-su-viet.md.
 // Defined once and interpolated into every template so characters and scenes share one art
@@ -46,7 +54,7 @@ TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic dec
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
-COMPOSITION: 9:16 vertical, medium-wide environmental shot (not full-frame portrait). Main character fills ⅓–½ frame height. Head/face uncropped; calm negative space only at top for captions.
+COMPOSITION: 9:16 vertical, wide environmental story shot, never a close-up portrait. Main character is deliberately small, about 20–30% of frame height, with generous visible surroundings. Use foreground, middle ground and background layers, clear leading lines, varied scale, and visible activity around the character. Prefer asymmetrical or diagonal composition over a static centered lineup. Head/face remains readable and uncropped; reserve calm negative space only at top for captions.
 
 NEGATIVE (style qualities only — never name a drawable object here, the model renders whatever is named): mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, redesigned main face/costume, main character filling the frame, empty background, extras in main’s armour, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
 
@@ -72,7 +80,7 @@ TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic dec
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
-COMPOSITION: 9:16 vertical, medium environmental shot (not full-frame portrait). Person fills ⅓–½ frame height. Head/face uncropped; calm negative space only at top for captions.
+COMPOSITION: 9:16 vertical, wide environmental story shot, never a close-up portrait. Person is deliberately small, about 20–30% of frame height, with generous visible surroundings. Use foreground, middle ground and background layers, clear leading lines, varied scale, and visible activity around the person. Prefer asymmetrical or diagonal composition over a static centered lineup. Head/face remains readable and uncropped; reserve calm negative space only at top for captions.
 
 NEGATIVE (style qualities only — never name a drawable object here, the model renders whatever is named): mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, different face/hairstyle/person/age, empty background, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
 
@@ -96,7 +104,7 @@ TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic dec
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
-COMPOSITION: 9:16 vertical, medium-wide environmental shot, not full-frame portraits. Each main character fills ⅓–½ frame height and reads as its own person. Heads uncropped; calm negative space only at top for captions.
+COMPOSITION: 9:16 vertical, wide environmental story shot, never full-frame portraits. Each main character is deliberately small, about 20–30% of frame height, while remaining recognizable and clearly separated. Show generous surroundings with foreground, middle ground and background layers, varied scale, clear leading lines and active secondary figures. Prefer asymmetrical or diagonal composition over a static centered lineup. Heads uncropped; reserve calm negative space only at top for captions.
 
 NEGATIVE (style qualities only — never name a drawable object here): two characters sharing one face, cloned or mirrored main characters, mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, redesigned main faces/costumes, empty background, extras in a main character's armour, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
 
@@ -153,10 +161,15 @@ const buildTextPrompt = (t, scenePrompt) =>
     .replaceAll('[GUARD]', t.guard)
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
 
-// Default image model: ByteDance Seedream 4.5 does both text-to-image and image-to-image
-// (character reference) from one endpoint — pass image_input to keep the reference identity.
-const DEFAULT_KONTEXT = 'bytedance/seedream-4.5';
-const DEFAULT_TEXT = 'bytedance/seedream-4.5';
+// Image model routed by how many character references a scene has, to keep cost down without
+// losing per-person identity on two-character scenes (the core of a comparison video):
+//   - single reference → FLUX Kontext dev (cheap image-to-image, one reference is enough)
+//   - two+ references   → Seedream 4.5 (only this reliably locks a different face per reference)
+//   - no reference      → FLUX dev (cheap text-to-image; no identity to preserve)
+// Override any of them via REPLICATE_SINGLE_MODEL / REPLICATE_MULTI_MODEL / REPLICATE_TEXT_MODEL.
+const DEFAULT_SINGLE = 'black-forest-labs/flux-kontext-dev';
+const DEFAULT_MULTI = 'bytedance/seedream-4.5';
+const DEFAULT_TEXT = 'black-forest-labs/flux-dev';
 
 const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
 export const dataUri = (path) => `data:${MIME[path.split('.').pop().toLowerCase()] ?? 'image/png'};base64,${readFileSync(path).toString('base64')}`;
@@ -230,19 +243,24 @@ export const download = async (url, path) => {
   writeFileSync(path, buf);
 };
 
-// Upsert one manifest entry into public/images/asset-manifest.json (kept sorted).
+// Upsert one manifest entry into the active project's asset-manifest.json (kept sorted), and
+// mirror it to src/asset-manifest.json — the fixed path Remotion statically imports.
 export const upsertManifest = (entry) => {
-  const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : [];
+  const manifest = existsSync(manifestPath()) ? JSON.parse(readFileSync(manifestPath(), 'utf8')) : [];
   const i = manifest.findIndex((m) => m.id === entry.id);
   if (i >= 0) manifest[i] = entry; else manifest.push(entry);
   manifest.sort((a, b) => a.scene - b.scene || a.id.localeCompare(b.id));
-  writeFileSync(MANIFEST, `${JSON.stringify(manifest, null, 2)}\n`);
+  mkdirSync(paths.imageDir, { recursive: true });
+  const text = `${JSON.stringify(manifest, null, 2)}\n`;
+  writeFileSync(manifestPath(), text);
+  writeFileSync('src/asset-manifest.json', text);
 };
 
 // Generate one AI scene image → public/images/scene-NN.jpg. Returns { file, via, manifestEntry }.
 export const generateSceneImage = async (scene, characters, opts = {}) => {
   const token = opts.token ?? process.env.REPLICATE_API_TOKEN;
-  const kontext = opts.kontextModel ?? process.env.REPLICATE_KONTEXT_MODEL ?? DEFAULT_KONTEXT;
+  const singleModel = opts.singleModel ?? process.env.REPLICATE_SINGLE_MODEL ?? DEFAULT_SINGLE;
+  const multiModel = opts.multiModel ?? process.env.REPLICATE_MULTI_MODEL ?? DEFAULT_MULTI;
   const text = opts.textModel ?? process.env.REPLICATE_TEXT_MODEL ?? DEFAULT_TEXT;
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
@@ -265,18 +283,21 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     // It does not apply to multi-character scenes — unlocking costume there is what lets the
     // model blend the people together.
     const multi = refs.length > 1;
+    // Two+ people → Seedream (per-reference identity); one person → cheap FLUX Kontext.
+    const model = multi ? multiModel : singleModel;
     const face = !multi && scene.image.identity === 'face';
     const template = multi ? t.multiCharPrompt : face ? t.faceLockPrompt : t.masterPrompt;
     const prompt = buildCharPrompt(t, scene.image.prompt, template);
-    url = await predict(token, kontext, buildInput(kontext, { prompt, refUris: refs.map(dataUri) }));
-    via = `${kontext} ${multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock'}`;
+    url = await predict(token, model, buildInput(model, { prompt, refUris: refs.map(dataUri) }));
+    via = `${model} ${multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock'}`;
   } else {
     const prompt = buildTextPrompt(t, scene.image.prompt);
     url = await predict(token, text, buildInput(text, { prompt }));
     via = `${text} text2img`;
   }
 
-  await download(url, `${IMAGE_DIR}/${file}`);
+  mkdirSync(imageDir(), { recursive: true });
+  await download(url, join(imageDir(), file));
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
     subject: scene.image.prompt.slice(0, 80), source: `AI generated (Replicate, ${via})`, sourceUrl: null,

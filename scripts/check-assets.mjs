@@ -11,9 +11,11 @@
 // Run: node scripts/check-assets.mjs
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { activePaths } from './lib/project-paths.mjs';
 
-const IMAGE_DIR = 'public/images';
-const MANIFEST = `${IMAGE_DIR}/asset-manifest.json`;
+const paths = activePaths();
+const IMAGE_DIR = paths.imageDir;
+const MANIFEST = paths.manifest;
 const SINGLE_SOURCE_LIMIT = 0.6;
 const SUBJECT_REPEAT_LIMIT = 2;
 

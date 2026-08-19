@@ -1,0 +1,78 @@
+# trần hưng đạo và nhạc phi
+
+## characters
+
+char-a = public/projects/tranhungdao-nhacphi/characters/char-a.png
+char-b = public/projects/tranhungdao-nhacphi/characters/char-b.png
+
+## scene 1
+
+title:
+cue:
+host:
+narration:
+char: char-a, char-b
+prompt:
+
+## scene 2
+
+title:
+cue:
+host:
+narration:
+char: char-a
+prompt:
+
+## scene 3
+
+title:
+cue:
+host:
+narration:
+char: char-b
+prompt:
+
+## scene 4
+
+title:
+cue:
+host:
+narration:
+char: char-a
+prompt:
+
+## scene 5
+
+title:
+cue:
+host:
+narration:
+char: char-b
+prompt:
+
+## scene 6
+
+title:
+cue:
+host:
+narration:
+char: char-a
+prompt:
+
+## scene 7
+
+title:
+cue:
+host:
+narration:
+char: char-b
+prompt:
+
+## scene 8
+
+title:
+cue:
+host:
+narration:
+char: char-a, char-b
+prompt:

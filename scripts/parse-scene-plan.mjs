@@ -1,84 +1,47 @@
-// Parse the scene-plan markdown (the skill's single input) into machine data.
-// Minimal input per scene: narration + prompt (+ optional char/search/time). One image/scene.
+// Parse the active project's scene-plan markdown into the fixed files the review-server
+// pipeline and single-scene previews consume. Parsing lives in scripts/lib/parse-plan.mjs so
+// the all-projects Remotion builder (scripts/build-remotion.mjs) shares one implementation.
 // Emits:
-//   src/scene-plan.json            — characters + per-scene image spec (kind ai|search)
-//   scripts/narration-segments.mjs — SEGMENTS[{scene,text}] for TTS / measure-audio / captions
+//   src/scene-plan.json            — project + characters + per-scene image spec (kind ai|search)
+//   src/characters-data.json       — character gallery data (id, name, aliases, image, imageV2)
+//   src/asset-manifest.json        — mirror of the active project's image manifest
+//   scripts/narration-segments.mjs — SEGMENTS[{scene,text}] + PROJECT for TTS / measure-audio / captions
 //
-// Format: see references/scene-plan.md.  Run: node scripts/parse-scene-plan.mjs [scene-plan.md]
+// Run: node scripts/parse-scene-plan.mjs [path-to-scene-plan.md]  (positional path overrides the
+// active project's scene-plan.md; project resolved via projects/active.json, PROJECT, or --project).
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
-const INPUT = process.argv[2] ?? 'scene-plan.md';
-if (!existsSync(INPUT)) { process.stderr.write(`No input at ${INPUT}\n`); process.exit(1); }
+const { rest } = parseProjectArg(process.argv.slice(2));
+const slug = resolveSlug();
+const inputPath = rest[0];
 
-const toSeconds = (t) => {
-  const m = /(\d+):(\d+)/.exec(t ?? '');
-  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
-};
-
-const blocks = readFileSync(INPUT, 'utf8').split(/^##\s+/m).slice(1);
-const characters = {};
-const scenes = [];
-
-for (const block of blocks) {
-  const [heading, ...lines] = block.split('\n');
-  const head = heading.trim().toLowerCase();
-
-  if (head === 'characters') {
-    for (const line of lines) {
-      const m = /^\s*([a-z0-9-]+)\s*=\s*(.+?)\s*$/i.exec(line);
-      if (m) characters[m[1]] = m[2];
-    }
-    continue;
-  }
-
-  const sceneMatch = /^scene\s+(\d+)/i.exec(head);
-  if (!sceneMatch) continue;
-
-  const fields = {};
-  for (const line of lines) {
-    const kv = /^(time|char|identity|narration|prompt|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
-    if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
-  }
-
-  const ids = (fields.char ?? '').split(',').map((s) => s.trim()).filter(Boolean);
-  // identity: how strictly the reference is enforced. 'full' (default) locks costume/armor too;
-  // 'face' locks only face/hair/age/style so the prompt may dress the figure differently
-  // (e.g. a general shown poor before his rise). Ignored on scenes without a char reference.
-  const identity = /^face$/i.test(fields.identity ?? '') ? 'face' : 'full';
-  const image = fields.search
-    ? { kind: 'search', characters: [], query: fields.search }
-    : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '' };
-
-  const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', image };
-  // Optional overlay fields — the skill fills these from the narration; the user may omit.
-  for (const k of ['title', 'cue', 'host']) if (fields[k]) scene[k] = fields[k];
-  if (fields.time) { const [a, b] = fields.time.split('-'); scene.from = toSeconds(a); scene.to = toSeconds(b); }
-  scenes.push(scene);
+let parsed;
+try {
+  parsed = parsePlan(slug, inputPath);
+} catch (e) {
+  process.stderr.write(`${e.message}\n`);
+  process.exit(1);
 }
+const { input, title, characters, scenes, characterRows, assetManifest, warnings } = parsed;
+for (const w of warnings) process.stderr.write(`WARN ${w}\n`);
 
-scenes.sort((a, b) => a.scene - b.scene);
-
-// Validate.
-for (const s of scenes) {
-  if (s.image.kind === 'ai' && !s.image.prompt) process.stderr.write(`WARN scene ${s.scene}: no prompt and no search\n`);
-  for (const id of s.image.characters) {
-    if (!characters[id]) process.stderr.write(`WARN scene ${s.scene}: unknown character "${id}"\n`);
-    else if (!existsSync(characters[id])) process.stderr.write(`WARN scene ${s.scene}: reference file missing ${characters[id]}\n`);
-  }
-}
-
-writeFileSync('src/scene-plan.json', `${JSON.stringify({ characters, scenes }, null, 2)}\n`);
+writeFileSync('src/scene-plan.json', `${JSON.stringify({ project: slug, title, characters, scenes }, null, 2)}\n`);
+writeFileSync('src/characters-data.json', `${JSON.stringify({ project: slug, characters: characterRows }, null, 2)}\n`);
+writeFileSync('src/asset-manifest.json', `${JSON.stringify(assetManifest, null, 2)}\n`);
 
 const segments = scenes
   .filter((s) => s.narration)
   .map((s) => `  { scene: ${s.scene}, text: ${JSON.stringify(s.narration)} },`);
 writeFileSync(
   'scripts/narration-segments.mjs',
-  `// Generated by parse-scene-plan.mjs from ${INPUT}. Do not edit by hand.\n`
+  `// Generated by parse-scene-plan.mjs from ${input}. Do not edit by hand.\n`
+  + `export const PROJECT = ${JSON.stringify(slug)};\n`
   + `export const SEGMENTS = [\n${segments.join('\n')}\n];\n`,
 );
 
 const ai = scenes.filter((s) => s.image.kind === 'ai').length;
 const search = scenes.filter((s) => s.image.kind === 'search').length;
-process.stdout.write(`Parsed ${scenes.length} scenes → src/scene-plan.json (${ai} AI, ${search} search) + scripts/narration-segments.mjs\n`);
+process.stdout.write(`Parsed ${scenes.length} scenes (project "${slug}") → src/scene-plan.json (${ai} AI, ${search} search) + src/characters-data.json + scripts/narration-segments.mjs\n`);
