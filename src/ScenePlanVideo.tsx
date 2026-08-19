@@ -13,8 +13,6 @@ import scenePlan from "./scene-plan.json";
 import assetManifest from "../public/images/asset-manifest.json";
 import { CinematicScene, transitionOpacity } from "./animation";
 import { getSceneMotion } from "./scene-motion";
-import { HistoryHost } from "./characters/HistoryHost";
-import type { AnimationName } from "./characters/HistoryHost";
 
 // Single-image-per-scene composition driven entirely by src/scene-plan.json (see the
 // history-video skill: scene-plan.md + layout.md). Full-bleed scene image with an
@@ -54,17 +52,6 @@ const uploadedScenes = new Set(
 );
 const showsAiTag = (scene: Scene) =>
   scene.image.kind === "ai" && !uploadedScenes.has(scene.scene);
-const hostAnimation = (host?: string): AnimationName => {
-  if (host === "point-left" || host === "point-right" || host === "happy") {
-    return host;
-  }
-  return "explain";
-};
-const hostLeft = (host?: string) => {
-  if (host === "point-left") return 28;
-  if (host === "point-right") return 752;
-  return 390;
-};
 const sceneFrames = sceneDurations.map((s) => Math.round(s * FPS));
 const sceneStarts = sceneFrames.reduce<number[]>(
   (acc, f) => [...acc, acc[acc.length - 1] + f],
@@ -217,16 +204,6 @@ export function SceneView({
         }}
       />
 
-      <HistoryHost
-        animation={hostAnimation(scene.host)}
-        expression={scene.host === "happy" ? "happy" : "confident"}
-        width={300}
-        style={{
-          position: "absolute",
-          left: hostLeft(scene.host),
-          top: 1510,
-        }}
-      />
     </AbsoluteFill>
   );
 }

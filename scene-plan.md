@@ -10,7 +10,7 @@ ly-the-dan = public/characters/lythedan.png
 title: HAI BẬC KHAI MỞ
 cue: Hai thế kỷ · hai đế chế
 host: explain
-narration: Hai vị hoàng đế, cách nhau hơn một thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.
+narration: Hai vị hoàng đế, cách nhau hơn 4 thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.
 char: ly-thai-to, ly-the-dan
 prompt: The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls, wide timber halls and ordered ceremonial ranks. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning.
 
@@ -38,7 +38,8 @@ title: DỜI ĐÔ RA ĐẠI LA
 cue: Hoa Lư → Thăng Long
 host: point-left
 narration: Việc đầu tiên ông làm là dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long.
-prompt: A vertical symbol-only geographic illustration of a royal capital relocation within a pre-modern Southeast Asian kingdom. Show one plain circular origin marker inside a southern inland limestone basin and one plain circular destination marker farther north beside a broad river delta. Connect them with one continuous route ending at the northern marker. Include simplified coastline, major rivers, mountain silhouettes and contrasting terrain regions. Add one small secondary royal procession without banners or documents. Use an antique earth, jade, ochre and natural-blue palette. The composition contains only geography, colour fields, two circles and one route line; all surfaces remain blank and non-symbolic.
+char: ly-thai-to
+prompt: Standing at the bow of a covered wooden river boat leading the capital relocation, one hand on the rail, looking north down a wide brown river. The entire relocation party travels on the water: a single-file convoy of covered wooden boats, cargo barges and small ferry boats follows behind, carrying people, household goods and supplies. No horses, oxen, buffalo, carts or wheeled vehicles are on the river or on the boats; any animals remain only on the distant riverbank. Behind, steep grey limestone hills recede into the valley; ahead, the river opens into a green delta with a low walled riverside town. Setting: early-11th-century Đại Việt. Vietnamese travellers and guards wear plain early-Lý tunics, head cloths and simple spears. Warm morning light ahead, dark limestone behind, hopeful medium-wide composition. No Nguyễn-dynasty dress, no Qing costume, no Chinese palace architecture.
 
 ## scene 5
 

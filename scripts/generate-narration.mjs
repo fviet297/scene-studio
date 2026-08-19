@@ -17,6 +17,8 @@ const VOICE = 'remotion';
 const AUDIO_DIR = 'public/audio';
 const TEMP_DIR = 'tmp/narration';
 const MAX_CHUNK = 320;
+const NARRATION_FILTER =
+  'silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-35dB:stop_silence=0.18';
 
 const only = process.argv.slice(2).map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;
@@ -95,11 +97,11 @@ for (const segment of targets) {
   }
   const output = join(AUDIO_DIR, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);
   if (files.length === 1) {
-    execFileSync('ffmpeg', ['-y', '-i', files[0], '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
+    execFileSync('ffmpeg', ['-y', '-i', files[0], '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
   } else {
     const concatList = join(TEMP_DIR, `scene-${segment.scene}-concat.txt`);
     writeFileSync(concatList, files.map((file) => `file '${join(process.cwd(), file)}'`).join('\n'));
-    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
+    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
   }
   process.stdout.write(`✓ scene-${String(segment.scene).padStart(2, '0')}.mp3 (${chunks.length} chunk${chunks.length > 1 ? 's' : ''})\n`);
 }

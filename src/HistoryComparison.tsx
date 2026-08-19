@@ -12,7 +12,6 @@ import {
 } from "remotion";
 import { captionGroups } from "./caption-data";
 import { sceneDurations } from "./audio-durations";
-import { HistoryHost } from "./characters/HistoryHost";
 
 export const FPS = 30;
 const COLORS = {
@@ -285,8 +284,6 @@ function ComparisonBeat({ beat }: { beat: Beat }) {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  const hostLeft =
-    beat.focus === "right" ? 456 : beat.focus === "left" ? 18 : 245;
   return (
     <AbsoluteFill style={{ opacity }}>
       <div
@@ -346,12 +343,6 @@ function ComparisonBeat({ beat }: { beat: Beat }) {
       >
         {beat.cue}
       </div>
-      <HistoryHost
-        animation={beat.animation}
-        expression="confident"
-        width={405}
-        style={{ position: "absolute", left: hostLeft, top: 1060 }}
-      />
     </AbsoluteFill>
   );
 }

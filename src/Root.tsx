@@ -10,6 +10,11 @@ import {
   totalDurationInFrames as planFrames,
 } from "./ScenePlanVideo";
 import { SceneOneVideo } from "./SceneOneVideo";
+import {
+  CharacterPuppetPreview,
+  CHARACTER_PREVIEW_DURATION,
+  CHARACTER_PREVIEW_FPS,
+} from "./CharacterPuppetPreview";
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -41,6 +46,14 @@ export const RemotionRoot: React.FC = () => (
       calculateMetadata={({ props }) => ({
         durationInFrames: Math.max(1, Math.round(props.durationInFrames)),
       })}
+    />
+    <Composition
+      id="CharacterPuppetPreview"
+      component={CharacterPuppetPreview}
+      durationInFrames={CHARACTER_PREVIEW_DURATION}
+      fps={CHARACTER_PREVIEW_FPS}
+      width={1080}
+      height={1920}
     />
   </>
 );

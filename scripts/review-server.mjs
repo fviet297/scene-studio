@@ -21,6 +21,7 @@ import { existsSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { generateSceneImage, loadEnv, upsertManifest, MANIFEST, getTemplates, saveTemplates } from './lib/replicate-image.mjs';
+import { buildMotionPrompt, generateSceneVideo } from './lib/vmedia-video.mjs';
 
 loadEnv();
 
@@ -29,6 +30,7 @@ const PLAN_MD = 'scene-plan.md';
 const PLAN_JSON = 'src/scene-plan.json';
 const IMAGE_DIR = 'public/images';
 const AUDIO_DIR = 'public/audio';
+const SCENE_VIDEO_DIR = 'public/scene-videos';
 const OUT_DIR = 'out';
 const OUT_MP4 = `${OUT_DIR}/ScenePlanVideo.mp4`;
 const FPS = 30;
@@ -118,6 +120,8 @@ const buildState = () => {
       const hasAudio = existsSync(apath);
       const vpath = join(OUT_DIR, sceneVideoFile(s.scene));
       const hasSceneVideo = existsSync(vpath);
+      const motionPath = join(SCENE_VIDEO_DIR, sceneVideoFile(s.scene));
+      const hasMotionVideo = existsSync(motionPath);
       // uploaded photo, AI reconstruction, or a sourced search image — drives the AI tag.
       const source = authenticity[s.scene] === 'USER_UPLOAD' ? 'upload' : s.image.kind;
       return {
@@ -126,6 +130,7 @@ const buildState = () => {
         kind: s.image.kind,
         source,
         prompt: s.image.prompt ?? '',
+        motionPrompt: buildMotionPrompt({ narration: s.narration ?? '', scenePrompt: s.image.prompt ?? '' }),
         query: s.image.query ?? '',
         characters: s.image.characters ?? [],
         hasImage: has,
@@ -134,6 +139,8 @@ const buildState = () => {
         audioUrl: hasAudio ? `/audio/${audioFile(s.scene)}?v=${statSync(apath).mtimeMs}` : null,
         hasSceneVideo,
         sceneVideoUrl: hasSceneVideo ? `/scene-video/${sceneVideoFile(s.scene)}?v=${statSync(vpath).mtimeMs}` : null,
+        hasMotionVideo,
+        motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
       };
     }),
     characters,
@@ -312,6 +319,16 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'GET' && pathname.startsWith('/motion-video/')) {
+      const name = decodeURIComponent(pathname.slice('/motion-video/'.length));
+      const path = join(SCENE_VIDEO_DIR, name);
+      if (!name.includes('..') && existsSync(path)) {
+        res.writeHead(200, { 'Content-Type': 'video/mp4', 'Cache-Control': 'no-store' });
+        res.end(readFileSync(path));
+      } else res.writeHead(404).end('not found');
+      return;
+    }
+
     if (req.method === 'GET' && pathname === '/api/templates') {
       sendJson(res, 200, getTemplates());
       return;
@@ -454,6 +471,28 @@ const server = createServer(async (req, res) => {
       runSteps(req, res, [
         { label: `Render scene ${scene} MP4 (${seconds.toFixed(1)}s, ${frames}f)`, cmd: 'npx', args: ['remotion', 'render', 'SceneOne', out, `--props=${props}`] },
       ], `Rendered ${out}`);
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/generate-motion-video') {
+      const { scene, prompt } = await readBody(req);
+      const plan = readPlan();
+      const target = plan.scenes.find((s) => s.scene === scene);
+      if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
+      const imagePath = join(IMAGE_DIR, sceneFile(scene));
+      if (!existsSync(imagePath)) { sendJson(res, 400, { error: `scene ${scene} has no image yet` }); return; }
+      sseHead(res);
+      const log = (line) => { console.log(`[vmedia scene ${scene}] ${line}`); sseSend(res, 'log', line); };
+      try {
+        const motionPrompt = prompt || buildMotionPrompt({ narration: target.narration, scenePrompt: target.image.prompt });
+        log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
+        const result = await generateSceneVideo({ scene, imagePath, prompt: motionPrompt, onLog: log });
+        sseSend(res, 'done', `Scene ${scene} motion video ready: /motion-video/${sceneVideoFile(scene)} (${result.model})`);
+      } catch (e) {
+        log(`error: ${e.message}`);
+        sseSend(res, 'error', e.message);
+      }
+      res.end();
       return;
     }
 

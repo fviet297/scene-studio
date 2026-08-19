@@ -6,7 +6,7 @@
   "scenes": [
     {
       "scene": 1,
-      "narration": "Hai vị hoàng đế, cách nhau hơn một thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.",
+      "narration": "Hai vị hoàng đế, cách nhau hơn 4 thế kỷ, nhưng đều là những người đặt nền móng cho một thời kỳ hưng thịnh.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -56,9 +56,11 @@
       "narration": "Việc đầu tiên ông làm là dời đô từ Hoa Lư về Đại La, đặt tên là Thăng Long.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "ly-thai-to"
+        ],
         "identity": "full",
-        "prompt": "A vertical symbol-only geographic illustration of a royal capital relocation within a pre-modern Southeast Asian kingdom. Show one plain circular origin marker inside a southern inland limestone basin and one plain circular destination marker farther north beside a broad river delta. Connect them with one continuous route ending at the northern marker. Include simplified coastline, major rivers, mountain silhouettes and contrasting terrain regions. Add one small secondary royal procession without banners or documents. Use an antique earth, jade, ochre and natural-blue palette. The composition contains only geography, colour fields, two circles and one route line; all surfaces remain blank and non-symbolic."
+        "prompt": "Standing at the bow of a covered wooden river boat leading the capital relocation, one hand on the rail, looking north down a wide brown river. The entire relocation party travels on the water: a single-file convoy of covered wooden boats, cargo barges and small ferry boats follows behind, carrying people, household goods and supplies. No horses, oxen, buffalo, carts or wheeled vehicles are on the river or on the boats; any animals remain only on the distant riverbank. Behind, steep grey limestone hills recede into the valley; ahead, the river opens into a green delta with a low walled riverside town. Setting: early-11th-century Đại Việt. Vietnamese travellers and guards wear plain early-Lý tunics, head cloths and simple spears. Warm morning light ahead, dark limestone behind, hopeful medium-wide composition. No Nguyễn-dynasty dress, no Qing costume, no Chinese palace architecture."
       },
       "title": "DỜI ĐÔ RA ĐẠI LA",
       "cue": "Hoa Lư → Thăng Long",

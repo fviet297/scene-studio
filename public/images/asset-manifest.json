@@ -50,14 +50,16 @@
     "id": "scene-04",
     "scene": 4,
     "type": "ai_reconstruction",
-    "subject": "A vertical symbol-only geographic illustration of a royal capital relocation wit",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
+    "subject": "Standing at the bow of a covered wooden river boat leading the capital relocatio",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A vertical symbol-only geographic illustration of a royal capital relocation within a pre-modern Southeast Asian kingdom. Show one plain circular origin marker inside a southern inland limestone basin and one plain circular destination marker farther north beside a broad river delta. Connect them with one continuous route ending at the northern marker. Include simplified coastline, major rivers, mountain silhouettes and contrasting terrain regions. Add one small secondary royal procession without banners or documents. Use an antique earth, jade, ochre and natural-blue palette. The composition contains only geography, colour fields, two circles and one route line; all surfaces remain blank and non-symbolic."
+    "characters": [
+      "ly-thai-to"
+    ],
+    "prompt": "Standing at the bow of a covered wooden river boat leading the capital relocation, one hand on the rail, looking north down a wide brown river. The entire relocation party travels on the water: a single-file convoy of covered wooden boats, cargo barges and small ferry boats follows behind, carrying people, household goods and supplies. No horses, oxen, buffalo, carts or wheeled vehicles are on the river or on the boats; any animals remain only on the distant riverbank. Behind, steep grey limestone hills recede into the valley; ahead, the river opens into a green delta with a low walled riverside town. Setting: early-11th-century Đại Việt. Vietnamese travellers and guards wear plain early-Lý tunics, head cloths and simple spears. Warm morning light ahead, dark limestone behind, hopeful medium-wide composition. No Nguyễn-dynasty dress, no Qing costume, no Chinese palace architecture."
   },
   {
     "id": "scene-05",
@@ -138,14 +140,17 @@
     "id": "scene-10",
     "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "A symbolic architectural comparison without portraits: on one side, early Thăng ",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
+    "subject": "The first character stands left on a finished low brick rampart of early Thăng L",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A symbolic architectural comparison without portraits: on one side, early Thăng Long rising beside the Red River with compact brick ramparts, low timber halls and active builders; on the other, prosperous 7th-century Tang Chang'an with a vast ordered avenue, markets, granaries and administrative compounds. East-Asian citizens and officials remain small supporting figures in culture-specific period dress. A continuous golden horizon connects both achievements while the physical scale remains visibly different. Clear vertical composition, historically grounded materials, bare cloth banners, no modern structures, no later-dynasty costume."
+    "characters": [
+      "ly-thai-to",
+      "ly-the-dan"
+    ],
+    "prompt": "The first character stands left on a finished low brick rampart of early Thăng Long beside the Red River, above compact timber halls, storehouses and active builders. The second character stands right on a raised terrace above prosperous 7th-century Tang Chang'an, its vast ordered avenue, markets and administrative compounds running into depth. Each ruler stays on their own side and never crosses into the other's city. East-Asian citizens and officials remain small supporting figures in culture-specific period dress. One continuous golden horizon links both achievements while the difference in physical scale stays visible."
   },
   {
     "id": "scene-11",
@@ -182,10 +187,10 @@
     "scene": 13,
     "type": "ai_reconstruction",
     "subject": "A quiet closing image of two legacies at dawn. The first character stands at the",
-    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "ly-thai-to",

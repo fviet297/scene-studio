@@ -86,6 +86,9 @@
     <div class="scene-video" id="sceneVideoWrap" hidden>
       <video id="sceneVideo" controls preload="none"></video>
     </div>
+    <div class="scene-video" id="motionVideoWrap" hidden>
+      <video id="motionVideo" controls preload="none"></video>
+    </div>
 
     <div class="transport">
       <span class="missing" id="audioMissing">No narration audio yet.</span>
@@ -143,6 +146,12 @@
       <div class="block">
         <div class="block-head"><span class="ttl">Scene MP4</span></div>
         <button class="btn sm wide" type="button" id="btnRenderScene">Render this scene</button>
+      </div>
+
+      <div class="block">
+        <div class="block-head"><span class="ttl">Image to video</span></div>
+        <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to VMedia"></textarea>
+        <button class="btn sm wide" type="button" id="btnMotionVideo">Generate motion video</button>
       </div>
 
       <div class="block">

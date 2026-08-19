@@ -224,6 +224,12 @@ function renderStage() {
   $("btnRenderScene").disabled = busy || !(s.hasImage && s.hasAudio);
   $("btnRenderScene").title =
     s.hasImage && s.hasAudio ? "" : "Needs an image and audio first";
+  $("btnMotionVideo").textContent = s.hasMotionVideo ? "Regenerate motion video" : "Generate motion video";
+  $("btnMotionVideo").disabled = busy || !s.hasImage;
+  const motionPrompt = $("motionPromptBox");
+  if (document.activeElement !== motionPrompt) motionPrompt.value = s.motionPrompt || "";
+  $("motionVideoWrap").hidden = !s.hasMotionVideo;
+  if (s.hasMotionVideo) $("motionVideo").src = s.motionVideoUrl;
 
   syncInspector(s);
 }
@@ -332,6 +338,7 @@ function selectScene(n) {
     btn.setAttribute("aria-current", String(Number(btn.dataset.scene) === n));
   }
   $("sceneVideoWrap").hidden = true;
+  $("motionVideoWrap").hidden = true;
   $("btnSceneVideo").textContent = "Show MP4";
   renderStage();
   $("railList")
@@ -629,7 +636,7 @@ $("btnAudio").addEventListener("click", () => {
   if (s)
     streamJob(
       "/api/audio",
-      { scene: s.scene },
+      { scene: s.scene, prompt: $("motionPromptBox").value.trim() },
       `Generating audio for scene ${s.scene}`,
     );
 });
@@ -641,6 +648,25 @@ $("btnRenderScene").addEventListener("click", () => {
       { scene: s.scene },
       `Rendering scene ${s.scene} to MP4`,
     );
+});
+$("btnMotionVideo").addEventListener("click", async () => {
+  const s = current();
+  if (!s) return;
+  setBusy(true, `Generating motion video for scene ${s.scene}`);
+  setConsole("running", `Generating VMedia video for scene ${s.scene}`);
+  try {
+    await streamJob(
+      "/api/generate-motion-video",
+      { scene: s.scene },
+      `Generating VMedia video for scene ${s.scene}`,
+    );
+  } catch (e) {
+    showError(e.message);
+    setConsole("error", e.message);
+    toast(e.message, false);
+  } finally {
+    setBusy(false);
+  }
 });
 $("btnApprove").addEventListener("click", () =>
   streamJob("/api/approve", null, "Generating narration audio for every scene"),
