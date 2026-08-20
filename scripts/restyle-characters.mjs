@@ -3,7 +3,8 @@
 //
 // The reference is the source of truth for every scene image, so restyling it here is what
 // actually changes the look of the whole video — scene prompts inherit the style from it and
-// from STYLE_DNA in scripts/lib/replicate-image.mjs.
+// from the effective styleDna (the review UI's prompt-templates.json override, or the default in
+// scripts/lib/replicate-image.mjs when unset), so both stay in one art direction.
 //
 // Always reads the pristine original from public/characters/_original/ so re-running never
 // compounds style drift, and writes the restyled result back over the live reference.
@@ -13,7 +14,7 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import { basename } from 'node:path';
-import { STYLE_DNA, buildInput, dataUri, download, loadEnv, predict } from './lib/replicate-image.mjs';
+import { getTemplates, buildInput, dataUri, download, loadEnv, predict } from './lib/replicate-image.mjs';
 import { activePaths, resolveSlug } from './lib/project-paths.mjs';
 
 loadEnv();
@@ -22,12 +23,15 @@ const PLAN = 'src/scene-plan.json';
 const slug = resolveSlug();
 const ORIGINAL_DIR = activePaths().charOriginalDir;
 const MODEL = process.env.REPLICATE_KONTEXT_MODEL ?? 'bytedance/seedream-4.5';
+// Effective styleDna = the review UI's edited value (scripts/prompt-templates.json) merged over
+// the default, so restyled references stay in the same art direction as freshly generated scenes.
+const STYLE_DNA = getTemplates().styleDna;
 
-const RESTYLE_PROMPT = `Redraw the person in the attached reference image as a chibi-style 2D vector game character
-illustration, Vietnamese historical theme.
+const RESTYLE_PROMPT = `Redraw the person in the attached reference image as a 3D-rendered chibi game character
+(high-end 3D animated film look), Vietnamese historical theme.
 
 STYLE: ${STYLE_DNA}. Palette anchors — crimson #B32C2C, antique gold #D9A441, teal #3E7B78,
-olive #5C7A3F, deep purple #6B4A7A, leather brown #7A5230, lineart #2E2118.
+olive #5C7A3F, deep purple #6B4A7A, leather brown #7A5230.
 
 KEEP THE SAME CHARACTER: same face and facial features, same skin tone, same hairstyle, same
 apparent age, same costume, armour, helmet, weapon, accessories and colour palette. If the
@@ -38,20 +42,20 @@ must read as the exact same historical figure, only drawn in the new style — a
 in chibi form, not a small child.
 
 CHANGE ONLY THE ART STYLE: convert realistic proportions into the 2.5-head chibi proportions
-above and simplify the armour and clothing into clean flat shapes with uniform dark-brown
-lineart, while keeping every distinctive element (helmet crest, shoulder guards, sash, weapon
-shape) recognisable.
+above (oversized round head, stubby limbs, soft rounded hands) and render the armour and
+clothing as soft, cleanly modelled 3D forms with gentle cinematic shading — no flat 2D vector,
+no cel-shading, no hard lineart — while keeping every distinctive element (helmet crest,
+shoulder guards, sash, weapon shape) recognisable.
 
 COMPOSITION: single full-body character standing in a neutral confident pose, front-facing or
-slight 3/4 view, centred, feet fully visible, isolated on a pure white background. No shadow
-on the ground, no scenery, no other people, no props, no text. Mobile game character asset,
-sprite-sheet style, crisp lines.
+slight 3/4 view, centred, feet fully visible, isolated on a pure white background. No scenery,
+no other people, no props, no text. Clean 3D game character render, soft studio key light.
 
 NEGATIVE: different person, different costume, different colours, missing moustache or beard,
-invented helmet attachments, adult proportions, long legs, tall slender figure, deformed
-hands, realistic, 3D render, photo, gradient shading, glossy highlights, texture noise, soft
-blur, pixel art, jagged aliased outlines, anime moe, shadow on floor, background scenery,
-cropped head or feet, multiple characters, text, logo, watermark.`;
+invented helmet attachments, adult non-chibi proportions, long legs, tall slender figure,
+deformed hands, flat 2D vector, cel-shaded, hard lineart, sketchy, photoreal live-action,
+hyperreal skin, texture noise, soft blur, pixel art, jagged aliased outlines, anime moe,
+background scenery, cropped head or feet, multiple characters, text, logo, watermark.`;
 
 if (!process.env.REPLICATE_API_TOKEN) { process.stderr.write('REPLICATE_API_TOKEN not set (put it in .env).\n'); process.exit(1); }
 if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
@@ -72,5 +76,5 @@ for (const [id, path] of Object.entries(characters)) {
     buildInput(MODEL, { prompt: RESTYLE_PROMPT, refUris: [dataUri(source)] }),
   );
   await download(url, path);
-  process.stdout.write(`✓ ${path} ← ${MODEL} chibi restyle (${id})\n`);
+  process.stdout.write(`✓ ${path} ← ${MODEL} 3D chibi restyle (${id})\n`);
 }

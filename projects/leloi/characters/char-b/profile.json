@@ -1,0 +1,20 @@
+{
+  "character_id": "char-b",
+  "name": "Luu Bang",
+  "display_name": "Lưu Bang",
+  "aliases": ["Hán Cao Tổ", "Emperor Gaozu of Han", "Bái Công"],
+  "country": "Trung Hoa (China)",
+  "period": "late 3rd century BCE",
+  "dynasty": "Han dynasty (founder)",
+  "role": "Founding emperor of the Han dynasty; victor of the Chu–Han Contention",
+  "known_facts": [
+    "Born a commoner in Pei and served as a minor local official (village head)",
+    "Rose in rebellion after the collapse of the Qin dynasty",
+    "Defeated Xiang Yu (Hạng Vũ) in the Chu–Han Contention",
+    "Founded the Han dynasty in 202 BCE",
+    "Relied on Zhang Liang (Trương Lương) for strategy, Xiao He (Tiêu Hà) for logistics and Han Xin (Hàn Tín) as general"
+  ],
+  "interpretation": "Late-Qin to early-Han Chinese dress, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/leloi/characters/char-b.png"
+}

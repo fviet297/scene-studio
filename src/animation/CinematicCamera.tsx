@@ -51,6 +51,7 @@ export const CinematicCamera: React.FC<Props> = ({
         transform: `translate(${x}px, ${y}px) scale(${scale})`,
         transformOrigin: origin,
         willChange: "transform",
+        translate: "27.6px 72.6px",
       }}
     >
       {children}

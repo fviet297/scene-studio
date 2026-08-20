@@ -1,0 +1,18 @@
+[
+  {
+    "id": "scene-01",
+    "scene": 1,
+    "type": "ai_reconstruction",
+    "subject": "The first character stands on the left in a misty upland forest clearing of earl",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character stands on the left in a misty upland forest clearing of early-15th-century Đại Việt, with a handful of Vietnamese peasant fighters in plain quilted tunics and straw hats wielding bamboo spears, all with East-Asian faces. The second character stands on the right in a muddy riverside camp of late Qin–early Han China, beside a few Han Chinese infantry in coarse hemp robes and simple bronze swords, all with East-Asian faces. No Qing, no European elements anywhere."
+  }
+]

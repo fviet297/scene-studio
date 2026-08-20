@@ -10,157 +10,182 @@ char-b = public/projects/quangtrung-hantin/characters/char-b.png
 title:
 cue:
 host:
-narration: Một người là vị hoàng đế áo vải của Đại Việt.
+narration: Một người là Quang Trung, vị hoàng đế áo vải của Đại Việt.
 char: char-a
-prompt: The first character stands confidently on a raised wooden platform in the center of a bustling Đại Việt village square, surrounded by villagers in late-18th-century Vietnamese peasant attire. In the foreground, woven baskets and farming tools rest beside workers pausing to listen. In the background, traditional thatched houses and bamboo groves set the rural scene, with fluttering red-and-gold banners and distant water buffalo adding life and depth.
+prompt: Late 18th-century Đại Việt, after the great Tây Sơn victory over the Qing Chinese army. The Vietnamese Tây Sơn commander stands triumphantly on a low earthen rise, one arm sweeping toward the victorious army below. Foreground: battle-worn Vietnamese soldiers raising long spears and fluttering cloth banners, surrounded by captured Qing banners and abandoned weapons. Midground: vast rows of victorious Tây Sơn infantry filling the battlefield. Background: a Vietnamese citadel gate, distant smoke, scattered remnants of the defeated Qing army, and layered green hills. Grand diagonal composition, dramatic morning light breaking through smoke and dust, the commander small within the immense victorious army, conveying triumph, scale, and historical grandeur.
 ## scene 2
 
 title:
 cue:
 host:
-narration: Một người là đại tướng lừng danh của nhà Hán.
+narration: Người còn lại là Hàn Tín, một đại tướng lừng danh, góp công lớn trong những năm đầu dựng nên nhà Hán.
 char: char-b
-prompt: The first character stands confidently on a raised wooden platform in a bustling Han dynasty military camp, pointing outward as Han Chinese soldiers in ancient lamellar armor drill with spears in the middle ground. Foreground features fluttering command banners and stacked shields, while the background shows military tents and Han-era buildings under a cloudy sky. Dust swirls around marching units, creating a sense of energy and preparation for battle.
+prompt: Standing at the head of Han dynasty troops in early 3rd-century BCE China, the main character gestures forward, leading a column of soldiers in plain lacquered lamellar armour, conical helmets, and carrying long halberds. The scene unfolds outside a walled Han city with grey brick ramparts and sweeping tiled roofs, banners fluttering amid dust and movement. All background figures have East-Asian faces. No Tang, Qing, or Vietnamese elements, no Western faces.
 ## scene 3
 
 title:
 cue:
 host:
-narration: Quang Trung và Hàn Tín, hai thiên tài quân sự cách nhau hơn một nghìn năm.
+narration: Hai con người, hai thời đại, cách nhau gần hai nghìn năm, nhưng lại có một điểm chung: họ đều là những thiên tài quân sự làm thay đổi lịch sử.
 char: char-a, char-b
-prompt: The first character stands confidently on a grassy hilltop in the foreground, pointing toward a bustling battlefield below. The second character stands beside him, gesturing with a command baton toward orderly lines of ancient soldiers in distinct uniforms—Vietnamese Tây Sơn troops with banners on one side, Han Chinese infantry with tall spears and silk standards on the other. Misty mountains and a winding river fill the background, visually contrasting Đại Việt and Han China.
+prompt: 
 ## scene 4
 
 title:
 cue:
 host:
-narration: Hàn Tín xuất thân nghèo khó.
+narration: Hàn Tín sinh ra trong cảnh nghèo khó, gần như chẳng có gì trong tay.
 char: char-b
-prompt: The first character walks alone along a dusty village road, carrying a simple bundle over one shoulder. In the foreground, worn wooden huts and farmers in Han dynasty peasant attire work the fields with oxen. Farther back, a small market bustle hints at daily hardship. Distant Han-style rooftops frame the background, while chickens scatter near the roadside, emphasizing a humble rural atmosphere.
+identity: face
+prompt: Ancient China, early Han period around 200 BCE, a poor riverside village. The young man, dressed in worn ragged commoner's hemp clothes with no armor, crouches by the muddy riverbank holding an empty fishing line and a cracked bowl. Foreground: reeds and a broken basket. Midground: simple thatched huts. Background: misty low hills. Quiet humble mood, overcast light, the figure small in a wide poor landscape.
+
 ## scene 5
 
 title:
 cue:
 host:
-narration: Ông từng chịu nhục dưới háng một kẻ bán thịt.
+narration: Có lần, ông còn phải chịu nhục chui qua háng một kẻ bán thịt để giữ lấy mạng sống của mình.
 char: char-b
-prompt: The first character kneels reluctantly beneath the legs of a large local butcher in an ancient Chinese market, illustrating the famous humiliation of Han Xin. The butcher stands arrogantly while market-goers watch from around the stalls. Baskets of meat, wooden tables, Han-era clothing, tiled roofs and hanging banners establish an authentic ancient Chinese marketplace. The scene should feel historical and dramatic rather than comedic.
+identity: face
+prompt: Ancient China, early Han period around 200 BCE, a crowded market street. The young man in ragged commoner's hemp clothes bows low and crawls under the spread legs of a burly butcher standing before his meat stall. Foreground: jeering townsfolk and a dropped basket. Midground: stalls with hanging cloth and baskets. Background: tiled Han-style shopfronts. Tense humiliating moment, onlookers laughing, the figure low in the frame.
+
 ## scene 6
 
 title:
 cue:
 host:
-narration: Quang Trung cũng không sinh ra trong hoàng tộc.
+narration: Quang Trung cũng không xuất thân từ hoàng tộc. Ông sinh ra trong một thời đại đầy biến động, nơi quyền lực không nằm sẵn trong tay một người.
 char: char-a
-prompt: The first character stands confidently in the courtyard of a simple 18th-century Vietnamese village, surrounded by thatched houses and commoners in traditional peasant attire. In the foreground, villagers carry baskets and work with farming tools, while bamboo groves and wooden fences set the rural scene. The first character gestures outward, emphasizing his humble origins before becoming emperor.
+prompt: Late 18th-century Đại Việt, a turbulent rural highland village in central Vietnam. The Vietnamese man stands among restless peasants gathered in an open dirt yard, gesturing as unrest stirs. Foreground: villagers with farm tools and a plain banner. Midground: bamboo houses and a wooden gate. Background: terraced hills under heavy clouds. Uneasy charged mood, diagonal grouping, the man small within the crowd.
+
 ## scene 7
 
 title:
 cue:
 host:
-narration: Ông trưởng thành từ phong trào Tây Sơn.
+narration: Từ phong trào Tây Sơn, Nguyễn Huệ từng bước trưởng thành giữa chiến trận, rồi trở thành vị tướng khiến cả kẻ thù phải dè chừng.
 char: char-a
-prompt: The first character stands in a bustling Tây Sơn military encampment, surrounded by Vietnamese soldiers in authentic 18th-century Tây Sơn military attire drilling with spears and carrying banners. In the background, thatched barracks and bamboo palisades stretch across a grassy field, with distant hills beyond. In the foreground, blacksmiths forge weapons while drummers signal military training, creating an energetic revolutionary atmosphere.
+prompt: Late 18th-century Đại Việt battlefield. The Vietnamese Tây Sơn commander leads rebel fighters forward through the smoke of a clash, one arm raised to urge them on. Foreground: charging Tây Sơn soldiers with spears and plain banners. Midground: struggling ranks and drifting smoke. Background: a wooden stockade and green hills. Dynamic diagonal charge, dust and motion, the commander small among his troops.
+
 ## scene 8
 
 title:
 cue:
 host:
-narration: Hàn Tín nổi tiếng với khả năng dùng binh.
+narration: Còn Hàn Tín, thứ ông có từ đầu không phải quyền lực, mà là tài năng dùng binh hiếm có.
 char: char-b
-prompt: The first character stands confidently on a wooden platform in a Han dynasty military camp, gesturing toward a large battlefield map spread across a table. Han officers in ancient armor gather around him while wooden troop markers represent different formations. In the middle ground, disciplined Han soldiers drill with spears and banners, while a fortified military camp and rolling hills fill the background.
+prompt: Ancient China, early Han dynasty around 200 BCE, inside a general's campaign tent. The Han general leans over a low table spread with bamboo strategy scrolls and a terrain sand-table, planning. Foreground: map weights and an oil lamp. Midground: the tent's timber frame and a standing banner. Background: an open flap revealing ordered Han tents. Focused quiet mood, warm lamplight, the general small in the tent interior.
+
 ## scene 9
 
-narration: Ông từng giành chiến thắng vang dội trong nhiều trận đánh thời Hán Sở.
+narration: Trong cuộc chiến Hán – Sở, ông liên tiếp tạo ra những chiến thắng khiến tên tuổi mình vang khắp thiên hạ.
 char: char-b
-prompt: Han Xin commands a dramatic battlefield during the Chu-Han contention, standing on a raised position while Han soldiers advance in disciplined formations. In the foreground, infantry wield spears and shields, while cavalry moves along a diagonal ridge in the middle ground. Han banners and command flags flutter through swirling dust. A fortified ancient Chinese city stands in the background beneath a dramatic cloudy sky.
+prompt: Ancient China, Chu–Han war around 200 BCE, a wide battlefield victory. The Han general on a low ridge directs his soldiers as the enemy line breaks. Foreground: advancing Han infantry with plain banners and dagger-axes. Midground: routed troops and dust. Background: loess plains and a distant Han encampment. Triumphant sweeping diagonal, banners high, the general small above the surging ranks.
+
 ## scene 10
 
-narration: Những chiến công của Hàn Tín góp phần giúp Lưu Bang đánh bại Hạng Vũ.
+narration: Những chiến công ấy góp phần quan trọng giúp Lưu Bang đánh bại Hạng Vũ và đặt nền móng cho nhà Hán.
 char: char-b
-prompt: Han Xin commands Han dynasty forces during a major campaign against the Chu army. Han infantry charge from the left while Chu troops retreat toward the right amid rising dust. Command banners and war drums fill the middle ground. The background shows a walled ancient Chinese city and rolling hills, visually conveying the military campaigns that helped Liu Bang defeat Xiang Yu.
+prompt: Ancient China, the decisive Chu–Han battle around 202 BCE at Gaixia. The Han general on high ground signals an encircling advance as massed Han columns close in on a trapped enemy army. Foreground: Han spears and plain banners. Midground: converging units and dust. Background: night hills dotted with campfires. Grand encirclement, converging diagonals, the general small while commanding the vast field.
+
 ## scene 11
 
-narration: Quang Trung lại nổi bật với những cuộc hành quân thần tốc.
+narration: Nếu Hàn Tín khiến đối thủ kinh ngạc bởi những chiến thuật biến hóa, thì Quang Trung lại khiến người đời nhớ đến những cuộc hành quân thần tốc.
 char: char-a
-prompt: Quang Trung leads a rapidly marching Tây Sơn army along a winding dirt road through lush Vietnamese fields. 18th-century Tây Sơn soldiers carrying spears and banners move quickly behind him, while mounted officers lead the formation. Dust billows beneath their feet and horses, with village rooftops and distant mountains in the background. Streaming banners and diagonal troop movement emphasize extraordinary speed.
+prompt: Late 18th-century Đại Việt, a rapid forced march. The Vietnamese Tây Sơn commander rides at the head of a fast-moving column pressing along a country road, urging speed. Foreground: hurrying Tây Sơn soldiers and plain banners kicking up dust. Midground: a long column stretching back. Background: misty northern Vietnamese hills. Strong sense of motion and haste, sweeping diagonal, the commander small within the moving army.
+
 ## scene 12
 
-narration: Đỉnh cao là mùa xuân Kỷ Dậu năm 1789.
+narration: Đỉnh cao của tài cầm quân ấy đến vào mùa xuân Kỷ Dậu năm 1789.
 char: char-a
-prompt: Quang Trung leads Tây Sơn soldiers during the Spring of Kỷ Dậu in 1789, advancing toward Thăng Long. In the foreground, drummers and flag bearers energize the ranks. In the middle ground, large formations of Tây Sơn soldiers march through the northern Vietnamese landscape. Traditional tiled rooftops, ancient city walls, green trees and spring blossoms fill the background, creating an atmosphere of determination and impending victory.
+prompt: Late 18th-century Đại Việt, the eve of the Kỷ Dậu spring campaign of 1789. The Vietnamese Tây Sơn commander stands before his assembled army at dusk giving the order to move, plum blossoms and hanging lanterns marking the new-year season. Foreground: troops with torches and plain banners. Midground: massed ranks. Background: a Vietnamese citadel wall under a cold spring sky. Charged anticipatory mood, warm torchlight, the commander small in the wide muster.
+
 ## scene 13
 
-narration: Quân Tây Sơn tiến ra Bắc với tốc độ đáng kinh ngạc.
+narration: Quân Tây Sơn tiến ra Bắc với tốc độ đáng kinh ngạc, khiến đối phương gần như không kịp trở tay.
 char: char-a
-prompt: Quang Trung leads columns of Tây Sơn soldiers swiftly marching along a dusty road through rice paddies. Soldiers in authentic 18th-century Vietnamese military attire carry spears and banners while drummers urge them forward. Ox-drawn supply carts and messengers move rapidly through the middle ground. Misty northern mountains rise in the background, while dust clouds and diagonal composition emphasize the astonishing speed of the campaign.
+prompt: Late 18th-century northern Đại Việt in winter. The Vietnamese Tây Sơn commander drives a swift column northward across cold country, waving his men on. Foreground: fast-marching Tây Sơn soldiers and plain banners kicking up dust. Midground: a long stretched column. Background: bare hills under a grey winter sky. Overwhelming speed and momentum, sweeping diagonal, the commander small while leading the rush.
+
 ## scene 14
 
-narration: Chỉ trong thời gian ngắn, Quang Trung đã đánh tan quân Thanh tại Thăng Long.
+narration: Chỉ trong một thời gian rất ngắn, Quang Trung đã đánh tan quân Thanh và tiến vào Thăng Long trong một chiến thắng vang dội.
 char: char-a
-prompt: Quang Trung leads a victorious Tây Sơn army in a dramatic battle near Thăng Long during the 1789 campaign. Vietnamese soldiers charge forward with banners and drums while Qing forces retreat in disorder. Scattered weapons and debris cover the foreground. The background shows the ancient gates and tiled rooftops of Thăng Long amid dust and smoke, with Tây Sơn banners rising above the battlefield.
+prompt: Late 18th-century Đại Việt, victory entering the Thăng Long citadel. The Vietnamese Tây Sơn commander rides through the great citadel gate as his troops pour in and defeated Qing enemy soldiers flee. Foreground: cheering Tây Sơn soldiers with plain Vietnamese banners. Midground: the Vietnamese citadel gateway. Background: smoke and fleeing Qing troops in distinct Qing dress on their own side. Keep Vietnamese and Qing sides strictly separate. Jubilant diagonal, the commander small amid the triumphant entry.
+
 ## scene 15
 
-narration: Điểm giống nhau của họ là khả năng đánh giá tình hình cực nhanh.
+narration: Điểm đặc biệt ở cả hai vị tướng là khả năng nhìn ra tình thế rất nhanh, ngay cả khi chiến trường đang hỗn loạn.
 char: char-a, char-b
-prompt: Quang Trung and Han Xin stand together inside a dramatic symbolic strategy tent, studying a large battlefield map spread across a wooden table. Quang Trung points toward one route while Han Xin points toward another, both analyzing the battlefield with intense focus. On one side are Tây Sơn banners and Vietnamese military equipment; on the other are Han dynasty banners and ancient Chinese weapons. Soldiers and scouts move outside the tent in the background.
+prompt: A symbolic split scene with a pale seam down the centre. On the left the first character stands amid a chaotic 18th-century Đại Việt battlefield of Tây Sơn troops and cloth banners, calmly reading the disorder. On the right the second character stands amid a chaotic early Han-dynasty Chinese battlefield around 200 BCE of Han troops and Han banners, doing the same. Each general small on his own side, swirling dust and struggling units behind each, the two sides never mixed.
+
 ## scene 16
 
-narration: Cả hai đều biết tận dụng địa hình và điểm yếu của đối thủ.
+narration: Họ biết tận dụng địa hình, nắm bắt điểm yếu của đối phương và biến những điều tưởng như bất lợi thành lợi thế cho mình.
 char: char-a, char-b
-prompt: A symbolic battlefield landscape shows Quang Trung and Han Xin studying opposing armies positioned across hills, forests and a winding river. Each commander identifies strategic terrain and enemy weaknesses while scouts signal from elevated positions. Vietnamese Tây Sơn soldiers occupy one side of the landscape and Han dynasty soldiers occupy the other. Rice fields, forests, hills and rivers create a clear visual representation of tactical terrain.
+prompt: A symbolic split scene divided down the centre. On the left the first character crouches pointing at the terrain of an 18th-century Đại Việt landscape of hills and rivers, Tây Sơn troops behind him. On the right the second character points at the terrain of an early Han-dynasty Chinese landscape around 200 BCE of loess ridges, Han troops behind him. Each general small in his own terrain, scouts and banners as secondary activity, the two cultures kept strictly apart.
+
 ## scene 17
 
-narration: Hàn Tín thiên về nghệ thuật dụng binh và những chiến thuật đầy biến hóa.
+narration: Với Hàn Tín, chiến tranh giống như một bàn cờ. Ông liên tục thay đổi cách bố trí và khiến đối thủ không thể đoán trước nước đi tiếp theo.
 char: char-b
-prompt: Han Xin stands over a large bamboo battlefield map inside a Han dynasty command tent, moving wooden troop markers to demonstrate a complex maneuver. Ancient Chinese officers watch attentively around him. In the background, Han soldiers practice changing formations while cavalry scouts ride across the camp. Banners ripple above the tents and war drums signal movements, emphasizing Han Xin's mastery of flexible tactics.
+prompt: Ancient China, early Han dynasty around 200 BCE, a command pavilion. The Han general stands over a large sand-table shaped like a battlefield, moving markers as if playing a board game. Foreground: carved position markers and a brush and scroll. Midground: standing Han banners and aides. Background: an open view of ordered Han camp lines. Cerebral calculating mood, lamplight, the general small within the planning space.
+
 ## scene 18
 
-narration: Quang Trung nổi bật ở tốc độ hành quân và khả năng chỉ huy trực tiếp.
+narration: Còn Quang Trung lại nổi bật bởi tốc độ, khả năng chỉ huy trực tiếp và cách ông luôn đưa quân tiến về phía trước với quyết tâm rất lớn.
 char: char-a
-prompt: Quang Trung rides at the front of a rapidly advancing Tây Sơn army, giving direct commands to soldiers while moving along a dusty battlefield road. Soldiers in black-and-red Tây Sơn military attire follow in organized ranks, with drummers and flag bearers maintaining the pace. Dust rises along the diagonal formation, while Vietnamese villages and distant mountains fill the background.
+prompt: Late 18th-century Đại Việt battlefield. The Vietnamese Tây Sơn commander rides at the very front of a charging line, sword forward, driving the army onward. Foreground: galloping Tây Sơn soldiers and plain banners. Midground: a broad advancing front and dust. Background: an enemy stockade and hills. Relentless forward momentum, aggressive diagonal, the commander small but clearly leading the surge.
+
 ## scene 19
 
-narration: Hàn Tín góp công lớn giúp Lưu Bang lập nên nhà Hán.
+narration: Hàn Tín đã lập nên những chiến công lớn, góp phần đưa Lưu Bang lên ngôi và mở ra một triều đại mới.
 char: char-b
-prompt: Han Xin stands in a Han dynasty military camp after a major victory, surrounded by disciplined soldiers and officers beneath fluttering Han banners. Strategists gather around a wooden table covered with bamboo maps and campaign plans. Messengers and cavalry move through the background toward a fortified city, symbolizing Han Xin's major contribution to Liu Bang's eventual establishment of the Han dynasty.
+prompt: Ancient China, early Han dynasty around 200 BCE, a triumphal moment founding the dynasty. The Han general stands among celebrating Han soldiers before a great Han palace gate as banners rise. Foreground: cheering troops with plain banners and dagger-axes. Midground: the tiled Han palace gateway. Background: city rooftops under a bright sky. Grand celebratory mood, upward diagonals, the general small before the vast palace.
+
 ## scene 20
 
-narration: Nhưng cuối cùng ông lại bị chính triều đình nghi kỵ và sát hại.
+narration: Nhưng trớ trêu thay, người từng giúp nhà Hán giành thiên hạ cuối cùng lại bị chính triều đình nghi kỵ và sát hại.
 char: char-b
-prompt: A somber Han dynasty palace courtyard at dusk, with Han Xin standing under guard after being accused by the imperial court. Palace guards surround him while officials watch from a distant covered walkway. Ancient Chinese palace architecture, stone courtyards and flickering torches create a tense atmosphere. The composition should convey political suspicion, betrayal and tragedy without graphic violence.
+prompt: Ancient China, early Han dynasty around 200 BCE, betrayal inside a Han palace court. The Han general is surrounded and seized by palace guards in a cold hall as an ambush closes in. Foreground: guards with plain halberds blocking him. Midground: tall lacquered columns and a shadowed dais. Background: dim palace depths. Ominous tragic mood, harsh diagonal shadows, the general small and trapped in the great hall.
+
 ## scene 21
 
-narration: Quang Trung thì trở thành hoàng đế và tiếp tục xây dựng đất nước.
+narration: Quang Trung thì có một con đường khác. Sau những năm chinh chiến, ông trở thành hoàng đế và bắt đầu hướng đến việc xây dựng lại đất nước.
 char: char-a
-prompt: Quang Trung sits on a raised imperial throne inside an 18th-century Vietnamese royal court, addressing mandarins and scholars. Officials present scrolls and plans while artisans and workers construct buildings in the background. Traditional Vietnamese wooden architecture, tiled roofs, imperial banners and ceremonial objects establish the Tây Sơn court. The atmosphere conveys nation-building, reform and prosperity.
+prompt: Late 18th-century Đại Việt at peace. The Vietnamese Tây Sơn emperor oversees the rebuilding of the country from a low terrace, gesturing over the work. Foreground: farmers and craftsmen with tools and a plain banner. Midground: new timber construction and rice fields. Background: a Vietnamese palace roofline and green hills. Hopeful constructive mood, warm daylight, the emperor small above the busy scene of renewal.
+
 ## scene 22
 
-narration: Tuy nhiên, ông cũng qua đời rất sớm.
+narration: Thế nhưng, số phận cũng không cho ông quá nhiều thời gian. Quang Trung qua đời khi tuổi đời còn rất trẻ.
 char: char-a
-prompt: A quiet and solemn royal chamber in late-18th-century Vietnam, symbolically depicting the death of Emperor Quang Trung at a young age. A traditional Vietnamese imperial room contains a simple altar with incense smoke, ceremonial objects and royal banners. Courtiers and guards stand respectfully in the background with lowered heads. Soft morning light enters through wooden lattice windows, creating a dignified and mournful atmosphere.
+prompt: Late 18th-century Đại Việt, a hall of mourning. The Vietnamese Tây Sơn emperor sits weary and still on a simple seat as pale light fades, attendants bowing in grief around him. Foreground: a lowered plain banner and a dim lamp. Midground: mourning courtiers with heads bowed. Background: shadowed Vietnamese palace columns. Solemn sorrowful mood, cold fading light, the seated figure small in the quiet hall. No corpse, only grief.
+
 ## scene 23
 
-narration: Nhiều kế hoạch cải cách của ông vẫn còn dang dở.
+narration: Vì thế, không ít kế hoạch cải cách và những dự định lớn của ông vẫn chưa kịp hoàn thành.
 char: char-a
-prompt: An 18th-century Tây Sơn royal study filled with unfinished reform documents, bamboo manuscripts, ink brushes, architectural plans and military maps. Quang Trung stands beside a large wooden table examining the incomplete plans. A half-finished model of a fortified city sits nearby. Through the open window, Vietnamese scholars and officials discuss plans in the royal courtyard, emphasizing the reforms left unfinished after his early death.
+prompt: Late 18th-century Đại Việt, an emptied study of unfinished work. Half-unrolled edicts and building plans lie abandoned on a low desk while distant projects stand only half-built. Foreground: scattered scrolls, an unfinished map and a cold brush. Midground: the emptied desk of a Vietnamese court. Background: scaffolding on a half-raised structure under a grey sky. Melancholy of things left undone, the Vietnamese emperor standing small and pensive to one side.
+
 ## scene 24
 
-narration: Nếu Hàn Tín là bậc thầy của nghệ thuật dụng binh.
+narration: Nếu phải nói ngắn gọn, Hàn Tín là bậc thầy của nghệ thuật dụng binh, nổi tiếng với những chiến thuật đầy biến hóa.
 char: char-b
-prompt: Han Xin stands at the center of a vast ancient Chinese military camp, studying a battlefield map while officers arrange wooden troop markers around him. Rows of Han dynasty soldiers drill in the middle ground under large command banners. Cavalry scouts and war drums animate the background. The composition emphasizes Han Xin as a master strategist and commander.
+prompt: Ancient China, early Han dynasty around 200 BCE, a battlefield summary. The Han general commands with shifting formations, his units wheeling into a new arrangement at his signal. Foreground: Han spears and plain banners changing direction. Midground: reforming columns and dust. Background: loess plains and a distant Han camp. Dynamic ever-changing tactics, sweeping diagonal, the general small while directing the maneuver.
+
 ## scene 25
 
-narration: Thì Quang Trung là vị vua kiêm danh tướng với khả năng đánh nhanh thắng nhanh.
+narration: Còn Quang Trung là vị vua kiêm danh tướng, nổi bật với tốc độ hành quân và khả năng tung ra những đòn đánh quyết định.
 char: char-a
-prompt: Quang Trung leads a fast-moving Tây Sơn army across a Vietnamese battlefield, riding at the front while soldiers charge behind him with streaming banners and drums. The army advances rapidly through dust and smoke toward enemy positions. A traditional Vietnamese village and distant mountains appear in the background. The composition emphasizes speed, direct leadership and decisive victory.
+prompt: Late 18th-century Đại Việt, a battlefield summary. The Vietnamese Tây Sơn emperor-general leads a swift decisive strike, driving his fast column into the enemy at speed. Foreground: charging Tây Sơn soldiers and plain banners. Midground: the breaking enemy line and dust. Background: hills and a citadel wall. Decisive explosive momentum, aggressive diagonal, the leader small at the head of the rush.
+
 ## scene 26
 
-narration: Hai con người, hai thời đại.
+narration: Hai con người, hai thời đại, hai chiến trường hoàn toàn khác nhau.
 char: char-a, char-b
-prompt: A symbolic split-era composition featuring Quang Trung and Han Xin standing on opposite sides of a flowing river. Quang Trung appears in 18th-century Tây Sơn military attire on one side, while Han Xin appears in Han dynasty armor on the other. The Vietnamese landscape features rice fields, bamboo and tiled villages, while the Chinese side features ancient Han architecture and military banners. The river visually separates two different historical eras.
+prompt: A symbolic diptych split down the centre into two distinct battlefields. On the left the first character stands over an 18th-century Đại Việt field of Tây Sơn troops, cloth banners and green hills. On the right the second character stands over an early Han-dynasty Chinese field around 200 BCE of Han troops, Han banners and loess plains. Each general small on his own side, marching units behind each, the two eras and cultures kept entirely separate.
+
 ## scene 27
 
-narration: Nhưng cả hai đều chứng minh rằng thiên tài quân sự có thể thay đổi cả lịch sử.
+narration: Nhưng cuối cùng, cả Hàn Tín và Quang Trung đều cho thấy một điều: một thiên tài quân sự, trong đúng thời khắc lịch sử, có thể làm thay đổi cả một thời đại.
 char: char-a, char-b
-prompt: A grand symbolic historical panorama featuring Quang Trung and Han Xin standing prominently in the foreground, each overlooking the armies and battles that defined their legacies. Quang Trung's Tây Sơn army advances across a Vietnamese landscape on one side, while Han Xin's Han dynasty army maneuvers across an ancient Chinese battlefield on the other. Banners, war drums, mountains, rivers and distant cities connect the two eras, creating a powerful final image about military genius changing the course of history.
+prompt: A symbolic split scene divided down the centre. On the left the first character stands resolute on his victorious 18th-century Đại Việt field with Tây Sơn troops and cloth banners. On the right the second character stands resolute on his victorious early Han-dynasty Chinese field around 200 BCE with Han troops and Han banners. Each general small on his own side, banners rising and troops cheering behind each, the two sides never mixed.

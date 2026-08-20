@@ -8,12 +8,13 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { predict, dataUri } from './replicate-image.mjs';
 
-// Curated image-to-video models offered in the review panel's model picker.
+// Curated image-to-video models offered in the review panel's model picker. wan-video is first,
+// so it is the panel's default selection and the DEFAULT_MODEL fallback below.
 export const VIDEO_MODELS = [
+  'wan-video/wan-2.5-i2v',
   'xai/grok-imagine-video',
   'kwaivgi/kling-v2.5-turbo-pro',
   'bytedance/seedance-1-pro-fast',
-  'wan-video/wan-2.5-i2v',
   'minimax/hailuo-2.3-fast',
 ];
 const DEFAULT_MODEL = VIDEO_MODELS[0];

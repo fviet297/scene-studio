@@ -32,8 +32,8 @@ const GUARD = 'historically appropriate for the period, 9:16 vertical, clear cen
 
 // Appended after every editable template so a saved UI override cannot weaken this rule.
 // Text is added later by Remotion, never baked into generated scene artwork.
-export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: render a purely visual scene with zero typographic glyphs from any writing system and zero numeric glyphs. All surfaces are blank and non-symbolic. Maps communicate only through coastline, terrain, rivers, colour regions, plain circles and continuous plain lines. Banners and objects show only material, colour, folds and borders. Remotion adds all titles and labels later, outside this image.`;
-const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: remove every glyph-like mark before output; the image must remain understandable using pictures and geometry alone.';
+export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no glyphs from any writing system and no numerals anywhere. Every surface stays blank and non-symbolic; banners, flags and objects show only material, colour and folds. Maps read through coastline, terrain, rivers, colour regions and plain lines. Titles are added later, outside this image.`;
+const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: remove any glyph-like mark before output; read the scene through pictures and shapes only.';
 
 // Kontext (image-to-image) character-lock template. The scene's action/setting prompt is
 // substituted into [SCENE-SPECIFIC PROMPT]; everything else forces identity from the reference.
@@ -87,26 +87,24 @@ NEGATIVE (style qualities only — never name a drawable object here, the model 
 // Multi-reference variant for scenes listing two or more characters (`char: a, b`). Every
 // reference is uploaded and each figure is locked to its own one; without this the model gets a
 // single reference for a two-person scene and paints the same face onto both figures.
-const MULTI_CHAR_PROMPT = `SEVERAL DIFFERENT PEOPLE IN ONE SCENE — ONE flat chibi cartoon illustration. References = art style for the ENTIRE image (not stickers).
+const MULTI_CHAR_PROMPT = `SEVERAL DIFFERENT PEOPLE IN ONE SCENE — ONE flat chibi cartoon illustration. References set the art style for the WHOLE image, not stickers.
 
-STYLE: [STYLE]. Distant scenery = flat outlined cartoon shapes in cooler tones only. No painted backdrop, haze or blur.
+STYLE: [STYLE]. Distant scenery uses cooler flat outlined shapes.
 
-ALL figures (soldiers, crowds, bystanders) share the main characters' 2.5-head chibi proportions, round head, mitten hands, line weight, eyes, cel-shading and detail. A crowd = many small chibi characters, never a textured mass.
+ALL PEOPLE: same chibi proportions, line weight, eyes and cel-shading. Crowds contain distinct small chibi figures.
 
-ONE REFERENCE PER CHARACTER: the references are DIFFERENT PEOPLE, in the order the SCENE names them — reference 1 → first character named, reference 2 → second. Each figure is locked to its own reference: same face, hair, skin, proportions, costume, armour, colours and weapon; only pose, expression, orientation, camera angle and lighting may change. Never give two figures the same face, hairstyle, headwear or armour, never draw one character twice, never mirror one into the other's place. Extras wear plainer gear and copy no main face or armour.
+REFERENCE ORDER: reference 1 = first named character; reference 2 = second. Preserve each person's face, hair, skin, costume, armour, colours and weapon. Change only pose, expression, orientation and camera. Each main appears once and remains visually distinct. Extras use plain gear and copy neither main.
 
-EACH CHARACTER KEEPS THEIR OWN CULTURE: follow each character's own country + century for architecture, costume, armour, banners and weapons, on that character's own side. No mixing or swapping (especially Chinese ↔ Vietnamese).
+CULTURE: each side uses its named country and century for architecture, costume, armour and weapons. Never swap Chinese and Vietnamese elements.
 
-BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour — dyed cloth showing only folds and hem, plain painted wood, bare stone. All surfaces stay blank and non-symbolic.
-
-TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame.
+SURFACES: banners, flags, shields and walls remain blank, using only flat colour, material and folds.
 
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
-COMPOSITION: 9:16 vertical, wide environmental story shot, never full-frame portraits. Each main character is deliberately small, about 20–30% of frame height, while remaining recognizable and clearly separated. Show generous surroundings with foreground, middle ground and background layers, varied scale, clear leading lines and active secondary figures. Prefer asymmetrical or diagonal composition over a static centered lineup. Heads uncropped; reserve calm negative space only at top for captions.
+COMPOSITION: 9:16 vertical environmental shot. Follow SCENE placement. Each main occupies 20–30% of frame height, clearly separated and uncropped. Show foreground, middle ground and background, varied scale, active secondary figures and calm top space.
 
-NEGATIVE (style qualities only — never name a drawable object here): two characters sharing one face, cloned or mirrored main characters, mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, redesigned main faces/costumes, empty background, extras in a main character's armour, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
+NEGATIVE: cloned or mirrored mains, shared faces, mixed cultures or styles, adult proportions, painted background, gradients, gloss, haze, blur, photorealism, 3D, text, watermark.`;
 
 // Text-to-image template for scenes with no character reference (e.g. an enemy army,
 // a symbolic shot). Placeholders below are filled at generate time.
@@ -161,33 +159,107 @@ const buildTextPrompt = (t, scenePrompt) =>
     .replaceAll('[GUARD]', t.guard)
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
 
-// Image model routed by how many character references a scene has, to keep cost down without
-// losing per-person identity on two-character scenes (the core of a comparison video):
-//   - single reference → FLUX Kontext dev (cheap image-to-image, one reference is enough)
-//   - two+ references   → Seedream 4.5 (only this reliably locks a different face per reference)
-//   - no reference      → FLUX dev (cheap text-to-image; no identity to preserve)
-// Override any of them via REPLICATE_SINGLE_MODEL / REPLICATE_MULTI_MODEL / REPLICATE_TEXT_MODEL.
-const DEFAULT_SINGLE = 'black-forest-labs/flux-kontext-dev';
-const DEFAULT_MULTI = 'bytedance/seedream-4.5';
-const DEFAULT_TEXT = 'black-forest-labs/flux-dev';
+// The full prompt string generateSceneImage would send for one scene (template + style + scene
+// prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
+// Routes by declared character count, mirroring generateSceneImage's template choice.
+export const assemblePrompt = (scene, templates = getTemplates()) => {
+  const chars = scene.image?.characters ?? [];
+  const scenePrompt = scene.image?.prompt ?? '';
+  if (chars.length) {
+    const multi = chars.length > 1;
+    const face = !multi && scene.image?.identity === 'face';
+    const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
+    return buildCharPrompt(templates, scenePrompt, template);
+  }
+  return buildTextPrompt(templates, scenePrompt);
+};
+
+// Default image model for every scene regardless of reference count (single-character,
+// two-character, or no reference at all) is Grok Imagine. Note: Grok Imagine only accepts one
+// `image` reference (see buildInput below), so on a two-character scene it locks the first-named
+// character and drops the second reference — pick Seedream 4.5 from the dropdown for scenes that
+// need both faces locked.
+// Override via REPLICATE_SINGLE_MODEL / REPLICATE_MULTI_MODEL / REPLICATE_TEXT_MODEL.
+const DEFAULT_SINGLE = 'xai/grok-imagine-image';
+const DEFAULT_MULTI = 'xai/grok-imagine-image';
+const DEFAULT_TEXT = 'xai/grok-imagine-image';
+
+// Models the review UI lets the user force for a scene, overriding the default above. `id` is
+// empty for "Auto" (keep the default: Grok Imagine). Only Grok Imagine and Seedream 4.5 are
+// offered — Seedream is the per-scene override for two-character scenes needing both faces
+// locked (see note above).
+//
+// Prices are Replicate USD per output image, from replicate.com/pricing (Aug 2026). They can
+// change and higher resolutions can cost more — treat the labels as guidance, not a billing
+// guarantee.
+export const IMAGE_MODELS = [
+  { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — multi-reference, best per-person identity, default (~$0.03/img)' },
+  { id: 'xai/grok-imagine-image', label: 'Grok Imagine — single reference or text-to-image (~$0.04/img, +$0.01 to edit)' },
+  { id: '', label: 'Auto — route by reference count (Grok Imagine)' },
+];
 
 const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
 export const dataUri = (path) => `data:${MIME[path.split('.').pop().toLowerCase()] ?? 'image/png'};base64,${readFileSync(path).toString('base64')}`;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const REQUEST_TIMEOUT_MS = 30_000;
+
+const requestJson = async (url, init, label, retryNetwork = true) => {
+  let lastError;
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    try {
+      const response = await fetch(url, { ...init, signal: controller.signal });
+      clearTimeout(timeout);
+      if (response.ok) return response.json();
+      const body = await response.text();
+      if (![429, 500, 502, 503, 504].includes(response.status) || attempt === 5) {
+        const error = new Error(`${label} ${response.status}: ${body}`);
+        error.retryable = false;
+        throw error;
+      }
+      const retryAfter = Number(response.headers.get('retry-after'));
+      await wait(Number.isFinite(retryAfter) ? retryAfter * 1000 : 1000 * 2 ** attempt);
+    } catch (error) {
+      clearTimeout(timeout);
+      lastError = error;
+      if (error.retryable === false || !retryNetwork || attempt === 5) break;
+      await wait(1000 * 2 ** attempt);
+    }
+  }
+  throw new Error(`${label} failed after retries: ${lastError?.message ?? 'unknown error'}`);
+};
 
 // Seedream rejects prompts past this length, so fail here with a useful message instead of
-// letting the API return an opaque error after the reference upload.
-const SEEDREAM_PROMPT_LIMIT = 4000;
+// letting the API return an opaque error after the reference upload. Exported so the review panel
+// can show the live full-prompt length against this limit before generating.
+export const SEEDREAM_PROMPT_LIMIT = 4000;
 
-// Build the Replicate `input` for a model. Seedream and FLUX take different fields, so the
-// caller passes intent (prompt, reference data-URIs) and we shape it per provider.
-// Seedream accepts 1–14 references (multi-reference generation); FLUX takes a single one.
+// Build the Replicate `input` for a model. Each provider takes different fields, so the caller
+// passes intent (prompt, reference data-URIs) and we shape it per provider. Seedream and
+// nano-banana accept 1–14 references (multi-reference generation); FLUX takes a single one.
 export const buildInput = (model, { prompt, refUris = [] }) => {
   if (model.startsWith('bytedance/seedream')) {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
-    return { prompt, aspect_ratio: '9:16', size: '2K', ...(refUris.length ? { image_input: refUris } : {}) };
+    return {
+      prompt, aspect_ratio: '9:16', size: '2K', max_images: 1,
+      sequential_image_generation: 'disabled',
+      ...(refUris.length ? { image_input: refUris } : {}),
+    };
+  }
+  if (model.startsWith('google/nano-banana')) {
+    // Gemini image models: one `prompt` string plus an optional `image_input` array of up to
+    // 14 references; resolution/aspect_ratio instead of FLUX's fields, and no Seedream-style
+    // prompt-length cap. Same array is used for one or many references.
+    return { prompt, aspect_ratio: '9:16', resolution: '2K', output_format: 'jpg', ...(refUris.length ? { image_input: refUris } : {}) };
+  }
+  if (model.startsWith('xai/grok-imagine')) {
+    // Grok Imagine takes a single `image` for editing (not FLUX's `input_image`, and no
+    // output_format/num_outputs); aspect_ratio is ignored while editing. Single reference only,
+    // so a two-character scene forced onto this model keeps only the first reference.
+    return refUris.length ? { prompt, image: refUris[0] } : { prompt, aspect_ratio: '9:16' };
   }
   // FLUX Kontext / FLUX dev fallback (kept so REPLICATE_*_MODEL can still point at them).
   return refUris.length
@@ -205,26 +277,36 @@ export const loadEnv = () => {
 };
 
 export const predict = async (token, model, input) => {
-  // Retry on 429 (Replicate throttles hard when account credit is low), honouring retry_after.
-  let create;
-  for (let attempt = 0; attempt < 6; attempt++) {
-    create = await fetch(`https://api.replicate.com/v1/models/${model}/predictions`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', Prefer: 'wait' },
-      body: JSON.stringify({ input }),
-    });
-    if (create.status !== 429) break;
-    const body = await create.clone().json().catch(() => ({}));
-    const retryAfter = Number(body.retry_after ?? create.headers.get('retry-after') ?? 3);
-    await wait((retryAfter + 1) * 1000);
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      return await runPrediction(token, model, input);
+    } catch (error) {
+      lastError = error;
+      if (!/ConnectError|connection reset|upstream connect/i.test(error.message) || attempt === 2) throw error;
+      await wait(2000 * 2 ** attempt);
+    }
   }
-  if (!create.ok) throw new Error(`replicate ${create.status}: ${await create.text()}`);
-  let p = await create.json();
+  throw lastError;
+};
+
+const runPrediction = async (token, model, input) => {
+  const endpoint = `https://api.replicate.com/v1/models/${model}/predictions`;
+  // Do not hold POST open while model runs; long-lived connections frequently fail upstream.
+  let p = await requestJson(endpoint, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ input }),
+  }, `replicate create ${model}`, false);
+  const predictionId = p.id ?? 'unknown';
   while (!['succeeded', 'failed', 'canceled'].includes(p.status)) {
     await wait(2000);
-    p = await (await fetch(p.urls.get, { headers: { Authorization: `Bearer ${token}` } })).json();
+    if (!p.urls?.get) throw new Error(`replicate prediction ${predictionId}: missing polling URL`);
+    p = await requestJson(p.urls.get, {
+      headers: { Authorization: `Bearer ${token}` },
+    }, `replicate poll ${predictionId}`);
   }
-  if (p.status !== 'succeeded') throw new Error(`replicate ${p.status}: ${JSON.stringify(p.error)}`);
+  if (p.status !== 'succeeded') throw new Error(`replicate prediction ${predictionId} ${p.status}: ${JSON.stringify(p.error)}`);
   return Array.isArray(p.output) ? p.output[0] : p.output;
 };
 
@@ -262,6 +344,10 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   const singleModel = opts.singleModel ?? process.env.REPLICATE_SINGLE_MODEL ?? DEFAULT_SINGLE;
   const multiModel = opts.multiModel ?? process.env.REPLICATE_MULTI_MODEL ?? DEFAULT_MULTI;
   const text = opts.textModel ?? process.env.REPLICATE_TEXT_MODEL ?? DEFAULT_TEXT;
+  // Explicit model chosen in the review UI. Overrides the reference-count routing below for
+  // whichever branch this scene falls into; blank/absent keeps the automatic route.
+  const override = typeof opts.model === 'string' && opts.model.trim() ? opts.model.trim() : null;
+  const onLog = opts.onLog ?? (() => {});
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
 
@@ -283,21 +369,32 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     // It does not apply to multi-character scenes — unlocking costume there is what lets the
     // model blend the people together.
     const multi = refs.length > 1;
-    // Two+ people → Seedream (per-reference identity); one person → cheap FLUX Kontext.
-    const model = multi ? multiModel : singleModel;
+    // Same default (Grok Imagine) regardless of reference count; multiModel/singleModel are only
+    // distinct when overridden via REPLICATE_MULTI_MODEL / REPLICATE_SINGLE_MODEL.
+    const model = override ?? (multi ? multiModel : singleModel);
     const face = !multi && scene.image.identity === 'face';
     const template = multi ? t.multiCharPrompt : face ? t.faceLockPrompt : t.masterPrompt;
+    const route = multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock';
     const prompt = buildCharPrompt(t, scene.image.prompt, template);
+    onLog(`route: ${route}, model=${model}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
+    onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
     url = await predict(token, model, buildInput(model, { prompt, refUris: refs.map(dataUri) }));
-    via = `${model} ${multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock'}`;
+    onLog('prediction succeeded; image URL received');
+    via = `${model} ${route}`;
   } else {
+    const model = override ?? text;
     const prompt = buildTextPrompt(t, scene.image.prompt);
-    url = await predict(token, text, buildInput(text, { prompt }));
-    via = `${text} text2img`;
+    onLog(`route: text2img, model=${model}, no reference, prompt=${prompt.length} chars`);
+    onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
+    url = await predict(token, model, buildInput(model, { prompt }));
+    onLog('prediction succeeded; image URL received');
+    via = `${model} text2img`;
   }
 
   mkdirSync(imageDir(), { recursive: true });
+  onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
+  onLog(`saved: ${join(imageDir(), file)}`);
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
     subject: scene.image.prompt.slice(0, 80), source: `AI generated (Replicate, ${via})`, sourceUrl: null,

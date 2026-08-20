@@ -8,13 +8,6 @@ import { generateSceneVideo as vmediaGenerate } from './vmedia-video.mjs';
 // (configured via VMEDIA_VIDEO_MODEL, wan_2_5 by default — see .env.example).
 const VMEDIA_MODEL = { id: 'vmedia:wan_2_5', label: 'wan_2_5 (VMedia)', provider: 'vmedia' };
 
-export const MOTION_VIDEO_MODELS = [
-  ...REPLICATE_MODELS.map((id) => ({ id, label: id, provider: 'replicate' })),
-  VMEDIA_MODEL,
-];
-
-export { buildMotionPrompt };
-
 // Each model's allowed video length, so the generated clip never runs far longer than the
 // scene's narration audio. `discrete` models only accept specific lengths; others accept any
 // integer within [min, max].
@@ -27,6 +20,18 @@ const DURATION_RULES = {
   [VMEDIA_MODEL.id]: { min: 3, max: 10 },
 };
 
+// Human-readable allowed-length hint for the UI's duration box. Discrete models list their exact
+// values (a non-matching entry snaps up to the next one); range models show min–max.
+const describeDurationRule = (rule) =>
+  !rule ? 'any length' : rule.discrete ? `${rule.discrete.join(' or ')}s only` : `${rule.min}–${rule.max}s`;
+
+export const MOTION_VIDEO_MODELS = [
+  ...REPLICATE_MODELS.map((id) => ({ id, label: id, provider: 'replicate' })),
+  VMEDIA_MODEL,
+].map((m) => ({ ...m, durations: describeDurationRule(DURATION_RULES[m.id]) }));
+
+export { buildMotionPrompt };
+
 // Smallest allowed duration that still covers the audio, so the clip isn't padded much past
 // where the narration ends; falls back to the model's longest option if the audio outruns it.
 const pickDuration = (model, audioSeconds) => {
@@ -36,8 +41,12 @@ const pickDuration = (model, audioSeconds) => {
   return Math.min(rule.max, Math.max(rule.min, Math.ceil(audioSeconds)));
 };
 
-export const generateSceneVideo = async ({ model, audioSeconds, ...rest }) => {
-  const duration = pickDuration(model, audioSeconds);
+// `requested` (seconds) is an optional user override from the review panel's duration box; when
+// absent the clip length is matched to the narration audio. Either way it is snapped to the
+// model's allowed lengths so a discrete model never receives a value it rejects.
+export const generateSceneVideo = async ({ model, audioSeconds, duration: requested, ...rest }) => {
+  const target = Number.isFinite(requested) && requested > 0 ? requested : audioSeconds;
+  const duration = pickDuration(model, target);
   if (model === VMEDIA_MODEL.id) return vmediaGenerate({ ...rest, duration });
   return replicateGenerate({ ...rest, model, duration });
 };

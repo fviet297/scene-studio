@@ -1,19 +1,26 @@
 {
-  "project": "quangtrung-hantin",
+  "project": "leloi",
   "characters": [
     {
       "id": "char-a",
-      "name": "char-a",
-      "aliases": [],
-      "image": "projects/quangtrung-hantin/characters/char-a.png",
-      "imageV2": "projects/quangtrung-hantin/characters/v2/char-a.png"
+      "name": "Lê Lợi",
+      "aliases": [
+        "Bình Định Vương",
+        "Lê Thái Tổ"
+      ],
+      "image": "projects/leloi/characters/char-a.jpg",
+      "imageV2": "projects/leloi/characters/char-a.jpg"
     },
     {
       "id": "char-b",
-      "name": "char-b",
-      "aliases": [],
-      "image": "projects/quangtrung-hantin/characters/char-b.png",
-      "imageV2": "projects/quangtrung-hantin/characters/char-b.png"
+      "name": "Lưu Bang",
+      "aliases": [
+        "Hán Cao Tổ",
+        "Emperor Gaozu of Han",
+        "Bái Công"
+      ],
+      "image": "projects/leloi/characters/char-b.jpg",
+      "imageV2": "projects/leloi/characters/char-b.jpg"
     }
   ]
 }

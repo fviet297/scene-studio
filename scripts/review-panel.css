@@ -319,8 +319,6 @@ select.mini.wide { width: 100%; }
 }
 .transport audio { height: 30px; flex: 1; min-width: 0; }
 .transport .missing { flex: 1; font-size: 12px; color: var(--faint); }
-.scene-video { flex: none; padding: 10px 12px; border-top: 1px solid var(--line-soft); background: var(--surface); }
-.scene-video video { width: 100%; max-height: 210px; border-radius: var(--r-ctl); background: #000; display: block; }
 
 /* ---------------------------------------------------------------- inspector */
 
@@ -330,6 +328,9 @@ select.mini.wide { width: 100%; }
 .block-head { display: flex; align-items: center; gap: 8px; }
 .block-head .ttl { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
 .block-head .hint { margin-left: auto; font-size: 11px; color: var(--faint); }
+.block-head .hint + .hint { margin-left: 8px; }
+#promptCount { font-variant-numeric: tabular-nums; }
+#promptCount.over { color: var(--danger); font-weight: 600; }
 .block-head .hint.dirty { color: var(--accent); }
 
 textarea {
@@ -517,4 +518,31 @@ code { font-family: var(--mono); font-size: 11px; color: var(--accent); backgrou
   .rail-item { width: 128px; flex: none; }
   .console { position: sticky; bottom: 0; }
   .console-bar .msg { display: none; }
+}
+
+/* ---------------------------------------------------------------- lightbox */
+
+/* Click a character gallery thumbnail to inspect it full size. */
+.char-thumb { cursor: zoom-in; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 40; display: grid; place-content: center; justify-items: center;
+  gap: 10px; background: rgba(7, 8, 10, .82); padding: 32px; cursor: zoom-out;
+}
+.lightbox[hidden] { display: none; }
+.lightbox img {
+  max-width: min(90vw, 620px); max-height: 82vh; object-fit: contain;
+  border: 1px solid var(--line); border-radius: var(--r-panel);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .55); background: var(--stage);
+}
+.lightbox-cap { color: var(--faint); font-size: 12px; letter-spacing: .03em; }
+
+/* ---------------------------------------------------------------- translation */
+
+/* Read-only EN→VI translation shown beside a prompt box (never sent to the model). */
+.translation {
+  margin-top: 6px; padding: 8px 10px; border-radius: var(--r-ctl);
+  border: 1px solid var(--line-soft); border-left: 2px solid var(--accent);
+  background: var(--surface-2); color: var(--muted);
+  font-size: 12px; line-height: 1.5; white-space: pre-wrap;
+  max-height: 200px; overflow-y: auto;
 }

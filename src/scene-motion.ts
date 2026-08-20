@@ -98,5 +98,20 @@ function mergeMotion(base: SceneMotion, over?: SceneMotion): SceneMotion {
 
 // Public entry: resolved cinematic motion for a scene (default merged with its override).
 export function getSceneMotion(sceneNumber: number): SceneMotion {
-  return mergeMotion(defaultMotion(sceneNumber), OVERRIDES[sceneNumber]);
+  const motion = mergeMotion(
+    defaultMotion(sceneNumber),
+    OVERRIDES[sceneNumber],
+  );
+  // Fully static still-image scenes: no Ken Burns zoom, no pan, no handheld drift. Every axis is
+  // frozen to its start (zoomFrom / xFrom / yFrom) and drift is off, so the scene holds its frame-0
+  // look. Keeping zoomFrom (>1) preserves the overscan that hides the framing offset.
+  if (motion.camera)
+    motion.camera = {
+      ...motion.camera,
+      zoomTo: motion.camera.zoomFrom,
+      xTo: motion.camera.xFrom,
+      yTo: motion.camera.yFrom,
+      drift: 0,
+    };
+  return motion;
 }

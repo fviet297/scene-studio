@@ -30,6 +30,7 @@ const AUDIO_DIR = paths.audioDir;
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;
+process.stdout.write(`OmniVoice ${WS_URL} · voice=${VOICE} · ${targets.length} scene(s): ${targets.map((s) => s.scene).join(', ')}\n`);
 
 const toChunks = (text) =>
   (text.match(/[^.!?]+[.!?]+/g) ?? [text]).reduce((result, sentence) => {
@@ -68,6 +69,7 @@ await new Promise((resolve, reject) => {
   socket.once('open', resolve);
   socket.once('error', reject);
 });
+process.stdout.write('✓ connected to OmniVoice\n');
 
 const synthesize = (text, requestId) =>
   new Promise((resolve, reject) => {
@@ -97,6 +99,7 @@ const synthesize = (text, requestId) =>
 let requestId = 0;
 for (const segment of targets) {
   const chunks = toChunks(segment.text);
+  process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars\n`);
   const files = [];
   for (const [index, chunk] of chunks.entries()) {
     const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.wav`);

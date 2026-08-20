@@ -62,10 +62,19 @@ export const addCharacterToPlan = (planMd, staticPrefix, id) => {
   if (end < 0) end = lines.length;
   let insertAt = end;
   while (insertAt > headIdx + 1 && lines[insertAt - 1].trim() === '') insertAt--;
-  const relPath = `public/${staticPrefix}/characters/${id}.png`;
+  const relPath = `public/${staticPrefix}/characters/${id}.jpg`;
   lines.splice(insertAt, 0, `${id} = ${relPath}`);
   writeFileSync(planMd, lines.join('\n'));
   return relPath;
+};
+
+export const writeCharacterPath = (planMd, id, relPath) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const lineRe = new RegExp(`^\\s*${id}\\s*=`);
+  const index = lines.findIndex((line) => lineRe.test(line));
+  if (index < 0) throw new Error(`character "${id}" not found in ${planMd}`);
+  lines[index] = `${id} = ${relPath}`;
+  writeFileSync(planMd, lines.join('\n'));
 };
 
 export const hasSceneHeading = (planMd, sceneNo) =>

@@ -32,7 +32,7 @@
       <span class="val num" id="vAud">0/0</span>
     </div>
     <div class="stage-meter">
-      <span class="lbl">MP4</span>
+      <span class="lbl">Motion</span>
       <span class="track"><span class="fill" id="mVid"></span></span>
       <span class="val num" id="vVid">0/0</span>
     </div>
@@ -99,14 +99,9 @@
       </div>
     </div>
 
-    <div class="scene-video" id="sceneVideoWrap" hidden>
-      <video id="sceneVideo" controls preload="none"></video>
-    </div>
-
     <div class="transport">
       <span class="missing" id="audioMissing">No narration audio yet.</span>
       <audio id="audioPlayer" controls preload="none" hidden></audio>
-      <button class="btn sm" type="button" id="btnSceneVideo" hidden>Hide MP4</button>
     </div>
   </section>
 
@@ -149,14 +144,18 @@
         <div class="block-head">
           <span class="ttl">Image prompt</span>
           <span class="hint" id="promptHint"></span>
+          <span class="hint" id="promptCount" title="Full prompt sent to the image model = template + style + this scene prompt"></span>
         </div>
         <textarea id="promptBox" rows="7" spellcheck="false" aria-label="Image prompt for the selected scene" placeholder="Action and gesture only. Appearance comes from the character reference."></textarea>
         <div class="btn-row">
           <button class="btn sm" type="button" id="promptSave" disabled>Save prompt</button>
           <button class="btn sm" type="button" id="btnGenPrompt">Generate prompt from narration</button>
+          <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-src="promptBox" data-out="promptTrans" data-label="Dịch">Dịch</button>
           <span class="grow"></span>
+          <select class="mini" id="imageModelSelect" aria-label="Image model"></select>
           <button class="btn sm primary" type="button" id="btnGen">Generate image</button>
         </div>
+        <div class="translation" id="promptTrans" hidden></div>
       </div>
 
       <div class="block" id="searchBlock" hidden>
@@ -168,18 +167,22 @@
         <div class="block-head"><span class="ttl">Source image</span></div>
         <button class="btn sm wide" type="button" id="btnUpload">Upload your own image</button>
         <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Choose an image file for this scene" hidden />
-      </div>
-
-      <div class="block">
-        <div class="block-head"><span class="ttl">Scene MP4</span></div>
-        <button class="btn sm wide" type="button" id="btnRenderScene">Render this scene</button>
+        <button class="btn sm wide" type="button" id="btnUndoImage" hidden>Undo last image change</button>
       </div>
 
       <div class="block">
         <div class="block-head"><span class="ttl">Image to video</span></div>
         <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
+        <div class="field">
+          <label for="motionDurationBox">Duration (s) <span class="note">empty = auto (match audio); snapped up to model limits</span></label>
+          <input class="text-input" id="motionDurationBox" type="number" min="1" step="1" inputmode="numeric" placeholder="auto — match narration audio" />
+          <span class="note" id="motionDurationHint"></span>
+        </div>
         <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to the model"></textarea>
+        <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-src="motionPromptBox" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
+        <div class="translation" id="motionTrans" hidden></div>
         <button class="btn sm wide" type="button" id="btnMotionVideo">Generate motion video</button>
+        <button class="btn sm wide" type="button" id="btnUndoMotion" hidden>Undo last motion video</button>
       </div>
 
       <div class="block">
@@ -203,6 +206,7 @@
     <button class="btn quiet sm" type="button" id="selNone">Clear</button>
     <span class="sep"></span>
     <button class="btn sm" type="button" id="batchPrompt" disabled>Generate prompts</button>
+    <select class="mini" id="batchImageModelSelect" aria-label="Image model for batch generate"></select>
     <button class="btn sm" type="button" id="batchImg" disabled>Generate images</button>
     <button class="btn sm" type="button" id="batchAud" disabled>Generate audio</button>
   </div>
@@ -215,6 +219,7 @@
     <span class="dot" id="conDot"></span>
     <span class="msg" id="conMsg">Idle</span>
     <span class="tail num" id="conTail"></span>
+    <button class="btn quiet sm" type="button" id="conCancel" hidden>Cancel</button>
     <button class="btn quiet sm" type="button" id="conToggle" aria-expanded="false" aria-controls="conLog">Show log</button>
   </div>
   <pre class="console-log" id="conLog" aria-live="polite"></pre>
@@ -231,12 +236,12 @@
       </button>
     </div>
     <div class="dialog-body">
-      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea></div>
-      <div class="field"><label for="t_masterPrompt">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea></div>
-      <div class="field"><label for="t_faceLockPrompt">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea></div>
-      <div class="field"><label for="t_multiCharPrompt">Multi-character prompt, two or more <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea></div>
-      <div class="field"><label for="t_text2img">Text-to-image, no character</label><textarea id="t_text2img" spellcheck="false"></textarea></div>
-      <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea></div>
+      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
+      <div class="field"><label for="t_masterPrompt">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
+      <div class="field"><label for="t_faceLockPrompt">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
+      <div class="field"><label for="t_multiCharPrompt">Multi-character prompt, two or more <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
+      <div class="field"><label for="t_text2img">Text-to-image, no character</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
+      <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
     </div>
     <div class="dialog-foot">
       <span class="note">Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char, face, multi-character and text templates, or the scene prompt is never inserted.</span>
@@ -297,6 +302,49 @@
   </div>
 </div>
 
+<div class="overlay" id="profOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="profTitle">
+  <div class="dialog">
+    <div class="dialog-head">
+      <h2 id="profTitle">Profile</h2>
+      <span class="note">Saved to the character's profile.json</span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="profClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field">
+        <label for="prof_import">Import JSON <span class="note">dán profile.json rồi bấm Nhập — điền vào form bên dưới, chưa lưu</span></label>
+        <textarea id="prof_import" rows="3" spellcheck="false" placeholder='{"display_name":"Lê Lợi","country":"Đại Việt","known_facts":["..."]}'></textarea>
+        <div class="btn-row">
+          <button class="btn sm" type="button" id="profSample">Chèn mẫu</button>
+          <button class="btn sm" type="button" id="profCopySample">Copy mẫu</button>
+          <button class="btn sm" type="button" id="profImport">Nhập từ JSON</button>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="prof_name">Display name</label><input class="text-input" id="prof_name" type="text" autocomplete="off" /></div>
+        <div class="field"><label for="prof_aliases">Aliases <span class="note">comma-separated</span></label><input class="text-input" id="prof_aliases" type="text" autocomplete="off" placeholder="e.g. Ly Cong Uan" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="prof_country">Country</label><input class="text-input" id="prof_country" type="text" autocomplete="off" placeholder="e.g. Dai Viet" /></div>
+        <div class="field"><label for="prof_period">Period</label><input class="text-input" id="prof_period" type="text" autocomplete="off" placeholder="e.g. early 11th century" /></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="prof_dynasty">Dynasty</label><input class="text-input" id="prof_dynasty" type="text" autocomplete="off" placeholder="e.g. Ly dynasty" /></div>
+        <div class="field"><label for="prof_role">Role</label><input class="text-input" id="prof_role" type="text" autocomplete="off" placeholder="e.g. Founding emperor" /></div>
+      </div>
+      <div class="field"><label for="prof_facts">Known facts <span class="note">one per line</span></label><textarea id="prof_facts" rows="4" spellcheck="false"></textarea></div>
+      <div class="field"><label for="prof_interp">Interpretation</label><textarea id="prof_interp" rows="2" spellcheck="false"></textarea></div>
+      <div class="field"><label for="prof_unknowns">Unknowns <span class="note">one per line</span></label><textarea id="prof_unknowns" rows="2" spellcheck="false"></textarea></div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="profNote">country / period / dynasty / role feed the OpenAI prompt writer.</span>
+      <button class="btn primary" type="button" id="profSave">Save profile</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="npOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="npTitle">
   <div class="dialog narrow">
     <div class="dialog-head">
@@ -321,6 +369,11 @@
       <button class="btn primary" type="button" id="npCreate">Create</button>
     </div>
   </div>
+</div>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Character image preview">
+  <img id="lightboxImg" alt="Character reference" />
+  <span class="lightbox-cap" id="lightboxCap"></span>
 </div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
