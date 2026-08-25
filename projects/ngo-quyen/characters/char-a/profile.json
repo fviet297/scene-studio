@@ -1,0 +1,21 @@
+{
+  "character_id": "char-a",
+  "name": "Ngo Quyen",
+  "display_name": "Ngô Quyền",
+  "aliases": ["Tiền Ngô Vương", "Ngô Vương"],
+  "country": "Đại Việt (buổi đầu tự chủ)",
+  "period": "10th century",
+  "dynasty": "Ngô dynasty",
+  "role": "General and founding king who ended 1000 years of Northern domination at the Battle of Bạch Đằng (938)",
+  "known_facts": [
+    "Born 897 in Đường Lâm, son of the châu mục Ngô Mân",
+    "Trusted general (nha tướng) and son-in-law of Dương Đình Nghệ, holding Ái Châu",
+    "Marched north to avenge Dương Đình Nghệ and killed the traitor Kiều Công Tiễn (938)",
+    "Destroyed the Nam Hán fleet at Bạch Đằng in 938 using iron-tipped stakes and the tide, killing prince Lưu Hoằng Tháo",
+    "Proclaimed himself king in 939, founded the Ngô dynasty and moved the capital to Cổ Loa, ending 1000 years of Bắc thuộc",
+    "Died in 944 at age 47 after a six-year reign; honored by posterity as Tiền Ngô Vương"
+  ],
+  "interpretation": "10th-century early-autonomy Đại Việt military dress (plain hemp tunic, sash, topknot), based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ngo-quyen/characters/char-a.png"
+}

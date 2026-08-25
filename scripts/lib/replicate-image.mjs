@@ -261,9 +261,14 @@ export const buildInput = (model, { prompt, refUris = [] }) => {
     // so a two-character scene forced onto this model keeps only the first reference.
     return refUris.length ? { prompt, image: refUris[0] } : { prompt, aspect_ratio: '9:16' };
   }
-  // FLUX Kontext / FLUX dev fallback (kept so REPLICATE_*_MODEL can still point at them).
+  // Fallback for any other model — FLUX Kontext/dev via REPLICATE_*_MODEL, and any custom model id
+  // typed into the review panel's custom-model box. We can't know a custom model's exact input
+  // schema, so the reference is sent under the field names the common Replicate image-edit models
+  // use: `input_image` (single, FLUX Kontext), `image_input` (array, Seedream/Gemini-style) and
+  // `images` (array, e.g. prunaai/qwen edit models). A model reads whichever its schema defines and
+  // ignores the rest; a model with a strict schema on a different key still needs its own branch above.
   return refUris.length
-    ? { prompt, input_image: refUris[0], aspect_ratio: '9:16', output_format: 'jpg' }
+    ? { prompt, input_image: refUris[0], image_input: refUris, images: refUris, aspect_ratio: '9:16', output_format: 'jpg' }
     : { prompt, aspect_ratio: '9:16', output_format: 'jpg', num_outputs: 1 };
 };
 

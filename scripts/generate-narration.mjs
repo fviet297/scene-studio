@@ -12,6 +12,7 @@ import { join } from 'node:path';
 import WebSocket from 'ws';
 import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
+import { resolveEmotion } from './lib/tts-emotions.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
 const VOICE = 'history';
@@ -71,7 +72,9 @@ await new Promise((resolve, reject) => {
 });
 process.stdout.write('✓ connected to OmniVoice\n');
 
-const synthesize = (text, requestId) =>
+// `emotion` (from the scene's cue) overrides speed/guidance_scale/position_temperature/
+// class_temperature so the delivery varies per scene; the rest stays fixed.
+const synthesize = (text, requestId, emotion = {}) =>
   new Promise((resolve, reject) => {
     resolveAudio = resolve;
     rejectAudio = reject;
@@ -93,17 +96,19 @@ const synthesize = (text, requestId) =>
       denoise: true,
       preprocess_prompt: true,
       postprocess_output: true,
+      ...emotion,
     }));
   });
 
 let requestId = 0;
 for (const segment of targets) {
   const chunks = toChunks(segment.text);
-  process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars\n`);
+  const { name: emotionName, params: emotion } = resolveEmotion(segment.cue);
+  process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars · emotion=${emotionName}${segment.cue ? ` (cue: ${segment.cue})` : ''}\n`);
   const files = [];
   for (const [index, chunk] of chunks.entries()) {
     const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.wav`);
-    writeFileSync(wav, await synthesize(chunk, ++requestId));
+    writeFileSync(wav, await synthesize(chunk, ++requestId, emotion));
     files.push(wav);
   }
   const output = join(AUDIO_DIR, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);

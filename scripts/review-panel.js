@@ -149,12 +149,25 @@ function renderMotionModelSelect() {
   }
 }
 
+// A non-empty custom-model field lets any Replicate model id be used without editing the built-in
+// list; it overrides the dropdown for that media. Blank falls back to the dropdown selection.
+const customModel = (id) => $(id).value.trim();
+const effectiveImageModel = () =>
+  customModel("imageModelCustom") || $("imageModelSelect").value;
+const effectiveMotionModel = () =>
+  customModel("motionModelCustom") || $("motionModelSelect").value;
+
 // Show the selected motion model's allowed clip lengths under the duration box, so a value the
-// model would snap (e.g. 6 → 10 on wan's 5/10-only steps) is obvious before generating.
+// model would snap (e.g. 6 → 10 on wan's 5/10-only steps) is obvious before generating. A custom
+// model isn't in the known list, so its durations are unknown and the server snaps them.
 function updateDurationHint() {
-  const id = $("motionModelSelect").value;
+  const id = effectiveMotionModel();
   const m = (state.motionVideoModels || []).find((x) => x.id === id);
-  $("motionDurationHint").textContent = m ? `${id} accepts ${m.durations}` : "";
+  $("motionDurationHint").textContent = m
+    ? `${id} accepts ${m.durations}`
+    : id
+      ? `${id}: custom model, durations snapped on the server`
+      : "";
 }
 
 // Live full-prompt length: fixed template overhead (from the server) + the scene prompt being
@@ -168,7 +181,7 @@ function updatePromptCount() {
     return;
   }
   const total = (s.promptOverhead ?? 0) + $("promptBox").value.length;
-  const seedream = $("imageModelSelect").value.startsWith("bytedance/seedream");
+  const seedream = effectiveImageModel().startsWith("bytedance/seedream");
   const limit = state.seedreamPromptLimit ?? 4000;
   el.textContent = seedream ? `${total} / ${limit} chars` : `${total} chars`;
   el.classList.toggle("over", seedream && total > limit);
@@ -807,7 +820,7 @@ async function generateImage() {
   if (prompt.trim() !== (s.prompt ?? "").trim())
     await saveField("prompt", prompt);
 
-  const model = $("imageModelSelect").value;
+  const model = effectiveImageModel();
   // Streamed so the Replicate call is logged in the panel console (Show log); streamJob owns
   // busy/console/refresh.
   await streamJob(
@@ -1013,6 +1026,7 @@ $("promptBox").addEventListener("input", (e) => {
   updatePromptCount();
 });
 $("imageModelSelect").addEventListener("change", updatePromptCount);
+$("imageModelCustom").addEventListener("input", updatePromptCount);
 $("narrSave").addEventListener("click", () =>
   saveField("narration", $("narrBox").value),
 );
@@ -1061,7 +1075,7 @@ $("btnAudio").addEventListener("click", () => {
 $("btnMotionVideo").addEventListener("click", async () => {
   const s = current();
   if (!s) return;
-  const model = $("motionModelSelect").value;
+  const model = effectiveMotionModel();
   // Empty duration box = auto (server matches the narration audio); a number overrides it.
   const durVal = Number($("motionDurationBox").value);
   // Send the edited motion prompt; empty falls back to the server's narration-built prompt.
@@ -1091,6 +1105,7 @@ $("btnMotionVideo").addEventListener("click", async () => {
   }
 });
 $("motionModelSelect").addEventListener("change", updateDurationHint);
+$("motionModelCustom").addEventListener("input", updateDurationHint);
 $("btnUndoImage").addEventListener("click", () => undo("image"));
 $("btnUndoMotion").addEventListener("click", () => undo("motion"));
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);

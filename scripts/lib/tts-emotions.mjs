@@ -1,0 +1,53 @@
+// Per-scene emotion for OmniVoice narration.
+//
+// Clone mode sounds monotone out of the box because class_temperature is 0 (greedy token
+// sampling) and every scene shares one flat speed/guidance. These presets vary the generation
+// params per scene so the delivery has range, WITHOUT inline text markers ([sigh], [surprise-*],
+// which are English/Chinese-flavoured and risky in Vietnamese) and WITHOUT changing the cloned
+// "history" voice itself — only its pacing and prosody move.
+//
+// A scene's mood comes from its `cue:` field in the plan (editable in the review panel). An empty
+// or unrecognised cue falls back to `neutral`, which is already livelier than the old flat default.
+//
+// Each preset overrides these four params on top of the base payload in generate-narration.mjs:
+//   speed                — pacing (0.5 slow/weighty … 1.5 fast/urgent)
+//   guidance_scale       — emphasis / commitment (0..4; higher = more deliberate)
+//   position_temperature — prosodic variety (0 flat … higher livelier)
+//   class_temperature    — token-sampling liveliness (0 = monotone; the key knob for expression)
+export const EMOTIONS = {
+  neutral:  { speed: 1.0,  guidance_scale: 2.2, position_temperature: 5, class_temperature: 0.3 },
+  dramatic: { speed: 0.95, guidance_scale: 2.8, position_temperature: 6, class_temperature: 0.4 },
+  tense:    { speed: 1.12, guidance_scale: 2.5, position_temperature: 6, class_temperature: 0.5 },
+  somber:   { speed: 0.9,  guidance_scale: 2.4, position_temperature: 4, class_temperature: 0.25 },
+  hopeful:  { speed: 1.0,  guidance_scale: 2.3, position_temperature: 5, class_temperature: 0.4 },
+  curious:  { speed: 1.03, guidance_scale: 2.2, position_temperature: 6, class_temperature: 0.45 },
+};
+
+export const EMOTION_NAMES = Object.keys(EMOTIONS);
+
+// Vietnamese + English keywords a free-text `cue:` may contain, mapped to a preset. First match
+// wins, so order runs specific → generic; a cue like "trận đánh căng thẳng" resolves to `tense`.
+const ALIASES = [
+  [/dramatic|hùng|hào hùng|hoành tráng|khí thế|anh hùng|vinh quang|chiến thắng|khải hoàn/i, 'dramatic'],
+  [/tense|căng|gấp|kịch tính|dồn dập|nguy|trận|chiến đấu|truy đuổi|phục kích/i, 'tense'],
+  [/somber|trầm|buồn|bi ai|tang|phản bội|hy sinh|đau/i, 'somber'],
+  [/hopeful|tự hào|hy vọng|tươi sáng|ấm áp|di sản|trường tồn|biết ơn/i, 'hopeful'],
+  [/curious|hỏi|câu hỏi|thắc mắc|bình luận|tò mò|gợi mở/i, 'curious'],
+  [/neutral|kể|dẫn chuyện|bối cảnh|giới thiệu|trung tính/i, 'neutral'],
+];
+
+// Resolve a free-text cue to a preset name: an exact preset name wins, else a keyword alias,
+// else neutral.
+export const emotionName = (cue) => {
+  const c = String(cue ?? '').trim().toLowerCase();
+  if (!c) return 'neutral';
+  if (EMOTIONS[c]) return c;
+  for (const [re, name] of ALIASES) if (re.test(c)) return name;
+  return 'neutral';
+};
+
+// The param overrides for a cue plus the resolved preset name (for logging).
+export const resolveEmotion = (cue) => {
+  const name = emotionName(cue);
+  return { name, params: EMOTIONS[name] };
+};

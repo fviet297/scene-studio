@@ -523,6 +523,9 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 }
 .text-input:hover { border-color: #333941; }
 .text-input::placeholder { color: var(--faint); }
+/* Free-text model override sitting under each model dropdown; blank = use the dropdown. */
+.custom-model { display: block; width: 100%; margin-top: 6px; }
+.custom-model:focus-visible { outline: none; border-color: var(--accent); }
 code { font-family: var(--mono); font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 1px 5px; border-radius: 4px; }
 
 .icon-btn {

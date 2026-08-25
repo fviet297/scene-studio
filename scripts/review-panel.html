@@ -128,7 +128,7 @@
         <div class="block-head"><span class="ttl">Scene</span></div>
         <div class="field-row">
           <div class="field"><label for="titleBox">Title</label><input class="text-input" id="titleBox" type="text" /></div>
-          <div class="field"><label for="cueBox">Cue</label><input class="text-input" id="cueBox" type="text" /></div>
+          <div class="field"><label for="cueBox">Cue (delivery emotion)</label><input class="text-input" id="cueBox" type="text" placeholder="dramatic, tense, somber, hopeful, curious (blank = neutral)" /></div>
         </div>
         <div class="field"><label for="hostBox">Host</label><input class="text-input" id="hostBox" type="text" placeholder="e.g. explain, point-left (unused by rendering today)" /></div>
         <div class="field">
@@ -181,6 +181,7 @@
               <select class="mini" id="imageModelSelect" aria-label="Image model"></select>
               <button class="btn primary grow" type="button" id="btnGen">Generate image</button>
             </div>
+            <input class="text-input custom-model" id="imageModelCustom" type="text" spellcheck="false" placeholder="Custom image model (owner/name); overrides dropdown" aria-label="Custom image model, overrides the dropdown above" />
             <div class="subactions">
               <button class="btn quiet sm" type="button" id="btnUpload">Upload your own image</button>
               <button class="btn quiet sm" type="button" id="btnUndoImage" hidden>Undo image</button>
@@ -215,6 +216,7 @@
         <div class="stage-body">
           <div class="block">
             <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
+            <input class="text-input custom-model" id="motionModelCustom" type="text" spellcheck="false" placeholder="Custom video model (owner/name); overrides dropdown" aria-label="Custom motion-video model, overrides the dropdown above" />
             <div class="field">
               <label for="motionDurationBox">Duration (s) <span class="note">empty = auto (matches narration audio), snapped up to model limits</span></label>
               <input class="text-input" id="motionDurationBox" type="number" min="1" step="1" inputmode="numeric" placeholder="auto (matches narration audio)" />

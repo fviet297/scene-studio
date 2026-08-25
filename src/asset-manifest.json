@@ -1,1 +1,148 @@
-[]
+[
+  {
+    "id": "scene-01",
+    "scene": 1,
+    "type": "ai_reconstruction",
+    "subject": "A commanding general seen from behind and three-quarters reviewing a large gathe",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "A commanding general seen from behind and three-quarters reviewing a large gathered host of foster-son warriors drilling in a training field at Ái Châu, ranks of militia with bamboo spears. 10th-century early-autonomy Đại Việt: plain undyed hemp tunics, dark sashes, conical bamboo hats, wooden shields, topknots, East Asian faces, a timber stockade and thatched drill hall behind, forested hills. Overcast light, dust rising from the drilling ranks, wide establishing shot. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "Inside a 10th-century command tent, the main figure stands at the general's righ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Inside a 10th-century command tent, the main figure stands at the general's right hand among a small circle of officers gathered over a low table with a rough river map, clear focus and trust between the seated general and the main figure. Đại Việt commanders in plain hemp tunics, leather sashes, topknots, East Asian faces; oil lamps, bamboo spears stacked against hide walls. Warm lamplight, medium interior shot, main figure about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "The main figure marches at the head of a large column of militia advancing north",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The main figure marches at the head of a large column of militia advancing north along a river road, arm raised leading them, a swelling host converging from side paths to join his banner. 10th-century early-autonomy Đại Việt: plain undyed hemp tunics, conical bamboo hats, bamboo spears and wooden shields, topknots, East Asian faces, a few horses, forested hills and paddy fields along the road. Dust rising, overcast light, wide marching shot, main figure about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "The main figure strides through the captured arched brick gate of Đại La at the ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The main figure strides through the captured arched brick gate of Đại La at the head of his vanguard, sword lowered after victory, the defeated traitor's fallen banner on the ground before him. 10th-century Đại Việt militia in plain hemp tunics and conical bamboo hats behind him, topknots, East Asian faces; low wide brick wall with an arched vaulted passage, drifting smoke. Overcast light, medium-wide shot, main figure about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-05",
+    "scene": 5,
+    "type": "ai_reconstruction",
+    "subject": "The main figure leans over a low table planning, one hand on a rough river map, ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The main figure leans over a low table planning, one hand on a rough river map, the other resting on an upright sample sharpened stake capped with iron, explaining to attentive officers around him. 10th-century Đại Việt command tent: plain hemp and leather dress, topknots, East Asian faces, oil lamps, bamboo spears stacked. Warm lamplight, medium interior shot, main figure about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-06",
+    "scene": 6,
+    "type": "ai_reconstruction",
+    "subject": "At extreme low tide on a muddy riverbed, the main figure supervises teams of vil",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "At extreme low tide on a muddy riverbed, the main figure supervises teams of villagers and soldiers driving tall sharpened stakes into the mud, men balanced on rope-lashed bamboo frames rocking a stake down, others fitting iron caps, ropes and small light boats around them. 10th-century early-autonomy Đại Việt: plain hemp tunics, bare-legged laborers, conical bamboo hats, topknots, East Asian faces, exposed glistening mudflats, reeds, karst hills, very low water. Grey low-tide light, wide working shot, main figure about one third of frame height. Ropes and iron-capped stake tips clearly handled by hand."
+  },
+  {
+    "id": "scene-07",
+    "scene": 7,
+    "type": "ai_reconstruction",
+    "subject": "A handful of light Vietnamese sampans dart away in feigned retreat downriver whi",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "A handful of light Vietnamese sampans dart away in feigned retreat downriver while tall Nam Hán war-junks give chase behind them at high tide. Both sides pinned: fleeing crews in plain hemp and conical bamboo hats on small nimble boats, East Asian faces; pursuing junks crowded with soldiers in dark lamellar armor and rounded helmets, East Asian faces. Wide brimming river, reeds, karst hills, spray and wake, the water surface smooth and deceptive. Overcast light, dynamic wide chase shot. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-08",
+    "scene": 8,
+    "type": "ai_reconstruction",
+    "subject": "The main figure stands on the prow of his small fast war-sampan leading a swarm ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The main figure stands on the prow of his small fast war-sampan leading a swarm of nimble Vietnamese boats among the wrecked Nam Hán junks impaled and capsizing on the exposed iron-tipped stakes, spear thrust forward. 10th-century Đại Việt crews in plain hemp tunics and conical bamboo hats, bamboo spears, topknots, East Asian faces; foundering junks with soldiers in dark lamellar armor spilling into the water, receding muddy tide, exposed stakes, reeds, karst hills, smoke and spray. Harsh dramatic light, dynamic wide battle shot, main figure about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-09",
+    "scene": 9,
+    "type": "ai_reconstruction",
+    "subject": "The main figure, proclaimed king, stands at the top of the ancient spiral earthe",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The main figure, proclaimed king, stands at the top of the ancient spiral earthen ramparts of Cổ Loa before assembled officials and troops bowing, a solemn founding ceremony. 10th-century Đại Việt: officials in plain robes, guards in hemp tunics and conical bamboo hats with bamboo spears, topknots, East Asian faces, packed-earth spiral walls, wooden palisades, ceremonial banners. Clear bright light breaking through cloud, wide ceremonial shot, main figure elevated and central, about one third of frame height. Banners plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-10",
+    "scene": 10,
+    "type": "ai_reconstruction",
+    "subject": "A closing hero shot: the main figure stands alone on the reedy bank at dusk look",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "A closing hero shot: the main figure stands alone on the reedy bank at dusk looking out over the calm Bạch Đằng river where his victory was won, quiet and reflective, seen from behind and three-quarters, old dark weathered stakes still breaking the water far out. 10th-century early-autonomy Đại Việt plain hemp tunic and sash, topknot, East Asian face; wide tidal river, reeds, karst hills, warm-cool dusk sky. Medium-wide contemplative shot, figure about one third of frame height, facing away toward the water. Banners plain solid-color cloth, no emblem or lettering."
+  }
+]

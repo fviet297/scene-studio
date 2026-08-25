@@ -1,12 +1,15 @@
 {
-  "project": "le-loi",
+  "project": "ngo-quyen",
   "characters": [
     {
       "id": "char-a",
-      "name": "char-a",
-      "aliases": [],
-      "image": "projects/le-loi/characters/le-loi.png",
-      "imageV2": "projects/le-loi/characters/le-loi.png"
+      "name": "Ngô Quyền",
+      "aliases": [
+        "Tiền Ngô Vương",
+        "Ngô Vương"
+      ],
+      "image": "projects/ngo-quyen/characters/char-a.jpg",
+      "imageV2": "projects/ngo-quyen/characters/char-a.jpg"
     }
   ]
 }
