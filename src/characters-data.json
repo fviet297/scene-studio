@@ -1,26 +1,12 @@
 {
-  "project": "dinhbolinh-tanthuyhoang",
+  "project": "le-loi",
   "characters": [
     {
       "id": "char-a",
-      "name": "Đinh Bộ Lĩnh",
-      "aliases": [
-        "Vạn Thắng Vương",
-        "Đinh Tiên Hoàng"
-      ],
-      "image": "projects/dinhbolinh-tanthuyhoang/characters/char-a.jpg",
-      "imageV2": "projects/dinhbolinh-tanthuyhoang/characters/char-a.jpg"
-    },
-    {
-      "id": "char-b",
-      "name": "Tần Thủy Hoàng",
-      "aliases": [
-        "Doanh Chính",
-        "Ying Zheng",
-        "First Emperor of Qin"
-      ],
-      "image": "projects/dinhbolinh-tanthuyhoang/characters/char-b.jpg",
-      "imageV2": "projects/dinhbolinh-tanthuyhoang/characters/char-b.jpg"
+      "name": "char-a",
+      "aliases": [],
+      "image": "projects/le-loi/characters/le-loi.png",
+      "imageV2": "projects/le-loi/characters/le-loi.png"
     }
   ]
 }
