@@ -101,6 +101,11 @@ button { cursor: pointer; }
 
 .grow { flex: 1; min-width: 0; }
 
+/* Topbar clusters: project | progress | actions. Each stays together on wrap, so a
+   narrow window never strands one control away from its group. */
+.cluster { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
+.bar-sep { width: 1px; height: 22px; background: var(--line); flex: none; }
+
 .project-switch { display: flex; align-items: center; gap: 6px; }
 .project-switch .mini { max-width: 220px; }
 
@@ -334,6 +339,49 @@ select.mini.wide { width: 100%; }
 #promptCount.over { color: var(--danger); font-weight: 600; }
 .block-head .hint.dirty { color: var(--accent); }
 
+/* Stage groups: the three production steps (Image → Audio → Motion) each read as one
+   numbered unit with a single primary action, so the pipeline order is obvious in the panel. */
+.stage-group { border-bottom: 1px solid var(--line); }
+.stage-group:last-child { border-bottom: 0; }
+.stage-group-head {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; background: var(--surface-2);
+  border-bottom: 1px solid var(--line-soft);
+}
+.stage-num {
+  width: 19px; height: 19px; flex: none; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid rgba(72, 183, 166, .4);
+  background: var(--accent-dim); color: var(--accent);
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+}
+.stage-ttl { font-size: 11.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--text); }
+/* Stage-done pill: shape (filled dot) + word, so state survives greyscale, matching the pips. */
+.stage-state {
+  margin-left: auto; flex: none; height: 20px; padding: 0 8px;
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line); border-radius: 999px;
+  font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--faint); background: var(--surface);
+}
+.stage-state::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--surface-3); box-shadow: inset 0 0 0 1px #343a42;
+}
+.stage-state.on { color: var(--accent); border-color: rgba(72, 183, 166, .4); background: var(--accent-dim); }
+.stage-state.on::before { background: var(--accent); box-shadow: none; }
+
+/* Inside a stage the blocks share the stage's border, not their own top border. */
+.stage-body > .block { border-bottom: 1px solid var(--line-soft); }
+.stage-body > .block:last-child { border-bottom: 0; }
+
+/* The action block ends each stage: one accent primary, secondaries quiet beneath it. */
+.stage-action { gap: 10px; }
+.primary-row { display: flex; align-items: center; gap: 7px; }
+.primary-row .mini { flex: none; max-width: 45%; }
+.primary-row .grow { flex: 1; min-width: 0; }
+.subactions { display: flex; flex-wrap: wrap; gap: 6px; }
+.stage-note { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
+
 textarea {
   width: 100%; resize: vertical; padding: 8px 9px;
   background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-ctl);
@@ -364,13 +412,20 @@ textarea::placeholder { color: var(--faint); }
 /* ---------------------------------------------------------------- contact sheet */
 
 .sheet { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* Wraps to a second row rather than clipping: the "run" group drops below the "select"
+   group when the model labels are wide, so no batch control is ever pushed off-screen. */
 .sheet-bar {
-  flex: none; height: 42px; display: flex; align-items: center; gap: 8px;
-  padding: 0 14px; border-bottom: 1px solid var(--line); background: var(--surface);
+  flex: none; min-height: 42px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px;
+  padding: 6px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
 }
+.sheet-bar select.mini { max-width: 200px; }
 .sheet-bar .sep { width: 1px; height: 20px; background: var(--line); }
 .sheet-bar .selinfo { font-size: 12.5px; color: var(--muted); }
 .sheet-bar .selinfo b { color: var(--text); font-weight: 650; }
+/* Group labels split the bar into "pick scenes" vs "run a batch on them". */
+.sheet-bar .bar-label { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+/* A model select bound to its batch button, so it reads as one control not two. */
+.sheet-bar .batch-unit { display: inline-flex; align-items: center; gap: 4px; }
 
 .tiles {
   flex: 1; overflow-y: auto; padding: 14px;

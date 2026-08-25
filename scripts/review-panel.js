@@ -375,7 +375,13 @@ function renderStage() {
   if (document.activeElement !== motionPrompt)
     motionPrompt.value = s.motionPrompt || "";
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
-  if (s.hasMotionVideo) $("motionVideo").src = s.motionVideoUrl;
+  if (s.hasMotionVideo) {
+    const v = $("motionVideo");
+    // Poster = the scene still, so the player takes the clip's 9:16 aspect and fills the pane
+    // like the image on the left, instead of collapsing to the browser's default 300x150 box.
+    if (s.hasImage) v.poster = s.imageUrl;
+    if (v.getAttribute("src") !== s.motionVideoUrl) v.src = s.motionVideoUrl;
+  }
   $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
   $("btnRemoveMotionVideo").disabled = busy;
   $("btnUndoImage").hidden = !s.hasImageBackup;
@@ -383,8 +389,19 @@ function renderStage() {
   $("btnUndoMotion").hidden = !s.hasMotionBackup;
   $("btnUndoMotion").disabled = busy;
 
+  setStageState("stageImgState", s.hasImage);
+  setStageState("stageAudState", s.hasAudio);
+  setStageState("stageMotState", s.hasMotionVideo);
+
   syncSetupBlock(s);
   syncInspector(s);
+}
+
+// Stage-header done pill: shape (filled dot via .on) + word, matching the rail pips.
+function setStageState(id, done) {
+  const el = $(id);
+  el.textContent = done ? "ready" : "pending";
+  el.classList.toggle("on", done);
 }
 
 function syncInspector(s) {
@@ -489,7 +506,9 @@ function renderSheet() {
 function renderSelection() {
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
   const aiCount = chosen.filter((s) => s.kind === "ai").length;
-  const motionEligibleCount = chosen.filter((s) => s.hasImage && s.hasAudio).length;
+  const motionEligibleCount = chosen.filter(
+    (s) => s.hasImage && s.hasAudio,
+  ).length;
   $("sheetSelInfo").innerHTML = chosen.length
     ? `<b>${chosen.length}</b> selected: scene ${chosen.map((s) => s.scene).join(", ")}`
     : "Nothing selected";
@@ -850,8 +869,9 @@ async function uploadImage(file) {
 async function uploadMotionVideo(file) {
   const s = current();
   if (!s || !file) return;
-  const isSupportedVideo = /^(video\/mp4|video\/quicktime)$/.test(file.type)
-    || /\.(mp4|mov)$/i.test(file.name);
+  const isSupportedVideo =
+    /^(video\/mp4|video\/quicktime)$/.test(file.type) ||
+    /\.(mp4|mov)$/i.test(file.name);
   if (!isSupportedVideo) {
     showError("Use a vertical MP4 or MOV video.");
     return;
