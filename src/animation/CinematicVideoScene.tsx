@@ -9,6 +9,8 @@ type Props = {
   src: string; // path relative to public/, or absolute URL
   motion?: SceneMotion;
   background?: string;
+  // < 1 slows the clip so a clip shorter than the scene stretches to fill it (no frozen tail).
+  playbackRate?: number;
 };
 
 // Plays an AI-generated motion clip full-bleed in place of CinematicScene's synthetic Ken
@@ -20,6 +22,7 @@ export const CinematicVideoScene: React.FC<Props> = ({
   src,
   motion = {},
   background,
+  playbackRate = 1,
 }) => {
   const { fit = "cover", atmosphere, background: motionBg } = motion;
   const url = src.startsWith("http") ? src : staticFile(src);
@@ -29,6 +32,7 @@ export const CinematicVideoScene: React.FC<Props> = ({
       <OffthreadVideo
         src={url}
         muted
+        playbackRate={playbackRate}
         style={{
           width: "100%",
           height: "100%",

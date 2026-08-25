@@ -1,0 +1,19 @@
+{
+  "character_id": "char-a",
+  "name": "Dinh Bo Linh",
+  "display_name": "Đinh Bộ Lĩnh",
+  "aliases": ["Vạn Thắng Vương", "Đinh Tiên Hoàng"],
+  "country": "Đại Cồ Việt",
+  "period": "10th century",
+  "dynasty": "Đinh dynasty",
+  "role": "Warlord who ended the Anarchy of the 12 Warlords and founding emperor (Đinh Tiên Hoàng)",
+  "known_facts": [
+    "Rose from Hoa Lư and defeated the twelve rival warlords (Loạn 12 sứ quân)",
+    "Unified the country and founded Đại Cồ Việt in 968",
+    "Took the title Đinh Tiên Hoàng and established the capital at Hoa Lư",
+    "Assassinated in 979 along with his heir Đinh Liễn"
+  ],
+  "interpretation": "10th-century Đại Cồ Việt / Hoa Lư military dress, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/dinhbolinh-tanthuyhoang/characters/char-a.png"
+}

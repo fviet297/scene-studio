@@ -5,7 +5,6 @@ import {
   Sequence,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 import {
   CinematicScene,
@@ -24,7 +23,6 @@ const COLORS = {
   ink: "#191716",
   red: "#a82f26",
   gold: "#bb8a31",
-  jade: "#526f5c",
 };
 
 export type Scene = {
@@ -47,9 +45,6 @@ export type Scene = {
   };
 };
 
-export type CaptionWord = { text: string; start: number; end: number };
-export type CaptionGroup = CaptionWord[];
-
 export type ProjectData = {
   slug: string;
   title: string;
@@ -58,7 +53,9 @@ export type ProjectData = {
   durationInFrames: number;
   scenes: Scene[];
   sceneDurations: number[];
-  captionGroups: CaptionGroup[];
+  // Per-scene playback rate for a motion clip that is shorter than the scene: clip/scene (≤ 1) so
+  // the clip stretches to fill the whole scene instead of leaving a frozen tail. 1 = play as-is.
+  motionPlaybackRates?: number[];
   uploadedScenes: number[];
 };
 
@@ -80,55 +77,18 @@ function sceneTimeline(scenes: Scene[], sceneDurations: number[]) {
   return { frames, starts };
 }
 
-function CaptionTrack({ captionGroups }: { captionGroups: CaptionGroup[] }) {
-  const { fps } = useVideoConfig();
-  const seconds = useCurrentFrame() / fps;
-  const group = captionGroups.find(
-    (w) => seconds >= w[0].start && seconds < w[w.length - 1].end,
-  );
-  if (!group) return null;
-  const visible = group.filter((w) => seconds >= w.start);
-  return (
-    <div
-      style={{
-        position: "absolute",
-        // Right-heavy on purpose: the caption sits in the same vertical band as TikTok/Reels'
-        // right-edge action rail (like/comment/bookmark, roughly x >= 900 on this 1080-wide
-        // canvas), so only a narrower right inset keeps clear of it at every scroll position.
-        left: 60,
-        right: 190,
-        // Low in the frame (where the mascot host used to sit) but still above the
-        // username/caption/progress-bar chrome (starts around y ~1490).
-        bottom: 480,
-        padding: "18px 24px",
-        background: COLORS.paper,
-        border: `4px solid ${COLORS.ink}`,
-        borderRadius: 16,
-        boxShadow: `7px 7px 0 ${COLORS.ink}`,
-        fontFamily: "Arial, sans-serif",
-        fontSize: 40,
-        lineHeight: 1.12,
-        fontWeight: 800,
-        color: COLORS.ink,
-        textAlign: "center",
-      }}
-    >
-      {visible.map((w) => w.text).join(" ")}
-      <span style={{ color: COLORS.red }}>▌</span>
-    </div>
-  );
-}
-
 export function SceneView({
   scene,
   durationInFrames,
   publicPrefix,
   uploadedScenes = [],
+  motionPlaybackRate = 1,
 }: {
   scene: Scene;
   durationInFrames: number;
   publicPrefix: string;
   uploadedScenes?: number[];
+  motionPlaybackRate?: number;
 }) {
   const local = useCurrentFrame();
   const motion = getSceneMotion(scene.scene);
@@ -153,6 +113,7 @@ export function SceneView({
       {scene.motionVideo ? (
         <CinematicVideoScene
           src={videoSrc}
+          playbackRate={motionPlaybackRate}
           motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
         />
       ) : (
@@ -269,6 +230,7 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
             durationInFrames={frames[i]}
             publicPrefix={project.publicPrefix}
             uploadedScenes={project.uploadedScenes}
+            motionPlaybackRate={project.motionPlaybackRates?.[i] ?? 1}
           />
           {scene.hasAudio && (
             <Audio
@@ -279,17 +241,6 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
           )}
         </Sequence>
       ))}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 14,
-          background: COLORS.jade,
-        }}
-      />
-      <CaptionTrack captionGroups={project.captionGroups} />
     </AbsoluteFill>
   );
 };

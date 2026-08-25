@@ -1,0 +1,14 @@
+{
+  "character_id": "char-b",
+  "name": "Guan Yu",
+  "display_name": "Quan Vũ",
+  "aliases": ["Quan Công", "Vân Trường"],
+  "country": "Trung Hoa (China)",
+  "period": "late 2nd to early 3rd century CE",
+  "dynasty": "Eastern Han period",
+  "role": "General of Liu Bei during the late Han wars",
+  "known_facts": ["Served Liu Bei during the late Han civil wars", "Defended Jingzhou and captured Xiangyang-era territories before his defeat", "Was captured and executed by forces of Sun Quan in 220", "Became a major figure of Chinese historical memory and later worship"],
+  "interpretation": "Late-Han Chinese general, based on the user reference.",
+  "unknowns": ["Later legends greatly embellish his historical biography"],
+  "reference": "public/projects/tranhungdao-quanvu/characters/char-b.png"
+}

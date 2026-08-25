@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scene Studio</title>
+<style>
+  :root {
+    --bg: #0b0f17; --panel: #131926; --panel-2: #0f1420; --line: #232c3d;
+    --text: #e8edf5; --muted: #8a97ab; --faint: #5b6883;
+    --accent: #3b82f6; --accent-strong: #2563eb; --accent-soft: rgba(59,130,246,.14);
+    --ok: #34d399; --warn: #f59e0b; --danger: #f87171; --violet: #a78bfa;
+    --radius: 12px; --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; } /* beat .btn's display:inline-flex */
+  html, body { margin: 0; height: 100%; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    font-size: 15px; line-height: 1.5; padding-bottom: 96px;
+  }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+  button:focus-visible, textarea:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } * { transition: none !important; animation-duration: .01ms !important; } }
+
+  /* Header with live progress meters */
+  header {
+    position: sticky; top: 0; z-index: 30; background: rgba(11,15,23,.92);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+    padding: 12px 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  header h1 { margin: 0; font-size: 16px; font-weight: 650; letter-spacing: -0.01em; white-space: nowrap; }
+  header .doc { color: var(--faint); font-size: 12.5px; white-space: nowrap; }
+  header .spacer { flex: 1; }
+  .meters { display: flex; gap: 18px; flex-wrap: wrap; }
+  .meter { display: flex; align-items: center; gap: 8px; min-width: 168px; }
+  .meter .mlbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); width: 46px; }
+  .meter .track { flex: 1; height: 7px; border-radius: 99px; background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; }
+  .meter .fill { height: 100%; width: 0; border-radius: 99px; transition: width .3s ease; }
+  .meter.img .fill { background: var(--accent); }
+  .meter.aud .fill { background: var(--ok); }
+  .meter.vid .fill { background: var(--violet); }
+  .meter .mval { font-family: var(--mono); font-size: 12px; color: var(--text); width: 46px; text-align: right; }
+
+  main { max-width: none; margin: 0; padding: 20px 24px; }
+
+  /* Master / template prompt editor */
+  .templates {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    margin-bottom: 16px; padding: 2px 18px 16px;
+  }
+  .templates > summary {
+    cursor: pointer; padding: 14px 0; font-weight: 600; font-size: 14px; list-style: none;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .templates > summary::-webkit-details-marker { display: none; }
+  .templates > summary::before { content: "▸"; color: var(--muted); font-size: 12px; }
+  .templates[open] > summary::before { content: "▾"; }
+  .templates .hint { color: var(--muted); font-weight: 400; font-size: 12.5px; }
+  .tgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 14px; }
+  .tfield { display: flex; flex-direction: column; gap: 6px; }
+  .tfield textarea { min-height: 120px; }
+  code {
+    font-family: var(--mono); font-size: 11px; color: #93c5fd;
+    background: var(--accent-soft); padding: 1px 5px; border-radius: 4px;
+  }
+  .tnote { font-size: 12px; color: var(--muted); margin: 12px 0 4px; }
+  .tstatus { font-family: var(--mono); font-size: 12px; color: var(--ok); }
+
+  /* Sticky control toolbar: filter + quick-select + batch + density */
+  .toolbar {
+    position: sticky; top: 56px; z-index: 20; display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; background: rgba(15,20,32,.94); backdrop-filter: blur(8px);
+    border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; margin-bottom: 18px;
+  }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    border: 1px solid var(--line); background: var(--panel-2); color: var(--muted);
+    padding: 5px 11px; border-radius: 99px; font-size: 12.5px; font-weight: 550;
+    display: inline-flex; align-items: center; gap: 6px; transition: color .2s, background .2s, border-color .2s;
+  }
+  .chip:hover { color: var(--text); border-color: #33405a; }
+  .chip.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .chip .cnt { font-family: var(--mono); font-size: 11px; opacity: .8; }
+  .chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .chip .dot.img { background: var(--danger); } .chip .dot.aud { background: var(--warn); }
+  .chip .dot.vid { background: var(--accent); } .chip .dot.done { background: var(--ok); }
+  .tbsep { width: 1px; align-self: stretch; background: var(--line); margin: 2px 2px; }
+  .tbtext { font-size: 12.5px; color: var(--muted); }
+  .selinfo { font-weight: 600; font-size: 13px; }
+  .selinfo .sub { color: var(--muted); font-family: var(--mono); font-size: 12px; font-weight: 400; margin-left: 6px; }
+
+  /* Grid of scene cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; align-items: start; }
+
+  .card {
+    position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    display: flex; flex-direction: column; overflow: hidden; transition: border-color .2s ease;
+    border-left-width: 3px; border-left-color: var(--line);
+  }
+  .card:hover { border-color: #2f3a51; }
+  .card.busy { border-color: var(--accent); }
+  .card.selected { box-shadow: inset 0 0 0 1px var(--accent); border-color: var(--accent); }
+  /* state accent on the left edge */
+  .card.st-need-image { border-left-color: var(--danger); }
+  .card.st-need-audio { border-left-color: var(--warn); }
+  .card.st-need-render { border-left-color: var(--accent); }
+  .card.st-done { border-left-color: var(--ok); }
+
+  .card .top { display: flex; align-items: center; gap: 8px; padding: 11px 13px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .badge {
+    font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .02em;
+    padding: 3px 8px; border-radius: 6px; color: var(--muted); background: var(--panel-2); border: 1px solid var(--line);
+  }
+  .badge.scene { color: var(--text); }
+  .badge.ai { color: #93c5fd; border-color: rgba(59,130,246,.35); background: var(--accent-soft); }
+  .badge.search { color: #fcd34d; border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.1); }
+  .badge.upload { color: #c4b5fd; border-color: rgba(139,92,246,.4); background: rgba(139,92,246,.12); }
+  /* single clear state pill (color + text, never color alone) */
+  .state { margin-left: auto; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; letter-spacing: .02em; white-space: nowrap; }
+  .state.need-image { color: #fecaca; background: rgba(248,113,113,.16); }
+  .state.need-audio { color: #fde68a; background: rgba(245,158,11,.16); }
+  .state.need-render { color: #bfdbfe; background: rgba(59,130,246,.16); }
+  .state.done { color: #a7f3d0; background: rgba(52,211,153,.16); }
+  .top .refs { flex-basis: 100%; text-align: right; font-family: var(--mono); font-size: 11px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* 9:16 image well, capped so tall columns stay scannable */
+  .well { position: relative; aspect-ratio: 9 / 16; max-height: 460px; background: var(--panel-2); overflow: hidden; }
+  body.compact .well { aspect-ratio: auto; height: 150px; }
+  .well img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  body.compact .well img { object-fit: contain; }
+  .well .placeholder {
+    position: absolute; inset: 0; display: flex; flex-direction: column; gap: 8px;
+    align-items: center; justify-content: center; color: var(--faint); text-align: center; padding: 18px;
+  }
+  .well .placeholder svg { width: 28px; height: 28px; opacity: .5; }
+  .well .placeholder span { font-size: 12.5px; }
+  .well .placeholder .dropcta { font-size: 11px; color: var(--faint); }
+  .well .welldrop {
+    position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+    background: rgba(11,15,23,.78); color: var(--text); font-size: 13px; font-weight: 600;
+    border: 2px dashed var(--accent); border-radius: inherit; pointer-events: none;
+  }
+  .well.dragging .welldrop { display: flex; }
+  .well.dragging { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .well .aitag {
+    position: absolute; left: 8px; bottom: 8px; font-size: 10px; font-family: var(--mono);
+    color: #cbd5e1; background: rgba(0,0,0,.6); padding: 2px 7px; border-radius: 5px; border: 1px solid rgba(255,255,255,.14);
+  }
+  .well .spin {
+    position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px;
+    align-items: center; justify-content: center; background: rgba(11,15,23,.72);
+    color: var(--text); font-size: 13px; font-family: var(--mono);
+  }
+  .well .spin .ring { width: 34px; height: 34px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 9px; }
+  body.compact .body .foldable { display: none; }
+  /* Compact = image-scan mode: hide editors + inline players, keep the action buttons. */
+  body.compact .row audio, body.compact .row video, body.compact .row .none { display: none; }
+  body.compact .row { justify-content: flex-end; }
+
+  label.field { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+  textarea {
+    width: 100%; resize: vertical; min-height: 76px; background: var(--panel-2); color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; font-family: var(--mono);
+    font-size: 12.5px; line-height: 1.5; transition: border-color .2s ease;
+  }
+  textarea:hover { border-color: #2f3a51; }
+  textarea.dirty { border-color: var(--warn); }
+  textarea.narr { min-height: 52px; font-family: var(--sans); font-size: 13px; color: var(--muted); }
+
+  /* Collapsible prompt block keeps cards short */
+  details.prompt { border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); }
+  details.prompt > summary { cursor: pointer; list-style: none; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); display: flex; align-items: center; gap: 6px; }
+  details.prompt > summary::-webkit-details-marker { display: none; }
+  details.prompt > summary::before { content: "▸"; font-size: 10px; }
+  details.prompt[open] > summary::before { content: "▾"; }
+  details.prompt[open] > summary .peek { display: none; }
+  details.prompt .peek { color: var(--muted); text-transform: none; letter-spacing: 0; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  details.prompt .pbody { padding: 0 10px 10px; display: flex; flex-direction: column; gap: 8px; }
+
+  .searchbox { font-family: var(--mono); font-size: 12.5px; color: #fcd34d; background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.22); border-radius: 8px; padding: 9px 10px; }
+
+  .actions { display: flex; gap: 8px; align-items: center; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row audio { height: 34px; flex: 1; min-width: 0; }
+  .row video { flex: 1; min-width: 0; max-height: 200px; border-radius: 6px; background: #000; }
+  .row .none { flex: 1; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--line);
+    background: var(--panel-2); color: var(--text); padding: 8px 13px; min-height: 36px; border-radius: 8px;
+    font-size: 13px; font-weight: 550; transition: background .2s ease, border-color .2s ease, transform .05s ease;
+  }
+  .btn:hover:not(:disabled) { background: #1a2233; border-color: #33405a; }
+  .btn:active:not(:disabled) { transform: translateY(1px); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn svg { width: 15px; height: 15px; flex: none; }
+  .btn.sm { padding: 6px 10px; min-height: 32px; font-size: 12.5px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover:not(:disabled) { background: var(--accent-strong); border-color: var(--accent-strong); }
+  .btn.save { color: var(--warn); border-color: rgba(245,158,11,.3); }
+  .btn.audio { color: #6ee7b7; border-color: rgba(52,211,153,.3); }
+  .btn.ghost { background: transparent; }
+  .card .err { font-size: 12px; color: var(--danger); font-family: var(--mono); }
+
+  /* Footer */
+  footer {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: rgba(15,20,32,.96);
+    backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+    padding: 14px 24px; display: flex; align-items: center; gap: 16px;
+  }
+  footer .status { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  footer .status .main { font-weight: 600; font-size: 14px; }
+  footer .status .sub { font-size: 12.5px; color: var(--muted); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  footer .spacer { flex: 1; }
+  .approve { font-size: 14px; padding: 11px 18px; }
+
+  /* Back to top */
+  .totop { position: fixed; right: 20px; bottom: 90px; z-index: 25; width: 42px; height: 42px; border-radius: 50%;
+    display: none; align-items: center; justify-content: center; background: var(--panel); border: 1px solid var(--line); color: var(--text); }
+  .totop.show { display: inline-flex; }
+  .totop:hover { background: #1a2233; border-color: #33405a; }
+
+  /* Log drawer */
+  .drawer {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: 46vh; max-height: 460px;
+    background: var(--panel-2); border-top: 1px solid var(--accent);
+    transform: translateY(100%); transition: transform .3s cubic-bezier(.16,1,.3,1);
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateY(0); }
+  .drawer .dhead { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  .drawer .dhead .t { font-weight: 600; font-size: 14px; }
+  .drawer .dhead .st { font-family: var(--mono); font-size: 12px; padding: 2px 9px; border-radius: 6px; }
+  .drawer .dhead .st.running { color: var(--accent); background: var(--accent-soft); }
+  .drawer .dhead .st.done { color: var(--ok); background: rgba(52,211,153,.12); }
+  .drawer .dhead .st.error { color: var(--danger); background: rgba(248,113,113,.12); }
+  .drawer .dhead .spacer { flex: 1; }
+  .drawer pre { margin: 0; flex: 1; overflow: auto; padding: 14px 20px; font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: #c4d0e2; white-space: pre-wrap; word-break: break-word; }
+  .iconbtn { background: transparent; border: none; color: var(--muted); padding: 6px; display: inline-flex; border-radius: 6px; }
+  .iconbtn:hover { color: var(--text); background: var(--line); }
+  .iconbtn svg { width: 18px; height: 18px; }
+
+  .empty { text-align: center; color: var(--muted); padding: 80px 20px; font-family: var(--mono); }
+
+  @media (max-width: 640px) {
+    header, main, footer { padding-left: 14px; padding-right: 14px; }
+    .grid { grid-template-columns: 1fr; }
+    .toolbar { top: 92px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Scene Studio</h1>
+    <span class="doc">review · edit · render</span>
+    <span class="spacer"></span>
+    <div class="meters" id="meters">
+      <div class="meter img"><span class="mlbl">Images</span><div class="track"><div class="fill" id="mImg"></div></div><span class="mval" id="vImg">0/0</span></div>
+      <div class="meter aud"><span class="mlbl">Audio</span><div class="track"><div class="fill" id="mAud"></div></div><span class="mval" id="vAud">0/0</span></div>
+      <div class="meter vid"><span class="mlbl">MP4</span><div class="track"><div class="fill" id="mVid"></div></div><span class="mval" id="vVid">0/0</span></div>
+    </div>
+  </header>
+
+  <main>
+    <details class="templates" id="templates">
+      <summary>Master &amp; template prompts <span class="hint">— combined with every scene prompt when generating via Replicate</span></summary>
+      <div class="tgrid">
+        <div class="tfield"><label class="field">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea></div>
+        <div class="tfield"><label class="field">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea></div>
+        <div class="tfield"><label class="field">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea></div>
+        <div class="tfield"><label class="field">Multi-character prompt (two or more <code>char</code>)</label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea></div>
+        <div class="tfield"><label class="field">Text-to-image template (no character)</label><textarea id="t_text2img" spellcheck="false"></textarea></div>
+        <div class="tfield"><label class="field">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea></div>
+      </div>
+      <div class="tnote">Placeholders: <code>[STYLE]</code>, <code>[GUARD]</code>, <code>[SCENE-SPECIFIC PROMPT]</code>. Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char / face / multi-character / text templates, or the scene's own prompt won't be inserted.</div>
+      <div class="actions">
+        <button class="btn" id="tReset" type="button">Reload</button>
+        <span class="spacer" style="flex:1"></span>
+        <span class="tstatus" id="tStatus"></span>
+        <button class="btn primary" id="tSave" type="button">Save templates</button>
+      </div>
+    </details>
+
+    <div class="toolbar" id="toolbar">
+      <div class="chips" id="chips"></div>
+      <div class="tbsep"></div>
+      <span class="tbtext">Select:</span>
+      <button class="btn ghost sm" id="qsShown">All shown</button>
+      <button class="btn ghost sm" id="qsImg">Need image</button>
+      <button class="btn ghost sm" id="qsAud">Need audio</button>
+      <span class="tbsep"></span>
+      <span class="selinfo" id="selInfo" hidden></span>
+      <button class="btn primary sm" id="selGenImg" hidden>Gen images</button>
+      <button class="btn audio sm" id="selGenAudio" hidden>Gen audio</button>
+      <button class="btn ghost sm" id="selClear" hidden>Clear</button>
+      <span class="spacer" style="flex:1"></span>
+      <button class="btn ghost sm" id="densityBtn" title="Toggle compact layout">Compact</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>No scenes yet. Run parse-scene-plan.mjs first.</div>
+  </main>
+
+  <button class="totop" id="totop" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <footer>
+    <div class="status">
+      <span class="main" id="statusMain">Loading scenes...</span>
+      <span class="sub" id="statusSub"></span>
+    </div>
+    <span class="spacer"></span>
+    <a class="btn ghost" id="videoLink" href="/video" target="_blank" rel="noopener" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 3 14 9-14 9z"/></svg>Open MP4
+    </a>
+    <button class="btn approve" id="approveBtn" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      Approve · all audio
+    </button>
+    <button class="btn primary approve" id="finalizeBtn" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 3 14 9-14 9z"/></svg>
+      Finalize &amp; render MP4
+    </button>
+  </footer>
+
+  <section class="drawer" id="drawer" aria-live="polite">
+    <div class="dhead">
+      <span class="t" id="drawerTitle">Audio generation</span>
+      <span class="st running" id="drawerStatus">running</span>
+      <span class="spacer"></span>
+      <button class="iconbtn" id="drawerClose" aria-label="Close log">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <pre id="log"></pre>
+  </section>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const api = async (path, body) => {
+  const res = await fetch(path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+};
+
+const iconGen = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l2.5 6.5L22 12l-6.5 2.5L13 21l-2.5-6.5L4 12l6.5-2.5z"/></svg>';
+const iconRegen = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>';
+const iconImg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
+const iconUpload = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>';
+const iconAudio = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>';
+const iconFilm = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 4v16M17 4v16M2 9h5M2 15h5M17 9h5M17 15h5"/></svg>';
+
+const TEMPLATE_FIELDS = ['styleDna', 'masterPrompt', 'faceLockPrompt', 'multiCharPrompt', 'text2img', 'guard'];
+const FILTERS = [
+  { id: 'all', label: 'All', dot: '' },
+  { id: 'need-image', label: 'Need image', dot: 'img' },
+  { id: 'need-audio', label: 'Need audio', dot: 'aud' },
+  { id: 'need-render', label: 'Not rendered', dot: 'vid' },
+  { id: 'done', label: 'Done', dot: 'done' },
+];
+let state = null;
+let filter = 'all';
+const selected = new Set();
+
+// A scene's furthest-incomplete stage drives its accent, chip and the filters.
+function sceneState(s) {
+  if (!s.hasImage) return 'need-image';
+  if (!s.hasAudio) return 'need-audio';
+  if (!s.hasSceneVideo) return 'need-render';
+  return 'done';
+}
+const STATE_LABEL = { 'need-image': 'needs image', 'need-audio': 'needs audio', 'need-render': 'not rendered', done: 'done' };
+
+async function loadTemplates() {
+  try {
+    const t = await api('/api/templates');
+    for (const k of TEMPLATE_FIELDS) $('t_' + k).value = t[k] || '';
+    $('tStatus').textContent = '';
+  } catch (e) { $('tStatus').textContent = '✗ ' + e.message; }
+}
+$('tSave').addEventListener('click', async () => {
+  const body = {};
+  for (const k of TEMPLATE_FIELDS) body[k] = $('t_' + k).value;
+  $('tSave').disabled = true; $('tStatus').textContent = 'Saving...';
+  try { await api('/api/templates', body); $('tStatus').textContent = 'Saved ✓'; setTimeout(() => { $('tStatus').textContent = ''; }, 1600); }
+  catch (e) { $('tStatus').textContent = '✗ ' + e.message; }
+  finally { $('tSave').disabled = false; }
+});
+$('tReset').addEventListener('click', loadTemplates);
+
+function counts() {
+  const c = { all: state.scenes.length, 'need-image': 0, 'need-audio': 0, 'need-render': 0, done: 0 };
+  for (const s of state.scenes) c[sceneState(s)]++;
+  return c;
+}
+
+function render() {
+  const grid = $('grid');
+  grid.innerHTML = '';
+  $('title').textContent = state.title;
+  $('empty').hidden = state.scenes.length > 0;
+
+  const total = state.scenes.length;
+  const imgDone = state.scenes.filter((s) => s.hasImage).length;
+  const audDone = state.scenes.filter((s) => s.hasAudio).length;
+  const vidDone = state.scenes.filter((s) => s.hasSceneVideo).length;
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  $('mImg').style.width = pct(imgDone) + '%'; $('vImg').textContent = imgDone + '/' + total;
+  $('mAud').style.width = pct(audDone) + '%'; $('vAud').textContent = audDone + '/' + total;
+  $('mVid').style.width = pct(vidDone) + '%'; $('vVid').textContent = vidDone + '/' + total;
+
+  renderChips();
+
+  const allImages = total > 0 && imgDone === total;
+  const allAudio = total > 0 && audDone === total;
+  const aiScenes = state.scenes.filter((s) => s.kind === 'ai');
+  const aiDone = aiScenes.filter((s) => s.hasImage).length;
+  $('approveBtn').disabled = !(aiScenes.length > 0 && aiDone === aiScenes.length);
+  $('finalizeBtn').disabled = !(allImages && allAudio);
+  if (allImages && allAudio) {
+    $('statusMain').textContent = vidDone === total ? 'Everything ready' : 'All images + audio ready';
+    $('statusSub').textContent = 'Finalize to measure audio, align captions, audit, and render the MP4.';
+  } else if (aiDone === aiScenes.length && aiScenes.length > 0) {
+    $('statusMain').textContent = 'All images ready';
+    $('statusSub').textContent = (total - audDone) + ' scene(s) still need audio — Approve for all, or gen per card.';
+  } else {
+    $('statusMain').textContent = (aiScenes.length - aiDone) + ' image(s) still to generate';
+    $('statusSub').textContent = 'Generate every AI scene, then approve.';
+  }
+
+  const shown = state.scenes.filter((s) => filter === 'all' || sceneState(s) === filter);
+  for (const s of shown) grid.appendChild(card(s));
+  updateSelbar();
+}
+
+function renderChips() {
+  const c = counts();
+  $('chips').innerHTML = FILTERS.map((f) =>
+    `<button class="chip${filter === f.id ? ' active' : ''}" data-filter="${f.id}">${f.dot ? `<span class="dot ${f.dot}"></span>` : ''}${f.label}<span class="cnt">${c[f.id]}</span></button>`
+  ).join('');
+  for (const btn of $('chips').querySelectorAll('.chip')) {
+    btn.addEventListener('click', () => { filter = btn.dataset.filter; render(); });
+  }
+}
+
+function shownScenes() {
+  return state.scenes.filter((s) => filter === 'all' || sceneState(s) === filter);
+}
+
+function updateSelbar() {
+  for (const n of [...selected]) if (!state.scenes.some((s) => s.scene === n)) selected.delete(n);
+  const has = selected.size > 0;
+  const chosen = state.scenes.filter((s) => selected.has(s.scene));
+  const aiCount = chosen.filter((s) => s.kind === 'ai').length;
+  $('selInfo').hidden = !has;
+  $('selGenImg').hidden = !has; $('selGenAudio').hidden = !has; $('selClear').hidden = !has;
+  if (has) {
+    $('selInfo').innerHTML = `${selected.size} selected<span class="sub">scenes ${chosen.map((s) => s.scene).sort((a, b) => a - b).join(', ')} · ${aiCount} AI</span>`;
+    $('selGenImg').disabled = aiCount === 0;
+  }
+}
+
+function toggleSelect(scene, on) {
+  if (on) selected.add(scene); else selected.delete(scene);
+  const el = $('grid').querySelector(`.card[data-scene="${scene}"]`);
+  if (el) el.classList.toggle('selected', on);
+  updateSelbar();
+}
+
+// Quick-select helpers operate on the currently visible scenes.
+$('qsShown').addEventListener('click', () => { for (const s of shownScenes()) selected.add(s.scene); render(); });
+$('qsImg').addEventListener('click', () => { for (const s of shownScenes()) if (!s.hasImage && s.kind === 'ai') selected.add(s.scene); render(); });
+$('qsAud').addEventListener('click', () => { for (const s of shownScenes()) if (!s.hasAudio) selected.add(s.scene); render(); });
+$('selClear').addEventListener('click', () => { selected.clear(); render(); });
+
+function card(s) {
+  const el = document.createElement('div');
+  const st = sceneState(s);
+  el.className = 'card st-' + st + (selected.has(s.scene) ? ' selected' : '');
+  el.dataset.scene = s.scene;
+
+  const refs = s.characters.length ? s.characters.join(' · ') : '';
+  const tag = s.source === 'ai' ? '<span class="aitag">AI phục dựng</span>' : '';
+  const well = s.hasImage
+    ? `<img src="${s.imageUrl}" alt="Scene ${s.scene}" />${tag}<div class="welldrop" data-role="drop"><span>Drop image to replace</span></div>`
+    : `<div class="placeholder" data-role="drop">${iconImg}<span>${s.kind === 'search' ? 'search scene — source or upload' : 'not generated yet'}</span><span class="dropcta">or drop an image here</span></div>`;
+
+  const kindBadge = s.kind === 'ai' ? `<span class="badge ai">AI</span>` : `<span class="badge search">SEARCH</span>`;
+  const uploadBadge = s.source === 'upload' ? `<span class="badge upload">your image</span>` : '';
+  const statePill = `<span class="state ${st}">${STATE_LABEL[st]}</span>`;
+
+  const uploadBtn = `<button class="btn ghost sm" data-role="upload">${iconUpload}${s.hasImage ? 'Replace' : 'Upload'}</button>`;
+  const uploadInput = `<input type="file" data-role="file" accept="image/png,image/jpeg,image/webp" hidden />`;
+
+  let imageControls = '';
+  if (s.kind === 'ai') {
+    const peek = escapeHtml((s.prompt || '').slice(0, 60)) || 'no prompt yet';
+    imageControls = `
+      <details class="prompt foldable">
+        <summary>Prompt <span class="peek">${peek}</span></summary>
+        <div class="pbody">
+          <textarea data-role="prompt" spellcheck="false" placeholder="Action &amp; gesture only — no appearance">${escapeHtml(s.prompt)}</textarea>
+          <div class="actions"><button class="btn save sm" data-role="save" disabled>Save prompt</button></div>
+        </div>
+      </details>
+      <div class="actions">
+        ${uploadBtn}
+        <span style="flex:1"></span>
+        <button class="btn primary" data-role="gen">${s.hasImage ? iconRegen + 'Regenerate' : iconGen + 'Generate'}</button>
+      </div>
+      ${uploadInput}`;
+  } else {
+    imageControls = `
+      <label class="field foldable">Search query</label>
+      <div class="searchbox foldable">${escapeHtml(s.query || '(none)')}</div>
+      <div class="actions">${uploadBtn}</div>
+      ${uploadInput}`;
+  }
+
+  const audioPlayer = s.hasAudio ? `<audio controls preload="none" src="${s.audioUrl}"></audio>` : `<span class="none">no audio yet</span>`;
+  const videoPlayer = s.hasSceneVideo ? `<video controls preload="none" src="${s.sceneVideoUrl}"></video>` : `<span class="none">not rendered</span>`;
+
+  el.innerHTML = `
+    <div class="top">
+      <input type="checkbox" class="sel" data-role="select" ${selected.has(s.scene) ? 'checked' : ''} title="Select for batch" />
+      <span class="badge scene">Scene ${s.scene}</span>
+      ${kindBadge}${uploadBadge}
+      ${statePill}
+      <span class="refs">${escapeHtml(refs)}</span>
+    </div>
+    <div class="well">${well}</div>
+    <div class="body">
+      <details class="prompt foldable">
+        <summary>Narration <span class="peek">${escapeHtml((s.narration || '').slice(0, 60))}</span></summary>
+        <div class="pbody">
+          <textarea data-role="narr" class="narr" spellcheck="false">${escapeHtml(s.narration)}</textarea>
+          <div class="actions"><span style="flex:1"></span><button class="btn save sm" data-role="narrsave" disabled>Save narration</button></div>
+        </div>
+      </details>
+      ${imageControls}
+      <div class="row">
+        ${audioPlayer}
+        <button class="btn audio sm" data-role="audio">${s.hasAudio ? iconRegen + 'Regen' : iconAudio + 'Audio'}</button>
+      </div>
+      <div class="row">
+        ${videoPlayer}
+        <button class="btn sm" data-role="rendervid" ${s.hasImage && s.hasAudio ? '' : 'disabled'} title="${s.hasImage && s.hasAudio ? 'Render this scene to MP4' : 'needs image + audio'}">${iconFilm}${s.hasSceneVideo ? 'Re-render' : 'MP4'}</button>
+      </div>
+      <div class="err" data-role="err" hidden></div>
+    </div>`;
+
+  wireCard(el, s);
+  return el;
+}
+
+function wireCard(el, s) {
+  const err = el.querySelector('[data-role="err"]');
+  const showErr = (m) => { err.hidden = !m; err.textContent = m || ''; };
+
+  el.querySelector('[data-role="select"]').addEventListener('change', (e) => toggleSelect(s.scene, e.target.checked));
+  wireUpload(el, s, showErr);
+
+  const narr = el.querySelector('[data-role="narr"]');
+  const narrSave = el.querySelector('[data-role="narrsave"]');
+  narr.addEventListener('input', () => { const dirty = narr.value.trim() !== s.narration.trim(); narr.classList.toggle('dirty', dirty); narrSave.disabled = !dirty; });
+  narrSave.addEventListener('click', async () => {
+    narrSave.disabled = true; narrSave.textContent = 'Saving...';
+    try {
+      const r = await api('/api/narration', { scene: s.scene, narration: narr.value });
+      s.narration = r.narration; narr.value = s.narration; narr.classList.remove('dirty'); showErr('');
+      narrSave.textContent = 'Saved'; setTimeout(() => { narrSave.textContent = 'Save narration'; }, 1200);
+    } catch (e) { showErr(e.message); narrSave.disabled = false; narrSave.textContent = 'Save narration'; }
+  });
+
+  el.querySelector('[data-role="audio"]').addEventListener('click', () => streamSSE('/api/audio', { scene: s.scene }, `Narration audio — scene ${s.scene}`));
+
+  const renderVid = el.querySelector('[data-role="rendervid"]');
+  renderVid.addEventListener('click', () => { if (!renderVid.disabled) streamSSE('/api/render-scene', { scene: s.scene }, `Render scene ${s.scene} MP4`); });
+
+  const ta = el.querySelector('[data-role="prompt"]');
+  if (!ta) return;
+  const saveBtn = el.querySelector('[data-role="save"]');
+  const genBtn = el.querySelector('[data-role="gen"]');
+  ta.addEventListener('input', () => { const dirty = ta.value.trim() !== s.prompt.trim(); ta.classList.toggle('dirty', dirty); saveBtn.disabled = !dirty; });
+  saveBtn.addEventListener('click', async () => {
+    saveBtn.disabled = true; saveBtn.textContent = 'Saving...';
+    try {
+      await api('/api/prompt', { scene: s.scene, prompt: ta.value });
+      s.prompt = ta.value.trim(); ta.value = s.prompt; ta.classList.remove('dirty'); showErr('');
+      saveBtn.textContent = 'Saved'; setTimeout(() => { saveBtn.textContent = 'Save prompt'; }, 1200);
+    } catch (e) { showErr(e.message); saveBtn.disabled = false; saveBtn.textContent = 'Save prompt'; }
+  });
+  genBtn.addEventListener('click', async () => {
+    if (ta.value.trim() !== s.prompt.trim()) {
+      try { await api('/api/prompt', { scene: s.scene, prompt: ta.value }); s.prompt = ta.value.trim(); ta.classList.remove('dirty'); saveBtn.disabled = true; }
+      catch (e) { showErr(e.message); return; }
+    }
+    if (!ta.value.trim()) { showErr('Prompt is empty.'); return; }
+    setBusy(el, true); genBtn.disabled = true; showErr('');
+    try { const r = await api('/api/generate', { scene: s.scene }); s.hasImage = true; s.imageUrl = r.imageUrl; await refresh(); }
+    catch (e) { showErr(e.message); setBusy(el, false); genBtn.disabled = false; }
+  });
+}
+
+function wireUpload(el, s, showErr) {
+  const btn = el.querySelector('[data-role="upload"]');
+  const input = el.querySelector('[data-role="file"]');
+  const drop = el.querySelector('[data-role="drop"]');
+  if (!btn || !input) return;
+  const upload = async (file) => {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { showErr('Use a PNG, JPEG or WebP image.'); return; }
+    setBusy(el, true, 'uploading…'); btn.disabled = true; showErr('');
+    try {
+      const buf = await file.arrayBuffer();
+      const res = await fetch('/api/upload?scene=' + s.scene, { method: 'POST', headers: { 'Content-Type': file.type }, body: buf });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || res.statusText);
+      await refresh();
+    } catch (e) { showErr(e.message); setBusy(el, false); btn.disabled = false; }
+  };
+  btn.addEventListener('click', () => input.click());
+  input.addEventListener('change', () => { upload(input.files[0]); input.value = ''; });
+  if (drop) {
+    const well = el.querySelector('.well');
+    ['dragenter', 'dragover'].forEach((ev) => well.addEventListener(ev, (e) => { e.preventDefault(); well.classList.add('dragging'); }));
+    ['dragleave', 'drop'].forEach((ev) => well.addEventListener(ev, (e) => { e.preventDefault(); if (ev === 'dragleave' && well.contains(e.relatedTarget)) return; well.classList.remove('dragging'); }));
+    well.addEventListener('drop', (e) => upload(e.dataTransfer.files[0]));
+  }
+}
+
+function setBusy(el, busy, label = 'generating…') {
+  el.classList.toggle('busy', busy);
+  const well = el.querySelector('.well');
+  const existing = well.querySelector('.spin');
+  if (busy && !existing) { const d = document.createElement('div'); d.className = 'spin'; d.innerHTML = '<div class="ring"></div><span>' + label + '</span>'; well.appendChild(d); }
+  else if (!busy && existing) { existing.remove(); }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function refresh() { state = await api('/api/state'); render(); }
+
+// --- SSE streaming (per-scene / batch / approve-all / finalize) -----------------------------
+$('approveBtn').addEventListener('click', () => { $('approveBtn').disabled = true; streamSSE('/api/approve', null, 'Narration audio — all scenes'); });
+$('selGenImg').addEventListener('click', () => { const scenes = [...selected].sort((a, b) => a - b); if (scenes.length) streamSSE('/api/generate-batch', { scenes }, `Generating images — scenes ${scenes.join(', ')}`); });
+$('selGenAudio').addEventListener('click', () => { const scenes = [...selected].sort((a, b) => a - b); if (scenes.length) streamSSE('/api/audio-batch', { scenes }, `Generating audio — scenes ${scenes.join(', ')}`); });
+$('finalizeBtn').addEventListener('click', () => {
+  $('finalizeBtn').disabled = true;
+  streamSSE('/api/finalize', null, 'Finalize & render MP4', () => { const link = $('videoLink'); link.hidden = false; link.href = '/video?v=' + Date.now(); });
+});
+
+async function streamSSE(path, body, title, onDone) {
+  const log = $('log'); const st = $('drawerStatus');
+  $('drawerTitle').textContent = title;
+  log.textContent = ''; st.className = 'st running'; st.textContent = 'running';
+  $('drawer').classList.add('open');
+  const append = (line) => { log.textContent += line + '\n'; log.scrollTop = log.scrollHeight; };
+  try {
+    const res = await fetch(path, { method: 'POST', headers: body ? { 'Content-Type': 'application/json' } : {}, body: body ? JSON.stringify(body) : undefined });
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const events = buf.split('\n\n'); buf = events.pop();
+      for (const ev of events) {
+        const type = (ev.match(/^event: (.*)$/m) || [])[1];
+        const dataRaw = (ev.match(/^data: (.*)$/m) || [])[1];
+        if (!dataRaw) continue;
+        const data = JSON.parse(dataRaw);
+        if (type === 'log') append(data);
+        else if (type === 'done') { append('✓ ' + data); st.className = 'st done'; st.textContent = 'done'; onDone?.(); }
+        else if (type === 'error') { append('✗ ' + data); st.className = 'st error'; st.textContent = 'error'; }
+      }
+    }
+  } catch (e) { st.className = 'st error'; st.textContent = 'error'; append('✗ ' + e.message); }
+  finally { await refresh().catch(() => {}); }
+}
+
+$('drawerClose').addEventListener('click', () => $('drawer').classList.remove('open'));
+$('densityBtn').addEventListener('click', () => {
+  const on = document.body.classList.toggle('compact');
+  $('densityBtn').textContent = on ? 'Comfortable' : 'Compact';
+});
+$('totop').addEventListener('click', () => window.scrollTo({ top: 0 }));
+window.addEventListener('scroll', () => { $('totop').classList.toggle('show', window.scrollY > 600); });
+
+loadTemplates();
+refresh().catch((e) => { $('statusMain').textContent = 'Failed to load: ' + e.message; });
+</script>
+</body>
+</html>

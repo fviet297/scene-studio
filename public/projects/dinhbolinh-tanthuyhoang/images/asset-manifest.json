@@ -1,0 +1,228 @@
+[
+  {
+    "id": "scene-01",
+    "scene": 1,
+    "type": "ai_reconstruction",
+    "subject": "Animate this existing historical illustration into a lively, cute, cinematic ima",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Animate this existing historical illustration into a lively, cute, cinematic image-to-video shot. Preserve the exact character identity, face, hairstyle, costume, body proportions, colors, props, soldiers, architecture, lighting, and split-screen composition from the source image. Do not redesign, morph, replace, add, or remove any character or object. Do not change the historical period or visual style. No text, symbols, logos, or watermark. Keep the camera completely locked. No camera movement, zoom, pan, tilt, orbit, dolly, perspective shift, or scene transition. Create gentle, charming environmental motion. The upper character's reed flag, robe, sleeves, and nearby grass sway naturally in a soft breeze. Morning mist slowly drifts across the marshland while the water develops subtle ripples and reflections. Background soldiers make tiny natural idle movements while remaining in formation. In the lower half, the character remains steady and confident while his robe and cloth elements move slightly in the dry wind. Dust gently drifts across the ground, grass and hanging banners move naturally, and background soldiers make minimal idle movements while maintaining formation. Keep both main characters stable, recognizable, and visually consistent throughout the entire shot. Do not change their facial expressions or poses. Use lively secondary motion rather than strong character animation. The scene should feel like a charming animated historical diorama: cute, warm, playful, cinematic, and alive while remaining believable. Motion intensity: low to medium. Character motion: very subtle. Environmental motion: moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements, exaggerated physics, or visual artifacts."
+  },
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "The character stands at the edge of a high stone terrace at three-quarter angle,",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The character stands at the edge of a high stone terrace at three-quarter angle, chin raised in a proud imperial stance, one hand on a sword hilt, surveying what he commands. Foreground: a carved stone balustrade and a bronze ceremonial vessel on the near edge. Midground: the figure alone with open space around him. Background: a vast rammed-earth Qin palace complex and endless ranks of a distant army on the loess plain fading into dusty haze, conveying overwhelming size and wealth. Lighting: cold clear high-noon light from the upper right, hard rim on the dark lacquered armor. Low camera angle looking up so he reads as towering. Movement: distant dust drifting far below. Focal point: his raised face against the sweep of empire. 3rd-century-BC Qin dark lamellar armor, flat-topped topknot helmet."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "The character as a young herdsman-turned-leader stands on a grassy hillock in Ho",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character as a young herdsman-turned-leader stands on a grassy hillock in Hoa Lư, gesturing toward a scattered valley below dotted with rival stockade camps, a group of village boys with reed stalks nearby. 10th-century Đại Cồ Việt setting: buffalo grazing, plain undyed hemp clothing on peasant extras with East Asian faces, limestone karst hills, small wooden watchtowers. Overcast light, medium-wide environmental shot, figure about one third of frame height. Banners are plain solid-color cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "The character as a young king stands at the top of a stone palace terrace lookin",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The character as a young king stands at the top of a stone palace terrace looking out over a vast military parade ground below. 3rd-century-BC Qin setting: massed ranks of infantry in dark lamellar armor, rows of chariots, rammed-earth palace walls with flat timber-beam gates, loess-brown plain. Extras have East Asian faces and flat-topped topknot helmets. Cold clear light, medium-wide shot, figure about one third of frame height. Banners are plain solid-black cloth, no emblem or lettering. No dragon motif, no curved temple roofs."
+  },
+  {
+    "id": "scene-05",
+    "scene": 5,
+    "type": "ai_reconstruction",
+    "subject": "The character rides a small horse along a narrow dyke through flooded rice paddi",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character rides a small horse along a narrow dyke through flooded rice paddies, leading a light column of lightly-armed followers, one hand extended toward a distant stockade in a gesture of parley. 10th-century Đại Cồ Việt wetland setting, limestone hills, plain hemp clothing, bamboo spears, East Asian faces. Soft afternoon light, medium-wide shot, figure about one third of frame height. Banners are plain solid-crimson cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-06",
+    "scene": 6,
+    "type": "ai_reconstruction",
+    "subject": "The character stands on a war chariot at the crest of a ridge, arm sweeping forw",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The character stands on a war chariot at the crest of a ridge, arm sweeping forward, as an enormous column of armored infantry and supply carts marches across the loess plain below toward a walled city. 3rd-century-BC Qin setting: dark lamellar armor, ox-drawn supply wagons, siege ladders, rammed-earth city wall in the distance, East Asian faces. Dust haze, wide shot, figure about one third of frame height. Banners are plain solid-black cloth, no emblem or lettering. No dragon motif."
+  },
+  {
+    "id": "scene-07",
+    "scene": 7,
+    "type": "ai_reconstruction",
+    "subject": "The character stands on a karst outcrop at three-quarter angle, a self-made foun",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character stands on a karst outcrop at three-quarter angle, a self-made founder risen from chaos, one hand lowered holding a reed stalk, gazing over the realm he has stitched together. Foreground: wet reeds and a weathered bamboo spear against a mossy rock on the near edge. Midground: the figure alone with quiet authority. Background: a valley where scattered rival stockade camps give way to peaceful thatched villages and rice paddies, limestone karst hills receding into soft mist, an empire freshly built. Lighting: low warm golden-hour sun behind at the left, rimming his silhouette and casting a long shadow forward. Low horizon, big sky. Movement: drifting valley mist and a stirring reed. Focal point: his steady profile against the glowing valley. 10th-century Đại Cồ Việt militia in plain undyed hemp."
+  },
+  {
+    "id": "scene-08",
+    "scene": 8,
+    "type": "ai_reconstruction",
+    "subject": "The character leads a small fast-moving band on foot through a narrow limestone ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character leads a small fast-moving band on foot through a narrow limestone gorge and flooded marsh, using the terrain for cover, pointing toward a hidden pass. 10th-century Đại Cồ Việt setting: plain hemp, bamboo spears, wet marshland, towering karst walls, East Asian faces. Moody diffused light, medium-wide shot, figure about one third of frame height. Banners are plain solid-crimson cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-09",
+    "scene": 9,
+    "type": "ai_reconstruction",
+    "subject": "Extreme wide shot of the character small at the base of the frame directing an i",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Extreme wide shot of the character small at the base of the frame directing an immense army spread across a flat loess plain to the horizon — endless ranks of armored infantry, chariots, and supply wagon trains. 3rd-century-BC Qin setting: dark lamellar armor, ox carts, distant rammed-earth city, East Asian faces. Dusty vast atmosphere, figure about one fifth of frame height. Banners are plain solid-black cloth, no emblem or lettering. No dragon motif."
+  },
+  {
+    "id": "scene-10",
+    "scene": 10,
+    "type": "ai_reconstruction",
+    "subject": "The character walks between long tables where officials stamp documents and insp",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The character walks between long tables where officials stamp documents and inspect standardized bronze coins, measuring vessels, and cart axles laid in identical rows. 3rd-century-BC Qin setting: plain dark robes and armor, rammed-earth administrative hall, stacked bamboo document slips, East Asian faces. Cold even light, medium-wide shot, figure about one third of frame height. No dragon motif, no lettering on any surface."
+  },
+  {
+    "id": "scene-11",
+    "scene": 11,
+    "type": "ai_reconstruction",
+    "subject": "The character stands ready at the head of his militia in a misty karst valley, b",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character stands ready at the head of his militia in a misty karst valley, body turned three-quarter and leaning forward, one arm raised to signal, weapon in hand, bracing for an unseen enemy on his home ground. Foreground: trampled wet reeds and a bamboo spear butt in mud on the near edge, drawing the eye into the fog. Midground: the figure a few steps ahead of his front rank, his men half-hidden in reeds and on cliff ledges. Background: an empty foggy no-man's-land between towering limestone cliffs, the far side lost in cold mist as if an unknown army waits. Lighting: flat tense overcast, a single cold shaft breaking through the fog onto the character, all else desaturated. Deep valley perspective. Movement: fog drifting sideways, the instant before the clash. Focal point: the character poised at the edge of the foggy void. 10th-century Đại Cồ Việt militia in hemp on marshland, bamboo spears."
+  },
+  {
+    "id": "scene-12",
+    "scene": 12,
+    "type": "ai_reconstruction",
+    "subject": "The character ambushes a heavier armored column from hidden positions in a flood",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character ambushes a heavier armored column from hidden positions in a flooded karst valley, his light troops striking from reeds and cliff ledges as the enemy bogs down in mud. 10th-century Đại Cồ Việt setting: plain hemp, bamboo spears, wet marsh, limestone walls, East Asian faces. Dynamic action, overcast tension light, wide shot, figure about one third of frame height. Banners are plain solid-crimson cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-13",
+    "scene": 13,
+    "type": "ai_reconstruction",
+    "subject": "The character oversees a vast war effort from a command platform: relentless sup",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "The character oversees a vast war effort from a command platform: relentless supply convoys, fresh reinforcement columns, and siege engines advancing wave after wave across the plain over what looks like months of campaign. 3rd-century-BC Qin setting: dark armor, ox wagons, siege towers, rammed-earth positions, East Asian faces. Grinding attritional atmosphere, dust and smoke, wide shot, figure about one fifth of frame height. Banners are plain solid-black cloth, no emblem or lettering. No dragon motif."
+  },
+  {
+    "id": "scene-14",
+    "scene": 14,
+    "type": "ai_reconstruction",
+    "subject": "The character stands alone at the summit of a karst peak at dawn, arms lowered, ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character stands alone at the summit of a karst peak at dawn, arms lowered, looking out over a now-unified valley of peaceful villages and rice fields where scattered war camps once stood. 10th-century Đại Cồ Việt setting, plain hemp, limestone hills, East Asian faces on distant villagers. Warm hopeful sunrise light, wide shot, figure about one third of frame height. Banners are plain solid-crimson cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-15",
+    "scene": 15,
+    "type": "ai_reconstruction",
+    "subject": "The character stands alone on a karst summit facing the viewer, chin slightly ra",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "The character stands alone on a karst summit facing the viewer, chin slightly raised, a reed stalk held upright at his side, a man who rebuilt a shattered land almost bare-handed. Foreground: rough limestone rock and a tuft of reeds catching the near light. Midground: the figure alone and monumental, holding the emotional center. Background: a vast dawn sky of deep orange to violet over a low unified horizon of peaceful villages, rice fields, and faint karst hills, a country finally whole and at rest. Lighting: strong backlight from the rising sun just behind him, blowing the horizon bright and rimming him with fire, face in warm shadow. Low horizon, big sky above. Movement: slow dawn haze rising. Focal point: his rim-lit form against the blazing sunrise. 10th-century Đại Cồ Việt plain hemp."
+  }
+]

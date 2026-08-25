@@ -63,16 +63,18 @@ export const parsePlan = (slug, inputPath) => {
 
     const fields = {};
     for (const line of lines) {
-      const kv = /^(time|char|identity|narration|prompt|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
+      const kv = /^(time|char|identity|narration|prompt|motion|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
       if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
     }
 
     const ids = (fields.char ?? '').split(',').map((s) => s.trim()).filter(Boolean);
     // identity: 'full' (default) locks costume/armor too; 'face' locks only face/hair/age/style.
     const identity = /^face$/i.test(fields.identity ?? '') ? 'face' : 'full';
+    // motion: optional per-scene image-to-video prompt. When set, the review server uses it
+    // verbatim instead of auto-building one from narration + image prompt.
     const image = fields.search
       ? { kind: 'search', characters: [], query: fields.search }
-      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '' };
+      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '' };
 
     const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', image };
     for (const k of ['title', 'cue', 'host']) if (fields[k]) scene[k] = fields[k];

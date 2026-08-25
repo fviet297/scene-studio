@@ -4,20 +4,23 @@
 //
 // Requires REPLICATE_API_TOKEN (shared with replicate-image.mjs).
 
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { predict, dataUri } from './replicate-image.mjs';
 
-// Curated image-to-video models offered in the review panel's model picker. wan-video is first,
-// so it is the panel's default selection and the DEFAULT_MODEL fallback below.
+// Curated image-to-video models offered in the review panel's model picker. Seedance is first
+// so 1080p TikTok-ready output is the panel's default selection and fallback.
 export const VIDEO_MODELS = [
+  'bytedance/seedance-1-pro-fast',
   'wan-video/wan-2.5-i2v',
   'xai/grok-imagine-video',
   'kwaivgi/kling-v2.5-turbo-pro',
-  'bytedance/seedance-1-pro-fast',
   'minimax/hailuo-2.3-fast',
 ];
-const DEFAULT_MODEL = VIDEO_MODELS[0];
+const DEFAULT_MODEL = 'bytedance/seedance-1-pro-fast';
+const TIKTOK_WIDTH = 1088;
+const TIKTOK_HEIGHT = 1920;
 
 // Each model names its image-to-video input field differently.
 const IMAGE_FIELD = {
@@ -28,13 +31,51 @@ const IMAGE_FIELD = {
   'minimax/hailuo-2.3-fast': 'first_frame_image',
 };
 
+const MODEL_INPUTS = {
+  'bytedance/seedance-1-pro-fast': {
+    fps: 24,
+    resolution: '1080p',
+  },
+};
+
+const assertTikTokResolution = (videoPath) => {
+  const metadata = execFileSync(
+    'ffprobe',
+    [
+      '-v',
+      'error',
+      '-select_streams',
+      'v:0',
+      '-show_entries',
+      'stream=width,height',
+      '-of',
+      'csv=p=0',
+      videoPath,
+    ],
+    { encoding: 'utf8' },
+  ).trim();
+  const [width, height] = metadata.split(',').map(Number);
+  if (width !== TIKTOK_WIDTH || height !== TIKTOK_HEIGHT) {
+    throw new Error(
+      `Expected ${TIKTOK_WIDTH}x${TIKTOK_HEIGHT}, received ${width}x${height}`,
+    );
+  }
+};
+
+// Fallback motion prompt when a scene has no hand-written `motion:` in the plan. Keeps the same
+// house style lsvn authors by hand: animate-not-redesign, locked camera, matched environmental
+// motion, stable character, stated intensity, artifact ban. The image `prompt` (English) hints
+// at which elements can move; narration is intentionally NOT injected — it is Vietnamese and only
+// confuses the image-to-video model. For per-scene control, author `motion:` in the plan instead.
 export const buildMotionPrompt = ({ narration = '', scenePrompt = '' }) => [
-  'Animate this existing 2D historical illustration as a restrained cinematic image-to-video shot.',
-  'Preserve the exact character identity, face, costume, proportions, colors, architecture, props, and composition from the source image.',
-  'Do not redesign the character, add new people or objects, change the historical period, or introduce text, symbols, watermark, or camera cuts.',
-  'Use only subtle natural motion: small cloth and water movement, and minimal believable background motion.',
-  `Historical context and intended action: ${narration.trim() || 'preserve the scene action from the source image.'}`,
-  scenePrompt.trim() ? `Source scene specification: ${scenePrompt.trim()}` : '',
+  'Animate this existing historical illustration into a lively, cute, cinematic image-to-video shot.',
+  'Preserve the exact character identity, face, hairstyle, costume, body proportions, colors, props, soldiers, architecture, lighting, and composition from the source image. Do not redesign, morph, replace, add, or remove any character or object. Do not change the historical period or visual style. No text, symbols, logos, or watermark.',
+  'Keep the camera completely locked. No camera movement, zoom, pan, tilt, orbit, dolly, perspective shift, or scene transition.',
+  'Create gentle, charming environmental motion: cloth, robes, sleeves and banners sway in a soft breeze; grass and reeds bend; water ripples and reflects; mist or dust drifts slowly; background figures make tiny natural idle movements while holding their formation.',
+  scenePrompt.trim() ? `Elements present in this scene (animate only what is visible, do not add anything): ${scenePrompt.trim()}` : '',
+  'Keep the main character(s) stable, recognizable, and visually consistent throughout. Do not change their facial expressions or poses. Use lively secondary motion rather than strong character animation. The scene should feel like a charming animated historical diorama: warm, playful, cinematic, and alive while remaining believable.',
+  'Motion intensity: low to medium. Character motion: very subtle. Environmental motion: moderate and natural.',
+  'No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements, exaggerated physics, or visual artifacts.',
 ].filter(Boolean).join('\n');
 
 export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, onLog }) => {
@@ -48,6 +89,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   const input = {
     prompt: prompt || 'Subtle cinematic motion, preserve the historical illustration and character identity.',
     [imageField]: dataUri(imagePath),
+    ...MODEL_INPUTS[chosenModel],
     ...(duration ? { duration } : {}),
   };
   onLog?.(`POST https://api.replicate.com/v1/models/${chosenModel}/predictions`);
@@ -56,11 +98,19 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   onLog?.('job completed; video URL received');
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
+  const temporaryOutput = `${output}.tmp`;
   mkdirSync(outputDir, { recursive: true });
   const videoResponse = await fetch(videoUrl);
   onLog?.(`download result: HTTP ${videoResponse.status}`);
   if (!videoResponse.ok) throw new Error(`Replicate video download ${videoResponse.status}`);
-  writeFileSync(output, Buffer.from(await videoResponse.arrayBuffer()));
+  writeFileSync(temporaryOutput, Buffer.from(await videoResponse.arrayBuffer()));
+  try {
+    assertTikTokResolution(temporaryOutput);
+    renameSync(temporaryOutput, output);
+  } catch (error) {
+    unlinkSync(temporaryOutput);
+    throw error;
+  }
   onLog?.(`saved: ${output}`);
   return { output, model: chosenModel, videoUrl };
 };

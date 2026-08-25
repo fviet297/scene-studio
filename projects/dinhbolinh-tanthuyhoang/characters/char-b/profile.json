@@ -1,0 +1,19 @@
+{
+  "character_id": "char-b",
+  "name": "Qin Shi Huang",
+  "display_name": "Tần Thủy Hoàng",
+  "aliases": ["Doanh Chính", "Ying Zheng", "First Emperor of Qin"],
+  "country": "Qin state / Qin dynasty (China)",
+  "period": "3rd century BC",
+  "dynasty": "Qin dynasty",
+  "role": "King of Qin who conquered the Warring States and became China's first emperor",
+  "known_facts": [
+    "Became King of Qin in 246 BC and conquered the six rival states",
+    "Unified China and declared himself First Emperor (Shi Huangdi) in 221 BC",
+    "Standardized script, currency, weights and measures, and road gauges",
+    "Ordered the linking of northern walls and a vast tomb with the Terracotta Army"
+  ],
+  "interpretation": "3rd-century-BC Qin imperial / military dress, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/dinhbolinh-tanthuyhoang/characters/char-b.png"
+}

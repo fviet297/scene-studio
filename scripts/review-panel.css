@@ -197,9 +197,10 @@ select.mini.wide { width: 100%; }
 .pip.on { background: var(--accent); box-shadow: none; }
 
 .char-gallery-head { display: flex; gap: 6px; padding: 8px 8px 0; }
+.char-gallery-head .btn { flex: 1; }
 
-/* Character gallery: reference (v1) + puppet (v2, when generated) side by side per
-   character, so the panel judges likeness without leaving the workbench. */
+/* Character gallery: each character's reference thumbnail beside its name and actions,
+   so the panel judges likeness without leaving the workbench. */
 .char-gallery { display: flex; flex-direction: column; gap: 6px; padding: 8px; border-bottom: 1px solid var(--line); }
 .char-card { display: flex; gap: 8px; padding: 6px; border-radius: var(--r-ctl); background: var(--surface-2); border: 1px solid var(--line-soft); }
 .char-thumbs { display: flex; gap: 4px; flex: none; }

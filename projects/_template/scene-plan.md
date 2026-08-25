@@ -13,6 +13,7 @@ host:
 narration:
 char: char-a, char-b
 prompt:
+motion:
 
 ## scene 2
 
@@ -22,6 +23,7 @@ host:
 narration:
 char: char-a
 prompt:
+motion:
 
 ## scene 3
 
@@ -31,6 +33,7 @@ host:
 narration:
 char: char-b
 prompt:
+motion:
 
 ## scene 4
 
@@ -40,6 +43,7 @@ host:
 narration:
 char: char-a
 prompt:
+motion:
 
 ## scene 5
 
@@ -49,6 +53,7 @@ host:
 narration:
 char: char-b
 prompt:
+motion:
 
 ## scene 6
 
@@ -58,6 +63,7 @@ host:
 narration:
 char: char-a
 prompt:
+motion:
 
 ## scene 7
 
@@ -67,6 +73,7 @@ host:
 narration:
 char: char-b
 prompt:
+motion:
 
 ## scene 8
 
@@ -76,3 +83,4 @@ host:
 narration:
 char: char-a, char-b
 prompt:
+motion:

@@ -32,14 +32,21 @@ for (const slug of listProjects()) {
   const hasAudio = (n) => existsSync(audioFile(n));
   const allAudioReady = scenes.length > 0 && scenes.every((s) => hasAudio(s.scene));
 
-  // Scene length in the final video. A motion clip is usually longer than the narration (the model
-  // only offers discrete lengths >= the audio), so a motion scene runs for the full clip — the
-  // clip plays to the end and the audio's remainder is silent — instead of getting cut off.
-  const sceneDurations = scenes.map((s) => {
+  // Scene length in the final video = max(audio, clip). When the clip is LONGER than the
+  // narration (the model padded up to its next allowed length) the scene runs the full clip and
+  // the audio's remainder is silent. When the clip is SHORTER (narration outruns the model's max
+  // clip length), the scene runs the full audio and the clip is slowed just enough to span it, so
+  // motion never freezes into a dead/black tail while the voice keeps going. `motionPlaybackRate`
+  // = clip/scene (≤ 1) is applied to OffthreadVideo; a non-motion or clip≥audio scene gets 1.
+  const sceneTiming = scenes.map((s) => {
     const audio = hasAudio(s.scene) ? probeDuration(audioFile(s.scene)) : PLACEHOLDER_SCENE_SECONDS;
     const clip = s.motionVideo ? probeDuration(clipFile(s.scene)) : 0;
-    return Number(Math.max(audio, clip).toFixed(3));
+    const duration = Number(Math.max(audio, clip).toFixed(3));
+    const playbackRate = clip > 0 && clip < duration ? Number((clip / duration).toFixed(4)) : 1;
+    return { duration, playbackRate };
   });
+  const sceneDurations = sceneTiming.map((t) => t.duration);
+  const motionPlaybackRates = sceneTiming.map((t) => t.playbackRate);
   const sceneSeconds = Object.fromEntries(scenes.map((s, i) => [s.scene, sceneDurations[i]]));
 
   // Captions need every scene's real audio to keep absolute timings correct; skip until then.
@@ -60,6 +67,7 @@ for (const slug of listProjects()) {
     durationInFrames,
     scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s.scene) })),
     sceneDurations,
+    motionPlaybackRates,
     captionGroups,
     uploadedScenes,
   };

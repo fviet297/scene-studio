@@ -137,14 +137,16 @@ function renderImageModelSelect() {
 // Built once: the model list is static for the session, and rebuilding on every refresh()
 // would reset whatever model the user picked mid-workflow.
 function renderMotionModelSelect() {
-  const select = $("motionModelSelect");
-  if (select.options.length) return;
-  select.innerHTML = (state.motionVideoModels || [])
+  const options = (state.motionVideoModels || [])
     .map(
       (m) =>
         `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`,
     )
     .join("");
+  for (const id of ["motionModelSelect", "batchMotionModelSelect"]) {
+    const select = $(id);
+    if (!select.options.length) select.innerHTML = options;
+  }
 }
 
 // Show the selected motion model's allowed clip lengths under the duration box, so a value the
@@ -180,14 +182,9 @@ function renderCharGallery() {
   const list = state.characterList || [];
   $("charGallery").innerHTML = list
     .map((c) => {
-      const thumbs = [
-        c.refUrl
-          ? `<img class="char-thumb" src="${c.refUrl}" alt="" loading="lazy" title="Reference" />`
-          : '<span class="char-thumb blank">?</span>',
-        c.puppetUrl
-          ? `<img class="char-thumb" src="${c.puppetUrl}" alt="" loading="lazy" title="Puppet (v2)" />`
-          : "",
-      ].join("");
+      const thumbs = c.refUrl
+        ? `<img class="char-thumb" src="${c.refUrl}" alt="Reference for ${escapeHtml(c.name)}" loading="lazy" title="Reference" />`
+        : '<span class="char-thumb blank">?</span>';
       const chips = (c.scenes || [])
         .map(
           (n) =>
@@ -203,7 +200,6 @@ function renderCharGallery() {
           <div class="char-actions">
             <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}">Profile</button>
             <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}">Upload ref</button>
-            <button type="button" class="char-action" data-action="puppet" data-id="${escapeHtml(c.id)}">Puppet</button>
           </div>
         </div>
       </div>`;
@@ -325,7 +321,7 @@ function renderStage() {
   $("stChars").innerHTML = (s.characters || [])
     .map((id) => {
       const c = charById(id);
-      const thumb = c?.puppetUrl || c?.refUrl;
+      const thumb = c?.refUrl;
       const label = escapeHtml(c?.name || id);
       return `<span class="chip">${thumb ? `<img src="${thumb}" alt="" loading="lazy" />` : ""}${label}</span>`;
     })
@@ -371,11 +367,17 @@ function renderStage() {
     s.hasImage && s.hasAudio
       ? ""
       : "Needs an image and audio first (video length is matched to the audio)";
+  $("btnUploadMotionVideo").textContent = s.hasMotionVideo
+    ? "Replace motion video"
+    : "Upload replacement video";
+  $("btnUploadMotionVideo").disabled = busy;
   const motionPrompt = $("motionPromptBox");
   if (document.activeElement !== motionPrompt)
     motionPrompt.value = s.motionPrompt || "";
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
   if (s.hasMotionVideo) $("motionVideo").src = s.motionVideoUrl;
+  $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
+  $("btnRemoveMotionVideo").disabled = busy;
   $("btnUndoImage").hidden = !s.hasImageBackup;
   $("btnUndoImage").disabled = busy;
   $("btnUndoMotion").hidden = !s.hasMotionBackup;
@@ -487,12 +489,14 @@ function renderSheet() {
 function renderSelection() {
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
   const aiCount = chosen.filter((s) => s.kind === "ai").length;
+  const motionEligibleCount = chosen.filter((s) => s.hasImage && s.hasAudio).length;
   $("sheetSelInfo").innerHTML = chosen.length
     ? `<b>${chosen.length}</b> selected: scene ${chosen.map((s) => s.scene).join(", ")}`
     : "Nothing selected";
   $("batchPrompt").disabled = busy || aiCount === 0;
   $("batchImg").disabled = busy || aiCount === 0;
   $("batchAud").disabled = busy || chosen.length === 0;
+  $("batchMotion").disabled = busy || motionEligibleCount === 0;
 }
 
 // ------------------------------------------------------------------ actions
@@ -578,16 +582,17 @@ function setBusy(on, label = "working") {
     "btnUpload",
     "btnUndoImage",
     "btnUndoMotion",
+    "btnRemoveMotionVideo",
     "btnRender",
     "btnApprove",
     "batchPrompt",
     "batchImg",
     "batchAud",
+    "batchMotion",
     "projectSelect",
     "btnNewProject",
     "btnImport",
     "btnAddChar",
-    "btnGenPuppets",
   ])
     $(id).disabled = on;
   if (!on) {
@@ -842,6 +847,34 @@ async function uploadImage(file) {
   }
 }
 
+async function uploadMotionVideo(file) {
+  const s = current();
+  if (!s || !file) return;
+  const isSupportedVideo = /^(video\/mp4|video\/quicktime)$/.test(file.type)
+    || /\.(mp4|mov)$/i.test(file.name);
+  if (!isSupportedVideo) {
+    showError("Use a vertical MP4 or MOV video.");
+    return;
+  }
+  setBusy(true, "uploading replacement video");
+  try {
+    const res = await fetch(`/api/upload-motion-video?scene=${s.scene}`, {
+      method: "POST",
+      headers: { "Content-Type": file.type },
+      body: await file.arrayBuffer(),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    toast(`Scene ${s.scene}: replacement video uploaded.`);
+    await refresh();
+  } catch (e) {
+    showError(e.message);
+    toast(e.message, false);
+  } finally {
+    setBusy(false);
+  }
+}
+
 // Restore the previous scene image or motion video from its one-level `.bak` snapshot.
 async function undo(kind) {
   const s = current();
@@ -856,6 +889,21 @@ async function undo(kind) {
     toast(
       `Scene ${s.scene}: ${kind === "image" ? "image" : "motion video"} reverted.`,
     );
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function removeMotionVideo() {
+  const s = current();
+  if (!s?.hasMotionVideo) return;
+  setBusy(true, `removing motion video for scene ${s.scene}`);
+  try {
+    state = await api("/api/remove-motion-video", { scene: s.scene });
+    render();
+    toast(`Scene ${s.scene}: using source image.`);
   } catch (e) {
     toast(e.message, false);
   } finally {
@@ -959,6 +1007,13 @@ $("fileInput").addEventListener("change", (e) => {
   uploadImage(e.target.files[0]);
   e.target.value = "";
 });
+$("btnUploadMotionVideo").addEventListener("click", () =>
+  $("motionVideoInput").click(),
+);
+$("motionVideoInput").addEventListener("change", (e) => {
+  uploadMotionVideo(e.target.files[0]);
+  e.target.value = "";
+});
 
 const canvas = $("canvas");
 for (const ev of ["dragenter", "dragover"])
@@ -1018,6 +1073,7 @@ $("btnMotionVideo").addEventListener("click", async () => {
 $("motionModelSelect").addEventListener("change", updateDurationHint);
 $("btnUndoImage").addEventListener("click", () => undo("image"));
 $("btnUndoMotion").addEventListener("click", () => undo("motion"));
+$("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
 $("btnApprove").addEventListener("click", () =>
   streamJob("/api/approve", null, "Generating narration audio for every scene"),
 );
@@ -1072,6 +1128,15 @@ $("batchAud").addEventListener("click", () => {
     "/api/audio-batch",
     { scenes },
     `Generating audio for scene ${scenes.join(", ")}`,
+  );
+});
+$("batchMotion").addEventListener("click", () => {
+  const scenes = [...selected].sort((a, b) => a - b);
+  const model = $("batchMotionModelSelect").value;
+  streamJob(
+    "/api/generate-motion-videos-batch",
+    { scenes, model },
+    `Generating motion videos for scene ${scenes.join(", ")} (${model})`,
   );
 });
 
@@ -1449,8 +1514,6 @@ $("charGallery").addEventListener("click", (e) => {
   } else if (btn.dataset.action === "upload") {
     pendingUploadCharId = id;
     $("charFileInput").click();
-  } else if (btn.dataset.action === "puppet") {
-    streamJob("/api/generate-puppets", { id }, `Generating puppet for ${id}`);
   }
 });
 $("charFileInput").addEventListener("change", async (e) => {
@@ -1469,14 +1532,6 @@ $("charFileInput").addEventListener("change", async (e) => {
     setBusy(false);
   }
 });
-$("btnGenPuppets").addEventListener("click", () => {
-  streamJob(
-    "/api/generate-puppets",
-    {},
-    "Generating puppet references for every character",
-  );
-});
-
 // ------------------------------------------------------------------ character profile
 
 let profileCharId = null;

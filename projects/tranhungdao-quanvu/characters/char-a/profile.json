@@ -1,0 +1,14 @@
+{
+  "character_id": "char-a",
+  "name": "Tran Hung Dao",
+  "display_name": "Trần Hưng Đạo",
+  "aliases": ["Hưng Đạo Đại Vương", "Trần Quốc Tuấn"],
+  "country": "Đại Việt",
+  "period": "13th century",
+  "dynasty": "Trần dynasty",
+  "role": "Commander-in-chief of Đại Việt during the Mongol invasions",
+  "known_facts": ["Commanded Đại Việt resistance in the 1280s", "Helped defeat the Yuan invasions in 1285 and 1288", "Associated with the victory on the Bạch Đằng River in 1288", "Authored military counsel traditionally known as Hịch tướng sĩ"],
+  "interpretation": "13th-century Đại Việt commander, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/tranhungdao-quanvu/characters/char-a.png"
+}

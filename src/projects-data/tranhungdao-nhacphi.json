@@ -15,7 +15,8 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "The first character stands on the left in front of a late-13th-century Trần dynasty Vietnamese army, soldiers with East-Asian faces in plain lamellar armour and conical rattan hats, spears raised, dark-tiled timber gate in background. The second character stands on the right before a mid-12th-century Song Chinese camp, troops in plain iron helmets and tunics, banners flying, wooden palisade behind. No Ming or Qing costume, no Nguyễn or European elements."
+        "prompt": "The first character stands on the left in front of a late-13th-century Trần dynasty Vietnamese army, soldiers with East-Asian faces in plain lamellar armour and conical rattan hats, spears raised, dark-tiled timber gate in background. The second character stands on the right before a mid-12th-century Song Chinese camp, troops in plain iron helmets and tunics, banners flying, wooden palisade behind. No Ming or Qing costume, no Nguyễn or European elements.",
+        "motion": ""
       },
       "motionVideo": true,
       "hasAudio": true
@@ -29,7 +30,8 @@
           "char-a"
         ],
         "identity": "full",
-        "prompt": "A child stands in a sunlit courtyard, symbolizing early life. Setting: mid-13th-century Đại Việt, Trần dynasty. Background shows a modest timber house with a steep thatched roof and woven bamboo walls, surrounded by banana palms and a low brick garden wall. Two villagers in plain 13th-century Vietnamese peasant dress, with East-Asian faces, work nearby. No Qing, Ming, or Nguyễn-dynasty costume, no Chinese or European buildings."
+        "prompt": "A child stands in a sunlit courtyard, symbolizing early life. Setting: mid-13th-century Đại Việt, Trần dynasty. Background shows a modest timber house with a steep thatched roof and woven bamboo walls, surrounded by banana palms and a low brick garden wall. Two villagers in plain 13th-century Vietnamese peasant dress, with East-Asian faces, work nearby. No Qing, Ming, or Nguyễn-dynasty costume, no Chinese or European buildings.",
+        "motion": ""
       },
       "hasAudio": true
     },
@@ -42,7 +44,8 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Marching at the head of a Song dynasty column on a dusty rural road, the main character leads with upright bearing as ordinary Southern Song soldiers with East-Asian faces follow in early-12th-century lamellar armour, plain conical helmets, and round shields. Overhead, a battered black Song banner flutters. Background: modest grey-tiled Song farmhouses and bamboo groves. No Ming or Qing dress, no Đại Việt architecture, no European elements."
+        "prompt": "Marching at the head of a Song dynasty column on a dusty rural road, the main character leads with upright bearing as ordinary Southern Song soldiers with East-Asian faces follow in early-12th-century lamellar armour, plain conical helmets, and round shields. Overhead, a battered black Song banner flutters. Background: modest grey-tiled Song farmhouses and bamboo groves. No Ming or Qing dress, no Đại Việt architecture, no European elements.",
+        "motion": ""
       },
       "hasAudio": true
     },
@@ -55,7 +58,8 @@
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Commanding from the riverbank during the 1288 Battle of Bạch Đằng, gesturing toward Đại Việt warships and bamboo stakes emerging at low tide as Mongol Yuan ships approach. Setting: late-13th-century Đại Việt, muddy riverside with dense mangroves and distant limestone hills. Background soldiers with East-Asian faces wear late-Trần dynasty lamellar armour, rattan shields, spears. No Qing or Ming dress, no Chinese or European ships."
+        "prompt": "Commanding from the riverbank during the 1288 Battle of Bạch Đằng, gesturing toward Đại Việt warships and bamboo stakes emerging at low tide as Mongol Yuan ships approach. Setting: late-13th-century Đại Việt, muddy riverside with dense mangroves and distant limestone hills. Background soldiers with East-Asian faces wear late-Trần dynasty lamellar armour, rattan shields, spears. No Qing or Ming dress, no Chinese or European ships.",
+        "motion": ""
       },
       "motionVideo": true,
       "hasAudio": true
@@ -69,7 +73,8 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Leading disciplined Song-Yue forces in battle against Jurchen Jin, standing at the front as ranks of Song soldiers in early-12th-century Chinese lamellar armor advance with upright spears and Song banners, officers shouting orders. Setting: a misty open plain with churned earth and distant Song war drums, low Song military tents in the background. All soldiers have East-Asian faces. No Ming or Qing dress, no Vietnamese or European elements."
+        "prompt": "Leading disciplined Song-Yue forces in battle against Jurchen Jin, standing at the front as ranks of Song soldiers in early-12th-century Chinese lamellar armor advance with upright spears and Song banners, officers shouting orders. Setting: a misty open plain with churned earth and distant Song war drums, low Song military tents in the background. All soldiers have East-Asian faces. No Ming or Qing dress, no Vietnamese or European elements.",
+        "motion": ""
       },
       "hasAudio": true
     },
@@ -82,7 +87,8 @@
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Standing at a low wooden desk in a 13th-century Trần-dynasty Vietnamese military tent, the main character unfurls a scroll and gestures thoughtfully, surrounded by early Trần Vietnamese officers in plain lacquered helmets and quilted lamellar armour, all with East-Asian faces. Background shows fluttering triangular red silk banners and a bamboo palisade outside. Warm daylight filters in. No Ming or Qing armour, no Song Chinese setting, no European elements."
+        "prompt": "Standing at a low wooden desk in a 13th-century Trần-dynasty Vietnamese military tent, the main character unfurls a scroll and gestures thoughtfully, surrounded by early Trần Vietnamese officers in plain lacquered helmets and quilted lamellar armour, all with East-Asian faces. Background shows fluttering triangular red silk banners and a bamboo palisade outside. Warm daylight filters in. No Ming or Qing armour, no Song Chinese setting, no European elements.",
+        "motion": ""
       },
       "hasAudio": true
     },
@@ -95,7 +101,8 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Standing solemnly in a late Northern Song courtyard, Nhạc Phi faces forward with hands bound behind his back, surrounded by Song dynasty guards in plain 12th-century lamellar armour and pointed helmets. Background shows grey-brick walls, sweeping black-tiled eaves, and bare winter trees. The atmosphere is tense, with a few officials in dark Song robes and East-Asian faces watching from a distance. No Ming or Qing dress, no Vietnamese or European elements."
+        "prompt": "Standing solemnly in a late Northern Song courtyard, Nhạc Phi faces forward with hands bound behind his back, surrounded by Song dynasty guards in plain 12th-century lamellar armour and pointed helmets. Background shows grey-brick walls, sweeping black-tiled eaves, and bare winter trees. The atmosphere is tense, with a few officials in dark Song robes and East-Asian faces watching from a distance. No Ming or Qing dress, no Vietnamese or European elements.",
+        "motion": ""
       },
       "hasAudio": true
     },
@@ -109,7 +116,8 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "The first character stands on the left before a Đại Việt army in late-13th-century Trần dynasty dress, plain lamellar armour, flags and spears, in front of a timber watchtower and tiled city walls. The second character on the right is saluted by Song dynasty soldiers in early-12th-century Chinese armour and quilted tunics, with Song banners, outside a walled brick gate. All background figures have East-Asian faces. No Ming, Qing, or Nguyễn costume, no Western elements."
+        "prompt": "The first character stands on the left before a Đại Việt army in late-13th-century Trần dynasty dress, plain lamellar armour, flags and spears, in front of a timber watchtower and tiled city walls. The second character on the right is saluted by Song dynasty soldiers in early-12th-century Chinese armour and quilted tunics, with Song banners, outside a walled brick gate. All background figures have East-Asian faces. No Ming, Qing, or Nguyễn costume, no Western elements.",
+        "motion": ""
       },
       "hasAudio": true
     }
@@ -123,6 +131,16 @@
     5.76,
     7.48,
     8.773
+  ],
+  "motionPlaybackRates": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
   ],
   "captionGroups": [
     [

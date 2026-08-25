@@ -3,7 +3,7 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "The first character stands on the left in a misty upland forest clearing of earl",
+    "subject": "The first character on the left leads Lam Sơn insurgents ambushing a Ming supply",
     "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -13,6 +13,332 @@
       "char-a",
       "char-b"
     ],
-    "prompt": "The first character stands on the left in a misty upland forest clearing of early-15th-century Đại Việt, with a handful of Vietnamese peasant fighters in plain quilted tunics and straw hats wielding bamboo spears, all with East-Asian faces. The second character stands on the right in a muddy riverside camp of late Qin–early Han China, beside a few Han Chinese infantry in coarse hemp robes and simple bronze swords, all with East-Asian faces. No Qing, no European elements anywhere."
+    "prompt": "The first character on the left leads Lam Sơn insurgents ambushing a Ming supply train on a bamboo mountain path in Thanh Hóa, early-15th-century Đại Việt. Insurgents in quilted tunics with rattan shields, spears, bows; Ming troops in brigandine, kettle hats, crossbows; all with East-Asian faces; drums and dust; foreground bamboo, background karsts and a thatched upland palisade. Banners plain solid-color cloth, no emblem or lettering. No Qing, no Nguyễn, no European forts. The second character on the right rallies Han ranks on the Huai plain as Chu lines break, late-3rd-century BCE China. Han infantry in lamellar press with ji halberds beneath tall plain solid-crimson cloth banners with no emblem or lettering; Chu soldiers in Warring-States lamellar fleeing past a low rammed-earth fort and timber palisade; all with East-Asian faces; drums, foreground reeds, background fort. No Tang/Song/Ming/Qing armour, no gunpowder."
+  },
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character regroups",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character regroups scattered East-Asian-faced Lam Sơn fighters in quilted tunics and conical straw hats after a defeat on a misty limestone hillslope of early-15th-century Đại Việt, broken bamboo spears on the ground. Right: the second character rallies beaten East-Asian-faced Han troops in hemp robes and lamellar on a dusty late-Qin plain, a wrecked cart behind. Grim resilience. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "The first character on the left and the second character on the right face each ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character on the left and the second character on the right face each other across a wide misty field at dawn, each gesturing back toward their own army. Behind the first: East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats with bamboo spears among limestone hills. Behind the second: East-Asian-faced Han soldiers in hemp robes and lamellar with bronze swords on open plain, a distant timber gate tower. Tense standoff, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "Standing on a forested mountain slope in early-15th-century Thanh Hóa, Đại Việt,",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Standing on a forested mountain slope in early-15th-century Thanh Hóa, Đại Việt, raising a plain cloth banner to rally a small band of fighters gathered below. Setting: misty limestone hills, bamboo groves, a modest camp of lean-tos; in the far lowland a small distant Ming garrison outpost with a timber watchtower. Fighters with East-Asian faces wear plain quilted tunics and conical straw hats, carrying bamboo spears and simple bows. Determined underdog mood, medium-wide environmental framing. Banners plain undyed cloth. No Nguyễn-dynasty court dress, no Qing costume, no European architecture."
+  },
+  {
+    "id": "scene-05",
+    "scene": 5,
+    "type": "ai_reconstruction",
+    "subject": "Standing as a modest local official at the gate of a late-3rd-century-BCE Chines",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Standing as a modest local official at the gate of a late-3rd-century-BCE Chinese town, plainly dressed among ordinary townsfolk, turning to look toward distant unrest. Setting: late-Qin China with rammed-earth walls, timber gate towers and dusty market lanes. Han Chinese townsfolk and low clerks with East-Asian faces wear coarse hemp robes and simple caps; a couple of Qin soldiers in lamellar stand at the gate. Humble-origins, quiet-before-the-storm mood, medium-wide framing. No Ming or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-06",
+    "scene": 6,
+    "type": "ai_reconstruction",
+    "subject": "Walking through a small village in early-15th-century Đại Việt as farmers and el",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Walking through a small village in early-15th-century Đại Việt as farmers and elders with East-Asian faces step forward to join, some offering baskets of rice, others taking up bamboo spears. Setting: thatched stilt houses, muddy paddy fields, limestone hills behind. Villagers wear plain quilted tunics, conical straw hats and simple brown wraps. Warm mood of a people rallying to a cause, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-07",
+    "scene": 7,
+    "type": "ai_reconstruction",
+    "subject": "Seated at the head of a low table inside a plain late-3rd-century-BCE Chinese co",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Seated at the head of a low table inside a plain late-3rd-century-BCE Chinese command tent, gesturing to listen as three advisors and generals with East-Asian faces lean in with maps and bamboo scrolls. Setting: hemp-cloth tent, oil lamps, folding camp stools, bronze weapons stacked by the entrance. Han Chinese officers wear lamellar armor and hemp robes with cloth caps. Mood of a leader who trusts his talents, medium-wide framing. Banners plain undyed cloth. No Ming or Qing costume, no European elements, no paper scrolls beyond bamboo slips."
+  },
+  {
+    "id": "scene-08",
+    "scene": 8,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character with a s",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character with a small line of East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats looks across at a far larger distant Ming column with a timber watchtower, on misty limestone terrain. Right: the second character with a modest band of East-Asian-faced Han Chinese soldiers in hemp robes and lamellar looks across at a vast distant enemy host on a dusty plain. Both sides small against overwhelming foes. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-09",
+    "scene": 9,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character leans ov",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character leans over a rough map with a scholar-advisor in a plain long robe and cloth cap, both East-Asian faces, inside a bamboo-and-thatch shelter in misty early-15th-century Đại Việt. Right: the second character studies bamboo-slip scrolls beside a robed strategist in a hemp gown and cloth cap, both East-Asian faces, inside a plain late-Qin command tent. Mood of leader-and-mind partnership. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-10",
+    "scene": 10,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character marches ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character marches with East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats along a narrow jungle mountain pass of limestone cliffs and dense bamboo, ambush terrain in early-15th-century Đại Việt. Right: the second character advances with massed East-Asian-faced Han infantry in hemp robes and lamellar across a wide open plain toward a distant walled city with a timber gate tower, late-Qin China. Contrast of terrain and scale. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-11",
+    "scene": 11,
+    "type": "ai_reconstruction",
+    "subject": "Leading a night march of East-Asian-faced Đại Việt fighters in quilted tunics an",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Leading a night march of East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats through a foggy forest valley in early-15th-century Đại Việt, torches low, moving past a distant weary Ming outpost with a timber watchtower whose fires are dim. Setting: limestone hills, bamboo, wet earth. Patient attrition mood, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-12",
+    "scene": 12,
+    "type": "ai_reconstruction",
+    "subject": "Standing on a low rise watching two great Han Chinese armies clash on a broad la",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Standing on a low rise watching two great Han Chinese armies clash on a broad late-3rd-century-BCE Chinese plain, East-Asian-faced soldiers in hemp robes and lamellar armor with bronze swords, dagger-axes and massed war chariots raising dust. In the distance a rival warlord's host under a tall plain banner. Setting: open dusty plain, walled city with timber gate tower far off. High-stakes civil-war mood, medium-wide framing. Banners plain undyed cloth. No Ming or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-13",
+    "scene": 13,
+    "type": "ai_reconstruction",
+    "subject": "Rising from a defeated field to reorganize supply carts and fresh Han Chinese tr",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Rising from a defeated field to reorganize supply carts and fresh Han Chinese troops streaming in from behind, East-Asian faces in hemp robes and lamellar, wounded men helped along while grain wagons roll up a road in late-3rd-century-BCE China. Setting: rutted plain road, distant supply depot with rammed-earth storehouses. Mood of logistics and recovery outlasting battlefield defeat, medium-wide framing. Banners plain undyed cloth. No Ming or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-14",
+    "scene": 14,
+    "type": "ai_reconstruction",
+    "subject": "Directing an ambush from a forested ridge in early-15th-century Đại Việt as a Mi",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Directing an ambush from a forested ridge in early-15th-century Đại Việt as a Ming supply column below is trapped in a narrow defile, East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats rising from bamboo cover with spears and bows. Setting: steep limestone cliffs, dense jungle, a cut and blocked mountain road. Trap-and-attrition mood, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-15",
+    "scene": 15,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character stands a",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character stands at a reclaimed frontier looking out over free Đại Việt farmland and villages, East-Asian-faced farmers returning to paddy fields under misty limestone hills. Right: the second character stands before a vast late-3rd-century-BCE Chinese walled capital with tiered timber gate towers, gazing at a unified realm, East-Asian-faced officials in hemp robes bowing along the approach. Contrast of liberation versus unification. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-16",
+    "scene": 16,
+    "type": "ai_reconstruction",
+    "subject": "The first character on the left and the second character on the right stand at o",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character on the left and the second character on the right stand at opposite ends of a long misty valley at dawn, each turning toward a war map staked in the ground before them, armies half-hidden in the fog behind each. Left army: East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats among bamboo. Right army: East-Asian-faced Han Chinese soldiers in hemp robes and lamellar on open ground. Hypothetical-duel framing, medium-wide. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-17",
+    "scene": 17,
+    "type": "ai_reconstruction",
+    "subject": "Commanding from a chariot on a wide open late-3rd-century-BCE Chinese plain as m",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Commanding from a chariot on a wide open late-3rd-century-BCE Chinese plain as massed Han Chinese ranks with East-Asian faces in hemp robes and lamellar advance in disciplined lines with bronze dagger-axes and war chariots, dust rising. A veteran general with East-Asian face directs a flanking wing. Setting: flat dusty plain suited to large formations. Decisive open-field-battle mood, medium-wide framing. Banners plain undyed cloth. No Ming or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-18",
+    "scene": 18,
+    "type": "ai_reconstruction",
+    "subject": "Leading a highly mobile band of East-Asian-faced Đại Việt fighters in quilted tu",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Leading a highly mobile band of East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats through steep jungle-covered limestone mountains in early-15th-century Đại Việt, slipping between cliffs and bamboo where large formations cannot follow, an enemy column stalled far below on a narrow road. Setting: rugged forested karst, mist, hidden trails. Guerrilla-terrain-advantage mood, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-19",
+    "scene": 19,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider, weary long-war atmosphere. Left: t",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider, weary long-war atmosphere. Left: the first character, older and battle-worn, still leads a disciplined column of East-Asian-faced Đại Việt fighters in quilted tunics and conical straw hats through misty limestone hills. Right: the second character, aged and scarred, still rallies steady Han Chinese ranks with East-Asian faces in hemp robes and lamellar on a dusty plain. Both unbroken after years of war. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements, no firearms."
+  },
+  {
+    "id": "scene-20",
+    "scene": 20,
+    "type": "ai_reconstruction",
+    "subject": "The first character on the left and the second character on the right stand back",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character on the left and the second character on the right stand back to back at the center of a divided landscape, left half misty forested limestone mountains of Đại Việt, right half open dusty plain of late-Qin China with a distant walled city and timber gate tower. Both look outward toward their own kind of battlefield. Balanced, contemplative verdict framing, medium-wide. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-21",
+    "scene": 21,
+    "type": "ai_reconstruction",
+    "subject": "Vertical split-screen, clean central divider. Left: the first character stands v",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "Vertical split-screen, clean central divider. Left: the first character stands victorious on a misty forested limestone ridge of early-15th-century Đại Việt, East-Asian-faced fighters in quilted tunics and conical straw hats raising bamboo spears below. Right: the second character stands triumphant on a wide dusty late-3rd-century-BCE plain before a walled city with a timber gate tower, East-Asian-faced Han Chinese soldiers in hemp robes and lamellar massed behind. Each master of his own war. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
+  },
+  {
+    "id": "scene-22",
+    "scene": 22,
+    "type": "ai_reconstruction",
+    "subject": "The first character on the left and the second character on the right stand faci",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "The first character on the left and the second character on the right stand facing the viewer at the center of a symbolic divided arena, left side misty forested limestone mountains of Đại Việt, right side open dusty plain of late-Qin China with a distant timber gate tower, a bright dividing seam of light between them. Direct, inviting-the-audience mood, medium-wide framing. Banners plain undyed cloth. No Nguyễn-dynasty or Qing costume, no European elements."
   }
 ]

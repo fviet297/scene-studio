@@ -69,7 +69,6 @@
     <div class="pane-scroll">
       <div class="char-gallery-head">
         <button class="btn sm" type="button" id="btnAddChar">Add character</button>
-        <button class="btn sm" type="button" id="btnGenPuppets">Generate puppets</button>
       </div>
       <div class="char-gallery" id="charGallery"></div>
       <ul class="rail-list" id="railList"></ul>
@@ -182,6 +181,9 @@
         <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-src="motionPromptBox" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
         <div class="translation" id="motionTrans" hidden></div>
         <button class="btn sm wide" type="button" id="btnMotionVideo">Generate motion video</button>
+        <button class="btn sm wide" type="button" id="btnUploadMotionVideo">Upload replacement video</button>
+        <input type="file" id="motionVideoInput" accept="video/mp4,video/quicktime" aria-label="Choose a vertical MP4 or MOV file for this scene" hidden />
+        <button class="btn sm wide" type="button" id="btnRemoveMotionVideo" hidden>Remove motion video, use image</button>
         <button class="btn sm wide" type="button" id="btnUndoMotion" hidden>Undo last motion video</button>
       </div>
 
@@ -209,6 +211,8 @@
     <select class="mini" id="batchImageModelSelect" aria-label="Image model for batch generate"></select>
     <button class="btn sm" type="button" id="batchImg" disabled>Generate images</button>
     <button class="btn sm" type="button" id="batchAud" disabled>Generate audio</button>
+    <select class="mini" id="batchMotionModelSelect" aria-label="Motion-video model for batch generate"></select>
+    <button class="btn sm" type="button" id="batchMotion" disabled>Generate motion videos</button>
   </div>
   <div class="tiles" id="tiles"></div>
 </section>

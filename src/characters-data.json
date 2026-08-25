@@ -1,26 +1,26 @@
 {
-  "project": "leloi",
+  "project": "dinhbolinh-tanthuyhoang",
   "characters": [
     {
       "id": "char-a",
-      "name": "Lê Lợi",
+      "name": "Đinh Bộ Lĩnh",
       "aliases": [
-        "Bình Định Vương",
-        "Lê Thái Tổ"
+        "Vạn Thắng Vương",
+        "Đinh Tiên Hoàng"
       ],
-      "image": "projects/leloi/characters/char-a.jpg",
-      "imageV2": "projects/leloi/characters/char-a.jpg"
+      "image": "projects/dinhbolinh-tanthuyhoang/characters/char-a.jpg",
+      "imageV2": "projects/dinhbolinh-tanthuyhoang/characters/char-a.jpg"
     },
     {
       "id": "char-b",
-      "name": "Lưu Bang",
+      "name": "Tần Thủy Hoàng",
       "aliases": [
-        "Hán Cao Tổ",
-        "Emperor Gaozu of Han",
-        "Bái Công"
+        "Doanh Chính",
+        "Ying Zheng",
+        "First Emperor of Qin"
       ],
-      "image": "projects/leloi/characters/char-b.jpg",
-      "imageV2": "projects/leloi/characters/char-b.jpg"
+      "image": "projects/dinhbolinh-tanthuyhoang/characters/char-b.jpg",
+      "imageV2": "projects/dinhbolinh-tanthuyhoang/characters/char-b.jpg"
     }
   ]
 }
