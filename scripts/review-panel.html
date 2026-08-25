@@ -130,7 +130,6 @@
           <div class="field"><label for="titleBox">Title</label><input class="text-input" id="titleBox" type="text" /></div>
           <div class="field"><label for="cueBox">Cue (delivery emotion)</label><input class="text-input" id="cueBox" type="text" placeholder="dramatic, tense, somber, hopeful, curious (blank = neutral)" /></div>
         </div>
-        <div class="field"><label for="hostBox">Host</label><input class="text-input" id="hostBox" type="text" placeholder="e.g. explain, point-left (unused by rendering today)" /></div>
         <div class="field">
           <label>Characters in scene</label>
           <div class="char-picker" id="charPicker"></div>
@@ -149,13 +148,14 @@
       </div>
 
       <!-- Stage 1 — Image -->
-      <section class="stage-group" id="stageImage" aria-labelledby="stageImageTtl">
-        <div class="stage-group-head">
+      <section class="stage-group collapsed" id="stageImage" aria-labelledby="stageImageTtl">
+        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageImageBody">
           <span class="stage-num">1</span>
           <span class="stage-ttl" id="stageImageTtl">Image</span>
           <span class="stage-state" id="stageImgState"></span>
-        </div>
-        <div class="stage-body">
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body" id="stageImageBody">
           <div class="block" id="promptBlock">
             <div class="block-head">
               <span class="ttl">Prompt</span>
@@ -192,13 +192,14 @@
       </section>
 
       <!-- Stage 2 — Audio -->
-      <section class="stage-group" id="stageAudio" aria-labelledby="stageAudioTtl">
-        <div class="stage-group-head">
+      <section class="stage-group collapsed" id="stageAudio" aria-labelledby="stageAudioTtl">
+        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageAudioBody">
           <span class="stage-num">2</span>
           <span class="stage-ttl" id="stageAudioTtl">Audio</span>
           <span class="stage-state" id="stageAudState"></span>
-        </div>
-        <div class="stage-body">
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body" id="stageAudioBody">
           <div class="block stage-action">
             <p class="stage-note">The narration above is read aloud by OmniVoice. The motion video length is matched to this audio.</p>
             <button class="btn primary wide" type="button" id="btnAudio">Generate audio</button>
@@ -207,13 +208,14 @@
       </section>
 
       <!-- Stage 3 — Motion -->
-      <section class="stage-group" id="stageMotion" aria-labelledby="stageMotionTtl">
-        <div class="stage-group-head">
+      <section class="stage-group collapsed" id="stageMotion" aria-labelledby="stageMotionTtl">
+        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageMotionBody">
           <span class="stage-num">3</span>
           <span class="stage-ttl" id="stageMotionTtl">Motion video</span>
           <span class="stage-state" id="stageMotState"></span>
-        </div>
-        <div class="stage-body">
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="stage-body" id="stageMotionBody">
           <div class="block">
             <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
             <input class="text-input custom-model" id="motionModelCustom" type="text" spellcheck="false" placeholder="Custom video model (owner/name); overrides dropdown" aria-label="Custom motion-video model, overrides the dropdown above" />
@@ -293,6 +295,7 @@
       </button>
     </div>
     <div class="dialog-body">
+      <div class="field template-version-row"><label for="t_version">Prompt style version</label><select id="t_version"></select><input id="t_newVersion" type="text" placeholder="new version name" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Switch</button></div>
       <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
       <div class="field"><label for="t_masterPrompt">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
       <div class="field"><label for="t_faceLockPrompt">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>

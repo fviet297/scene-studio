@@ -33,7 +33,7 @@ import { createServer } from 'node:http';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
+import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
 import { addCharacterToPlan, appendScene, hasSceneHeading, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
@@ -662,14 +662,23 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/api/templates') {
-      sendJson(res, 200, getTemplates());
+      sendJson(res, 200, { templates: getTemplates(), activeVersion: getTemplates().activeVersion, versions: listTemplateVersions() });
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/templates') {
       const body = await readBody(req);
-      const templates = saveTemplates(body);
-      sendJson(res, 200, { ok: true, templates });
+      const templates = saveTemplates(body, body.version || 'default');
+      sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/templates/activate') {
+      const body = await readBody(req);
+      if (typeof body.version !== 'string') { sendJson(res, 400, { error: 'version required' }); return; }
+      if (!listTemplateVersions().includes(body.version)) { sendJson(res, 400, { error: `Unknown template version: ${body.version}` }); return; }
+      const templates = activateTemplateVersion(body.version);
+      sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
       return;
     }
 

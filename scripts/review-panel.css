@@ -343,11 +343,20 @@ select.mini.wide { width: 100%; }
    numbered unit with a single primary action, so the pipeline order is obvious in the panel. */
 .stage-group { border-bottom: 1px solid var(--line); }
 .stage-group:last-child { border-bottom: 0; }
+/* The head is a disclosure button: click toggles the stage body. Full-width, borderless
+   button reset so it reads as the header bar it replaces, chevron shows open/closed. */
 .stage-group-head {
+  width: 100%; text-align: left; color: inherit;
   display: flex; align-items: center; gap: 9px;
   padding: 9px 12px; background: var(--surface-2);
-  border-bottom: 1px solid var(--line-soft);
+  border: 0; border-bottom: 1px solid var(--line-soft);
+  transition: background .15s ease;
 }
+.stage-group-head:hover { background: var(--surface-3); }
+.stage-group-head .chev { width: 14px; height: 14px; flex: none; margin-left: 4px; color: var(--faint); transition: transform .15s ease; }
+.stage-group.collapsed .stage-group-head { border-bottom: 0; }
+.stage-group.collapsed .stage-group-head .chev { transform: rotate(-90deg); }
+.stage-group.collapsed .stage-body { display: none; }
 .stage-num {
   width: 19px; height: 19px; flex: none; display: grid; place-items: center;
   border-radius: 50%; border: 1px solid rgba(72, 183, 166, .4);

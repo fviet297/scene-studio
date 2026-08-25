@@ -68,6 +68,7 @@ let currentScene = null;
 let filter = "all";
 let view = "stage";
 let busy = false;
+let templateVersions = [];
 const selected = new Set();
 const drafts = { prompt: new Map(), narr: new Map() };
 
@@ -230,8 +231,6 @@ function syncSetupBlock(s) {
   if (document.activeElement !== $("titleBox"))
     $("titleBox").value = s.title || "";
   if (document.activeElement !== $("cueBox")) $("cueBox").value = s.cue || "";
-  if (document.activeElement !== $("hostBox"))
-    $("hostBox").value = s.host || "";
   const list = state.characterList || [];
   $("charPicker").innerHTML = list
     .map((c) => {
@@ -988,7 +987,12 @@ function resetTranslation(outId, btnId) {
 // ------------------------------------------------------------------ templates
 
 async function loadTemplates() {
-  const t = await api("/api/templates");
+  const response = await api("/api/templates");
+  const t = response.templates || response;
+  templateVersions = response.versions || ["default"];
+  const versionSelect = $("t_version");
+  versionSelect.innerHTML = templateVersions.map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+  versionSelect.value = response.activeVersion || t.activeVersion || "default";
   for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
 }
 
@@ -1001,6 +1005,42 @@ $("railFilter").addEventListener("change", (e) => {
 
 for (const btn of [$("viewStage"), $("viewSheet")])
   btn.addEventListener("click", () => setView(btn.dataset.view));
+
+// Collapsible inspector stage-groups: the header toggles its body, and which groups are
+// collapsed is remembered per browser so a preferred layout survives a refresh. The heads
+// are static markup, so this wires once at load rather than on every render.
+const COLLAPSE_KEY = "sceneStudio.collapsedGroups";
+const ALL_GROUP_IDS = [...document.querySelectorAll(".stage-group")].map(
+  (g) => g.id,
+);
+// Default collapsed: a fresh browser opens every stage-group closed; once the user toggles,
+// their stored choice wins (an empty stored set means "user expanded everything").
+const collapsedGroups = (() => {
+  try {
+    const stored = localStorage.getItem(COLLAPSE_KEY);
+    if (stored === null) return new Set(ALL_GROUP_IDS);
+    return new Set(JSON.parse(stored));
+  } catch {
+    return new Set(ALL_GROUP_IDS);
+  }
+})();
+function applyCollapsed(group, head) {
+  const off = collapsedGroups.has(group.id);
+  group.classList.toggle("collapsed", off);
+  head.setAttribute("aria-expanded", String(!off));
+}
+for (const group of document.querySelectorAll(".stage-group")) {
+  const head = group.querySelector(".stage-group-head");
+  applyCollapsed(group, head);
+  head.addEventListener("click", () => {
+    if (collapsedGroups.has(group.id)) collapsedGroups.delete(group.id);
+    else collapsedGroups.add(group.id);
+    try {
+      localStorage.setItem(COLLAPSE_KEY, JSON.stringify([...collapsedGroups]));
+    } catch {}
+    applyCollapsed(group, head);
+  });
+}
 
 $("narrBox").addEventListener("input", (e) => {
   const s = current();
@@ -1204,10 +1244,32 @@ $("tplOverlay").addEventListener("click", (e) => {
 $("tplReload").addEventListener("click", () =>
   loadTemplates().catch((e) => toast(e.message, false)),
 );
+$("t_version").addEventListener("change", async (e) => {
+  try {
+    const response = await api("/api/templates/activate", { version: e.target.value });
+    const t = response.templates;
+    for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
+    toast(`Switched to ${e.target.value}.`);
+  } catch (err) { toast(err.message, false); }
+});
+$("t_activate").addEventListener("click", async () => {
+  const version = $("t_newVersion").value.trim();
+  if (!version) return toast("Enter version name.", false);
+  try {
+    const body = { version };
+    for (const key of TEMPLATE_FIELDS) body[key] = $(`t_${key}`).value;
+    const response = await api("/api/templates", body);
+    templateVersions = response.versions;
+    await loadTemplates();
+    $("t_newVersion").value = "";
+    toast(`Created ${version}.`);
+  } catch (err) { toast(err.message, false); }
+});
 $("tplSave").addEventListener("click", async () => {
   const body = Object.fromEntries(
     TEMPLATE_FIELDS.map((key) => [key, $(`t_${key}`).value]),
   );
+  body.version = $("t_version").value || "default";
   $("tplSave").disabled = true;
   try {
     await api("/api/templates", body);
@@ -1436,7 +1498,7 @@ $("impApply").addEventListener("click", async () => {
   }
 });
 
-// ------------------------------------------------------------------ scene setup (title/cue/host/char)
+// ------------------------------------------------------------------ scene setup (title/cue/char)
 
 async function saveSceneField(field, value) {
   const s = current();
@@ -1467,11 +1529,6 @@ $("cueBox").addEventListener("blur", (e) => {
   const s = current();
   if (s && e.target.value.trim() !== (s.cue || ""))
     saveSceneField("cue", e.target.value.trim());
-});
-$("hostBox").addEventListener("blur", (e) => {
-  const s = current();
-  if (s && e.target.value.trim() !== (s.host || ""))
-    saveSceneField("host", e.target.value.trim());
 });
 
 // ------------------------------------------------------------------ characters

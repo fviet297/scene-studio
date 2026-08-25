@@ -124,6 +124,7 @@ const TEMPLATE_DEFAULTS = {
 export const TEMPLATE_KEYS = Object.keys(TEMPLATE_DEFAULTS);
 // User edits are persisted here (project-root relative) and override the defaults above.
 export const TEMPLATE_OVERRIDE_FILE = 'scripts/prompt-templates.json';
+const TEMPLATE_META_KEYS = new Set(['activeVersion', 'versions']);
 
 // Effective templates = defaults merged with any saved override (a blank field falls back).
 export const getTemplates = () => {
@@ -131,21 +132,52 @@ export const getTemplates = () => {
   if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
     try { over = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { over = {}; }
   }
-  const out = { ...TEMPLATE_DEFAULTS };
-  for (const k of TEMPLATE_KEYS) if (typeof over[k] === 'string' && over[k].trim()) out[k] = over[k];
+  const selected = typeof over.activeVersion === 'string' ? over.activeVersion : 'default';
+  const source = over.versions?.[selected] ?? over;
+  const out = { ...TEMPLATE_DEFAULTS, activeVersion: selected, versions: over.versions ?? {} };
+  for (const k of TEMPLATE_KEYS) if (typeof source[k] === 'string' && source[k].trim()) out[k] = source[k];
   return out;
 };
 
+export const listTemplateVersions = () => {
+  let over = {};
+  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
+    try { over = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { over = {}; }
+  }
+  const versions = over.versions && typeof over.versions === 'object' ? over.versions : {};
+  return ['default', ...Object.keys(versions).filter((name) => name !== 'default')];
+};
+
 // Persist edited templates. Blank/missing fields keep their current effective value.
-export const saveTemplates = (partial) => {
+export const saveTemplates = (partial, version = getTemplates().activeVersion || 'default') => {
   const current = getTemplates();
   const next = {};
   for (const k of TEMPLATE_KEYS) {
     const v = partial?.[k];
     next[k] = typeof v === 'string' && v.trim() ? v : current[k];
   }
-  writeFileSync(TEMPLATE_OVERRIDE_FILE, `${JSON.stringify(next, null, 2)}\n`);
-  return next;
+  let raw = {};
+  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
+    try { raw = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { raw = {}; }
+  }
+  const versions = { ...(raw.versions || {}) };
+  if (version !== 'default') versions[version] = next;
+  const payload = version === 'default'
+    ? { ...next, activeVersion: version, versions }
+    : { activeVersion: version, versions };
+  writeFileSync(TEMPLATE_OVERRIDE_FILE, `${JSON.stringify(payload, null, 2)}\n`);
+  return getTemplates();
+};
+
+export const activateTemplateVersion = (version) => {
+  if (!listTemplateVersions().includes(version)) throw new Error(`Unknown template version: ${version}`);
+  let raw = {};
+  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
+    try { raw = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { raw = {}; }
+  }
+  raw.activeVersion = version;
+  writeFileSync(TEMPLATE_OVERRIDE_FILE, `${JSON.stringify(raw, null, 2)}\n`);
+  return getTemplates();
 };
 
 const buildCharPrompt = (t, scenePrompt, template) =>
