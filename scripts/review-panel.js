@@ -100,6 +100,7 @@ function render() {
   renderProjectSwitch();
   renderImageModelSelect();
   renderMotionModelSelect();
+  restoreModelSelection();
   updateDurationHint();
   renderCharGallery();
   renderPipeline();
@@ -157,6 +158,64 @@ const effectiveImageModel = () =>
   customModel("imageModelCustom") || $("imageModelSelect").value;
 const effectiveMotionModel = () =>
   customModel("motionModelCustom") || $("motionModelSelect").value;
+
+// --- Sticky model selection -------------------------------------------------
+// Pick an image/video model once and it applies to every scene: the per-scene panel and the
+// contact-sheet batch select stay in sync, and the choice survives a page reload — no re-selecting
+// per scene. localStorage keys per media (dropdown + custom-model field).
+const MODEL_STORE = {
+  image: "reviewImageModel",
+  motion: "reviewMotionModel",
+  imageCustom: "reviewImageModelCustom",
+  motionCustom: "reviewMotionModelCustom",
+};
+const lsGet = (key) => {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+const lsSet = (key, value) => {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    /* private mode / storage disabled */
+  }
+};
+
+// Set a select's value only when that option exists, so a remembered model that has left the list
+// (e.g. an env-driven vmedia slug removed) leaves the dropdown on its default instead of blanking.
+const setModelSelect = (id, value) => {
+  const select = $(id);
+  if (value != null && [...select.options].some((o) => o.value === value))
+    select.value = value;
+};
+
+// Restore the saved model into both the per-scene and batch selects (+ custom fields). Runs once,
+// after render() has populated the option lists.
+let modelSelectionRestored = false;
+function restoreModelSelection() {
+  if (modelSelectionRestored) return;
+  if (
+    !$("imageModelSelect").options.length ||
+    !$("motionModelSelect").options.length
+  )
+    return;
+  const image = lsGet(MODEL_STORE.image);
+  setModelSelect("imageModelSelect", image);
+  setModelSelect("batchImageModelSelect", image);
+  const motion = lsGet(MODEL_STORE.motion);
+  setModelSelect("motionModelSelect", motion);
+  setModelSelect("batchMotionModelSelect", motion);
+  const imageCustom = lsGet(MODEL_STORE.imageCustom);
+  if (imageCustom) $("imageModelCustom").value = imageCustom;
+  const motionCustom = lsGet(MODEL_STORE.motionCustom);
+  if (motionCustom) $("motionModelCustom").value = motionCustom;
+  modelSelectionRestored = true;
+  updatePromptCount();
+  updateDurationHint();
+}
 
 // Show the selected motion model's allowed clip lengths under the duration box, so a value the
 // model would snap (e.g. 6 → 10 on wan's 5/10-only steps) is obvious before generating. A custom
@@ -991,7 +1050,9 @@ async function loadTemplates() {
   const t = response.templates || response;
   templateVersions = response.versions || ["default"];
   const versionSelect = $("t_version");
-  versionSelect.innerHTML = templateVersions.map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+  versionSelect.innerHTML = templateVersions
+    .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
+    .join("");
   versionSelect.value = response.activeVersion || t.activeVersion || "default";
   for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
 }
@@ -1065,8 +1126,22 @@ $("promptBox").addEventListener("input", (e) => {
   );
   updatePromptCount();
 });
-$("imageModelSelect").addEventListener("change", updatePromptCount);
-$("imageModelCustom").addEventListener("input", updatePromptCount);
+// Keep the per-scene and batch image selects on one model and remember it, so a model picked for
+// one scene is used by every scene and the batch generate without re-selecting.
+for (const [from, to] of [
+  ["imageModelSelect", "batchImageModelSelect"],
+  ["batchImageModelSelect", "imageModelSelect"],
+]) {
+  $(from).addEventListener("change", () => {
+    $(to).value = $(from).value;
+    lsSet(MODEL_STORE.image, $(from).value);
+    updatePromptCount();
+  });
+}
+$("imageModelCustom").addEventListener("input", () => {
+  lsSet(MODEL_STORE.imageCustom, $("imageModelCustom").value.trim());
+  updatePromptCount();
+});
 $("narrSave").addEventListener("click", () =>
   saveField("narration", $("narrBox").value),
 );
@@ -1144,8 +1219,21 @@ $("btnMotionVideo").addEventListener("click", async () => {
     setBusy(false);
   }
 });
-$("motionModelSelect").addEventListener("change", updateDurationHint);
-$("motionModelCustom").addEventListener("input", updateDurationHint);
+// Same sticky behaviour for the motion-video model across the per-scene and batch selects.
+for (const [from, to] of [
+  ["motionModelSelect", "batchMotionModelSelect"],
+  ["batchMotionModelSelect", "motionModelSelect"],
+]) {
+  $(from).addEventListener("change", () => {
+    $(to).value = $(from).value;
+    lsSet(MODEL_STORE.motion, $(from).value);
+    updateDurationHint();
+  });
+}
+$("motionModelCustom").addEventListener("input", () => {
+  lsSet(MODEL_STORE.motionCustom, $("motionModelCustom").value.trim());
+  updateDurationHint();
+});
 $("btnUndoImage").addEventListener("click", () => undo("image"));
 $("btnUndoMotion").addEventListener("click", () => undo("motion"));
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
@@ -1246,11 +1334,15 @@ $("tplReload").addEventListener("click", () =>
 );
 $("t_version").addEventListener("change", async (e) => {
   try {
-    const response = await api("/api/templates/activate", { version: e.target.value });
+    const response = await api("/api/templates/activate", {
+      version: e.target.value,
+    });
     const t = response.templates;
     for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
     toast(`Switched to ${e.target.value}.`);
-  } catch (err) { toast(err.message, false); }
+  } catch (err) {
+    toast(err.message, false);
+  }
 });
 $("t_activate").addEventListener("click", async () => {
   const version = $("t_newVersion").value.trim();
@@ -1263,7 +1355,9 @@ $("t_activate").addEventListener("click", async () => {
     await loadTemplates();
     $("t_newVersion").value = "";
     toast(`Created ${version}.`);
-  } catch (err) { toast(err.message, false); }
+  } catch (err) {
+    toast(err.message, false);
+  }
 });
 $("tplSave").addEventListener("click", async () => {
   const body = Object.fromEntries(

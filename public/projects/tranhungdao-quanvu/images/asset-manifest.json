@@ -1,0 +1,32 @@
+[
+  {
+    "id": "scene-01",
+    "scene": 1,
+    "type": "ai_reconstruction",
+    "subject": "Very wide 13th-century Dai Viet river battle at Bach Dang; Tran Hung Dao stands ",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Very wide 13th-century Dai Viet river battle at Bach Dang; Tran Hung Dao stands small and off-center on a low earth rampart in the foreground at about one-fifth frame height, arm raised; below, dozens of small Dai Viet war boats swarm around invading Yuan warships caught on sharpened wooden river stakes, East Asian Dai Viet rowers and archers in distinct local armor, burning enemy vessels, splashing water and drifting smoke, plain solid-crimson cloth, no emblem or lettering."
+  },
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "Very wide late Eastern Han military scene; Guan Yu stands small and off-center o",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Very wide late Eastern Han military scene; Guan Yu stands small and off-center on a high earthen city wall at about one-fifth frame height, gripping his long blade; below and beyond, a large host of East Asian Han soldiers in lamellar armor drills in ranks, cavalry crosses a dusty parade ground, transport boats unload at a river landing, incense smoke rises from a small roadside shrine, plain solid-crimson cloth, no emblem or lettering."
+  }
+]

@@ -1,15 +1,25 @@
 {
-  "project": "ngo-quyen",
+  "project": "tranhungdao-quanvu",
   "characters": [
     {
       "id": "char-a",
-      "name": "Ngô Quyền",
+      "name": "Trần Hưng Đạo",
       "aliases": [
-        "Tiền Ngô Vương",
-        "Ngô Vương"
+        "Hưng Đạo Đại Vương",
+        "Trần Quốc Tuấn"
       ],
-      "image": "projects/ngo-quyen/characters/char-a.jpg",
-      "imageV2": "projects/ngo-quyen/characters/char-a.jpg"
+      "image": "projects/tranhungdao-quanvu/characters/char-a.jpg",
+      "imageV2": "projects/tranhungdao-quanvu/characters/char-a.jpg"
+    },
+    {
+      "id": "char-b",
+      "name": "Quan Vũ",
+      "aliases": [
+        "Quan Công",
+        "Vân Trường"
+      ],
+      "image": "projects/tranhungdao-quanvu/characters/char-b.jpg",
+      "imageV2": "projects/tranhungdao-quanvu/characters/char-b.jpg"
     }
   ]
 }

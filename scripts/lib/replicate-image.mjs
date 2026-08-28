@@ -13,6 +13,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { activePaths } from './project-paths.mjs';
+import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
+import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
 // writes. CLI scripts (generate-visuals.mjs, restyle-characters.mjs) get the active project once
@@ -224,10 +226,14 @@ const DEFAULT_TEXT = 'xai/grok-imagine-image';
 // Prices are Replicate USD per output image, from replicate.com/pricing (Aug 2026). They can
 // change and higher resolutions can cost more — treat the labels as guidance, not a billing
 // guarantee.
+// The picker posts a model id and generateSceneImage dispatches on its prefix: `fal-ai/...` → fal
+// (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), everything else → Replicate.
 export const IMAGE_MODELS = [
   { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — multi-reference, best per-person identity, default (~$0.03/img)' },
   { id: 'xai/grok-imagine-image', label: 'Grok Imagine — single reference or text-to-image (~$0.04/img, +$0.01 to edit)' },
   { id: '', label: 'Auto — route by reference count (Grok Imagine)' },
+  ...FAL_IMAGE_MODELS,
+  ...VMEDIA_IMAGE_MODELS,
 ];
 
 const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
@@ -375,6 +381,29 @@ export const upsertManifest = (entry) => {
   writeFileSync('src/asset-manifest.json', text);
 };
 
+// Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
+// anything else → Replicate. refPaths are local reference file paths; each provider builds its own
+// payload from the shared data-URI encoding. Returns the output image URL.
+const runImageModel = async (token, model, { prompt, refPaths, onLog }) => {
+  if (model.startsWith('fal-ai/')) {
+    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), onLog });
+    return url;
+  }
+  if (model.startsWith('vmedia:')) {
+    // Gommo generateImage locks to a single reference (edit mode); a multi-character scene keeps
+    // only the first reference, so pick fal/Replicate for scenes needing every face locked.
+    const { url } = await vmediaImageUrl(model.slice('vmedia:'.length), {
+      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, onLog,
+    });
+    return url;
+  }
+  if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
+  onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
+  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri) }));
+  onLog('prediction succeeded; image URL received');
+  return url;
+};
+
 // Generate one AI scene image → public/images/scene-NN.jpg. Returns { file, via, manifestEntry }.
 export const generateSceneImage = async (scene, characters, opts = {}) => {
   const token = opts.token ?? process.env.REPLICATE_API_TOKEN;
@@ -385,7 +414,8 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   // whichever branch this scene falls into; blank/absent keeps the automatic route.
   const override = typeof opts.model === 'string' && opts.model.trim() ? opts.model.trim() : null;
   const onLog = opts.onLog ?? (() => {});
-  if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
+  // Token is required only for the Replicate path; runImageModel checks it there. A fal-only user
+  // (fal model chosen, FAL_KEY set) does not need REPLICATE_API_TOKEN.
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
 
   const file = `scene-${String(scene.scene).padStart(2, '0')}.jpg`;
@@ -414,17 +444,13 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     const route = multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock';
     const prompt = buildCharPrompt(t, scene.image.prompt, template);
     onLog(`route: ${route}, model=${model}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
-    onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-    url = await predict(token, model, buildInput(model, { prompt, refUris: refs.map(dataUri) }));
-    onLog('prediction succeeded; image URL received');
+    url = await runImageModel(token, model, { prompt, refPaths: refs, onLog });
     via = `${model} ${route}`;
   } else {
     const model = override ?? text;
     const prompt = buildTextPrompt(t, scene.image.prompt);
     onLog(`route: text2img, model=${model}, no reference, prompt=${prompt.length} chars`);
-    onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-    url = await predict(token, model, buildInput(model, { prompt }));
-    onLog('prediction succeeded; image URL received');
+    url = await runImageModel(token, model, { prompt, refPaths: [], onLog });
     via = `${model} text2img`;
   }
 
@@ -432,9 +458,10 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
   onLog(`saved: ${join(imageDir(), file)}`);
+  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : 'Replicate';
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
-    subject: scene.image.prompt.slice(0, 80), source: `AI generated (Replicate, ${via})`, sourceUrl: null,
+    subject: scene.image.prompt.slice(0, 80), source: `AI generated (${provider}, ${via})`, sourceUrl: null,
     license: 'AI-generated — no third-party rights; labelled on screen',
     credit: `AI reconstruction (${via})`, authenticity: 'AI_RECONSTRUCTION',
     characters: scene.image.characters, prompt: scene.image.prompt,
