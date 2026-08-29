@@ -123,7 +123,7 @@
     "id": "scene-09",
     "scene": 9,
     "type": "ai_reconstruction",
-    "subject": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-",
+    "subject": "Wide horizontal side-on composition, somber late Eastern Han dusk on a muddy fie",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -132,7 +132,7 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers close in from the misty treeline on every side, torches and spears tightening the ring, a captured city gate burns faintly on the far horizon behind them, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering."
+    "prompt": "Wide horizontal side-on composition, somber late Eastern Han dusk on a muddy field; the frame reads left to right as one long lateral band, no central vanishing point — a dense wall of East Asian Wu soldiers stretches unbroken across the full width of the frame, spears and torches raised in a horizontal row, pressing in from both sides; Guan Yu stands small and off-center at about one-fifth frame height, a shrinking knot of exhausted Han troops pinned back to back against the advancing line; a captured city gate burns faintly low on the far horizon, a fallen banner trampled in the mud, cold flat low light, plain solid-color cloth, no emblem or lettering."
   },
   {
     "id": "scene-10",

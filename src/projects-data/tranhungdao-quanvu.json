@@ -6,7 +6,7 @@
   "height": 1080,
   "publicPrefix": "projects/tranhungdao-quanvu",
   "fps": 30,
-  "durationInFrames": 3745,
+  "durationInFrames": 3748,
   "scenes": [
     {
       "scene": 1,
@@ -160,10 +160,10 @@
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers close in from the misty treeline on every side, torches and spears tightening the ring, a captured city gate burns faintly on the far horizon behind them, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Cold mist drifts across the road, the encircling soldiers step slowly closer from every side, torches waver, the distant gate glows and smokes on the horizon, the trampled banner stirs in the mud, the exhausted troops shift and breathe tensely. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
-        "promptVi": "Cảnh rộng u ám lúc hoàng hôn trên con đường bùn thời Đông Hán mạt; Quan Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, cùng một nhóm quân Hán kiệt sức đang thu hẹp lại tựa lưng vào nhau; lính Đông Ngô gương mặt Đông Á khép vòng vây từ rặng cây mờ sương ở mọi phía, đuốc và giáo siết chặt vòng vây, một cổng thành bị chiếm cháy leo lét ở chân trời xa phía sau, một lá cờ ngã bị giẫm trong bùn, ánh sáng lạnh và thấp, vải trơn một màu, không phù hiệu hay chữ viết.",
-        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, lính, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Sương lạnh trôi ngang con đường, vòng vây lính từ mọi phía chậm rãi khép lại, đuốc lay động, cổng thành xa rực và bốc khói ở chân trời, lá cờ bị giẫm khẽ động trong bùn, đám quân kiệt sức xê dịch và thở căng thẳng. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa đến mạnh trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+        "prompt": "Wide horizontal side-on composition, somber late Eastern Han dusk on a muddy field; the frame reads left to right as one long lateral band, no central vanishing point — a dense wall of East Asian Wu soldiers stretches unbroken across the full width of the frame, spears and torches raised in a horizontal row, pressing in from both sides; Guan Yu stands small and off-center at about one-fifth frame height, a shrinking knot of exhausted Han troops pinned back to back against the advancing line; a captured city gate burns faintly low on the far horizon, a fallen banner trampled in the mud, cold flat low light, plain solid-color cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Cold mist drifts across the road, the wall of soldiers steps slowly closer from both sides across the frame, torches waver, the distant gate glows and smokes on the horizon, the trampled banner stirs in the mud, the exhausted troops shift and breathe tensely. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bố cục ngang, nhìn từ bên hông, u ám lúc hoàng hôn thời Đông Hán mạt trên cánh đồng bùn; khung hình trải từ trái sang phải thành một dải ngang dài, không có điểm tụ ở giữa — một bức tường lính Đông Ngô gương mặt Đông Á kéo dài liền mạch suốt chiều ngang khung hình, giáo và đuốc giơ thành hàng ngang, ép lại từ hai bên; Quan Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, cùng nhóm quân Hán kiệt sức tựa lưng vào nhau ép sát trước hàng lính đang tiến; một cổng thành bị chiếm cháy leo lét thấp ở chân trời xa, một lá cờ ngã bị giẫm trong bùn, ánh sáng lạnh phẳng và thấp, vải trơn một màu, không phù hiệu hay chữ viết.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, lính, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Sương lạnh trôi ngang con đường, bức tường lính từ hai bên chậm rãi khép lại ngang khung hình, đuốc lay động, cổng thành xa rực và bốc khói ở chân trời, lá cờ bị giẫm khẽ động trong bùn, đám quân kiệt sức xê dịch và thở căng thẳng. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa đến mạnh trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
       "cue": "somber",
       "hasAudio": true
@@ -289,7 +289,7 @@
     9.02,
     6,
     8.608,
-    8.478,
+    8.567,
     4
   ],
   "motionPlaybackRates": [
@@ -2566,270 +2566,270 @@
       {
         "text": "Vậy",
         "start": 112.575,
-        "end": 112.75
+        "end": 112.766
       },
       {
         "text": "ai",
-        "start": 112.75,
-        "end": 112.889
+        "start": 112.766,
+        "end": 112.919
       },
       {
         "text": "mạnh",
-        "start": 112.889,
-        "end": 113.094
+        "start": 112.919,
+        "end": 113.143
       },
       {
         "text": "hơn?",
-        "start": 113.094,
-        "end": 113.746
+        "start": 113.143,
+        "end": 113.334
       }
     ],
     [
       {
         "text": "Quan",
-        "start": 113.746,
-        "end": 113.95
+        "start": 113.334,
+        "end": 114.032
       },
       {
         "text": "Vũ",
-        "start": 113.95,
-        "end": 114.089
+        "start": 114.032,
+        "end": 114.185
       },
       {
         "text": "mạnh",
-        "start": 114.089,
-        "end": 114.294
+        "start": 114.185,
+        "end": 114.409
       },
       {
         "text": "ở",
-        "start": 114.294,
-        "end": 114.389
+        "start": 114.409,
+        "end": 114.513
       },
       {
         "text": "trận",
-        "start": 114.389,
-        "end": 114.593
+        "start": 114.513,
+        "end": 114.737
       },
       {
         "text": "đánh.",
-        "start": 114.593,
-        "end": 114.797
+        "start": 114.737,
+        "end": 114.961
       }
     ],
     [
       {
         "text": "Trần",
-        "start": 114.797,
-        "end": 115.423
+        "start": 114.961,
+        "end": 115.185
       },
       {
         "text": "Hưng",
-        "start": 115.423,
-        "end": 115.628
+        "start": 115.185,
+        "end": 115.409
       },
       {
         "text": "Đạo",
-        "start": 115.628,
-        "end": 115.802
+        "start": 115.409,
+        "end": 115.6
       },
       {
         "text": "mạnh",
-        "start": 115.802,
-        "end": 116.006
+        "start": 115.6,
+        "end": 115.824
       },
       {
         "text": "ở",
-        "start": 116.006,
-        "end": 116.102
+        "start": 115.824,
+        "end": 115.928
       },
       {
         "text": "cả",
-        "start": 116.102,
-        "end": 116.241
+        "start": 115.928,
+        "end": 116.081
       },
       {
         "text": "cuộc",
-        "start": 116.241,
-        "end": 116.445
+        "start": 116.081,
+        "end": 116.305
       }
     ],
     [
       {
         "text": "chiến.",
-        "start": 116.445,
-        "end": 116.676
+        "start": 116.305,
+        "end": 116.559
       }
     ],
     [
       {
         "text": "Không",
-        "start": 116.676,
-        "end": 117.273
+        "start": 116.559,
+        "end": 117.151
       },
       {
         "text": "có",
-        "start": 117.273,
-        "end": 117.412
+        "start": 117.151,
+        "end": 117.304
       },
       {
         "text": "nhà",
-        "start": 117.412,
-        "end": 117.587
+        "start": 117.304,
+        "end": 117.495
       },
       {
         "text": "vô",
-        "start": 117.587,
-        "end": 117.726
+        "start": 117.495,
+        "end": 117.648
       },
       {
         "text": "địch",
-        "start": 117.726,
-        "end": 117.93
+        "start": 117.648,
+        "end": 117.872
       },
       {
         "text": "tuyệt",
-        "start": 117.93,
-        "end": 118.161
+        "start": 117.872,
+        "end": 118.125
       },
       {
         "text": "đối",
-        "start": 118.161,
-        "end": 118.336
+        "start": 118.125,
+        "end": 118.317
       }
     ],
     [
       {
         "text": "—",
-        "start": 118.336,
-        "end": 118.431
+        "start": 118.317,
+        "end": 118.421
       },
       {
         "text": "chỉ",
-        "start": 118.431,
-        "end": 119.074
+        "start": 118.421,
+        "end": 119.049
       },
       {
         "text": "có",
-        "start": 119.074,
-        "end": 119.214
+        "start": 119.049,
+        "end": 119.202
       },
       {
         "text": "vị",
-        "start": 119.214,
-        "end": 119.353
+        "start": 119.202,
+        "end": 119.355
       },
       {
         "text": "tướng",
-        "start": 119.353,
-        "end": 119.584
+        "start": 119.355,
+        "end": 119.609
       },
       {
         "text": "hợp",
-        "start": 119.584,
-        "end": 119.759
+        "start": 119.609,
+        "end": 119.8
       },
       {
         "text": "với",
-        "start": 119.759,
-        "end": 119.933
+        "start": 119.8,
+        "end": 119.991
       }
     ],
     [
       {
         "text": "chiến",
-        "start": 119.933,
-        "end": 120.164
+        "start": 119.991,
+        "end": 120.244
       },
       {
         "text": "trường",
-        "start": 120.164,
-        "end": 120.419
+        "start": 120.244,
+        "end": 120.524
       },
       {
         "text": "hơn.",
-        "start": 120.419,
-        "end": 120.594
+        "start": 120.524,
+        "end": 120.715
       }
     ],
     [
       {
         "text": "Còn",
-        "start": 121.054,
-        "end": 121.227
+        "start": 121.143,
+        "end": 121.316
       },
       {
         "text": "bạn",
-        "start": 121.227,
-        "end": 121.785
+        "start": 121.316,
+        "end": 121.874
       },
       {
         "text": "—",
-        "start": 121.785,
-        "end": 121.88
+        "start": 121.874,
+        "end": 121.969
       },
       {
         "text": "nếu",
-        "start": 121.88,
-        "end": 122.054
+        "start": 121.969,
+        "end": 122.143
       },
       {
         "text": "được",
-        "start": 122.054,
-        "end": 122.258
+        "start": 122.143,
+        "end": 122.347
       },
       {
         "text": "chọn",
-        "start": 122.258,
-        "end": 122.461
+        "start": 122.347,
+        "end": 122.55
       },
       {
         "text": "một",
-        "start": 122.461,
-        "end": 122.635
+        "start": 122.55,
+        "end": 122.724
       }
     ],
     [
       {
         "text": "người",
-        "start": 122.635,
-        "end": 122.866
+        "start": 122.724,
+        "end": 122.955
       },
       {
         "text": "làm",
-        "start": 122.866,
-        "end": 123.039
+        "start": 122.955,
+        "end": 123.128
       },
       {
         "text": "tổng",
-        "start": 123.039,
-        "end": 123.243
+        "start": 123.128,
+        "end": 123.332
       },
       {
         "text": "chỉ",
-        "start": 123.243,
-        "end": 123.417
+        "start": 123.332,
+        "end": 123.506
       },
       {
         "text": "huy,",
-        "start": 123.417,
-        "end": 123.591
+        "start": 123.506,
+        "end": 123.68
       },
       {
         "text": "bạn",
-        "start": 123.591,
-        "end": 123.765
+        "start": 123.68,
+        "end": 123.854
       },
       {
         "text": "chọn",
-        "start": 123.765,
-        "end": 123.968
+        "start": 123.854,
+        "end": 124.057
       }
     ],
     [
       {
         "text": "ai?",
-        "start": 123.968,
-        "end": 124.107
+        "start": 124.057,
+        "end": 124.196
       }
     ]
   ],
