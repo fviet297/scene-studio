@@ -339,31 +339,32 @@ select.mini.wide { width: 100%; }
 #promptCount.over { color: var(--danger); font-weight: 600; }
 .block-head .hint.dirty { color: var(--accent); }
 
-/* Stage groups: the three production steps (Image → Audio → Motion) each read as one
-   numbered unit with a single primary action, so the pipeline order is obvious in the panel. */
-.stage-group { border-bottom: 1px solid var(--line); }
-.stage-group:last-child { border-bottom: 0; }
-/* The head is a disclosure button: click toggles the stage body. Full-width, borderless
-   button reset so it reads as the header bar it replaces, chevron shows open/closed. */
-.stage-group-head {
-  width: 100%; text-align: left; color: inherit;
-  display: flex; align-items: center; gap: 9px;
-  padding: 9px 12px; background: var(--surface-2);
-  border: 0; border-bottom: 1px solid var(--line-soft);
-  transition: background .15s ease;
+/* Narration head: the audio state pill and its generate button ride on the right of the
+   label, so audio is produced from the same block that holds the narration text. */
+.narration-head { flex-wrap: wrap; }
+.narration-head .stage-state { margin-left: 0; }
+.narration-head #btnAudio { flex: none; }
+
+/* Production rows: Image and Motion each a full-width button that opens its popup editor,
+   with the done pill sitting between the label and the Edit affordance. */
+.prod-row {
+  width: 100%; display: flex; align-items: center; gap: 9px;
+  padding: 11px 12px; text-align: left; color: inherit;
+  background: var(--surface-2); border: 0; border-bottom: 1px solid var(--line-soft);
+  cursor: pointer; transition: background .15s ease;
 }
-.stage-group-head:hover { background: var(--surface-3); }
-.stage-group-head .chev { width: 14px; height: 14px; flex: none; margin-left: 4px; color: var(--faint); transition: transform .15s ease; }
-.stage-group.collapsed .stage-group-head { border-bottom: 0; }
-.stage-group.collapsed .stage-group-head .chev { transform: rotate(-90deg); }
-.stage-group.collapsed .stage-body { display: none; }
-.stage-num {
-  width: 19px; height: 19px; flex: none; display: grid; place-items: center;
-  border-radius: 50%; border: 1px solid rgba(72, 183, 166, .4);
-  background: var(--accent-dim); color: var(--accent);
-  font-family: var(--mono); font-size: 11px; font-weight: 700;
-}
-.stage-ttl { font-size: 11.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--text); }
+.prod-row:last-child { border-bottom: 0; }
+.prod-row:hover { background: var(--surface-3); }
+.prod-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.prod-ttl { font-size: 11.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--text); }
+.prod-edit { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--faint); }
+.prod-edit svg { width: 13px; height: 13px; }
+.prod-row:hover .prod-edit { color: var(--muted); }
+
+/* Stage popups (Image / Motion) sit between the narrow inspector column and the wide
+   template dialog: enough room for a prompt without swallowing the screen. */
+.dialog.stage-dialog { width: min(680px, 100%); }
+
 /* Stage-done pill: shape (filled dot) + word, so state survives greyscale, matching the pips. */
 .stage-state {
   margin-left: auto; flex: none; height: 20px; padding: 0 8px;
@@ -379,17 +380,12 @@ select.mini.wide { width: 100%; }
 .stage-state.on { color: var(--accent); border-color: rgba(72, 183, 166, .4); background: var(--accent-dim); }
 .stage-state.on::before { background: var(--accent); box-shadow: none; }
 
-/* Inside a stage the blocks share the stage's border, not their own top border. */
-.stage-body > .block { border-bottom: 1px solid var(--line-soft); }
-.stage-body > .block:last-child { border-bottom: 0; }
-
-/* The action block ends each stage: one accent primary, secondaries quiet beneath it. */
+/* The action block: one accent primary, secondaries quiet beneath it. */
 .stage-action { gap: 10px; }
 .primary-row { display: flex; align-items: center; gap: 7px; }
 .primary-row .mini { flex: none; max-width: 45%; }
 .primary-row .grow { flex: 1; min-width: 0; }
 .subactions { display: flex; flex-wrap: wrap; gap: 6px; }
-.stage-note { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
 
 textarea {
   width: 100%; resize: vertical; padding: 8px 9px;

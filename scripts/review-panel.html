@@ -137,9 +137,11 @@
       </div>
 
       <div class="block">
-        <div class="block-head">
+        <div class="block-head narration-head">
           <span class="ttl">Narration</span>
           <span class="hint" id="narrHint"></span>
+          <span class="stage-state" id="stageAudState"></span>
+          <button class="btn sm" type="button" id="btnAudio" title="Read aloud by OmniVoice. The motion video length is matched to this audio.">Generate audio</button>
         </div>
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration for the selected scene" placeholder="Narration read aloud for this scene"></textarea>
         <div class="btn-row">
@@ -147,99 +149,24 @@
         </div>
       </div>
 
-      <!-- Stage 1 — Image -->
-      <section class="stage-group collapsed" id="stageImage" aria-labelledby="stageImageTtl">
-        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageImageBody">
-          <span class="stage-num">1</span>
-          <span class="stage-ttl" id="stageImageTtl">Image</span>
+      <!-- Production: Image and Motion each open in a focused popup so their prompts and
+           settings get room to read, while the stage image stays visible behind. -->
+      <div class="prod-list">
+        <button type="button" class="prod-row" id="btnEditImage">
+          <span class="prod-ttl">Image</span>
           <span class="stage-state" id="stageImgState"></span>
-          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          <span class="prod-edit">Edit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </span>
         </button>
-        <div class="stage-body" id="stageImageBody">
-          <div class="block" id="promptBlock">
-            <div class="block-head">
-              <span class="ttl">Prompt</span>
-              <span class="hint" id="promptHint"></span>
-              <span class="hint" id="promptCount" title="Full prompt sent to the image model = template + style + this scene prompt"></span>
-            </div>
-            <textarea id="promptBox" rows="7" spellcheck="false" aria-label="Image prompt for the selected scene" placeholder="Action and gesture only. Appearance comes from the character reference."></textarea>
-            <div class="btn-row">
-              <button class="btn sm" type="button" id="promptSave" disabled>Save prompt</button>
-              <button class="btn sm" type="button" id="btnGenPrompt" title="Write this scene's image prompt from its narration">Write from narration</button>
-              <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-vi="scenePrompt" data-out="promptTrans" data-label="Dịch">Dịch</button>
-            </div>
-            <div class="translation" id="promptTrans" hidden></div>
-          </div>
-
-          <div class="block" id="searchBlock" hidden>
-            <div class="block-head"><span class="ttl">Search query</span></div>
-            <div class="readonly-field" id="searchQuery"></div>
-          </div>
-
-          <div class="block stage-action">
-            <div class="primary-row">
-              <select class="mini" id="imageModelSelect" aria-label="Image model"></select>
-              <button class="btn primary grow" type="button" id="btnGen">Generate image</button>
-            </div>
-            <input class="text-input custom-model" id="imageModelCustom" type="text" spellcheck="false" placeholder="Custom image model (owner/name); overrides dropdown" aria-label="Custom image model, overrides the dropdown above" />
-            <div class="subactions">
-              <button class="btn quiet sm" type="button" id="btnUpload">Upload your own image</button>
-              <button class="btn quiet sm" type="button" id="btnUndoImage" hidden>Undo image</button>
-            </div>
-            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Choose an image file for this scene" hidden />
-          </div>
-        </div>
-      </section>
-
-      <!-- Stage 2 — Audio -->
-      <section class="stage-group collapsed" id="stageAudio" aria-labelledby="stageAudioTtl">
-        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageAudioBody">
-          <span class="stage-num">2</span>
-          <span class="stage-ttl" id="stageAudioTtl">Audio</span>
-          <span class="stage-state" id="stageAudState"></span>
-          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="stage-body" id="stageAudioBody">
-          <div class="block stage-action">
-            <p class="stage-note">The narration above is read aloud by OmniVoice. The motion video length is matched to this audio.</p>
-            <button class="btn primary wide" type="button" id="btnAudio">Generate audio</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Stage 3 — Motion -->
-      <section class="stage-group collapsed" id="stageMotion" aria-labelledby="stageMotionTtl">
-        <button type="button" class="stage-group-head" aria-expanded="false" aria-controls="stageMotionBody">
-          <span class="stage-num">3</span>
-          <span class="stage-ttl" id="stageMotionTtl">Motion video</span>
+        <button type="button" class="prod-row" id="btnEditMotion">
+          <span class="prod-ttl">Motion video</span>
           <span class="stage-state" id="stageMotState"></span>
-          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          <span class="prod-edit">Edit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </span>
         </button>
-        <div class="stage-body" id="stageMotionBody">
-          <div class="block">
-            <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
-            <input class="text-input custom-model" id="motionModelCustom" type="text" spellcheck="false" placeholder="Custom video model (owner/name); overrides dropdown" aria-label="Custom motion-video model, overrides the dropdown above" />
-            <div class="field">
-              <label for="motionDurationBox">Duration (s) <span class="note">empty = auto (matches narration audio), snapped up to model limits</span></label>
-              <input class="text-input" id="motionDurationBox" type="number" min="1" step="1" inputmode="numeric" placeholder="auto (matches narration audio)" />
-              <span class="note" id="motionDurationHint"></span>
-            </div>
-            <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to the model"></textarea>
-            <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-vi="sceneMotion" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
-            <div class="translation" id="motionTrans" hidden></div>
-          </div>
-
-          <div class="block stage-action">
-            <button class="btn primary wide" type="button" id="btnMotionVideo">Generate motion video</button>
-            <div class="subactions">
-              <button class="btn quiet sm" type="button" id="btnUploadMotionVideo">Upload replacement</button>
-              <button class="btn quiet sm" type="button" id="btnRemoveMotionVideo" hidden>Use image instead</button>
-              <button class="btn quiet sm" type="button" id="btnUndoMotion" hidden>Undo motion</button>
-            </div>
-            <input type="file" id="motionVideoInput" accept="video/mp4,video/quicktime" aria-label="Choose a vertical MP4 or MOV file for this scene" hidden />
-          </div>
-        </div>
-      </section>
+      </div>
 
     </div>
   </aside>
@@ -335,6 +262,90 @@
       <button class="btn" type="button" id="impCopy">Copy current as JSON</button>
       <button class="btn" type="button" id="impValidate">Validate</button>
       <button class="btn primary" type="button" id="impApply" disabled>Apply</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="imgOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="imgDlgTitle">
+  <div class="dialog stage-dialog">
+    <div class="dialog-head">
+      <h2 id="imgDlgTitle">Image</h2>
+      <span class="note" id="imgDlgScene"></span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="imgClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="block" id="promptBlock">
+        <div class="block-head">
+          <span class="ttl">Prompt</span>
+          <span class="hint" id="promptHint"></span>
+          <span class="hint" id="promptCount" title="Full prompt sent to the image model = template + style + this scene prompt"></span>
+        </div>
+        <textarea id="promptBox" rows="7" spellcheck="false" aria-label="Image prompt for the selected scene" placeholder="Action and gesture only. Appearance comes from the character reference."></textarea>
+        <div class="btn-row">
+          <button class="btn sm" type="button" id="promptSave" disabled>Save prompt</button>
+          <button class="btn sm" type="button" id="btnGenPrompt" title="Write this scene's image prompt from its narration">Write from narration</button>
+          <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-vi="scenePrompt" data-out="promptTrans" data-label="Dịch">Dịch</button>
+        </div>
+        <div class="translation" id="promptTrans" hidden></div>
+      </div>
+
+      <div class="block" id="searchBlock" hidden>
+        <div class="block-head"><span class="ttl">Search query</span></div>
+        <div class="readonly-field" id="searchQuery"></div>
+      </div>
+
+      <div class="block stage-action">
+        <div class="primary-row">
+          <select class="mini" id="imageModelSelect" aria-label="Image model"></select>
+          <button class="btn primary grow" type="button" id="btnGen">Generate image</button>
+        </div>
+        <input class="text-input custom-model" id="imageModelCustom" type="text" spellcheck="false" placeholder="Custom image model (owner/name); overrides dropdown" aria-label="Custom image model, overrides the dropdown above" />
+        <div class="subactions">
+          <button class="btn quiet sm" type="button" id="btnUpload">Upload your own image</button>
+          <button class="btn quiet sm" type="button" id="btnUndoImage" hidden>Undo image</button>
+        </div>
+        <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Choose an image file for this scene" hidden />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="motionOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="motionDlgTitle">
+  <div class="dialog stage-dialog">
+    <div class="dialog-head">
+      <h2 id="motionDlgTitle">Motion video</h2>
+      <span class="note" id="motionDlgScene"></span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="motionClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="block">
+        <select class="mini wide" id="motionModelSelect" aria-label="Motion-video model"></select>
+        <input class="text-input custom-model" id="motionModelCustom" type="text" spellcheck="false" placeholder="Custom video model (owner/name); overrides dropdown" aria-label="Custom motion-video model, overrides the dropdown above" />
+        <div class="field">
+          <label for="motionDurationBox">Duration (s) <span class="note">empty = auto (matches narration audio), snapped up to model limits</span></label>
+          <input class="text-input" id="motionDurationBox" type="number" min="1" step="1" inputmode="numeric" placeholder="auto (matches narration audio)" />
+          <span class="note" id="motionDurationHint"></span>
+        </div>
+        <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to the model"></textarea>
+        <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-vi="sceneMotion" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
+        <div class="translation" id="motionTrans" hidden></div>
+      </div>
+
+      <div class="block stage-action">
+        <button class="btn primary wide" type="button" id="btnMotionVideo">Generate motion video</button>
+        <div class="subactions">
+          <button class="btn quiet sm" type="button" id="btnUploadMotionVideo">Upload replacement</button>
+          <button class="btn quiet sm" type="button" id="btnRemoveMotionVideo" hidden>Use image instead</button>
+          <button class="btn quiet sm" type="button" id="btnUndoMotion" hidden>Undo motion</button>
+        </div>
+        <input type="file" id="motionVideoInput" accept="video/mp4,video/quicktime" aria-label="Choose a vertical MP4 or MOV file for this scene" hidden />
+      </div>
     </div>
   </div>
 </div>

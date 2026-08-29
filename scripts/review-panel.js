@@ -1131,41 +1131,33 @@ $("railFilter").addEventListener("change", (e) => {
 for (const btn of [$("viewStage"), $("viewSheet")])
   btn.addEventListener("click", () => setView(btn.dataset.view));
 
-// Collapsible inspector stage-groups: the header toggles its body, and which groups are
-// collapsed is remembered per browser so a preferred layout survives a refresh. The heads
-// are static markup, so this wires once at load rather than on every render.
-const COLLAPSE_KEY = "sceneStudio.collapsedGroups";
-const ALL_GROUP_IDS = [...document.querySelectorAll(".stage-group")].map(
-  (g) => g.id,
-);
-// Default collapsed: a fresh browser opens every stage-group closed; once the user toggles,
-// their stored choice wins (an empty stored set means "user expanded everything").
-const collapsedGroups = (() => {
-  try {
-    const stored = localStorage.getItem(COLLAPSE_KEY);
-    if (stored === null) return new Set(ALL_GROUP_IDS);
-    return new Set(JSON.parse(stored));
-  } catch {
-    return new Set(ALL_GROUP_IDS);
+// Image and Motion each edit in a focused popup, opened from their inspector row, so the
+// prompt and settings get room to read while the stage image stays visible behind.
+function openStageDialog(kind) {
+  const s = current();
+  if (!s) return;
+  if (kind === "img") {
+    $("imgDlgScene").textContent = `Scene ${s.scene}`;
+    $("imgOverlay").hidden = false;
+  } else {
+    $("motionDlgScene").textContent = `Scene ${s.scene}`;
+    $("motionOverlay").hidden = false;
   }
-})();
-function applyCollapsed(group, head) {
-  const off = collapsedGroups.has(group.id);
-  group.classList.toggle("collapsed", off);
-  head.setAttribute("aria-expanded", String(!off));
 }
-for (const group of document.querySelectorAll(".stage-group")) {
-  const head = group.querySelector(".stage-group-head");
-  applyCollapsed(group, head);
-  head.addEventListener("click", () => {
-    if (collapsedGroups.has(group.id)) collapsedGroups.delete(group.id);
-    else collapsedGroups.add(group.id);
-    try {
-      localStorage.setItem(COLLAPSE_KEY, JSON.stringify([...collapsedGroups]));
-    } catch {}
-    applyCollapsed(group, head);
-  });
-}
+$("btnEditImage").addEventListener("click", () => openStageDialog("img"));
+$("btnEditMotion").addEventListener("click", () => openStageDialog("motion"));
+$("imgClose").addEventListener("click", () => {
+  $("imgOverlay").hidden = true;
+});
+$("imgOverlay").addEventListener("click", (e) => {
+  if (e.target === $("imgOverlay")) $("imgOverlay").hidden = true;
+});
+$("motionClose").addEventListener("click", () => {
+  $("motionOverlay").hidden = true;
+});
+$("motionOverlay").addEventListener("click", (e) => {
+  if (e.target === $("motionOverlay")) $("motionOverlay").hidden = true;
+});
 
 $("narrBox").addEventListener("input", (e) => {
   const s = current();
@@ -1450,6 +1442,14 @@ window.addEventListener("keydown", (e) => {
       closeLightbox();
       return;
     }
+    if (!$("imgOverlay").hidden) {
+      $("imgOverlay").hidden = true;
+      return;
+    }
+    if (!$("motionOverlay").hidden) {
+      $("motionOverlay").hidden = true;
+      return;
+    }
     if (!$("tplOverlay").hidden) {
       $("tplOverlay").hidden = true;
       return;
@@ -1475,6 +1475,9 @@ window.addEventListener("keydown", (e) => {
       return;
     }
   }
+  // A stage popup edits one scene; block scene paging while it is open so its fields
+  // can't drift to another scene behind the dialog.
+  if (!$("imgOverlay").hidden || !$("motionOverlay").hidden) return;
   const t = e.target;
   if (
     t &&

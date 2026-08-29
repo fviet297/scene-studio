@@ -3,7 +3,7 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Very wide 13th-century Dai Viet frontier stand; Tran Hung Dao stands small and o",
+    "subject": "Directing a defense that makes Mongol–Yuan cavalry rein in at Đại Việt’s edge. L",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -12,13 +12,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Very wide 13th-century Dai Viet frontier stand; Tran Hung Dao stands small and off-center on a low earth rampart at about one-fifth frame height, arm raised to hold the line; a massed Yuan-Mongol cavalry charge on the far bank is checked at a barricaded river crossing, East Asian Dai Viet spearmen and archers in distinct local armor lock shields, enemy riders and horses rear and pile up against sharpened stakes, drifting dust and smoke, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Directing a defense that makes Mongol–Yuan cavalry rein in at Đại Việt’s edge. Late‑13th‑century Trần‑dynasty Red River dike line: flooded paddies and a bamboo palisade. Foreground abatis and caltrops. Vietnamese infantry in 13th‑century Trần gear—conical hats, rattan shields, spears, crossbows—advance from the dike with drums and banners; Mongol–Yuan horsemen in 13th‑century steppe lamellar rein back amid splashes. Crowd faces are East‑Asian. Diagonal depth. No Nguyễn, Ming/Qing, or European/Japanese elements."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Very wide East Asian temple courtyard devoted to Guan Gong; Guan Yu stands small",
+    "subject": "Wide late Eastern Han battlefield; Guan Yu charges small and off-center on his w",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -27,7 +27,7 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Very wide East Asian temple courtyard devoted to Guan Gong; Guan Yu stands small and off-center on a raised stone terrace at about one-fifth frame height, one hand resting on his long blade; below, a large crowd of East Asian worshippers in mixed later-era dress kneel and offer incense, red paper offerings and hanging lanterns fill the hall, thick incense smoke drifts up past carved wooden pillars, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Wide late Eastern Han battlefield; Guan Yu charges small and off-center on his warhorse at about one-fifth frame height, long guandao blade raised mid-strike; around him East Asian Han cavalry and infantry clash with enemy troops in close combat, spears and shields collide, riderless horses bolt through churning dust, banners and dust sweep across a dry plain, fallen soldiers in the melee, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-03",
