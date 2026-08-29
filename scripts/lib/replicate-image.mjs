@@ -59,6 +59,8 @@ BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of
 
 TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
 
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
+
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
@@ -85,6 +87,8 @@ BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of
 
 TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
 
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
+
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
@@ -106,6 +110,8 @@ REFERENCE ORDER: reference 1 = first named character; reference 2 = second. Pres
 CULTURE: each side uses its named country and century for architecture, costume, armour and weapons. Never swap Chinese and Vietnamese elements.
 
 SURFACES: banners, flags, shields and walls remain blank, using only flat colour, material and folds.
+
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused into one. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
 
 SCENE:
 [SCENE-SPECIFIC PROMPT]
