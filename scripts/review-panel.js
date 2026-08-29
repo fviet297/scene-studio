@@ -72,6 +72,9 @@ let busy = false;
 // generation touches), so it may run concurrently with the image/motion `busy` lane.
 let audioBusy = false;
 let templateVersions = [];
+// Latest effective templates (incl. the *_vi reading aids) from /api/templates, kept so the
+// "Dịch" buttons on template fields can show the stored Vietnamese without any translation call.
+let currentTemplates = {};
 const selected = new Set();
 const drafts = { prompt: new Map(), narr: new Map() };
 
@@ -99,6 +102,15 @@ const pips = (s) => {
 
 function render() {
   $("title").textContent = state.title;
+  // Preview panes follow the active project's aspect (9:16 vertical / 16:9 landscape) so a
+  // generated still or clip is shown at its real shape instead of a fixed vertical box.
+  const aspect =
+    state.project?.aspect === "16:9"
+      ? "16 / 9"
+      : state.project?.aspect === "1:1"
+        ? "1 / 1"
+        : "9 / 16";
+  document.documentElement.style.setProperty("--scene-aspect", aspect);
   if (!findScene(currentScene)) currentScene = state.scenes[0]?.scene ?? null;
   renderProjectSwitch();
   renderImageModelSelect();
@@ -1054,35 +1066,33 @@ async function removeMotionVideo() {
   }
 }
 
-// Read-only EN→VI translation shown beside a prompt box; never overwrites the box (the model
-// needs the English). btn carries data-src (box id), data-out (area id), data-label (idle text).
-async function runTranslate(btn) {
-  const box = $(btn.dataset.src);
+// Where a "Dịch" button's stored Vietnamese lives: the current scene's promptVi/motionVi, or a
+// template field's `<key>_vi`. Authored up front (skills / OpenAI prompt writer) and served in
+// state, so no translation service is ever called.
+function resolveVi(key) {
+  if (key === "scenePrompt") return current()?.promptVi || "";
+  if (key === "sceneMotion") return current()?.motionVi || "";
+  return currentTemplates[`${key}_vi`] || "";
+}
+
+// Read-only Vietnamese reading aid shown beside a prompt/template box; never overwrites the box
+// (the model needs the English). btn carries data-vi (source key), data-out (area id), data-label
+// (idle text). Toggles the stored translation, or a note when none was authored yet.
+function runTranslate(btn) {
   const out = $(btn.dataset.out);
-  if (!box || !out) return;
+  if (!out) return;
   if (!out.hidden) {
     out.hidden = true;
+    out.classList.remove("is-empty");
     btn.textContent = btn.dataset.label || "Dịch";
     return;
   }
-  const text = box.value.trim();
-  if (!text) {
-    toast("Ô trống, không có gì để dịch.", false);
-    return;
-  }
-  btn.disabled = true;
-  btn.textContent = "Đang dịch...";
-  try {
-    const { text: vi } = await api("/api/translate", { text });
-    out.textContent = vi;
-    out.hidden = false;
-    btn.textContent = "Ẩn dịch";
-  } catch (e) {
-    toast(e.message, false);
-    btn.textContent = btn.dataset.label || "Dịch";
-  } finally {
-    btn.disabled = false;
-  }
+  const vi = resolveVi(btn.dataset.vi).trim();
+  out.textContent =
+    vi || "Chưa có bản dịch — chạy lại skill để sinh bản dịch tiếng Việt.";
+  out.classList.toggle("is-empty", !vi);
+  out.hidden = false;
+  btn.textContent = "Ẩn dịch";
 }
 
 function resetTranslation(outId, btnId) {
@@ -1090,6 +1100,7 @@ function resetTranslation(outId, btnId) {
   if (out) {
     out.hidden = true;
     out.textContent = "";
+    out.classList.remove("is-empty");
   }
   const btn = $(btnId);
   if (btn) btn.textContent = btn.dataset.label || "Dịch";
@@ -1106,6 +1117,7 @@ async function loadTemplates() {
     .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
     .join("");
   versionSelect.value = response.activeVersion || t.activeVersion || "default";
+  currentTemplates = t;
   for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
 }
 
@@ -1385,6 +1397,7 @@ $("t_version").addEventListener("change", async (e) => {
       version: e.target.value,
     });
     const t = response.templates;
+    currentTemplates = t;
     for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
     toast(`Switched to ${e.target.value}.`);
   } catch (err) {

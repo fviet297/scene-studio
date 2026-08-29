@@ -3,7 +3,7 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Very wide 13th-century Dai Viet river battle at Bach Dang; Tran Hung Dao stands ",
+    "subject": "Very wide 13th-century Dai Viet frontier stand; Tran Hung Dao stands small and o",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -12,13 +12,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Very wide 13th-century Dai Viet river battle at Bach Dang; Tran Hung Dao stands small and off-center on a low earth rampart in the foreground at about one-fifth frame height, arm raised; below, dozens of small Dai Viet war boats swarm around invading Yuan warships caught on sharpened wooden river stakes, East Asian Dai Viet rowers and archers in distinct local armor, burning enemy vessels, splashing water and drifting smoke, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Very wide 13th-century Dai Viet frontier stand; Tran Hung Dao stands small and off-center on a low earth rampart at about one-fifth frame height, arm raised to hold the line; a massed Yuan-Mongol cavalry charge on the far bank is checked at a barricaded river crossing, East Asian Dai Viet spearmen and archers in distinct local armor lock shields, enemy riders and horses rear and pile up against sharpened stakes, drifting dust and smoke, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Very wide late Eastern Han military scene; Guan Yu stands small and off-center o",
+    "subject": "Very wide East Asian temple courtyard devoted to Guan Gong; Guan Yu stands small",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -27,13 +27,13 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Very wide late Eastern Han military scene; Guan Yu stands small and off-center on a high earthen city wall at about one-fifth frame height, gripping his long blade; below and beyond, a large host of East Asian Han soldiers in lamellar armor drills in ranks, cavalry crosses a dusty parade ground, transport boats unload at a river landing, incense smoke rises from a small roadside shrine, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Very wide East Asian temple courtyard devoted to Guan Gong; Guan Yu stands small and off-center on a raised stone terrace at about one-fifth frame height, one hand resting on his long blade; below, a large crowd of East Asian worshippers in mixed later-era dress kneel and offer incense, red paper offerings and hanging lanterns fill the hall, thick incense smoke drifts up past carved wooden pillars, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Wide 13th-century Dai Viet river command post; Tran Hung Dao stands small and of",
+    "subject": "Wide 13th-century Dai Viet river command post at night; Tran Hung Dao stands sma",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -42,13 +42,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide 13th-century Dai Viet river command post; Tran Hung Dao stands small and off-center leaning over a low leather map table at about one-quarter frame height, wooden markers on river terrain; around him East Asian Dai Viet officers argue and point, a messenger arrives at the doorway, scouts wait with bamboo tubes, boats and soldiers move on the river beyond the open wall, warm lamp light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing."
+    "prompt": "Wide 13th-century Dai Viet river command post at night; Tran Hung Dao stands small and off-center leaning over a low leather map table at about one-quarter frame height, hand on a wooden marker; around him East Asian Dai Viet officers lean in and debate a plan, a messenger arrives at the doorway, scouts wait with bamboo tubes, boats and torches move on the river beyond the open wall, warm lamp light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing."
   },
   {
     "id": "scene-04",
     "scene": 4,
     "type": "ai_reconstruction",
-    "subject": "Wide late Eastern Han crossroads on a dry plain; Guan Yu sits small and off-cent",
+    "subject": "Wide late Eastern Han vantage over varied terrain; Guan Yu sits small and off-ce",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -57,7 +57,7 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide late Eastern Han crossroads on a dry plain; Guan Yu sits small and off-center on horseback at the roadside at about one-fifth frame height, studying the terrain; multiple East Asian Han messengers gallop in from different roads, cavalry columns raise dust, infantry files march past an earthen fortress in the distance, plain solid-color cloth banners, no emblem or lettering."
+    "prompt": "Wide late Eastern Han vantage over varied terrain; Guan Yu sits small and off-center on horseback on a low ridge at about one-fifth frame height, surveying the ground; below, roads fork across a dry plain toward a walled town on one side and a flooded river valley on the other, East Asian Han messengers gallop in from different roads, cavalry and infantry columns move between them raising dust, plain solid-color cloth banners, no emblem or lettering."
   },
   {
     "id": "scene-05",
@@ -72,7 +72,7 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide 13th-century Dai Viet wooden war hall; Tran Hung Dao stands small and off-center pointing at a river-mouth map at about one-quarter frame height; many East Asian Dai Viet officers and village militia gather, some sharpening bamboo spears, some stacking rattan shields and rice sacks, a scribe records on bamboo strips, activity in every corner, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Wide 13th-century Dai Viet wooden war hall; Tran Hung Dao stands small and off-center pointing at a river-mouth map at about one-quarter frame height; many East Asian Dai Viet officers and village militia gather, some sharpening bamboo spears, some stacking rattan shields and rice sacks for a long campaign, a scribe records on bamboo strips, activity in every corner, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-06",
@@ -87,13 +87,13 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide late Eastern Han riverside fortress at Jingzhou; Guan Yu stands small and off-center on a rampart overseeing the garrison at about one-fifth frame height; East Asian Han soldiers drill in the courtyard below, quartermasters move grain carts, boats guard the river gate, farmers bring supplies through the earthen gatehouse, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Wide late Eastern Han riverside fortress at Jingzhou; Guan Yu stands small and off-center on a rampart overseeing the garrison at about one-fifth frame height; East Asian Han soldiers drill in the courtyard below, quartermasters move grain carts, war-junks guard the river gate, farmers bring supplies through the earthen gatehouse, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Very wide Bach Dang battle at falling tide, 13th-century Dai Viet; Tran Hung Dao",
+    "subject": "Signaling the trap as the tide ebbs, on a low command boat amid stake rows risin",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -102,13 +102,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Very wide Bach Dang battle at falling tide, 13th-century Dai Viet; Tran Hung Dao stands small and off-center on the muddy bank at about one-fifth frame height, pointing; rows of sharpened wooden stakes pierce invading Yuan warships listing in the shallows, swarms of small Dai Viet boats close in, East Asian Dai Viet soldiers loose arrows and hurl fire, enemies leap into the water, drifting smoke and splashing waves, plain solid-color cloth, no emblem or lettering."
+    "prompt": "Signaling the trap as the tide ebbs, on a low command boat amid stake rows rising on the Bạch Đằng. Late 13th-century Đại Việt (Trần); diagonal river channel, muddy banks, mangroves. Đại Việt river troops, East-Asian faces, quilted tunics, rattan shields, spears, bows surge past; drums, oars. Background Yuan warjunks with East-Asian crews grind onto exposed stakes. Far bank: bamboo palisade, timber watchtower, stilted thatch huts. No Nguyễn dress, no Ming or Qing gear, no European ships or castles."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "Very wide late Eastern Han flood assault at Fancheng; Guan Yu stands small and o",
+    "subject": "Very wide late Eastern Han flood assault at Fancheng, year 219; Guan Yu stands s",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -117,7 +117,7 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Very wide late Eastern Han flood assault at Fancheng; Guan Yu stands small and off-center on a raft at about one-fifth frame height, arm raised; a swollen river drowns an army camp, East Asian Han troops pole rafts toward a half-submerged earthen fortress, enemy soldiers cling to floating debris and rooftops, tents and supplies wash away, heavy rain and churning water, plain solid-crimson cloth, no emblem or lettering."
+    "prompt": "Very wide late Eastern Han flood assault at Fancheng, year 219; Guan Yu stands small and off-center on a war-raft at about one-fifth frame height, arm raised in triumph; a swollen river drowns an army camp, East Asian Han troops pole rafts toward a half-submerged earthen fortress, enemy soldiers cling to floating debris and rooftops, tents and supplies wash away, heavy rain and churning brown water, plain solid-crimson cloth, no emblem or lettering."
   },
   {
     "id": "scene-09",
@@ -132,7 +132,7 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers emerge from the misty treeline on all sides, torches and spears closing in, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering."
+    "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers close in from the misty treeline on every side, torches and spears tightening the ring, a captured city gate burns faintly on the far horizon behind them, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering."
   },
   {
     "id": "scene-10",
@@ -147,13 +147,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide night ambush on a 13th-century Dai Viet river; Tran Hung Dao stands small and off-center among reeds on the bank at about one-fifth frame height, signaling; many small Dai Viet boats dart from hidden channels to strike a torch-lit enemy supply convoy, East Asian Dai Viet sailors paddle and board, sacks tumble into the water, fire spreads across a barge, smoke and sparks, plain solid-color cloth, no emblem or lettering."
+    "prompt": "Wide night ambush on a 13th-century Dai Viet river; Tran Hung Dao stands small and off-center among reeds on the bank at about one-fifth frame height, giving a quiet signal; many small Dai Viet boats dart from hidden channels to strike a torch-lit enemy supply convoy, East Asian Dai Viet sailors paddle and board, grain sacks tumble into the water, fire spreads across a laden barge, smoke and sparks, plain solid-color cloth, no emblem or lettering."
   },
   {
     "id": "scene-11",
     "scene": 11,
     "type": "ai_reconstruction",
-    "subject": "Wide theatrical stage tableau; Guan Yu posed small and off-center on a raised wo",
+    "subject": "Wide theatrical opera stage tableau; Guan Yu posed small and off-center on a rai",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -162,13 +162,13 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide theatrical stage tableau; Guan Yu posed small and off-center on a raised wooden stage at about one-fifth frame height, mid heroic gesture; costumed actors as soldiers tumble and spar around him, hanging opera lanterns and silk drapes, drifting stage-smoke, a large East Asian audience watches from below waving, plain solid-color cloth, no emblem or lettering, warm stage light."
+    "prompt": "Wide theatrical opera stage tableau; Guan Yu posed small and off-center on a raised wooden stage at about one-fifth frame height, mid heroic thrust; costumed opera actors as soldiers tumble and spar around him, hanging opera lanterns and painted silk drapes frame the stage, drifting stage-smoke, a large East Asian audience watches from below and waves, plain solid-color cloth, no emblem or lettering, warm stage light."
   },
   {
     "id": "scene-12",
     "scene": 12,
     "type": "ai_reconstruction",
-    "subject": "Very wide late Eastern Han gate assault at sunset; Guan Yu rides small and off-c",
+    "subject": "Very wide late Eastern Han gate assault racing the sunset; Guan Yu rides small a",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -177,13 +177,13 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Very wide late Eastern Han gate assault at sunset; Guan Yu rides small and off-center at the head of the charge at about one-fifth frame height; waves of East Asian Han infantry raise ladders against an earthen gate, cavalry pours through dust, defenders hurl stones from the wall, arrows arc overhead, war-drum energy, plain solid-color cloth banners, no emblem or lettering."
+    "prompt": "Very wide late Eastern Han gate assault racing the sunset; Guan Yu rides small and off-center at the head of the charge at about one-fifth frame height; waves of East Asian Han infantry raise ladders against a dry earthen city gate, cavalry pours through billowing dust, defenders hurl stones from the wall, arrows arc overhead, a low sun casting long hard shadows, plain solid-color cloth banners, no emblem or lettering."
   },
   {
     "id": "scene-13",
     "scene": 13,
     "type": "ai_reconstruction",
-    "subject": "Very wide 13th-century Bach Dang at falling tide; Tran Hung Dao watches small an",
+    "subject": "Very wide 13th-century Bach Dang estuary at falling tide under grey mist; Tran H",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -192,7 +192,7 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Very wide 13th-century Bach Dang at falling tide; Tran Hung Dao watches small and off-center from the reeds at about one-fifth frame height; an enemy fleet founders on exposed wooden stakes, boats tilt and spill soldiers into the mud, swarms of Dai Viet boats glide out to encircle, East Asian Dai Viet troops wade in, mist and draining water everywhere, plain solid-color cloth, no emblem or lettering."
+    "prompt": "Very wide 13th-century Bach Dang estuary at falling tide under grey mist; Tran Hung Dao watches small and off-center from the reeds at about one-fifth frame height; an enemy fleet founders on exposed wooden stakes in a maze of tidal creeks, boats tilt and spill exhausted soldiers into the mud, swarms of Dai Viet boats glide out to encircle, East Asian Dai Viet troops wade in from the marsh, drifting mist and draining water everywhere, plain solid-color cloth, no emblem or lettering."
   },
   {
     "id": "scene-14",
@@ -207,7 +207,7 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide 13th-century Dai Viet river command post at dawn; Tran Hung Dao stands small and off-center over a campaign map at about one-quarter frame height, markers tilted toward river and plain terrain; officers debate around the table, scouts point outside where Bach Dang stakes and boats fill the river, soldiers form up on the bank, even balanced light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing."
+    "prompt": "Wide 13th-century Dai Viet river command post at dawn; Tran Hung Dao stands small and off-center over a campaign map at about one-quarter frame height, wooden markers spread between a dry walled town and a river-and-marsh terrain; officers debate around the table, scouts point outside where Bach Dang stakes and boats fill the river, soldiers form up on the bank, even balanced light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing."
   },
   {
     "id": "scene-15",
@@ -222,6 +222,6 @@
     "characters": [
       "char-b"
     ],
-    "prompt": "Wide late Eastern Han river camp at dusk; Guan Yu stands small and off-center on a landing at about one-fifth frame height, turning toward the viewer; behind him rows of East Asian Han soldiers strike camp, cavalry waters horses at the river, boats drift in, cook-fires and torches glow, plain solid-color cloth banners, no emblem or lettering."
+    "prompt": "Wide late Eastern Han river camp at dusk; Guan Yu stands small and off-center on a landing at about one-fifth frame height, turning to face the viewer; behind him rows of East Asian Han soldiers strike camp, cavalry waters horses at the river, war-junks drift in, cook-fires and torches glow, plain solid-color cloth banners, no emblem or lettering."
   }
 ]

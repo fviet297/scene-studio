@@ -36,6 +36,7 @@ import { dirname, join } from 'node:path';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
+import { aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { addCharacterToPlan, appendScene, hasSceneHeading, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 
@@ -63,6 +64,9 @@ const PANEL_ASSETS = {
 // which is why every handler below reads through `P` instead of a frozen const.
 let P = activePaths();
 setImageProjectPaths(P);
+// The active project's aspect ('9:16' default, '16:9', …), read fresh from its plan so image/video
+// generation and the upload check match the composition ratio even right after a project switch.
+const activeAspect = () => (existsSync(P.planMd) ? parsePlanAspect(readFileSync(P.planMd, 'utf8')) : '9:16');
 
 const sceneFile = (n) => `${sceneBase(n)}.jpg`;
 const audioFile = (n) => `${sceneBase(n)}.mp3`;
@@ -131,32 +135,9 @@ const normalizeProfilePatch = (patch) => {
   return out;
 };
 
-// Read-only prompt translation via Google Translate's free gtx endpoint (no API key). Chunked so
-// long templates stay under the endpoint's per-request length; never mutates the stored prompt.
-const TRANSLATE_CHUNK = 4000;
-const chunkForTranslate = (text) => {
-  const chunks = [];
-  let cur = '';
-  for (const part of text.split(/(\n)/)) {
-    if ((cur + part).length > TRANSLATE_CHUNK && cur) { chunks.push(cur); cur = ''; }
-    cur += part;
-  }
-  if (cur) chunks.push(cur);
-  return chunks;
-};
-const translateChunk = async (text, from, to) => {
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(from)}&tl=${encodeURIComponent(to)}&dt=t&q=${encodeURIComponent(text)}`;
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-  if (!res.ok) throw new Error(`Google Translate HTTP ${res.status}`);
-  const data = await res.json();
-  if (!Array.isArray(data?.[0])) throw new Error('unexpected translate response');
-  return data[0].map((seg) => seg?.[0] ?? '').join('');
-};
-const translateText = async (text, from, to) => {
-  const parts = [];
-  for (const chunk of chunkForTranslate(text)) parts.push(await translateChunk(chunk, from, to));
-  return parts.join('');
-};
+// Vietnamese prompt/template translations are authored up front (by the lsvn/trangca/history-video
+// skills and the OpenAI prompt writer) and stored alongside each prompt, so the panel reads them
+// straight from state — no runtime translation service.
 const optimizeCharacterImage = (source, target) => {
   execFileSync('ffmpeg', [
     '-y', '-i', source,
@@ -252,7 +233,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title },
+    project: { slug: P.slug, title, aspect: activeAspect() },
     imageModels: IMAGE_MODELS,
     motionVideoModels: MOTION_VIDEO_MODELS,
     seedreamPromptLimit: SEEDREAM_PROMPT_LIMIT,
@@ -281,7 +262,9 @@ const buildState = () => {
         kind: s.image.kind,
         source,
         prompt: s.image.prompt ?? '',
+        promptVi: s.image.promptVi ?? '',
         motionPrompt: sceneMotionPrompt(s),
+        motionVi: s.image.motionVi ?? '',
         query: s.image.query ?? '',
         characters: s.image.characters ?? [],
         hasImage: has,
@@ -335,7 +318,9 @@ const isSupportedImage = (buf) => {
   return false;
 };
 const MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
-const probeVerticalVideo = (path) => {
+// Validate an uploaded scene video against the active project's aspect: orientation must match
+// (portrait for 9:16, landscape for 16:9) and the long edge must be at least 1280px.
+const probeSceneVideo = (path) => {
   const [width, height] = execFileSync(
     'ffprobe',
     [
@@ -354,8 +339,13 @@ const probeVerticalVideo = (path) => {
   if (!Number.isFinite(width) || !Number.isFinite(height)) {
     throw new Error('Video has no readable video stream.');
   }
-  if (width < 720 || height < 1280 || height <= width) {
-    throw new Error(`Use a vertical video at least 720x1280. Received ${width}x${height}.`);
+  const info = aspectInfo(activeAspect());
+  const wantLandscape = info.orientation === 'horizontal';
+  if (info.orientation !== 'square' && wantLandscape !== width > height) {
+    throw new Error(`This project is ${info.ratio} (${info.orientation}). Received ${width}x${height}.`);
+  }
+  if (Math.max(width, height) < 1280 || Math.min(width, height) < 720) {
+    throw new Error(`Use a ${info.ratio} video at least 1280 on the long edge. Received ${width}x${height}.`);
   }
   return { width, height };
 };
@@ -484,6 +474,7 @@ const generateMotionVideosBatch = async (req, res, sceneNos, model) => {
         prompt: sceneMotionPrompt(target),
         model,
         audioSeconds,
+        aspect: activeAspect(),
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
       });
       ok++;
@@ -522,8 +513,9 @@ const generatePromptsBatch = async (req, res, sceneNos) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === n);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const text = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
       writeSceneField(P.planMd, n, 'prompt', text);
+      writeSceneField(P.planMd, n, 'prompt_vi', vi);
       ok++;
       sseSend(res, 'log', `✓ scene ${n}: ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
@@ -687,8 +679,11 @@ const server = createServer(async (req, res) => {
       if (!Number.isFinite(scene) || typeof narration !== 'string') { sendJson(res, 400, { error: 'scene + narration required' }); return; }
       if (!narration.trim()) { sendJson(res, 400, { error: 'narration is empty' }); return; }
       const clean = writeSceneField(P.planMd, scene, 'narration', narration);
-      // Prompt is derived from narration; old prompt must not survive narration changes.
+      // Prompt + its Vietnamese reading aid are derived from narration; none must survive a
+      // narration change. motion_vi likewise tracks the (narration-derived) motion prompt.
       writeSceneField(P.planMd, scene, 'prompt', '');
+      writeSceneField(P.planMd, scene, 'prompt_vi', '');
+      writeSceneField(P.planMd, scene, 'motion_vi', '');
       reparse();
       sendJson(res, 200, { ok: true, scene, narration: clean });
       return;
@@ -698,6 +693,9 @@ const server = createServer(async (req, res) => {
       const { scene, prompt } = await readBody(req);
       if (!Number.isFinite(scene) || typeof prompt !== 'string') { sendJson(res, 400, { error: 'scene + prompt required' }); return; }
       const clean = writeSceneField(P.planMd, scene, 'prompt', prompt);
+      // A hand-edited English prompt no longer matches any stored translation; clear it so the
+      // panel shows "chưa có bản dịch" rather than a stale Vietnamese reading aid.
+      writeSceneField(P.planMd, scene, 'prompt_vi', '');
       reparse();
       sendJson(res, 200, { ok: true, scene, prompt: clean });
       return;
@@ -731,6 +729,8 @@ const server = createServer(async (req, res) => {
           if (typeof row.cue === 'string' && row.cue.trim()) writeSceneField(P.planMd, row.scene, 'cue', row.cue);
           if (char !== undefined) writeSceneField(P.planMd, row.scene, 'char', char);
           writeSceneField(P.planMd, row.scene, 'prompt', typeof row.prompt === 'string' ? row.prompt : '');
+          // Imported prompts carry no translation; drop any stale one so the panel shows a note.
+          writeSceneField(P.planMd, row.scene, 'prompt_vi', '');
           updated.push(row.scene);
         } else {
           appendScene(P.planMd, row.scene, { ...row, char });
@@ -797,19 +797,6 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === 'POST' && pathname === '/api/translate') {
-      // Translate a prompt for reading only (default English → Vietnamese). Does not alter the
-      // stored prompt — the caller shows the result beside the box.
-      const { text, from = 'en', to = 'vi' } = await readBody(req);
-      if (typeof text !== 'string' || !text.trim()) { sendJson(res, 400, { error: 'text required' }); return; }
-      try {
-        sendJson(res, 200, { ok: true, text: await translateText(text, from, to) });
-      } catch (e) {
-        sendJson(res, 502, { error: `translate failed: ${e.message}` });
-      }
-      return;
-    }
-
     if (req.method === 'GET' && pathname === '/api/character-profile') {
       const id = url.searchParams.get('id');
       if (!readPlan().characters[id]) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
@@ -850,10 +837,11 @@ const server = createServer(async (req, res) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const text = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
       writeSceneField(P.planMd, scene, 'prompt', text);
+      writeSceneField(P.planMd, scene, 'prompt_vi', vi);
       reparse();
-      sendJson(res, 200, { ok: true, scene, prompt: text });
+      sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
       return;
     }
 
@@ -926,7 +914,7 @@ const server = createServer(async (req, res) => {
       const uploadPath = `${path}.upload`;
       writeFileSync(uploadPath, buf);
       try {
-        probeVerticalVideo(uploadPath);
+        probeSceneVideo(uploadPath);
         backupMotion(scene);
         renameSync(uploadPath, path);
       } catch (error) {
@@ -1079,7 +1067,7 @@ const server = createServer(async (req, res) => {
         log(`audio duration: ${audioSeconds.toFixed(1)}s`);
         if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
         backupMotion(scene); // snapshot the current motion video so /api/undo can restore it
-        const result = await generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, onLog: log });
+        const result = await generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), onLog: log });
         // The final Remotion render plays this clip in place of the scene image — reparse +
         // rebuild so the bundle's motionVideo flag flips on without a separate manual step.
         reparse();

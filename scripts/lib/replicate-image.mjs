@@ -15,13 +15,19 @@ import { join } from 'node:path';
 import { activePaths } from './project-paths.mjs';
 import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
 import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
+import { parsePlanAspect, aspectInfo, applyAspectText, DEFAULT_ASPECT } from './aspect.mjs';
+import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
 // writes. CLI scripts (generate-visuals.mjs, restyle-characters.mjs) get the active project once
 // at startup; the long-running review server calls setProjectPaths() on every project switch, so
 // a frozen const here would silently write into the wrong project after a switch.
 let paths = activePaths();
-export const setProjectPaths = (next) => { paths = next; };
+// Active project's aspect (from its scene-plan `aspect:`), refreshed alongside paths on every
+// project switch so generated images match the project's composition ratio (default 9:16).
+const readAspect = (planMd) => (existsSync(planMd) ? parsePlanAspect(readFileSync(planMd, 'utf8')) : DEFAULT_ASPECT);
+let currentAspect = readAspect(paths.planMd);
+export const setProjectPaths = (next) => { paths = next; currentAspect = readAspect(next.planMd); };
 export const imageDir = () => paths.imageDir;
 export const manifestPath = () => paths.manifest;
 
@@ -138,6 +144,10 @@ export const getTemplates = () => {
   const source = over.versions?.[selected] ?? over;
   const out = { ...TEMPLATE_DEFAULTS, activeVersion: selected, versions: over.versions ?? {} };
   for (const k of TEMPLATE_KEYS) if (typeof source[k] === 'string' && source[k].trim()) out[k] = source[k];
+  // Read-only Vietnamese reading aids (styleDna_vi, guard_vi, …) for the panel's "Dịch" toggle.
+  // They translate the shipped defaults only; a custom template version keeps the default's VI,
+  // which the panel flags is only exact when the field still matches the default.
+  for (const k of TEMPLATE_KEYS) out[`${k}_vi`] = TEMPLATE_VI_DEFAULTS[k] ?? '';
   return out;
 };
 
@@ -182,30 +192,30 @@ export const activateTemplateVersion = (version) => {
   return getTemplates();
 };
 
-const buildCharPrompt = (t, scenePrompt, template) =>
-  `${NO_TEXT_POLICY}\n\n${template
+const buildCharPrompt = (t, scenePrompt, template, aspect = currentAspect) =>
+  applyAspectText(`${NO_TEXT_POLICY}\n\n${template
     .replaceAll('[STYLE]', t.styleDna)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
+    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
 
-const buildTextPrompt = (t, scenePrompt) =>
-  `${NO_TEXT_POLICY}\n\n${t.text2img
+const buildTextPrompt = (t, scenePrompt, aspect = currentAspect) =>
+  applyAspectText(`${NO_TEXT_POLICY}\n\n${t.text2img
     .replaceAll('[STYLE]', t.styleDna)
     .replaceAll('[GUARD]', t.guard)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`;
+    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
 
 // The full prompt string generateSceneImage would send for one scene (template + style + scene
 // prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
 // Routes by declared character count, mirroring generateSceneImage's template choice.
-export const assemblePrompt = (scene, templates = getTemplates()) => {
+export const assemblePrompt = (scene, templates = getTemplates(), aspect = currentAspect) => {
   const chars = scene.image?.characters ?? [];
   const scenePrompt = scene.image?.prompt ?? '';
   if (chars.length) {
     const multi = chars.length > 1;
     const face = !multi && scene.image?.identity === 'face';
     const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
-    return buildCharPrompt(templates, scenePrompt, template);
+    return buildCharPrompt(templates, scenePrompt, template, aspect);
   }
-  return buildTextPrompt(templates, scenePrompt);
+  return buildTextPrompt(templates, scenePrompt, aspect);
 };
 
 // Default image model for every scene regardless of reference count (single-character,
@@ -276,13 +286,14 @@ export const SEEDREAM_PROMPT_LIMIT = 4000;
 // Build the Replicate `input` for a model. Each provider takes different fields, so the caller
 // passes intent (prompt, reference data-URIs) and we shape it per provider. Seedream and
 // nano-banana accept 1–14 references (multi-reference generation); FLUX takes a single one.
-export const buildInput = (model, { prompt, refUris = [] }) => {
+export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect }) => {
+  const ratio = aspectInfo(aspect).ratio;
   if (model.startsWith('bytedance/seedream')) {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
     return {
-      prompt, aspect_ratio: '9:16', size: '2K', max_images: 1,
+      prompt, aspect_ratio: ratio, size: '2K', max_images: 1,
       sequential_image_generation: 'disabled',
       ...(refUris.length ? { image_input: refUris } : {}),
     };
@@ -291,13 +302,13 @@ export const buildInput = (model, { prompt, refUris = [] }) => {
     // Gemini image models: one `prompt` string plus an optional `image_input` array of up to
     // 14 references; resolution/aspect_ratio instead of FLUX's fields, and no Seedream-style
     // prompt-length cap. Same array is used for one or many references.
-    return { prompt, aspect_ratio: '9:16', resolution: '2K', output_format: 'jpg', ...(refUris.length ? { image_input: refUris } : {}) };
+    return { prompt, aspect_ratio: ratio, resolution: '2K', output_format: 'jpg', ...(refUris.length ? { image_input: refUris } : {}) };
   }
   if (model.startsWith('xai/grok-imagine')) {
     // Grok Imagine takes a single `image` for editing (not FLUX's `input_image`, and no
     // output_format/num_outputs); aspect_ratio is ignored while editing. Single reference only,
     // so a two-character scene forced onto this model keeps only the first reference.
-    return refUris.length ? { prompt, image: refUris[0] } : { prompt, aspect_ratio: '9:16' };
+    return refUris.length ? { prompt, image: refUris[0] } : { prompt, aspect_ratio: ratio };
   }
   // Fallback for any other model — FLUX Kontext/dev via REPLICATE_*_MODEL, and any custom model id
   // typed into the review panel's custom-model box. We can't know a custom model's exact input
@@ -306,8 +317,8 @@ export const buildInput = (model, { prompt, refUris = [] }) => {
   // `images` (array, e.g. prunaai/qwen edit models). A model reads whichever its schema defines and
   // ignores the rest; a model with a strict schema on a different key still needs its own branch above.
   return refUris.length
-    ? { prompt, input_image: refUris[0], image_input: refUris, images: refUris, aspect_ratio: '9:16', output_format: 'jpg' }
-    : { prompt, aspect_ratio: '9:16', output_format: 'jpg', num_outputs: 1 };
+    ? { prompt, input_image: refUris[0], image_input: refUris, images: refUris, aspect_ratio: ratio, output_format: 'jpg' }
+    : { prompt, aspect_ratio: ratio, output_format: 'jpg', num_outputs: 1 };
 };
 
 // Read REPLICATE_* from ./.env into process.env (once), without overwriting real env.
@@ -384,22 +395,22 @@ export const upsertManifest = (entry) => {
 // Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
 // anything else → Replicate. refPaths are local reference file paths; each provider builds its own
 // payload from the shared data-URI encoding. Returns the output image URL.
-const runImageModel = async (token, model, { prompt, refPaths, onLog }) => {
+const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect, onLog }) => {
   if (model.startsWith('fal-ai/')) {
-    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), onLog });
+    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog });
     return url;
   }
   if (model.startsWith('vmedia:')) {
     // Gommo generateImage locks to a single reference (edit mode); a multi-character scene keeps
     // only the first reference, so pick fal/Replicate for scenes needing every face locked.
     const { url } = await vmediaImageUrl(model.slice('vmedia:'.length), {
-      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, onLog,
+      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog,
     });
     return url;
   }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri) }));
+  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }));
   onLog('prediction succeeded; image URL received');
   return url;
 };
@@ -413,6 +424,7 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   // Explicit model chosen in the review UI. Overrides the reference-count routing below for
   // whichever branch this scene falls into; blank/absent keeps the automatic route.
   const override = typeof opts.model === 'string' && opts.model.trim() ? opts.model.trim() : null;
+  const aspect = opts.aspect ?? currentAspect;
   const onLog = opts.onLog ?? (() => {});
   // Token is required only for the Replicate path; runImageModel checks it there. A fal-only user
   // (fal model chosen, FAL_KEY set) does not need REPLICATE_API_TOKEN.
@@ -442,15 +454,15 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     const face = !multi && scene.image.identity === 'face';
     const template = multi ? t.multiCharPrompt : face ? t.faceLockPrompt : t.masterPrompt;
     const route = multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock';
-    const prompt = buildCharPrompt(t, scene.image.prompt, template);
-    onLog(`route: ${route}, model=${model}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
-    url = await runImageModel(token, model, { prompt, refPaths: refs, onLog });
+    const prompt = buildCharPrompt(t, scene.image.prompt, template, aspect);
+    onLog(`route: ${route}, model=${model}, aspect=${aspect}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
+    url = await runImageModel(token, model, { prompt, refPaths: refs, aspect, onLog });
     via = `${model} ${route}`;
   } else {
     const model = override ?? text;
-    const prompt = buildTextPrompt(t, scene.image.prompt);
-    onLog(`route: text2img, model=${model}, no reference, prompt=${prompt.length} chars`);
-    url = await runImageModel(token, model, { prompt, refPaths: [], onLog });
+    const prompt = buildTextPrompt(t, scene.image.prompt, aspect);
+    onLog(`route: text2img, model=${model}, aspect=${aspect}, no reference, prompt=${prompt.length} chars`);
+    url = await runImageModel(token, model, { prompt, refPaths: [], aspect, onLog });
     via = `${model} text2img`;
   }
 

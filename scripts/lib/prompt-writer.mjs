@@ -47,9 +47,14 @@ SCENE-TYPE RECIPE (pick by the narration)
 - Map / territory → clarity over art: simplified geography, clear boundaries, movement; no invented lettering.
 - Architecture / artifact → period, culture, correct proportions and materials, simple background.
 
-11. Be concise — this text is inserted into a prompt with a hard character budget. Plain prose only: no markdown, no quotation marks, no field labels, no preamble. Output ONLY the prompt text itself.
+11. Be concise — the English prompt is inserted into a template with a hard character budget. Plain prose only: no markdown, no quotation marks, no field labels, no preamble.
 
-EXAMPLES OF GOOD OUTPUT (match the discipline — named culture, pinned extras, scene-specific negatives; never copy the content):
+OUTPUT FORMAT — output exactly two parts and nothing else:
+- First, the English scene prompt as plain prose (this is what counts against the character budget).
+- Then, on its own line, the delimiter ===VI===
+- Then a close, natural Vietnamese translation of that same English prompt (faithful meaning; keep proper names, dynasty/place names and untranslatable technical phrases as-is). The Vietnamese does NOT count against the character budget.
+
+EXAMPLES OF GOOD OUTPUT (the English half only — match the discipline: named culture, pinned extras, scene-specific negatives; never copy the content):
 [one character] ${EXAMPLE_SINGLE}
 [two characters, split-screen] ${EXAMPLE_SPLIT}`;
 
@@ -106,7 +111,7 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
   const contextNote = context && (context.prev || context.next)
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
-  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now. Stay under ${budget} characters.`;
+  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now. Keep the English prompt under ${budget} characters, then a line with ===VI=== and its Vietnamese translation.`;
 
   // Newer reasoning-class models reject a custom temperature; only send it for the gpt-4 family.
   const supportsTemperature = /^gpt-4/.test(useModel);
@@ -124,7 +129,14 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
   });
   if (!res.ok) throw new Error(`OpenAI ${res.status}: ${(await res.text()).slice(0, 500)}`);
   const data = await res.json();
-  const text = data.choices?.[0]?.message?.content?.trim();
+  const raw = data.choices?.[0]?.message?.content?.trim();
+  if (!raw) throw new Error('OpenAI returned no prompt text.');
+  // The model returns the English prompt, a ===VI=== delimiter line, then the Vietnamese
+  // translation — both in one request (no second OpenAI call). If the delimiter is missing,
+  // treat the whole reply as the English prompt and leave the translation empty.
+  const [enPart, ...viParts] = raw.split(/\n?\s*={2,}\s*VI\s*={2,}\s*\n?/i);
+  const text = (enPart ?? '').trim();
+  const vi = viParts.join('').trim();
   if (!text) throw new Error('OpenAI returned no prompt text.');
-  return text;
+  return { text, vi };
 };

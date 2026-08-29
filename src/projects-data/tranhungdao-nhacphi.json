@@ -1,6 +1,9 @@
 {
   "slug": "tranhungdao-nhacphi",
   "title": "trần hưng đạo và nhạc phi",
+  "aspect": "9:16",
+  "width": 1080,
+  "height": 1920,
   "publicPrefix": "projects/tranhungdao-nhacphi",
   "fps": 30,
   "durationInFrames": 1632,

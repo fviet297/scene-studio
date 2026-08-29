@@ -48,8 +48,9 @@ let count = 0;
 for (const s of targets) {
   if (!s.narration) { process.stdout.write(`✗ scene ${s.scene}: no narration, skipped\n`); continue; }
   const characters = buildCharacterContext(s.image.characters, paths.profilesDir);
-  const text = await generateScenePrompt({ narration: s.narration, characters, identity: s.image.identity });
+  const { text, vi } = await generateScenePrompt({ narration: s.narration, characters, identity: s.image.identity });
   writeSceneField(paths.planMd, s.scene, 'prompt', text);
+  writeSceneField(paths.planMd, s.scene, 'prompt_vi', vi);
   count += 1;
   process.stdout.write(`✓ scene ${s.scene}: ${text.slice(0, 80)}${text.length > 80 ? '…' : ''}\n`);
 }

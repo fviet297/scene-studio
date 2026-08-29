@@ -166,7 +166,7 @@
             <div class="btn-row">
               <button class="btn sm" type="button" id="promptSave" disabled>Save prompt</button>
               <button class="btn sm" type="button" id="btnGenPrompt" title="Write this scene's image prompt from its narration">Write from narration</button>
-              <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-src="promptBox" data-out="promptTrans" data-label="Dịch">Dịch</button>
+              <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-vi="scenePrompt" data-out="promptTrans" data-label="Dịch">Dịch</button>
             </div>
             <div class="translation" id="promptTrans" hidden></div>
           </div>
@@ -225,7 +225,7 @@
               <span class="note" id="motionDurationHint"></span>
             </div>
             <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Video prompt for the selected scene" placeholder="Motion prompt sent to the model"></textarea>
-            <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-src="motionPromptBox" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
+            <button class="btn sm wide btn-translate" type="button" id="btnTransMotion" data-vi="sceneMotion" data-out="motionTrans" data-label="Dịch prompt">Dịch prompt</button>
             <div class="translation" id="motionTrans" hidden></div>
           </div>
 
@@ -296,12 +296,12 @@
     </div>
     <div class="dialog-body">
       <div class="field template-version-row"><label for="t_version">Prompt style version</label><select id="t_version"></select><input id="t_newVersion" type="text" placeholder="new version name" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Switch</button></div>
-      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
-      <div class="field"><label for="t_masterPrompt">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
-      <div class="field"><label for="t_faceLockPrompt">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
-      <div class="field"><label for="t_multiCharPrompt">Multi-character prompt, two or more <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
-      <div class="field"><label for="t_text2img">Text-to-image, no character</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
-      <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-src="t_guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
+      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
+      <div class="field"><label for="t_masterPrompt">Char-lock master prompt</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
+      <div class="field"><label for="t_faceLockPrompt">Face-lock prompt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
+      <div class="field"><label for="t_multiCharPrompt">Multi-character prompt, two or more <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
+      <div class="field"><label for="t_text2img">Text-to-image, no character</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
+      <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
     </div>
     <div class="dialog-foot">
       <span class="note">Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char, face, multi-character and text templates, or the scene prompt is never inserted.</span>

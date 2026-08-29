@@ -4,6 +4,7 @@
 // replicate-image.mjs routes any `vmedia:<slug>` image model here. Reference locking uses a single
 // base64 image (edit mode); multi-reference scenes fall back to that one reference.
 import { gommoPost, getModelCaps, pickCap, projectId } from './gommo-client.mjs';
+import { aspectInfo } from './aspect.mjs';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -14,8 +15,7 @@ const imageSlugs = () => (process.env.VMEDIA_IMAGE_MODELS ?? 'google_image_gen_b
   .split(',').map((slug) => slug.trim()).filter(Boolean);
 export const VMEDIA_IMAGE_MODELS = imageSlugs().map((slug) => ({ id: `vmedia:${slug}`, label: `${slug} (VMedia)` }));
 
-// generateImage's ratio uses underscores (9_16 | 16_9 | 1_1); the pipeline is 9:16 vertical.
-const RATIO = '9_16';
+// generateImage's ratio uses underscores (9_16 | 16_9 | 1_1); the project's aspect maps to one.
 
 // Poll /ai/image. The status body wraps the fields in `imageInfo`; match status on a substring
 // (SUCCESS / ERROR appear in both the short and long forms). Seedream 2K can take several minutes.
@@ -34,7 +34,7 @@ const pollImage = async (id, log) => {
 
 // Run one Gommo image model → { url, via }. `refDataUri` (optional, WITH the data: prefix) switches
 // to edit mode locking to that single reference image.
-export const vmediaImageUrl = async (slug, { prompt, refDataUri, onLog } = {}) => {
+export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog } = {}) => {
   const caps = await getModelCaps('image', slug); // validates the slug; throws a slug list otherwise
   // Some models require `resolution` and `mode`; snap each to a value the model declares (caps use
   // `modes` for images, `mode`/`modes` for video). Cheapest/most balanced option preferred first.
@@ -42,7 +42,7 @@ export const vmediaImageUrl = async (slug, { prompt, refDataUri, onLog } = {}) =
   // Gommo image models expose VIP-tier modes (standard/relaxed are often disabled), so prefer vip.
   const mode = pickCap(caps.modes ?? caps.mode, [process.env.VMEDIA_IMAGE_MODE ?? 'vip', 'vip']);
   const params = {
-    action_type: 'create', model: slug, prompt, project_id: projectId(), ratio: RATIO,
+    action_type: 'create', model: slug, prompt, project_id: projectId(), ratio: aspectInfo(aspect).vmediaImage,
     ...(resolution ? { resolution } : {}),
     ...(mode ? { mode } : {}),
     ...(refDataUri ? { editImage: 'true', base64Image: refDataUri } : {}),

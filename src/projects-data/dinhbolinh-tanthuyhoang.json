@@ -1,6 +1,9 @@
 {
   "slug": "dinhbolinh-tanthuyhoang",
   "title": "Đinh Bộ Lĩnh - Tần Thủy Hoàng",
+  "aspect": "9:16",
+  "width": 1080,
+  "height": 1920,
   "publicPrefix": "projects/dinhbolinh-tanthuyhoang",
   "fps": 30,
   "durationInFrames": 6498,

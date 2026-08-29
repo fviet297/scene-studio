@@ -1,6 +1,9 @@
 {
   "slug": "ly-thai-to-vs-ly-the-dan",
   "title": "LÝ THÁI TỔ vs LÝ THẾ DÂN",
+  "aspect": "9:16",
+  "width": 1080,
+  "height": 1920,
   "publicPrefix": "projects/ly-thai-to-vs-ly-the-dan",
   "fps": 30,
   "durationInFrames": 1832,

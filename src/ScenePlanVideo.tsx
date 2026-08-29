@@ -15,14 +15,13 @@ import { getSceneMotion } from "./scene-motion";
 
 // One composition per project, each fed a ProjectData bundle built by scripts/build-remotion.mjs
 // (src/projects-data/*.json) from that project's projects/<slug>/scene-plan.md + audio. Full-bleed
-// scene image (or motion clip) with an auto title/cue and the caption track. One <Audio> per scene.
+// scene image (or motion clip) with an auto title and the caption track. One <Audio> per scene.
 
 export const FPS = 30;
 const COLORS = {
   paper: "#f2eadb",
   ink: "#191716",
   red: "#a82f26",
-  gold: "#bb8a31",
 };
 
 export type Scene = {
@@ -48,6 +47,10 @@ export type Scene = {
 export type ProjectData = {
   slug: string;
   title: string;
+  // Composition size + aspect, stamped by the builder from the plan's `aspect:` (default 9:16).
+  aspect?: string;
+  width?: number;
+  height?: number;
   publicPrefix: string;
   fps: number;
   durationInFrames: number;
@@ -124,7 +127,7 @@ export function SceneView({
         />
       )}
 
-      {/* top scrim + title/cue. Insets and the top offset clear TikTok/Reels/Shorts' own
+      {/* top scrim + title. Insets and the top offset clear TikTok/Reels/Shorts' own
           chrome: a back button + search icon sit roughly in the top ~150px, and their share
           button rail runs down the right edge, so text stays out of both. */}
       <div
@@ -156,25 +159,6 @@ export function SceneView({
           {scene.title}
         </div>
       )}
-      {scene.cue && (
-        <div
-          style={{
-            position: "absolute",
-            top: 396,
-            left: 110,
-            right: 110,
-            textAlign: "center",
-            fontFamily: "Arial, sans-serif",
-            fontWeight: 800,
-            fontSize: 26,
-            color: COLORS.gold,
-            textShadow: "0 2px 6px rgba(0,0,0,.7)",
-          }}
-        >
-          {scene.cue}
-        </div>
-      )}
-
       {/* AI reconstruction tag — kept clear of the top-left back button */}
       {showsAiTag && (
         <div

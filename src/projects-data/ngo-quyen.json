@@ -1,6 +1,9 @@
 {
   "slug": "ngo-quyen",
   "title": "Ngô Quyền",
+  "aspect": "9:16",
+  "width": 1080,
+  "height": 1920,
   "publicPrefix": "projects/ngo-quyen",
   "fps": 30,
   "durationInFrames": 4232,

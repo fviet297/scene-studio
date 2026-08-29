@@ -6,6 +6,7 @@
 import { basename, join } from 'node:path';
 import { closeSync, existsSync, openSync, readFileSync, readSync } from 'node:fs';
 import { projectPaths } from './project-paths.mjs';
+import { parsePlanAspect } from './aspect.mjs';
 
 // A motion video only gets used when the file is actually a playable MP4 — a failed or
 // interrupted generation can leave a truncated file (or a stray placeholder saved with a .mp4
@@ -42,6 +43,7 @@ export const parsePlan = (slug, inputPath) => {
   const warnings = [];
   const raw = readFileSync(input, 'utf8');
   const title = raw.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? slug;
+  const aspect = parsePlanAspect(raw);
   const blocks = raw.split(/^##\s+/m).slice(1);
   const characters = {};
   const scenes = [];
@@ -63,7 +65,7 @@ export const parsePlan = (slug, inputPath) => {
 
     const fields = {};
     for (const line of lines) {
-      const kv = /^(time|char|identity|narration|prompt|motion|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
+      const kv = /^(time|char|identity|narration|prompt_vi|prompt|motion_vi|motion|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
       if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
     }
 
@@ -72,9 +74,12 @@ export const parsePlan = (slug, inputPath) => {
     const identity = /^face$/i.test(fields.identity ?? '') ? 'face' : 'full';
     // motion: optional per-scene image-to-video prompt. When set, the review server uses it
     // verbatim instead of auto-building one from narration + image prompt.
+    // prompt_vi / motion_vi: close Vietnamese translations authored alongside the English prompt /
+    // motion (by the lsvn/trangca/history-video skills or the OpenAI prompt writer). Read-only
+    // reading aids surfaced in the review panel; never sent to any image/video model.
     const image = fields.search
       ? { kind: 'search', characters: [], query: fields.search }
-      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '' };
+      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '', promptVi: fields.prompt_vi ?? '', motionVi: fields.motion_vi ?? '' };
 
     const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', image };
     for (const k of ['title', 'cue', 'host']) if (fields[k]) scene[k] = fields[k];
@@ -119,5 +124,5 @@ export const parsePlan = (slug, inputPath) => {
     try { assetManifest = JSON.parse(readFileSync(paths.manifest, 'utf8')); } catch { assetManifest = []; }
   }
 
-  return { slug, input, title, characters, scenes, characterRows, assetManifest, warnings };
+  return { slug, input, title, aspect, characters, scenes, characterRows, assetManifest, warnings };
 };

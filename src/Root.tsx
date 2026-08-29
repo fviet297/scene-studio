@@ -23,8 +23,8 @@ export const RemotionRoot: React.FC = () => (
         defaultProps={{ project }}
         durationInFrames={Math.max(1, project.durationInFrames)}
         fps={project.fps}
-        width={1080}
-        height={1920}
+        width={project.width ?? 1080}
+        height={project.height ?? 1920}
       />
     ))}
     {/* Single-scene preview. Duration is set per render from the scene's audio (props). */}

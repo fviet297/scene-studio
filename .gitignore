@@ -6,3 +6,6 @@ data/
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Generated media resources (audio, images, videos, backups, manifests) — not code
+public/projects/

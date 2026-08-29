@@ -25,10 +25,10 @@ try {
   process.stderr.write(`${e.message}\n`);
   process.exit(1);
 }
-const { input, title, characters, scenes, characterRows, assetManifest, warnings } = parsed;
+const { input, title, aspect, characters, scenes, characterRows, assetManifest, warnings } = parsed;
 for (const w of warnings) process.stderr.write(`WARN ${w}\n`);
 
-writeFileSync('src/scene-plan.json', `${JSON.stringify({ project: slug, title, characters, scenes }, null, 2)}\n`);
+writeFileSync('src/scene-plan.json', `${JSON.stringify({ project: slug, title, aspect, characters, scenes }, null, 2)}\n`);
 writeFileSync('src/characters-data.json', `${JSON.stringify({ project: slug, characters: characterRows }, null, 2)}\n`);
 writeFileSync('src/asset-manifest.json', `${JSON.stringify(assetManifest, null, 2)}\n`);
 

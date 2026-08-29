@@ -7,6 +7,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gommoPost, getModelCaps, pickCap, projectId } from './gommo-client.mjs';
+import { aspectInfo } from './aspect.mjs';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -68,14 +69,15 @@ const pollVideo = async (id, log) => {
 
 // `targetSeconds` is the desired clip length (from narration audio or a user override); it is
 // snapped to what the chosen model accepts.
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', vmediaModel, targetSeconds, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', vmediaModel, targetSeconds, aspect, onLog }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const model = vmediaModel || process.env.VMEDIA_VIDEO_MODEL;
   if (!model) throw new Error('Missing VMedia video model (pick one in the panel or set VMEDIA_VIDEO_MODEL).');
   const caps = await getModelCaps('video', model);
   const imageUrl = await uploadImage(imagePath, onLog);
 
-  const ratio = pickCap(caps.ratios, [process.env.VMEDIA_VIDEO_RATIO ?? '9:16', '9:16']);
+  const wantRatio = process.env.VMEDIA_VIDEO_RATIO ?? aspectInfo(aspect).ratio;
+  const ratio = pickCap(caps.ratios, [wantRatio, aspectInfo(aspect).ratio, '9:16', '16:9']);
   const resolutionPref = process.env.VMEDIA_VIDEO_RESOLUTION ?? '720p';
   // Prefer the price table (authoritative combos); fall back to the caps lists for models without one.
   const combo = pickPricedCombo(caps.prices, targetSeconds, resolutionPref) ?? {

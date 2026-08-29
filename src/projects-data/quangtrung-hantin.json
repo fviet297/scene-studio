@@ -1,6 +1,9 @@
 {
   "slug": "quangtrung-hantin",
   "title": "Quang Trung - Hàn Tín",
+  "aspect": "9:16",
+  "width": 1080,
+  "height": 1920,
   "publicPrefix": "projects/quangtrung-hantin",
   "fps": 30,
   "durationInFrames": 4956,

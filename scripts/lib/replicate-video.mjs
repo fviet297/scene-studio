@@ -8,6 +8,7 @@ import { existsSync, mkdirSync, renameSync, unlinkSync, writeFileSync } from 'no
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { predict, dataUri } from './replicate-image.mjs';
+import { aspectInfo } from './aspect.mjs';
 
 // Curated image-to-video models offered in the review panel's model picker. Seedance is first
 // so 1080p TikTok-ready output is the panel's default selection and fallback.
@@ -19,8 +20,13 @@ export const VIDEO_MODELS = [
   'minimax/hailuo-2.3-fast',
 ];
 const DEFAULT_MODEL = 'bytedance/seedance-1-pro-fast';
-const TIKTOK_WIDTH = 1088;
-const TIKTOK_HEIGHT = 1920;
+// Minimum long-edge every provider must clear; the orientation (portrait vs landscape) is checked
+// against the project aspect instead of an exact WxH, since each model rounds 1080p differently.
+const MIN_LONG_EDGE = 1080;
+const MIN_SHORT_EDGE = 600;
+
+// Models that accept an `aspect_ratio` field (others follow the source image's ratio).
+const ASPECT_RATIO_MODELS = new Set(['bytedance/seedance-1-pro-fast']);
 
 // Each model names its image-to-video input field differently.
 const IMAGE_FIELD = {
@@ -38,7 +44,7 @@ const MODEL_INPUTS = {
   },
 };
 
-const assertTikTokResolution = (videoPath) => {
+const assertResolution = (videoPath, aspect) => {
   const metadata = execFileSync(
     'ffprobe',
     [
@@ -55,10 +61,14 @@ const assertTikTokResolution = (videoPath) => {
     { encoding: 'utf8' },
   ).trim();
   const [width, height] = metadata.split(',').map(Number);
-  if (width !== TIKTOK_WIDTH || height !== TIKTOK_HEIGHT) {
-    throw new Error(
-      `Expected ${TIKTOK_WIDTH}x${TIKTOK_HEIGHT}, received ${width}x${height}`,
-    );
+  const info = aspectInfo(aspect);
+  const wantLandscape = info.orientation === 'horizontal';
+  const isLandscape = width > height;
+  if (info.orientation !== 'square' && wantLandscape !== isLandscape) {
+    throw new Error(`Expected ${info.orientation} (${info.ratio}) video, received ${width}x${height}`);
+  }
+  if (Math.max(width, height) < MIN_LONG_EDGE || Math.min(width, height) < MIN_SHORT_EDGE) {
+    throw new Error(`Video too small for ${info.ratio}: received ${width}x${height}`);
   }
 };
 
@@ -78,7 +88,7 @@ export const buildMotionPrompt = ({ narration = '', scenePrompt = '' }) => [
   'No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements, exaggerated physics, or visual artifacts.',
 ].filter(Boolean).join('\n');
 
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const token = process.env.REPLICATE_API_TOKEN;
   if (!token) throw new Error('Missing REPLICATE_API_TOKEN in .env');
@@ -90,6 +100,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
     prompt: prompt || 'Subtle cinematic motion, preserve the historical illustration and character identity.',
     [imageField]: dataUri(imagePath),
     ...MODEL_INPUTS[chosenModel],
+    ...(ASPECT_RATIO_MODELS.has(chosenModel) ? { aspect_ratio: aspectInfo(aspect).ratio } : {}),
     ...(duration ? { duration } : {}),
   };
   onLog?.(`POST https://api.replicate.com/v1/models/${chosenModel}/predictions`);
@@ -105,7 +116,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   if (!videoResponse.ok) throw new Error(`Replicate video download ${videoResponse.status}`);
   writeFileSync(temporaryOutput, Buffer.from(await videoResponse.arrayBuffer()));
   try {
-    assertTikTokResolution(temporaryOutput);
+    assertResolution(temporaryOutput, aspect);
     renameSync(temporaryOutput, output);
   } catch (error) {
     unlinkSync(temporaryOutput);

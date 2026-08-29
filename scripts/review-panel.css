@@ -183,7 +183,7 @@ select.mini.wide { width: 100%; }
 .rail-item:hover { background: var(--surface-2); }
 .rail-item[aria-current="true"] { background: var(--surface-3); border-color: #39414a; }
 .rail-item .thumb {
-  width: 30px; aspect-ratio: 9 / 16; border-radius: 3px; background: var(--stage);
+  width: 30px; aspect-ratio: var(--scene-aspect, 9 / 16); border-radius: 3px; background: var(--stage);
   object-fit: cover; display: block; border: 1px solid var(--line-soft);
 }
 .rail-item .thumb.blank { display: grid; place-items: center; color: var(--faint); font-size: 9px; }
@@ -459,7 +459,7 @@ textarea::placeholder { color: var(--faint); }
 .tile-media { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .media-pane {
   position: relative; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: var(--r-ctl);
-  background: var(--stage); overflow: hidden; aspect-ratio: 9 / 16; display: block; width: 100%;
+  background: var(--stage); overflow: hidden; aspect-ratio: var(--scene-aspect, 9 / 16); display: block; width: 100%;
   transition: border-color .15s ease;
 }
 button.media-pane:hover { border-color: #3d454e; }
@@ -613,4 +613,9 @@ code { font-family: var(--mono); font-size: 11px; color: var(--accent); backgrou
   background: var(--surface-2); color: var(--muted);
   font-size: 12px; line-height: 1.5; white-space: pre-wrap;
   max-height: 200px; overflow-y: auto;
+}
+/* No translation authored yet: a quiet note, not a reading aid — drop the accent, soften the copy. */
+.translation.is-empty {
+  border-left-color: var(--line-soft);
+  color: var(--muted); font-style: italic; opacity: 0.85;
 }

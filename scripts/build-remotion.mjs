@@ -11,6 +11,7 @@ import { join } from 'node:path';
 import { listProjects, projectPaths } from './lib/project-paths.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { alignCaptions } from './lib/caption-align.mjs';
+import { aspectInfo } from './lib/aspect.mjs';
 
 const FPS = 30;
 const PLACEHOLDER_SCENE_SECONDS = 4;
@@ -24,8 +25,9 @@ mkdirSync(OUT_DIR, { recursive: true });
 const built = [];
 for (const slug of listProjects()) {
   const paths = projectPaths(slug);
-  const { title, scenes, assetManifest, warnings } = parsePlan(slug);
+  const { title, aspect, scenes, assetManifest, warnings } = parsePlan(slug);
   for (const w of warnings) process.stderr.write(`WARN [${slug}] ${w}\n`);
+  const { width, height } = aspectInfo(aspect);
 
   const audioFile = (n) => join(paths.audioDir, `scene-${String(n).padStart(2, '0')}.mp3`);
   const clipFile = (n) => join(paths.sceneVideoDir, `scene-${String(n).padStart(2, '0')}.mp4`);
@@ -62,6 +64,9 @@ for (const slug of listProjects()) {
   const data = {
     slug,
     title,
+    aspect,
+    width,
+    height,
     publicPrefix: paths.staticPrefix,
     fps: FPS,
     durationInFrames,
