@@ -68,6 +68,9 @@ let currentScene = null;
 let filter = "all";
 let view = "stage";
 let busy = false;
+// Audio runs in its own lane: it writes only .mp3 files (never the manifest that image
+// generation touches), so it may run concurrently with the image/motion `busy` lane.
+let audioBusy = false;
 let templateVersions = [];
 const selected = new Set();
 const drafts = { prompt: new Map(), narr: new Map() };
@@ -426,9 +429,11 @@ function renderStage() {
   $("audioMissing").hidden = s.hasAudio;
   if (s.hasAudio && audio.getAttribute("src") !== s.audioUrl)
     audio.src = s.audioUrl;
-  $("btnAudio").textContent = s.hasAudio
-    ? "Regenerate audio"
-    : "Generate audio";
+  $("btnAudio").textContent = audioBusy
+    ? "Generating audio…"
+    : s.hasAudio
+      ? "Regenerate audio"
+      : "Generate audio";
 
   $("btnMotionVideo").textContent = s.hasMotionVideo
     ? "Regenerate motion video"
@@ -512,7 +517,7 @@ function syncInspector(s) {
   $("btnUpload").textContent = s.hasImage
     ? "Replace with your own image"
     : "Upload your own image";
-  $("btnAudio").disabled = busy || !(s.narration || "").trim();
+  $("btnAudio").disabled = audioBusy || !(s.narration || "").trim();
   updatePromptCount();
   showError("");
 }
@@ -585,7 +590,7 @@ function renderSelection() {
     : "Nothing selected";
   $("batchPrompt").disabled = busy || aiCount === 0;
   $("batchImg").disabled = busy || aiCount === 0;
-  $("batchAud").disabled = busy || chosen.length === 0;
+  $("batchAud").disabled = audioBusy || chosen.length === 0;
   $("batchMotion").disabled = busy || motionEligibleCount === 0;
 }
 
@@ -665,10 +670,11 @@ function setBusy(on, label = "working") {
     veil.innerHTML = `<span class="spinner"></span><span>${escapeHtml(label)}</span>`;
     canvas.appendChild(veil);
   }
+  // btnAudio/batchAud are intentionally absent: the audio lane is gated by `audioBusy`,
+  // not the image/motion `busy` lock, so audio can be started while an image/motion job runs.
   for (const id of [
     "btnGen",
     "btnGenPrompt",
-    "btnAudio",
     "btnUpload",
     "btnUndoImage",
     "btnUndoMotion",
@@ -677,7 +683,6 @@ function setBusy(on, label = "working") {
     "btnApprove",
     "batchPrompt",
     "batchImg",
-    "batchAud",
     "batchMotion",
     "projectSelect",
     "btnNewProject",
@@ -711,7 +716,12 @@ function clearProjectLocalState() {
 }
 
 async function switchProject(slug) {
-  if (busy || !slug || slug === state.project?.slug) return;
+  // Also blocked while audio runs: switching changes the server's active-project paths, which
+  // an in-flight audio job would otherwise write into.
+  if (busy || audioBusy || !slug || slug === state.project?.slug) {
+    renderProjectSwitch();
+    return;
+  }
   setBusy(true, `switching to ${slug}`);
   try {
     clearProjectLocalState();
@@ -827,6 +837,48 @@ async function streamJob(path, body, label, onDone) {
     $("conCancel").hidden = true;
     setBusy(false);
     if (failed) openLog(true);
+    await refresh().catch(() => {});
+  }
+}
+
+// Audio lane, independent of streamJob's image/motion `busy` lock. It never touches the shared
+// console, veil or Cancel button, so an audio run and an image/motion run can proceed at once
+// without their logs colliding. Progress is shown on the button; the result comes via toast.
+// Only one audio job runs at a time (single OmniVoice TTS backend), guarded by `audioBusy`.
+async function runAudioJob(path, body) {
+  if (audioBusy) return;
+  audioBusy = true;
+  $("btnAudio").disabled = true;
+  $("btnAudio").textContent = "Generating audio…";
+  $("batchAud").disabled = true;
+  try {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const chunks = buffer.split("\n\n");
+      buffer = chunks.pop();
+      for (const chunk of chunks) {
+        const type = (chunk.match(/^event: (.*)$/m) || [])[1];
+        const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
+        if (!raw) continue;
+        const line = JSON.parse(raw);
+        if (type === "done") toast(line);
+        else if (type === "error") toast(line, false);
+      }
+    }
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    audioBusy = false;
     await refresh().catch(() => {});
   }
 }
@@ -1181,11 +1233,10 @@ canvas.addEventListener("drop", (e) => uploadImage(e.dataTransfer.files[0]));
 $("btnAudio").addEventListener("click", () => {
   const s = current();
   if (s)
-    streamJob(
-      "/api/audio",
-      { scene: s.scene, prompt: $("motionPromptBox").value.trim() },
-      `Generating audio for scene ${s.scene}`,
-    );
+    runAudioJob("/api/audio", {
+      scene: s.scene,
+      prompt: $("motionPromptBox").value.trim(),
+    });
 });
 $("btnMotionVideo").addEventListener("click", async () => {
   const s = current();
@@ -1287,11 +1338,7 @@ $("batchImg").addEventListener("click", () => {
 });
 $("batchAud").addEventListener("click", () => {
   const scenes = [...selected].sort((a, b) => a - b);
-  streamJob(
-    "/api/audio-batch",
-    { scenes },
-    `Generating audio for scene ${scenes.join(", ")}`,
-  );
+  runAudioJob("/api/audio-batch", { scenes });
 });
 $("batchMotion").addEventListener("click", () => {
   const scenes = [...selected].sort((a, b) => a - b);

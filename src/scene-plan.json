@@ -8,211 +8,211 @@
   "scenes": [
     {
       "scene": 1,
-      "narration": "Người bẻ gãy cuộc xâm lược của đế quốc Mông Cổ.",
+      "narration": "Một người từng khiến vó ngựa Nguyên–Mông phải dừng lại trước Đại Việt.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Very wide 13th-century Dai Viet river battle at Bach Dang; Tran Hung Dao stands small and off-center on a low earth rampart in the foreground at about one-fifth frame height, arm raised; below, dozens of small Dai Viet war boats swarm around invading Yuan warships caught on sharpened wooden river stakes, East Asian Dai Viet rowers and archers in distinct local armor, burning enemy vessels, splashing water and drifting smoke, plain solid-crimson cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, soldiers, stakes, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The small boats row and rock as they close in, invading warships list and burn, archers loose arrows, smoke and sparks drift, water splashes and the tide swirls around the stakes, the plain banner ripples. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Very wide 13th-century Dai Viet frontier stand; Tran Hung Dao stands small and off-center on a low earth rampart at about one-fifth frame height, arm raised to hold the line; a massed Yuan-Mongol cavalry charge on the far bank is checked at a barricaded river crossing, East Asian Dai Viet spearmen and archers in distinct local armor lock shields, enemy riders and horses rear and pile up against sharpened stakes, drifting dust and smoke, plain solid-crimson cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horses, soldiers, stakes, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The enemy cavalry surges up and rears back as it is checked at the barricade, Dai Viet spearmen brace and shields shift, horses toss and pile against the stakes, dust and smoke drift across the far bank, the plain banner ripples. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "dramatic"
     },
     {
       "scene": 2,
-      "narration": "Người được thờ như thần chiến tranh khắp châu Á.",
+      "narration": "Người kia được tôn thờ khắp Đông Á như Quan Công — biểu tượng của trung nghĩa và võ dũng, suốt gần hai nghìn năm.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Very wide late Eastern Han military scene; Guan Yu stands small and off-center on a high earthen city wall at about one-fifth frame height, gripping his long blade; below and beyond, a large host of East Asian Han soldiers in lamellar armor drills in ranks, cavalry crosses a dusty parade ground, transport boats unload at a river landing, incense smoke rises from a small roadside shrine, plain solid-crimson cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, armor, soldiers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Ranks drill and shift below, cavalry crosses the parade ground raising dust, boats unload and bob at the landing, incense smoke curls up from the shrine, the plain banner and his cloak ripple in the wind. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Very wide East Asian temple courtyard devoted to Guan Gong; Guan Yu stands small and off-center on a raised stone terrace at about one-fifth frame height, one hand resting on his long blade; below, a large crowd of East Asian worshippers in mixed later-era dress kneel and offer incense, red paper offerings and hanging lanterns fill the hall, thick incense smoke drifts up past carved wooden pillars, plain solid-crimson cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, worshippers, terrace, lanterns, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The crowd of worshippers bows and sways, incense smoke curls thick up the pillars, hanging lanterns and paper offerings swing gently, candle flames flicker, the plain banner and his cloak stir. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "dramatic"
     },
     {
       "scene": 3,
-      "narration": "Đặt hai người cạnh nhau — ai thắng?",
+      "narration": "Một người là Trần Hưng Đạo. Người kia là Quan Vũ. Nếu cùng chỉ huy một trận — ai thắng?",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Wide 13th-century Dai Viet river command post; Tran Hung Dao stands small and off-center leaning over a low leather map table at about one-quarter frame height, wooden markers on river terrain; around him East Asian Dai Viet officers argue and point, a messenger arrives at the doorway, scouts wait with bamboo tubes, boats and soldiers move on the river beyond the open wall, warm lamp light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, props, officers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The officers gesture and lean in, the messenger steps through the doorway, the lamp flame flickers and shadows shift, boats and soldiers move on the river beyond, the plain banner sways. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide 13th-century Dai Viet river command post at night; Tran Hung Dao stands small and off-center leaning over a low leather map table at about one-quarter frame height, hand on a wooden marker; around him East Asian Dai Viet officers lean in and debate a plan, a messenger arrives at the doorway, scouts wait with bamboo tubes, boats and torches move on the river beyond the open wall, warm lamp light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, props, officers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The officers gesture and lean in over the map, the messenger steps through the doorway, the lamp flame flickers and shadows shift, boats and torches move on the river beyond, the plain banner sways. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
-      "cue": "tense"
+      "cue": "dramatic"
     },
     {
       "scene": 4,
-      "narration": "Nhưng đổi chiến trường là đổi kết quả.",
+      "narration": "Đừng trả lời vội. Vì chiến trường mới là thứ quyết định tất cả.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide late Eastern Han crossroads on a dry plain; Guan Yu sits small and off-center on horseback at the roadside at about one-fifth frame height, studying the terrain; multiple East Asian Han messengers gallop in from different roads, cavalry columns raise dust, infantry files march past an earthen fortress in the distance, plain solid-color cloth banners, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horses, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Messengers gallop in trailing dust, cavalry columns move and kick up haze, infantry files march past the fortress, banners flutter, his horse shifts and tosses its head. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide late Eastern Han vantage over varied terrain; Guan Yu sits small and off-center on horseback on a low ridge at about one-fifth frame height, surveying the ground; below, roads fork across a dry plain toward a walled town on one side and a flooded river valley on the other, East Asian Han messengers gallop in from different roads, cavalry and infantry columns move between them raising dust, plain solid-color cloth banners, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horse, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Messengers gallop in trailing dust from the forking roads, cavalry and infantry columns move and kick up haze, distant water glints in the flooded valley, banners flutter, his horse shifts and tosses its head. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "curious"
     },
     {
       "scene": 5,
-      "narration": "Trần Hưng Đạo, tổng chỉ huy nhà Trần, chặn đứng quân Nguyên–Mông hai lần, năm 1285 và 1288.",
+      "narration": "Trần Hưng Đạo — tổng chỉ huy quân Đại Việt, góp công lớn trong hai cuộc kháng chiến chống Nguyên–Mông, 1285 và 1288. Ông không cần thắng mọi trận. Ông chỉ cần khiến đối thủ đánh mãi, cho đến khi không còn sức để đánh.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Wide 13th-century Dai Viet wooden war hall; Tran Hung Dao stands small and off-center pointing at a river-mouth map at about one-quarter frame height; many East Asian Dai Viet officers and village militia gather, some sharpening bamboo spears, some stacking rattan shields and rice sacks, a scribe records on bamboo strips, activity in every corner, plain solid-crimson cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, props, soldiers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Officers move and confer, militia sharpen spears and stack shields, the scribe's hand moves over the bamboo strips, the lamp flame flickers, the plain banner sways. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide 13th-century Dai Viet wooden war hall; Tran Hung Dao stands small and off-center pointing at a river-mouth map at about one-quarter frame height; many East Asian Dai Viet officers and village militia gather, some sharpening bamboo spears, some stacking rattan shields and rice sacks for a long campaign, a scribe records on bamboo strips, activity in every corner, plain solid-crimson cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, props, soldiers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Officers move and confer, militia sharpen spears and stack shields and rice sacks, the scribe's hand moves over the bamboo strips, the lamp flame flickers, the plain banner sways. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "neutral"
     },
     {
       "scene": 6,
-      "narration": "Quan Vũ, danh tướng của Lưu Bị cuối thời Hán, trấn giữ Kinh Châu, biểu tượng của chữ \"nghĩa\".",
+      "narration": "Còn Quan Vũ — danh tướng của Lưu Bị, trấn thủ Kinh Châu. Và có một trận, ông từng khiến cả Trung Nguyên phải chấn động.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide late Eastern Han riverside fortress at Jingzhou; Guan Yu stands small and off-center on a rampart overseeing the garrison at about one-fifth frame height; East Asian Han soldiers drill in the courtyard below, quartermasters move grain carts, boats guard the river gate, farmers bring supplies through the earthen gatehouse, plain solid-crimson cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, carts, boats, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Soldiers drill in the courtyard, grain carts roll through the gate, boats bob at the river gate, farmers move in a steady stream, the plain banner and his cloak ripple. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide late Eastern Han riverside fortress at Jingzhou; Guan Yu stands small and off-center on a rampart overseeing the garrison at about one-fifth frame height; East Asian Han soldiers drill in the courtyard below, quartermasters move grain carts, war-junks guard the river gate, farmers bring supplies through the earthen gatehouse, plain solid-crimson cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, carts, boats, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Soldiers drill in the courtyard, grain carts roll through the gate, war-junks bob at the river gate, farmers move in a steady stream, the plain banner and his cloak ripple. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "neutral"
     },
     {
       "scene": 7,
-      "narration": "Bạch Đằng, năm 1288. Cọc gỗ cắm dưới lòng sông, thủy triều rút, cả hạm đội Nguyên bị xoá sổ.",
+      "narration": "Bạch Đằng, năm 1288. Ông cho đóng những bãi cọc ngầm dưới lòng sông. Quân Nguyên tiến vào lúc nước còn dâng — rồi thủy triều rút. Cả đoàn chiến thuyền rơi vào cái bẫy đã chuẩn bị từ trước. Đó không phải sức mạnh của một thanh kiếm, mà của cả một kế hoạch.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Very wide Bach Dang battle at falling tide, 13th-century Dai Viet; Tran Hung Dao stands small and off-center on the muddy bank at about one-fifth frame height, pointing; rows of sharpened wooden stakes pierce invading Yuan warships listing in the shallows, swarms of small Dai Viet boats close in, East Asian Dai Viet soldiers loose arrows and hurl fire, enemies leap into the water, drifting smoke and splashing waves, plain solid-color cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, stakes, soldiers, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The tide recedes to reveal more stakes, the pierced warships list and sink, small boats swarm and rock, arrows fly and fire flares, enemies splash into the water, smoke drifts across the frame. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Very wide Bach Dang battle at falling tide, 13th-century Dai Viet; Tran Hung Dao stands small and off-center on the muddy bank at about one-fifth frame height, pointing calmly; rows of sharpened wooden stakes emerge as the water drains and pierce a whole invading Yuan war-fleet listing in the shallows, swarms of small Dai Viet boats close in from hidden creeks, East Asian Dai Viet soldiers loose arrows and hurl fire, enemies leap into the mud, drifting smoke and receding water, plain solid-color cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, stakes, soldiers, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The tide recedes to reveal more stakes, the pierced warships list and sink, small boats swarm and rock, arrows fly and fire flares, enemies splash into the mud, smoke drifts across the frame. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "dramatic"
     },
     {
       "scene": 8,
-      "narration": "Còn Quan Vũ, ở Phàn Thành, dâng nước dìm cả đạo quân Vu Cấm, uy danh chấn động Trung Nguyên.",
+      "narration": "Quan Vũ cũng từng biến nước thành vũ khí. Năm 219, tại Phàn Thành, nước lũ dâng cao nhấn chìm đạo quân Vu Cấm. Ông thừa thắng, uy danh chấn động Trung Nguyên.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Very wide late Eastern Han flood assault at Fancheng; Guan Yu stands small and off-center on a raft at about one-fifth frame height, arm raised; a swollen river drowns an army camp, East Asian Han troops pole rafts toward a half-submerged earthen fortress, enemy soldiers cling to floating debris and rooftops, tents and supplies wash away, heavy rain and churning water, plain solid-crimson cloth, no emblem or lettering.",
+        "prompt": "Very wide late Eastern Han flood assault at Fancheng, year 219; Guan Yu stands small and off-center on a war-raft at about one-fifth frame height, arm raised in triumph; a swollen river drowns an army camp, East Asian Han troops pole rafts toward a half-submerged earthen fortress, enemy soldiers cling to floating debris and rooftops, tents and supplies wash away, heavy rain and churning brown water, plain solid-crimson cloth, no emblem or lettering.",
         "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, rafts, soldiers, fortress, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The floodwater churns and rises, rafts pole forward and rock, debris and tents float and spin, enemy soldiers cling and slip, rain falls in sheets, the plain banner whips in the wind. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "dramatic"
     },
     {
       "scene": 9,
-      "narration": "Nhưng đỉnh cao sụp rất nhanh. Kinh Châu bị đánh úp sau lưng, ông bị bắt và bị xử tử.",
+      "narration": "Nhưng đúng lúc tưởng như bất khả chiến bại, Quan Vũ sụp đổ. Kinh Châu bị đánh úp từ phía sau. Ông bị cô lập, bị bắt, rồi bị xử tử. Một chiến thắng lớn không cứu nổi một mặt trận bị đánh thủng sau lưng.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers emerge from the misty treeline on all sides, torches and spears closing in, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Cold mist drifts across the road, the encircling soldiers step slowly closer from every side, torches waver, the trampled banner stirs in the mud, the exhausted troops shift and breathe tensely. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide somber late Eastern Han dusk on a muddy road; Guan Yu stands small and off-center at about one-fifth frame height with a shrinking knot of exhausted Han troops back to back; East Asian Wu soldiers close in from the misty treeline on every side, torches and spears tightening the ring, a captured city gate burns faintly on the far horizon behind them, a fallen banner trampled in the mud, cold low light, plain solid-color cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Cold mist drifts across the road, the encircling soldiers step slowly closer from every side, torches waver, the distant gate glows and smokes on the horizon, the trampled banner stirs in the mud, the exhausted troops shift and breathe tensely. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "somber"
     },
     {
       "scene": 10,
-      "narration": "Khác biệt lớn nhất là vai trò. Trần Hưng Đạo là bộ óc chiến lược: rút lui có tính toán, đánh vào hậu cần, phản công khi địch kiệt sức.",
+      "narration": "Và đây là điểm khác biệt. Trần Hưng Đạo đánh bằng cả cuộc chiến: rút lui khi cần, cắt hậu cần, kéo dài thời gian, chờ đối thủ suy yếu — rồi mới tung đòn quyết định.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Wide night ambush on a 13th-century Dai Viet river; Tran Hung Dao stands small and off-center among reeds on the bank at about one-fifth frame height, signaling; many small Dai Viet boats dart from hidden channels to strike a torch-lit enemy supply convoy, East Asian Dai Viet sailors paddle and board, sacks tumble into the water, fire spreads across a barge, smoke and sparks, plain solid-color cloth, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The small boats dart out and rock, fire spreads across the barge, sparks and smoke drift, sacks splash into the water, sailors paddle and board, reeds sway and torch reflections ripple on the current. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide night ambush on a 13th-century Dai Viet river; Tran Hung Dao stands small and off-center among reeds on the bank at about one-fifth frame height, giving a quiet signal; many small Dai Viet boats dart from hidden channels to strike a torch-lit enemy supply convoy, East Asian Dai Viet sailors paddle and board, grain sacks tumble into the water, fire spreads across a laden barge, smoke and sparks, plain solid-color cloth, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, soldiers, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The small boats dart out and rock, fire spreads across the barge, sparks and smoke drift, grain sacks splash into the water, sailors paddle and board, reeds sway and torch reflections ripple on the current. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "tense"
     },
     {
       "scene": 11,
-      "narration": "Quan Vũ là mãnh tướng tiên phong, đòn đánh quyết liệt. Nhưng hãy thành thật: nhiều chiến tích lừng lẫy của ông là của tiểu thuyết Tam Quốc, không phải chính sử.",
+      "narration": "Quan Vũ thì ngược lại — một mũi giáo, mạnh nhất ở đòn tấn công trực diện. Nhưng cần phân biệt: Quan Vũ trong chính sử và Quan Vũ trong Tam Quốc Diễn Nghĩa không hoàn toàn giống nhau.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide theatrical stage tableau; Guan Yu posed small and off-center on a raised wooden stage at about one-fifth frame height, mid heroic gesture; costumed actors as soldiers tumble and spar around him, hanging opera lanterns and silk drapes, drifting stage-smoke, a large East Asian audience watches from below waving, plain solid-color cloth, no emblem or lettering, warm stage light.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, stage, lanterns, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The costumed actors tumble and spar, the opera lanterns swing, stage-smoke drifts, the silk drapes sway, the audience below waves and shifts, the warm stage light pulses. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide theatrical opera stage tableau; Guan Yu posed small and off-center on a raised wooden stage at about one-fifth frame height, mid heroic thrust; costumed opera actors as soldiers tumble and spar around him, hanging opera lanterns and painted silk drapes frame the stage, drifting stage-smoke, a large East Asian audience watches from below and waves, plain solid-color cloth, no emblem or lettering, warm stage light.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, stage, lanterns, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The costumed actors tumble and spar, the opera lanterns swing, stage-smoke drifts, the painted silk drapes sway, the audience below waves and shifts, the warm stage light pulses. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "tense"
     },
     {
       "scene": 12,
-      "narration": "Giả định một trận ngắn, đất khô, phải chiếm cổng thành trước hoàng hôn: Quan Vũ có cửa sáng hơn.",
+      "narration": "Vậy đặt họ lên cùng chiến trường. Một buổi sáng, đất khô, phải phá cổng thành trước hoàng hôn? Ưu thế nghiêng về Quan Vũ.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Very wide late Eastern Han gate assault at sunset; Guan Yu rides small and off-center at the head of the charge at about one-fifth frame height; waves of East Asian Han infantry raise ladders against an earthen gate, cavalry pours through dust, defenders hurl stones from the wall, arrows arc overhead, war-drum energy, plain solid-color cloth banners, no emblem or lettering.",
+        "prompt": "Very wide late Eastern Han gate assault racing the sunset; Guan Yu rides small and off-center at the head of the charge at about one-fifth frame height; waves of East Asian Han infantry raise ladders against a dry earthen city gate, cavalry pours through billowing dust, defenders hurl stones from the wall, arrows arc overhead, a low sun casting long hard shadows, plain solid-color cloth banners, no emblem or lettering.",
         "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horses, soldiers, gate, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. The infantry waves surge forward, ladders rise against the gate, cavalry pours through billowing dust, defenders hurl stones, arrows arc overhead, banners sway and long sunset shadows stretch. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "tense"
     },
     {
       "scene": 13,
-      "narration": "Nhưng một chiến dịch dài giữa vùng sông nước, khi lương cạn và thủy triều đổi giờ, sức mạnh cá nhân không cứu nổi cả đạo quân.",
+      "narration": "Nhưng chuyển sang sông nước, địa hình hiểm trở — Trần Hưng Đạo bắt đầu chiếm thế. Và nếu cuộc chiến kéo dài hàng tháng, lương cạn, quân kiệt sức — đó mới là lúc ông thực sự đáng sợ.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Very wide 13th-century Bach Dang at falling tide; Tran Hung Dao watches small and off-center from the reeds at about one-fifth frame height; an enemy fleet founders on exposed wooden stakes, boats tilt and spill soldiers into the mud, swarms of Dai Viet boats glide out to encircle, East Asian Dai Viet troops wade in, mist and draining water everywhere, plain solid-color cloth, no emblem or lettering.",
+        "prompt": "Very wide 13th-century Bach Dang estuary at falling tide under grey mist; Tran Hung Dao watches small and off-center from the reeds at about one-fifth frame height; an enemy fleet founders on exposed wooden stakes in a maze of tidal creeks, boats tilt and spill exhausted soldiers into the mud, swarms of Dai Viet boats glide out to encircle, East Asian Dai Viet troops wade in from the marsh, drifting mist and draining water everywhere, plain solid-color cloth, no emblem or lettering.",
         "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, boats, stakes, soldiers, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The tide drains and swirls, the foundering fleet tilts and spills soldiers into the mud, Dai Viet boats glide out to encircle, troops wade through the shallows, reeds bend and mist drifts low. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "tense"
     },
     {
       "scene": 14,
-      "narration": "Verdict: không có nhà vô địch tuyệt đối. Trận ngắn cần đột phá, nghiêng về Quan Vũ; chiến tranh phòng thủ dài, nghiêng hẳn về Trần Hưng Đạo.",
+      "narration": "Vậy ai mạnh hơn? Quan Vũ mạnh ở trận đánh. Trần Hưng Đạo mạnh ở cả cuộc chiến. Không có nhà vô địch tuyệt đối — chỉ có vị tướng hợp với chiến trường hơn.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Wide 13th-century Dai Viet river command post at dawn; Tran Hung Dao stands small and off-center over a campaign map at about one-quarter frame height, markers tilted toward river and plain terrain; officers debate around the table, scouts point outside where Bach Dang stakes and boats fill the river, soldiers form up on the bank, even balanced light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing.",
+        "prompt": "Wide 13th-century Dai Viet river command post at dawn; Tran Hung Dao stands small and off-center over a campaign map at about one-quarter frame height, wooden markers spread between a dry walled town and a river-and-marsh terrain; officers debate around the table, scouts point outside where Bach Dang stakes and boats fill the river, soldiers form up on the bank, even balanced light, plain solid-crimson cloth, no emblem or lettering, blank map surface with no writing.",
         "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, props, officers, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The officers debate and gesture over the map, scouts point toward the river, boats and forming soldiers move on the bank beyond, the plain banner sways, steady dawn light holds. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "dramatic"
     },
     {
       "scene": 15,
-      "narration": "Còn bạn, chọn chiến trường nào và đặt cược vào ai?",
+      "narration": "Còn bạn — nếu được chọn một người làm tổng chỉ huy, bạn chọn ai?",
       "image": {
         "kind": "ai",
         "characters": [
           "char-b"
         ],
         "identity": "full",
-        "prompt": "Wide late Eastern Han river camp at dusk; Guan Yu stands small and off-center on a landing at about one-fifth frame height, turning toward the viewer; behind him rows of East Asian Han soldiers strike camp, cavalry waters horses at the river, boats drift in, cook-fires and torches glow, plain solid-color cloth banners, no emblem or lettering.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, horses, boats, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Behind the small main figure the soldiers strike camp, cavalry waters horses at the river, boats drift in and bob, cook-fires and torches flicker, banners sway and the water ripples. Keep the small main figure stable, expression and pose unchanged. Allow a very slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
+        "prompt": "Wide late Eastern Han river camp at dusk; Guan Yu stands small and off-center on a landing at about one-fifth frame height, turning to face the viewer; behind him rows of East Asian Han soldiers strike camp, cavalry waters horses at the river, war-junks drift in, cook-fires and torches glow, plain solid-color cloth banners, no emblem or lettering.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, horses, boats, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Behind the small main figure the soldiers strike camp, cavalry waters horses at the river, war-junks drift in and bob, cook-fires and torches flicker, banners sway and the water ripples. Keep the small main figure stable, expression and pose unchanged. Allow a very slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts."
       },
       "cue": "curious"
     }
