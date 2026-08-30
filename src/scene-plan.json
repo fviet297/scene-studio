@@ -22,7 +22,9 @@
         "promptVi": "Chiến trường rộng tối om trong giông bão lúc chạng vạng; Quang Trung ghì cương trên lưng ngựa nhỏ và lệch tâm xuống thấp bên trái tâm, Hạng Vũ ghì cương trên lưng ngựa nhỏ và lùi sâu hơn về bên phải, cả hai đối diện nhau qua khoảng đất trống xới xáo; sau lưng Quang Trung là quân Tây Sơn gương mặt Đông Á đội nón lá đứng với giáo và voi chiến; sau lưng Hạng Vũ là lính gương mặt Đông Á mặc giáp phiến da sơn mài Trung Hoa cuối thế kỷ 3 trước Công nguyên đứng với kích và chiến xa ngựa; một tia sét chẻ đôi bầu trời đen phía trên khoảng trống giữa hai đạo quân, gió ép cỏ ướt ngả xuống, bụi trôi ở giữa, cờ vải trơn một màu phần phật ở cả hai phía, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính cả hai nhân vật, khuôn mặt, trang phục, ngựa, hai đạo quân phía sau họ, voi, chiến xa, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất kỳ nhân vật hay vật thể nào; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Mây giông cuộn chậm trên đầu và một tia sét loé lên đúng một lần phía trên khoảng trống giữa hai đạo quân, gió ép cỏ ướt ngả xuống, bụi trôi ngang khoảng đất trống, cả hai con ngựa xê dịch và hất đầu, các hàng quân sau lưng mỗi người khẽ động và rừng giáo dập dềnh, voi lắc lư và bánh chiến xa nhích tới, cờ trơn quật phần phật ở cả hai phía. Giữ cả hai nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản hay hòa lẫn nhân vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "dramatic"
+      "title": "Quang Trung Hoàng Đế và Hạng Vũ",
+      "cue": "dramatic",
+      "motionVideo": true
     },
     {
       "scene": 2,
@@ -38,7 +40,8 @@
         "promptVi": "Sân đúc đồng bằng đất nện rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên vào giữa trưa; Hạng Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, hai tay khóa trên đầu nhấc một chiếc đỉnh đồng ba chân khổng lồ rời mặt đất, lưng căng dưới sức nặng; lính Sở gương mặt Đông Á mặc giáp phiến da sơn mài và người xem mặc áo thụng đứng vòng ngoài cách xa thận trọng, ngựa giữ ở cổng, những sợi dây thừng dão thả trên đất, bụi tung quanh chân, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, đỉnh đồng, lính, sân đất nện, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc đỉnh rung nhẹ trong vòng tay gồng của ông, bụi cứ bốc lên quanh chân trụ, vòng người xem xê dịch và xôn xao, ngựa giậm chân ở cổng, dây thừng dão khẽ lay trên đất, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định trong tư thế nhấc đỉnh, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "dramatic"
+      "cue": "dramatic",
+      "motionVideo": true
     },
     {
       "scene": 3,
@@ -47,12 +50,13 @@
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "Close overhead view of a wide silk campaign map of East Asian kingdoms spread flat on a low dark-timber war table at night, painted rivers, mountain ranges and settlement marks in faded mineral colors; a line of small flames crawls across the map surface from one edge leaving scorched brown trails along the painted routes, embers and thin smoke curl up past two bronze oil lamps at the table corners, a lacquered marker weight and a folded plain solid-black cloth banner rest at the table edge, no writing or lettering anywhere on the map or cloth. No modern map, no printed text.",
+        "prompt": "Lightning assault: a small Tây Sơn strike column smashes a larger Qing field camp at dawn, rushing diagonally from left foreground to right middle ground. Late-18th-century Đại Việt outside Thăng Long: bamboo hedges, a laterite-brick village gate and a low tile-roofed đình. Shielded infantry advance behind soaked rattan pavises with spears and dao-blades; war elephants tear palisades; drums and gongs thunder, dust and lime-smoke billow as Qing Bannermen in brigandine and conical helmets waver. All figures have East-Asian faces. No Qin/Han or Western Chu gear, no European uniforms, no Tang/Ming palaces.",
         "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact map, table, lamps, marker weight, cloth, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The line of flame creeps slowly across the silk surface leaving scorched trails, embers lift and thin smoke curls past the lamps, the two lamp flames gutter in a draft, the folded cloth stirs at the table edge. Motion intensity low, environmental motion moderate and natural. No warped or melting objects, no appearing figures, no sudden movements or visual artifacts.",
-        "promptVi": "Nhìn chếch từ trên xuống một tấm bản đồ chinh phục bằng lụa rộng của các vương quốc Đông Á trải phẳng trên bàn quân gỗ tối thấp vào ban đêm, sông núi và dấu các đô thành vẽ màu khoáng bạc màu; một vệt lửa nhỏ bò qua mặt bản đồ từ một mép để lại những vệt cháy nâu dọc các đường tụ vẽ sẵn, than hồng và khói mỏng cuộn lên qua ánh hai chiếc đèn đồng ở góc bàn, một khối gỗ sơn mài và tấm vải đen trơn gấp lại đặt ở mép bàn, không chữ hay văn tự ở bất cứ đâu trên bản đồ hay tấm vải. Không bản đồ hiện đại, không chữ in.",
+        "promptVi": "Đòn tập kích thần tốc: một mũi đột kích Tây Sơn nhỏ đánh sập doanh trại dã chiến quân Thanh lớn hơn vào rạng sáng, lao chéo từ tiền cảnh trái sang trung cảnh phải. Đại Việt cuối thế kỷ 18, ngoại vi Thăng Long: hàng tre, cổng làng gạch đá ong và đình mái ngói thấp. Bộ binh khiên tiến sau mộc mây tẩm ướt, giáo mác và đao; voi chiến xé rào lũy; trống chiêng dồn dập, bụi và khói vôi cuộn lên khi quân Bát Kỳ mặc giáp phiến, đội mũ chóp chao đảo. Tất cả gương mặt đều Á Đông. Không trang bị Tần–Hán hay Tây Sở, không quân phục châu Âu, không kiến trúc cung điện nhà Đường/Minh.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác bản đồ, bàn, đèn, khối gỗ, tấm vải, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Vệt lửa bò chậm qua mặt lụa để lại những vệt cháy xém, than hồng bay lên và khói mỏng cuộn qua hai ngọn đèn, hai ngọn lửa đèn chập chờn trong gió lùa, tấm vải gấp khẽ lay ở mép bàn. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "neutral"
+      "cue": "neutral",
+      "motionVideo": true
     },
     {
       "scene": 4,
@@ -68,7 +72,8 @@
         "promptVi": "Trại quân bên bờ sông Trung Hoa cuối thế kỷ 3 trước Công nguyên lúc rạng sáng xám; Hạng Vũ đứng nhỏ và lệch tâm trên bờ bùn, cao khoảng một phần năm khung hình, tay giơ lên khi mệnh lệnh được thi hành; lính Sở gương mặt Đông Á mặc giáp phiến da sơn mài đập vỡ nồi đất bằng vồ, đục thủng thuyền gỗ rồi đẩy ra cho chìm theo dòng, những người khác vác lương ba ngày và xếp hàng quay lưng lại phía sông, các đống lửa trại bị đá tung, sương sông lạnh phủ trên đám lau sậy, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, lính, thuyền, nồi, bờ sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Những chiếc vồ giáng xuống và mảnh nồi văng ra, thuyền bị đục trôi dần ra xa rồi chìm thấp hơn theo dòng, các hàng quân vác đồ lên vai và khép đội hình, đống lửa bị đá tung bắn tàn và khói, sương lạnh bò qua đám lau và lau ngả theo gió sông, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa đến mạnh trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "tense"
+      "cue": "tense",
+      "motionVideo": true
     },
     {
       "scene": 5,
@@ -84,7 +89,8 @@
         "promptVi": "Trận đánh đêm rộng ngoài thành Thăng Long của Đại Việt cuối thế kỷ 18 lúc tờ mờ sáng; Quang Trung cưỡi ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, tay vung tới trước phát lệnh xông lên; voi chiến Tây Sơn gương mặt Đông Á với người cưỡi đội nón lá húc qua hàng rào gỗ và lũy đất bị phá, bộ binh đội nón lá tràn vào phía sau với giáo, khiên mây và súng hỏa mai, một cánh quân địch mặc quân phục Trung Hoa thế kỷ 18 tan chạy qua đồng lúa mùa đông lạnh, lửa và khói thuốc súng là là mặt đất, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không quân trang triều Nguyễn hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, voi, lính, lũy đất, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đàn voi dâng qua đoạn lũy vỡ, bộ binh tràn vào phía sau với giáo và súng hỏa mai nhấp nhô, cánh quân tan vỡ chạy tán loạn trên đồng lúa, lửa liếm dọc lũy đất và khói thuốc súng cuộn thấp trên mặt trận, cờ trơn quật phần phật. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cho phép đẩy máy vào chậm. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "dramatic"
+      "cue": "dramatic",
+      "motionVideo": true
     },
     {
       "scene": 6,
@@ -100,7 +106,8 @@
         "promptVi": "Đại sảnh rộng trong cung tường đất nện của Trung Hoa cuối thế kỷ 3 trước Công nguyên vào giữa trưa; Hạng Vũ ngồi nhỏ và lệch tâm trên bệ cao, cao khoảng một phần tư khung hình, một tay tựa lên tay vịn; các chư hầu gương mặt Đông Á mặc giáp phiến da sơn mài và áo thụng quỳ thành hàng dưới bệ, người hầu chờ ở cửa để ngỏ, những chiếc đỉnh đồng và cờ vải đỏ thẫm trơn cao xếp dọc tường, ánh sáng ban ngày lạnh tràn qua cửa, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chư hầu, đại sảnh, kiến trúc, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Các chư hầu cúi xuống lần lượt, người hầu xê dịch ở cửa, bụi trôi qua vệt sáng lạnh từ cửa, cờ cao dọc tường lay nhẹ, nắp đỉnh đồng kêu lạch cạch khẽ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cho phép đẩy máy vào rất chậm. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "neutral"
+      "cue": "neutral",
+      "motionVideo": true
     },
     {
       "scene": 7,
@@ -114,7 +121,8 @@
         "promptVi": "Vật tượng trưng trong đại sảnh mờ ánh đuốc; một cái cân đòn lớn cũ kỹ bằng gỗ sẫm và sắt đứng trên nền đá, một đĩa chìm thấp và nặng dưới một ấn đồng của tướng lĩnh, một cuộn lụa trắng và những tập sách đóng xếp chồng, đĩa kia vung cao chỉ chứa một lưỡi kích đồng; tấm vải đỏ thẫm trơn treo phía sau, ánh đuốc từ một bên hắt bóng dài, bụi trôi trong vệt sáng, không có người, không chữ hay văn tự trên ấn, cuộn lụa, tập sách hay tấm vải. Không vật hiện đại.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác chiếc cân, ấn, cuộn lụa, tập sách, lưỡi kích, tấm vải, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đĩa nặng chìm thêm một chút và đĩa kích vung lên cao hơn, đòn cân rung rồi định lại, bụi trôi trong ánh đuốc, ngọn đuốc chập chờn hắt bóng lay động, tấm vải phông khẽ lay. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "tense"
+      "cue": "tense",
+      "motionVideo": true
     },
     {
       "scene": 8,
@@ -130,7 +138,8 @@
         "promptVi": "Quần cung điện rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên về đêm nhìn từ ngoài cổng; Hạng Vũ ngồi trên lưng ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, nhìn thản nhiên; những cung điện gỗ nhiều tầng mái ngói thấp cháy suốt đường chân trời, tàn lửa và tro bay cuộn vào màn đêm, một đoàn dài tù binh quân Tần gương mặt Đông Á mặc vải thô trơn bị giải đi dưới sự canh giữ qua một vọng lâu đang đổ, dân thường ôm gói đồ bỏ chạy, ánh lửa hắt lên tường đất nện, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, cung điện, tù binh, tường đất, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa leo lên các nóc cung điện và mái xẹp dần khi cháy, tàn lửa và tro bay trôi ngang theo gió, đoàn tù binh lê từng bước qua vọng lâu đang đổ, dân chạy trốn vội vã ở rìa khung hình, con ngựa xê dịch dưới thân ông, ánh lửa lập lòe trên tường đất, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "somber"
+      "cue": "somber",
+      "motionVideo": true
     },
     {
       "scene": 9,
@@ -146,7 +155,8 @@
         "promptVi": "Đồng lúa rộng của Đại Việt cuối thế kỷ 18 vào buổi sáng; Quang Trung đứng nhỏ và lệch tâm trên một con đê đất thấp, cao khoảng một phần năm khung hình, mở một tấm giấy trông về phía các cánh đồng; dân làng gương mặt Đông Á mặc vải thô trơn cấy mưa trên những ruộng ngập nước phía dưới, trâu kéo bừa ở rìa xa, trẻ em chạy dọc bờ ruộng, nhà tranh và vườn cau phía xa, một mái trường làng ngoài trời với học trò ngồi dưới tán cây lớn, ánh sáng sớm ấm, tấm giấy và mọi mặt giấy để trắng không có chữ, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, dân làng, trâu, ruộng, mái trường, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Tấm giấy mở khẽ lay trong gió sớm, dân làng cứ cấy từng dầm và mặt nước ruộng gợn sóng, trâu thong thả vẫy đuôi, trẻ em chạy dọc bờ, tàu cau và cờ trơn lay trong gió. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "neutral"
+      "cue": "neutral",
+      "motionVideo": true
     },
     {
       "scene": 10,
@@ -162,7 +172,8 @@
         "promptVi": "Điện nghị sự bằng gỗ rộng của Đại Việt cuối thế kỷ 18 với mái ngói cong; Quang Trung đứng nhỏ và lệch tâm ngay nền điện, cao khoảng một phần năm khung hình, tay đưa ra chào đón hai vị nho sĩ già gương mặt Đông Á; hai nho sĩ mặc áo thụng trơn hơi cúi chào, một người dâng tập sách đóng gáy, quan lại và thư lại nhìn từ những bàn thấp, một đoàn sứ chờ ở cửa để ngỏ, ánh sáng ban ngày ấm, mọi mặt giấy để trắng không có chữ, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không kiến trúc Minh/Thanh Trung Hoa hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, nho sĩ, đồ đạc, kiến trúc, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Hai nho sĩ vái xuống rồi đứng thẳng, tập sách dâng lên nghiêng nhẹ, tay thư lại lướt trên trang giấy trắng, đoàn sứ xê dịch ở ngưỡng cửa, ánh sáng ban ngày dịch chậm trên nền nhà, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "neutral"
+      "cue": "neutral",
+      "motionVideo": true
     },
     {
       "scene": 11,
@@ -178,7 +189,8 @@
         "promptVi": "Bờ sông Trung Hoa cuối thế kỷ 3 trước Công nguyên về đêm sau một trận thua; Hạng Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, bên con ngựa mỏi mệt sát mép nước, đầu cúi xuống, thanh kiếm hạ thấp trong một tay chĩa xuống đất; một nhóm nhỏ kỵ sĩ Sở gương mặt Đông Á kiệt sức trong bộ giáp phiến da sơn mài tơi tả đứng chờ phía sau, một ông lái đò già giữ chiếc thuyền gỗ nhỏ ngược dòng, đuốc của quân truy kích rải rác dọc bờ bên kia, lau sậy ngả theo gió sông, sương giăng trên mặt nước đen, những lá cờ vải đỏ thẫm trơn rách hạ thấp, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, kỵ sĩ, thuyền, bờ sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc thuyền nhỏ dập dềnh và ghì lại ngược dòng, mặt nước gợn sóng và ánh đuốc phản chiếu vỡ vụn trên mặt nước đen, đuốc của quân truy kích trôi dọc bờ xa, lau sậy ngả và sương trườn thấp trên mặt nước, con ngựa mỏi chuyển trọng tâm, những lá cờ rách rủ xuống khẽ lay. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "somber"
+      "cue": "somber",
+      "motionVideo": true
     },
     {
       "scene": 12,
@@ -192,7 +204,8 @@
         "promptVi": "Buồng ngủ rộng trong cung gỗ của Đại Việt cuối thế kỷ 18 vào đêm giông bão; một chiếc long bào màu vàng trơn treo lơ lửng không người trên giá gỗ giữa căn phòng tĩnh lặng, tay áo vẫn buông thõng, một chiếc giường thấp sơn mài và bàn viết thấp với tờ giấy trắng bên cạnh, cửa sổ ngói mở nhìn ra bầu trời đen nơi một ngôi sao băng sáng lướt xuống dãy núi xa, ánh chớp ở đường chân trời, ngọn nến chập chờn trên bàn, không có người, mọi mặt giấy để trắng không có chữ. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác long bào, giá đỡ, giường, bàn, giấy, cửa sổ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc long bào treo lay rất khẽ trong gió lùa rồi lặng lại, vệt sao băng mờ dần trên dãy núi, chớp loé lên một lần ở chân trời, ngọn nến chập chờn hắt bóng lay động, mưa xiên qua ô cửa. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "somber"
+      "cue": "somber",
+      "motionVideo": true
     },
     {
       "scene": 13,
@@ -206,7 +219,8 @@
         "promptVi": "Chiến trường rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên lúc rạng sáng có sương sau một đại chiến; khói và bụi trôi là là trên cánh đồng rải đầy kích gãy, chiến xa vỡ và lá cờ đổ; trên một gò thấp giữa khung hình, một lính gương mặt Đông Á mặc vải gai trơn cắm một lá cờ vải đỏ thẫm trơn cao xuống đất, không phù hiệu hay chữ viết trên tấm vải; đàn quạ bay lên từ mặt đất bị giày xéo, một dòng sông lấp lánh ở phía xa, ánh sáng xám lạnh. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác cánh đồng, vũ khí gãy, chiến xa, lá cờ đổ, người lính, lá cờ cắm, dòng sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Khói và bụi trôi chậm ngang cánh đồng, tấm cờ phồng lên rồi rủ xuống trong gió sau khi được cắm, người lính lùi một bước rồi đứng yên, đàn quạ bay lên tản ra khỏi mặt đất, mặt sông xa lấp lánh, sương trườn thấp trên mặt đất. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
       },
-      "cue": "somber"
+      "cue": "somber",
+      "motionVideo": true
     },
     {
       "scene": 14,
@@ -216,7 +230,8 @@
         "characters": [],
         "query": "Quang Trung Nguyen Hue statue monument Dong Da Hanoi"
       },
-      "cue": "neutral"
+      "cue": "neutral",
+      "motionVideo": true
     },
     {
       "scene": 15,

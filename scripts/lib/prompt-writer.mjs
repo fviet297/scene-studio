@@ -1,9 +1,11 @@
 // Writes one scene's image-generation prompt from its narration via the OpenAI API, following
 // the house rules from the history-video skill: action/setting only (never appearance, which
 // the reference image already locks), physical continuity, concrete named culture/century
-// detail, and explicit left/right placement when multiple characters share a scene. Used by
-// both the review UI server (scripts/review-server.mjs) and the CLI
-// (scripts/generate-prompts.mjs), so the instructions live in one place.
+// detail, and explicit left/right placement when multiple characters share a scene. The same
+// call also writes that scene's image-to-video `motion:` prompt (and both Vietnamese
+// translations), matching the lsvn/trangca skills' motion rules. Used by both the review UI
+// server (scripts/review-server.mjs) and the CLI (scripts/generate-prompts.mjs), so the
+// instructions live in one place.
 //
 // Requires OPENAI_API_KEY (loaded from ./.env via replicate-image.mjs's loadEnv()).
 // Optional OPENAI_PROMPT_MODEL overrides the default model.
@@ -18,6 +20,7 @@ const DEFAULT_MODEL = 'gpt-5';
 // A single skill-authored example per shape, so the model copies the discipline (named culture,
 // pinned extras, scene-specific negatives) — not the content. Lifted from a real scene-plan.md.
 const EXAMPLE_SINGLE = 'Standing before assembled officials at his accession, receiving the imperial seal with both hands and turning toward the court with composed resolve. Setting: early-11th-century Đại Việt, a compact timber audience hall with stout plain columns, low heavy dark-tiled roofs and a brick courtyard. Vietnamese court officials with East-Asian faces wear early-11th-century robes and simple caps; guards carry spears beneath plain crimson cloth banners. Solemn ceremonial light, medium-wide environmental framing. No Nguyễn-dynasty dress, no Qing costume, no European architecture.';
+const EXAMPLE_MOTION = 'Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact identity of both characters, their faces, costumes, horses, the two hosts behind them, elephants, chariots, landscape, lighting and composition; do not redesign, morph, add or remove any character or object; no period or style change; no text or watermark. Keep the camera locked. Storm clouds roll slowly overhead and a single lightning bolt flashes once above the gap between the two hosts, wind flattens the wet grass, dust drifts across the open ground, both horses shift and toss their heads, the ranks behind each figure stir and spears sway, elephants rock and chariot wheels edge forward, plain banners whip on both sides. Keep both main figures stable, expressions and poses unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated or merged characters, melting objects, sudden movements or visual artifacts.';
 const EXAMPLE_SPLIT = 'The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls and wide timber halls. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning.';
 
 const SYSTEM_PROMPT = `You write ONE scene-specific image-generation prompt for a 2D chibi-style historical illustration, from a short narration line. This prompt is spliced into a larger template that already covers art style, chibi proportions, camera framing, negative space, "ordinary soldiers wear plainer gear than the commander", and the generic negatives — never restate any of that.
@@ -49,14 +52,29 @@ SCENE-TYPE RECIPE (pick by the narration)
 
 11. Be concise — the English prompt is inserted into a template with a hard character budget. Plain prose only: no markdown, no quotation marks, no field labels, no preamble.
 
-OUTPUT FORMAT — output exactly two parts and nothing else:
+MOTION PROMPT (image-to-video)
+Also write the motion prompt that animates the still you just described into a short clip. It animates an EXISTING illustration, never a re-generation. English, one single line, no character budget, in this order:
+M1. Open with the animate-not-redesign instruction: "Animate this existing historical illustration into a lively, cute, cinematic image-to-video shot."
+M2. Lock identity and composition: preserve the exact character identity, face, hairstyle, costume, body proportions, colours, props, soldiers, architecture, lighting and composition from the source image; do not redesign, morph, replace, add or remove any character or object; no historical-period or visual-style change; no text, symbols, logos or watermark. Add "and the split-screen composition" when the scene prompt is a split-screen.
+M3. Lock the camera: "Keep the camera completely locked. No camera movement, zoom, pan, tilt, orbit, dolly, perspective shift, or scene transition." Allow a slow push-in or gentle parallax only when the beat clearly needs it.
+M4. Environmental (secondary) motion named from THIS scene's own image prompt — animate only what you wrote above: robes and sleeves, banners, reeds and grass, water ripples, mist, dust, smoke, fire, horses, boats, distant ranks making tiny idle movements while holding formation. Never paste a generic list: a marsh scene moves mist and reeds, a parade ground moves dust and banners, a close-up moves cloth and breath. On a split-screen describe the left and right halves separately.
+M5. Keep the main character(s) stable, recognizable and visually consistent; do not change their facial expressions or poses; prefer lively secondary motion over strong character animation.
+M6. State intensity: "Motion intensity: low to medium. Character motion: very subtle. Environmental motion: moderate and natural." — say the environmental motion is strong across the whole frame instead when the scene is busy and populated.
+M7. End with the artifact ban: "No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements, exaggerated physics, or visual artifacts."
+
+OUTPUT FORMAT — output exactly four parts and nothing else:
 - First, the English scene prompt as plain prose (this is what counts against the character budget).
 - Then, on its own line, the delimiter ===VI===
 - Then a close, natural Vietnamese translation of that same English prompt (faithful meaning; keep proper names, dynasty/place names and untranslatable technical phrases as-is). The Vietnamese does NOT count against the character budget.
+- Then, on its own line, the delimiter ===MOTION===
+- Then the English motion prompt on one single line.
+- Then, on its own line, the delimiter ===MOTION_VI===
+- Then a close Vietnamese translation of the motion prompt, on one single line.
 
-EXAMPLES OF GOOD OUTPUT (the English half only — match the discipline: named culture, pinned extras, scene-specific negatives; never copy the content):
-[one character] ${EXAMPLE_SINGLE}
-[two characters, split-screen] ${EXAMPLE_SPLIT}`;
+EXAMPLES OF GOOD OUTPUT (English parts only — match the discipline: named culture, pinned extras, scene-specific negatives, motion named from the scene's own elements; never copy the content):
+[scene prompt, one character] ${EXAMPLE_SINGLE}
+[scene prompt, two characters, split-screen] ${EXAMPLE_SPLIT}
+[motion prompt] ${EXAMPLE_MOTION}`;
 
 // Enrich each character id with the historical context (country/period/dynasty/role) from its
 // profile.json, so the model can pin the scene's culture/century instead of guessing.
@@ -85,6 +103,31 @@ const describeCharacter = (c) => {
   return `${c.name}${detail ? ` (${detail})` : ''}${c.role ? ` — ${c.role}` : ''}${facts}`;
 };
 
+// One reply carries all four fields, separated by delimiter lines (no second OpenAI call):
+// English prompt · ===VI=== · Vietnamese prompt · ===MOTION=== · motion · ===MOTION_VI=== · motion_vi.
+// A missing delimiter leaves that section empty rather than failing, so an older or sloppier
+// model that answers with the prompt alone still yields a usable prompt.
+const SECTION_RE = /^\s*={2,}\s*(MOTION_VI|MOTION|VI)\s*={2,}\s*$/i;
+const SECTION_KEY = { vi: 'vi', motion: 'motion', motion_vi: 'motionVi' };
+
+const splitSections = (raw) => {
+  const parts = { text: [], vi: [], motion: [], motionVi: [] };
+  let key = 'text';
+  for (const line of raw.split('\n')) {
+    const marker = SECTION_RE.exec(line);
+    if (marker) key = SECTION_KEY[marker[1].toLowerCase()];
+    else parts[key].push(line);
+  }
+  // The motion fields are single scene-plan lines; collapse any wrapping the model added.
+  const oneLine = (lines) => lines.join(' ').replace(/\s+/g, ' ').trim();
+  return {
+    text: parts.text.join('\n').trim(),
+    vi: parts.vi.join('\n').trim(),
+    motion: oneLine(parts.motion),
+    motionVi: oneLine(parts.motionVi),
+  };
+};
+
 // Generate one scene's prompt text. `characters` is the ordered array from buildCharacterContext
 // (order matters: it must match the scene's `char:` order, since the downstream image template
 // maps reference N to the Nth character named here). `identity` ('face'|'full') hints whether
@@ -111,7 +154,7 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
   const contextNote = context && (context.prev || context.next)
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
-  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now. Keep the English prompt under ${budget} characters, then a line with ===VI=== and its Vietnamese translation.`;
+  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now, then its motion prompt. Keep the English scene prompt under ${budget} characters. Output the four parts in order, separated by the ===VI===, ===MOTION=== and ===MOTION_VI=== delimiter lines.`;
 
   // Newer reasoning-class models reject a custom temperature; only send it for the gpt-4 family.
   const supportsTemperature = /^gpt-4/.test(useModel);
@@ -131,12 +174,7 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
   const data = await res.json();
   const raw = data.choices?.[0]?.message?.content?.trim();
   if (!raw) throw new Error('OpenAI returned no prompt text.');
-  // The model returns the English prompt, a ===VI=== delimiter line, then the Vietnamese
-  // translation — both in one request (no second OpenAI call). If the delimiter is missing,
-  // treat the whole reply as the English prompt and leave the translation empty.
-  const [enPart, ...viParts] = raw.split(/\n?\s*={2,}\s*VI\s*={2,}\s*\n?/i);
-  const text = (enPart ?? '').trim();
-  const vi = viParts.join('').trim();
+  const { text, vi, motion, motionVi } = splitSections(raw);
   if (!text) throw new Error('OpenAI returned no prompt text.');
-  return { text, vi };
+  return { text, vi, motion, motionVi };
 };

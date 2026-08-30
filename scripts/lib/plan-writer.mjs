@@ -28,8 +28,12 @@ export const writeSceneField = (planMd, sceneNo, field, rawValue) => {
     while (next < end && (!lines[next].trim() || !FIELD_RE.test(lines[next].trim()))) next++;
     lines.splice(fi + 1, next - fi - 1);
   } else {
+    // Insert after the last field already following `narration:`, so a run of writes
+    // (prompt → prompt_vi → motion → motion_vi) lands in call order instead of reversing itself.
     const ni = lines.findIndex((l, i) => i > start && i < end && /^narration\s*:/i.test(l));
-    lines.splice((ni >= 0 ? ni : start) + 1, 0, fieldLine);
+    let at = ni >= 0 ? ni : start;
+    for (let i = at + 1; i < end; i++) if (FIELD_RE.test(lines[i].trim())) at = i;
+    lines.splice(at + 1, 0, fieldLine);
   }
   writeFileSync(planMd, lines.join('\n'));
   return clean;

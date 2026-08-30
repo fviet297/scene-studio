@@ -202,7 +202,12 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
     project.sceneDurations,
   );
   return (
-    <AbsoluteFill style={{ background: COLORS.ink }}>
+    <AbsoluteFill
+      style={{
+        background: COLORS.ink,
+        translate: "0px -5px",
+      }}
+    >
       {project.scenes.map((scene, i) => (
         <Sequence
           key={scene.scene}

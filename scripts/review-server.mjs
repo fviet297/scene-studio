@@ -17,7 +17,7 @@
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
 //   POST /api/generate-puppets → { id? } → spawn generate-puppet-references.mjs, stream its log over SSE
-//   POST /api/generate-prompt → { scene } → write that scene's image prompt from narration via OpenAI
+//   POST /api/generate-prompt → { scene } → write that scene's image + motion prompt from narration via OpenAI
 //   POST /api/generate-prompts-batch → { scenes:[...] } → same, sequential, streamed over SSE
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
@@ -516,9 +516,11 @@ const generatePromptsBatch = async (req, res, sceneNos) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === n);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
       writeSceneField(P.planMd, n, 'prompt', text);
       writeSceneField(P.planMd, n, 'prompt_vi', vi);
+      if (motion) writeSceneField(P.planMd, n, 'motion', motion);
+      if (motionVi) writeSceneField(P.planMd, n, 'motion_vi', motionVi);
       ok++;
       sseSend(res, 'log', `✓ scene ${n}: ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
@@ -844,11 +846,14 @@ const server = createServer(async (req, res) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
       writeSceneField(P.planMd, scene, 'prompt', text);
       writeSceneField(P.planMd, scene, 'prompt_vi', vi);
+      // Skipped when the reply had no motion sections, so a hand-authored `motion:` is not lost.
+      if (motion) writeSceneField(P.planMd, scene, 'motion', motion);
+      if (motionVi) writeSceneField(P.planMd, scene, 'motion_vi', motionVi);
       reparse();
-      sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
+      sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi, motion, motionVi });
       return;
     }
 

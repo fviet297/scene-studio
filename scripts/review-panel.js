@@ -969,7 +969,9 @@ async function generatePromptFromNarration() {
   try {
     const res = await api("/api/generate-prompt", { scene: s.scene });
     setConsole("idle", `Scene ${s.scene} prompt written.`);
-    toast(`Scene ${s.scene}: prompt written from narration.`);
+    toast(
+      `Scene ${s.scene}: ${res.motion ? "image + motion prompt" : "prompt"} written from narration.`,
+    );
     await refresh();
   } catch (e) {
     showError(e.message);
