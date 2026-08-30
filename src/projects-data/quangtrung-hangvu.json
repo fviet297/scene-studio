@@ -1,0 +1,2418 @@
+{
+  "slug": "quangtrung-hangvu",
+  "title": "Quang Trung - Hạng Vũ",
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "publicPrefix": "projects/quangtrung-hangvu",
+  "fps": 30,
+  "durationInFrames": 2957,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Đều là những chiến thần bách chiến bách thắng, uy chấn thiên hạ. Nhưng Quang Trung và Hạng Vũ, ai mới thực sự vĩ đại hơn?",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide storm-dark battlefield at dusk; Quang Trung reins in on horseback small and off-center low and left of centre, Xiang Yu reins in on horseback small and further back and to the right, both facing each other across open churned ground; behind Quang Trung East Asian Tay Son troops in conical palm-leaf hats stand with spears and war elephants; behind Xiang Yu East Asian soldiers in late-third-century-BCE Chinese lacquered leather lamellar stand with ji halberds and horse chariots; a single forked lightning bolt splits the black sky above the gap between the two hosts, wind flattens the wet grass, dust drifting between them, plain solid-color cloth banners snapping on both sides, no emblem or lettering. No Qing/Ming Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact identity of both characters, their faces, costumes, horses, the two hosts behind them, elephants, chariots, landscape, lighting and composition; do not redesign, morph, add or remove any character or object; no period or style change; no text or watermark. Keep the camera locked. Storm clouds roll slowly overhead and a single lightning bolt flashes once above the gap between the two hosts, wind flattens the wet grass, dust drifts across the open ground, both horses shift and toss their heads, the ranks behind each figure stir and spears sway, elephants rock and chariot wheels edge forward, plain banners whip on both sides. Keep both main figures stable, expressions and poses unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated or merged characters, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Chiến trường rộng tối om trong giông bão lúc chạng vạng; Quang Trung ghì cương trên lưng ngựa nhỏ và lệch tâm xuống thấp bên trái tâm, Hạng Vũ ghì cương trên lưng ngựa nhỏ và lùi sâu hơn về bên phải, cả hai đối diện nhau qua khoảng đất trống xới xáo; sau lưng Quang Trung là quân Tây Sơn gương mặt Đông Á đội nón lá đứng với giáo và voi chiến; sau lưng Hạng Vũ là lính gương mặt Đông Á mặc giáp phiến da sơn mài Trung Hoa cuối thế kỷ 3 trước Công nguyên đứng với kích và chiến xa ngựa; một tia sét chẻ đôi bầu trời đen phía trên khoảng trống giữa hai đạo quân, gió ép cỏ ướt ngả xuống, bụi trôi ở giữa, cờ vải trơn một màu phần phật ở cả hai phía, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính cả hai nhân vật, khuôn mặt, trang phục, ngựa, hai đạo quân phía sau họ, voi, chiến xa, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất kỳ nhân vật hay vật thể nào; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Mây giông cuộn chậm trên đầu và một tia sét loé lên đúng một lần phía trên khoảng trống giữa hai đạo quân, gió ép cỏ ướt ngả xuống, bụi trôi ngang khoảng đất trống, cả hai con ngựa xê dịch và hất đầu, các hàng quân sau lưng mỗi người khẽ động và rừng giáo dập dềnh, voi lắc lư và bánh chiến xa nhích tới, cờ trơn quật phần phật ở cả hai phía. Giữ cả hai nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản hay hòa lẫn nhân vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 2,
+      "narration": "Hạng Vũ - mãnh tướng nức tiếng Sở quốc, sức dời non lấp bể. Nguyễn Huệ - anh hùng áo vải cờ đào, dấy binh từ vùng Tây Sơn tụ nghĩa.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese casting yard of packed earth at midday; Xiang Yu stands small and off-center at about one-fifth frame height, arms locked overhead lifting a giant three-legged bronze ding cauldron off the ground, back arched under the weight; East Asian Chu soldiers in lacquered leather lamellar and long-robed onlookers ring the yard at a cautious distance, horses held at the gate, thick slack ropes dropped on the ground, dust kicked up around his feet, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the bronze cauldron, soldiers, yard, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The cauldron trembles faintly in his locked arms, dust keeps rising around his planted feet, the ring of onlookers shifts and murmurs, horses stamp at the gate, slack ropes stir on the ground, plain banners sway. Keep the small main figure stable in the lift, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Sân đúc đồng bằng đất nện rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên vào giữa trưa; Hạng Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, hai tay khóa trên đầu nhấc một chiếc đỉnh đồng ba chân khổng lồ rời mặt đất, lưng căng dưới sức nặng; lính Sở gương mặt Đông Á mặc giáp phiến da sơn mài và người xem mặc áo thụng đứng vòng ngoài cách xa thận trọng, ngựa giữ ở cổng, những sợi dây thừng dão thả trên đất, bụi tung quanh chân, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, đỉnh đồng, lính, sân đất nện, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc đỉnh rung nhẹ trong vòng tay gồng của ông, bụi cứ bốc lên quanh chân trụ, vòng người xem xê dịch và xôn xao, ngựa giậm chân ở cổng, dây thừng dão khẽ lay trên đất, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định trong tư thế nhấc đỉnh, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 3,
+      "narration": "Điểm chung lớn nhất? Cả hai đều sở hữu lối đánh \"thần tốc, bạo liệt\", lấy ít địch nhiều, chớp nhoáng đánh sập ý chí kẻ thù.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Close overhead view of a wide silk campaign map of East Asian kingdoms spread flat on a low dark-timber war table at night, painted rivers, mountain ranges and settlement marks in faded mineral colors; a line of small flames crawls across the map surface from one edge leaving scorched brown trails along the painted routes, embers and thin smoke curl up past two bronze oil lamps at the table corners, a lacquered marker weight and a folded plain solid-black cloth banner rest at the table edge, no writing or lettering anywhere on the map or cloth. No modern map, no printed text.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact map, table, lamps, marker weight, cloth, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The line of flame creeps slowly across the silk surface leaving scorched trails, embers lift and thin smoke curls past the lamps, the two lamp flames gutter in a draft, the folded cloth stirs at the table edge. Motion intensity low, environmental motion moderate and natural. No warped or melting objects, no appearing figures, no sudden movements or visual artifacts.",
+        "promptVi": "Nhìn chếch từ trên xuống một tấm bản đồ chinh phục bằng lụa rộng của các vương quốc Đông Á trải phẳng trên bàn quân gỗ tối thấp vào ban đêm, sông núi và dấu các đô thành vẽ màu khoáng bạc màu; một vệt lửa nhỏ bò qua mặt bản đồ từ một mép để lại những vệt cháy nâu dọc các đường tụ vẽ sẵn, than hồng và khói mỏng cuộn lên qua ánh hai chiếc đèn đồng ở góc bàn, một khối gỗ sơn mài và tấm vải đen trơn gấp lại đặt ở mép bàn, không chữ hay văn tự ở bất cứ đâu trên bản đồ hay tấm vải. Không bản đồ hiện đại, không chữ in.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác bản đồ, bàn, đèn, khối gỗ, tấm vải, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Vệt lửa bò chậm qua mặt lụa để lại những vệt cháy xém, than hồng bay lên và khói mỏng cuộn qua hai ngọn đèn, hai ngọn lửa đèn chập chờn trong gió lùa, tấm vải gấp khẽ lay ở mép bàn. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 4,
+      "narration": "Hạng Vũ có trận Cự Lộc \"đập nồi dìm thuyền\", phá nát 40 vạn quân chủ lực nhà Tần chỉ với 5 vạn binh lực.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese riverbank camp at grey dawn; Xiang Yu stands small and off-center on the mud bank at about one-fifth frame height, arm raised as the order is carried out; East Asian Chu soldiers in lacquered leather lamellar smash clay cooking cauldrons with mallets, stave in wooden boats and push them out to sink in the current, others shoulder three days' rations and form up facing away from the water, campfires kicked apart, cold river mist over the reeds, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, soldiers, boats, cauldrons, riverbank, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Mallets fall and cauldron shards scatter, the staved boats drift out and settle lower in the current, ranks shoulder their packs and close up, kicked campfires throw sparks and smoke, cold mist creeps over the reeds and reeds bend in the river wind, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate to strong across the frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Trại quân bên bờ sông Trung Hoa cuối thế kỷ 3 trước Công nguyên lúc rạng sáng xám; Hạng Vũ đứng nhỏ và lệch tâm trên bờ bùn, cao khoảng một phần năm khung hình, tay giơ lên khi mệnh lệnh được thi hành; lính Sở gương mặt Đông Á mặc giáp phiến da sơn mài đập vỡ nồi đất bằng vồ, đục thủng thuyền gỗ rồi đẩy ra cho chìm theo dòng, những người khác vác lương ba ngày và xếp hàng quay lưng lại phía sông, các đống lửa trại bị đá tung, sương sông lạnh phủ trên đám lau sậy, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, lính, thuyền, nồi, bờ sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Những chiếc vồ giáng xuống và mảnh nồi văng ra, thuyền bị đục trôi dần ra xa rồi chìm thấp hơn theo dòng, các hàng quân vác đồ lên vai và khép đội hình, đống lửa bị đá tung bắn tàn và khói, sương lạnh bò qua đám lau và lau ngả theo gió sông, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa đến mạnh trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 5,
+      "narration": "Quang Trung có trận Ngọc Hồi - Đống Đa hành quân thần tốc, quét sạch 29 vạn quân Thanh ngay đúng mùng 5 Tết.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-18th-century Dai Viet night assault outside Thang Long at first light; Quang Trung rides small and off-center at about one-fifth frame height, arm thrown forward to launch the storming; East Asian Tay Son war elephants with conical-hat mahouts crash through a breached stockade and earthen rampart, infantry in conical palm-leaf hats pour in behind with spears, rattan shields and matchlocks, a routed enemy column in 18th-century Chinese army dress flees across cold winter paddies, fire and powder smoke drift low, plain solid-crimson cloth banners, no emblem or lettering. No Nguyen-dynasty or European gear.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horses, elephants, soldiers, rampart, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The elephants surge through the breach, infantry pours in behind them with spears and matchlocks rising and falling, the routed column scatters across the paddies, fire licks along the rampart and powder smoke rolls low over the field, plain banners whip. Keep the small main figure stable, expression and pose unchanged. Allow a slow push-in. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Trận đánh đêm rộng ngoài thành Thăng Long của Đại Việt cuối thế kỷ 18 lúc tờ mờ sáng; Quang Trung cưỡi ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, tay vung tới trước phát lệnh xông lên; voi chiến Tây Sơn gương mặt Đông Á với người cưỡi đội nón lá húc qua hàng rào gỗ và lũy đất bị phá, bộ binh đội nón lá tràn vào phía sau với giáo, khiên mây và súng hỏa mai, một cánh quân địch mặc quân phục Trung Hoa thế kỷ 18 tan chạy qua đồng lúa mùa đông lạnh, lửa và khói thuốc súng là là mặt đất, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không quân trang triều Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, voi, lính, lũy đất, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đàn voi dâng qua đoạn lũy vỡ, bộ binh tràn vào phía sau với giáo và súng hỏa mai nhấp nhô, cánh quân tan vỡ chạy tán loạn trên đồng lúa, lửa liếm dọc lũy đất và khói thuốc súng cuộn thấp trên mặt trận, cờ trơn quật phần phật. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cho phép đẩy máy vào chậm. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 6,
+      "narration": "Hạng Vũ lật đổ nhà Tần, xưng Tây Sở Bá Vương. Quang Trung dẹp Trịnh, diệt Nguyễn, đánh đuổi Xiêm - Thanh, thống nhất đất nước.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese great hall inside a rammed-earth palace at midday; Xiang Yu sits small and off-center on a raised dais at about one-quarter frame height, one hand resting on the armrest; East Asian regional lords in lacquered leather lamellar and long robes kneel in ranks below the dais, attendants wait at the open doors, bronze tripods and tall plain solid-crimson cloth banners line the walls, cold daylight falls through the doorway, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, lords, hall, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The kneeling lords bow lower in turn, attendants shift at the doorway, dust drifts through the shaft of cold daylight, the tall banners sway gently along the walls, a tripod lid rattles faintly. Keep the small main figure stable, expression and pose unchanged. Allow a very slow push-in. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Đại sảnh rộng trong cung tường đất nện của Trung Hoa cuối thế kỷ 3 trước Công nguyên vào giữa trưa; Hạng Vũ ngồi nhỏ và lệch tâm trên bệ cao, cao khoảng một phần tư khung hình, một tay tựa lên tay vịn; các chư hầu gương mặt Đông Á mặc giáp phiến da sơn mài và áo thụng quỳ thành hàng dưới bệ, người hầu chờ ở cửa để ngỏ, những chiếc đỉnh đồng và cờ vải đỏ thẫm trơn cao xếp dọc tường, ánh sáng ban ngày lạnh tràn qua cửa, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chư hầu, đại sảnh, kiến trúc, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Các chư hầu cúi xuống lần lượt, người hầu xê dịch ở cửa, bụi trôi qua vệt sáng lạnh từ cửa, cờ cao dọc tường lay nhẹ, nắp đỉnh đồng kêu lạch cạch khẽ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cho phép đẩy máy vào rất chậm. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 7,
+      "narration": "Nhưng đây là điểm khác biệt cốt lõi: Hạng Vũ chỉ là một cỗ máy chiến tranh tuyệt đỉnh. Quang Trung là một thiên tài chính trị.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Symbolic still life in a dim torchlit hall; a large old balance scale of dark timber and iron stands on a stone floor, one pan sunk low and heavy under a bronze commander's seal, a rolled blank silk scroll and stacked bound volumes, the other pan tipped high holding only a single bronze halberd blade; a plain solid-crimson cloth backdrop hangs behind, torchlight from one side throws a long shadow, dust drifts in the light, no people, no writing or lettering on the seal, scroll, volumes or cloth. No modern objects.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact scale, seal, scroll, volumes, halberd blade, backdrop, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The heavy pan sinks a fraction lower and the halberd pan tips higher, the beam trembles and settles, dust drifts through the torchlight, the torch flames gutter and throw shifting shadows, the cloth backdrop stirs faintly. Motion intensity low, environmental motion moderate and natural. No warped or melting objects, no appearing figures, no sudden movements or visual artifacts.",
+        "promptVi": "Vật tượng trưng trong đại sảnh mờ ánh đuốc; một cái cân đòn lớn cũ kỹ bằng gỗ sẫm và sắt đứng trên nền đá, một đĩa chìm thấp và nặng dưới một ấn đồng của tướng lĩnh, một cuộn lụa trắng và những tập sách đóng xếp chồng, đĩa kia vung cao chỉ chứa một lưỡi kích đồng; tấm vải đỏ thẫm trơn treo phía sau, ánh đuốc từ một bên hắt bóng dài, bụi trôi trong vệt sáng, không có người, không chữ hay văn tự trên ấn, cuộn lụa, tập sách hay tấm vải. Không vật hiện đại.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác chiếc cân, ấn, cuộn lụa, tập sách, lưỡi kích, tấm vải, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đĩa nặng chìm thêm một chút và đĩa kích vung lên cao hơn, đòn cân rung rồi định lại, bụi trôi trong ánh đuốc, ngọn đuốc chập chờn hắt bóng lay động, tấm vải phông khẽ lay. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 8,
+      "narration": "Hạng Vũ tàn bạo, đồ sát hàng binh, đốt phá cung điện, tự phong bừa bãi khiến chư hầu oán hận, lòng dân oán thán.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese palace complex at night seen from outside its gate; Xiang Yu sits on horseback small and off-center at about one-fifth frame height, watching impassive; multi-storey timber palaces with low tiled eaves burn along the whole skyline, sparks and embers stream into the dark, a long column of captive East Asian Qin soldiers in plain hemp dress is marched away under guard past a collapsing gate tower, civilians flee with bundles, fire glow on the packed-earth wall, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costume, horse, palaces, captives, wall, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Flames climb the palace roofs and roofs sag as they burn, sparks and embers stream sideways in the wind, the captive column shuffles past the collapsing gate, fleeing civilians hurry off-frame at the edges, the horse shifts under him, fire glow pulses on the earthen wall, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Quần cung điện rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên về đêm nhìn từ ngoài cổng; Hạng Vũ ngồi trên lưng ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, nhìn thản nhiên; những cung điện gỗ nhiều tầng mái ngói thấp cháy suốt đường chân trời, tàn lửa và tro bay cuộn vào màn đêm, một đoàn dài tù binh quân Tần gương mặt Đông Á mặc vải thô trơn bị giải đi dưới sự canh giữ qua một vọng lâu đang đổ, dân thường ôm gói đồ bỏ chạy, ánh lửa hắt lên tường đất nện, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, cung điện, tù binh, tường đất, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa leo lên các nóc cung điện và mái xẹp dần khi cháy, tàn lửa và tro bay trôi ngang theo gió, đoàn tù binh lê từng bước qua vọng lâu đang đổ, dân chạy trốn vội vã ở rìa khung hình, con ngựa xê dịch dưới thân ông, ánh lửa lập lòe trên tường đất, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 9,
+      "narration": "Ngược lại, lên ngôi Hoàng đế, Quang Trung lập tức ban Chiếu Khuyến Nông, Chiếu Lập Học, phục hồi kinh tế và giáo dục thần tốc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-18th-century Dai Viet rice plain at morning; Quang Trung stands small and off-center on a low earthen dike at about one-fifth frame height, unrolling a blank paper scroll toward the fields; East Asian villagers in plain cotton dress transplant rice seedlings in flooded paddies below, buffalo pull harrows at the far edge, children run along the raised paths, thatched houses and areca groves beyond, an open-air village school shelter with seated pupils under a great tree, warm morning light, the scroll and all paper surfaces blank with no writing, plain solid-crimson cloth banners, no emblem or lettering. No Qing/Ming Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costume, villagers, buffalo, paddies, school shelter, landscape, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The unrolled scroll sways gently in the morning breeze, villagers keep transplanting seedling by seedling and water ripples in the paddies, buffalo plod and flick their tails, children run along the paths, areca fronds and plain banners move in the wind. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Đồng lúa rộng của Đại Việt cuối thế kỷ 18 vào buổi sáng; Quang Trung đứng nhỏ và lệch tâm trên một con đê đất thấp, cao khoảng một phần năm khung hình, mở một tấm giấy trông về phía các cánh đồng; dân làng gương mặt Đông Á mặc vải thô trơn cấy mưa trên những ruộng ngập nước phía dưới, trâu kéo bừa ở rìa xa, trẻ em chạy dọc bờ ruộng, nhà tranh và vườn cau phía xa, một mái trường làng ngoài trời với học trò ngồi dưới tán cây lớn, ánh sáng sớm ấm, tấm giấy và mọi mặt giấy để trắng không có chữ, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, dân làng, trâu, ruộng, mái trường, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Tấm giấy mở khẽ lay trong gió sớm, dân làng cứ cấy từng dầm và mặt nước ruộng gợn sóng, trâu thong thả vẫy đuôi, trẻ em chạy dọc bờ, tàu cau và cờ trơn lay trong gió. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 10,
+      "narration": "Hạng Vũ đa nghi, đẩy các mưu sĩ giỏi nhất về tay Lưu Bang. Quang Trung lại bao dung, thu phục nhân tâm, trọng dụng nhân tài bất kể xuất thân.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-18th-century Dai Viet timber audience hall with a curved clay-tiled roof; Quang Trung stands small and off-center at floor level at about one-fifth frame height, hand extended in greeting toward two elderly East Asian scholars; the scholars in long plain robes bow slightly, one presenting a bound volume of blank pages, officials and clerks watch from low tables, an envoy waits at the open doorway, warm daylight, all paper surfaces blank with no writing, plain solid-crimson cloth banners, no emblem or lettering. No Qing/Ming Chinese or European architecture.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, scholars, furniture, architecture, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The scholars bow and straighten, the presented volume tilts gently, clerks' hands move over the blank pages, the envoy party shifts at the doorway, daylight shifts slowly across the floor, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Điện nghị sự bằng gỗ rộng của Đại Việt cuối thế kỷ 18 với mái ngói cong; Quang Trung đứng nhỏ và lệch tâm ngay nền điện, cao khoảng một phần năm khung hình, tay đưa ra chào đón hai vị nho sĩ già gương mặt Đông Á; hai nho sĩ mặc áo thụng trơn hơi cúi chào, một người dâng tập sách đóng gáy, quan lại và thư lại nhìn từ những bàn thấp, một đoàn sứ chờ ở cửa để ngỏ, ánh sáng ban ngày ấm, mọi mặt giấy để trắng không có chữ, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không kiến trúc Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, nho sĩ, đồ đạc, kiến trúc, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Hai nho sĩ vái xuống rồi đứng thẳng, tập sách dâng lên nghiêng nhẹ, tay thư lại lướt trên trang giấy trắng, đoàn sứ xê dịch ở ngưỡng cửa, ánh sáng ban ngày dịch chậm trên nền nhà, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 11,
+      "narration": "Kết cục, Hạng Vũ bị dồn đến đường cùng, tự sát bên bến Ô Giang ở tuổi 30, để lại mối hận nghìn thu.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese riverbank at night after a defeat; Xiang Yu stands small and off-center at about one-fifth frame height beside a tired horse at the water's edge, head bowed, sword lowered in one hand pointing at the ground; a handful of exhausted East Asian Chu riders in battered lacquered leather lamellar wait behind him, an old ferryman holds a small wooden boat against the current, scattered torches of pursuers spread along the far bank, reeds bend in the river wind, mist over black water, ragged plain solid-crimson cloth banners lowered, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, horse, riders, boat, riverbank, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The small boat rocks and pulls against the current, water ripples and torchlight reflections break on the black surface, distant pursuers' torches drift along the far bank, reeds bend and mist slides low over the water, the tired horse shifts its weight, tattered banners hang and stir. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bờ sông Trung Hoa cuối thế kỷ 3 trước Công nguyên về đêm sau một trận thua; Hạng Vũ đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, bên con ngựa mỏi mệt sát mép nước, đầu cúi xuống, thanh kiếm hạ thấp trong một tay chĩa xuống đất; một nhóm nhỏ kỵ sĩ Sở gương mặt Đông Á kiệt sức trong bộ giáp phiến da sơn mài tơi tả đứng chờ phía sau, một ông lái đò già giữ chiếc thuyền gỗ nhỏ ngược dòng, đuốc của quân truy kích rải rác dọc bờ bên kia, lau sậy ngả theo gió sông, sương giăng trên mặt nước đen, những lá cờ vải đỏ thẫm trơn rách hạ thấp, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, ngựa, kỵ sĩ, thuyền, bờ sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc thuyền nhỏ dập dềnh và ghì lại ngược dòng, mặt nước gợn sóng và ánh đuốc phản chiếu vỡ vụn trên mặt nước đen, đuốc của quân truy kích trôi dọc bờ xa, lau sậy ngả và sương trườn thấp trên mặt nước, con ngựa mỏi chuyển trọng tâm, những lá cờ rách rủ xuống khẽ lay. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 12,
+      "narration": "Quang Trung băng hà đột ngột ở tuổi 39, khi tài năng đang độ chín muồi và mộng lớn phương Bắc còn dang dở.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide late-18th-century Dai Viet bedchamber inside a timber palace at stormy night; a plain yellow imperial long robe hangs empty from a wooden stand in the middle of the quiet room, sleeves hanging still, a low lacquered bed and a low writing table with blank paper beside it, an open clay-tiled window looking onto a black sky where a single bright meteor streaks down over distant mountains, lightning glow at the horizon, a candle guttering on the table, no people, all paper surfaces blank with no writing. No Qing/Ming Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact robe, stand, bed, table, paper, window, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The hanging robe sways very gently in a draft and settles, the meteor streak fades over the mountains, lightning flickers once at the horizon, the candle flame gutters and throws shifting shadows, rain streaks past the window. Motion intensity low, environmental motion moderate and natural. No warped or melting objects, no appearing figures, no sudden movements or visual artifacts.",
+        "promptVi": "Buồng ngủ rộng trong cung gỗ của Đại Việt cuối thế kỷ 18 vào đêm giông bão; một chiếc long bào màu vàng trơn treo lơ lửng không người trên giá gỗ giữa căn phòng tĩnh lặng, tay áo vẫn buông thõng, một chiếc giường thấp sơn mài và bàn viết thấp với tờ giấy trắng bên cạnh, cửa sổ ngói mở nhìn ra bầu trời đen nơi một ngôi sao băng sáng lướt xuống dãy núi xa, ánh chớp ở đường chân trời, ngọn nến chập chờn trên bàn, không có người, mọi mặt giấy để trắng không có chữ. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác long bào, giá đỡ, giường, bàn, giấy, cửa sổ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Chiếc long bào treo lay rất khẽ trong gió lùa rồi lặng lại, vệt sao băng mờ dần trên dãy núi, chớp loé lên một lần ở chân trời, ngọn nến chập chờn hắt bóng lay động, mưa xiên qua ô cửa. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 13,
+      "narration": "Hạng Vũ dù vô địch thiên hạ, cuối cùng lại mất tất cả, làm bàn đạp cho Lưu Bang lập nên nhà Hán.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide late-third-century-BCE Chinese battlefield at misty dawn after a great battle; smoke and dust drift low over a field strewn with broken halberds, shattered chariots and fallen banners; on a low rise at mid-frame a lone East Asian soldier in plain hemp dress plants a tall plain solid-crimson cloth banner into the earth, no emblem or lettering on the cloth; crows lift from the trampled ground, a river glints in the far distance, cold grey light. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact field, broken weapons, chariots, fallen banners, soldier, planted banner, river, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Smoke and dust drift slowly across the field, the cloth banner lifts and settles in the wind after being planted, the soldier steps back and stands still, crows wheel up from the ground and scatter, the distant river surface glints, mist slides low over the ground. Motion intensity low, environmental motion moderate and natural. No warped or melting objects, no appearing figures, no sudden movements or visual artifacts.",
+        "promptVi": "Chiến trường rộng của Trung Hoa cuối thế kỷ 3 trước Công nguyên lúc rạng sáng có sương sau một đại chiến; khói và bụi trôi là là trên cánh đồng rải đầy kích gãy, chiến xa vỡ và lá cờ đổ; trên một gò thấp giữa khung hình, một lính gương mặt Đông Á mặc vải gai trơn cắm một lá cờ vải đỏ thẫm trơn cao xuống đất, không phù hiệu hay chữ viết trên tấm vải; đàn quạ bay lên từ mặt đất bị giày xéo, một dòng sông lấp lánh ở phía xa, ánh sáng xám lạnh. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác cánh đồng, vũ khí gãy, chiến xa, lá cờ đổ, người lính, lá cờ cắm, dòng sông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Khói và bụi trôi chậm ngang cánh đồng, tấm cờ phồng lên rồi rủ xuống trong gió sau khi được cắm, người lính lùi một bước rồi đứng yên, đàn quạ bay lên tản ra khỏi mặt đất, mặt sông xa lấp lánh, sương trườn thấp trên mặt đất. Cường độ chuyển động thấp, môi trường chuyển động vừa phải và tự nhiên. Không vật thể vặn vẹo hay chảy nhão, không xuất hiện thêm người, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 14,
+      "narration": "Quang Trung để lại di sản của một vị anh hùng dân tộc vĩ đại, người bảo vệ toàn vẹn lãnh thổ và mở ra kỷ nguyên đổi mới.",
+      "image": {
+        "kind": "search",
+        "characters": [],
+        "query": "Quang Trung Nguyen Hue statue monument Dong Da Hanoi"
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 15,
+      "narration": "Một người là \"Chiến thần bi kịch\", một người là \"Hoàng đế thiên tài\". Theo bạn, ai mới là nhà quân sự vĩ đại hơn? Trả lời xuống dưới nhé!",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide open battlefield at clear first light; Quang Trung reins in on horseback small and off-center low and left of centre, Xiang Yu reins in on horseback small and further back and to the right, both facing each other across open ground with mist drifting between them; behind Quang Trung East Asian Tay Son troops in conical palm-leaf hats stand with spears and war elephants; behind Xiang Yu East Asian soldiers in late-third-century-BCE Chinese lacquered leather lamellar stand with ji halberds and horse chariots; plain solid-color cloth banners on both sides, no emblem or lettering. No Qing/Ming Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact identity of both characters, their faces, costumes, horses, the two hosts behind them, elephants, chariots, landscape, lighting and composition; do not redesign, morph, add or remove any character or object; no period or style change; no text or watermark. Keep the camera locked. Mist drifts slowly across the open ground between the two hosts, both horses shift and toss their heads, the ranks behind each figure stir and spears sway, elephants rock and chariot wheels edge forward, early light strengthens across the ground, plain banners ripple on both sides. Keep both main figures stable, expressions and poses unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated or merged characters, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Chiến trường trống rộng lúc sáng trong; Quang Trung ghì cương trên lưng ngựa nhỏ và lệch tâm xuống thấp bên trái tâm, Hạng Vũ ghì cương trên lưng ngựa nhỏ và lùi sâu hơn về bên phải, cả hai đối diện nhau qua khoảng đất trống với sương trôi ở giữa; sau lưng Quang Trung là quân Tây Sơn gương mặt Đông Á đội nón lá đứng với giáo và voi chiến; sau lưng Hạng Vũ là lính gương mặt Đông Á mặc giáp phiến da sơn mài Trung Hoa cuối thế kỷ 3 trước Công nguyên đứng với kích và chiến xa ngựa; cờ vải trơn một màu ở cả hai phía, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính cả hai nhân vật, khuôn mặt, trang phục, ngựa, hai đạo quân phía sau họ, voi, chiến xa, phong cảnh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất kỳ nhân vật hay vật thể nào; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Sương trôi chậm ngang khoảng đất trống giữa hai đạo quân, cả hai con ngựa xê dịch và hất đầu, các hàng quân sau lưng mỗi người khẽ động và rừng giáo dập dềnh, voi lắc lư và bánh chiến xa nhích tới, ánh sáng sớm mạnh dần trên mặt đất, cờ trơn gợn sóng ở cả hai phía. Giữ cả hai nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản hay hòa lẫn nhân vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": true
+    }
+  ],
+  "sceneDurations": [
+    7.122,
+    7.17,
+    6.597,
+    5.47,
+    5.81,
+    6.663,
+    6.166,
+    6.88,
+    6.99,
+    7.8,
+    6.28,
+    6.55,
+    5.47,
+    6.48,
+    7.123
+  ],
+  "motionPlaybackRates": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "captionGroups": [
+    [
+      {
+        "text": "Đều",
+        "start": 0.224,
+        "end": 0.421
+      },
+      {
+        "text": "là",
+        "start": 0.421,
+        "end": 0.58
+      },
+      {
+        "text": "những",
+        "start": 0.58,
+        "end": 0.842
+      },
+      {
+        "text": "chiến",
+        "start": 0.842,
+        "end": 1.104
+      },
+      {
+        "text": "thần",
+        "start": 1.104,
+        "end": 1.336
+      },
+      {
+        "text": "bách",
+        "start": 1.336,
+        "end": 1.568
+      },
+      {
+        "text": "chiến",
+        "start": 1.568,
+        "end": 1.83
+      }
+    ],
+    [
+      {
+        "text": "bách",
+        "start": 1.83,
+        "end": 2.062
+      },
+      {
+        "text": "thắng,",
+        "start": 2.062,
+        "end": 2.603
+      },
+      {
+        "text": "uy",
+        "start": 2.603,
+        "end": 2.761
+      },
+      {
+        "text": "chấn",
+        "start": 2.761,
+        "end": 2.993
+      },
+      {
+        "text": "thiên",
+        "start": 2.993,
+        "end": 3.255
+      },
+      {
+        "text": "hạ.",
+        "start": 3.255,
+        "end": 3.413
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 3.413,
+        "end": 4.148
+      },
+      {
+        "text": "Quang",
+        "start": 4.148,
+        "end": 4.41
+      },
+      {
+        "text": "Trung",
+        "start": 4.41,
+        "end": 4.672
+      },
+      {
+        "text": "và",
+        "start": 4.672,
+        "end": 4.831
+      },
+      {
+        "text": "Hạng",
+        "start": 4.831,
+        "end": 5.063
+      },
+      {
+        "text": "Vũ,",
+        "start": 5.063,
+        "end": 5.602
+      },
+      {
+        "text": "ai",
+        "start": 5.602,
+        "end": 5.76
+      }
+    ],
+    [
+      {
+        "text": "mới",
+        "start": 5.76,
+        "end": 5.958
+      },
+      {
+        "text": "thực",
+        "start": 5.958,
+        "end": 6.19
+      },
+      {
+        "text": "sự",
+        "start": 6.19,
+        "end": 6.348
+      },
+      {
+        "text": "vĩ",
+        "start": 6.348,
+        "end": 6.506
+      },
+      {
+        "text": "đại",
+        "start": 6.506,
+        "end": 6.704
+      },
+      {
+        "text": "hơn?",
+        "start": 6.704,
+        "end": 6.902
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 7.346,
+        "end": 7.562
+      },
+      {
+        "text": "Vũ",
+        "start": 7.562,
+        "end": 7.71
+      },
+      {
+        "text": "-",
+        "start": 7.71,
+        "end": 7.811
+      },
+      {
+        "text": "mãnh",
+        "start": 7.811,
+        "end": 8.027
+      },
+      {
+        "text": "tướng",
+        "start": 8.027,
+        "end": 8.271
+      },
+      {
+        "text": "nức",
+        "start": 8.271,
+        "end": 8.455
+      },
+      {
+        "text": "tiếng",
+        "start": 8.455,
+        "end": 8.7
+      }
+    ],
+    [
+      {
+        "text": "Sở",
+        "start": 8.7,
+        "end": 9.261
+      },
+      {
+        "text": "quốc,",
+        "start": 9.261,
+        "end": 9.477
+      },
+      {
+        "text": "sức",
+        "start": 9.477,
+        "end": 9.661
+      },
+      {
+        "text": "dời",
+        "start": 9.661,
+        "end": 9.846
+      },
+      {
+        "text": "non",
+        "start": 9.846,
+        "end": 10.03
+      },
+      {
+        "text": "lấp",
+        "start": 10.03,
+        "end": 10.215
+      },
+      {
+        "text": "bể.",
+        "start": 10.215,
+        "end": 10.362
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 10.362,
+        "end": 10.923
+      },
+      {
+        "text": "Huệ",
+        "start": 10.923,
+        "end": 11.108
+      },
+      {
+        "text": "-",
+        "start": 11.108,
+        "end": 11.209
+      },
+      {
+        "text": "anh",
+        "start": 11.209,
+        "end": 11.393
+      },
+      {
+        "text": "hùng",
+        "start": 11.393,
+        "end": 11.609
+      },
+      {
+        "text": "áo",
+        "start": 11.609,
+        "end": 11.757
+      },
+      {
+        "text": "vải",
+        "start": 11.757,
+        "end": 11.941
+      }
+    ],
+    [
+      {
+        "text": "cờ",
+        "start": 11.941,
+        "end": 12.089
+      },
+      {
+        "text": "đào,",
+        "start": 12.089,
+        "end": 12.574
+      },
+      {
+        "text": "dấy",
+        "start": 12.574,
+        "end": 12.759
+      },
+      {
+        "text": "binh",
+        "start": 12.759,
+        "end": 12.975
+      },
+      {
+        "text": "từ",
+        "start": 12.975,
+        "end": 13.122
+      },
+      {
+        "text": "vùng",
+        "start": 13.122,
+        "end": 13.339
+      },
+      {
+        "text": "Tây",
+        "start": 13.339,
+        "end": 13.523
+      }
+    ],
+    [
+      {
+        "text": "Sơn",
+        "start": 13.523,
+        "end": 13.707
+      },
+      {
+        "text": "tụ",
+        "start": 13.707,
+        "end": 13.855
+      },
+      {
+        "text": "nghĩa.",
+        "start": 13.855,
+        "end": 14.099
+      }
+    ],
+    [
+      {
+        "text": "Điểm",
+        "start": 14.498,
+        "end": 14.719
+      },
+      {
+        "text": "chung",
+        "start": 14.719,
+        "end": 14.968
+      },
+      {
+        "text": "lớn",
+        "start": 14.968,
+        "end": 15.632
+      },
+      {
+        "text": "nhất?",
+        "start": 15.632,
+        "end": 15.853
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 15.853,
+        "end": 16.004
+      },
+      {
+        "text": "hai",
+        "start": 16.004,
+        "end": 16.192
+      },
+      {
+        "text": "đều",
+        "start": 16.192,
+        "end": 16.381
+      },
+      {
+        "text": "sở",
+        "start": 16.381,
+        "end": 16.532
+      },
+      {
+        "text": "hữu",
+        "start": 16.532,
+        "end": 16.72
+      },
+      {
+        "text": "lối",
+        "start": 16.72,
+        "end": 16.908
+      },
+      {
+        "text": "đánh",
+        "start": 16.908,
+        "end": 17.129
+      }
+    ],
+    [
+      {
+        "text": "\"thần",
+        "start": 17.129,
+        "end": 17.35
+      },
+      {
+        "text": "tốc,",
+        "start": 17.35,
+        "end": 17.539
+      },
+      {
+        "text": "bạo",
+        "start": 17.539,
+        "end": 18.078
+      },
+      {
+        "text": "liệt\",",
+        "start": 18.078,
+        "end": 18.298
+      },
+      {
+        "text": "lấy",
+        "start": 18.298,
+        "end": 18.487
+      },
+      {
+        "text": "ít",
+        "start": 18.487,
+        "end": 18.638
+      },
+      {
+        "text": "địch",
+        "start": 18.638,
+        "end": 18.859
+      }
+    ],
+    [
+      {
+        "text": "nhiều,",
+        "start": 18.859,
+        "end": 19.108
+      },
+      {
+        "text": "chớp",
+        "start": 19.108,
+        "end": 19.329
+      },
+      {
+        "text": "nhoáng",
+        "start": 19.329,
+        "end": 19.605
+      },
+      {
+        "text": "đánh",
+        "start": 19.605,
+        "end": 19.826
+      },
+      {
+        "text": "sập",
+        "start": 19.826,
+        "end": 20.014
+      },
+      {
+        "text": "ý",
+        "start": 20.014,
+        "end": 20.117
+      },
+      {
+        "text": "chí",
+        "start": 20.117,
+        "end": 20.306
+      }
+    ],
+    [
+      {
+        "text": "kẻ",
+        "start": 20.306,
+        "end": 20.457
+      },
+      {
+        "text": "thù.",
+        "start": 20.457,
+        "end": 20.645
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 21.107,
+        "end": 21.344
+      },
+      {
+        "text": "Vũ",
+        "start": 21.344,
+        "end": 21.506
+      },
+      {
+        "text": "có",
+        "start": 21.506,
+        "end": 21.668
+      },
+      {
+        "text": "trận",
+        "start": 21.668,
+        "end": 21.904
+      },
+      {
+        "text": "Cự",
+        "start": 21.904,
+        "end": 22.066
+      },
+      {
+        "text": "Lộc",
+        "start": 22.066,
+        "end": 22.268
+      },
+      {
+        "text": "\"đập",
+        "start": 22.268,
+        "end": 22.471
+      }
+    ],
+    [
+      {
+        "text": "nồi",
+        "start": 22.471,
+        "end": 22.673
+      },
+      {
+        "text": "dìm",
+        "start": 22.673,
+        "end": 22.875
+      },
+      {
+        "text": "thuyền\",",
+        "start": 22.875,
+        "end": 23.171
+      },
+      {
+        "text": "phá",
+        "start": 23.171,
+        "end": 23.373
+      },
+      {
+        "text": "nát",
+        "start": 23.373,
+        "end": 23.576
+      },
+      {
+        "text": "40",
+        "start": 23.576,
+        "end": 23.737
+      },
+      {
+        "text": "vạn",
+        "start": 23.737,
+        "end": 23.939
+      }
+    ],
+    [
+      {
+        "text": "quân",
+        "start": 23.939,
+        "end": 24.176
+      },
+      {
+        "text": "chủ",
+        "start": 24.176,
+        "end": 24.379
+      },
+      {
+        "text": "lực",
+        "start": 24.379,
+        "end": 24.581
+      },
+      {
+        "text": "nhà",
+        "start": 24.581,
+        "end": 24.783
+      },
+      {
+        "text": "Tần",
+        "start": 24.783,
+        "end": 24.985
+      },
+      {
+        "text": "chỉ",
+        "start": 24.985,
+        "end": 25.187
+      },
+      {
+        "text": "với",
+        "start": 25.187,
+        "end": 25.39
+      }
+    ],
+    [
+      {
+        "text": "5",
+        "start": 25.39,
+        "end": 25.5
+      },
+      {
+        "text": "vạn",
+        "start": 25.5,
+        "end": 25.702
+      },
+      {
+        "text": "binh",
+        "start": 25.702,
+        "end": 25.939
+      },
+      {
+        "text": "lực.",
+        "start": 25.939,
+        "end": 26.141
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 26.565,
+        "end": 26.82
+      },
+      {
+        "text": "Trung",
+        "start": 26.82,
+        "end": 27.076
+      },
+      {
+        "text": "có",
+        "start": 27.076,
+        "end": 27.23
+      },
+      {
+        "text": "trận",
+        "start": 27.23,
+        "end": 27.456
+      },
+      {
+        "text": "Ngọc",
+        "start": 27.456,
+        "end": 27.682
+      },
+      {
+        "text": "Hồi",
+        "start": 27.682,
+        "end": 27.875
+      },
+      {
+        "text": "-",
+        "start": 27.875,
+        "end": 27.981
+      }
+    ],
+    [
+      {
+        "text": "Đống",
+        "start": 27.981,
+        "end": 28.207
+      },
+      {
+        "text": "Đa",
+        "start": 28.207,
+        "end": 28.361
+      },
+      {
+        "text": "hành",
+        "start": 28.361,
+        "end": 28.587
+      },
+      {
+        "text": "quân",
+        "start": 28.587,
+        "end": 28.813
+      },
+      {
+        "text": "thần",
+        "start": 28.813,
+        "end": 29.509
+      },
+      {
+        "text": "tốc,",
+        "start": 29.509,
+        "end": 29.702
+      },
+      {
+        "text": "quét",
+        "start": 29.702,
+        "end": 29.928
+      }
+    ],
+    [
+      {
+        "text": "sạch",
+        "start": 29.928,
+        "end": 30.154
+      },
+      {
+        "text": "29",
+        "start": 30.154,
+        "end": 30.309
+      },
+      {
+        "text": "vạn",
+        "start": 30.309,
+        "end": 30.502
+      },
+      {
+        "text": "quân",
+        "start": 30.502,
+        "end": 30.727
+      },
+      {
+        "text": "Thanh",
+        "start": 30.727,
+        "end": 30.983
+      },
+      {
+        "text": "ngay",
+        "start": 30.983,
+        "end": 31.209
+      },
+      {
+        "text": "đúng",
+        "start": 31.209,
+        "end": 31.435
+      }
+    ],
+    [
+      {
+        "text": "mùng",
+        "start": 31.435,
+        "end": 31.661
+      },
+      {
+        "text": "5",
+        "start": 31.661,
+        "end": 31.766
+      },
+      {
+        "text": "Tết.",
+        "start": 31.766,
+        "end": 32.169
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 32.394,
+        "end": 32.631
+      },
+      {
+        "text": "Vũ",
+        "start": 32.631,
+        "end": 32.792
+      },
+      {
+        "text": "lật",
+        "start": 32.792,
+        "end": 32.994
+      },
+      {
+        "text": "đổ",
+        "start": 32.994,
+        "end": 33.155
+      },
+      {
+        "text": "nhà",
+        "start": 33.155,
+        "end": 33.357
+      },
+      {
+        "text": "Tần,",
+        "start": 33.357,
+        "end": 33.559
+      },
+      {
+        "text": "xưng",
+        "start": 33.559,
+        "end": 33.795
+      }
+    ],
+    [
+      {
+        "text": "Tây",
+        "start": 33.795,
+        "end": 33.997
+      },
+      {
+        "text": "Sở",
+        "start": 33.997,
+        "end": 34.158
+      },
+      {
+        "text": "Bá",
+        "start": 34.158,
+        "end": 34.319
+      },
+      {
+        "text": "Vương.",
+        "start": 34.319,
+        "end": 34.587
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 34.587,
+        "end": 34.854
+      },
+      {
+        "text": "Trung",
+        "start": 34.854,
+        "end": 35.594
+      },
+      {
+        "text": "dẹp",
+        "start": 35.594,
+        "end": 35.796
+      },
+      {
+        "text": "Trịnh,",
+        "start": 35.796,
+        "end": 36.063
+      },
+      {
+        "text": "diệt",
+        "start": 36.063,
+        "end": 36.3
+      },
+      {
+        "text": "Nguyễn,",
+        "start": 36.3,
+        "end": 36.595
+      },
+      {
+        "text": "đánh",
+        "start": 36.595,
+        "end": 36.831
+      }
+    ],
+    [
+      {
+        "text": "đuổi",
+        "start": 36.831,
+        "end": 37.068
+      },
+      {
+        "text": "Xiêm",
+        "start": 37.068,
+        "end": 37.304
+      },
+      {
+        "text": "-",
+        "start": 37.304,
+        "end": 37.414
+      },
+      {
+        "text": "Thanh,",
+        "start": 37.414,
+        "end": 37.681
+      },
+      {
+        "text": "thống",
+        "start": 37.681,
+        "end": 37.949
+      },
+      {
+        "text": "nhất",
+        "start": 37.949,
+        "end": 38.185
+      },
+      {
+        "text": "đất",
+        "start": 38.185,
+        "end": 38.387
+      }
+    ],
+    [
+      {
+        "text": "nước.",
+        "start": 38.387,
+        "end": 38.832
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 39.04,
+        "end": 39.256
+      },
+      {
+        "text": "đây",
+        "start": 39.256,
+        "end": 39.419
+      },
+      {
+        "text": "là",
+        "start": 39.419,
+        "end": 39.55
+      },
+      {
+        "text": "điểm",
+        "start": 39.55,
+        "end": 39.741
+      },
+      {
+        "text": "khác",
+        "start": 39.741,
+        "end": 39.932
+      },
+      {
+        "text": "biệt",
+        "start": 39.932,
+        "end": 40.123
+      },
+      {
+        "text": "cốt",
+        "start": 40.123,
+        "end": 40.286
+      }
+    ],
+    [
+      {
+        "text": "lõi:",
+        "start": 40.286,
+        "end": 40.449
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 40.449,
+        "end": 41.113
+      },
+      {
+        "text": "Vũ",
+        "start": 41.113,
+        "end": 41.244
+      },
+      {
+        "text": "chỉ",
+        "start": 41.244,
+        "end": 41.407
+      },
+      {
+        "text": "là",
+        "start": 41.407,
+        "end": 41.537
+      },
+      {
+        "text": "một",
+        "start": 41.537,
+        "end": 41.7
+      },
+      {
+        "text": "cỗ",
+        "start": 41.7,
+        "end": 41.831
+      },
+      {
+        "text": "máy",
+        "start": 41.831,
+        "end": 41.994
+      }
+    ],
+    [
+      {
+        "text": "chiến",
+        "start": 41.994,
+        "end": 42.21
+      },
+      {
+        "text": "tranh",
+        "start": 42.21,
+        "end": 42.426
+      },
+      {
+        "text": "tuyệt",
+        "start": 42.426,
+        "end": 42.642
+      },
+      {
+        "text": "đỉnh.",
+        "start": 42.642,
+        "end": 42.833
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 42.833,
+        "end": 43.514
+      },
+      {
+        "text": "Trung",
+        "start": 43.514,
+        "end": 43.73
+      },
+      {
+        "text": "là",
+        "start": 43.73,
+        "end": 43.86
+      },
+      {
+        "text": "một",
+        "start": 43.86,
+        "end": 44.023
+      },
+      {
+        "text": "thiên",
+        "start": 44.023,
+        "end": 44.239
+      },
+      {
+        "text": "tài",
+        "start": 44.239,
+        "end": 44.402
+      },
+      {
+        "text": "chính",
+        "start": 44.402,
+        "end": 44.618
+      }
+    ],
+    [
+      {
+        "text": "trị.",
+        "start": 44.618,
+        "end": 44.781
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 45.218,
+        "end": 45.455
+      },
+      {
+        "text": "Vũ",
+        "start": 45.455,
+        "end": 45.617
+      },
+      {
+        "text": "tàn",
+        "start": 45.617,
+        "end": 45.82
+      },
+      {
+        "text": "bạo,",
+        "start": 45.82,
+        "end": 46.022
+      },
+      {
+        "text": "đồ",
+        "start": 46.022,
+        "end": 46.52
+      },
+      {
+        "text": "sát",
+        "start": 46.52,
+        "end": 46.723
+      },
+      {
+        "text": "hàng",
+        "start": 46.723,
+        "end": 46.96
+      }
+    ],
+    [
+      {
+        "text": "binh,",
+        "start": 46.96,
+        "end": 47.197
+      },
+      {
+        "text": "đốt",
+        "start": 47.197,
+        "end": 47.687
+      },
+      {
+        "text": "phá",
+        "start": 47.687,
+        "end": 47.889
+      },
+      {
+        "text": "cung",
+        "start": 47.889,
+        "end": 48.127
+      },
+      {
+        "text": "điện,",
+        "start": 48.127,
+        "end": 48.613
+      },
+      {
+        "text": "tự",
+        "start": 48.613,
+        "end": 48.775
+      },
+      {
+        "text": "phong",
+        "start": 48.775,
+        "end": 49.043
+      }
+    ],
+    [
+      {
+        "text": "bừa",
+        "start": 49.043,
+        "end": 49.245
+      },
+      {
+        "text": "bãi",
+        "start": 49.245,
+        "end": 49.448
+      },
+      {
+        "text": "khiến",
+        "start": 49.448,
+        "end": 49.716
+      },
+      {
+        "text": "chư",
+        "start": 49.716,
+        "end": 49.919
+      },
+      {
+        "text": "hầu",
+        "start": 49.919,
+        "end": 50.121
+      },
+      {
+        "text": "oán",
+        "start": 50.121,
+        "end": 50.324
+      },
+      {
+        "text": "hận,",
+        "start": 50.324,
+        "end": 50.796
+      }
+    ],
+    [
+      {
+        "text": "lòng",
+        "start": 50.796,
+        "end": 51.034
+      },
+      {
+        "text": "dân",
+        "start": 51.034,
+        "end": 51.236
+      },
+      {
+        "text": "oán",
+        "start": 51.236,
+        "end": 51.439
+      },
+      {
+        "text": "thán.",
+        "start": 51.439,
+        "end": 51.676
+      }
+    ],
+    [
+      {
+        "text": "Ngược",
+        "start": 52.092,
+        "end": 52.364
+      },
+      {
+        "text": "lại,",
+        "start": 52.364,
+        "end": 52.57
+      },
+      {
+        "text": "lên",
+        "start": 52.57,
+        "end": 52.776
+      },
+      {
+        "text": "ngôi",
+        "start": 52.776,
+        "end": 53.018
+      },
+      {
+        "text": "Hoàng",
+        "start": 53.018,
+        "end": 53.291
+      },
+      {
+        "text": "đế,",
+        "start": 53.291,
+        "end": 53.455
+      },
+      {
+        "text": "Quang",
+        "start": 53.455,
+        "end": 53.961
+      }
+    ],
+    [
+      {
+        "text": "Trung",
+        "start": 53.961,
+        "end": 54.234
+      },
+      {
+        "text": "lập",
+        "start": 54.234,
+        "end": 54.44
+      },
+      {
+        "text": "tức",
+        "start": 54.44,
+        "end": 54.646
+      },
+      {
+        "text": "ban",
+        "start": 54.646,
+        "end": 54.852
+      },
+      {
+        "text": "Chiếu",
+        "start": 54.852,
+        "end": 55.124
+      },
+      {
+        "text": "Khuyến",
+        "start": 55.124,
+        "end": 55.426
+      },
+      {
+        "text": "Nông,",
+        "start": 55.426,
+        "end": 55.667
+      }
+    ],
+    [
+      {
+        "text": "Chiếu",
+        "start": 55.667,
+        "end": 55.94
+      },
+      {
+        "text": "Lập",
+        "start": 55.94,
+        "end": 56.146
+      },
+      {
+        "text": "Học,",
+        "start": 56.146,
+        "end": 56.352
+      },
+      {
+        "text": "phục",
+        "start": 56.352,
+        "end": 56.97
+      },
+      {
+        "text": "hồi",
+        "start": 56.97,
+        "end": 57.176
+      },
+      {
+        "text": "kinh",
+        "start": 57.176,
+        "end": 57.417
+      },
+      {
+        "text": "tế",
+        "start": 57.417,
+        "end": 57.582
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 57.582,
+        "end": 57.747
+      },
+      {
+        "text": "giáo",
+        "start": 57.747,
+        "end": 57.988
+      },
+      {
+        "text": "dục",
+        "start": 57.988,
+        "end": 58.194
+      },
+      {
+        "text": "thần",
+        "start": 58.194,
+        "end": 58.436
+      },
+      {
+        "text": "tốc.",
+        "start": 58.436,
+        "end": 58.642
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 59.093,
+        "end": 59.327
+      },
+      {
+        "text": "Vũ",
+        "start": 59.327,
+        "end": 59.488
+      },
+      {
+        "text": "đa",
+        "start": 59.488,
+        "end": 59.648
+      },
+      {
+        "text": "nghi,",
+        "start": 59.648,
+        "end": 60.097
+      },
+      {
+        "text": "đẩy",
+        "start": 60.097,
+        "end": 60.297
+      },
+      {
+        "text": "các",
+        "start": 60.297,
+        "end": 60.497
+      },
+      {
+        "text": "mưu",
+        "start": 60.497,
+        "end": 60.698
+      }
+    ],
+    [
+      {
+        "text": "sĩ",
+        "start": 60.698,
+        "end": 60.858
+      },
+      {
+        "text": "giỏi",
+        "start": 60.858,
+        "end": 61.093
+      },
+      {
+        "text": "nhất",
+        "start": 61.093,
+        "end": 61.328
+      },
+      {
+        "text": "về",
+        "start": 61.328,
+        "end": 61.488
+      },
+      {
+        "text": "tay",
+        "start": 61.488,
+        "end": 61.688
+      },
+      {
+        "text": "Lưu",
+        "start": 61.688,
+        "end": 61.889
+      },
+      {
+        "text": "Bang.",
+        "start": 61.889,
+        "end": 62.575
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 62.575,
+        "end": 62.84
+      },
+      {
+        "text": "Trung",
+        "start": 62.84,
+        "end": 63.105
+      },
+      {
+        "text": "lại",
+        "start": 63.105,
+        "end": 63.306
+      },
+      {
+        "text": "bao",
+        "start": 63.306,
+        "end": 63.506
+      },
+      {
+        "text": "dung,",
+        "start": 63.506,
+        "end": 63.741
+      },
+      {
+        "text": "thu",
+        "start": 63.741,
+        "end": 63.941
+      },
+      {
+        "text": "phục",
+        "start": 63.941,
+        "end": 64.176
+      }
+    ],
+    [
+      {
+        "text": "nhân",
+        "start": 64.176,
+        "end": 64.411
+      },
+      {
+        "text": "tâm,",
+        "start": 64.411,
+        "end": 64.903
+      },
+      {
+        "text": "trọng",
+        "start": 64.903,
+        "end": 65.168
+      },
+      {
+        "text": "dụng",
+        "start": 65.168,
+        "end": 65.403
+      },
+      {
+        "text": "nhân",
+        "start": 65.403,
+        "end": 65.637
+      },
+      {
+        "text": "tài",
+        "start": 65.637,
+        "end": 65.838
+      },
+      {
+        "text": "bất",
+        "start": 65.838,
+        "end": 66.038
+      }
+    ],
+    [
+      {
+        "text": "kể",
+        "start": 66.038,
+        "end": 66.198
+      },
+      {
+        "text": "xuất",
+        "start": 66.198,
+        "end": 66.433
+      },
+      {
+        "text": "thân.",
+        "start": 66.433,
+        "end": 66.668
+      }
+    ],
+    [
+      {
+        "text": "Kết",
+        "start": 66.869,
+        "end": 67.089
+      },
+      {
+        "text": "cục,",
+        "start": 67.089,
+        "end": 67.542
+      },
+      {
+        "text": "Hạng",
+        "start": 67.542,
+        "end": 67.8
+      },
+      {
+        "text": "Vũ",
+        "start": 67.8,
+        "end": 67.976
+      },
+      {
+        "text": "bị",
+        "start": 67.976,
+        "end": 68.152
+      },
+      {
+        "text": "dồn",
+        "start": 68.152,
+        "end": 68.372
+      },
+      {
+        "text": "đến",
+        "start": 68.372,
+        "end": 68.591
+      }
+    ],
+    [
+      {
+        "text": "đường",
+        "start": 68.591,
+        "end": 68.883
+      },
+      {
+        "text": "cùng,",
+        "start": 68.883,
+        "end": 69.472
+      },
+      {
+        "text": "tự",
+        "start": 69.472,
+        "end": 69.648
+      },
+      {
+        "text": "sát",
+        "start": 69.648,
+        "end": 69.868
+      },
+      {
+        "text": "bên",
+        "start": 69.868,
+        "end": 70.088
+      },
+      {
+        "text": "bến",
+        "start": 70.088,
+        "end": 70.308
+      },
+      {
+        "text": "Ô",
+        "start": 70.308,
+        "end": 70.428
+      }
+    ],
+    [
+      {
+        "text": "Giang",
+        "start": 70.428,
+        "end": 70.72
+      },
+      {
+        "text": "ở",
+        "start": 70.72,
+        "end": 70.84
+      },
+      {
+        "text": "tuổi",
+        "start": 70.84,
+        "end": 71.097
+      },
+      {
+        "text": "30,",
+        "start": 71.097,
+        "end": 71.601
+      },
+      {
+        "text": "để",
+        "start": 71.601,
+        "end": 71.777
+      },
+      {
+        "text": "lại",
+        "start": 71.777,
+        "end": 71.997
+      },
+      {
+        "text": "mối",
+        "start": 71.997,
+        "end": 72.217
+      }
+    ],
+    [
+      {
+        "text": "hận",
+        "start": 72.217,
+        "end": 72.437
+      },
+      {
+        "text": "nghìn",
+        "start": 72.437,
+        "end": 72.728
+      },
+      {
+        "text": "thu.",
+        "start": 72.728,
+        "end": 72.948
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 73.157,
+        "end": 73.453
+      },
+      {
+        "text": "Trung",
+        "start": 73.453,
+        "end": 73.748
+      },
+      {
+        "text": "băng",
+        "start": 73.748,
+        "end": 74.009
+      },
+      {
+        "text": "hà",
+        "start": 74.009,
+        "end": 74.187
+      },
+      {
+        "text": "đột",
+        "start": 74.187,
+        "end": 74.41
+      },
+      {
+        "text": "ngột",
+        "start": 74.41,
+        "end": 74.671
+      },
+      {
+        "text": "ở",
+        "start": 74.671,
+        "end": 74.793
+      }
+    ],
+    [
+      {
+        "text": "tuổi",
+        "start": 74.793,
+        "end": 75.054
+      },
+      {
+        "text": "39,",
+        "start": 75.054,
+        "end": 75.232
+      },
+      {
+        "text": "khi",
+        "start": 75.232,
+        "end": 75.764
+      },
+      {
+        "text": "tài",
+        "start": 75.764,
+        "end": 75.987
+      },
+      {
+        "text": "năng",
+        "start": 75.987,
+        "end": 76.248
+      },
+      {
+        "text": "đang",
+        "start": 76.248,
+        "end": 76.509
+      },
+      {
+        "text": "độ",
+        "start": 76.509,
+        "end": 76.687
+      }
+    ],
+    [
+      {
+        "text": "chín",
+        "start": 76.687,
+        "end": 76.948
+      },
+      {
+        "text": "muồi",
+        "start": 76.948,
+        "end": 77.209
+      },
+      {
+        "text": "và",
+        "start": 77.209,
+        "end": 77.388
+      },
+      {
+        "text": "mộng",
+        "start": 77.388,
+        "end": 77.649
+      },
+      {
+        "text": "lớn",
+        "start": 77.649,
+        "end": 77.871
+      },
+      {
+        "text": "phương",
+        "start": 77.871,
+        "end": 78.403
+      },
+      {
+        "text": "Bắc",
+        "start": 78.403,
+        "end": 78.626
+      }
+    ],
+    [
+      {
+        "text": "còn",
+        "start": 78.626,
+        "end": 78.849
+      },
+      {
+        "text": "dang",
+        "start": 78.849,
+        "end": 79.11
+      },
+      {
+        "text": "dở.",
+        "start": 79.11,
+        "end": 79.288
+      }
+    ],
+    [
+      {
+        "text": "Hạng",
+        "start": 79.715,
+        "end": 79.95
+      },
+      {
+        "text": "Vũ",
+        "start": 79.95,
+        "end": 80.111
+      },
+      {
+        "text": "dù",
+        "start": 80.111,
+        "end": 80.271
+      },
+      {
+        "text": "vô",
+        "start": 80.271,
+        "end": 80.432
+      },
+      {
+        "text": "địch",
+        "start": 80.432,
+        "end": 80.667
+      },
+      {
+        "text": "thiên",
+        "start": 80.667,
+        "end": 80.933
+      },
+      {
+        "text": "hạ,",
+        "start": 80.933,
+        "end": 81.094
+      }
+    ],
+    [
+      {
+        "text": "cuối",
+        "start": 81.094,
+        "end": 81.329
+      },
+      {
+        "text": "cùng",
+        "start": 81.329,
+        "end": 81.564
+      },
+      {
+        "text": "lại",
+        "start": 81.564,
+        "end": 81.765
+      },
+      {
+        "text": "mất",
+        "start": 81.765,
+        "end": 81.966
+      },
+      {
+        "text": "tất",
+        "start": 81.966,
+        "end": 82.167
+      },
+      {
+        "text": "cả,",
+        "start": 82.167,
+        "end": 82.737
+      },
+      {
+        "text": "làm",
+        "start": 82.737,
+        "end": 82.937
+      }
+    ],
+    [
+      {
+        "text": "bàn",
+        "start": 82.937,
+        "end": 83.138
+      },
+      {
+        "text": "đạp",
+        "start": 83.138,
+        "end": 83.339
+      },
+      {
+        "text": "cho",
+        "start": 83.339,
+        "end": 83.54
+      },
+      {
+        "text": "Lưu",
+        "start": 83.54,
+        "end": 83.741
+      },
+      {
+        "text": "Bang",
+        "start": 83.741,
+        "end": 83.976
+      },
+      {
+        "text": "lập",
+        "start": 83.976,
+        "end": 84.177
+      },
+      {
+        "text": "nên",
+        "start": 84.177,
+        "end": 84.378
+      }
+    ],
+    [
+      {
+        "text": "nhà",
+        "start": 84.378,
+        "end": 84.579
+      },
+      {
+        "text": "Hán.",
+        "start": 84.579,
+        "end": 84.78
+      }
+    ],
+    [
+      {
+        "text": "Quang",
+        "start": 85.176,
+        "end": 85.442
+      },
+      {
+        "text": "Trung",
+        "start": 85.442,
+        "end": 85.708
+      },
+      {
+        "text": "để",
+        "start": 85.708,
+        "end": 85.869
+      },
+      {
+        "text": "lại",
+        "start": 85.869,
+        "end": 86.07
+      },
+      {
+        "text": "di",
+        "start": 86.07,
+        "end": 86.231
+      },
+      {
+        "text": "sản",
+        "start": 86.231,
+        "end": 86.432
+      },
+      {
+        "text": "của",
+        "start": 86.432,
+        "end": 86.633
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 86.633,
+        "end": 86.833
+      },
+      {
+        "text": "vị",
+        "start": 86.833,
+        "end": 86.994
+      },
+      {
+        "text": "anh",
+        "start": 86.994,
+        "end": 87.195
+      },
+      {
+        "text": "hùng",
+        "start": 87.195,
+        "end": 87.43
+      },
+      {
+        "text": "dân",
+        "start": 87.43,
+        "end": 87.631
+      },
+      {
+        "text": "tộc",
+        "start": 87.631,
+        "end": 87.832
+      },
+      {
+        "text": "vĩ",
+        "start": 87.832,
+        "end": 88.408
+      }
+    ],
+    [
+      {
+        "text": "đại,",
+        "start": 88.408,
+        "end": 88.609
+      },
+      {
+        "text": "người",
+        "start": 88.609,
+        "end": 88.875
+      },
+      {
+        "text": "bảo",
+        "start": 88.875,
+        "end": 89.076
+      },
+      {
+        "text": "vệ",
+        "start": 89.076,
+        "end": 89.237
+      },
+      {
+        "text": "toàn",
+        "start": 89.237,
+        "end": 89.472
+      },
+      {
+        "text": "vẹn",
+        "start": 89.472,
+        "end": 89.673
+      },
+      {
+        "text": "lãnh",
+        "start": 89.673,
+        "end": 89.908
+      }
+    ],
+    [
+      {
+        "text": "thổ",
+        "start": 89.908,
+        "end": 90.109
+      },
+      {
+        "text": "và",
+        "start": 90.109,
+        "end": 90.27
+      },
+      {
+        "text": "mở",
+        "start": 90.27,
+        "end": 90.431
+      },
+      {
+        "text": "ra",
+        "start": 90.431,
+        "end": 90.591
+      },
+      {
+        "text": "kỷ",
+        "start": 90.591,
+        "end": 90.752
+      },
+      {
+        "text": "nguyên",
+        "start": 90.752,
+        "end": 91.046
+      },
+      {
+        "text": "đổi",
+        "start": 91.046,
+        "end": 91.247
+      }
+    ],
+    [
+      {
+        "text": "mới.",
+        "start": 91.247,
+        "end": 91.448
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 91.653,
+        "end": 91.836
+      },
+      {
+        "text": "người",
+        "start": 91.836,
+        "end": 92.078
+      },
+      {
+        "text": "là",
+        "start": 92.078,
+        "end": 92.225
+      },
+      {
+        "text": "\"Chiến",
+        "start": 92.225,
+        "end": 92.467
+      },
+      {
+        "text": "thần",
+        "start": 92.467,
+        "end": 92.682
+      },
+      {
+        "text": "bi",
+        "start": 92.682,
+        "end": 92.828
+      },
+      {
+        "text": "kịch\",",
+        "start": 92.828,
+        "end": 93.315
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 93.315,
+        "end": 93.498
+      },
+      {
+        "text": "người",
+        "start": 93.498,
+        "end": 93.74
+      },
+      {
+        "text": "là",
+        "start": 93.74,
+        "end": 93.887
+      },
+      {
+        "text": "\"Hoàng",
+        "start": 93.887,
+        "end": 94.129
+      },
+      {
+        "text": "đế",
+        "start": 94.129,
+        "end": 94.275
+      },
+      {
+        "text": "thiên",
+        "start": 94.275,
+        "end": 94.518
+      },
+      {
+        "text": "tài\".",
+        "start": 94.518,
+        "end": 94.701
+      }
+    ],
+    [
+      {
+        "text": "Theo",
+        "start": 94.701,
+        "end": 94.915
+      },
+      {
+        "text": "bạn,",
+        "start": 94.915,
+        "end": 95.408
+      },
+      {
+        "text": "ai",
+        "start": 95.408,
+        "end": 95.554
+      },
+      {
+        "text": "mới",
+        "start": 95.554,
+        "end": 95.737
+      },
+      {
+        "text": "là",
+        "start": 95.737,
+        "end": 95.884
+      },
+      {
+        "text": "nhà",
+        "start": 95.884,
+        "end": 96.067
+      },
+      {
+        "text": "quân",
+        "start": 96.067,
+        "end": 96.281
+      }
+    ],
+    [
+      {
+        "text": "sự",
+        "start": 96.281,
+        "end": 96.428
+      },
+      {
+        "text": "vĩ",
+        "start": 96.428,
+        "end": 96.574
+      },
+      {
+        "text": "đại",
+        "start": 96.574,
+        "end": 96.757
+      },
+      {
+        "text": "hơn?",
+        "start": 96.757,
+        "end": 96.94
+      }
+    ],
+    [
+      {
+        "text": "Trả",
+        "start": 96.94,
+        "end": 97.547
+      },
+      {
+        "text": "lời",
+        "start": 97.547,
+        "end": 97.73
+      },
+      {
+        "text": "xuống",
+        "start": 97.73,
+        "end": 97.972
+      },
+      {
+        "text": "dưới",
+        "start": 97.972,
+        "end": 98.187
+      },
+      {
+        "text": "nhé!",
+        "start": 98.187,
+        "end": 98.37
+      }
+    ]
+  ],
+  "uploadedScenes": []
+}

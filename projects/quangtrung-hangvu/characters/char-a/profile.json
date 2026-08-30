@@ -1,0 +1,14 @@
+{
+  "character_id": "char-a",
+  "name": "Quang Trung",
+  "display_name": "Quang Trung",
+  "aliases": ["Nguyễn Huệ", "Bắc Bình Vương"],
+  "country": "Đại Việt",
+  "period": "18th century",
+  "dynasty": "Tây Sơn dynasty",
+  "role": "Tây Sơn commander, later emperor of Đại Việt",
+  "known_facts": ["One of the three Tây Sơn brothers who rose in revolt from Bình Định in the 1770s", "Destroyed the Siamese expeditionary force at Rạch Gầm - Xoài Mút in 1785", "Marched north in 1786 and ended the power of the Trịnh lords", "Proclaimed himself Emperor Quang Trung in 1788 before the northern campaign", "Defeated the Qing army at Ngọc Hồi - Đống Đa during Tết Kỷ Dậu, 1789", "Died in 1792 at about thirty-nine, after which the Tây Sơn state declined"],
+  "interpretation": "Late-18th-century Đại Việt commander and emperor, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/quangtrung-hangvu/characters/char-a.jpg"
+}

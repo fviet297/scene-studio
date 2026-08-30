@@ -1,25 +1,25 @@
 {
-  "project": "tranhungdao-quanvu",
+  "project": "quangtrung-hangvu",
   "characters": [
     {
       "id": "char-a",
-      "name": "Trần Hưng Đạo",
+      "name": "Quang Trung",
       "aliases": [
-        "Hưng Đạo Đại Vương",
-        "Trần Quốc Tuấn"
+        "Nguyễn Huệ",
+        "Bắc Bình Vương"
       ],
-      "image": "projects/tranhungdao-quanvu/characters/char-a.jpg",
-      "imageV2": "projects/tranhungdao-quanvu/characters/char-a.jpg"
+      "image": "projects/quangtrung-hangvu/characters/char-a.jpg",
+      "imageV2": "projects/quangtrung-hangvu/characters/char-a.jpg"
     },
     {
       "id": "char-b",
-      "name": "Quan Vũ",
+      "name": "Hạng Vũ",
       "aliases": [
-        "Quan Công",
-        "Vân Trường"
+        "Hạng Tịch",
+        "Tây Sở Bá Vương"
       ],
-      "image": "projects/tranhungdao-quanvu/characters/char-b.jpg",
-      "imageV2": "projects/tranhungdao-quanvu/characters/char-b.jpg"
+      "image": "projects/quangtrung-hangvu/characters/char-b.jpg",
+      "imageV2": "projects/quangtrung-hangvu/characters/char-b.jpg"
     }
   ]
 }

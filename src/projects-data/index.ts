@@ -2,9 +2,10 @@
 import p_dinhbolinh_tanthuyhoang from "./dinhbolinh-tanthuyhoang.json";
 import p_ly_thai_to_vs_ly_the_dan from "./ly-thai-to-vs-ly-the-dan.json";
 import p_ngo_quyen from "./ngo-quyen.json";
+import p_quangtrung_hangvu from "./quangtrung-hangvu.json";
 import p_quangtrung_hantin from "./quangtrung-hantin.json";
 import p_tranhungdao_nhacphi from "./tranhungdao-nhacphi.json";
 import p_tranhungdao_quanvu from "./tranhungdao-quanvu.json";
 import type { ProjectData } from "../ScenePlanVideo";
 
-export const PROJECTS = [p_dinhbolinh_tanthuyhoang, p_ly_thai_to_vs_ly_the_dan, p_ngo_quyen, p_quangtrung_hantin, p_tranhungdao_nhacphi, p_tranhungdao_quanvu] as unknown as ProjectData[];
+export const PROJECTS = [p_dinhbolinh_tanthuyhoang, p_ly_thai_to_vs_ly_the_dan, p_ngo_quyen, p_quangtrung_hangvu, p_quangtrung_hantin, p_tranhungdao_nhacphi, p_tranhungdao_quanvu] as unknown as ProjectData[];

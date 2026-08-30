@@ -23,11 +23,12 @@ import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 // at startup; the long-running review server calls setProjectPaths() on every project switch, so
 // a frozen const here would silently write into the wrong project after a switch.
 let paths = activePaths();
-// Active project's aspect (from its scene-plan `aspect:`), refreshed alongside paths on every
-// project switch so generated images match the project's composition ratio (default 9:16).
+// Active project's aspect (from its scene-plan `aspect:`), read fresh on every use: the plan's
+// `aspect:` line can be edited while the review server is running, and a value cached at startup
+// or at the last project switch would keep generating images in the previous ratio.
 const readAspect = (planMd) => (existsSync(planMd) ? parsePlanAspect(readFileSync(planMd, 'utf8')) : DEFAULT_ASPECT);
-let currentAspect = readAspect(paths.planMd);
-export const setProjectPaths = (next) => { paths = next; currentAspect = readAspect(next.planMd); };
+const currentAspect = () => readAspect(paths.planMd);
+export const setProjectPaths = (next) => { paths = next; };
 export const imageDir = () => paths.imageDir;
 export const manifestPath = () => paths.manifest;
 
@@ -198,12 +199,12 @@ export const activateTemplateVersion = (version) => {
   return getTemplates();
 };
 
-const buildCharPrompt = (t, scenePrompt, template, aspect = currentAspect) =>
+const buildCharPrompt = (t, scenePrompt, template, aspect = currentAspect()) =>
   applyAspectText(`${NO_TEXT_POLICY}\n\n${template
     .replaceAll('[STYLE]', t.styleDna)
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
 
-const buildTextPrompt = (t, scenePrompt, aspect = currentAspect) =>
+const buildTextPrompt = (t, scenePrompt, aspect = currentAspect()) =>
   applyAspectText(`${NO_TEXT_POLICY}\n\n${t.text2img
     .replaceAll('[STYLE]', t.styleDna)
     .replaceAll('[GUARD]', t.guard)
@@ -212,7 +213,7 @@ const buildTextPrompt = (t, scenePrompt, aspect = currentAspect) =>
 // The full prompt string generateSceneImage would send for one scene (template + style + scene
 // prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
 // Routes by declared character count, mirroring generateSceneImage's template choice.
-export const assemblePrompt = (scene, templates = getTemplates(), aspect = currentAspect) => {
+export const assemblePrompt = (scene, templates = getTemplates(), aspect = currentAspect()) => {
   const chars = scene.image?.characters ?? [];
   const scenePrompt = scene.image?.prompt ?? '';
   if (chars.length) {
@@ -292,7 +293,7 @@ export const SEEDREAM_PROMPT_LIMIT = 4000;
 // Build the Replicate `input` for a model. Each provider takes different fields, so the caller
 // passes intent (prompt, reference data-URIs) and we shape it per provider. Seedream and
 // nano-banana accept 1–14 references (multi-reference generation); FLUX takes a single one.
-export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect }) => {
+export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect() }) => {
   const ratio = aspectInfo(aspect).ratio;
   if (model.startsWith('bytedance/seedream')) {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
@@ -401,7 +402,7 @@ export const upsertManifest = (entry) => {
 // Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
 // anything else → Replicate. refPaths are local reference file paths; each provider builds its own
 // payload from the shared data-URI encoding. Returns the output image URL.
-const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect, onLog }) => {
+const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog }) => {
   if (model.startsWith('fal-ai/')) {
     const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog });
     return url;
@@ -430,7 +431,7 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   // Explicit model chosen in the review UI. Overrides the reference-count routing below for
   // whichever branch this scene falls into; blank/absent keeps the automatic route.
   const override = typeof opts.model === 'string' && opts.model.trim() ? opts.model.trim() : null;
-  const aspect = opts.aspect ?? currentAspect;
+  const aspect = opts.aspect ?? currentAspect();
   const onLog = opts.onLog ?? (() => {});
   // Token is required only for the Replicate path; runImageModel checks it there. A fal-only user
   // (fal model chosen, FAL_KEY set) does not need REPLICATE_API_TOKEN.

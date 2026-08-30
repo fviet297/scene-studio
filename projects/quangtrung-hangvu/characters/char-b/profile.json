@@ -1,0 +1,14 @@
+{
+  "character_id": "char-b",
+  "name": "Xiang Yu",
+  "display_name": "Hạng Vũ",
+  "aliases": ["Hạng Tịch", "Tây Sở Bá Vương"],
+  "country": "Trung Hoa (China)",
+  "period": "late 3rd century BCE",
+  "dynasty": "End of Qin, Chu-Han contention",
+  "role": "Chu general, later Hegemon-King of Western Chu",
+  "known_facts": ["Born to a military family of the state of Chu and rose in the revolt against Qin", "Destroyed the main Qin army at Julu in 207 BCE after cutting off his own retreat", "Titled himself Hegemon-King of Western Chu and partitioned the empire into eighteen kingdoms", "Routed Liu Bang's much larger coalition at Pengcheng in 205 BCE according to the Shiji", "Was encircled at Gaixia and died near the Wu River in 202 BCE at about thirty"],
+  "interpretation": "Late-Qin / early-Han Chinese commander, based on the user reference.",
+  "unknowns": ["Later drama and legend embellish much of his biography beyond the Shiji account"],
+  "reference": "public/projects/quangtrung-hangvu/characters/char-b.jpg"
+}
