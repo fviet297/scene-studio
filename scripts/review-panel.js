@@ -698,7 +698,7 @@ function setBusy(on, label = "working") {
     "batchMotion",
     "projectSelect",
     "btnNewProject",
-    "btnImport",
+    "btnScript",
     "btnAddChar",
   ])
     $(id).disabled = on;
@@ -765,14 +765,19 @@ function unknownCharIds(value, idSet) {
   return ids.filter((id) => !idSet.has(id));
 }
 
+// The whole scene plan in the /api/scenes-update import shape: every editable field, so the
+// exported JSON round-trips through an external tool and back. char is the id array ([] = none).
 function buildExportJson() {
   return JSON.stringify(
     state.scenes.map((s) => ({
       scene: s.scene,
-      narration: s.narration,
-      // Which character(s) the scene is about: [] = none (text-to-image), one id, or several.
+      cue: s.cue ?? "",
       char: s.characters ?? [],
-      prompt: s.prompt || undefined,
+      narration: s.narration ?? "",
+      prompt: s.prompt ?? "",
+      prompt_vi: s.promptVi ?? "",
+      motion: s.motion ?? "",
+      motion_vi: s.motionVi ?? "",
     })),
     null,
     2,
@@ -1454,8 +1459,8 @@ window.addEventListener("keydown", (e) => {
       $("tplOverlay").hidden = true;
       return;
     }
-    if (!$("impOverlay").hidden) {
-      $("impOverlay").hidden = true;
+    if (!$("scriptOverlay").hidden) {
+      $("scriptOverlay").hidden = true;
       return;
     }
     if (!$("npOverlay").hidden) {
@@ -1547,46 +1552,318 @@ $("npCreate").addEventListener("click", async () => {
   }
 });
 
-// ------------------------------------------------------------------ import JSON
+// ------------------------------------------------------------------ full-script editor
+//
+// The whole scene plan in one editable column: per scene the narration, image prompt + its
+// Vietnamese translation, and the motion prompt + its translation, plus cue and char. Saving
+// sends only the changed fields to /api/scenes-update, which writes them verbatim (no derived-
+// field clearing). Copy JSON exports the same shape for an external tool; Import JSON pastes it
+// back. The surface is self-contained: it reads committed values from `state`, not inspector drafts.
 
-let importRows = null;
+// The scene's editable text, grouped so the three jobs read apart at a glance: what is spoken
+// (Narration), what the image shows (Image prompt EN + its translation), and how it moves (Motion
+// prompt EN + its translation). `ph` explains an empty field (an empty motion is auto-built at
+// generate time). SCRIPT_FIELDS is the flat view the dirty/patch/commit helpers iterate.
+const SCRIPT_GROUPS = [
+  {
+    title: "Narration",
+    tone: "narr",
+    fields: [
+      {
+        key: "narration",
+        sub: "",
+        rows: 3,
+        ph: "Lời thoại đọc cho scene",
+        get: (s) => s.narration ?? "",
+      },
+    ],
+  },
+  {
+    title: "Image prompt",
+    tone: "image",
+    fields: [
+      {
+        key: "prompt",
+        sub: "EN",
+        rows: 4,
+        ph: "Action + gesture; trống → Write from narration",
+        get: (s) => s.prompt ?? "",
+      },
+      {
+        key: "prompt_vi",
+        sub: "Dịch",
+        rows: 3,
+        ph: "Bản dịch prompt (đọc đối chiếu)",
+        get: (s) => s.promptVi ?? "",
+      },
+    ],
+  },
+  {
+    title: "Motion prompt",
+    tone: "motion",
+    fields: [
+      {
+        key: "motion",
+        sub: "EN",
+        rows: 3,
+        ph: "Prompt image-to-video; trống = tự sinh khi generate video",
+        get: (s) => s.motion ?? "",
+      },
+      {
+        key: "motion_vi",
+        sub: "Dịch",
+        rows: 3,
+        ph: "Bản dịch motion",
+        get: (s) => s.motionVi ?? "",
+      },
+    ],
+  },
+];
+const SCRIPT_FIELDS = SCRIPT_GROUPS.flatMap((g) => g.fields);
+const scriptCue = (s) => s.cue ?? "";
+const scriptChar = (s) => (s.characters ?? []).join(", ");
 
-$("btnImport").addEventListener("click", () => {
-  $("impBox").value = "";
-  $("impPreview").hidden = true;
-  $("impApply").disabled = true;
-  const ids = (state.characterList || []).map((c) => c.id);
-  $("impNote").textContent = ids.length
-    ? `Fields per row: scene, narration, char, prompt?. char = "${ids.join('" | "')}" | "both" | "none" (which character the narration is about → prompt). Paste, then Validate.`
-    : "Paste JSON, then Validate.";
-  $("impOverlay").hidden = false;
-  $("impBox").focus();
+const scriptControls = (row) => [...row.querySelectorAll("[data-field]")];
+
+function scriptCommitted(scene, field) {
+  const s = findScene(scene);
+  if (!s) return "";
+  if (field === "cue") return scriptCue(s);
+  if (field === "char") return scriptChar(s);
+  return SCRIPT_FIELDS.find((f) => f.key === field)?.get(s) ?? "";
+}
+const scriptCtrlDirty = (ctrl) =>
+  ctrl.value.trim() !==
+  scriptCommitted(Number(ctrl.dataset.scene), ctrl.dataset.field).trim();
+
+function updateScriptFoot() {
+  const rows = [...$("scriptList").querySelectorAll(".script-row")];
+  const words = rows.reduce((n, row) => {
+    const v = row.querySelector('[data-field="narration"]').value.trim();
+    return n + (v ? v.split(/\s+/).length : 0);
+  }, 0);
+  const dirty = rows.filter((r) => r.classList.contains("dirty")).length;
+  $("scriptNote").textContent = state.scenes.length
+    ? `${state.scenes.length} scene · ${words} từ${dirty ? ` · ${dirty} scene đã sửa` : ""}`
+    : "No scenes.";
+  $("scriptSave").disabled = busy || audioBusy || dirty === 0;
+}
+
+// Grow a textarea to fit its content so it never shows an inner scrollbar.
+function autoGrowScript(ta) {
+  ta.style.height = "auto";
+  ta.style.height = `${ta.scrollHeight + 2}px`;
+}
+const autoGrowScriptAll = () =>
+  $("scriptList")
+    .querySelectorAll("textarea.script-auto")
+    .forEach(autoGrowScript);
+
+const scriptGroupHtml = (s, g) => {
+  const fields = g.fields
+    .map(
+      (f) => `<div class="script-field">
+        ${f.sub ? `<label>${f.sub}</label>` : ""}
+        <textarea class="prose script-auto" data-scene="${s.scene}" data-field="${f.key}" rows="${f.rows}" spellcheck="false" aria-label="${g.title} ${f.sub} scene ${s.scene}" placeholder="${escapeHtml(f.ph)}">${escapeHtml(f.get(s))}</textarea>
+      </div>`,
+    )
+    .join("");
+  return `<div class="script-group script-group--${g.tone}"><span class="script-group-title">${g.title}</span>${fields}</div>`;
+};
+
+function renderScriptList() {
+  // Narration shows first; the image + motion prompts stay collapsed so the list reads as a pure
+  // script until a scene's toggle opens them.
+  $("scriptList").innerHTML = state.scenes
+    .map((s) => {
+      const narration = scriptGroupHtml(s, SCRIPT_GROUPS[0]);
+      const details = SCRIPT_GROUPS.slice(1)
+        .map((g) => scriptGroupHtml(s, g))
+        .join("");
+      return `<div class="script-row" data-scene="${s.scene}">
+        <div class="script-row-head">
+          <span class="script-no num">#${s.scene}</span>
+          <span class="script-edited">đã sửa</span>
+          <button type="button" class="script-toggle" aria-expanded="false" title="Hiện / ẩn image prompt và motion prompt">
+            <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            Prompt &amp; motion
+          </button>
+          <span class="grow"></span>
+          <div class="script-head-field"><label>cue</label><input class="text-input script-cue-input" data-scene="${s.scene}" data-field="cue" value="${escapeHtml(scriptCue(s))}" placeholder="neutral" spellcheck="false" /></div>
+          <div class="script-head-field"><label>char</label><input class="text-input script-char-input" data-scene="${s.scene}" data-field="char" value="${escapeHtml(scriptChar(s))}" placeholder="char-a, char-b / none" spellcheck="false" /></div>
+        </div>
+        ${narration}
+        <div class="script-details" hidden>${details}</div>
+      </div>`;
+    })
+    .join("");
+  autoGrowScriptAll();
+  updateScriptBulkButtons();
+  updateScriptFoot();
+}
+
+// Enable each header button only when it has work: Expand while a scene is still closed,
+// Collapse while a scene is still open.
+function updateScriptBulkButtons() {
+  const details = [...$("scriptList").querySelectorAll(".script-details")];
+  $("scriptExpandAll").disabled = !details.some((d) => d.hidden);
+  $("scriptCollapseAll").disabled = !details.some((d) => !d.hidden);
+}
+function scriptSetAllExpanded(open) {
+  for (const row of $("scriptList").querySelectorAll(".script-row")) {
+    row.querySelector(".script-details").hidden = !open;
+    row
+      .querySelector(".script-toggle")
+      .setAttribute("aria-expanded", String(open));
+  }
+  if (open) autoGrowScriptAll();
+  updateScriptBulkButtons();
+}
+
+// Sync one control's dirty class, then roll the row's dirty state up from its controls.
+function refreshScriptRow(row) {
+  let anyDirty = false;
+  for (const ctrl of scriptControls(row)) {
+    const d = scriptCtrlDirty(ctrl);
+    ctrl.classList.toggle("dirty", d);
+    if (d) anyDirty = true;
+  }
+  row.classList.toggle("dirty", anyDirty);
+}
+
+// { scene, ...changedFields } patch for one dirty row.
+function scriptRowPatch(row) {
+  const patch = { scene: Number(row.dataset.scene) };
+  for (const ctrl of scriptControls(row)) {
+    if (scriptCtrlDirty(ctrl)) patch[ctrl.dataset.field] = ctrl.value;
+  }
+  return patch;
+}
+
+function openScriptImport(open) {
+  $("scriptImport").hidden = !open;
+  $("scriptImportToggle").setAttribute("aria-expanded", String(open));
+}
+
+$("btnScript").addEventListener("click", () => {
+  openScriptImport(false);
+  // Show first: auto-grow reads scrollHeight, which is 0 while the dialog is display:none.
+  $("scriptOverlay").hidden = false;
+  renderScriptList();
 });
-$("impClose").addEventListener("click", () => {
-  $("impOverlay").hidden = true;
+$("scriptClose").addEventListener("click", () => {
+  $("scriptOverlay").hidden = true;
 });
-$("impOverlay").addEventListener("click", (e) => {
-  if (e.target === $("impOverlay")) $("impOverlay").hidden = true;
+$("scriptOverlay").addEventListener("click", (e) => {
+  if (e.target === $("scriptOverlay")) $("scriptOverlay").hidden = true;
 });
-$("impCopy").addEventListener("click", async () => {
+$("scriptList").addEventListener("input", (e) => {
+  const ctrl = e.target.closest("[data-field]");
+  if (!ctrl) return;
+  if (ctrl.classList.contains("script-auto")) autoGrowScript(ctrl);
+  refreshScriptRow(ctrl.closest(".script-row"));
+  updateScriptFoot();
+});
+// Reveal a scene's image + motion prompts on demand. Auto-grow runs on expand — a hidden
+// textarea measures 0 tall, so its height must be recomputed once it is visible.
+$("scriptList").addEventListener("click", (e) => {
+  const btn = e.target.closest(".script-toggle");
+  if (!btn) return;
+  const row = btn.closest(".script-row");
+  const details = row.querySelector(".script-details");
+  const open = details.hidden;
+  details.hidden = !open;
+  btn.setAttribute("aria-expanded", String(open));
+  if (open) {
+    details.querySelectorAll("textarea.script-auto").forEach(autoGrowScript);
+    // Bring the just-opened scene to the top so its prompts are in view straight away.
+    row.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  updateScriptBulkButtons();
+});
+$("scriptExpandAll").addEventListener("click", () =>
+  scriptSetAllExpanded(true),
+);
+$("scriptCollapseAll").addEventListener("click", () =>
+  scriptSetAllExpanded(false),
+);
+$("scriptReload").addEventListener("click", async () => {
+  try {
+    await refresh();
+  } catch (e) {
+    toast(e.message, false);
+  }
+  renderScriptList();
+});
+$("scriptSave").addEventListener("click", async () => {
+  if (busy || audioBusy) {
+    toast("A job is running — wait for it to finish.", false);
+    return;
+  }
+  const patches = [
+    ...$("scriptList").querySelectorAll(".script-row.dirty"),
+  ].map(scriptRowPatch);
+  if (!patches.length) return;
+  const blank = patches.filter((p) => "narration" in p && !p.narration.trim());
+  if (blank.length) {
+    toast(
+      `Narration trống ở scene ${blank.map((p) => p.scene).join(", ")} — điền trước khi lưu.`,
+      false,
+    );
+    return;
+  }
+  const btn = $("scriptSave");
+  btn.disabled = true;
+  btn.textContent = "Saving...";
+  try {
+    const res = await api("/api/scenes-update", { scenes: patches });
+    toast(
+      `Đã lưu ${res.updated.length} scene${res.appended.length ? `, thêm ${res.appended.length}` : ""}.`,
+    );
+    await refresh();
+    renderScriptList();
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    btn.textContent = "Save changed";
+    updateScriptFoot();
+  }
+});
+
+// Copy JSON: the whole plan in the import shape, for editing in an external tool.
+$("scriptCopy").addEventListener("click", async () => {
   const json = buildExportJson();
   try {
     await navigator.clipboard.writeText(json);
-    toast("Copied current scenes as JSON.");
+    toast("Đã copy scene plan JSON.");
   } catch {
-    $("impBox").value = json;
-    toast("Clipboard unavailable, pasted into the box instead.", false);
+    openScriptImport(true);
+    $("scriptImportBox").value = json;
+    toast("Clipboard không dùng được — đã dán vào ô Import.", false);
   }
 });
-$("impValidate").addEventListener("click", () => {
-  importRows = null;
-  $("impApply").disabled = true;
+
+// Import JSON: paste the same shape back. Toggle → Validate → Apply, in place.
+let scriptImportRows = null;
+$("scriptImportToggle").addEventListener("click", () => {
+  const open = $("scriptImport").hidden;
+  openScriptImport(open);
+  if (open) $("scriptImportBox").focus();
+});
+$("scriptImportBox").addEventListener("input", () => {
+  scriptImportRows = null;
+  $("scriptImportApply").disabled = true;
+});
+$("scriptImportValidate").addEventListener("click", () => {
+  scriptImportRows = null;
+  $("scriptImportApply").disabled = true;
+  const preview = $("scriptImportPreview");
+  preview.hidden = false;
   let parsed;
   try {
-    parsed = JSON.parse($("impBox").value);
+    parsed = JSON.parse($("scriptImportBox").value);
   } catch (e) {
-    $("impPreview").hidden = false;
-    $("impPreviewText").textContent = `Invalid JSON: ${e.message}`;
+    preview.textContent = `JSON lỗi: ${e.message}`;
     return;
   }
   const rows = Array.isArray(parsed)
@@ -1595,63 +1872,69 @@ $("impValidate").addEventListener("click", () => {
       ? parsed.scenes
       : null;
   if (!rows || !rows.length) {
-    $("impPreview").hidden = false;
-    $("impPreviewText").textContent =
-      "Expected an array of {scene, narration, ...} or {scenes:[...]}.";
+    preview.textContent = "Cần một mảng {scene, ...} hoặc {scenes:[...]}.";
     return;
   }
   const errors = [];
   const known = new Set(state.scenes.map((s) => s.scene));
   const charIds = new Set((state.characterList || []).map((c) => c.id));
-  let updateCount = 0;
-  let appendCount = 0;
+  let update = 0;
+  let append = 0;
   rows.forEach((row, i) => {
     if (!row || !Number.isFinite(row.scene) || row.scene < 1) {
-      errors.push(`row ${i}: scene must be a positive number`);
+      errors.push(`row ${i}: scene phải là số dương`);
       return;
     }
-    if (typeof row.narration !== "string" || !row.narration.trim())
-      errors.push(`row ${i} (scene ${row.scene}): narration is required`);
+    const isNew = !known.has(row.scene);
+    if (isNew && (typeof row.narration !== "string" || !row.narration.trim()))
+      errors.push(`row ${i} (scene ${row.scene}): scene mới cần narration`);
+    else if (
+      "narration" in row &&
+      typeof row.narration === "string" &&
+      !row.narration.trim()
+    )
+      errors.push(`row ${i} (scene ${row.scene}): narration không được rỗng`);
     const unknown = unknownCharIds(row.char, charIds);
     if (unknown === null)
       errors.push(
-        `row ${i} (scene ${row.scene}): char must be a string or array of ids`,
+        `row ${i} (scene ${row.scene}): char phải là chuỗi hoặc mảng id`,
       );
     else if (unknown.length)
       errors.push(
-        `row ${i} (scene ${row.scene}): unknown char ${unknown.join(", ")}`,
+        `row ${i} (scene ${row.scene}): char lạ ${unknown.join(", ")}`,
       );
-    if (known.has(row.scene)) updateCount++;
-    else appendCount++;
+    isNew ? append++ : update++;
   });
-  $("impPreview").hidden = false;
   if (errors.length) {
-    $("impPreviewText").innerHTML = errors
-      .map((e) => escapeHtml(e))
-      .join("<br />");
+    preview.innerHTML = errors.map((e) => escapeHtml(e)).join("<br />");
     return;
   }
-  importRows = rows;
-  $("impPreviewText").textContent =
-    `${rows.length} row(s): ${updateCount} update existing scene(s), ${appendCount} append new scene(s).`;
-  $("impApply").disabled = false;
+  scriptImportRows = rows;
+  preview.textContent = `${rows.length} row: ${update} cập nhật, ${append} thêm mới.`;
+  $("scriptImportApply").disabled = false;
 });
-$("impApply").addEventListener("click", async () => {
-  if (!importRows) return;
-  $("impApply").disabled = true;
-  $("impApply").textContent = "Applying...";
+$("scriptImportApply").addEventListener("click", async () => {
+  if (!scriptImportRows) return;
+  const btn = $("scriptImportApply");
+  btn.disabled = true;
+  btn.textContent = "Applying...";
   try {
-    const res = await api("/api/narration-import", importRows);
+    const res = await api("/api/scenes-update", { scenes: scriptImportRows });
     toast(
-      `Imported: ${res.updated.length} updated, ${res.appended.length} appended.`,
+      `Import: ${res.updated.length} cập nhật, ${res.appended.length} thêm.`,
     );
-    $("impOverlay").hidden = true;
+    scriptImportRows = null;
+    $("scriptImportBox").value = "";
+    $("scriptImportPreview").hidden = true;
+    openScriptImport(false);
     await refresh();
+    renderScriptList();
   } catch (e) {
-    $("impPreviewText").textContent = e.message;
+    $("scriptImportPreview").hidden = false;
+    $("scriptImportPreview").textContent = e.message;
   } finally {
-    $("impApply").disabled = false;
-    $("impApply").textContent = "Apply";
+    btn.textContent = "Apply";
+    btn.disabled = !scriptImportRows;
   }
 });
 

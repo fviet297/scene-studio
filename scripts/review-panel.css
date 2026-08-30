@@ -30,6 +30,11 @@
   --danger: #f2666e;
   --danger-dim: rgba(242, 102, 110, 0.13);
 
+  /* Full-script editor group tints. Editor-only (off the image stage) so they never bias image
+     colour judgement — narration reuses the cool accent, image=blue, motion=amber. */
+  --tone-image: #6f9fd8;
+  --tone-motion: #d3a45e;
+
   --r-ctl: 6px;
   --r-panel: 10px;
 
@@ -520,6 +525,72 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
 .field textarea { min-height: 128px; }
+
+/* Full-script overlay: the whole scene plan (narration + prompts + motion), editable inline. */
+.dialog.script-dialog { width: min(900px, 100%); }
+.script-import {
+  display: flex; flex-direction: column; gap: 8px;
+  padding-bottom: 12px; margin-bottom: 2px; border-bottom: 1px solid var(--line-soft);
+}
+.script-import > label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+.script-import label .note { text-transform: none; letter-spacing: 0; }
+.script-import .btn-row { align-items: center; }
+.script-list { display: flex; flex-direction: column; gap: 10px; }
+.script-row {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 10px; border: 1px solid var(--line-soft); border-radius: var(--r-panel);
+  background: var(--surface-2);
+}
+.script-row.dirty { border-color: var(--accent); }
+.script-row-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.script-no { font-size: 12px; color: var(--muted); }
+/* Dirty state is border + text label, never colour alone. */
+.script-edited { display: none; font-size: 10px; color: var(--accent); }
+.script-row.dirty .script-edited { display: inline; }
+.script-head-field { display: flex; align-items: center; gap: 5px; }
+.script-head-field label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+.script-head-field .text-input { height: 28px; }
+.script-cue-input { width: 104px; }
+.script-char-input { width: 160px; }
+.script-field { display: flex; flex-direction: column; gap: 4px; }
+.script-field label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+/* Auto-grown to fit content: no inner scrollbar, no manual resize handle. */
+.script-field textarea { min-height: 40px; overflow: hidden; resize: none; }
+
+/* Three boxed groups per scene so narration, image prompt and motion prompt read apart —
+   a coloured left edge + title tells them apart at a glance. */
+.script-group {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 9px 10px 10px; border: 1px solid var(--line); border-left-width: 3px; border-radius: var(--r-ctl);
+  background: var(--surface-3);
+}
+.script-group-title {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.script-group--narr { border-left-color: var(--accent); }
+.script-group--narr .script-group-title { color: var(--accent); }
+.script-group--image { border-left-color: var(--tone-image); }
+.script-group--image .script-group-title { color: var(--tone-image); }
+.script-group--motion { border-left-color: var(--tone-motion); }
+.script-group--motion .script-group-title { color: var(--tone-motion); }
+/* Vietnamese reading-aid field (last in a prompt/motion group): italic label, muted text. */
+.script-group .script-field:last-child label { font-style: italic; color: var(--faint); }
+.script-group textarea[data-field$="_vi"] { color: var(--muted); }
+
+/* Image + motion prompts collapse by default; the head toggle reveals them per scene. */
+.script-details { display: flex; flex-direction: column; gap: 8px; }
+.script-toggle {
+  display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 8px;
+  background: var(--surface-3); border: 1px solid var(--line); border-radius: var(--r-ctl);
+  color: var(--muted); font-size: 11px; transition: background .15s ease, color .15s ease;
+}
+.script-toggle:hover { background: var(--surface); color: var(--text); }
+.script-toggle .chev { width: 13px; height: 13px; transition: transform .15s ease; }
+.script-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+
+/* Hide the long editor's own scrollbar; it stays scrollable by wheel/trackpad. */
+.script-dialog .dialog-body { scrollbar-width: none; }
+.script-dialog .dialog-body::-webkit-scrollbar { width: 0; height: 0; }
 .text-input {
   height: 32px; padding: 0 9px;
   background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-ctl);

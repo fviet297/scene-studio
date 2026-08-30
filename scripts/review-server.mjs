@@ -12,7 +12,7 @@
 //   POST /api/project-create  → { slug, title } → scaffold a new project from projects/_template
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md, reparse
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md, reparse
-//   POST /api/narration-import → { scenes:[{scene,narration,title?,cue?,prompt?}] } bulk import
+//   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,prompt?,prompt_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
 //   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char back into the plan .md
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
@@ -264,6 +264,9 @@ const buildState = () => {
         prompt: s.image.prompt ?? '',
         promptVi: s.image.promptVi ?? '',
         motionPrompt: sceneMotionPrompt(s),
+        // Raw authored `motion:` (empty when the scene has none) — the full-script editor writes
+        // this field verbatim, unlike motionPrompt which falls back to an auto-built prompt.
+        motion: s.image.motion ?? '',
         motionVi: s.image.motionVi ?? '',
         query: s.image.query ?? '',
         characters: s.image.characters ?? [],
@@ -679,11 +682,9 @@ const server = createServer(async (req, res) => {
       if (!Number.isFinite(scene) || typeof narration !== 'string') { sendJson(res, 400, { error: 'scene + narration required' }); return; }
       if (!narration.trim()) { sendJson(res, 400, { error: 'narration is empty' }); return; }
       const clean = writeSceneField(P.planMd, scene, 'narration', narration);
-      // Prompt + its Vietnamese reading aid are derived from narration; none must survive a
-      // narration change. motion_vi likewise tracks the (narration-derived) motion prompt.
-      writeSceneField(P.planMd, scene, 'prompt', '');
-      writeSceneField(P.planMd, scene, 'prompt_vi', '');
-      writeSceneField(P.planMd, scene, 'motion_vi', '');
+      // Prompt/motion (and their translations) are left untouched on a narration edit: the
+      // author updates them deliberately — re-running the lsvn/trangca skill, or "Write from
+      // narration" per scene — so a small narration fix never discards a hand-tuned prompt.
       reparse();
       sendJson(res, 200, { ok: true, scene, narration: clean });
       return;
@@ -693,24 +694,35 @@ const server = createServer(async (req, res) => {
       const { scene, prompt } = await readBody(req);
       if (!Number.isFinite(scene) || typeof prompt !== 'string') { sendJson(res, 400, { error: 'scene + prompt required' }); return; }
       const clean = writeSceneField(P.planMd, scene, 'prompt', prompt);
-      // A hand-edited English prompt no longer matches any stored translation; clear it so the
-      // panel shows "chưa có bản dịch" rather than a stale Vietnamese reading aid.
-      writeSceneField(P.planMd, scene, 'prompt_vi', '');
+      // prompt_vi is left intact: the author edits the translation deliberately (in the full-script
+      // editor or via "Dịch"), so a hand-edited English prompt never silently drops its translation.
       reparse();
       sendJson(res, 200, { ok: true, scene, prompt: clean });
       return;
     }
 
-    if (req.method === 'POST' && pathname === '/api/narration-import') {
+    if (req.method === 'POST' && pathname === '/api/scenes-update') {
+      // Bulk patch writer for the full-script editor and its JSON import. Each row is a partial
+      // patch keyed by scene: only the fields present are written, verbatim, with no derived-field
+      // clearing (a prompt edit keeps prompt_vi, a narration edit keeps the prompt, etc.). New
+      // scene numbers are appended. `char` accepts an id/comma-string/array/"both"/"none".
+      const STRING_FIELDS = ['narration', 'cue', 'prompt', 'prompt_vi', 'motion', 'motion_vi'];
       const body = await readBody(req);
       const rows = Array.isArray(body) ? body : Array.isArray(body?.scenes) ? body.scenes : null;
-      if (!rows || !rows.length) { sendJson(res, 400, { error: 'expected an array of {scene, narration, char?, ...} or {scenes:[...]}' }); return; }
+      if (!rows || !rows.length) { sendJson(res, 400, { error: 'expected an array of {scene, ...fields} or {scenes:[...]}' }); return; }
       const charIds = Object.keys(readPlan().characters ?? {});
       const errors = [];
       const charByScene = new Map(); // scene → normalized comma id string (only when char provided)
       rows.forEach((row, i) => {
         if (!row || !Number.isFinite(row.scene) || row.scene < 1) { errors.push(`row ${i}: scene must be a positive number`); return; }
-        if (typeof row.narration !== 'string' || !row.narration.trim()) errors.push(`row ${i} (scene ${row.scene}): narration is required`);
+        for (const f of STRING_FIELDS) {
+          if (f in row && typeof row[f] !== 'string') errors.push(`row ${i} (scene ${row.scene}): ${f} must be a string`);
+        }
+        // narration may not be blanked; new scenes must carry one.
+        const isNew = !hasSceneHeading(P.planMd, row.scene);
+        if (('narration' in row && typeof row.narration === 'string' && !row.narration.trim()) || (isNew && !(typeof row.narration === 'string' && row.narration.trim()))) {
+          errors.push(`row ${i} (scene ${row.scene}): narration is required and cannot be empty`);
+        }
         const norm = normalizeImportChar(row.char, charIds);
         if (norm.error) errors.push(`row ${i} (scene ${row.scene}): ${norm.error}`);
         else if (!norm.skip) charByScene.set(row.scene, norm.ids.join(', '));
@@ -724,13 +736,8 @@ const server = createServer(async (req, res) => {
       for (const row of rows) {
         const char = charByScene.get(row.scene); // undefined when the row omitted char
         if (hasSceneHeading(P.planMd, row.scene)) {
-          writeSceneField(P.planMd, row.scene, 'narration', row.narration);
-          if (typeof row.title === 'string' && row.title.trim()) writeSceneField(P.planMd, row.scene, 'title', row.title);
-          if (typeof row.cue === 'string' && row.cue.trim()) writeSceneField(P.planMd, row.scene, 'cue', row.cue);
+          for (const f of STRING_FIELDS) if (f in row) writeSceneField(P.planMd, row.scene, f, row[f]);
           if (char !== undefined) writeSceneField(P.planMd, row.scene, 'char', char);
-          writeSceneField(P.planMd, row.scene, 'prompt', typeof row.prompt === 'string' ? row.prompt : '');
-          // Imported prompts carry no translation; drop any stale one so the panel shows a note.
-          writeSceneField(P.planMd, row.scene, 'prompt_vi', '');
           updated.push(row.scene);
         } else {
           appendScene(P.planMd, row.scene, { ...row, char });

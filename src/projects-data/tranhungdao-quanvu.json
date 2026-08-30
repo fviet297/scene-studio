@@ -10,7 +10,7 @@
   "scenes": [
     {
       "scene": 1,
-      "narration": "Một người từng khiến vó ngựa Nguyên–Mông phải dừng lại trước Đại Việt.",
+      "narration": "Một người từng khiến vó ngựa Nguyên–Mông phải dừng lại trước Đại Việt.ggg",
       "image": {
         "kind": "ai",
         "characters": [
@@ -314,68 +314,68 @@
       {
         "text": "Một",
         "start": 0.603,
-        "end": 0.801
+        "end": 0.796
       },
       {
         "text": "người",
-        "start": 0.801,
-        "end": 1.063
+        "start": 0.796,
+        "end": 1.051
       },
       {
         "text": "từng",
-        "start": 1.063,
-        "end": 1.295
+        "start": 1.051,
+        "end": 1.277
       },
       {
         "text": "khiến",
-        "start": 1.295,
-        "end": 1.557
+        "start": 1.277,
+        "end": 1.532
       },
       {
         "text": "vó",
-        "start": 1.557,
-        "end": 1.715
+        "start": 1.532,
+        "end": 1.686
       },
       {
         "text": "ngựa",
-        "start": 1.715,
-        "end": 1.947
+        "start": 1.686,
+        "end": 1.912
       },
       {
         "text": "Nguyên–Mông",
-        "start": 1.947,
-        "end": 2.331
+        "start": 1.912,
+        "end": 2.285
       }
     ],
     [
       {
         "text": "phải",
-        "start": 2.331,
-        "end": 2.562
+        "start": 2.285,
+        "end": 2.511
       },
       {
         "text": "dừng",
-        "start": 2.562,
-        "end": 2.794
+        "start": 2.511,
+        "end": 2.736
       },
       {
         "text": "lại",
-        "start": 2.794,
-        "end": 2.992
+        "start": 2.736,
+        "end": 2.929
       },
       {
         "text": "trước",
-        "start": 2.992,
-        "end": 3.254
+        "start": 2.929,
+        "end": 3.184
       },
       {
         "text": "Đại",
-        "start": 3.254,
-        "end": 3.452
+        "start": 3.184,
+        "end": 3.377
       },
       {
-        "text": "Việt.",
-        "start": 3.452,
+        "text": "Việt.ggg",
+        "start": 3.377,
         "end": 3.684
       }
     ],

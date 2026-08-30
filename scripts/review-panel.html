@@ -53,7 +53,7 @@
     </div>
     <span class="bar-sep"></span>
     <button class="btn" type="button" id="btnTemplates">Prompt templates</button>
-    <button class="btn" type="button" id="btnImport">Import JSON</button>
+    <button class="btn" type="button" id="btnScript" title="Read and edit the whole scene plan — narration, prompts, motion — every scene">Full script</button>
     <span class="bar-sep"></span>
     <button class="btn" type="button" id="btnApprove" disabled title="Approve visuals for every AI scene, then generate narration audio for all scenes">Generate all audio</button>
     <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Open MP4</a>
@@ -238,30 +238,38 @@
   </div>
 </div>
 
-<div class="overlay" id="impOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="impTitle">
-  <div class="dialog">
+<div class="overlay" id="scriptOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="scriptTitle">
+  <div class="dialog script-dialog">
     <div class="dialog-head">
-      <h2 id="impTitle">Import narration JSON</h2>
-      <span class="note">Array of <code>{scene, narration, title?, cue?, prompt?}</code>. Existing scenes update in place; new scene numbers are appended.</span>
+      <h2 id="scriptTitle">Full script</h2>
+      <span class="note">Toàn bộ scene plan — narration, prompt, prompt dịch, motion — sửa trực tiếp. Không xóa field phái sinh.</span>
       <span class="grow"></span>
-      <button class="icon-btn" type="button" id="impClose" aria-label="Close">
+      <button class="btn sm" type="button" id="scriptExpandAll" title="Mở image + motion prompt của mọi scene">Mở tất cả</button>
+      <button class="btn sm" type="button" id="scriptCollapseAll" title="Đóng image + motion prompt của mọi scene">Đóng tất cả</button>
+      <button class="btn sm" type="button" id="scriptCopy" title="Copy toàn bộ scene plan dạng JSON để sửa ở tool ngoài">Copy JSON</button>
+      <button class="btn sm" type="button" id="scriptImportToggle" aria-expanded="false" title="Dán JSON (cùng cấu trúc) để cập nhật hàng loạt">Import JSON</button>
+      <button class="icon-btn" type="button" id="scriptClose" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="dialog-body single">
-      <div class="field">
-        <label for="impBox">JSON</label>
-        <textarea id="impBox" spellcheck="false" placeholder='[{&quot;scene&quot;: 1, &quot;narration&quot;: &quot;...&quot;, &quot;char&quot;: &quot;both&quot;}]'></textarea>
+      <div class="script-import" id="scriptImport" hidden>
+        <label for="scriptImportBox">Import JSON <span class="note">mảng <code>{scene, narration, cue?, char?, prompt?, prompt_vi?, motion?, motion_vi?}</code>. Field có mặt sẽ ghi đè; scene mới được thêm.</span></label>
+        <textarea id="scriptImportBox" rows="6" spellcheck="false" placeholder='[{"scene":1,"narration":"...","prompt":"...","prompt_vi":"..."}]'></textarea>
+        <div class="readonly-field" id="scriptImportPreview" hidden></div>
+        <div class="btn-row">
+          <span class="note" id="scriptImportNote">Dán JSON rồi Validate.</span>
+          <span class="grow"></span>
+          <button class="btn sm" type="button" id="scriptImportValidate">Validate</button>
+          <button class="btn sm primary" type="button" id="scriptImportApply" disabled>Apply</button>
+        </div>
       </div>
-      <div class="block" id="impPreview" hidden>
-        <div class="readonly-field" id="impPreviewText"></div>
-      </div>
+      <div class="script-list" id="scriptList"></div>
     </div>
     <div class="dialog-foot">
-      <span class="note" id="impNote">Paste JSON, then Validate.</span>
-      <button class="btn" type="button" id="impCopy">Copy current as JSON</button>
-      <button class="btn" type="button" id="impValidate">Validate</button>
-      <button class="btn primary" type="button" id="impApply" disabled>Apply</button>
+      <span class="note" id="scriptNote">No scenes.</span>
+      <button class="btn" type="button" id="scriptReload">Reload</button>
+      <button class="btn primary" type="button" id="scriptSave" disabled>Save changed</button>
     </div>
   </div>
 </div>

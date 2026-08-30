@@ -49,6 +49,9 @@ export const appendScene = (planMd, sceneNo, fields) => {
   if (typeof fields.char === 'string') block.push(`char: ${clean(fields.char)}`);
   block.push(`narration: ${clean(fields.narration)}`);
   if (fields.prompt) block.push(`prompt: ${clean(fields.prompt)}`);
+  if (fields.prompt_vi) block.push(`prompt_vi: ${clean(fields.prompt_vi)}`);
+  if (fields.motion) block.push(`motion: ${clean(fields.motion)}`);
+  if (fields.motion_vi) block.push(`motion_vi: ${clean(fields.motion_vi)}`);
   writeFileSync(planMd, `${[...lines, '', ...block].join('\n')}\n`);
 };
 

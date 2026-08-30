@@ -12,7 +12,7 @@ char-b = public/projects/tranhungdao-quanvu/characters/char-b.jpg
 title:
 cue: dramatic
 host:
-narration: Một người từng khiến vó ngựa Nguyên–Mông phải dừng lại trước Đại Việt.
+narration: Một người từng khiến vó ngựa Nguyên–Mông phải dừng lại trước Đại Việt.ggg
 char: char-a
 prompt: Directing a defense that makes Mongol–Yuan cavalry rein in at Đại Việt’s edge. Late‑13th‑century Trần‑dynasty Red River dike line: flooded paddies and a bamboo palisade. Foreground abatis and caltrops. Vietnamese infantry in 13th‑century Trần gear—conical hats, rattan shields, spears, crossbows—advance from the dike with drums and banners; Mongol–Yuan horsemen in 13th‑century steppe lamellar rein back amid splashes. Crowd faces are East‑Asian. Diagonal depth. No Nguyễn, Ming/Qing, or European/Japanese elements.
 prompt_vi: Chỉ huy thế trận buộc kỵ binh Nguyên–Mông phải ghìm cương ngay trước bờ cõi Đại Việt. Bối cảnh cuối thế kỷ 13 thời Trần, tuyến đê sông Hồng: ruộng ngập nước và lũy rào tre. Tiền cảnh có hàng rào cây đổ (abatis) và chông bốn mũi (caltrops). Bộ binh Đại Việt trang bị thời Trần thế kỷ 13 — nón lá, khiên mây, giáo, nỏ — xung phong từ mặt đê, trống giục và cờ phất; kỵ binh Nguyên–Mông mặc giáp phiến thảo nguyên thế kỷ 13 ghìm ngựa giữa bắn nước. Mọi gương mặt còn lại đều Đông Á. Bố cục chéo nhiều lớp. Không yếu tố triều Nguyễn, Minh/Thanh, hay Âu/Nhật.
