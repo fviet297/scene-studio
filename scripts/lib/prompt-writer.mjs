@@ -28,7 +28,7 @@ const SYSTEM_PROMPT = `You write ONE scene-specific image-generation prompt for 
 CORE
 1. NEVER describe a main character's appearance: no face, hair, costume, build, age, or colours. Identity comes from a pasted reference image via image-to-image generation; restating looks fights the reference and drifts identity.
 2. Write ONLY what changes per scene, roughly in this order: action · period & country · setting · who else is present (their ethnicity, dress, weapons) · architecture · scene-specific negatives. Plain prose, never field labels.
-3. Narration → meaning → visual concept → prompt. Do not visualise the words literally, and never put text, letters or numerals in the scene.
+3. Narration → event → visual concept → prompt. FIRST name the line's concrete event — who does what to whom, where — and stage THAT as the frame's main action; the prompt exists to show it. "Kiều Công Tiễn giết Dương Đình Nghệ" is a killing inside a citadel courtyard, not a quiet gate; "the Song army closes on the border" is that army massing on a frontier road, not a beacon fire seen from the capital. An abstract line — a verdict, a metaphor, a claim — still points at a concrete moment: draw the moment (stakes driven into the riverbed at night, the ambush party settling into the reeds), never a symbol standing in for it, and never a map on a table, an empty throne or an object still life in place of the event. Do not visualise the words literally, and never put text, letters or numerals in the scene.
 4. Prefer a lively wide environmental scene over a portrait: keep each named main character small, about 20–30% of image height, unless the narration demands a close-up. Build depth — name at least two of foreground/middle ground/background plus one active secondary detail (marching units, banners, drums, horses, dust, workers, messengers). Use asymmetrical or diagonal composition; avoid static symmetrical rows and empty backgrounds.
 
 NAME THE CULTURE CONCRETELY — this is the biggest quality lever
@@ -40,14 +40,15 @@ NAME THE CULTURE CONCRETELY — this is the biggest quality lever
 
 CONTINUITY
 8. Every person, animal, vehicle and prop shares one physically plausible environment and mode of travel — within its own half when the frame is split (rule 10), or across the whole frame for a single-character scene. If a convoy is on a river, everyone travels by boat; keep land transport on the bank only. Resolve contradictions yourself.
-9. The supplied character list is authoritative. Use ONLY those references. Never invent, add or name a second character, emperor or counterpart not in the list, even if the narration contrasts two people. If exactly one reference is supplied, write exactly one main character.
+9. The supplied character list is authoritative for identity-locked figures: use ONLY those references, and never add a second MAIN character, emperor or counterpart not in the list, even if the narration contrasts two people. If exactly one reference is supplied, write exactly one main character. Other people the narration mentions are still drawn — as anonymous figures seen at distance, from behind or inside a crowd, faces not readable, with their own culture and era pinned like any other extra (rule 6). Never empty the frame ("no people", "no faces in focus") to avoid them: an empty room reads as a missing beat.
 10. If two or more characters are supplied, ALWAYS compose a vertical split-screen with a clean centre divider. The first-listed character occupies the LEFT half with their own action, culture and setting; the second the RIGHT half with theirs — "The first character ... on the left ...", "The second character ... on the right ...". Each half is self-contained (its own continuity, rule 8) and must not blend, touch or share background/props with the other. Every supplied reference appears exactly once, one per half.
 
 SCENE-TYPE RECIPE (pick by the narration)
 - Two figures compared → split-screen (rule 10); each side its own country/period/environment.
 - Battle → event, period, location, main character, army, action; visible period weapons/armour/banners, real battlefield geography, correct formation; wide shot with depth, dust, atmosphere.
 - Court / ceremony → the hall's period architecture, ranked officials in period dress with correct ethnicity, ceremonial light.
-- Map / territory → clarity over art: simplified geography, clear boundaries, movement; no invented lettering.
+- Claim / verdict / metaphor → do NOT retreat to a still life: draw the concrete moment the claim is about (the trap being built, the army that threatens, the defeat being risked), with people acting in it.
+- Map / territory → only when the beat is genuinely about geography: simplified geography, clear boundaries, movement; no invented lettering. Never use a map or a table of objects as a stand-in for an event.
 - Architecture / artifact → period, culture, correct proportions and materials, simple background.
 
 11. Be concise — the English prompt is inserted into a template with a hard character budget. Plain prose only: no markdown, no quotation marks, no field labels, no preamble.
@@ -152,7 +153,7 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
     ? '\n\nIMPORTANT: exactly one referenced character is available. Do not include any second character, counterpart, emperor, split-screen half or named person.'
     : '';
   const contextNote = context && (context.prev || context.next)
-    ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
+    ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them, and do NOT reuse an adjacent beat's setting plus activity: change the terrain, time of day or action so this reads as a new shot):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
   const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now, then its motion prompt. Keep the English scene prompt under ${budget} characters. Output the four parts in order, separated by the ===VI===, ===MOTION=== and ===MOTION_VI=== delimiter lines.`;
 

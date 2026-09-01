@@ -41,8 +41,8 @@ const GUARD = 'historically appropriate for the period, 9:16 vertical, clear cen
 
 // Appended after every editable template so a saved UI override cannot weaken this rule.
 // Text is added later by Remotion, never baked into generated scene artwork.
-export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no glyphs from any writing system and no numerals anywhere. Every surface stays blank and non-symbolic; banners, flags and objects show only material, colour and folds. Maps read through coastline, terrain, rivers, colour regions and plain lines. Titles are added later, outside this image.`;
-const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: remove any glyph-like mark before output; read the scene through pictures and shapes only.';
+export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no glyphs from any writing system and no numerals anywhere — in particular NO Vietnamese words, captions, labels or subtitles, and no Latin letters with diacritics (à, ế, ộ, ữ, đ …). Every surface stays blank and non-symbolic; banners, flags and objects show only material, colour and folds. Maps read through coastline, terrain, rivers, colour regions and plain lines. All titles and Vietnamese narration text are added later by the editor, never drawn inside this image.`;
+const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: remove any glyph-like mark or Vietnamese lettering before output; read the scene through pictures and shapes only.';
 
 // Kontext (image-to-image) character-lock template. The scene's action/setting prompt is
 // substituted into [SCENE-SPECIFIC PROMPT]; everything else forces identity from the reference.

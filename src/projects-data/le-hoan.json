@@ -10,7 +10,7 @@
   "scenes": [
     {
       "scene": 1,
-      "narration": "Lê Hoàn lên ngai giữa binh biến và đại quân Tống đang áp sát.",
+      "narration": "Năm 981. Đại quân Tống áp sát biên giới, còn ngai vàng Hoa Lư thì vừa đổi chủ sau một cuộc binh biến.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -25,22 +25,22 @@
     },
     {
       "scene": 2,
-      "narration": "Nếu thua năm 981, nền tự chủ non trẻ có thể bị bẻ gãy. Ông biến thế yếu thành bẫy.",
+      "narration": "Thua trận này, nền tự chủ mới bốn mươi năm tuổi coi như gãy. Vậy mà người cầm quân lại chọn cách biến thế yếu thành một cái bẫy.",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "Wide silk campaign map spread across a low timber table at night; three dark stones mark Song invasion routes toward Dai La and Hoa Lu while a small flame traces the rivers toward a wooden model fort at Binh Lo, rain tapping open shutters, no people or faces. 10th-century Dai Co Viet command setting, plain bamboo markers without symbols or lettering. No Tang/Song Chinese or European elements.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact silk map, route stones, small flame, river lines, Binh Lo model, table, shutters, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The flame crawls slowly along the river route, rain trembles on the shutters and lamp light flickers over the silk. Motion intensity low, environmental motion moderate and natural. No warped map, melting markers, appearing figures, sudden movements or visual artifacts.",
-        "promptVi": "Toàn cảnh bản đồ chiến dịch bằng lụa trải trên bàn gỗ thấp ban đêm; ba viên đá tối đánh dấu các đường quân Tống hướng về Đại La và Hoa Lư, trong khi một ngọn lửa nhỏ lần theo sông đến mô hình thành gỗ tại Bình Lỗ, mưa gõ vào cửa chớp mở, không người hoặc khuôn mặt. Bối cảnh chỉ huy Đại Cồ Việt thế kỷ 10, thẻ tre trơn không ký hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
-        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên bản đồ lụa, đá đánh dấu, ngọn lửa nhỏ, đường sông, mô hình Bình Lỗ, bàn, cửa chớp, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Ngọn lửa bò chậm theo đường sông, mưa làm cửa chớp rung và ánh đèn chập chờn trên lụa. Cường độ thấp, môi trường chuyển động vừa phải và tự nhiên. Không bản đồ méo, thẻ chảy nhão, người xuất hiện, chuyển động đột ngột hoặc lỗi hình ảnh."
+        "prompt": "Wide silk campaign map spread across a low timber table at night; three dark stones mark enemy invasion routes converging from the north while a small flame traces a glowing red line along a river toward a wooden model fort at a river bend, rain tapping open shutters, no people or faces. 10th-century Dai Co Viet command setting, an unlabeled silk map showing only rivers, terrain and colour regions with plain bamboo markers. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact silk map, route stones, small flame, river lines, model fort, table, shutters, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The flame crawls slowly along the river route, rain trembles on the shutters and lamp light flickers over the silk. Motion intensity low, environmental motion moderate and natural. No warped map, melting markers, appearing figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh bản đồ chiến dịch bằng lụa trải trên bàn gỗ thấp ban đêm; ba viên đá tối đánh dấu các đường tiến quân của địch hội tụ từ phía bắc, trong khi một ngọn lửa nhỏ lần theo vệt đỏ rực dọc một con sông đến mô hình thành gỗ ở khúc sông cong, mưa gõ vào cửa chớp mở, không người hoặc khuôn mặt. Bối cảnh chỉ huy Đại Cồ Việt thế kỷ 10, bản đồ lụa không nhãn chữ, chỉ thể hiện sông, địa hình và vùng màu với thẻ tre trơn. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên bản đồ lụa, đá đánh dấu, ngọn lửa nhỏ, đường sông, mô hình thành, bàn, cửa chớp, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Ngọn lửa bò chậm theo đường sông, mưa làm cửa chớp rung và ánh đèn chập chờn trên lụa. Cường độ thấp, môi trường chuyển động vừa phải và tự nhiên. Không bản đồ méo, thẻ chảy nhão, người xuất hiện, chuyển động đột ngột hoặc lỗi hình ảnh."
       },
       "cue": "dramatic",
       "hasAudio": false
     },
     {
       "scene": 3,
-      "narration": "Chiến thắng quyết định diễn ra tại địa danh gần như bị lãng quên: Bình Lỗ.",
+      "narration": "Và trận đánh xoay chuyển tất cả lại diễn ra ở một nơi gần như bị sử sách bỏ quên: thành Bình Lỗ.",
       "image": {
         "kind": "search",
         "characters": [],
@@ -51,7 +51,7 @@
     },
     {
       "scene": 4,
-      "narration": "Lê Hoàn là khai quốc công thần nhà Đinh, giữ chức Thập đạo tướng quân.",
+      "narration": "Người đó là Lê Hoàn. Trước khi làm vua, ông là khai quốc công thần nhà Đinh, nắm chức Thập đạo tướng quân — tổng chỉ huy toàn quân.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -68,7 +68,7 @@
     },
     {
       "scene": 5,
-      "narration": "Năm 979, vua Đinh và Đinh Liễn bị sát hại. Đinh Toàn sáu tuổi nối ngôi.",
+      "narration": "Nhưng năm 979, một biến cố đẩy ông ra ánh sáng. Vua Đinh và con là Đinh Liễn bị ám sát; ngôi báu rơi vào tay Đinh Toàn, một đứa trẻ sáu tuổi.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -83,7 +83,7 @@
     },
     {
       "scene": 6,
-      "narration": "Nguyễn Bặc, Đinh Điền, Phạm Hạp chống Lê Hoàn rồi thất bại. Chuyện trao ngôi không đơn giản.",
+      "narration": "Triều đình lập tức chia phe. Nguyễn Bặc, Đinh Điền, Phạm Hạp nổi lên chống ông, rồi lần lượt thất bại. Chuyện trao ngôi chưa bao giờ đơn giản.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -100,7 +100,7 @@
     },
     {
       "scene": 7,
-      "narration": "Sử liệu chép binh lính vào nội phủ tôn ông làm vua. Vai trò từng người vẫn là nghi án.",
+      "narration": "Sử chép binh lính kéo vào nội phủ, tôn ông làm vua. Nhưng ai chủ mưu, ai chỉ a dua theo — đến nay vẫn là một nghi án.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -117,7 +117,7 @@
     },
     {
       "scene": 8,
-      "narration": "Nhà Tống đòi mẹ con Dương Vân Nga sang chầu. Lê Hoàn từ chối.",
+      "narration": "Ngồi chưa ấm ngai, ông đã nhận tối hậu thư của nhà Tống: nộp mẹ con Dương Vân Nga sang chầu. Lê Hoàn từ chối thẳng.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -134,7 +134,7 @@
     },
     {
       "scene": 9,
-      "narration": "Đại Cồ Việt còn non trẻ. Nhà vua phải tự dẫn quân để quy tụ lòng người.",
+      "narration": "Bởi Đại Cồ Việt còn quá non trẻ, chưa thể để vua ngồi trong cung điều binh từ xa. Muốn quy tụ lòng người, nhà vua phải tự mình ra trận.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -151,7 +151,7 @@
     },
     {
       "scene": 10,
-      "narration": "Quân Tống chia thủy bộ, hẹn hội ở Đại La rồi đánh Hoa Lư.",
+      "narration": "Quân Tống tràn xuống, chia nhiều mũi thủy bộ, hẹn hội quân ở Đại La rồi thẳng tay đánh Hoa Lư.",
       "image": {
         "kind": "search",
         "characters": [],
@@ -162,7 +162,7 @@
     },
     {
       "scene": 11,
-      "narration": "Lê Hoàn chặn tại Bạch Đằng, Chi Lăng và phòng tuyến sông Cà Lồ.",
+      "narration": "Lê Hoàn chia quân giữ ba nơi hiểm: cắm cọc ở Bạch Đằng, mai phục ở Chi Lăng, và dựng phòng tuyến bên sông Cà Lồ.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -177,7 +177,7 @@
     },
     {
       "scene": 12,
-      "narration": "Bình Lỗ vừa phòng thủ, gom quân, vừa làm mồi nhử. Đây là trung tâm kế hoạch.",
+      "narration": "Nhưng nước cờ thật nằm ở Cà Lồ. Bình Lỗ vừa là thành phòng thủ, vừa là nơi gom quân, vừa là mồi nhử — trung tâm của cả kế hoạch.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -194,7 +194,7 @@
     },
     {
       "scene": 13,
-      "narration": "Lê Hoàn giả thua, kéo quân Tống đến Như Nguyệt. Thấy thành, đối phương dừng lại.",
+      "narration": "Ông giả thua ở biên giới, dụ quân Tống đuổi sâu vào tới sông Như Nguyệt. Nhưng đến khúc Cà Lồ, thấy có thành đang xây, đối phương bỗng chững lại.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -211,7 +211,7 @@
     },
     {
       "scene": 14,
-      "narration": "Ông trá hàng lần hai, dụ Hầu Nhân Bảo tập kích Bình Lỗ trong đêm.",
+      "narration": "Thế là ông trá hàng lần hai, cho tướng sang dùng lời đường mật, dụ Hầu Nhân Bảo đang đêm đánh úp Bình Lỗ.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -226,7 +226,7 @@
     },
     {
       "scene": 15,
-      "narration": "Canh ba, mưa gió nổi lên. Quân Tống lọt trận địa. Pháo hiệu bùng sáng.",
+      "narration": "Canh ba đêm ba mươi, trời tối đen, mưa gió nổi đùng đùng. Quân Tống lọt vào trận địa. Một tiếng pháo hiệu xé màn đêm.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -241,7 +241,7 @@
     },
     {
       "scene": 16,
-      "narration": "Quân Việt hợp kích, khóa đuôi, ép mặt, dồn đối phương vào ổ phục kích.",
+      "narration": "Hai cánh quân Việt cùng ập tới — một khóa đuôi, một đánh vỗ mặt — dồn quân Tống vào đúng ổ phục kích đã giăng từ mấy tháng trước.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -258,7 +258,7 @@
     },
     {
       "scene": 17,
-      "narration": "Hầu Nhân Bảo tử trận. Các cánh quân Tống mất chỉ huy, lần lượt rút lui.",
+      "narration": "Hầu Nhân Bảo tử trận ngay giữa loạn quân. Mất chủ tướng, các cánh quân Tống còn lại tự tan, lặng lẽ rút về.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -273,7 +273,7 @@
     },
     {
       "scene": 18,
-      "narration": "Thắng lợi đến từ địa hình, công sự, tình báo, nghi binh và hợp kích.",
+      "narration": "Chiến thắng ấy không đến từ phép màu. Nó đến từ địa hình, công sự, tình báo, nghi binh và đòn hợp kích — tất cả gói trong hai chữ Bình Lỗ.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -288,7 +288,7 @@
     },
     {
       "scene": 19,
-      "narration": "Một năm sau, Chiêm Thành bắt sứ giả. Lê Hoàn tiến nam, đánh bại Bê Mi Thuế.",
+      "narration": "Chưa dừng lại ở đó. Một năm sau, khi Chiêm Thành bắt giữ sứ giả, ông thân chinh tiến xuống phương Nam, chém Bê Mi Thuế ngay tại trận.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -305,7 +305,7 @@
     },
     {
       "scene": 20,
-      "narration": "Sau chiến thắng, ông mềm dẻo với phương Bắc nhưng giữ vững quốc thể.",
+      "narration": "Thắng rồi, ông lại mềm dẻo với phương Bắc, xưng thần với nhà Tống — nhưng tuyệt không để ai làm nhục quốc thể.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -322,7 +322,7 @@
     },
     {
       "scene": 21,
-      "narration": "Ông mở lễ tịch điền, tự cày ruộng để khuyến khích nông nghiệp.",
+      "narration": "Trong nước, ông khai sinh lễ tịch điền, tự tay cầm cày xuống ruộng để khuyến khích nhà nông — nghi lễ các triều sau còn noi theo.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -339,7 +339,7 @@
     },
     {
       "scene": 22,
-      "narration": "Ông an nghỉ dưới chân núi Mã Yên, phía sau lăng vua Đinh. Di tích còn heo hút.",
+      "narration": "Vậy mà ông an nghỉ dưới chân núi Mã Yên, khuất sau lăng vua Đinh — ngôi mộ sơ sài, heo hút đến giật mình.",
       "image": {
         "kind": "search",
         "characters": [],
@@ -350,7 +350,7 @@
     },
     {
       "scene": 23,
-      "narration": "Đường tới ngai vàng phủ bóng tối. Công giữ nền tự chủ lại sáng rõ.",
+      "narration": "Con đường ông bước tới ngai vàng phủ đầy bóng tối và ngờ vực. Nhưng công giữ lấy nền tự chủ thì sáng rõ, không gì phủ nhận được.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -365,7 +365,7 @@
     },
     {
       "scene": 24,
-      "narration": "Nên nhớ Lê Hoàn là người đoạt vị, hay vua cứu nền tự chủ tại Bình Lỗ?",
+      "narration": "Vậy nên nhớ Lê Hoàn là kẻ đoạt ngôi, hay vị vua đã cứu nền tự chủ ngay tại Bình Lỗ? Câu trả lời, xin để lại cho bạn.",
       "image": {
         "kind": "ai",
         "characters": [
