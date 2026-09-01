@@ -1,0 +1,14 @@
+{
+  "character_id": "char-a",
+  "name": "Đinh Bộ Lĩnh",
+  "display_name": "Đinh Bộ Lĩnh",
+  "aliases": ["Đinh Tiên Hoàng", "Đại Thắng Minh Hoàng đế", "Vạn Thắng Vương"],
+  "country": "Đại Cồ Việt",
+  "period": "10th century",
+  "dynasty": "Đinh dynasty",
+  "role": "Warlord who ended the era of the 12 warlords and founded Đại Cồ Việt as its first emperor",
+  "known_facts": ["Son of Đinh Công Trứ, a military officer under Dương Đình Nghệ; based in Hoa Lư, Ninh Bình", "Rose during the Loạn 12 sứ quân, the chaos of twelve warlords after Ngô Quyền's line collapsed", "Served the warlord Trần Lãm at Bố Hải Khẩu and was adopted as his heir, inheriting his army", "Held Hoa Lư, a natural fortress of limestone karst and the Hoàng Long river, with the loyal 'Giao Châu thất hùng' including Lê Hoàn", "Defeated or won over the twelve warlords in roughly three years, from 966 to 968, and was hailed as Vạn Thắng Vương", "In 968 proclaimed himself emperor, named the country Đại Cồ Việt, made Hoa Lư the capital, and minted the Thái Bình hưng bảo coin in 970", "Ruled with harsh law and a standing army of ten đạo under Thập đạo Tướng quân Lê Hoàn; buried on núi Mã Yên at Hoa Lư"],
+  "interpretation": "10th-century Đại Cồ Việt warlord and founding emperor, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives", "The childhood 'cờ lau tập trận' story is tradition, not documented record"],
+  "reference": "public/projects/dinh-bo-linh/characters/char-a.jpg"
+}

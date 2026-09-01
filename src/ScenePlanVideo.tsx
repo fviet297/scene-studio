@@ -5,6 +5,7 @@ import {
   Sequence,
   staticFile,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
 import {
   CinematicScene,
@@ -64,6 +65,68 @@ export type ProjectData = {
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
 
+// --- Overlay sizing -------------------------------------------------------------------------
+// Both aspects are delivered on the same 1080x1920 canvas the platform encodes. A 9:16 master
+// fills it 1:1. A 16:9 master is centre-cropped to 3:2 and scaled into a 1080x720 band by
+// scripts/wrap-vertical.mjs, so an overlay pixel drawn on that master lands at 0.667x on the
+// phone. Multiplying every horizontal and typographic value by `unit` cancels that out, so the
+// title reads at the same apparent size in both aspects.
+const DELIVERY_WIDTH = 1080;
+const VERTICAL_BAND_RATIO = 3 / 2; // keep in sync with BAND_RATIO in scripts/wrap-vertical.mjs
+
+// Scrim and vertical placement as fractions of composition height.
+//
+// `vertical` holds the original hand-tuned 1080x1920 numbers exactly. There the scrims are
+// load-bearing: TikTok/Reels/Shorts draw a back button and search icon over the top of the
+// picture and a share rail down its right edge, so the gradients buy contrast under their
+// chrome as well as under the title.
+//
+// `wide` exists because that rationale disappears once a 16:9 master is wrapped: the picture
+// only occupies y=600..1320 of the delivered canvas and the chrome sits over the plain black
+// bars, never over artwork. So the top scrim shrinks to a backing for the title, and the bottom
+// scrim goes to zero — SceneView renders nothing down there, and every darkened row costs
+// artwork the 15.6% width crop has already paid for.
+const OVERLAY_PROFILES = {
+  vertical: {
+    topScrim: 340 / 1920,
+    titleTop: 260 / 1920,
+    tagTop: 200 / 1920,
+    bottomScrim: 460 / 1920,
+  },
+  wide: {
+    topScrim: 162 / 1080,
+    titleTop: 97 / 1080,
+    tagTop: 49 / 1080,
+    bottomScrim: 0,
+  },
+} as const;
+
+function overlayMetrics(width: number, height: number) {
+  // Width that survives to the delivered canvas: the whole frame when it is already vertical,
+  // the 3:2 centre crop when it is wider than that. Anything drawn outside that strip is thrown
+  // away by wrap-vertical.mjs, so horizontal insets are measured from the crop edge, not the
+  // frame edge — otherwise a 16:9 master puts the AI tag where the crop cuts through it.
+  const bandWidth = Math.min(width, height * VERTICAL_BAND_RATIO);
+  const cropInset = Math.round((width - bandWidth) / 2);
+  const unit = bandWidth / DELIVERY_WIDTH;
+  const profile =
+    width > height ? OVERLAY_PROFILES.wide : OVERLAY_PROFILES.vertical;
+  const px = (base: number) => Math.round(base * unit);
+  return {
+    topScrimHeight: Math.round(height * profile.topScrim),
+    bottomScrimHeight: Math.round(height * profile.bottomScrim),
+    titleTop: Math.round(height * profile.titleTop),
+    titleInset: cropInset + px(110),
+    titleFontSize: px(52),
+    titleShadow: `0 ${px(2)}px ${px(8)}px rgba(0,0,0,.6)`,
+    tagTop: Math.round(height * profile.tagTop),
+    tagLeft: cropInset + px(14),
+    tagFontSize: px(15),
+    tagPadding: `${px(4)}px ${px(9)}px`,
+    tagRadius: px(6),
+  };
+}
+
 // Cumulative per-scene frame counts + starts from measured audio durations. Keyed off scenes so a
 // missing/short duration falls back to a placeholder instead of feeding NaN into interpolate().
 function sceneTimeline(scenes: Scene[], sceneDurations: number[]) {
@@ -94,6 +157,8 @@ export function SceneView({
   motionPlaybackRate?: number;
 }) {
   const local = useCurrentFrame();
+  const { width, height } = useVideoConfig();
+  const overlay = overlayMetrics(width, height);
   const motion = getSceneMotion(scene.scene);
   // Fade the whole scene (image + overlays together) for a clean cross-dissolve; the
   // CinematicScene's own transition is disabled here to avoid double-fading the image.
@@ -127,16 +192,14 @@ export function SceneView({
         />
       )}
 
-      {/* top scrim + title. Insets and the top offset clear TikTok/Reels/Shorts' own
-          chrome: a back button + search icon sit roughly in the top ~150px, and their share
-          button rail runs down the right edge, so text stays out of both. */}
+      {/* top scrim + title, sized by overlayMetrics for the current aspect */}
       <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           right: 0,
-          height: 340,
+          height: overlay.topScrimHeight,
           background: "linear-gradient(rgba(0,0,0,.74), transparent)",
         }}
       />
@@ -144,16 +207,16 @@ export function SceneView({
         <div
           style={{
             position: "absolute",
-            top: 260,
-            left: 110,
-            right: 110,
+            top: overlay.titleTop,
+            left: overlay.titleInset,
+            right: overlay.titleInset,
             textAlign: "center",
             fontFamily: "Arial, sans-serif",
             fontWeight: 1000,
-            fontSize: 52,
+            fontSize: overlay.titleFontSize,
             lineHeight: 1.1,
             color: "white",
-            textShadow: "0 2px 8px rgba(0,0,0,.6)",
+            textShadow: overlay.titleShadow,
           }}
         >
           {scene.title}
@@ -164,32 +227,34 @@ export function SceneView({
         <div
           style={{
             position: "absolute",
-            top: 200,
-            left: 14,
-            padding: "4px 9px",
+            top: overlay.tagTop,
+            left: overlay.tagLeft,
+            padding: overlay.tagPadding,
             background: "rgba(25,23,22,.82)",
             color: COLORS.paper,
             fontFamily: "Arial, sans-serif",
             fontWeight: 800,
-            fontSize: 15,
-            borderRadius: 6,
+            fontSize: overlay.tagFontSize,
+            borderRadius: overlay.tagRadius,
           }}
         >
           AI PHỤC DỰNG
         </div>
       )}
 
-      {/* bottom scrim */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 460,
-          background: "linear-gradient(transparent, rgba(0,0,0,.82))",
-        }}
-      />
+      {/* bottom scrim — omitted entirely on the wide profile, which sets its height to 0 */}
+      {overlay.bottomScrimHeight > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: overlay.bottomScrimHeight,
+            background: "linear-gradient(transparent, rgba(0,0,0,.82))",
+          }}
+        />
+      )}
     </AbsoluteFill>
   );
 }
@@ -205,7 +270,6 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
     <AbsoluteFill
       style={{
         background: COLORS.ink,
-        translate: "0px -5px",
       }}
     >
       {project.scenes.map((scene, i) => (

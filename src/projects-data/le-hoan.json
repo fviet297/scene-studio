@@ -1,0 +1,438 @@
+{
+  "slug": "le-hoan",
+  "title": "Lê Hoàn - Lê Đại Hành",
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "publicPrefix": "projects/le-hoan",
+  "fps": 30,
+  "durationInFrames": 2880,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Lê Hoàn lên ngai giữa binh biến và đại quân Tống đang áp sát.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide Hoa Lu palace courtyard under a storm-dark sky; an empty raised throne faces ranks of armed 10th-century Dai Co Viet guards while distant beacon fires burn beyond jagged limestone peaks, rain sweeping across packed earth, plain solid-color banners without emblem or lettering whipping hard, no person in focus. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact empty throne, guards, beacon fires, limestone peaks, banners, rain, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Rain lashes the courtyard, banners snap, beacon smoke streams across the peaks and guards shift under the wind. Motion intensity low to medium, environmental motion strong and natural. No warped objects, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh sân cung Hoa Lư dưới bầu trời giông tối; một ngai cao trống đối diện các hàng quân Đại Cồ Việt thế kỷ 10, trong khi lửa hiệu cháy xa sau những đỉnh núi đá vôi lởm chởm, mưa quét qua nền đất nện, cờ vải trơn một màu không phù hiệu hay chữ viết quật mạnh, không nhân vật nào rõ nét. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên ngai trống, quân lính, lửa hiệu, núi đá vôi, cờ, mưa, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Mưa quất sân, cờ giật mạnh, khói lửa hiệu trôi ngang núi và quân lính khẽ dịch chuyển trong gió. Cường độ thấp đến vừa, môi trường chuyển động mạnh và tự nhiên. Không vật thể méo, quân lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 2,
+      "narration": "Nếu thua năm 981, nền tự chủ non trẻ có thể bị bẻ gãy. Ông biến thế yếu thành bẫy.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide silk campaign map spread across a low timber table at night; three dark stones mark Song invasion routes toward Dai La and Hoa Lu while a small flame traces the rivers toward a wooden model fort at Binh Lo, rain tapping open shutters, no people or faces. 10th-century Dai Co Viet command setting, plain bamboo markers without symbols or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact silk map, route stones, small flame, river lines, Binh Lo model, table, shutters, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The flame crawls slowly along the river route, rain trembles on the shutters and lamp light flickers over the silk. Motion intensity low, environmental motion moderate and natural. No warped map, melting markers, appearing figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh bản đồ chiến dịch bằng lụa trải trên bàn gỗ thấp ban đêm; ba viên đá tối đánh dấu các đường quân Tống hướng về Đại La và Hoa Lư, trong khi một ngọn lửa nhỏ lần theo sông đến mô hình thành gỗ tại Bình Lỗ, mưa gõ vào cửa chớp mở, không người hoặc khuôn mặt. Bối cảnh chỉ huy Đại Cồ Việt thế kỷ 10, thẻ tre trơn không ký hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên bản đồ lụa, đá đánh dấu, ngọn lửa nhỏ, đường sông, mô hình Bình Lỗ, bàn, cửa chớp, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Ngọn lửa bò chậm theo đường sông, mưa làm cửa chớp rung và ánh đèn chập chờn trên lụa. Cường độ thấp, môi trường chuyển động vừa phải và tự nhiên. Không bản đồ méo, thẻ chảy nhão, người xuất hiện, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": false
+    },
+    {
+      "scene": 3,
+      "narration": "Chiến thắng quyết định diễn ra tại địa danh gần như bị lãng quên: Bình Lỗ.",
+      "image": {
+        "kind": "search",
+        "characters": [],
+        "query": "thành Bình Lỗ Lê Hoàn sông Cà Lồ di tích giả thuyết"
+      },
+      "cue": "curious",
+      "hasAudio": false
+    },
+    {
+      "scene": 4,
+      "narration": "Lê Hoàn là khai quốc công thần nhà Đinh, giữ chức Thập đạo tướng quân.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide Hoa Lu drilling ground in clear morning light; Le Hoan stands small and off-center at about one-fifth frame height reviewing ten organized ranks of 10th-century Dai Co Viet soldiers drilling with bamboo spears, wooden shields and bows, officers moving between lines, dust rising, timber halls and limestone peaks behind. Soldiers have Vietnamese East Asian faces, plain hemp tunics, leather guards and conical bamboo hats; banners are plain solid-color cloth without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, soldiers, weapons, timber halls, limestone peaks, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow lateral drift with the ranks. Spears rise in measured rhythm, officers pace, dust rolls low and plain banners ripple. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh thao trường Hoa Lư trong nắng sớm trong; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, duyệt mười hàng quân Đại Cồ Việt thế kỷ 10 đang luyện giáo tre, mộc gỗ và cung, sĩ quan di chuyển giữa các hàng, bụi bay, nhà gỗ và núi đá vôi phía sau. Quân lính có gương mặt Đông Á Việt Nam, áo vải gai trơn, giáp bảo vệ bằng da và nón tre chóp; cờ là vải trơn một màu không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, quân lính, vũ khí, nhà gỗ, núi đá vôi, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép máy trôi ngang rất chậm cùng hàng quân. Giáo nâng theo nhịp, sĩ quan bước đi, bụi cuộn thấp và cờ trơn gợn. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp đến vừa, nhân vật chuyển động rất nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, thừa ngón, lính nhân bản, vật thể chảy nhão, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": false
+    },
+    {
+      "scene": 5,
+      "narration": "Năm 979, vua Đinh và Đinh Liễn bị sát hại. Đinh Toàn sáu tuổi nối ngôi.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide inner courtyard of Hoa Lu before dawn; two covered royal biers rest beneath a timber portico while officials and guards form divided groups across the rain-dark packed earth, oil lamps wavering and doors standing open, no faces in close focus. 10th-century Dai Co Viet robes, hemp tunics, bamboo spears and Vietnamese East Asian faces; cloth coverings and banners are plain without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact covered biers, divided officials, guards, lamps, portico, rain-dark ground, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Lamp flames shiver, robes and plain cloth stir in cold air, rainwater drips from the eaves and the divided groups make restrained uneasy movements. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh nội sân Hoa Lư trước bình minh; hai linh cữu hoàng gia phủ vải đặt dưới hiên gỗ, trong khi quan lại và lính gác chia thành các nhóm đối nghịch trên nền đất nện ướt mưa, đèn dầu chao và cửa mở, không khuôn mặt nào cận rõ. Áo quan, áo vải gai, giáo tre thế kỷ 10 và gương mặt Đông Á Việt Nam; vải phủ và cờ đều trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên linh cữu phủ vải, các nhóm quan lại chia rẽ, lính gác, đèn, hiên, nền ướt mưa, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Lửa đèn run, áo và vải trơn khẽ lay trong khí lạnh, nước mưa nhỏ từ mái và các nhóm khẽ cử động bất an. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, nhân vật nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": false
+    },
+    {
+      "scene": 6,
+      "narration": "Nguyễn Bặc, Đinh Điền, Phạm Hạp chống Lê Hoàn rồi thất bại. Chuyện trao ngôi không đơn giản.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide riverbank battlefield outside Hoa Lu at dusk; Le Hoan stands small and off-center at about one-fifth frame height directing 10th-century Dai Co Viet troops as a defeated rebel formation breaks across muddy ground, grounded spears, overturned wicker shields, drifting smoke and boats tied along the bank. All fighters have Vietnamese East Asian faces and plain hemp gear; opposing groups use distinct solid-color plain banners without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, both troop formations, spears, shields, boats, smoke, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The broken formation retreats through mud, river water laps against tied boats, smoke drifts and plain banners strain in the wind. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh chiến địa ven sông ngoài Hoa Lư lúc chạng vạng; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, chỉ huy quân Đại Cồ Việt thế kỷ 10 khi đội hình nổi dậy tan vỡ trên đất bùn, giáo rơi, mộc mây lật, khói trôi và thuyền buộc dọc bờ. Tất cả chiến binh có gương mặt Đông Á Việt Nam và trang bị vải gai trơn; hai phe dùng cờ trơn khác màu, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, hai đội quân, giáo, mộc, thuyền, khói, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Đội hình tan vỡ rút qua bùn, nước sông vỗ thuyền buộc, khói trôi và cờ trơn căng trong gió. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp đến vừa, nhân vật chuyển động rất nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 7,
+      "narration": "Sử liệu chép binh lính vào nội phủ tôn ông làm vua. Vai trò từng người vẫn là nghi án.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide timber audience hall at Hoa Lu under tense lamplight; Le Hoan stands small and off-center at about one-fifth frame height before armed 10th-century Dai Co Viet officers who have entered in battle dress, palace officials pressed back near heavy columns, an unoccupied child-sized seat visible deep in the hall, plain banners without emblem or lettering. Vietnamese East Asian faces, hemp tunics, leather guards and bamboo spears. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact Le Hoan identity, armed officers, officials, empty small seat, columns, lamps, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. Lamp flames flicker, armed officers breathe and shift subtly, officials draw back and smoke curls between the columns. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh đại điện gỗ Hoa Lư dưới ánh đèn căng thẳng; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trước các sĩ quan Đại Cồ Việt thế kỷ 10 mặc chiến phục đi vào điện, quan lại lùi sát cột lớn, một ghế nhỏ của vua trẻ để trống sâu trong điện, cờ trơn không phù hiệu hay chữ viết. Gương mặt Đông Á Việt Nam, áo vải gai, giáp da và giáo tre. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên danh tính Lê Hoàn, sĩ quan có vũ khí, quan lại, ghế nhỏ trống, cột, đèn, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép đẩy máy chậm. Lửa đèn chập chờn, sĩ quan thở và khẽ dịch, quan lại lùi lại và khói cuộn giữa các cột. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, nhân vật nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": false
+    },
+    {
+      "scene": 8,
+      "narration": "Nhà Tống đòi mẹ con Dương Vân Nga sang chầu. Lê Hoàn từ chối.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide open audience pavilion at Hoa Lu in hard morning light; Le Hoan stands small and off-center at about one-fifth frame height returning a sealed diplomatic scroll to Song envoys across a low table, Dai Co Viet guards behind him and Song attendants behind the envoys. Vietnamese side has East Asian Vietnamese faces, plain hemp tunics, leather guards and bamboo spears; Song side has Han Chinese faces, dark round-collared robes and black gauze caps. Scrolls and banners are plain without visible lettering or emblems. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, Song envoys, both escorts, sealed scroll, table, pavilion, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The returned scroll moves slightly across the table, sleeves and plain banners stir, guards remain alert and incense smoke drifts through the pavilion. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh nhà tiếp sứ mở ở Hoa Lư trong nắng sớm gắt; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trả lại cuộn quốc thư niêm kín cho sứ Tống qua bàn thấp, lính Đại Cồ Việt phía sau ông và tùy viên Tống phía sau sứ giả. Phía Việt có gương mặt Đông Á Việt Nam, áo vải gai trơn, giáp da và giáo tre; phía Tống có gương mặt Hán Trung Hoa, áo cổ tròn tối màu và mũ sa đen. Quốc thư và cờ trơn, không thấy chữ hoặc phù hiệu. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, sứ Tống, đoàn hộ tống hai bên, quốc thư niêm kín, bàn, nhà tiếp sứ, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Cuộn thư trả lại khẽ dịch trên bàn, tay áo và cờ trơn lay, lính giữ cảnh giác và khói hương trôi qua nhà. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, nhân vật nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": false
+    },
+    {
+      "scene": 9,
+      "narration": "Đại Cồ Việt còn non trẻ. Nhà vua phải tự dẫn quân để quy tụ lòng người.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide river departure from Hoa Lu at pale dawn; Le Hoan stands small and off-center at about one-fifth frame height aboard the lead plain wooden command boat as a long 10th-century Dai Co Viet flotilla rows north through limestone channels, soldiers packed in boats, oars splashing, mist lifting and bank villagers watching. Vietnamese East Asian faces, plain hemp tunics, conical bamboo hats, bows and bamboo spears; hulls carry coiled rope and woven bamboo bundles, banners plain without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, boats, soldiers, oars, limestone channels, villagers, mist, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow drift with the flotilla. Oars pull in rhythm, water splashes along wooden hulls, mist peels from the river and plain banners stream backward. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated boats or soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh xuất quân đường sông từ Hoa Lư lúc rạng đông nhạt; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên thuyền chỉ huy gỗ trơn dẫn đầu đoàn thủy quân Đại Cồ Việt thế kỷ 10 chèo về bắc qua luồng núi đá vôi, lính ngồi kín thuyền, mái chèo bắn nước, sương tan và dân ven bờ dõi theo. Gương mặt Đông Á Việt Nam, áo vải gai trơn, nón tre chóp, cung và giáo tre; thân thuyền có dây thừng cuộn và bó tre đan, cờ trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, thuyền, quân lính, mái chèo, luồng núi đá vôi, dân làng, sương, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép máy trôi rất chậm cùng đoàn thuyền. Mái chèo kéo theo nhịp, nước bắn dọc thân gỗ, sương tách khỏi mặt sông và cờ trơn bay về sau. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp đến vừa, nhân vật chuyển động rất nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, thuyền hoặc lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": false
+    },
+    {
+      "scene": 10,
+      "narration": "Quân Tống chia thủy bộ, hẹn hội ở Đại La rồi đánh Hoa Lư.",
+      "image": {
+        "kind": "search",
+        "characters": [],
+        "query": "bản đồ kháng chiến chống Tống 981 Hầu Nhân Bảo Lưu Trừng Bạch Đằng Đại La Hoa Lư"
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 11,
+      "narration": "Lê Hoàn chặn tại Bạch Đằng, Chi Lăng và phòng tuyến sông Cà Lồ.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 10th-century Dai Co Viet defensive works beside the Ca Lo River at overcast noon; hundreds of Vietnamese soldiers raise timber palisades, dig ditches and haul sharpened stakes while archers drill on earthen platforms, boats unloading timber at the bank, smoke and mud filling the frame. Vietnamese East Asian faces, plain hemp tunics, conical bamboo hats and leather guards; banners plain without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact soldiers, palisades, ditches, stakes, platforms, boats, riverbank, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Teams haul timber, shovels lift earth, boats rock against the bank, smoke drifts and mud splashes under moving feet. Motion intensity medium, character motion subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated workers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh công sự Đại Cồ Việt thế kỷ 10 bên sông Cà Lồ lúc trưa âm u; hàng trăm quân Việt dựng hàng rào gỗ, đào hào và kéo cọc nhọn, cung thủ luyện trên bệ đất, thuyền dỡ gỗ ở bờ, khói và bùn phủ khung hình. Gương mặt Đông Á Việt Nam, áo vải gai trơn, nón tre chóp và giáp da; cờ trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên quân lính, hàng rào, hào, cọc, bệ, thuyền, bờ sông, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Các đội kéo gỗ, xẻng xúc đất, thuyền lắc bên bờ, khói trôi và bùn bắn dưới chân. Cường độ vừa, nhân vật chuyển động nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, người làm nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": false
+    },
+    {
+      "scene": 12,
+      "narration": "Bình Lỗ vừa phòng thủ, gom quân, vừa làm mồi nhử. Đây là trung tâm kế hoạch.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide completed Binh Lo earth-and-timber fort beside the Ca Lo River at sunset; Le Hoan stands small and off-center at about one-fifth frame height on a low rampart inspecting ditches, timber palisades, archery platforms and concealed troop shelters, soldiers carrying final baskets of earth, river boats moored below, smoke drifting. 10th-century Dai Co Viet soldiers have Vietnamese East Asian faces, plain hemp tunics, leather guards and conical bamboo hats; banners plain without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, fort, ditches, palisades, platforms, shelters, soldiers, boats, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. Workers carry earth, river boats rock, smoke threads over the rampart and plain banners lift in the evening wind. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh thành đất gỗ Bình Lỗ đã hoàn tất bên sông Cà Lồ lúc hoàng hôn; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên lũy thấp kiểm tra hào, hàng rào gỗ, bệ bắn cung và chỗ ẩn quân, lính chuyển những giỏ đất cuối, thuyền sông neo phía dưới, khói trôi. Quân Đại Cồ Việt thế kỷ 10 có gương mặt Đông Á Việt Nam, áo vải gai trơn, giáp da và nón tre chóp; cờ trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, thành, hào, hàng rào, bệ, chỗ ẩn quân, quân lính, thuyền, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép đẩy máy chậm. Người lính chuyển đất, thuyền sông lắc, khói luồn qua lũy và cờ trơn nâng trong gió chiều. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": false
+    },
+    {
+      "scene": 13,
+      "narration": "Lê Hoàn giả thua, kéo quân Tống đến Như Nguyệt. Thấy thành, đối phương dừng lại.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide forested frontier road in cold afternoon rain; Le Hoan stands small and off-center at about one-fifth frame height turning with a controlled Vietnamese withdrawal while distant Song scouts pursue through mud toward the river basin, discarded plain shields marking the feint, mist and rain obscuring ridges. Vietnamese troops have Vietnamese East Asian faces, hemp tunics, conical bamboo hats and leather guards; Song scouts have Han Chinese faces, lamellar armor, round helmets and long spears. Both sides carry distinct plain solid-color banners without emblem or lettering. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, withdrawing Vietnamese troops, Song scouts, road, shields, rain, ridges, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow lateral drift with the withdrawal. Troops run carefully through mud, rain sweeps sideways, mist moves between ridges and plain banners stream. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh đường biên rừng núi trong mưa chiều lạnh; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, ngoái lại khi quân Việt chủ động rút, trong lúc trinh sát Tống xa phía sau truy qua bùn về vùng sông, mộc trơn bỏ lại đánh dấu kế nghi binh, sương mưa che núi. Quân Việt có gương mặt Đông Á Việt Nam, áo vải gai, nón tre chóp và giáp da; trinh sát Tống có gương mặt Hán Trung Hoa, giáp phiến, mũ tròn và giáo dài. Hai bên mang cờ trơn khác màu không phù hiệu hay chữ viết. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, quân Việt rút, trinh sát Tống, đường, mộc, mưa, núi, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép máy trôi ngang rất chậm cùng cuộc rút quân. Quân chạy cẩn trọng qua bùn, mưa quét ngang, sương chuyển giữa núi và cờ trơn bay dài. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ vừa, nhân vật chuyển động nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 14,
+      "narration": "Ông trá hàng lần hai, dụ Hầu Nhân Bảo tập kích Bình Lỗ trong đêm.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide reed-lined Ca Lo River bend at moonless night; a small Vietnamese envoy boat leads a larger Song troop flotilla toward the dark silhouette of Binh Lo, muffled oars cutting black water, hidden Vietnamese signal lanterns barely glowing among reeds, rain clouds gathering. Vietnamese boatmen have Vietnamese East Asian faces, hemp tunics and conical bamboo hats; Song soldiers have Han Chinese faces, lamellar armor and round helmets. Wooden hulls carry coiled rope and bamboo bundles; all banners are plain without emblem or lettering. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact envoy boat, Song flotilla, rowers, soldiers, reeds, hidden lanterns, Binh Lo silhouette, clouds, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Oars dip quietly, boats glide with the current, reeds bend, lantern flames pulse faintly and clouds close over the river. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated boats or soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh khúc sông Cà Lồ đầy lau trong đêm không trăng; một thuyền sứ Việt nhỏ dẫn đoàn thuyền quân Tống lớn hơn hướng tới bóng tối của Bình Lỗ, mái chèo bọc kín rẽ nước đen, đèn hiệu Việt giấu trong lau chỉ le lói, mây mưa kéo tới. Người chèo Việt có gương mặt Đông Á Việt Nam, áo vải gai và nón tre chóp; lính Tống có gương mặt Hán Trung Hoa, giáp phiến và mũ tròn. Thân thuyền gỗ có dây cuộn và bó tre; mọi cờ đều trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên thuyền sứ, đoàn thuyền Tống, người chèo, quân lính, lau, đèn giấu, bóng Bình Lỗ, mây, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Mái chèo nhúng nhẹ, thuyền trôi theo dòng, lau cúi, lửa đèn chớp mờ và mây khép trên sông. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, thuyền hoặc lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 15,
+      "narration": "Canh ba, mưa gió nổi lên. Quân Tống lọt trận địa. Pháo hiệu bùng sáng.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide Binh Lo river approach in a violent midnight storm; Song boats and infantry crowd the narrow wet passage below the earth-and-timber fort as a single Vietnamese fire signal erupts above the rampart, concealed archers rising behind palisades, rain slashing, water churning and plain banners whipping. Vietnamese defenders have Vietnamese East Asian faces, hemp tunics, conical bamboo hats, bows and bamboo spears; Song troops have Han Chinese faces, lamellar armor, round helmets, crossbows and long spears. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact fort, Song boats and infantry, Vietnamese archers, fire signal, palisades, storm, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The fire signal flares, archers rise in one wave, rain lashes the passage, boats collide in churning water and plain banners snap violently. Motion intensity medium, character motion subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated soldiers or boats, sudden camera movements or visual artifacts.",
+        "promptVi": "Toàn cảnh lối vào Bình Lỗ trong giông dữ nửa đêm; thuyền và bộ binh Tống chen trong lối hẹp ướt dưới thành đất gỗ khi một pháo hiệu Việt bùng trên lũy, cung thủ ẩn đứng dậy sau hàng rào, mưa quất, nước cuộn và cờ trơn giật mạnh. Quân thủ Việt có gương mặt Đông Á Việt Nam, áo vải gai, nón tre chóp, cung và giáo tre; quân Tống có gương mặt Hán Trung Hoa, giáp phiến, mũ tròn, nỏ và giáo dài. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên thành, thuyền và bộ binh Tống, cung thủ Việt, pháo hiệu, hàng rào, giông, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Pháo hiệu bùng, cung thủ đứng dậy thành một đợt, mưa quất lối hẹp, thuyền va trong nước cuộn và cờ trơn giật dữ. Cường độ vừa, nhân vật chuyển động nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, lính hoặc thuyền nhân bản, chuyển động máy đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 16,
+      "narration": "Quân Việt hợp kích, khóa đuôi, ép mặt, dồn đối phương vào ổ phục kích.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide night battle around Binh Lo under driving rain; Le Hoan stands small and off-center at about one-fifth frame height directing Vietnamese troops surging from the fort while a second Vietnamese force closes the rear across the riverbank, Song ranks compressed between palisade, ditch and water, arrows crossing through torch smoke. Vietnamese soldiers have Vietnamese East Asian faces, hemp tunics, conical bamboo hats, leather guards and bamboo spears; Song soldiers have Han Chinese faces, lamellar armor, round helmets, crossbows and long spears. Distinct plain banners have no emblem or lettering. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, Vietnamese forces, Song ranks, fort, ditch, riverbank, arrows, torches, rain, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. Vietnamese ranks press from both directions, arrows streak, torch smoke rolls, rain churns the ditch and plain banners whip. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh trận đêm quanh Bình Lỗ dưới mưa xiên; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, chỉ huy quân Việt tràn từ thành, trong khi một cánh Việt khác khóa hậu trên bờ sông, đội hình Tống bị ép giữa hàng rào, hào và nước, tên bay xuyên khói đuốc. Quân Việt có gương mặt Đông Á Việt Nam, áo vải gai, nón tre chóp, giáp da và giáo tre; quân Tống có gương mặt Hán Trung Hoa, giáp phiến, mũ tròn, nỏ và giáo dài. Cờ trơn khác màu không phù hiệu hay chữ viết. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, các cánh quân Việt, đội hình Tống, thành, hào, bờ sông, tên, đuốc, mưa, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép đẩy máy chậm. Quân Việt ép từ hai hướng, tên xé gió, khói đuốc cuộn, mưa khuấy hào và cờ trơn quật mạnh. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ vừa, nhân vật chuyển động nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": false
+    },
+    {
+      "scene": 17,
+      "narration": "Hầu Nhân Bảo tử trận. Các cánh quân Tống mất chỉ huy, lần lượt rút lui.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide muddy riverbank at gray dawn after the Binh Lo battle; a fallen Song command standard lies face-down beside abandoned lamellar armor while surviving Song troops retreat toward distant boats and Vietnamese ranks hold the captured field beneath thinning rain, no identifiable corpse or close face. Vietnamese soldiers have Vietnamese East Asian faces and plain hemp gear; retreating Song troops have Han Chinese faces, round helmets and dark lamellar armor. All remaining banners are plain without emblem or lettering. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact fallen standard, abandoned armor, retreating Song troops, distant boats, Vietnamese ranks, rain, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Retreating troops move slowly toward the boats, rain eases, puddles ripple, smoke thins and plain banners settle over the held field. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated soldiers, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh bờ sông bùn lúc bình minh xám sau trận Bình Lỗ; cột cờ chỉ huy Tống đổ úp cạnh giáp phiến bỏ lại, quân Tống sống sót rút về thuyền xa và quân Việt giữ chiến địa dưới mưa đang nhạt, không thi thể nhận diện hoặc khuôn mặt cận. Quân Việt có gương mặt Đông Á Việt Nam và trang bị vải gai trơn; quân Tống rút có gương mặt Hán Trung Hoa, mũ tròn và giáp phiến tối. Mọi cờ còn lại đều trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên cột cờ đổ, giáp bỏ lại, quân Tống rút, thuyền xa, hàng quân Việt, mưa, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Quân rút chậm về thuyền, mưa dịu, vũng nước gợn, khói loãng và cờ trơn lắng trên chiến địa. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, lính nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": false
+    },
+    {
+      "scene": 18,
+      "narration": "Thắng lợi đến từ địa hình, công sự, tình báo, nghi binh và hợp kích.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide symbolic still life at dawn over the Ca Lo River; a rain-soaked silk map, a small timber fort model, two converging bamboo arrows, a hooded signal lantern and river stones rest on an earthen rampart while mist lifts from the real winding water below, no people or faces. 10th-century Dai Co Viet objects, plain surfaces without symbols or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact map, fort model, bamboo arrows, signal lantern, river stones, rampart, river, mist, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Mist lifts from the river, lantern light fades with dawn, water beads slide across the silk and pale light spreads over the fort model. Motion intensity low, environmental motion moderate and natural. No warped map, melting objects, appearing figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh tĩnh vật biểu tượng lúc bình minh trên sông Cà Lồ; bản đồ lụa ướt mưa, mô hình thành gỗ nhỏ, hai mũi tên tre hội tụ, đèn hiệu có chụp và đá sông nằm trên lũy đất, trong khi sương nâng khỏi dòng nước thật uốn phía dưới, không người hoặc khuôn mặt. Đồ vật Đại Cồ Việt thế kỷ 10, bề mặt trơn không ký hiệu hoặc chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên bản đồ, mô hình thành, mũi tên tre, đèn hiệu, đá sông, lũy, dòng sông, sương, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Sương nâng khỏi sông, ánh đèn nhạt theo bình minh, giọt nước trượt trên lụa và ánh sáng lan trên mô hình thành. Cường độ thấp, môi trường chuyển động vừa phải và tự nhiên. Không bản đồ méo, vật thể chảy nhão, người xuất hiện, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "hopeful",
+      "hasAudio": false
+    },
+    {
+      "scene": 19,
+      "narration": "Một năm sau, Chiêm Thành bắt sứ giả. Lê Hoàn tiến nam, đánh bại Bê Mi Thuế.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide coastal Champa battlefield in bright monsoon light; Le Hoan stands small and off-center at about one-fifth frame height directing Dai Co Viet troops advancing from plain wooden river-sea boats toward a low brick-walled settlement as Champa defenders retreat through palms and smoke, waves breaking and arrows crossing. Vietnamese troops have Vietnamese East Asian faces, hemp tunics, conical bamboo hats, leather guards and bamboo spears; Champa troops have Southeast Asian Cham faces, wrapped cloth garments, round shields and long spears. Both sides use distinct plain banners without emblem or lettering. No Song/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, Dai Co Viet troops, Champa defenders, boats, brick walls, palms, waves, smoke, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow lateral drift with the advance. Troops move from rocking boats onto wet ground, waves break, palms bend, smoke rolls and plain banners stream. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated soldiers or boats, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh chiến địa ven biển Champa trong ánh sáng gió mùa; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, chỉ huy quân Đại Cồ Việt từ thuyền gỗ sông biển trơn tiến về khu thành gạch thấp, quân Champa rút giữa hàng cọ và khói, sóng vỗ và tên bay. Quân Việt có gương mặt Đông Á Việt Nam, áo vải gai, nón tre chóp, giáp da và giáo tre; quân Champa có gương mặt Chăm Đông Nam Á, trang phục vải quấn, khiên tròn và giáo dài. Hai bên dùng cờ trơn khác màu không phù hiệu hay chữ viết. Không yếu tố Tống/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, quân Đại Cồ Việt, quân Champa, thuyền, tường gạch, cọ, sóng, khói, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép máy trôi ngang chậm cùng cuộc tiến quân. Quân từ thuyền lắc bước lên đất ướt, sóng vỡ, cọ nghiêng, khói cuộn và cờ trơn bay dài. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ vừa, nhân vật chuyển động nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, lính hoặc thuyền nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": false
+    },
+    {
+      "scene": 20,
+      "narration": "Sau chiến thắng, ông mềm dẻo với phương Bắc nhưng giữ vững quốc thể.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide diplomatic reception courtyard at Hoa Lu in calm afternoon light; Le Hoan stands small and off-center at about one-fifth frame height exchanging a sealed gift chest with Song envoys while Dai Co Viet officials and guards remain in ordered ranks, a formal peace after war. Vietnamese side has Vietnamese East Asian faces, plain long robes, hemp tunics and bamboo spears; Song side has Han Chinese faces, round-collared robes and black gauze caps. Chest, scrolls and banners are plain without visible symbols, emblem or lettering. No Tang/Ming/Qing Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact Le Hoan identity, Song envoys, both official ranks, sealed chest, scrolls, courtyard, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Sleeves and plain banners stir, the chest shifts slightly between attendants, incense smoke rises and ordered ranks breathe subtly. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh sân tiếp sứ Hoa Lư trong nắng chiều yên; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trao rương lễ niêm kín với sứ Tống, quan và lính Đại Cồ Việt đứng thành hàng, một nghi lễ hòa bình sau chiến tranh. Phía Việt có gương mặt Đông Á Việt Nam, áo dài trơn, áo vải gai và giáo tre; phía Tống có gương mặt Hán Trung Hoa, áo cổ tròn và mũ sa đen. Rương, quốc thư và cờ đều trơn không ký hiệu, phù hiệu hoặc chữ viết. Không yếu tố Đường/Minh/Thanh Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên danh tính Lê Hoàn, sứ Tống, hàng quan hai bên, rương niêm kín, quốc thư, sân, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Tay áo và cờ trơn lay, rương khẽ dịch giữa người hầu, khói hương bay lên và các hàng người thở nhẹ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, nhân vật nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": false
+    },
+    {
+      "scene": 21,
+      "narration": "Ông mở lễ tịch điền, tự cày ruộng để khuyến khích nông nghiệp.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide royal ploughing field outside Hoa Lu in fresh spring morning light; Le Hoan stands small and off-center at about one-fifth frame height guiding a wooden plough behind a water buffalo while farmers sow seed across wet paddies, officials and soldiers watching from the raised bank, egrets lifting and limestone peaks reflected in water. Vietnamese East Asian faces, plain hemp farming clothes, conical bamboo hats, simple wooden tools; banners plain without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact Le Hoan identity, buffalo, plough, farmers, officials, soldiers, paddies, egrets, peaks, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow drift along the furrow. The buffalo steps steadily, the plough turns wet soil, farmers scatter seed, egrets rise and reflections ripple. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, duplicated figures or animals, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh ruộng tịch điền ngoài Hoa Lư trong nắng sớm mùa xuân; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, điều khiển cày gỗ sau trâu nước, nông dân gieo hạt trên ruộng ướt, quan và lính đứng xem trên bờ cao, cò bay lên và núi đá vôi phản chiếu trong nước. Gương mặt Đông Á Việt Nam, áo nông dân vải gai trơn, nón tre chóp, dụng cụ gỗ đơn giản; cờ trơn không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh sống động. Giữ nguyên danh tính Lê Hoàn, trâu, cày, nông dân, quan, lính, ruộng, cò, núi, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép máy trôi rất chậm dọc luống cày. Trâu bước đều, cày lật đất ướt, nông dân gieo hạt, cò bay lên và bóng nước gợn. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp đến vừa, nhân vật chuyển động rất nhẹ, môi trường mạnh và tự nhiên. Không méo mặt, biến dạng cơ thể, tay chân vặn, người hoặc vật nuôi nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "hopeful",
+      "hasAudio": false
+    },
+    {
+      "scene": 22,
+      "narration": "Ông an nghỉ dưới chân núi Mã Yên, phía sau lăng vua Đinh. Di tích còn heo hút.",
+      "image": {
+        "kind": "search",
+        "characters": [],
+        "query": "lăng vua Lê Đại Hành chân núi Mã Yên Hoa Lư"
+      },
+      "cue": "somber",
+      "hasAudio": false
+    },
+    {
+      "scene": 23,
+      "narration": "Đường tới ngai vàng phủ bóng tối. Công giữ nền tự chủ lại sáng rõ.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide symbolic Hoa Lu valley at first light; a dark empty royal robe hangs beneath a timber eave in deep shadow while beyond it the sun illuminates a distant earth fort, winding river and cultivated fields, mist dividing darkness from light, no people or faces. 10th-century Dai Co Viet setting, plain cloth and timber surfaces without symbols or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact empty robe, timber eave, distant fort, river, fields, mist, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The empty robe stirs faintly in shadow, mist drifts across the valley, sunlight advances over the fort and fields, and river reflections brighten. Motion intensity low, environmental motion moderate and natural. No warped cloth, melting objects, appearing figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh biểu tượng thung lũng Hoa Lư lúc hừng sáng; một áo bào hoàng gia trống treo dưới mái gỗ trong bóng sâu, còn phía xa nắng chiếu thành đất, sông uốn và đồng ruộng, sương chia bóng tối với ánh sáng, không người hoặc khuôn mặt. Bối cảnh Đại Cồ Việt thế kỷ 10, vải và gỗ trơn không ký hiệu hoặc chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên áo bào trống, mái gỗ, thành xa, sông, ruộng, sương, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Giữ máy quay cố định. Áo trống khẽ lay trong bóng, sương trôi qua thung lũng, nắng tiến trên thành và ruộng, phản chiếu sông sáng dần. Cường độ thấp, môi trường chuyển động vừa phải và tự nhiên. Không vải méo, vật thể chảy nhão, người xuất hiện, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "hopeful",
+      "hasAudio": false
+    },
+    {
+      "scene": 24,
+      "narration": "Nên nhớ Lê Hoàn là người đoạt vị, hay vua cứu nền tự chủ tại Bình Lỗ?",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide summit overlook above Hoa Lu at sunrise; Le Hoan stands small and off-center at about one-fifth frame height facing a vast landscape where a shadowed palace lies on one side and the sunlit Ca Lo River with Binh Lo fort lies far beyond, plain banner moving beside him, no other named figure. 10th-century Dai Co Viet valleys, timber halls, earth ramparts and limestone peaks; banner is plain solid-color cloth without emblem or lettering. No Tang/Song Chinese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact Le Hoan identity, shadowed palace, distant river and fort, banner, valleys, peaks, sunrise, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in. Mist moves through the valleys, the plain banner sways, sunlight spreads across the distant river and fort while the palace remains in shadow. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, duplicated figures, sudden movements or visual artifacts.",
+        "promptVi": "Toàn cảnh nhìn từ đỉnh cao trên Hoa Lư lúc mặt trời mọc; Lê Hoàn đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, nhìn vùng đất rộng nơi cung điện trong bóng nằm một phía và sông Cà Lồ cùng thành Bình Lỗ trong nắng ở xa, cờ trơn lay bên ông, không nhân vật có tên nào khác. Thung lũng Đại Cồ Việt thế kỷ 10, nhà gỗ, lũy đất và núi đá vôi; cờ là vải trơn một màu không phù hiệu hay chữ viết. Không yếu tố Đường/Tống Trung Hoa hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn thành cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên danh tính Lê Hoàn, cung điện trong bóng, sông và thành xa, cờ, thung lũng, núi, bình minh, ánh sáng và bố cục; không thiết kế lại, biến dạng, thêm hoặc bớt; không đổi thời kỳ hay phong cách; không chữ hoặc watermark. Cho phép đẩy máy rất chậm. Sương chuyển trong thung lũng, cờ trơn đung đưa, nắng lan trên sông và thành xa trong khi cung điện còn trong bóng. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ thấp, nhân vật chuyển động rất nhẹ, môi trường vừa phải và tự nhiên. Không méo mặt, biến dạng cơ thể, nhân vật nhân bản, chuyển động đột ngột hoặc lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": false
+    }
+  ],
+  "sceneDurations": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "motionPlaybackRates": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "captionGroups": [],
+  "uploadedScenes": []
+}

@@ -1,0 +1,26 @@
+{
+  "character_id": "char-a",
+  "name": "Le Hoan",
+  "display_name": "Le Hoan - Le Dai Hanh",
+  "aliases": ["Le Dai Hanh", "Thap dao tuong quan"],
+  "country": "Dai Co Viet",
+  "period": "10th century",
+  "dynasty": "Dinh and Early Le dynasties",
+  "role": "Founding emperor of the Early Le dynasty and commander against the Song invasion",
+  "known_facts": [
+    "Was a founding general of the Dinh dynasty and held the office of Thap dao tuong quan",
+    "Became emperor in 980 during a severe succession crisis and an imminent Song invasion",
+    "Rejected the Song demand that Dinh Toan and Duong Van Nga submit at the imperial court",
+    "Personally commanded the 981 defense against Song forces on land and water",
+    "Used the Binh Lo defensive position, deception, and converging attacks to defeat Hau Nhan Bao",
+    "Led the 982 campaign against Champa after Đại Cồ Việt envoys were detained",
+    "Established the royal ploughing ceremony to encourage agriculture"
+  ],
+  "interpretation": "A decisive and highly capable ruler whose accession remains historically disputed, but whose military and state-building achievements secured the young independent realm.",
+  "unknowns": [
+    "The full political circumstances behind the deaths of Dinh Tien Hoang and Dinh Lien",
+    "The precise role of Duong Van Nga and Le Hoan in the transfer of power",
+    "The exact archaeological location and form of Binh Lo citadel"
+  ],
+  "reference": "public/projects/le-hoan/characters/char-a.png"
+}

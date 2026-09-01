@@ -78,7 +78,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
 
   const wantRatio = process.env.VMEDIA_VIDEO_RATIO ?? aspectInfo(aspect).ratio;
   const ratio = pickCap(caps.ratios, [wantRatio, aspectInfo(aspect).ratio, '9:16', '16:9']);
-  const resolutionPref = process.env.VMEDIA_VIDEO_RESOLUTION ?? '720p';
+  const resolutionPref = process.env.VMEDIA_VIDEO_RESOLUTION ?? '1080p';
   // Prefer the price table (authoritative combos); fall back to the caps lists for models without one.
   const combo = pickPricedCombo(caps.prices, targetSeconds, resolutionPref) ?? {
     resolution: pickCap(caps.resolutions, [resolutionPref, '720p', '1080p']),

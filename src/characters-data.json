@@ -1,25 +1,15 @@
 {
-  "project": "quangtrung-hangvu",
+  "project": "le-hoan",
   "characters": [
     {
       "id": "char-a",
-      "name": "Quang Trung",
+      "name": "Le Hoan - Le Dai Hanh",
       "aliases": [
-        "Nguyễn Huệ",
-        "Bắc Bình Vương"
+        "Le Dai Hanh",
+        "Thap dao tuong quan"
       ],
-      "image": "projects/quangtrung-hangvu/characters/char-a.jpg",
-      "imageV2": "projects/quangtrung-hangvu/characters/char-a.jpg"
-    },
-    {
-      "id": "char-b",
-      "name": "Hạng Vũ",
-      "aliases": [
-        "Hạng Tịch",
-        "Tây Sở Bá Vương"
-      ],
-      "image": "projects/quangtrung-hangvu/characters/char-b.jpg",
-      "imageV2": "projects/quangtrung-hangvu/characters/char-b.jpg"
+      "image": "projects/le-hoan/characters/char-a.png",
+      "imageV2": "projects/le-hoan/characters/char-a.png"
     }
   ]
 }
