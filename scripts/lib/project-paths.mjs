@@ -15,6 +15,11 @@ import { join } from 'node:path';
 export const PROJECTS_DIR = 'projects';
 export const ACTIVE_FILE = join(PROJECTS_DIR, 'active.json');
 
+// Rendered master + vertical MP4s land here (flat, named <slug>.mp4 / <slug>-9x16.mp4) instead of
+// the repo's out/ so finished videos sync via iCloud. Single source for both the review-server
+// render step and wrap-vertical.mjs.
+export const OUTPUT_DIR = '/Users/fviet/Library/Mobile Documents/com~apple~CloudDocs/Video';
+
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 export const isValidSlug = (s) => typeof s === 'string' && SLUG_RE.test(s);
 
@@ -86,7 +91,7 @@ export const projectPaths = (slug) => {
     sceneVideoDir: join(publicRoot, 'scene-videos'),
     reviewDir: join(publicRoot, 'review'),
     manifest: join(publicRoot, 'images', 'asset-manifest.json'),
-    outDir: join('out', slug),
+    outDir: OUTPUT_DIR,
     // staticFile()-relative prefix (no leading "public/") for Remotion components.
     staticPrefix: `projects/${slug}`,
   };

@@ -1,0 +1,22 @@
+{
+  "character_id": "char-a",
+  "name": "Ly Cong Uan",
+  "display_name": "Lý Thái Tổ",
+  "aliases": ["Lý Công Uẩn", "Ly Thai To", "Thần Vũ Hoàng đế"],
+  "country": "Đại Việt",
+  "period": "late 10th to early 11th century",
+  "dynasty": "Lý dynasty (founded 1009)",
+  "role": "Điện tiền chỉ huy sứ under the Tiền Lê, then founding emperor who moved the capital from Hoa Lư to Thăng Long",
+  "known_facts": [
+    "Commander of the capital guard (điện tiền chỉ huy sứ) at Hoa Lư under Lê Long Đĩnh",
+    "Ascended the throne in November 1009 with the support of Đào Cam Mộc and thiền sư Vạn Hạnh, era name Thuận Thiên",
+    "Moved the capital from Hoa Lư to Đại La, renamed it Thăng Long",
+    "Divided the country into 24 lộ, remitted taxes for three years, collected only four of six tax kinds",
+    "Four personal campaigns plus four dispatched expeditions against local revolts and a Chiêm Thành raid",
+    "Sent envoys to fetch the Đại Tạng kinh from the Song in 1018; promoted Buddhism as state ideology",
+    "Died 1028 after a 19-year reign, temple name Lý Thái Tổ"
+  ],
+  "interpretation": "Early-Lý imperial and military dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ly-thai-to/characters/char-a.png"
+}

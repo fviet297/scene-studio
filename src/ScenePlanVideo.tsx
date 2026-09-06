@@ -237,9 +237,7 @@ export function SceneView({
             fontSize: overlay.tagFontSize,
             borderRadius: overlay.tagRadius,
           }}
-        >
-          AI PHỤC DỰNG
-        </div>
+        >        </div>
       )}
 
       {/* bottom scrim — omitted entirely on the wide profile, which sets its height to 0 */}

@@ -1,15 +1,17 @@
 {
-  "project": "le-hoan",
+  "project": "tran-hung-dao",
   "characters": [
     {
       "id": "char-a",
-      "name": "Le Hoan - Le Dai Hanh",
+      "name": "Trần Hưng Đạo",
       "aliases": [
-        "Le Dai Hanh",
-        "Thap dao tuong quan"
+        "Hưng Đạo Đại Vương",
+        "Trần Quốc Tuấn",
+        "Quốc công tiết chế",
+        "Đức Thánh Trần"
       ],
-      "image": "projects/le-hoan/characters/char-a.jpg",
-      "imageV2": "projects/le-hoan/characters/char-a.jpg"
+      "image": "projects/tran-hung-dao/characters/char-a.jpg",
+      "imageV2": "projects/tran-hung-dao/characters/char-a.jpg"
     }
   ]
 }

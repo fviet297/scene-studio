@@ -1,0 +1,29 @@
+{
+  "character_id": "char-a",
+  "name": "Le Loi",
+  "display_name": "Lê Lợi",
+  "aliases": ["Lê Thái Tổ", "Bình Định Vương", "Le Thai To", "Chúa Lam Sơn"],
+  "country": "Đại Việt (Ming-occupied Giao Chỉ, then restored Đại Việt)",
+  "period": "late 14th to early 15th century",
+  "dynasty": "Later Lê dynasty (founded 1428)",
+  "role": "Hào trưởng of Lam Sơn in Thanh Hóa, leader of the Lam Sơn uprising against Ming occupation, then founding emperor",
+  "known_facts": [
+    "A local hào trưởng at Lam Sơn, Thanh Hóa, under Ming occupation after the Hồ dynasty fell in 1407",
+    "Hid his intent for years: farmed openly, studied military texts, gave away grain, sheltered fugitives, and sent gold to Ming commanders such as Trương Phụ and Trần Trí to avoid suspicion",
+    "Joined none of the earlier revolts; the collaborator Lương Nhữ Hốt denounced him to the Ming, who summoned him, forcing him to strike first",
+    "Raised the uprising at Lam Sơn in spring 1418, styled himself Bình Định Vương, made his nephew Lê Thạch tướng quốc",
+    "Lam Sơn thực lục records the starting force: 35 military officers, a handful of civil officials, 200 armored cavalry, 200 nghĩa sĩ, 200 dũng sĩ, 14 elephants and about 2000 porters and escorts, against more than 100,000 Ming troops",
+    "1418-1423 was mostly defeat: troops lived on forest greens and bamboo shoots, elephants and horses were killed for food, once regrouping with barely a hundred men; three retreats to núi Chí Linh; Lê Lai impersonated him so he could escape; Ming troops exhumed his ancestor's bones as blackmail and Trịnh Khả and Lê Bí swam out at night to steal the urn back",
+    "Won at Sách Khôi in 1423 by declaring the position a 'tử địa' and breaking out, killing the Ming tham tướng Phùng Quý; the prize was only a seven-month truce",
+    "Adopted Nguyễn Chích's strategy in late 1424: take Trà Lân and hold Nghệ An as a rear base before turning north",
+    "Campaign of 1424-1425: stormed the Đa Căng outpost with elephants, ambushed Ming relief at Bồ Đằng, besieged Trà Lân for two months until Cầm Bành surrendered, then sprang the Khả Lưu and Bồ Ải ambushes on the Lam river",
+    "Welcomed by the people at hương Đa Lôi in spring 1425 ('oai nghi cố quốc'); forbade his troops to take anything from the population",
+    "By late 1425 controlled the country from Thuận Hóa to Thanh Hóa; in 1426 sent three regular columns north and won Tốt Động - Chúc Động, then besieged Đông Quan",
+    "In 1427 refused to storm Đông Quan ('rút củi đáy nồi'), destroyed Liễu Thăng's relief army at Chi Lăng and let Mộc Thạnh's column disperse without a fight; Vương Thông surrendered",
+    "Accepted Nguyễn Trãi's counsel to spare the surrendered Ming army and make peace, ending 20 years of Ming occupation",
+    "Buried at Lam Kinh in Thanh Hóa; temple name Lê Thái Tổ"
+  ],
+  "interpretation": "Early Later-Lê Vietnamese commander and imperial dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/le-loi/characters/char-a.png"
+}

@@ -1,0 +1,19 @@
+{
+  "character_id": "char-b",
+  "name": "Van Hanh",
+  "display_name": "Thiền sư Vạn Hạnh",
+  "aliases": ["Vạn Hạnh", "sư Vạn Hạnh"],
+  "country": "Đại Việt",
+  "period": "late 10th to early 11th century",
+  "dynasty": "Tiền Lê → Lý transition",
+  "role": "Buddhist patriarch, trusted counselor of Lê Đại Hành and teacher of Lý Công Uẩn; popularly credited with shaping the smooth 1009 succession",
+  "known_facts": [
+    "Trusted advisor (cố vấn tin cẩn) of vua Lê Đại Hành",
+    "Teacher of Lý Công Uẩn",
+    "Regarded as the spiritual leader of the people in the early Buddhist age",
+    "The transmission of omens and sấm truyền around Lý Công Uẩn's rise is traditionally linked to his circle"
+  ],
+  "interpretation": "Early-Lý era Vietnamese Buddhist monk dress (plain saffron-brown robe, conical or monks' hat), based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ly-thai-to/characters/char-b.png"
+}

@@ -17,9 +17,11 @@ import { resolveEmotion } from './lib/tts-emotions.mjs';
 const WS_URL = 'ws://127.0.0.1:8765/ws';
 const VOICE = 'history';
 const TEMP_DIR = 'tmp/narration';
-const MAX_CHUNK = 320;
+const MAX_CHUNK = 500;
+// Only trim genuinely long dead air (> 0.6s) and leave 0.35s of breathing room, so natural
+// pauses/rhythm survive instead of being clipped into a flat, monotone read.
 const NARRATION_FILTER =
-  'silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-35dB:stop_silence=0.18';
+  'silenceremove=stop_periods=-1:stop_duration=0.6:stop_threshold=-35dB:stop_silence=0.35';
 
 const argv = process.argv.slice(2);
 const paths = activePaths(argv);

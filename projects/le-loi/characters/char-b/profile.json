@@ -1,0 +1,23 @@
+{
+  "character_id": "char-b",
+  "name": "Nguyen Trai",
+  "display_name": "Nguyễn Trãi",
+  "aliases": ["Ức Trai", "Nguyen Trai"],
+  "country": "Đại Việt",
+  "period": "late 14th to mid 15th century",
+  "dynasty": "Later Lê dynasty (early)",
+  "role": "Staff scholar in the Lam Sơn uprising, drafter of proclamations, author of Bình Ngô sách and Bình Ngô đại cáo",
+  "known_facts": [
+    "Held a modest post in the Lam Sơn staff, drafting proclamations as a hàn lâm học sĩ and serving as Hành khiển; not a front-line general",
+    "Author of Bình Ngô sách, whose core idea is 'tâm công' - attacking the enemy's mind and winning the people's hearts",
+    "During the siege of Đông Quan wrote streams of surrender letters to Vương Thông and to the commanders of the outlying garrisons; the Điêu Diêu and Nghệ An forts opened their gates without a fight",
+    "Alone opposed massacring the surrendered Ming army, arguing that revenge would only bring a fresh invasion and a longer war; Lê Lợi accepted and ordered the siege lifted",
+    "Ranked only 80th among the 93 công thần honoured after victory, far behind Phạm Vấn, Nguyễn Chích, Đinh Liệt and Lê Văn Linh",
+    "Author of Bình Ngô đại cáo, which recorded the campaign and its judgements",
+    "His opposition to revenge set him against generals who had buried comrades; the Lệ Chi Viên case came later",
+    "His true stature was recognised only by later generations"
+  ],
+  "interpretation": "Early Later-Lê Vietnamese scholar-official dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/le-loi/characters/char-b.png"
+}

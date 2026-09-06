@@ -164,19 +164,21 @@ const readAuthenticity = () => {
 // characters-data.json + asset-manifest.json (same as the CLI step).
 const reparse = () => execFileSync('node', [join(HERE, 'parse-scene-plan.mjs'), P.planMd], { stdio: 'ignore' });
 
-// Rebuild the per-project Remotion bundles (src/projects-data) so newly generated audio, motion
-// clips, or a switched/created project show up in the studio without a manual build-remotion run.
+// Rebuild the active project's Remotion bundle (src/projects-data) so newly generated audio,
+// motion clips, or a switched/created project show up in the studio without a manual
+// build-remotion run. Only the active project is rebuilt — the other bundles on disk stay in the
+// index untouched, so a rebuild costs seconds instead of re-measuring every project.
 // Sync variant for non-streaming callers (project switch/create); a failed rebuild must never
 // break the API call, so its own logged warnings are enough.
 const rebuildBundles = () => {
-  try { execFileSync('node', [join(HERE, 'build-remotion.mjs')], { stdio: 'ignore' }); } catch { /* build-remotion prints its own warnings */ }
+  try { execFileSync('node', [join(HERE, 'build-remotion.mjs'), '--project', P.slug], { stdio: 'ignore' }); } catch { /* build-remotion prints its own warnings */ }
 };
 
 // Streaming variant for SSE flows (audio + motion generation), so the browser sees the rebuild
 // step. Always resolves — a rebuild failure is surfaced as a log line, not a job failure.
 const rebuildBundlesStreaming = (send) => new Promise((resolve) => {
   send('log', '▶ Rebuilding Remotion data (src/projects-data)...');
-  const child = spawn('node', [join(HERE, 'build-remotion.mjs')], { cwd: process.cwd() });
+  const child = spawn('node', [join(HERE, 'build-remotion.mjs'), '--project', P.slug], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
   pipe(child.stdout);
   pipe(child.stderr);
@@ -1003,9 +1005,9 @@ const server = createServer(async (req, res) => {
       mkdirSync(P.outDir, { recursive: true });
       runSteps(req, res, [
         { label: 'Audit assets', cmd: 'node', args: [join(HERE, 'check-assets.mjs')] },
-        // Rebuild every project's Remotion bundle (measures audio + aligns captions into
+        // Rebuild this project's Remotion bundle (measures audio + aligns captions into
         // src/projects-data/<slug>.json). The composition id is the active project's slug.
-        { label: 'Build Remotion data → src/projects-data', cmd: 'node', args: [join(HERE, 'build-remotion.mjs')] },
+        { label: 'Build Remotion data → src/projects-data', cmd: 'node', args: [join(HERE, 'build-remotion.mjs'), '--project', P.slug] },
         {
           label: 'Render MP4 (H.264 CRF 17, this can take several minutes)',
           cmd: 'npx',
@@ -1017,7 +1019,8 @@ const server = createServer(async (req, res) => {
             '--codec=h264',
             '--crf=17',
             '--pixel-format=yuv420p',
-            '--image-format=png',
+            '--image-format=jpeg',
+            '--jpeg-quality=100',
           ],
         },
       ], `Finished. Rendered ${outMp4()}`);

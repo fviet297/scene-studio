@@ -65,6 +65,7 @@
   <!-- Scene rail: navigation and per-scene progress at a glance -->
   <aside class="pane rail">
     <div class="pane-head">
+      <input type="checkbox" id="railSelectAll" class="rail-check" title="Select all shown scenes" aria-label="Select all shown scenes" />
       <span class="ttl">Scenes</span>
       <span class="grow"></span>
       <label class="ttl" for="railFilter">Show</label>
@@ -82,6 +83,20 @@
       </div>
       <div class="char-gallery" id="charGallery"></div>
       <ul class="rail-list" id="railList"></ul>
+    </div>
+
+    <!-- Batch bar: tick scenes in the list above, then run one stage on all of them -->
+    <div class="rail-batch" id="railBatch" hidden>
+      <div class="rail-batch-info">
+        <span id="railSelInfo">Nothing selected</span>
+        <button class="btn quiet sm" type="button" id="railSelClear">Clear</button>
+      </div>
+      <div class="rail-batch-run">
+        <button class="btn sm" type="button" id="railBatchPrompt" disabled title="Write prompts for the selected AI scenes">Prompts</button>
+        <button class="btn sm" type="button" id="railBatchImg" disabled title="Generate images for the selected AI scenes">Images</button>
+        <button class="btn sm" type="button" id="railBatchAud" disabled title="Generate narration audio for the selected scenes">Audio</button>
+        <button class="btn sm" type="button" id="railBatchMotion" disabled title="Generate motion video for the selected scenes (need image + audio)">Motion</button>
+      </div>
     </div>
   </aside>
 

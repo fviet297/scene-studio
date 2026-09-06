@@ -15,12 +15,12 @@
 //   position_temperature — prosodic variety (0 flat … higher livelier)
 //   class_temperature    — token-sampling liveliness (0 = monotone; the key knob for expression)
 export const EMOTIONS = {
-  neutral:  { speed: 1.0,  guidance_scale: 2.2, position_temperature: 5, class_temperature: 0.3 },
-  dramatic: { speed: 0.95, guidance_scale: 2.8, position_temperature: 6, class_temperature: 0.4 },
-  tense:    { speed: 1.12, guidance_scale: 2.5, position_temperature: 6, class_temperature: 0.5 },
-  somber:   { speed: 0.9,  guidance_scale: 2.4, position_temperature: 4, class_temperature: 0.25 },
-  hopeful:  { speed: 1.0,  guidance_scale: 2.3, position_temperature: 5, class_temperature: 0.4 },
-  curious:  { speed: 1.03, guidance_scale: 2.2, position_temperature: 6, class_temperature: 0.45 },
+  neutral:  { speed: 1.0,  guidance_scale: 2.4, position_temperature: 6, class_temperature: 0.5 },
+  dramatic: { speed: 0.95, guidance_scale: 3.0, position_temperature: 7, class_temperature: 0.7 },
+  tense:    { speed: 1.12, guidance_scale: 2.7, position_temperature: 7, class_temperature: 0.7 },
+  somber:   { speed: 0.9,  guidance_scale: 2.6, position_temperature: 5, class_temperature: 0.45 },
+  hopeful:  { speed: 1.0,  guidance_scale: 2.5, position_temperature: 6, class_temperature: 0.6 },
+  curious:  { speed: 1.03, guidance_scale: 2.4, position_temperature: 7, class_temperature: 0.65 },
 };
 
 export const EMOTION_NAMES = Object.keys(EMOTIONS);

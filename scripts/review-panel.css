@@ -206,6 +206,24 @@ select.mini.wide { width: 100%; }
 .pip { width: 13px; height: 3px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px #343a42; }
 .pip.on { background: var(--accent); box-shadow: none; }
 
+/* Multi-select: a pick checkbox sits beside each nav button. The button still owns the
+   whole-row click for navigation; the checkbox only drives the batch selection. */
+.rail-check { width: 15px; height: 15px; flex: none; accent-color: var(--accent); cursor: pointer; }
+.rail-row { display: flex; align-items: center; gap: 6px; }
+.rail-row .rail-item { flex: 1; }
+.rail-row.selected .rail-item { background: var(--surface-2); border-color: #39414a; }
+
+/* Batch bar pinned under the scene list — count + run buttons for the ticked scenes,
+   mirroring the contact-sheet controls in the narrow rail. */
+.rail-batch {
+  flex: none; padding: 8px; border-top: 1px solid var(--line);
+  background: var(--surface); display: flex; flex-direction: column; gap: 7px;
+}
+.rail-batch-info { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; color: var(--muted); }
+.rail-batch-info b { color: var(--text); font-weight: 650; }
+.rail-batch-run { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rail-batch-run .btn { width: 100%; justify-content: center; }
+
 .char-gallery-head { display: flex; gap: 6px; padding: 8px 8px 0; }
 .char-gallery-head .btn { flex: 1; }
 
@@ -650,6 +668,8 @@ code { font-family: var(--mono); font-size: 11px; color: var(--accent); backgrou
   .stage-media { flex-direction: column; }
   .motion-pane { border-left: 0; border-top: 1px solid var(--line-soft); }
   .rail-list { flex-direction: row; overflow-x: auto; }
+  .rail-row { flex: none; }
+  .rail-row .rail-item { flex: none; }
   .rail-item { width: 128px; flex: none; }
   .console { position: sticky; bottom: 0; }
   .console-bar .msg { display: none; }

@@ -1,0 +1,20 @@
+{
+  "character_id": "char-c",
+  "name": "Le Long Dinh",
+  "display_name": "Lê Long Đĩnh",
+  "aliases": ["Lê Ngọa Triều", "Ngọa Triều"],
+  "country": "Đại Việt",
+  "period": "late 10th to early 11th century",
+  "dynasty": "Tiền Lê dynasty (last ruler)",
+  "role": "Third son of Lê Đại Hành, winner of the eight-month succession struggle, last Tiền Lê king",
+  "known_facts": [
+    "Won the eight-month fratricidal war against his brothers Lê Long Việt, Lê Long Tích and Lê Long Kính after Lê Đại Hành's death",
+    "Traditional histories brand him cruel and call him Ngọa Triều — the king who held court lying down",
+    "The Toàn thư records six personal campaigns to defend Tiền Lê territory (Phù Lan, Đô Lương, Vị Long, Hoan Đường, Thạch Hà…)",
+    "In 1007 sent a white elephant and envoys to the Song to request the cửu kinh and Đại Tạng scriptures",
+    "Died leaving young sons; power passed to Lý Công Uẩn"
+  ],
+  "interpretation": "Late-Tiền Lê royal dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ly-thai-to/characters/char-c.png"
+}

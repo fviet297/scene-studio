@@ -358,7 +358,8 @@ function renderRail() {
       const thumb = s.hasImage
         ? `<img class="thumb" src="${s.imageUrl}" alt="" loading="lazy" />`
         : '<span class="thumb blank">?</span>';
-      return `<li>
+      return `<li class="rail-row${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
+      <input type="checkbox" class="rail-check" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} title="Select scene ${s.scene}" aria-label="Select scene ${s.scene}" />
       <button type="button" class="rail-item" data-scene="${s.scene}" aria-current="${s.scene === currentScene}">
         ${thumb}
         <span class="meta">
@@ -371,12 +372,21 @@ function renderRail() {
     })
     .join("");
 
-  for (const btn of $("railList").querySelectorAll(".rail-item")) {
-    btn.addEventListener("click", () => selectScene(Number(btn.dataset.scene)));
+  for (const row of $("railList").querySelectorAll(".rail-row")) {
+    const n = Number(row.dataset.scene);
+    row
+      .querySelector(".rail-item")
+      .addEventListener("click", () => selectScene(n));
+    row.querySelector('[data-role="pick"]').addEventListener("change", (e) => {
+      if (e.target.checked) selected.add(n);
+      else selected.delete(n);
+      renderSelection();
+    });
   }
   if (!list.length)
     $("railList").innerHTML =
       '<li class="line" style="padding:14px;color:var(--faint)">No scene matches this filter.</li>';
+  renderSelection();
 }
 
 function renderStage() {
@@ -424,7 +434,6 @@ function renderStage() {
     if (s.source === "ai") {
       const tag = document.createElement("span");
       tag.className = "authenticity";
-      tag.textContent = "AI phục dựng";
       frame.appendChild(tag);
     }
     canvas.prepend(frame);
@@ -591,19 +600,65 @@ function renderSheet() {
   renderSelection();
 }
 
+// Selection is shared by the rail (workbench) and the contact sheet. This keeps every
+// selection-driven control in both places in sync from the one `selected` Set, so a scene
+// ticked in the rail also reads as ticked when the sheet is opened, and vice versa.
 function renderSelection() {
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
+  const hasNarr = (s) => (s.narration || "").trim().length > 0;
   const aiCount = chosen.filter((s) => s.kind === "ai").length;
+  // Prompt- and audio-generation both read a scene's narration, so a scene without one
+  // isn't actionable — mirror the single-scene btnGenPrompt/btnAudio gates instead of
+  // gating on a bare selection count that would enable a no-op batch run.
+  const promptEligible = chosen.filter(
+    (s) => s.kind === "ai" && hasNarr(s),
+  ).length;
+  const audioEligible = chosen.filter(hasNarr).length;
   const motionEligibleCount = chosen.filter(
     (s) => s.hasImage && s.hasAudio,
   ).length;
-  $("sheetSelInfo").innerHTML = chosen.length
+
+  const info = chosen.length
     ? `<b>${chosen.length}</b> selected: scene ${chosen.map((s) => s.scene).join(", ")}`
     : "Nothing selected";
-  $("batchPrompt").disabled = busy || aiCount === 0;
-  $("batchImg").disabled = busy || aiCount === 0;
-  $("batchAud").disabled = audioBusy || chosen.length === 0;
-  $("batchMotion").disabled = busy || motionEligibleCount === 0;
+  $("sheetSelInfo").innerHTML = info;
+  $("railSelInfo").innerHTML = info;
+
+  const disPrompt = busy || promptEligible === 0;
+  const disImg = busy || aiCount === 0;
+  const disAud = audioBusy || audioEligible === 0;
+  const disMotion = busy || motionEligibleCount === 0;
+  $("batchPrompt").disabled = disPrompt;
+  $("batchImg").disabled = disImg;
+  $("batchAud").disabled = disAud;
+  $("batchMotion").disabled = disMotion;
+  $("railBatchPrompt").disabled = disPrompt;
+  $("railBatchImg").disabled = disImg;
+  $("railBatchAud").disabled = disAud;
+  $("railBatchMotion").disabled = disMotion;
+  $("railBatch").hidden = chosen.length === 0;
+
+  // Reflect the shared selection back onto the rail rows and the select-all box without a
+  // full re-render, so a change from either view (or a select-all helper) shows everywhere.
+  for (const row of $("railList").querySelectorAll(".rail-row")) {
+    const on = selected.has(Number(row.dataset.scene));
+    row.classList.toggle("selected", on);
+    const box = row.querySelector('[data-role="pick"]');
+    if (box) box.checked = on;
+  }
+  const shown = shownScenes();
+  const allShown =
+    shown.length > 0 && shown.every((s) => selected.has(s.scene));
+  const selAll = $("railSelectAll");
+  selAll.checked = allShown;
+  selAll.indeterminate = !allShown && shown.some((s) => selected.has(s.scene));
+
+  for (const tile of $("tiles").querySelectorAll(".tile")) {
+    const on = selected.has(Number(tile.dataset.scene));
+    tile.classList.toggle("selected", on);
+    const box = tile.querySelector('[data-role="pick"]');
+    if (box) box.checked = on;
+  }
 }
 
 // ------------------------------------------------------------------ actions
@@ -682,8 +737,8 @@ function setBusy(on, label = "working") {
     veil.innerHTML = `<span class="spinner"></span><span>${escapeHtml(label)}</span>`;
     canvas.appendChild(veil);
   }
-  // btnAudio/batchAud are intentionally absent: the audio lane is gated by `audioBusy`,
-  // not the image/motion `busy` lock, so audio can be started while an image/motion job runs.
+  // btnAudio/batchAud/railBatchAud are intentionally absent: the audio lane is gated by
+  // `audioBusy`, not the image/motion `busy` lock, so audio can be started while a job runs.
   for (const id of [
     "btnGen",
     "btnGenPrompt",
@@ -692,6 +747,9 @@ function setBusy(on, label = "working") {
     "btnUndoMotion",
     "btnRemoveMotionVideo",
     "btnRender",
+    "railBatchPrompt",
+    "railBatchImg",
+    "railBatchMotion",
     "btnApprove",
     "batchPrompt",
     "batchImg",
@@ -867,7 +925,10 @@ async function runAudioJob(path, body) {
   audioBusy = true;
   $("btnAudio").disabled = true;
   $("btnAudio").textContent = "Generating audio…";
+  // Lock the whole audio lane the setBusy comment documents (btnAudio/batchAud/railBatchAud);
+  // railBatchAud fires the same runAudioJob from the rail, so it must go down with batchAud.
   $("batchAud").disabled = true;
+  $("railBatchAud").disabled = true;
   try {
     const res = await fetch(path, {
       method: "POST",
@@ -1331,27 +1392,44 @@ $("selNone").addEventListener("click", () => {
   selected.clear();
   renderSheet();
 });
-$("batchPrompt").addEventListener("click", () => {
+
+// Rail select-all toggles only the currently shown (filtered) scenes, so "All" respects the
+// same list the user is looking at. renderRail rebuilds the rows and re-syncs the batch bar.
+$("railSelectAll").addEventListener("change", (e) => {
+  const shown = shownScenes();
+  for (const s of shown)
+    if (e.target.checked) selected.add(s.scene);
+    else selected.delete(s.scene);
+  renderRail();
+});
+$("railSelClear").addEventListener("click", () => {
+  selected.clear();
+  renderRail();
+});
+
+// One batch action per stage, shared by the rail bar and the contact-sheet bar. Both read the
+// same `selected` Set and the same sticky model selects, so either entry point behaves identically.
+const runBatchPrompts = () => {
   const scenes = [...selected].sort((a, b) => a - b);
   streamJob(
     "/api/generate-prompts-batch",
     { scenes },
     `Writing prompts for scene ${scenes.join(", ")}`,
   );
-});
-$("batchImg").addEventListener("click", () => {
+};
+const runBatchImages = () => {
   const scenes = [...selected].sort((a, b) => a - b);
   streamJob(
     "/api/generate-batch",
     { scenes, model: $("batchImageModelSelect").value },
     `Generating images for scene ${scenes.join(", ")}`,
   );
-});
-$("batchAud").addEventListener("click", () => {
+};
+const runBatchAudio = () => {
   const scenes = [...selected].sort((a, b) => a - b);
   runAudioJob("/api/audio-batch", { scenes });
-});
-$("batchMotion").addEventListener("click", () => {
+};
+const runBatchMotion = () => {
   const scenes = [...selected].sort((a, b) => a - b);
   const model = $("batchMotionModelSelect").value;
   streamJob(
@@ -1359,7 +1437,15 @@ $("batchMotion").addEventListener("click", () => {
     { scenes, model },
     `Generating motion videos for scene ${scenes.join(", ")} (${model})`,
   );
-});
+};
+$("batchPrompt").addEventListener("click", runBatchPrompts);
+$("batchImg").addEventListener("click", runBatchImages);
+$("batchAud").addEventListener("click", runBatchAudio);
+$("batchMotion").addEventListener("click", runBatchMotion);
+$("railBatchPrompt").addEventListener("click", runBatchPrompts);
+$("railBatchImg").addEventListener("click", runBatchImages);
+$("railBatchAud").addEventListener("click", runBatchAudio);
+$("railBatchMotion").addEventListener("click", runBatchMotion);
 
 $("conToggle").addEventListener("click", () =>
   openLog(!$("console").classList.contains("open")),

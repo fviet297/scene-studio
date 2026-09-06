@@ -10,9 +10,12 @@
       "models": {
         "claude-opus-4-8": {
           "name": "claude-opus-4-8"
+        },
+        "glm-5.3": {
+          "name": "glm-5.3"
         }
       }
     }
   },
-  "model": "agentrouter/claude-opus-4-8"
+  "model": "agentrouter/glm-5.3"
 }

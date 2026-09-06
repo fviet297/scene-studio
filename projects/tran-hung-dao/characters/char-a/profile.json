@@ -1,0 +1,30 @@
+{
+  "character_id": "char-a",
+  "name": "Tran Quoc Tuan",
+  "display_name": "Trần Hưng Đạo",
+  "aliases": ["Hưng Đạo Đại Vương", "Trần Quốc Tuấn", "Quốc công tiết chế", "Đức Thánh Trần"],
+  "country": "Đại Việt",
+  "period": "13th century (c. 1228-1300)",
+  "dynasty": "Trần dynasty",
+  "role": "Quốc công tiết chế - supreme commander of Đại Việt armies in the second (1285) and third (1288) resistance wars against the Mongol-Yuan empire",
+  "known_facts": [
+    "Son of An Sinh Vương Trần Liễu, whose wife was taken by the court; before dying Trần Liễu charged him to seize the throne for the family - he never acted on it",
+    "The Trần clan rose from a Red River delta fishing family; early sons were named after fish (Trần Thừa 'Dưa', Trần Tự Khánh 'Ngạnh', Trần Thị Dung 'Ngừ')",
+    "Founding merit of the dynasty belonged to Trần Tự Khánh, Tô Trung Từ, Trần Thị Dung and Trần Thủ Độ, not to him",
+    "In the first Mongol invasion (1258) he guarded the northern frontier; the decisive credit went to Lê Phụ Trần, who turned the court to the 'vườn không nhà trống' strategy after the defeat at Bình Lệ Nguyên, followed by the victory at Đông Bộ Đầu",
+    "1285: Thoát Hoan invaded; the Diên Hồng conference of village elders answered 'đánh'; he told the king 'Nếu Bệ hạ muốn hàng, xin trước hết hãy chém đầu thần đi đã'",
+    "At Vạn Kiếp he wrote Binh thư yếu lược, the first Vietnamese military treatise, and proclaimed Hịch tướng sĩ to 200,000 troops, who tattooed 'Sát Thát' on their arms",
+    "Used 'kiên thủ chờ suy': withdrew the main force to Thiên Trường and Thanh Hóa, harassed with local troops and cut supply lines instead of pitched battle",
+    "May 1285 counter-offensive: A Lỗ, then Hàm Tử (led by Trần Nhật Duật) and Chương Dương (Trần Quang Khải); Toa Đô killed at Tây Kết; Thoát Hoan fled north, the pontoon bridge over sông Sách broke, and he escaped hidden in a bronze tube",
+    "1288, asked by Trần Nhân Tông how the war would go, he answered 'Năm nay đánh giặc nhàn'",
+    "1288: Thăng Long was held then abandoned as a 'dương đông kích tây' feint; Trần Khánh Dư destroyed Trương Văn Hổ's grain fleet at Vân Đồn, starving the Yuan army",
+    "Bạch Đằng 1288: he reused Ngô Quyền's stake trap and captured Ô Mã Nhi alive; A Bát Xích was shot dead on the land retreat",
+    "Trusted his household retainers Dã Tượng and Yết Kiêu; at bến đò Bãi he took the river route believing Yết Kiêu would still be waiting, and said 'Chim hồng hộc muốn bay cao phải nhờ ở sáu trụ cánh'",
+    "Nguyễn Khắc Thuần summarises his military art as: đoản binh thắng trường trận, đoàn kết from court to people, and above all 'lấy dân làm gốc'",
+    "Dying counsel to the king: 'Khoan thư sức dân để làm kế sâu rễ bền gốc, đó là thượng sách giữ nước'",
+    "Venerated by the people as Đức Thánh Trần; main temple at Kiếp Bạc, Chí Linh, Hải Dương"
+  ],
+  "interpretation": "13th-century Trần-dynasty Đại Việt commander dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/tran-hung-dao/characters/char-a.png"
+}

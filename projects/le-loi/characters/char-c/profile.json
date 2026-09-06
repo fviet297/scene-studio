@@ -1,0 +1,21 @@
+{
+  "character_id": "char-c",
+  "name": "Nguyen Chich",
+  "display_name": "Nguyễn Chích",
+  "aliases": ["Nguyen Chich"],
+  "country": "Đại Việt",
+  "period": "late 14th to mid 15th century",
+  "dynasty": "Later Lê dynasty (early)",
+  "role": "Independent rebel leader in Thanh Hóa who joined Lam Sơn and proposed the strategic pivot to Nghệ An",
+  "known_facts": [
+    "Not an ordinary recruit: he had raised his own revolt and commanded his own army before joining Lê Lợi around 1420",
+    "Đại Nam nhất thống chí records that his orders were obeyed across the districts of Đông Sơn, Nông Cống and Ngọc Sơn",
+    "Proposed the decisive strategy in late 1424: strike Trà Lân first, take Nghệ An as a footing, then use its manpower and grain to turn north on Đông Quan",
+    "Knew the roads of Nghệ An from having travelled them, which is why he could argue the case",
+    "The pivot turned six years of stalemate at Lam Sơn into control of the country from Thuận Hóa to Thanh Hóa within a year",
+    "Ranked among the leading công thần honoured after victory"
+  ],
+  "interpretation": "Early Later-Lê Vietnamese commander dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/le-loi/characters/char-c.png"
+}
