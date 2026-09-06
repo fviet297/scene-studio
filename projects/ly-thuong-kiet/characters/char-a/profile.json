@@ -1,0 +1,29 @@
+{
+  "character_id": "char-a",
+  "name": "Ly Thuong Kiet",
+  "display_name": "Lý Thường Kiệt",
+  "aliases": ["Ngô Tuấn", "Ngo Tuan", "Thái úy Lý Thường Kiệt", "Việt Quốc Công"],
+  "country": "Đại Việt",
+  "period": "11th to early 12th century (1019-1105)",
+  "dynasty": "Lý dynasty",
+  "role": "Palace eunuch who rose to Thái úy (grand commandant) and supreme general of the Lý dynasty; commander of the 1075-1076 pre-emptive campaign into Song territory and of the 1077 Như Nguyệt defensive line",
+  "known_facts": [
+    "Born Ngô Tuấn in Thăng Long in 1019; entered palace service as a eunuch and rose through court and military offices",
+    "Granted the royal surname Lý and the name Thường Kiệt for his merit; served across three Lý emperors (Lý Thái Tông, Lý Thánh Tông, Lý Nhân Tông)",
+    "When Lý Thánh Tông died in 1072 and the child Lý Nhân Tông succeeded, the Song court began preparing an invasion of Đại Việt",
+    "Argued the bold 'tiên phát chế nhân' line - 'Ngồi yên đợi giặc, không bằng đem quân ra trước' - and struck first in 1075-1076",
+    "Led Đại Việt forces that captured the Song prefectures of Khâm Châu and Liêm Châu, then besieged and took the heavily fortified logistics base of Ung Châu after about 42 days, destroying it before withdrawing",
+    "Authored the 'Phạt Tống lộ bố văn' proclamation justifying the campaign",
+    "In late 1076 a large Song army invaded Đại Việt; he built and held the defensive line along the Như Nguyệt (Cầu) river in 1077",
+    "The poem 'Nam quốc sơn hà, Nam đế cư...' is traditionally attributed to him, recited to steady the troops during the Như Nguyệt stand",
+    "After breaking the Song assault he chose not to annihilate them, proposing a negotiated peace that preserved Đại Việt's sovereignty",
+    "Later campaigned on the Champa frontier; died in 1105"
+  ],
+  "interpretation": "Eleventh-century Lý-dynasty Vietnamese general and court figure, dress based on the user reference.",
+  "unknowns": [
+    "No verified contemporary life portrait survives",
+    "Authorship of 'Nam quốc sơn hà' is a traditional attribution, not certain",
+    "Troop-strength figures for both campaigns are debated estimates"
+  ],
+  "reference": "public/projects/ly-thuong-kiet/characters/char-a.png"
+}

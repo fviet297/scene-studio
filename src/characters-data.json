@@ -1,17 +1,17 @@
 {
-  "project": "tran-hung-dao",
+  "project": "ly-thuong-kiet",
   "characters": [
     {
       "id": "char-a",
-      "name": "Trần Hưng Đạo",
+      "name": "Lý Thường Kiệt",
       "aliases": [
-        "Hưng Đạo Đại Vương",
-        "Trần Quốc Tuấn",
-        "Quốc công tiết chế",
-        "Đức Thánh Trần"
+        "Ngô Tuấn",
+        "Ngo Tuan",
+        "Thái úy Lý Thường Kiệt",
+        "Việt Quốc Công"
       ],
-      "image": "projects/tran-hung-dao/characters/char-a.jpg",
-      "imageV2": "projects/tran-hung-dao/characters/char-a.jpg"
+      "image": "projects/ly-thuong-kiet/characters/char-a.jpg",
+      "imageV2": "projects/ly-thuong-kiet/characters/char-a.jpg"
     }
   ]
 }

@@ -187,7 +187,7 @@ export const buildInput = (model, { prompt, refUris = [] }) => {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
-    return { prompt, aspect_ratio: '9:16', size: '2K', ...(refUris.length ? { image_input: refUris } : {}) };
+    return { prompt, aspect_ratio: '9:16', size: '4k', ...(refUris.length ? { image_input: refUris } : {}) };
   }
   // FLUX Kontext / FLUX dev fallback (kept so REPLICATE_*_MODEL can still point at them).
   return refUris.length

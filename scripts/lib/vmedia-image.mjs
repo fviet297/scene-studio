@@ -38,7 +38,7 @@ export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog }
   const caps = await getModelCaps('image', slug); // validates the slug; throws a slug list otherwise
   // Some models require `resolution` and `mode`; snap each to a value the model declares (caps use
   // `modes` for images, `mode`/`modes` for video). Cheapest/most balanced option preferred first.
-  const resolution = pickCap(caps.resolutions, [process.env.VMEDIA_IMAGE_RESOLUTION ?? '2k', '2k', '1k']);
+  const resolution = pickCap(caps.resolutions, [process.env.VMEDIA_IMAGE_RESOLUTION ?? '4k', '4k', '1k']);
   // Gommo image models expose VIP-tier modes (standard/relaxed are often disabled), so prefer vip.
   const mode = pickCap(caps.modes ?? caps.mode, [process.env.VMEDIA_IMAGE_MODE ?? 'vip', 'vip']);
   const params = {

@@ -61,7 +61,7 @@ for (const character of targets) {
     prompt: promptFor(character.name),
     image_input: [dataUri(source)],
     aspect_ratio: '3:4',
-    size: '2K',
+    size: '4k',
   });
   await download(url, output);
   process.stdout.write(`Generated ${output} with ${MODEL}\n`);

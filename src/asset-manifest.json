@@ -3,262 +3,28 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Wide open steppe plain under a smoke-dark dusk sky; a vast Mongol cavalry host i",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide northern frontier ridgeline at smoky dawn on the 11th-century Đại Việt–Song",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide open steppe plain under a smoke-dark dusk sky; a vast Mongol cavalry host in 13th-century steppe lamellar armour and fur-trimmed conical helmets streams across the grassland in long columns toward a burning walled city on the far horizon, riders carrying recurve bows and horsetail poles, herds of spare horses running alongside, dust and ash blowing low over the grass, refugees fleeing along a rutted road in the foreground. The riders have Central Asian steppe faces with thin moustaches. Standards are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide northern frontier ridgeline at smoky dawn on the 11th-century Đại Việt–Song border; a long Đại Việt column in conical bamboo hats and quilted tunics with rattan shields, bamboo spears and crossbows pushes across the pass into Song land, war elephants and pack porters trailing, a tall square brick watchtower burning on the far ridge; the main figure rides small and off-center at about one-fifth frame height near the front, dust and low smoke rolling over the slope. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Wide narrow mountain pass on the northern frontier of 13th-century Đại Việt at g",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide riverside quarter of an early-11th-century Lý-dynasty Đại Việt town at nigh",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide narrow mountain pass on the northern frontier of 13th-century Đại Việt at grey midday; a broken Mongol-Yuan army in steppe lamellar and fur-trimmed helmets streams north in disorder through the defile, abandoned carts and dead horses blocking the track, wounded men limping, spare mounts bolting, arrows falling from the forested slopes where Đại Việt militia in conical bamboo hats and quilted tunics loose bows from behind rocks, mist and dust hanging in the ravine. Yuan riders have Central Asian steppe faces, the militia Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-03",
-    "scene": 3,
-    "type": "ai_reconstruction",
-    "subject": "Wide Red River dike line in late-13th-century Trần-dynasty Đại Việt at dawn; the",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Red River dike line in late-13th-century Trần-dynasty Đại Việt at dawn; the main figure stands small and off-center on the raised earthen dike at about one-fifth frame height, looking north across flooded paddies; below him dense Đại Việt infantry in conical bamboo hats and quilted tunics form up with rattan shields, bamboo spears and crossbows, war drums beating, low war boats poling along the channel behind, mist lifting off the water, egrets scattering over the fields. The soldiers have Vietnamese East Asian faces. Banners are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-04",
-    "scene": 4,
-    "type": "ai_reconstruction",
-    "subject": "Wide Red River delta fishing hamlet at low tide in early-13th-century Đại Việt a",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide Red River delta fishing hamlet at low tide in early-13th-century Đại Việt at first light; families haul a long net dripping from the brown water while flat-bottomed boats and round bamboo coracles crowd a muddy landing, split fish drying on bamboo racks, children carrying baskets up the bank, thatched stilt huts and a bamboo fence behind, woodsmoke and river mist drifting low across the water. The villagers have Vietnamese East Asian faces and wear plain hemp tunics and conical bamboo hats. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-05",
-    "scene": 5,
-    "type": "ai_reconstruction",
-    "subject": "Wide walled garden behind a small timber pagoda in early-13th-century Đại Việt a",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide walled garden behind a small timber pagoda in early-13th-century Đại Việt at hot midday; a lone monk in a plain brown robe kneels pulling weeds from a vegetable bed, while a court official in dark lacquered robes watches from the shaded gateway with an escort of spearmen waiting outside; both men are small in the frame and seen at distance, faces not readable, banyan shade dappling the dry earth, a low brick wall with an arched vaulted passage behind, heat haze over the beds. All figures have Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-06",
-    "scene": 6,
-    "type": "ai_reconstruction",
-    "subject": "Wide dim interior hall of a 13th-century Đại Việt noble estate at night; an old ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide dim interior hall of a 13th-century Đại Việt noble estate at night; an old lord lies dying on a low wooden bed at the far end under a single oil lamp, his head turned away and face not readable, while the main figure kneels small and off-center beside the bed at about one-fifth frame height; household retainers and a physician wait back in the shadows, a servant holds up the lamp, medicine bowls on a low stand, rain falling past the open timber veranda, brazier smoke drifting under the beams. All figures have Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-07",
-    "scene": 7,
-    "type": "ai_reconstruction",
-    "subject": "Wide emptied village on a river plain in 13th-century Đại Việt under a heavy ove",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide emptied village on a river plain in 13th-century Đại Việt under a heavy overcast afternoon; villagers carry rice baskets, water jars and rolled mats away along a dike road, driving buffalo and pigs ahead of them, granaries left standing open and bare, doors hanging loose on abandoned thatched huts, a last man setting fire to a straw stack, dust and smoke blowing across the empty lanes, distant enemy horsemen watching from a far ridge. The villagers have Vietnamese East Asian faces and wear conical bamboo hats and hemp tunics. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-08",
-    "scene": 8,
-    "type": "ai_reconstruction",
-    "subject": "Wide open palace terrace of a 13th-century Trần-dynasty hall in Thăng Long at br",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide open palace terrace of a 13th-century Trần-dynasty hall in Thăng Long at bright morning; hundreds of white-haired village elders in plain hemp robes sit in rows on mats across the flagstones, many rising with arms raised and mouths open in a single shout, low food trays set before them, court officials in dark robes standing on the steps above beside timber pillars and plain banners, guards with spears at the gate, incense smoke drifting and sunlight striking the tiled roofs. All faces are Vietnamese East Asian. Banners are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-09",
-    "scene": 9,
-    "type": "ai_reconstruction",
-    "subject": "Wide audience hall of a 13th-century Trần-dynasty palace at night; the main figu",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide audience hall of a 13th-century Trần-dynasty palace at night; the main figure stands small and off-center on the hall floor at about one-fifth frame height, facing a raised lacquered dais where a seated ruler and two attendants wait at distance with faces not readable; rows of court officials in dark robes kneel along the timber pillars, guards with spears hold the doorway, torch flames and incense smoke climbing into the roof beams, rain beating on the tiled eaves outside. All figures have Vietnamese East Asian faces. Banners are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-10",
-    "scene": 10,
-    "type": "ai_reconstruction",
-    "subject": "Wide army camp on a river flat at Vạn Kiếp in 13th-century Đại Việt at night; th",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide army camp on a river flat at Vạn Kiếp in 13th-century Đại Việt at night; the main figure stands small and off-center on a low timber platform at about one-fifth frame height above a huge massed formation of Đại Việt soldiers filling the field with torches; in the lit foreground groups of soldiers bare their forearms while comrades prick dark ink marks into the skin with fine needles, campfires, smoke and sparks streaming across rows of low tents. The soldiers have Vietnamese East Asian faces and wear quilted tunics. Banners are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-11",
-    "scene": 11,
-    "type": "ai_reconstruction",
-    "subject": "Wide narrow forest defile in the limestone hills of 13th-century Đại Việt at mis",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide narrow forest defile in the limestone hills of 13th-century Đại Việt at misty dawn; a Mongol-Yuan supply column of ox carts and pack horses is caught strung out along the track below, escort riders in steppe lamellar and fur-trimmed helmets wheeling in confusion as Đại Việt militia in conical bamboo hats and quilted tunics rush down through the bamboo with spears and crossbows, grain sacks split open on the ground, an overturned cart burning, pack horses bolting into the trees, mist and smoke tangled in the canopy. Yuan escorts have Central Asian steppe faces, the militia Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-12",
-    "scene": 12,
-    "type": "ai_reconstruction",
-    "subject": "Wide river battle on a broad brown river in 13th-century Đại Việt at hot afterno",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide river battle on a broad brown river in 13th-century Đại Việt at hot afternoon; swarms of small low Đại Việt war boats rowed by soldiers in conical bamboo hats and quilted tunics converge from both banks on tall Yuan war junks, boarding with hooks and bamboo spears, one junk already burning to the waterline, arrows arcing across the water, drums beating in the boats, men falling into the current, smoke rolling low over the reeds and a bamboo palisade on the far bank. Yuan crews have Central and East Asian faces, the Đại Việt rowers Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-13",
-    "scene": 13,
-    "type": "ai_reconstruction",
-    "subject": "Wide crossing point on a broad river in 13th-century Đại Việt at red dusk; a pon",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide crossing point on a broad river in 13th-century Đại Việt at red dusk; a pontoon bridge of lashed boats has broken apart mid-stream and Mongol-Yuan soldiers in steppe lamellar spill into the water, horses swimming and men clinging to drifting planks, while on the near bank a knot of bodyguards hurries away carrying a long sealed bronze cylinder on poles between them; Đại Việt troops in conical bamboo hats press the bank behind with spears and bows, arrows falling, smoke from burning carts, churning muddy current. Yuan troops have Central Asian steppe faces, Đại Việt troops Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-14",
-    "scene": 14,
-    "type": "ai_reconstruction",
-    "subject": "Wide river landing below the timber halls of Vạn Kiếp in 13th-century Đại Việt a",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide river landing below the timber halls of Vạn Kiếp in 13th-century Đại Việt at calm early morning; the main figure stands small and off-center on the wooden jetty at about one-fifth frame height, greeting a royal party stepping off a covered barge, the seated ruler at distance, face not readable; oarsmen hold the barge against the current, officers wait along the bank, fishermen mend nets further downstream, mist on the water and kitchen smoke rising from the camp on the slope behind. All figures have Vietnamese East Asian faces. Banners are plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-15",
-    "scene": 15,
-    "type": "ai_reconstruction",
-    "subject": "Wide coastal sea battle among the limestone islands of Vân Đồn in 13th-century Đ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide coastal sea battle among the limestone islands of Vân Đồn in 13th-century Đại Việt at bright windy afternoon; heavy Yuan grain junks wallow low in the water while fast Đại Việt war boats crewed by men in conical bamboo hats swarm around them shooting fire arrows, two junks blazing with grain sacks spilling into the sea, sailors leaping overboard, a sail collapsing in flame, black smoke bending across the karst islands, gulls scattering over the swell. Yuan crews have East Asian faces, the Đại Việt crews Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-16",
-    "scene": 16,
-    "type": "ai_reconstruction",
-    "subject": "Wide tidal river channel at Bạch Đằng in 13th-century Đại Việt at low-tide morni",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide tidal river channel at Bạch Đằng in 13th-century Đại Việt at low-tide morning; rows of sharpened stakes rise from the falling brown water as tall Yuan war junks grind onto them and heel over, while the main figure stands small and off-center on a low command boat at about one-fifth frame height, arm raised in signal; Đại Việt boats rowed by men in conical bamboo hats close in with spears and hooks, fire rafts drifting into the stranded hulls, mangrove banks and mudflats behind, smoke drifting across the channel. Yuan crews have East Asian faces, Đại Việt crews Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-17",
-    "scene": 17,
-    "type": "ai_reconstruction",
-    "subject": "Wide empty river ferry landing in 13th-century Đại Việt at cold dusk; a single s",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide empty river ferry landing in 13th-century Đại Việt at cold dusk; a single small wooden boat waits against the muddy bank with a lone boatman standing at his pole, seen from behind, while the main figure comes down the bank path small and off-center at about one-fifth frame height with two exhausted retainers behind him; abandoned baskets and a broken cart lie among the reeds, the other landings further along stand empty, a rain-heavy sky, the current pulling hard, smoke from a burning village drifting on the far shore. All figures have Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-18",
-    "scene": 18,
-    "type": "ai_reconstruction",
-    "subject": "Wide open timber veranda of a riverside estate at Vạn Kiếp in 13th-century Đại V",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide open timber veranda of a riverside estate at Vạn Kiếp in 13th-century Đại Việt on a cool autumn afternoon; the main figure rests small and off-center on a low couch under a blanket at about one-fifth frame height, while a visiting ruler sits at distance on a stool nearby with face not readable and attendants kneel back under the eaves; a physician sets down a medicine tray, retainers wait in the courtyard below, dry leaves drifting across the boards, the river and moored boats beyond, low golden light along the timber. All figures have Vietnamese East Asian faces. No Ming/Qing Chinese or European elements."
-  },
-  {
-    "id": "scene-19",
-    "scene": 19,
-    "type": "user_upload",
-    "subject": "User-uploaded image for scene 19",
-    "source": "User upload (review UI)",
-    "sourceUrl": null,
-    "license": "Provided by the user; ensure you hold the rights to use it.",
-    "credit": "User-provided image",
-    "authenticity": "USER_UPLOAD",
-    "characters": []
+    "prompt": "Wide riverside quarter of an early-11th-century Lý-dynasty Đại Việt town at night; timber houses with tiled roofs and a small brick-and-timber temple crowd a lantern-lit lane along the water, where scattered townsfolk in plain tunics and conical hats stop and look up at a single unnaturally bright star low over the rooftops; its cold light glints on the river, hanging lanterns sway, thin mist drifts between the eaves. The people have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
   }
 ]

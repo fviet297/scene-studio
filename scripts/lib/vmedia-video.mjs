@@ -41,7 +41,7 @@ const pickPricedCombo = (prices, target, resolutionPref) => {
   if (!rows.length) return null;
   const durations = [...new Set(rows.map((r) => Number(r.duration)).filter(Number.isFinite))].sort((a, b) => a - b);
   const duration = durations.find((d) => d >= target) ?? durations[durations.length - 1];
-  const resOrder = [resolutionPref, '720p', '1080p', '480p', '2k', '4k'];
+  const resOrder = [resolutionPref, '720p', '1080p', '480p', '4k', '4k'];
   const rank = (res) => { const i = resOrder.indexOf(res); return i < 0 ? 99 : i; };
   const candidates = rows
     .filter((r) => !Number.isFinite(duration) || Number(r.duration) === duration)

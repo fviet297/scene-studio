@@ -300,7 +300,7 @@ export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
     return {
-      prompt, aspect_ratio: ratio, size: '2K', max_images: 1,
+      prompt, aspect_ratio: ratio, size: '4k', max_images: 1,
       sequential_image_generation: 'disabled',
       ...(refUris.length ? { image_input: refUris } : {}),
     };
@@ -309,7 +309,7 @@ export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect
     // Gemini image models: one `prompt` string plus an optional `image_input` array of up to
     // 14 references; resolution/aspect_ratio instead of FLUX's fields, and no Seedream-style
     // prompt-length cap. Same array is used for one or many references.
-    return { prompt, aspect_ratio: ratio, resolution: '2K', output_format: 'jpg', ...(refUris.length ? { image_input: refUris } : {}) };
+    return { prompt, aspect_ratio: ratio, resolution: '4k', output_format: 'jpg', ...(refUris.length ? { image_input: refUris } : {}) };
   }
   if (model.startsWith('xai/grok-imagine')) {
     // Grok Imagine takes a single `image` for editing (not FLUX's `input_image`, and no
