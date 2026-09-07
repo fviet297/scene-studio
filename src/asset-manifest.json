@@ -26,5 +26,119 @@
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
     "prompt": "Wide riverside quarter of an early-11th-century Lý-dynasty Đại Việt town at night; timber houses with tiled roofs and a small brick-and-timber temple crowd a lantern-lit lane along the water, where scattered townsfolk in plain tunics and conical hats stop and look up at a single unnaturally bright star low over the rooftops; its cold light glints on the river, hanging lanterns sway, thin mist drifts between the eaves. The people have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "Wide courtyard of a modest Lý-dynasty Đại Việt homestead at dusk in the 11th cen",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide courtyard of a modest Lý-dynasty Đại Việt homestead at dusk in the 11th century; a pregnant Vietnamese woman in a plain tunic and conical hat stands small and off-center, while a ragged old traveller stands before her, raising one hand as if delivering a mysterious prophecy. **Every family member in the courtyard is completely stunned and visibly focused on the old traveller: all heads turned toward him, all eyes fixed on him, bodies frozen mid-step, expressions of shock and astonishment, nobody looking at the pregnant woman or at the camera.** The pregnant woman herself also turns her head toward the old traveller, listening in disbelief. The old traveller is the clear visual focal point of the scene. Startled family members remain scattered naturally around the swept-earth yard, all frozen in reaction to the old man's words. A low timber house with a tiled roof, banana grove and bamboo fence behind, oil lamps just being lit. Cinematic wide establishing shot, balanced composition, characters seen at moderate distance, faces not readable but body language and head direction clearly communicate collective astonishment and attention toward the old traveller. Everyone has Vietnamese East Asian faces and historically appropriate 11th-century Đại Việt clothing. No Song/Ming/Qing Chinese elements, no Nguyen-dynasty elements, no European elements, no modern objects, no modern architecture."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "Wide military training ground outside a Lý-dynasty citadel at bright morning in ",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide military training ground outside a Lý-dynasty citadel at bright morning in the 11th century; ranks of Đại Việt soldiers in conical bamboo hats and quilted tunics drill with rattan shields and bamboo spears while grooms lead war horses along an earth wall; the main figure stands off-center at about one-fifth frame height reviewing the drill, dust rising under the marching feet, a low brick-and-timber gate tower behind. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-05",
+    "scene": 5,
+    "type": "ai_reconstruction",
+    "subject": "Wide dim throne hall of a Lý-dynasty palace in mourning at grey daylight in the ",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide dim throne hall of a Lý-dynasty palace in mourning at grey daylight in the 11th century; a very small child in oversized royal robes sits high on a broad lacquered throne under a tiled canopy, while rows of officials in dark robes bow low wearing white mourning cloth, incense smoke rising, a covered bier resting to one side; the hall's timber pillars and a raised brick platform frame the scene, cold light falling from high openings. All figures have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-06",
+    "scene": 6,
+    "type": "ai_reconstruction",
+    "subject": "Wide Northern Song garrison depot on a northern plain at overcast midday in the ",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide Northern Song garrison depot on a northern plain at overcast midday in the 11th century; masses of Song infantry in lamellar armour and rounded helmets form up on a drill field while ox-carts, grain sacks and stacked crossbows are loaded at long timber storehouses, mounted officers directing, dust and cook-fire smoke drifting over the camp, a grey brick wall behind. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+  },
+  {
+    "id": "scene-07",
+    "scene": 7,
+    "type": "ai_reconstruction",
+    "subject": "Wide earthen rampart of the Lý-dynasty capital at night in the 11th century; tor",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide earthen rampart of the Lý-dynasty capital at night in the 11th century; torch-lit Đại Việt officers cluster over a war map spread on a low table while sentries in conical hats watch the dark northern road below; the main figure stands small and off-center at about one-fifth frame height at the parapet gazing north, braziers guttering, a tiled gate roof and plain banners behind, mist pooling over the fields beyond. All have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-08",
+    "scene": 8,
+    "type": "ai_reconstruction",
+    "subject": "Wide audience hall of a Lý-dynasty palace at daytime in the 11th century; two fi",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide audience hall of a Lý-dynasty palace at daytime in the 11th century; two files of officials in dark court robes kneel and lean forward attentively along a tiled floor while palace guards with rattan shields stand at the pillars; the main figure stands small and off-center at about one-fifth frame height before the throne dais with one arm raised mid-speech, shafts of light falling between timber columns onto a raised brick platform. All figures have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-09",
+    "scene": 9,
+    "type": "ai_reconstruction",
+    "subject": "Wide Song coastal prefecture under assault at dawn in the 11th century; a fleet ",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Song coastal prefecture under assault at dawn in the 11th century; a fleet of low Đại Việt war junks and sampans grounds on a muddy shore as troops in conical hats storm up toward a burning brick town gate, scaling ladders going up, arrows arcing, smoke pouring off the ramparts; the main figure stands small and off-center at about one-fifth frame height in the surf directing the landing, spray and low smoke across the water. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+  },
+  {
+    "id": "scene-10",
+    "scene": 10,
+    "type": "ai_reconstruction",
+    "subject": "Wide view of a great fortified Song city at hot noon in the 11th century; coloss",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide view of a great fortified Song city at hot noon in the 11th century; colossal grey brick walls with square corner towers rise above a dry moat, Đại Việt siege ranks in conical hats massed on the plain with rattan shields, scaling ladders and a battering ram, dust hanging over the host; the main figure stands small and off-center at about one-fifth frame height in the foreground facing the walls, tiny defenders along the distant battlements. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
   }
 ]

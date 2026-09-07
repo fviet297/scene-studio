@@ -53,6 +53,7 @@ export const CinematicScene: React.FC<Props> = ({
         height: "100%",
         objectFit: fit,
         filter: GRADE,
+        translate: "39.3px -28.9px",
       }}
     />
   );
@@ -89,7 +90,6 @@ export const CinematicScene: React.FC<Props> = ({
           {image}
         </CinematicCamera>
       )}
-
       <Atmosphere config={atmosphere} />
     </AbsoluteFill>
   );
