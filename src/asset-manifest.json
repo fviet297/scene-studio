@@ -140,5 +140,44 @@
       "char-a"
     ],
     "prompt": "Wide view of a great fortified Song city at hot noon in the 11th century; colossal grey brick walls with square corner towers rise above a dry moat, Đại Việt siege ranks in conical hats massed on the plain with rattan shields, scaling ladders and a battering ram, dust hanging over the host; the main figure stands small and off-center at about one-fifth frame height in the foreground facing the walls, tiny defenders along the distant battlements. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+  },
+  {
+    "id": "scene-11",
+    "scene": 11,
+    "type": "ai_reconstruction",
+    "subject": "Wide breach in the burning brick wall of a great Song city at dusk in the 11th c",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide breach in the burning brick wall of a great Song city at dusk in the 11th century; Đại Việt storming parties in conical hats pour through the shattered gap over rubble and fallen ladders as flames roar up the towers and black smoke blots the sky, defenders in lamellar armour falling back into the streets, embers and ash swirling everywhere; no single figure dominates, the whole breach a churn of attackers and smoke. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+  },
+  {
+    "id": "scene-12",
+    "scene": 12,
+    "type": "ai_reconstruction",
+    "subject": "Wide mountain road winding south through the 11th-century Đại Việt borderlands a",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide mountain road winding south through the 11th-century Đại Việt borderlands at stormy late afternoon; a long Đại Việt column in conical hats and quilted tunics marches homeward with laden porters, pack elephants and captured carts, seen mostly from behind, while a wall of dark storm cloud builds low on the northern horizon behind them; wind bends the roadside grass and lifts dust along the track. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+  },
+  {
+    "id": "scene-13",
+    "scene": 13,
+    "type": "ai_reconstruction",
+    "subject": "Wide frontier valley on the northern edge of Đại Việt at cold overcast dawn in t",
+    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide frontier valley on the northern edge of Đại Việt at cold overcast dawn in the 11th century; an enormous Song host in lamellar armour floods south along the road and across the fields in deep columns, cavalry, ox-carts and siege wagons stretching to the horizon, dust and breath-fog hanging over the mass; a small Đại Việt border post smoulders in the middle distance. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
   }
 ]
