@@ -122,6 +122,7 @@ function render() {
   renderRail();
   renderStage();
   renderSheet();
+  syncScriptGenButtons();
 }
 
 function renderProjectSwitch() {
@@ -739,6 +740,8 @@ function setBusy(on, label = "working") {
   }
   // btnAudio/batchAud/railBatchAud are intentionally absent: the audio lane is gated by
   // `audioBusy`, not the image/motion `busy` lock, so audio can be started while a job runs.
+  // btnScript is also absent: the Full script modal only reads the plan until Save, and its Save
+  // and per-scene gen buttons already guard against busy, so it stays openable during a job.
   for (const id of [
     "btnGen",
     "btnGenPrompt",
@@ -756,10 +759,10 @@ function setBusy(on, label = "working") {
     "batchMotion",
     "projectSelect",
     "btnNewProject",
-    "btnScript",
     "btnAddChar",
   ])
     $(id).disabled = on;
+  syncScriptGenButtons();
   if (!on) {
     renderPipeline();
     renderSelection();
@@ -929,6 +932,7 @@ async function runAudioJob(path, body) {
   // railBatchAud fires the same runAudioJob from the rail, so it must go down with batchAud.
   $("batchAud").disabled = true;
   $("railBatchAud").disabled = true;
+  syncScriptGenButtons();
   try {
     const res = await fetch(path, {
       method: "POST",
@@ -1759,6 +1763,16 @@ const scriptGroupHtml = (s, g) => {
   return `<div class="script-group script-group--${g.tone}"><span class="script-group-title">${g.title}</span>${fields}</div>`;
 };
 
+// Per-scene generate buttons for the script modal. They reuse the batch endpoints with a
+// single scene, so they behave exactly like the contact-sheet/rail batch runs (same models,
+// same busy locks) — no dependency on the stage's currently-selected scene.
+const scriptGenHtml = (s) =>
+  `<div class="script-gen">
+    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-scene="${s.scene}" title="Generate ảnh cho scene này (model theo batch image select)">Image</button>
+    <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-scene="${s.scene}" title="Generate narration audio cho scene này">Audio</button>
+    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-scene="${s.scene}" title="Generate motion video cho scene này (cần có image + audio)">Motion</button>
+  </div>`;
+
 function renderScriptList() {
   // Narration shows first; the image + motion prompts stay collapsed so the list reads as a pure
   // script until a scene's toggle opens them.
@@ -1779,6 +1793,7 @@ function renderScriptList() {
           <span class="grow"></span>
           <div class="script-head-field"><label>cue</label><input class="text-input script-cue-input" data-scene="${s.scene}" data-field="cue" value="${escapeHtml(scriptCue(s))}" placeholder="neutral" spellcheck="false" /></div>
           <div class="script-head-field"><label>char</label><input class="text-input script-char-input" data-scene="${s.scene}" data-field="char" value="${escapeHtml(scriptChar(s))}" placeholder="char-a, char-b / none" spellcheck="false" /></div>
+          ${scriptGenHtml(s)}
         </div>
         ${narration}
         <div class="script-details" hidden>${details}</div>
@@ -1787,7 +1802,53 @@ function renderScriptList() {
     .join("");
   autoGrowScriptAll();
   updateScriptBulkButtons();
+  syncScriptGenButtons();
   updateScriptFoot();
+}
+
+// Per-scene generate buttons follow the same gates as the batch bar: image needs an AI scene,
+// audio needs narration, motion needs a rendered image + audio — and each stays locked while
+// its lane is busy. A row with unsaved edits is disabled too, since generation reads the saved
+// server state, not the edited textarea.
+function syncScriptGenButtons() {
+  const byScene = new Map(state.scenes.map((s) => [s.scene, s]));
+  for (const btn of $("scriptList").querySelectorAll("[data-gen]")) {
+    const s = byScene.get(Number(btn.dataset.scene));
+    const dirty = btn.closest(".script-row")?.classList.contains("dirty");
+    let ok = false;
+    if (s && !dirty) {
+      if (btn.dataset.gen === "image") ok = !busy && s.kind === "ai";
+      else if (btn.dataset.gen === "audio")
+        ok = !audioBusy && (s.narration || "").trim().length > 0;
+      else if (btn.dataset.gen === "motion")
+        ok = !busy && s.hasImage && s.hasAudio;
+    }
+    btn.disabled = !ok;
+  }
+}
+
+function runScriptGen(kind, sceneNo) {
+  const row = $("scriptList").querySelector(
+    `.script-row[data-scene="${sceneNo}"]`,
+  );
+  if (row?.classList.contains("dirty")) {
+    toast("Lưu scene này trước khi generate.", false);
+    return;
+  }
+  const scenes = [sceneNo];
+  if (kind === "image")
+    streamJob(
+      "/api/generate-batch",
+      { scenes, model: $("batchImageModelSelect").value },
+      `Generating image for scene ${sceneNo}`,
+    );
+  else if (kind === "audio") runAudioJob("/api/audio-batch", { scenes });
+  else if (kind === "motion")
+    streamJob(
+      "/api/generate-motion-videos-batch",
+      { scenes, model: $("batchMotionModelSelect").value },
+      `Generating motion video for scene ${sceneNo}`,
+    );
 }
 
 // Enable each header button only when it has work: Expand while a scene is still closed,
@@ -1850,11 +1911,17 @@ $("scriptList").addEventListener("input", (e) => {
   if (!ctrl) return;
   if (ctrl.classList.contains("script-auto")) autoGrowScript(ctrl);
   refreshScriptRow(ctrl.closest(".script-row"));
+  syncScriptGenButtons();
   updateScriptFoot();
 });
 // Reveal a scene's image + motion prompts on demand. Auto-grow runs on expand — a hidden
 // textarea measures 0 tall, so its height must be recomputed once it is visible.
 $("scriptList").addEventListener("click", (e) => {
+  const gen = e.target.closest("[data-gen]");
+  if (gen) {
+    runScriptGen(gen.dataset.gen, Number(gen.dataset.scene));
+    return;
+  }
   const btn = e.target.closest(".script-toggle");
   if (!btn) return;
   const row = btn.closest(".script-row");

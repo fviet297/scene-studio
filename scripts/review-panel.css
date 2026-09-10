@@ -570,6 +570,12 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .script-head-field .text-input { height: 28px; }
 .script-cue-input { width: 104px; }
 .script-char-input { width: 160px; }
+/* Per-scene generate buttons, tinted to match the image/narration/motion group colours so the
+   lane each one drives is obvious at a glance. */
+.script-gen { display: flex; align-items: center; gap: 6px; }
+.script-gen-btn.gen-image:not(:disabled) { color: var(--tone-image); border-color: color-mix(in oklab, var(--tone-image) 40%, var(--line)); }
+.script-gen-btn.gen-audio:not(:disabled) { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 40%, var(--line)); }
+.script-gen-btn.gen-motion:not(:disabled) { color: var(--tone-motion); border-color: color-mix(in oklab, var(--tone-motion) 40%, var(--line)); }
 .script-field { display: flex; flex-direction: column; gap: 4px; }
 .script-field label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
 /* Auto-grown to fit content: no inner scrollbar, no manual resize handle. */
