@@ -1,17 +1,28 @@
 {
-  "project": "ly-thuong-kiet",
+  "project": "ho-quy-ly",
   "characters": [
     {
       "id": "char-a",
-      "name": "Lý Thường Kiệt",
+      "name": "Hồ Quý Ly",
       "aliases": [
-        "Ngô Tuấn",
-        "Ngo Tuan",
-        "Thái úy Lý Thường Kiệt",
-        "Việt Quốc Công"
+        "Hồ Quý Ly",
+        "Lê Quý Ly",
+        "Thánh Nguyên",
+        "hoàng đế Đại Ngu"
       ],
-      "image": "projects/ly-thuong-kiet/characters/char-a.jpg",
-      "imageV2": "projects/ly-thuong-kiet/characters/char-a.jpg"
+      "image": "projects/ho-quy-ly/characters/char-a.png",
+      "imageV2": "projects/ho-quy-ly/characters/char-a.png"
+    },
+    {
+      "id": "char-b",
+      "name": "Hồ Nguyên Trừng",
+      "aliases": [
+        "Hồ Nguyên Trừng",
+        "Lê Trừng",
+        "Nam Ông"
+      ],
+      "image": "projects/ho-quy-ly/characters/char-b.png",
+      "imageV2": "projects/ho-quy-ly/characters/char-b.png"
     }
   ]
 }

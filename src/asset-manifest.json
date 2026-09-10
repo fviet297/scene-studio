@@ -3,282 +3,280 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Wide northern frontier ridgeline at smoky dawn on the 11th-century Đại Việt–Song",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide bleak coastal road in Hà Tĩnh at cold grey dusk; Hồ Quý Ly walks small and ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide northern frontier ridgeline at smoky dawn on the 11th-century Đại Việt–Song border; a long Đại Việt column in conical bamboo hats and quilted tunics with rattan shields, bamboo spears and crossbows pushes across the pass into Song land, war elephants and pack porters trailing, a tall square brick watchtower burning on the far ridge; the main figure rides small and off-center at about one-fifth frame height near the front, dust and low smoke rolling over the slope. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "prompt": "Wide bleak coastal road in Hà Tĩnh at cold grey dusk; Hồ Quý Ly walks small and off-center low and left at about one-fifth frame height, wrists bound with rope, head still upright; a long escort of early-15th-century Ming soldiers in red-trimmed brigandine and conical helmets march him along on East-Asian faces, some on horseback, spears and plain guidons over their shoulders; on the right a churned-up beach, grey surf and a beached war junk; villagers watch from a distance behind a bamboo hedge, cold sea mist drifting low, plain solid-color cloth banners, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Wide riverside quarter of an early-11th-century Lý-dynasty Đại Việt town at nigh",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide empty dark plain at deep night under a vast starless black sky; a single sm",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide riverside quarter of an early-11th-century Lý-dynasty Đại Việt town at night; timber houses with tiled roofs and a small brick-and-timber temple crowd a lantern-lit lane along the water, where scattered townsfolk in plain tunics and conical hats stop and look up at a single unnaturally bright star low over the rooftops; its cold light glints on the river, hanging lanterns sway, thin mist drifts between the eaves. The people have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "prompt": "Wide empty dark plain at deep night under a vast starless black sky; a single small figure in a plain long Đại Việt robe stands off-center at about one-fifth frame height, holding up one small oil lantern that throws a narrow warm pool of light onto the cracked ground; the darkness stretches to a low flat horizon on every side, a faint cold pre-dawn band barely showing far away, thin ground mist curling around the figure's feet, a few dry reeds bending; no other light, no buildings, plain solid-color cloth wrap on the figure, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Wide courtyard of a modest Lý-dynasty Đại Việt homestead at dusk in the 11th cen",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide Thăng Long riverfront at dusk in the late 14th century under a burning oran",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide courtyard of a modest Lý-dynasty Đại Việt homestead at dusk in the 11th century; a pregnant Vietnamese woman in a plain tunic and conical hat stands small and off-center, while a ragged old traveller stands before her, raising one hand as if delivering a mysterious prophecy. **Every family member in the courtyard is completely stunned and visibly focused on the old traveller: all heads turned toward him, all eyes fixed on him, bodies frozen mid-step, expressions of shock and astonishment, nobody looking at the pregnant woman or at the camera.** The pregnant woman herself also turns her head toward the old traveller, listening in disbelief. The old traveller is the clear visual focal point of the scene. Startled family members remain scattered naturally around the swept-earth yard, all frozen in reaction to the old man's words. A low timber house with a tiled roof, banana grove and bamboo fence behind, oil lamps just being lit. Cinematic wide establishing shot, balanced composition, characters seen at moderate distance, faces not readable but body language and head direction clearly communicate collective astonishment and attention toward the old traveller. Everyone has Vietnamese East Asian faces and historically appropriate 11th-century Đại Việt clothing. No Song/Ming/Qing Chinese elements, no Nguyen-dynasty elements, no European elements, no modern objects, no modern architecture."
+    "prompt": "Wide Thăng Long riverfront at dusk in the late 14th century under a burning orange sky; a Chăm war fleet of low oared galleys sweeps in small along the middle-ground river, Cham marines in patterned sarongs, tall cane helmets and ear ornaments landing on East-Asian faces with spears and round shields; on the near bank a Trần-dynasty Đại Việt court in tiered silk robes flees small toward the left through a laterite-brick city gate whose lintel is a plain bare stone slab with no plaque, sign or carving, palanquins and ox-carts jammed, thin smoke rising from tiled roofs behind; river water churned by oars, plain solid-color cloth banners on both sides, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-04",
     "scene": 4,
     "type": "ai_reconstruction",
-    "subject": "Wide military training ground outside a Lý-dynasty citadel at bright morning in ",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide dim late-Trần throne hall at candle-lit night; Hồ Quý Ly kneels small and o",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide military training ground outside a Lý-dynasty citadel at bright morning in the 11th century; ranks of Đại Việt soldiers in conical bamboo hats and quilted tunics drill with rattan shields and bamboo spears while grooms lead war horses along an earth wall; the main figure stands off-center at about one-fifth frame height reviewing the drill, dust rising under the marching feet, a low brick-and-timber gate tower behind. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "prompt": "Wide dim late-Trần throne hall at candle-lit night; Hồ Quý Ly kneels small and off-center on the right at about one-fifth frame height, receiving with both hands a long straight sword and a folded plain flag; an aged Trần king in layered imperial silk sits small and higher on a low tiered dais to the left, arm extended in the handover, both on East-Asian faces; court officials in tiered robes and tall gauze caps line the hall in the shadows, tall candle-stands throwing warm pools of light, lacquered timber columns, plain solid-color hanging cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-05",
     "scene": 5,
     "type": "ai_reconstruction",
-    "subject": "Wide dim throne hall of a Lý-dynasty palace in mourning at grey daylight in the ",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide open palace courtyard of packed earth at bright morning; Hồ Quý Ly stands s",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide dim throne hall of a Lý-dynasty palace in mourning at grey daylight in the 11th century; a very small child in oversized royal robes sits high on a broad lacquered throne under a tiled canopy, while rows of officials in dark robes bow low wearing white mourning cloth, incense smoke rising, a covered bier resting to one side; the hall's timber pillars and a raised brick platform frame the scene, cold light falling from high openings. All figures have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide open palace courtyard of packed earth at bright morning; Hồ Quý Ly stands small and off-center at about one-fifth frame height on a low raised stone platform at the head of the yard, one arm lifted as he takes the throne; ranks of early-Hồ Đại Việt guards in dark lamellar with spears and officials in tiered court robes and tall caps stand assembled below on East-Asian faces, heads slightly bowed; beyond, a tiled-roof palace hall and laterite-brick walls, a cold clear sky; the crowd stands stiff and unmoved, faces closed, plain solid-color cloth banners on tall poles, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-06",
     "scene": 6,
     "type": "ai_reconstruction",
-    "subject": "Wide Northern Song garrison depot on a northern plain at overcast midday in the ",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide vast early-Ming imperial audience hall at cold morning; a lone Đại Việt sup",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide Northern Song garrison depot on a northern plain at overcast midday in the 11th century; masses of Song infantry in lamellar armour and rounded helmets form up on a drill field while ox-carts, grain sacks and stacked crossbows are loaded at long timber storehouses, mounted officers directing, dust and cook-fire smoke drifting over the camp, a grey brick wall behind. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "prompt": "Wide vast early-Ming imperial audience hall at cold morning; a lone Đại Việt supplicant in a plain travel robe kneels small and off-center low in the foreground at about one-sixth frame height, forehead low, arms out in petition; far ahead and higher, the early-15th-century Ming emperor sits tiny on a tall tiered throne dais under a great tiled canopy, flanked by ranks of Ming officials in round-collar court robes and tall winged caps and guards in red-trimmed brigandine on East-Asian faces; towering lacquered red columns recede in perspective, cold light from high, plain solid-color hangings, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Wide earthen rampart of the Lý-dynasty capital at night in the 11th century; tor",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide northern frontier road winding down a forested mountain pass at hard midday",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide earthen rampart of the Lý-dynasty capital at night in the 11th century; torch-lit Đại Việt officers cluster over a war map spread on a low table while sentries in conical hats watch the dark northern road below; the main figure stands small and off-center at about one-fifth frame height at the parapet gazing north, braziers guttering, a tiled gate roof and plain banners behind, mist pooling over the fields beyond. All have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "characters": [],
+    "prompt": "Wide northern frontier road winding down a forested mountain pass at hard midday; a huge early-15th-century Ming army pours through small in a long diagonal column from far background to right foreground, endless ranks of soldiers in red-trimmed brigandine and conical helmets on East-Asian faces, cavalry, spearmen, supply carts and pack horses, dust rolling up thick over the column; laterite outcrops and bamboo on the slopes, a cold blue sky, plain solid-color cloth guidons on tall staffs along the line, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "Wide audience hall of a Lý-dynasty palace at daytime in the 11th century; two fi",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide riverbank command post at grey dawn; Hồ Nguyên Trừng stands small and off-c",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-a"
+      "char-b"
     ],
-    "prompt": "Wide audience hall of a Lý-dynasty palace at daytime in the 11th century; two files of officials in dark court robes kneel and lean forward attentively along a tiled floor while palace guards with rattan shields stand at the pillars; the main figure stands small and off-center at about one-fifth frame height before the throne dais with one arm raised mid-speech, shafts of light falling between timber columns onto a raised brick platform. All figures have Vietnamese East Asian faces. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "prompt": "Wide riverbank command post at grey dawn; Hồ Nguyên Trừng stands small and off-center at about one-fifth frame height on a low bluff over a wide misty river, half-turned to a cluster of early-Hồ Đại Việt officers in dark lamellar on East-Asian faces, one hand open in mid-sentence; behind him a moored line of Đại Việt war boats and a long earthwork rampart with spear ranks; grey river mist over the water, reeds along the bank, cold flat light, plain solid-color cloth banners drooping in the still air, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-09",
     "scene": 9,
     "type": "ai_reconstruction",
-    "subject": "Wide Song coastal prefecture under assault at dawn in the 11th century; a fleet ",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide assault on a high earth-and-brick citadel wall at hard noon; a massed early",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Song coastal prefecture under assault at dawn in the 11th century; a fleet of low Đại Việt war junks and sampans grounds on a muddy shore as troops in conical hats storm up toward a burning brick town gate, scaling ladders going up, arrows arcing, smoke pouring off the ramparts; the main figure stands small and off-center at about one-fifth frame height in the surf directing the landing, spray and low smoke across the water. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "characters": [],
+    "prompt": "Wide assault on a high earth-and-brick citadel wall at hard noon; a massed early-15th-century Ming army swarms small up long scaling ladders against the rampart from the foreground, soldiers in red-trimmed brigandine and conical helmets climbing thick as ants on East-Asian faces; early-Hồ Đại Việt defenders in dark lamellar line the parapet above, hurling rocks and thrusting spears, some ladders toppling with figures falling; heaped fallen bodies below the wall, dust and pale smoke rolling along the rampart, plain solid-color cloth banners on both sides, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-10",
     "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "Wide view of a great fortified Song city at hot noon in the 11th century; coloss",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide breached citadel gateway at chaotic noon; a line of early-Hồ Đại Việt war e",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide view of a great fortified Song city at hot noon in the 11th century; colossal grey brick walls with square corner towers rise above a dry moat, Đại Việt siege ranks in conical hats massed on the plain with rattan shields, scaling ladders and a battering ram, dust hanging over the host; the main figure stands small and off-center at about one-fifth frame height in the foreground facing the walls, tiny defenders along the distant battlements. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "characters": [],
+    "prompt": "Wide breached citadel gateway at chaotic noon; a line of early-Hồ Đại Việt war elephants stampedes small back in through a broken earth-and-brick gate toward the foreground, the gate lintel a plain bare stone slab with no plaque, sign, lettering or carving, the elephants panicked, trunks up, trampling their own Đại Việt spearmen in dark lamellar on East-Asian faces; behind them early-15th-century Ming soldiers in red-trimmed brigandine loose streaking fire-arrows and pour through the breach in pursuit; flames and thick smoke boiling around the gate, broken timbers and toppled banners, dust choking the yard, plain solid-color cloth banners, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-11",
     "scene": 11,
     "type": "ai_reconstruction",
-    "subject": "Wide breach in the burning brick wall of a great Song city at dusk in the 11th c",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide river estuary at bleak grey dawn; a scattered line of abandoned early-Hồ Đạ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide breach in the burning brick wall of a great Song city at dusk in the 11th century; Đại Việt storming parties in conical hats pour through the shattered gap over rubble and fallen ladders as flames roar up the towers and black smoke blots the sky, defenders in lamellar armour falling back into the streets, embers and ash swirling everywhere; no single figure dominates, the whole breach a churn of attackers and smoke. Đại Việt troops have Vietnamese East Asian faces, defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "prompt": "Wide river estuary at bleak grey dawn; a scattered line of abandoned early-Hồ Đại Việt war boats drifts small and empty across the wide water toward the sea mouth, some listing, some run aground on mud flats; a few Đại Việt soldiers in dark lamellar on East-Asian faces wade away from the boats up the far bank, weapons dropped, shoulders bent, no formation left; cold sea mist over the estuary, gulls low, dropped shields half-sunk in the mud, plain solid-color cloth banners trailing in the water, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-12",
     "scene": 12,
     "type": "ai_reconstruction",
-    "subject": "Wide mountain road winding south through the 11th-century Đại Việt borderlands a",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide cold reed marsh at overcast dusk; Hồ Quý Ly stands small and off-center at ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide mountain road winding south through the 11th-century Đại Việt borderlands at stormy late afternoon; a long Đại Việt column in conical hats and quilted tunics marches homeward with laden porters, pack elephants and captured carts, seen mostly from behind, while a wall of dark storm cloud builds low on the northern horizon behind them; wind bends the roadside grass and lifts dust along the track. Soldiers have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide cold reed marsh at overcast dusk; Hồ Quý Ly stands small and off-center at about one-fifth frame height among tall wet reeds, cornered and still; before him a single early-Hồ Đại Việt officer in dark lamellar kneels low on East-Asian faces, head bowed and weeping, one arm flung out in a desperate plea; a small huddle of exhausted Đại Việt retainers waits behind in the reeds, a few horses mired; leaden sky, still black water reflecting the reeds, thin mist low over the marsh, plain solid-color cloth banners drooping, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-13",
     "scene": 13,
     "type": "ai_reconstruction",
-    "subject": "Wide frontier valley on the northern edge of Đại Việt at cold overcast dawn in t",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide riverbank at the Phú Lương crossing at cold morning; two Đại Việt defectors",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide frontier valley on the northern edge of Đại Việt at cold overcast dawn in the 11th century; an enormous Song host in lamellar armour floods south along the road and across the fields in deep columns, cavalry, ox-carts and siege wagons stretching to the horizon, dust and breath-fog hanging over the mass; a small Đại Việt border post smoulders in the middle distance. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "prompt": "Wide riverbank at the Phú Lương crossing at cold morning; two Đại Việt defectors in early-Hồ robes crouch small and off-center in the foreground on the mud, unrolling a large blank hide map on the ground and pointing across the water on East-Asian faces; beside them an early-15th-century Ming general in red-trimmed brigandine leans over to look, his Ming column massing behind with rafts and pontoon timbers along the bank; the wide river runs cold in the middle ground, the far Đại Việt bank low and undefended, thin mist over the water, plain solid-color cloth guidons, no emblem or lettering. No Qing/Mongol-Yuan or European elements."
   },
   {
     "id": "scene-14",
     "scene": 14,
     "type": "ai_reconstruction",
-    "subject": "Wide bend of the Như Nguyệt river in Đại Việt at clear morning in the 11th centu",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide riverside military workshop yard at warm afternoon; Hồ Nguyên Trừng stands ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-a"
+      "char-b"
     ],
-    "prompt": "Wide bend of the Như Nguyệt river in Đại Việt at clear morning in the 11th century; along the south bank Đại Việt soldiers and laborers in conical hats drive rows of sharpened stakes and raise an earth-and-bamboo rampart, war boats moored below, drying nets and supply baskets along the shore; the main figure stands small and off-center at about one-fifth frame height on the new rampart surveying the far bank across the water, herons lifting off the reeds. All have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "prompt": "Wide riverside military workshop yard at warm afternoon; Hồ Nguyên Trừng stands small and off-center at about one-fifth frame height beside a mounted long bronze hand-cannon on a timber carriage, one arm directing the work; early-Hồ Đại Việt craftsmen in aprons on East-Asian faces cast and file bronze barrels at open forges, tend crucibles and hammer fittings; behind, a great two-tier Đại Việt war ship rises at a slipway on the river, workers swarming its decks and hull timbers; forge smoke and steam drifting, glowing metal, stacked barrels and coiled rope, plain solid-color cloth awnings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-15",
     "scene": 15,
     "type": "ai_reconstruction",
-    "subject": "Wide Song army camp on the north bank of a broad river at deep night in the 11th",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide citadel construction site of packed earth at bright morning; Hồ Nguyên Trừn",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide Song army camp on the north bank of a broad river at deep night in the 11th century; rows of tents, tethered horses and watchfires spread under the dark, soldiers in lamellar armour pausing and turning toward the black water where, on the far south bank, a small timber shrine glows faintly among the reeds; mist lies on the river, torch smoke drifting, the far rampart a low silhouette. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Wide citadel construction site of packed earth at bright morning; Hồ Nguyên Trừng stands small and off-center at about one-fifth frame height on a timber platform, one arm directing as a colossal dressed limestone block rides on log rollers, hauled by long ropes and a large timber windlass; crews of early-Hồ Đại Việt labourers in plain tunics on East-Asian faces heave the ropes, lever the block, and set courses of huge blue-grey stones; behind rises a massive dry-laid stone rampart and a tall arched vaulted stone gateway half-built; dust and stone-chip haze, scaffolding of lashed bamboo, plain solid-color cloth awnings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-16",
     "scene": 16,
     "type": "ai_reconstruction",
-    "subject": "Tighter wide shot of a cluster of Song soldiers at the river's edge on a black n",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 text2img)",
+    "subject": "Wide open-air prefectural school yard under a tiled-roof veranda at bright morni",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 text2img)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Tighter wide shot of a cluster of Song soldiers at the river's edge on a black night in the 11th century; men in lamellar armour grip their spears and stare uneasily across the misted water toward a faint far-bank glow, a few sinking to their knees, torchlight flickering on frightened faces half-turned away, breath-fog and drifting smoke around them, watchfires low behind. The soldiers have Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide open-air prefectural school yard under a tiled-roof veranda at bright morning; Hồ Quý Ly stands small and off-center at about one-fifth frame height overseeing rows of early-Hồ Đại Việt students seated at low desks on East-Asian faces, working with counting rods and wooden bead abacuses laid out on the desks; a teacher in a plain scholar's robe walks the rows; the paper sheets and plain wooden writing tablets on the desks are completely blank, smooth and unmarked with no writing, grid or glyph, brush pots, an open courtyard with a laterite-brick gate beyond, cold clear sky, plain solid-color cloth awnings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-17",
     "scene": 17,
     "type": "ai_reconstruction",
-    "subject": "Wide river crossing at grey dawn on the Như Nguyệt in the 11th century; Đại Việt",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide state treasury office under a tiled-roof hall at warm afternoon; early-Hồ Đ",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide river crossing at grey dawn on the Như Nguyệt in the 11th century; Đại Việt troops in conical hats surge from war boats and pole rafts onto the north bank, spears levelled, driving into a Song line that buckles and breaks toward the tree line, water churning white, arrows and smoke over the reeds; the main figure rides small and off-center at about one-fifth frame height leading the assault. Đại Việt troops have Vietnamese East Asian faces, the Song defenders Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "characters": [],
+    "prompt": "Wide state treasury office under a tiled-roof hall at warm afternoon; early-Hồ Đại Việt officials in plain court robes on East-Asian faces sit at low tables handing out neat stacks of paper notes to a queue of commoners in simple tunics, each note a smooth unmarked blank pale paper rectangle with no printing, pattern, grid or glyph, while assistants weigh and pour heaps of plain round bronze coins into wooden chests being carried to the back; the queue stretches out through an open laterite-brick doorway into daylight, ledgers and blank unmarked paper bundles piled on the tables, plain solid-color cloth awnings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-18",
     "scene": 18,
     "type": "ai_reconstruction",
-    "subject": "Wide fortified south bank of the Như Nguyệt at overcast midday in the 11th centu",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide state clinic courtyard under a tiled-roof veranda at soft morning; early-Hồ",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide fortified south bank of the Như Nguyệt at overcast midday in the 11th century; Đại Việt ranks in conical hats stand halted along the stakes and rampart rather than pursuing, a small unarmed party carrying a plain banner walks down to a moored boat to cross toward the far bank; the main figure stands small and off-center at about one-fifth frame height on the rampart with a raised open hand staying his troops, the beaten Song line drawing off in the far distance. All Đại Việt have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "characters": [],
+    "prompt": "Wide state clinic courtyard under a tiled-roof veranda at soft morning; early-Hồ Đại Việt physicians in plain robes on East-Asian faces tend rows of sick and poor villagers lying on low mats and seated on benches, grinding and weighing herbs at wooden apothecary shelves of blank drawers, ladling broth from a large pot to a queue of widows and orphans in simple tunics; a physician bandages a child, baskets of dried herbs and plain earthen jars around the yard, a laterite-brick wall and open gate beyond, plain solid-color cloth awnings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-19",
     "scene": 19,
     "type": "ai_reconstruction",
-    "subject": "Wide Như Nguyệt river line at clearing late afternoon in the 11th century; long ",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide high earthwork rampart above a sleeping Đại Việt river-plain at cold pre-da",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide Như Nguyệt river line at clearing late afternoon in the 11th century; long Song columns file away north over the far bank and up the road into the hills, while on the fortified south bank Đại Việt soldiers in conical hats stand easy along the rampart with banners raised; the main figure stands small and off-center at about one-fifth frame height watching them go, low sun breaking through cloud onto the water, herons crossing. Đại Việt have Vietnamese East Asian faces, the distant Song Han Chinese faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Ming/Qing or European elements, no Nguyen-dynasty gear."
+    "prompt": "Wide high earthwork rampart above a sleeping Đại Việt river-plain at cold pre-dawn; Hồ Quý Ly stands small and off-center at about one-fifth frame height on the rampart, facing out toward a faint cold band of first light on a low far horizon, one arm resting on the parapet; below and behind him the land lies dark and still, tiny scattered village lamps not yet woken, a wide river catching the first grey light, thin ground mist over the fields; a lone standard-pole beside him with plain solid-color cloth, no emblem or lettering. No Ming/Qing Chinese or European elements."
   },
   {
     "id": "scene-20",
     "scene": 20,
     "type": "ai_reconstruction",
-    "subject": "Wide sunlit audience hall of a Lý-dynasty palace at golden daytime in the 11th c",
-    "source": "AI generated (VMedia, vmedia:seedream_5_0 char-lock)",
+    "subject": "Wide quiet hall of a memorial temple at soft dim daylight; Hồ Quý Ly stands smal",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_5_0 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide sunlit audience hall of a Lý-dynasty palace at golden daytime in the 11th century; ranks of officials in court robes and palace guards with rattan shields bow toward the throne dais as the main figure stands small and off-center at about one-fifth frame height receiving honor at the center of the hall, banners hanging still, incense smoke rising in the light between timber pillars on a raised brick platform. All figures have Vietnamese East Asian faces. Banners are plain solid-crimson cloth, no emblem or lettering. No Song/Ming/Qing Chinese, Nguyen-dynasty or European elements."
+    "prompt": "Wide quiet hall of a memorial temple at soft dim daylight; Hồ Quý Ly stands small and off-center at about one-fifth frame height on the stone floor between two tall standing banners of plain cloth, one deep crimson and one plain dark, hung from the rafters on either side of him, facing forward; behind him a low altar table with plain earthen incense burners sending up thin smoke, worn stone column bases, an open doorway to the right letting in a shaft of pale daylight, dim cool shadow filling the hall, plain solid-color cloth hangings, no emblem or lettering. No Ming/Qing Chinese or European elements."
   }
 ]

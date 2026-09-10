@@ -1,0 +1,30 @@
+{
+  "character_id": "char-a",
+  "name": "Ho Quy Ly",
+  "display_name": "Hồ Quý Ly",
+  "aliases": ["Hồ Quý Ly", "Lê Quý Ly", "Thánh Nguyên", "hoàng đế Đại Ngu"],
+  "country": "Đại Ngu (Đại Việt)",
+  "period": "late 14th - early 15th century (c. 1336-1407)",
+  "dynasty": "Hồ dynasty (1400-1407)",
+  "role": "Reformer-minister under the late Trần court who seized the throne in 1400, founded the Hồ dynasty and the state of Đại Ngu; lost the country to the Ming invasion of 1406-1407",
+  "known_facts": [
+    "Rose to power as trusted great-minister of Trần Nghệ Tông, who gave him a sword and a flag inscribed 'Văn võ toàn tài, quân thần đồng đức'",
+    "Nghệ Tông's blind trust let him kill Trần Phế Đế and clan opponents; in 1400 he deposed the Trần and took the throne, era name Thánh Nguyên, renamed the country Đại Ngu",
+    "Within a year passed the throne to his second son Hồ Hán Thương and ruled as thái thượng hoàng, still deciding everything",
+    "Militarily weak: as a Trần general he lost repeatedly, was nearly killed by Chăm king Chế Bồng Nga and saved only by Trần Khát Chân",
+    "The pretext for invasion came from Trần Thiêm Bình, who fled to the Ming court claiming to be Trần Nghệ Tông's son and begged the Ming to attack",
+    "Sept 1406: 200,000 Ming troops under Trương Phụ and Mộc Thạnh invaded; reached the key citadel Đa Bang in four months",
+    "Đa Bang fell after his general Nguyễn Tông Đỗ drove war elephants out; Ming fire-arrows and guns spooked the elephants, which fled back into the fort with the Ming following",
+    "1407: the Hồ army dissolved at Lỗi Giang and Điển Canh without a real fight; general Ngụy Thức wept and begged the two Hồ to self-immolate rather than be taken",
+    "He refused to die with honour, fled to Hà Tĩnh, and he and his sons Hồ Nguyên Trừng and Hồ Hán Thương were captured",
+    "A radical reformer 'born in the wrong era': put mathematics into the civil exams, criticised formalist Confucianism, pushed practical study",
+    "Promoted chữ Nôm for common teaching and set up free schools at prefectural seats (before, only Thăng Long had public schools)",
+    "Set up y tỳ (state medical offices, an early hospital), reformed criminal law and taxes, exempted the landless, widows and orphans, and capped the number of bondservants on aristocratic estates - which struck the Trần nobility",
+    "Issued the first paper money in Vietnamese history, holding bronze for military and technical use rather than trade - a 19th-20th century idea in the 15th",
+    "Said by the author to be a 15th-century Vietnamese Minh Trị (Meiji), 400 years early, whose reforms were 'a firefly's streak in the desert night' because the age could not follow him",
+    "Of Chiết Giang (Chinese) descent by tradition, yet fought the Ming to the end and pushed Vietnamese self-reliance and chữ Nôm - the accusation of leaning to China does not fit his acts"
+  ],
+  "interpretation": "Late-Trần / early-Hồ Đại Việt court dress of the turn of the 15th century, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ho-quy-ly/characters/char-a.png"
+}

@@ -300,7 +300,7 @@ export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
     return {
-      prompt, aspect_ratio: ratio, size: '4k', max_images: 1,
+      prompt, aspect_ratio: ratio, size: '4K', max_images: 1,
       sequential_image_generation: 'disabled',
       ...(refUris.length ? { image_input: refUris } : {}),
     };

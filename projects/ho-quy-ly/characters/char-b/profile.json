@@ -1,0 +1,25 @@
+{
+  "character_id": "char-b",
+  "name": "Ho Nguyen Trung",
+  "display_name": "Hồ Nguyên Trừng",
+  "aliases": ["Hồ Nguyên Trừng", "Lê Trừng", "Nam Ông"],
+  "country": "Đại Ngu (Đại Việt)",
+  "period": "late 14th - early 15th century (c. 1374-1446)",
+  "dynasty": "Hồ dynasty",
+  "role": "Eldest son of Hồ Quý Ly; general, military engineer, architect and writer - one of Đại Việt's rare all-round technical geniuses",
+  "known_facts": [
+    "Before the war he warned: 'Thần không ngại đánh, chỉ sợ lòng dân có theo hay không theo mà thôi' - fearing the people would not follow the Hồ",
+    "Invented and directed the making of súng thần cơ (an improved firearm / hand-cannon) and thuyền cổ lâu (large two-tier war ships)",
+    "With these, Đại Việt's military technology outmatched the Ming on land and river - but a dynasty without the people's heart could not be saved by superior weapons",
+    "Chief engineer (tổng công trình sư) of Thành nhà Hồ and of the northern dyke/irrigation works during the Hồ reforms",
+    "Thành nhà Hồ: outer walls and four gates of dressed blue-green limestone, some blocks over 6 metres long and about 20 tonnes, dry-laid without mortar, standing 600+ years through earthquakes and bombing",
+    "About 20,000 cubic metres of stone and nearly 100,000 cubic metres of earth were moved; the citadel was built in only three months (early to spring 1397)",
+    "Archaeologists found round stone balls proving he used roller/pulley (windlass) techniques to move the huge blocks",
+    "Founder of the memoir genre in Vietnamese narrative prose",
+    "A man who prized practice, mathematics and natural science over the poetry-contest scholarship of his day - captured by the Ming, his genius was lost to Vietnam",
+    "Named beside eunuch-architect Nguyễn An (chief builder of Beijing's Forbidden City) as talents produced by the Hồ reforms and taken by the Ming"
+  ],
+  "interpretation": "Early-15th-century Hồ-era Đại Việt scholar-engineer/officer dress, based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ho-quy-ly/characters/char-b.png"
+}
