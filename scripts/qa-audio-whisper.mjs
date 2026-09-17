@@ -8,7 +8,7 @@
 //
 // Prints a per-scene table and a final FAIL list (scenes below the similarity threshold or with
 // a missing/short/empty transcript). Exit 0 if all pass, 1 if any fail. Requires OPENAI_API_KEY
-// (loaded from ./.env). Threshold overridable via QA_THRESHOLD (default 0.72).
+// (loaded from ./.env). Threshold overridable via QA_THRESHOLD (default 0.80).
 
 import { existsSync, openAsBlob, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,7 +18,7 @@ import { loadEnv } from './lib/replicate-image.mjs';
 loadEnv();
 const KEY = process.env.OPENAI_API_KEY;
 if (!KEY) { process.stderr.write('OPENAI_API_KEY not set (put it in .env).\n'); process.exit(2); }
-const THRESHOLD = Number(process.env.QA_THRESHOLD ?? 0.72);
+const THRESHOLD = Number(process.env.QA_THRESHOLD ?? 0.80);
 
 const argv = process.argv.slice(2);
 const paths = activePaths(argv);
@@ -57,11 +57,27 @@ const wordRatio = (a, b) => {
   return 1 - dp[x.length][y.length] / Math.max(x.length, y.length);
 };
 
-const transcribe = async (file) => {
+// Proper nouns from the plan, fed to Whisper as a decoding hint. Without it the ASR guesses at
+// Sino-Vietnamese names and the guess costs the scene real similarity: scene 5's "Chu Du, tự Công
+// Cẩn" came back as "Chú Rù tự công cẩn" — nothing was dropped, but a 13-word line scored 0.69.
+// The hint only steers spelling of names the narration already contains, so a genuinely dropped
+// or garbled word still shows up as drift.
+// A capitalised run that does not open a sentence is a name, so each sentence drops its first
+// word before the scan — every sentence starts capitalised and would otherwise look like one.
+const NAME = /\p{Lu}[\p{L}\p{M}]*(?:\s\p{Lu}[\p{L}\p{M}]*)*/gu;
+const properNouns = (scenes) => {
+  const found = scenes.flatMap((s) => s.narration
+    .split(/(?<=[.!?])\s+/)
+    .flatMap((sentence) => sentence.replace(/^\S+\s*/, '').match(NAME) ?? []));
+  return [...new Set(found)].join(', ').slice(0, 600);
+};
+
+const transcribe = async (file, hint) => {
   const form = new FormData();
   form.set('file', await openAsBlob(file), file.split('/').pop());
   form.set('model', 'whisper-1');
   form.set('language', 'vi');
+  form.set('prompt', hint);
   form.set('response_format', 'json');
   const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
     method: 'POST', headers: { Authorization: `Bearer ${KEY}` }, body: form,
@@ -71,6 +87,9 @@ const transcribe = async (file) => {
 };
 
 const targets = plan.scenes.filter((s) => s.narration && (!only.length || only.includes(s.scene)));
+// Built from every scene, not just the targets, so a single-scene run gets the same hint as a
+// full run and therefore the same score.
+const hint = properNouns(plan.scenes.filter((s) => s.narration));
 const fails = [];
 process.stdout.write(`Whisper QA · project=${paths.slug} · ${targets.length} scene(s) · threshold=${THRESHOLD}\n`);
 process.stdout.write(`scene  sim    dur    status  transcript≈expected\n`);
@@ -82,7 +101,7 @@ for (const s of targets) {
     fails.push(s.scene); continue;
   }
   let text = '';
-  try { text = await transcribe(file); }
+  try { text = await transcribe(file, hint); }
   catch (e) { process.stdout.write(`  ${String(s.scene).padStart(2)}   ----   ----   FAIL    (${e.message.slice(0, 60)})\n`); fails.push(s.scene); continue; }
   const sim = wordRatio(s.narration, text);
   const ok = sim >= THRESHOLD && norm(text).length > 0;

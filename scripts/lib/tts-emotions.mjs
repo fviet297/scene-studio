@@ -14,13 +14,25 @@
 //   guidance_scale       — emphasis / commitment (0..4; higher = more deliberate)
 //   position_temperature — prosodic variety (0 flat … higher livelier)
 //   class_temperature    — token-sampling liveliness (0 = monotone; the key knob for expression)
+//
+// Two limits learned from Whisper QA, both of which showed up as dropped words:
+//
+//   speed never exceeds 1.0. The model does not speak faster — it shortens the target audio it
+//   has to fit the text into (omnivoice `_estimate_target_tokens` divides the estimate by speed).
+//   At speed 1.12 the tense scenes landed at 20-21 characters/second and the model started
+//   discarding content: scene 12's "Chu Du mượn gió." vanished outright. Urgency comes from
+//   guidance_scale and position_temperature instead, which change delivery, not the budget.
+//
+//   class_temperature stays modest (≤ 0.5). It is the randomness knob, so it buys expression and
+//   mispronunciations from the same purse — at 0.7 "mấy hàng cọc gỗ" came back as "mấy hàng quả".
+//   guidance_scale is raised to compensate: stronger conditioning tracks the text more closely.
 export const EMOTIONS = {
-  neutral:  { speed: 1.0,  guidance_scale: 2.4, position_temperature: 6, class_temperature: 0.5 },
-  dramatic: { speed: 0.95, guidance_scale: 3.0, position_temperature: 7, class_temperature: 0.7 },
-  tense:    { speed: 1.12, guidance_scale: 2.7, position_temperature: 7, class_temperature: 0.7 },
-  somber:   { speed: 0.9,  guidance_scale: 2.6, position_temperature: 5, class_temperature: 0.45 },
-  hopeful:  { speed: 1.0,  guidance_scale: 2.5, position_temperature: 6, class_temperature: 0.6 },
-  curious:  { speed: 1.03, guidance_scale: 2.4, position_temperature: 7, class_temperature: 0.65 },
+  neutral:  { speed: 1.0,  guidance_scale: 2.6, position_temperature: 6, class_temperature: 0.40 },
+  dramatic: { speed: 0.95, guidance_scale: 3.0, position_temperature: 7, class_temperature: 0.50 },
+  tense:    { speed: 1.0,  guidance_scale: 3.0, position_temperature: 7, class_temperature: 0.45 },
+  somber:   { speed: 0.9,  guidance_scale: 2.8, position_temperature: 5, class_temperature: 0.35 },
+  hopeful:  { speed: 0.98, guidance_scale: 2.7, position_temperature: 6, class_temperature: 0.45 },
+  curious:  { speed: 1.0,  guidance_scale: 2.6, position_temperature: 7, class_temperature: 0.50 },
 };
 
 export const EMOTION_NAMES = Object.keys(EMOTIONS);
