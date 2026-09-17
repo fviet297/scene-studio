@@ -1,6 +1,7 @@
 // Asset audit: enforces diversity + integrity before render. Exits non-zero on hard errors.
 //
 // Checks:
+//   ERROR  scene in the plan with no image file (render would 404)
 //   ERROR  missing file referenced by manifest
 //   ERROR  orphan reference (manifest entry with no file on disk)
 //   WARN   same sourceUrl reused across scenes (repeated portrait/image)
@@ -11,11 +12,13 @@
 // Run: node scripts/check-assets.mjs
 
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { activePaths } from './lib/project-paths.mjs';
+import { join } from 'node:path';
+import { activePaths, sceneBase } from './lib/project-paths.mjs';
 
 const paths = activePaths();
 const IMAGE_DIR = paths.imageDir;
 const MANIFEST = paths.manifest;
+const PLAN = 'src/scene-plan.json';
 const SINGLE_SOURCE_LIMIT = 0.6;
 const SUBJECT_REPEAT_LIMIT = 2;
 
@@ -24,11 +27,34 @@ if (!existsSync(MANIFEST)) {
   process.exit(1);
 }
 
+if (!existsSync(PLAN)) {
+  process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`);
+  process.exit(1);
+}
+const plan = JSON.parse(readFileSync(PLAN, 'utf8'));
+if (plan.project !== paths.slug) {
+  process.stderr.write(`${PLAN} is for "${plan.project}" but "${paths.slug}" is active. Run parse-scene-plan.mjs\n`);
+  process.exit(1);
+}
+
 const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
 const onDisk = new Set(readdirSync(IMAGE_DIR).filter((f) => /\.(jpe?g|png|svg|webp)$/i.test(f)));
 const errors = [];
 const warnings = [];
 const infos = [];
+
+// Coverage: the composition loads `images/scene-NN.jpg` for every scene in the plan
+// (src/ScenePlanVideo.tsx), so a scene with no such file 404s and cancels the render. The
+// manifest checks below cannot catch this: a scene that was never generated has no manifest
+// entry, so there is nothing for them to find missing. Walk the plan, not the manifest.
+// The `.jpg` is deliberate — the renderer hardcodes that extension, so a stray scene-05.png
+// is still a missing image as far as the render is concerned.
+for (const scene of plan.scenes) {
+  const file = `${sceneBase(scene.scene)}.jpg`;
+  if (!existsSync(join(IMAGE_DIR, file))) {
+    errors.push(`scene ${scene.scene} has no image (${file}) — run: node scripts/generate-visuals.mjs ${scene.scene}`);
+  }
+}
 
 // Integrity: every manifest id must map to a file.
 for (const entry of manifest) {
@@ -78,5 +104,5 @@ const print = (label, list) => list.forEach((line) => process.stdout.write(`${la
 print('ERROR', errors);
 print('WARN ', warnings);
 print('INFO ', infos);
-process.stdout.write(`\n${errors.length} errors, ${warnings.length} warnings, ${manifest.length} assets, ${providerCount.size} providers.\n`);
+process.stdout.write(`\n${errors.length} errors, ${warnings.length} warnings, ${plan.scenes.length} scenes, ${manifest.length} assets, ${providerCount.size} providers.\n`);
 process.exit(errors.length ? 1 : 0);
