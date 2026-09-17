@@ -1,0 +1,2829 @@
+{
+  "slug": "ngoquyen-chudu",
+  "title": "Ngô Quyền - Chu Du",
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "publicPrefix": "projects/ngoquyen-chudu",
+  "fps": 30,
+  "durationInFrames": 3620,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Hai dòng sông. Hai hạm đội phương Bắc kéo xuống. Cả hai đều nằm lại dưới đáy.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide storm-dark river estuary at dusk; Ngo Quyen stands small and off-center on the prow of a small dugout boat left of centre, Zhou Yu stands small and further back on the foredeck of a tiered lacquered war junk to the right, both facing each other across open grey water; behind Ngo Quyen East Asian tenth-century Dai Viet rowers in plain hemp tunics and conical palm-leaf hats crowd low boats among reed banks; behind Zhou Yu East Asian soldiers in late-second-century Chinese lacquered leather lamellar line the decks of tall tiered junks with ji halberds and crossbows; wind drives spray off the chop, torn cloud races low, dark smoke trails on the far horizon, plain solid-indigo cloth banners on the near boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact identity of both characters, their faces, costumes, the small boats, the tiered junks, the two crews, reed banks, lighting and composition; do not redesign, morph, add or remove any character or object; no period or style change; no text or watermark. Keep the camera locked. Torn cloud races low across the sky, wind tears spray off the chop and the grey water heaves, the small boats rise and fall and their oars dip, the tall junks roll slowly, reeds flatten along the banks, distant smoke drifts sideways on the horizon, plain banners whip on both sides. Keep both main figures stable, expressions and poses unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated or merged characters, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cửa sông rộng tối om trong giông lúc chạng vạng; Ngô Quyền đứng nhỏ và lệch tâm trên mũi một chiếc thuyền độc mộc gỗ nhỏ thấp bên trái tâm, Chu Du đứng nhỏ và lùi sâu hơn trên boong trước một chiến thuyền lâu thuyền sơn mài nhiều tầng bên phải, cả hai đối diện nhau qua mặt nước xám mênh mông; sau lưng Ngô Quyền là các tay chèo Đại Việt thế kỷ 10 gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, chen chúc trên một hàng thuyền thấp giữa bãi lau và bãi bùn; sau lưng Chu Du là lính gương mặt Đông Á mặc giáp phiến da sơn mài Trung Hoa cuối thế kỷ 2 dàn kín boong những lâu thuyền cao với kích và nỏ; gió cuốn bọt nước khỏi ngọn sóng, mây rách chạy thấp, khói đen kéo dài ở chân trời xa, cờ vải chàm trơn trên thuyền gần và cờ vải đỏ thẫm trơn trên lâu thuyền, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính cả hai nhân vật, khuôn mặt, trang phục, thuyền nhỏ, lâu thuyền nhiều tầng, hai đoàn quân, bãi lau, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất kỳ nhân vật hay vật thể nào; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Mây rách chạy thấp ngang trời, gió xé bọt nước khỏi ngọn sóng và mặt nước xám dâng hụp, những chiếc thuyền nhỏ nhấp nhô và mái chèo khỏa xuống, các lâu thuyền cao lắc lư chậm, lau sậy rạp xuống dọc bờ, khói xa trôi ngang ở chân trời, cờ trơn quật phần phật ở cả hai phía. Giữ cả hai nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản hay hòa lẫn nhân vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 2,
+      "narration": "Một người đốt sạch hạm đội địch bằng một cơn gió.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide night river seen low over the water; Zhou Yu stands small and off-center at about one-fifth frame height on the prow of a low late-second-century Chinese war junk in the near foreground, back to the camera, watching; far across the black water a long line of tall tiered junks burns from end to end, orange flame climbing masts and rigging, sparks streaming downwind in a long trail, burning debris and swimming men scattered on the lit water between; East Asian crewmen in lacquered leather lamellar crouch at the oars around him, their faces lit orange, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the near war junk, the burning line of junks, the crewmen, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Flames climb and roll along the distant line of hulls, sparks stream downwind in a long trail, orange firelight flickers across the black water and over the crewmen's faces, the near junk lifts gently on the swell and the oars dip, swimmers struggle in the lit water, smoke bends flat across the sky, plain banners snap. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Mặt sông đêm rộng nhìn thấp sát nước; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên mũi một chiến thuyền Trung Hoa thấp cuối thế kỷ 2 ở tiền cảnh gần, quay lưng về phía máy quay, đang nhìn; xa bên kia mặt nước đen, một hàng dài lâu thuyền cao cháy suốt từ đầu đến cuối, lửa cam leo lên cột buồm và dây lèo, tàn lửa bay thành vệt dài theo gió, mảnh vỡ cháy và người bơi rải rác trên mặt nước sáng lửa ở giữa; các tay chèo gương mặt Đông Á mặc giáp phiến da sơn mài khom người bên mái chèo quanh ông, mặt hắt ánh cam, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chiến thuyền gần, hàng lâu thuyền đang cháy, các tay chèo, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa leo lên và cuộn dọc hàng thân thuyền phía xa, tàn lửa bay thành vệt dài theo gió, ánh lửa cam chập chờn trên mặt nước đen và trên mặt các tay chèo, chiếc thuyền gần dập dềnh nhẹ theo sóng lừng và mái chèo khỏa xuống, người bơi vùng vẫy trong vùng nước sáng lửa, khói ép ngang bầu trời, cờ trơn phần phật. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 3,
+      "narration": "Người kia dìm cả hạm đội bằng mấy hàng cọc gỗ. Vậy Ngô Quyền với Chu Du, ai cao tay hơn?",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet river estuary at grey dawn, seen low over the water at falling tide; rows of thick iron-capped wooden stakes break the surface in staggered lines across the channel, one tall tiered northern junk impaled and rolling onto its side in the middle distance, hull split, men spilling into the brown water; Ngo Quyen stands small and off-center at about one-fifth frame height on a low dugout boat at the left edge, arm out giving an order; East Asian rowers in plain hemp tunics and conical palm-leaf hats work the oars around him, reed banks and mudflats behind, cold mist on the water, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the stake rows, the impaled junk, the dugout boat, rowers, reed banks, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The falling tide slides past the stakes leaving swirling wakes and more stake tips break the surface, the impaled junk rolls further onto its side with water pouring through the split hull, men tumble and struggle in the brown current, the dugout rocks and oars dip, cold mist drifts low over the water, reeds bend along the banks, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cửa sông Đại Việt thế kỷ 10 rộng lúc rạng đông xám, nhìn thấp sát mặt nước khi triều đang rút; những hàng cọc gỗ lớn bịt chóp sắt nhô lên khỏi mặt nước thành các tuyến so le chắn ngang lòng lạch, một lâu thuyền phương Bắc cao bị đâm thủng đang lật nghiêng ở trung cảnh, thân vỡ toác, người đổ xuống dòng nước nâu; Ngô Quyền đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một chiếc thuyền độc mộc thấp ở mép trái, tay vươn ra hạ lệnh; các tay chèo gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, khỏa mái chèo quanh ông, bãi lau và bãi bùn phía sau, sương lạnh trên mặt nước, cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, các hàng cọc, chiếc lâu thuyền bị đâm thủng, thuyền độc mộc, tay chèo, bãi lau, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Triều rút trượt qua các cọc để lại những xoáy nước và thêm nhiều đầu cọc nhô lên khỏi mặt nước, chiếc lâu thuyền bị đâm lật nghiêng thêm, nước tuôn qua chỗ thân vỡ, người ngã nhào và vùng vẫy trong dòng nước nâu, chiếc thuyền độc mộc chòng chành và mái chèo khỏa xuống, sương lạnh trôi thấp trên mặt nước, lau sậy ngả dọc bờ, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 4,
+      "narration": "Ngô Quyền vừa là tướng, vừa là con rể của Dương Đình Nghệ, đang giữ đất Ái Châu.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet drill ground of packed red earth outside a low laterite-block rampart at mid-morning; Ngo Quyen stands small and off-center at about one-fifth frame height on a raised earthen step at the right, watching the drill; East Asian troops in plain hemp tunics and conical palm-leaf hats advance in ranks with bamboo spears and round rattan shields, a second group practises archery at straw butts, grooms lead horses along the rampart foot, a water buffalo cart brings bundled bamboo through a timber gate, dust hanging in the warm light, thatched stilt houses and areca palms beyond the wall, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the drilling troops, archers, horses, buffalo cart, rampart, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The ranks step forward together and spears sway, arrows fly into the straw butts and the archers draw again, horses toss their heads as the grooms lead them, the buffalo cart creaks slowly through the gate, dust drifts up through the warm light, areca fronds move in the breeze, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bãi tập rộng bằng đất đỏ nện của Đại Việt thế kỷ 10 bên ngoài một lũy đá ong thấp vào giữa buổi sáng; Ngô Quyền đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một bậc đất đắp bên phải, đang quan sát buổi luyện tập; quân gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, tiến theo hàng với giáo tre và khiên mây tròn, một tốp khác tập bắn cung vào bia rơm, mã phu dắt ngựa dọc chân lũy, một chiếc xe trâu chở tre bó đi qua cổng gỗ, bụi lơ lửng trong nắng ấm, nhà sàn mái tranh và hàng cau phía sau tường, cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, đoàn quân đang luyện, cung thủ, ngựa, xe trâu, lũy đất, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Các hàng quân bước tới cùng nhịp và rừng giáo dập dềnh, tên bay cắm vào bia rơm và cung thủ lại giương cung, ngựa hất đầu khi mã phu dắt đi, xe trâu kẽo kẹt qua cổng, bụi bốc lên trong nắng ấm, tàu cau lay trong gió nhẹ, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 5,
+      "narration": "Còn Chu Du, tự Công Cẩn, ngoài ba mươi tuổi đã nắm trong tay toàn bộ thủy quân Đông Ngô.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-second-century Chinese riverside naval base at clear sunrise; Zhou Yu stands small and off-center at about one-fifth frame height on a long timber jetty at the left, reviewing the fleet; rows of tiered lacquered war junks lie moored along the bank with rowers running out oars and crews hauling on halyards, East Asian officers in lacquered leather lamellar walk the jetty with tallies, labourers roll water jars and carry bundled arrows aboard, a slipway holds a half-built hull with carpenters working on it, river mist burning off the wide brown water, low tile-roofed timber sheds and drying sails behind, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the jetty, moored junks, officers, labourers, slipway hull, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in. Oars run out along the hulls and the moored junks rock gently against the jetty, crews haul on halyards and a sail creeps up, labourers roll jars and carry bundles up the gangplanks, carpenters work on the half-built hull, river mist thins and drifts off the brown water, drying sails ripple, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Căn cứ thủy quân ven sông Trung Hoa cuối thế kỷ 2 rộng lúc bình minh quang đãng; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một cầu tàu gỗ dài bên trái, đang duyệt hạm đội; từng hàng lâu thuyền sơn mài nhiều tầng neo dọc bờ, các tay chèo thả mái chèo ra và thủy thủ kéo dây buồm, sĩ quan gương mặt Đông Á mặc giáp phiến da sơn mài đi trên cầu tàu với thẻ kiểm, phu vần những vò nước và khiêng bó tên lên thuyền, một triền đà có thân thuyền đóng dở với thợ mộc đang làm, sương sông tan dần trên mặt nước nâu rộng, những dãy nhà kho gỗ mái ngói thấp và buồm phơi phía sau, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, cầu tàu, lâu thuyền neo đậu, sĩ quan, phu khiêng, thân thuyền trên triền đà, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú đẩy máy vào rất chậm. Mái chèo thò ra dọc thân thuyền và những chiếc lâu thuyền neo khẽ dập dềnh sát cầu tàu, thủy thủ kéo dây buồm và một cánh buồm từ từ trườn lên, phu vần vò nước và khiêng bó hàng lên ván cầu, thợ mộc làm việc trên thân thuyền đóng dở, sương sông loãng dần và trôi khỏi mặt nước nâu, buồm phơi gợn sóng, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 6,
+      "narration": "Năm 937, Kiều Công Tiễn giết chủ tướng để cướp ghế, rồi quay sang cầu cứu Nam Hán. Ngô Quyền kéo quân ra Đại La, chém kẻ phản bội.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet earthen citadel wall at overcast dawn, assault in progress; Ngo Quyen rides small and off-center at about one-fifth frame height across the churned field left of centre, sword raised, driving the attack; East Asian troops in plain hemp tunics and conical palm-leaf hats swarm up bamboo scaling ladders and batter a timber gate with a slung log, arrows fly both ways, defenders in plain tunics crowd the parapet with their backs to the camera and faces not readable, one defending officer already dragged down inside the gateway; smoke from a burning watch shed drifts across the wet field, mud and standing water underfoot, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the horse, the earthen wall, ladders, gate, attackers and defenders, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The slung log swings and thuds against the timber gate, men climb the bamboo ladders rung by rung, arrows streak both ways, the defenders on the parapet shift and duck, smoke from the burning shed rolls low across the wet field, puddles ripple and mud splashes under the hooves, the horse shifts its weight, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Tường thành đất Đại Việt thế kỷ 10 rộng lúc rạng sáng u ám, trận công thành đang diễn ra; Ngô Quyền cưỡi ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, băng qua cánh đồng xới nát phía trái tâm, giơ kiếm thúc quân; quân gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, trèo ào lên thang tre và húc cổng gỗ bằng một thân cây treo dây, tên bay hai chiều, quân giữ thành mặc áo vải trơn chen chúc trên mặt tường quay lưng về máy quay, khuôn mặt không rõ, một viên tướng giữ thành đã bị kéo ngã trong lòng cổng; khói từ một chòi canh đang cháy trôi ngang cánh đồng ướt, bùn và nước đọng dưới chân, cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh trầm lắng. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, con ngựa, tường thành đất, thang, cổng, quân công và quân giữ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Thân cây treo dây vung tới và giáng thình vào cổng gỗ, người trèo thang tre từng bậc, tên vạch hai chiều, quân trên mặt tường xê dịch và né tránh, khói từ chòi canh cháy cuộn thấp ngang cánh đồng ướt, vũng nước gợn và bùn bắn dưới vó ngựa, con ngựa dồn trọng tâm, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 7,
+      "narration": "Năm 208, Tào Tháo ép xuống phía nam. Cả triều Đông Ngô bàn nhau chuyện đầu hàng. Chỉ một mình Chu Du đòi đánh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-second-century Chinese timber audience hall at night, lit by standing bronze lamps; Zhou Yu stands small and off-center at about one-fifth frame height on the open matting floor to the right, alone and turned toward the dais, one hand out mid-argument; two long rows of East Asian officials in dark long-sleeved robes and lacquered gauze headwear kneel on mats facing each other, several leaning together murmuring, one rising to object, bamboo slip documents unrolled on low tables between them, guards in lacquered leather lamellar at the door posts, lamp smoke rising into the heavy roof timbers, rain running off the eaves outside, plain solid-crimson cloth hangings, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the kneeling officials, lamps, low tables, guards, hall timbers, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. The lamp flames gutter and lamp smoke curls up into the roof timbers, the kneeling officials shift and lean together murmuring, sleeves and robe hems stir, the rising official sways as he objects, rain streams off the eaves and drips past the open doorway, the crimson hangings breathe in the draught. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Đại sảnh gỗ Trung Hoa cuối thế kỷ 2 rộng vào ban đêm, thắp bằng những cây đèn đồng đứng; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên nền chiếu trống bên phải, một mình và quay về phía bệ, một tay đưa ra giữa lúc tranh luận; hai hàng dài quan lại gương mặt Đông Á mặc áo thụng tay dài sẫm màu và mũ sa sơn quỳ trên chiếu đối diện nhau, vài người chụm đầu thì thầm, một người nhổm dậy phản bác, thẻ tre mở ra trên những chiếc bàn thấp ở giữa, lính gác mặc giáp phiến da sơn mài đứng ở cột cửa, khói đèn bốc lên rường mái nặng nề, mưa chảy từ mái hiên bên ngoài, rèm vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, các quan đang quỳ, đèn, bàn thấp, lính gác, rường mái, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú đẩy máy vào chậm. Ngọn đèn chập chờn và khói đèn cuộn lên rường mái, các quan quỳ xê dịch và chụm vào nhau thì thầm, tay áo và vạt áo khẽ lay, viên quan nhổm dậy chao người khi phản bác, mưa xối từ mái hiên và nhỏ giọt qua khung cửa mở, những tấm rèm đỏ thẫm phập phồng trong gió lùa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 8,
+      "narration": "Ngô Quyền cho đóng những hàng cọc lớn bịt sắt xuống đáy Bạch Đằng, đầu cọc nghiêng theo hướng nước rút. Triều lên, cọc biến mất.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet tidal mudflat at night under torchlight, tide out; Ngo Quyen stands small and off-center at about one-fifth frame height on a bamboo raft at the right, leaning on a pole and watching the work; dozens of East Asian villagers and soldiers in plain hemp tunics and conical palm-leaf hats work along the exposed channel bed, some standing on crossbars lashed to tall wooden stakes and rocking them down into the mud, others hauling on guide ropes, a line of low boats ferries fresh stakes in with iron caps stacked in the bows, torches on poles reflecting in shallow water, mud churned around bare legs, reed banks and mangrove behind, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the bamboo raft, the stakes, the working villagers, boats, torches, mudflat, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The men on the crossbars rock rhythmically and the stakes sink a little deeper, guide ropes go taut and slack, the ferry boats nose in and rock as stakes are lifted out, torch flames stream and their reflections shiver in the shallow water, thin mist creeps over the mudflat, reeds move in the night breeze, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated workers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bãi bùn triều Đại Việt thế kỷ 10 rộng trong đêm dưới ánh đuốc, triều đang cạn; Ngô Quyền đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một chiếc bè tre bên phải, tựa vào cây sào và quan sát công việc; hàng chục dân làng và quân lính gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, làm việc dọc lòng lạch lộ ra, một số đứng trên que nháng buộc ngang thân cọc gỗ cao mà nhún lắc cho cọc lún xuống bùn, số khác kéo dây nháng, một hàng thuyền thấp chở cọc mới vào với những chóp sắt xếp ở mũi, đuốc cắm trên sào hắt bóng xuống làn nước nông, bùn nhão quanh những đôi chân trần, bãi lau và rừng ngập mặn phía sau, cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chiếc bè tre, các cây cọc, dân làng đang làm việc, thuyền, đuốc, bãi bùn, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Những người đứng trên que nháng nhún lắc nhịp nhàng và cọc lún sâu thêm một chút, dây nháng căng rồi chùng, thuyền chở cọc lách vào và chòng chành khi cọc được nhấc ra, ngọn đuốc bạt theo gió và bóng lửa run rẩy trên làn nước nông, sương mỏng bò qua bãi bùn, lau sậy lay trong gió đêm, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người làm, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 9,
+      "narration": "Chu Du thì chọn lửa. Hoàng Cái gửi thư trá hàng, rồi lùa cả đoàn thuyền chất đầy củi dầu vào hạm đội Tào.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-second-century Chinese river anchorage at dusk seen from behind the launching line; Zhou Yu stands small and off-center at about one-fifth frame height on the high stern deck of a moored war junk at the left, arm lowered giving the signal; in the middle ground East Asian crewmen in lacquered leather lamellar pack a row of low broad boats with bundled brushwood, dry reed and sealed oil jars, lashing them down and casting off one by one, the nearest boat already alight with flame licking along the bundles as two men drop over the side into a trailing skiff, wind combing the water downstream toward a dark mass of tall moored junks on the far bank, sparks and smoke laying flat, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the moored junk, the loaded fire boats, crewmen, oil jars, far anchorage, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Flame spreads along the brushwood bundles of the nearest boat and the loaded boats drift out one by one on the current, crewmen lash and cast off and two men drop into the trailing skiff, sparks and smoke lay flat downwind, the water runs fast and glinting toward the far anchorage, the moored junk lifts on the swell, plain banners snap. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bến neo thuyền trên sông Trung Hoa cuối thế kỷ 2 rộng lúc chạng vạng, nhìn từ phía sau tuyến xuất phát; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên boong lái cao của một chiến thuyền đang neo bên trái, hạ tay ra hiệu; ở trung cảnh, thủy thủ gương mặt Đông Á mặc giáp phiến da sơn mài chất lên một dãy thuyền thấp bè ngang những bó củi khô, lau khô và vò dầu gắn kín, chằng buộc rồi lần lượt tháo dây rời bến, chiếc gần nhất đã bén lửa, ngọn lửa liếm dọc các bó củi trong khi hai người buông mình xuống chiếc xuồng kéo phía sau, gió chải mặt nước xuôi về phía một khối lâu thuyền cao sẫm màu neo bên bờ xa, tàn lửa và khói ép nằm ngang, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chiếc chiến thuyền neo, những thuyền lửa đã chất đầy, thủy thủ, vò dầu, bến neo phía xa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa lan dọc các bó củi của chiếc thuyền gần nhất và những chiếc thuyền chất đầy lần lượt trôi ra theo dòng, thủy thủ chằng buộc rồi tháo dây và hai người buông xuống chiếc xuồng kéo, tàn lửa và khói ép nằm ngang theo gió, mặt nước chảy xiết lấp loáng về phía bến neo xa, chiếc thuyền neo dập dềnh theo sóng lừng, cờ trơn phần phật. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 10,
+      "narration": "Nhìn kỹ thì hai người giống nhau một điểm. Cả hai đều ít quân hơn hẳn.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide river mouth at hard midday light, seen from a low reed bank; an enormous tenth-century Chinese invasion fleet of tall tiered war junks fills the water from edge to edge in receding ranks, sails set, oars out, wakes crossing; in the near foreground four tiny Dai Viet dugout boats sit low among the reeds with East Asian scouts in plain hemp tunics and conical palm-leaf hats crouching to watch, one already pushing off with a pole; herons lifting off the shallows, heat haze over the brown water, plain solid-crimson cloth banners on the fleet and plain solid-indigo cloth banners on the small boats, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact fleet, the small dugout boats, the scouts, reeds, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow lateral drift along the reed bank. The great fleet moves forward together with oars dipping and sails filling, long wakes spreading and crossing on the brown water, the tiny dugouts rock among the reeds and one slides off behind cover, reeds sway and part in the breeze, herons beat up off the shallows, heat haze shimmers over the far ranks, plain banners sway on every hull. Keep the crouching scouts stable, poses unchanged. Motion intensity low to medium, environmental motion strong and natural. No warped limbs, extra fingers, duplicated ships, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cửa sông rộng dưới nắng gắt giữa trưa, nhìn từ một bờ lau thấp; một hạm đội xâm lược Trung Hoa thế kỷ 10 khổng lồ gồm những lâu thuyền cao lấp kín mặt nước từ mép này sang mép kia thành từng lớp lùi dần, buồm căng, mái chèo thò ra, vệt nước đan nhau; ở tiền cảnh gần, bốn chiếc thuyền độc mộc Đại Việt bé xíu nằm thấp giữa đám lau với những người do thám gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, khom mình quan sát, một người đã chống sào đẩy thuyền đi; đàn cò bay lên khỏi vùng nước nông, hơi nóng bốc trên mặt nước nâu, cờ vải đỏ thẫm trơn trên hạm đội và cờ vải chàm trơn trên những chiếc thuyền nhỏ, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác hạm đội, những chiếc thuyền độc mộc nhỏ, người do thám, đám lau, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú trôi ngang rất chậm dọc bờ lau. Hạm đội lớn tiến tới cùng lúc với mái chèo khỏa xuống và buồm căng gió, những vệt nước dài loang ra và đan nhau trên mặt nước nâu, mấy chiếc thuyền độc mộc bé xíu chòng chành giữa đám lau và một chiếc trượt đi khuất sau bờ, lau sậy đung đưa và rẽ ra trong gió, đàn cò vỗ cánh bay lên khỏi vùng nước nông, hơi nóng rung rinh trên những lớp thuyền phía xa, cờ trơn đung đưa trên mọi thân thuyền. Giữ những người do thám đang khom mình ổn định, tư thế không đổi. Cường độ chuyển động thấp đến vừa, môi trường chuyển động mạnh và tự nhiên. Không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 11,
+      "narration": "Và không ai trong hai người chịu đánh thẳng. Thuyền nhẹ ra giả thua, dụ địch tự lao vào chỗ chết.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet river channel at high tide in mid-morning, smooth brimming water with no stakes showing; a handful of small Dai Viet dugout boats race away from the camera up the channel, oars biting hard, spray flying, East Asian rowers in plain hemp tunics and conical palm-leaf hats glancing back over their shoulders; Ngo Quyen crouches small and off-center at about one-fifth frame height in the stern of the nearest boat at the right, looking back at the pursuit; behind them a line of tall tiered Chinese war junks crowds into the channel under full oar, bow waves piling, archers on the foredecks loosing arrows that fall short into the water; mangrove and reed banks closing in on both sides, plain solid-indigo cloth banners on the small boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the dugout boats, rowers, pursuing junks, archers, mangrove banks, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The small boats surge forward as the oars bite and spray flies from the blades, the pursuing junks close under full oar with bow waves piling and falling, arrows arc out and splash short into the brimming water, the glassy tide slides past the mangrove roots, reeds and branches sway on both banks, plain banners snap on every boat. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated boats, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Lòng lạch Đại Việt thế kỷ 10 rộng lúc triều cường giữa buổi sáng, mặt nước đầy ắp phẳng lì không thấy cọc; vài chiếc thuyền độc mộc Đại Việt nhỏ lao xa khỏi máy quay ngược lên lòng lạch, mái chèo bập mạnh, bọt nước tung, các tay chèo gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, ngoái nhìn qua vai; Ngô Quyền khom người nhỏ và lệch tâm, cao khoảng một phần năm khung hình, ở lái chiếc thuyền gần nhất bên phải, ngoái lại nhìn đoàn truy đuổi; phía sau họ một hàng lâu thuyền Trung Hoa cao chen vào lòng lạch dưới sức chèo hết cỡ, sóng mũi dồn lên, cung thủ trên boong trước bắn những mũi tên rơi hụt xuống nước; rừng ngập mặn và bãi lau khép lại hai bên, cờ vải chàm trơn trên thuyền nhỏ và cờ vải đỏ thẫm trơn trên lâu thuyền, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, những chiếc thuyền độc mộc, tay chèo, đoàn lâu thuyền truy đuổi, cung thủ, bờ rừng ngập mặn, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Những chiếc thuyền nhỏ chồm tới khi mái chèo bập xuống và bọt nước tung khỏi lưỡi chèo, đoàn lâu thuyền truy đuổi thu hẹp khoảng cách dưới sức chèo hết cỡ với sóng mũi dồn lên rồi đổ xuống, tên vạch vòng cung và rơi tõm hụt xuống mặt nước đầy ắp, con triều phẳng như gương trượt qua rễ đước, lau sậy và cành lá đung đưa hai bờ, cờ trơn phần phật trên mọi chiếc thuyền. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 12,
+      "narration": "Nhưng vũ khí thì khác hẳn nhau. Chu Du mượn gió. Lửa bén vào đoàn thuyền buộc nối đuôi nhau, cháy lan không sao gỡ kịp.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide red sandstone river bluff at first light, looking down and out over the water; Zhou Yu stands small and off-center at about one-fifth frame height on a rock ledge at the lower left, cloak dragged sideways by the wind; below and beyond, a long unbroken line of tall tiered Chinese war junks burns hull to hull, heavy iron chains hanging taut between the bows so none can pull clear, flame climbing masts and sails, whole decks collapsing inward; East Asian soldiers in lacquered leather lamellar leap from the burning decks into the water and cling to floating spars, small boats pulling survivors from the current, smoke bent flat downstream across the whole frame, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costume, the rock ledge, the burning chained line of junks, the iron chains, swimming soldiers, rescue boats, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Fire rolls along the chained hulls from one ship to the next, sails and rigging burn through and fall, the taut chains jerk as burning hulls swing against each other, soldiers leap from the decks and splash into the current, small boats pull hard through the debris, smoke lays flat and streams downstream, wind drags the cloak sideways and the water heaves with reflected fire. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated ships, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Vách đá sa thạch đỏ bên sông rộng lúc tảng sáng, nhìn xuống và ra mặt nước; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một gờ đá phía dưới bên trái, áo choàng bị gió kéo giạt ngang; bên dưới và phía xa, một hàng dài liền mạch lâu thuyền Trung Hoa cao cháy thân sát thân, những sợi xích sắt nặng căng cứng giữa các mũi thuyền khiến không chiếc nào rời ra được, lửa leo lên cột buồm và cánh buồm, cả boong thuyền sập vào trong; lính gương mặt Đông Á mặc giáp phiến da sơn mài nhảy từ boong cháy xuống nước và bám vào những súc gỗ trôi, thuyền nhỏ vớt người giữa dòng, khói ép nằm ngang xuôi dòng suốt khung hình, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, gờ đá, hàng lâu thuyền bị xích đang cháy, những sợi xích sắt, lính đang bơi, thuyền cứu hộ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa cuộn dọc các thân thuyền bị xích từ chiếc này sang chiếc kia, buồm và dây lèo cháy đứt rồi rơi xuống, những sợi xích căng giật lên khi các thân thuyền cháy va vào nhau, lính nhảy khỏi boong và rơi tõm xuống dòng, thuyền nhỏ chèo gấp len qua đám mảnh vỡ, khói ép nằm ngang và cuộn xuôi dòng, gió kéo áo choàng giạt ngang và mặt nước dâng hụp với ánh lửa phản chiếu. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 13,
+      "narration": "Ngô Quyền thì mượn đất. Triều rút, cọc nhô lên đâm thủng đáy thuyền, cả hạm đội kẹt cứng giữa dòng.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide high view over a tenth-century Dai Viet river channel in bright late morning, tide running out fast; a whole invasion fleet of tall tiered war junks is jammed across the stake field, hulls holed and canted at broken angles, several already half sunk with only masts above water, iron-capped stakes standing proud of the falling tide all around them; dozens of small Dai Viet dugout boats swarm in through the gaps, East Asian crews in plain hemp tunics and conical palm-leaf hats poling, hurling grappling hooks and firing bows at close range; Ngo Quyen stands small and off-center at about one-fifth frame height on a low boat in the near right foreground, arm raised; wreckage, floating oars and struggling men all through the muddy water, plain solid-indigo cloth banners on the small boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the jammed junks, the stake field, the swarming dugout boats, wreckage, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The ebb pours between the stakes in fast brown streaks and the stranded hulls settle and cant further, one half-sunk junk slides lower, the small dugouts weave through the gaps with poles and oars working, grappling ropes fly and go taut, arrows streak at close range, wreckage and floating oars turn in the current, struggling men splash among them, plain banners sway everywhere. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated boats, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Góc nhìn cao rộng xuống lòng lạch Đại Việt thế kỷ 10 vào cuối buổi sáng nắng rực, triều đang rút xiết; cả một hạm đội xâm lược gồm những lâu thuyền cao kẹt cứng trên bãi cọc, thân thủng và nghiêng đổ đủ kiểu, vài chiếc đã chìm nửa chỉ còn cột buồm trên mặt nước, những cây cọc bịt chóp sắt trồi cao khỏi con triều đang rút bao quanh chúng; hàng chục thuyền độc mộc Đại Việt nhỏ len vào qua các khe hở, thủy thủ gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, chống sào, quăng câu liêm và bắn cung ở cự ly gần; Ngô Quyền đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một chiếc thuyền thấp ở tiền cảnh phải, tay giơ lên; mảnh vỡ, mái chèo trôi và người vùng vẫy khắp mặt nước đục, cờ vải chàm trơn trên thuyền nhỏ và cờ vải đỏ thẫm trơn trên lâu thuyền, không phù hiệu hay chữ viết. Không yếu tố Minh/Thanh Trung Hoa, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, đám lâu thuyền kẹt cứng, bãi cọc, những chiếc thuyền độc mộc đang len vào, mảnh vỡ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Con nước rút chảy xiết giữa các cọc thành những vệt nâu nhanh và những thân thuyền mắc cạn lún xuống nghiêng thêm, một chiếc lâu thuyền chìm nửa trượt thấp hơn, các thuyền độc mộc nhỏ luồn qua khe hở với sào và mái chèo hoạt động liên tục, dây câu liêm bay ra rồi căng cứng, tên vạch đi ở cự ly gần, mảnh vỡ và mái chèo trôi xoay theo dòng, người vùng vẫy giữa đó, cờ trơn đung đưa khắp nơi. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 14,
+      "narration": "Sau Bạch Đằng, Ngô Quyền xưng vương, dời đô về Cổ Loa, khép lại một nghìn năm Bắc thuộc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide tenth-century Dai Viet spiral earthen rampart enclosure at golden sunrise; Ngo Quyen rides small and off-center at about one-fifth frame height along the curving earth road left of centre, entering through a timber gateway in the packed-earth wall; a long procession follows with East Asian retainers in plain hemp tunics and conical palm-leaf hats leading horses, carrying bundled spears and drums, elders in long plain robes waiting at the gate with bowls and offerings; crowds of villagers line the grassy rampart top and the road, children running alongside, dust and morning haze in the low golden light, thatched houses and areca palms inside the enclosure, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, faces, costumes, the horse, the procession, elders, villagers, earthen rampart and gateway, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. The procession moves forward along the curving road and the horse walks on, retainers shoulder their bundles and drums swing, the elders bow slightly at the gate, villagers along the rampart wave and shift, children run alongside the column, dust drifts up through the golden haze, grass and areca fronds move in the morning breeze, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Vòng lũy đất xoắn ốc Đại Việt thế kỷ 10 rộng lúc bình minh vàng rực; Ngô Quyền cưỡi ngựa nhỏ và lệch tâm, cao khoảng một phần năm khung hình, đi dọc con đường đất cong phía trái tâm, tiến vào qua một cổng gỗ trên bức tường đất nện; một đoàn rước dài theo sau với tùy tùng gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, dắt ngựa, vác bó giáo và trống, các bô lão mặc áo dài vải trơn đứng đợi ở cổng với mâm và lễ vật; dân làng đứng kín mặt lũy cỏ và hai bên đường, trẻ con chạy theo, bụi và sương sớm trong thứ ánh vàng thấp, nhà mái tranh và hàng cau bên trong vòng lũy, cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, con ngựa, đoàn rước, các bô lão, dân làng, lũy đất và cổng gỗ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú đẩy máy vào chậm. Đoàn rước tiến tới dọc con đường cong và con ngựa bước đi, tùy tùng ghé vai vác đồ và những chiếc trống đung đưa, các bô lão khẽ cúi mình ở cổng, dân làng trên mặt lũy vẫy tay và xê dịch, trẻ con chạy theo đoàn, bụi bốc lên trong làn sương vàng, cỏ và tàu cau lay trong gió sớm, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "hopeful",
+      "hasAudio": true
+    },
+    {
+      "scene": 15,
+      "narration": "Còn sau Xích Bích, Chu Du vẫn chỉ là một viên tướng. Ông mất ở Ba Khâu, ba mươi sáu tuổi, kế hoạch còn dang dở.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-second-century Chinese riverside camp at grey rainy dusk; Zhou Yu sits small and off-center at about one-fifth frame height on a low couch under an open awning at the right, wrapped in a plain robe, head lowered over a campaign map weighted with bronze pieces; two East Asian officers in lacquered leather lamellar wait at the awning edge with their heads bowed, a physician kneels by a brazier warming a bowl, guards stand out in the rain along a muddy track; moored war junks rock at the bank behind with their sails furled and decks empty, rain dimpling the wide grey river, wet reeds bowed along the shore, a single bronze lamp burning low, plain solid-crimson cloth banners hanging soaked, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, face, costume, the couch, awning, campaign map, officers, physician, brazier, moored junks, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Rain falls steadily and dimples the grey river, water runs off the awning edge in a thin curtain, the awning cloth sags and stirs, the single lamp flame gutters, steam lifts from the physician's bowl and the brazier glows and fades, the waiting officers shift their weight, the moored junks rock slowly at the bank, wet reeds bow along the shore, the soaked banners hang and swing heavily. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Trại quân ven sông Trung Hoa cuối thế kỷ 2 rộng lúc chạng vạng mưa xám; Chu Du ngồi nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên một chiếc sập thấp dưới mái hiên vải mở bên phải, khoác áo choàng vải trơn, cúi đầu trên tấm bản đồ chiến dịch chặn bằng những khối đồng; hai viên tướng gương mặt Đông Á mặc giáp phiến da sơn mài đứng đợi ở mép hiên, đầu cúi xuống, một thầy thuốc quỳ bên lò than hâm một bát thuốc, lính gác đứng ngoài mưa dọc lối đi lầy; những chiến thuyền neo dập dềnh bên bờ phía sau với buồm cuốn và boong trống, mưa rỗ mặt sông xám rộng, lau ướt rạp dọc bờ, một ngọn đèn đồng cháy leo lét, cờ vải đỏ thẫm trơn ướt sũng rũ xuống, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh trầm lắng. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chiếc sập, mái hiên, tấm bản đồ chiến dịch, các viên tướng, thầy thuốc, lò than, thuyền neo, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Mưa rơi đều và rỗ mặt sông xám, nước chảy từ mép hiên thành một màn mỏng, tấm bạt võng xuống và khẽ lay, ngọn đèn duy nhất chập chờn, hơi bốc lên từ bát thuốc của thầy thuốc và lò than hồng lên rồi lịm xuống, hai viên tướng đứng đợi dồn đổi chân, những chiếc thuyền neo dập dềnh chậm bên bờ, lau ướt rạp dọc bờ sông, những lá cờ ướt sũng rũ xuống và đưa nặng nề. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 16,
+      "narration": "Thử đặt hai người vào cùng một trận. Mặt nước rộng, gió lớn, không kịp dựng trận địa, thì phần thắng về Chu Du.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide open estuary under a hard grey sky with no land in sight but a thin far shore; Zhou Yu stands small and off-center at about one-fifth frame height on the windward rail of a late-second-century Chinese war junk at the left, gripping a stay as the deck heels; his squadron drives across the frame in a spread wedge under full sail and oar, East Asian crews in lacquered leather lamellar bracing on canted decks, two low fire boats already cast loose and running ahead trailing flame and black smoke that lies flat on the water; heavy whitecaps everywhere, spray sheeting over the bows, gulls thrown sideways by the gusts, plain solid-crimson cloth banners streaming stiff, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, face, costume, the war junk, the squadron, crews, fire boats, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Heavy swells roll through and the junks heel and rise together, spray sheets over the bows and runs off the decks, sails belly and shake, the two fire boats run ahead trailing flame and flat black smoke, whitecaps break across the whole frame, gulls are thrown sideways by the gusts, the crews brace against the heel, plain banners stream stiff and crack. Keep the small main figure stable, expression and pose unchanged. Motion intensity medium, character motion very subtle, environmental motion strong and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated ships, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cửa biển rộng mênh mông dưới bầu trời xám nặng, không thấy đất ngoài một dải bờ mỏng phía xa; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, bám lan can đầu gió của một chiến thuyền Trung Hoa cuối thế kỷ 2 bên trái, nắm chặt dây néo khi boong nghiêng; đội thuyền của ông băng ngang khung hình thành hình nêm tản rộng dưới buồm căng và mái chèo hết cỡ, thủy thủ gương mặt Đông Á mặc giáp phiến da sơn mài trụ chân trên boong nghiêng, hai chiếc thuyền lửa thấp đã được thả trôi chạy lên trước kéo theo ngọn lửa và khói đen ép nằm ngang mặt nước; sóng bạc đầu khắp nơi, bọt nước phủ tràn qua mũi thuyền, đàn mòng biển bị gió giật giạt ngang, cờ vải đỏ thẫm trơn căng cứng bay, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, chiếc chiến thuyền, đội thuyền, thủy thủ, thuyền lửa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Những con sóng lừng lớn cuộn qua và các chiến thuyền cùng nghiêng rồi ngóc lên, bọt nước phủ tràn qua mũi và chảy khỏi boong, buồm phồng lên rồi rung phần phật, hai chiếc thuyền lửa chạy lên trước kéo theo ngọn lửa và làn khói đen ép ngang, sóng bạc đầu vỡ khắp khung hình, đàn mòng biển bị gió giật giạt ngang, thủy thủ trụ người chống độ nghiêng, cờ trơn căng cứng bay và đập lốp bốp. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 17,
+      "narration": "Nhưng đổi sang cửa sông hẹp có thủy triều, cho thêm ba tháng chuẩn bị, thì gần như chắc chắn là Ngô Quyền.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide narrow tenth-century Dai Viet tidal creek at low slack water before dawn, mist to the waterline; dozens of small Dai Viet dugout boats lie hidden in the reed and mangrove fringe along both banks, tucked under cut branches, East Asian crews in plain hemp tunics and conical palm-leaf hats crouching motionless with poles and bows across their knees; in the channel two waders check the tops of the iron-capped stakes with lines, a lookout perches in a bent mangrove above them; Ngo Quyen crouches small and off-center at about one-fifth frame height on the bow of a boat in the near left foreground, one hand in the cold water reading the current; dark mudbanks, drifting mist, a heron standing in the shallows, plain solid-indigo cloth banners furled on the poles, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, face, costume, the hidden dugout boats, crouching crews, the stakes, waders, lookout, mangroves, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Mist drifts slowly along the water and thins over the mudbanks, the slack tide barely moves and small eddies turn at the stake tops, the hidden boats rock a little under the cut branches and cover leaves stir, the two waders shift and pull their lines, the lookout sways on the bent mangrove, the heron steps once in the shallows, water drips from the main figure's hand. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated boats, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Lạch triều hẹp của Đại Việt thế kỷ 10 rộng lúc nước đứng cạn trước rạng đông, sương phủ sát mặt nước; hàng chục thuyền độc mộc Đại Việt nhỏ nấp trong vành lau và rừng ngập mặn dọc hai bờ, giấu dưới những cành lá chặt phủ, thủy thủ gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, khom mình bất động với sào và cung gác ngang đầu gối; dưới lòng lạch hai người lội nước dò đầu các cây cọc bịt chóp sắt bằng dây, một người canh chừng ngồi vắt vẻo trên nhánh đước cong phía trên; Ngô Quyền khom người nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên mũi một chiếc thuyền ở tiền cảnh trái, một tay nhúng vào làn nước lạnh để đo dòng chảy; bờ bùn sẫm, sương trôi, một con cò đứng trong vùng nước nông, cờ vải chàm trơn cuốn lại trên sào, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh trầm lắng. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, những chiếc thuyền độc mộc đang nấp, thủy thủ khom mình, các cây cọc, hai người lội nước, người canh chừng, rừng đước, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Sương trôi chậm dọc mặt nước và loãng dần trên bờ bùn, con nước đứng gần như không nhúc nhích và những xoáy nhỏ quay quanh đầu cọc, các thuyền nấp khẽ chòng chành dưới cành lá phủ và lá ngụy trang lay động, hai người lội nước xê dịch và kéo dây dò, người canh chừng đung đưa trên nhánh đước cong, con cò bước một bước trong vùng nước nông, nước nhỏ giọt từ bàn tay nhân vật chính. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản thuyền, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 18,
+      "narration": "Còn đánh dài hơi, Chu Du có cả nhà nước chống lưng, nhưng đánh hay không vẫn phải chờ cấp trên duyệt. Lệnh Ngô Quyền đưa ra là lệnh cuối cùng.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide late-second-century Chinese river supply depot at busy midday; Zhou Yu stands small and off-center at about one-fifth frame height on a stone landing step at the right, waiting while a robed official checks bamboo slip tallies against the cargo; a long line of broad grain barges lies alongside, East Asian porters in short hemp jackets carrying sacks and jars up the planks in a continuous chain, ox carts backed to the quay, stacked crates of arrows and coiled rope under matting awnings, scribes at low tables under a timber shed, granary buildings with low tiled roofs behind, dust and river glare, moored war junks waiting empty downstream, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, face, costume, the landing step, the official, grain barges, porters, ox carts, scribes, granaries, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in. The chain of porters moves steadily up and down the planks with sacks on their shoulders, the barges rock and nudge against the quay, oxen shift in their harness and a cart creaks forward, the official turns a bamboo slip in his hands, scribes' sleeves move at the low tables, matting awnings lift in the breeze, dust hangs and drifts in the river glare, plain banners sway. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated porters, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Kho quân lương ven sông Trung Hoa cuối thế kỷ 2 rộng vào giữa trưa nhộn nhịp; Chu Du đứng nhỏ và lệch tâm, cao khoảng một phần năm khung hình, trên bậc bến đá bên phải, đứng đợi trong khi một viên quan mặc áo thụng đối chiếu thẻ tre với hàng hóa; một dãy dài sà lan chở lương bè ngang cập sát bờ, phu khuân vác gương mặt Đông Á mặc áo vải gai ngắn khiêng bao và vò lên ván cầu thành một chuỗi không dứt, xe bò lùi sát bến, những chồng thùng tên và cuộn thừng dưới mái che bằng phên, thư lại ngồi bàn thấp dưới nhà kho gỗ, những dãy kho lúa mái ngói thấp phía sau, bụi và nắng chói hắt từ mặt sông, những chiến thuyền neo trống chờ ở hạ lưu, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, khuôn mặt, trang phục, bậc bến đá, viên quan, sà lan chở lương, phu khuân vác, xe bò, thư lại, kho lúa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú đẩy máy vào rất chậm. Chuỗi phu khuân vác đi lên đi xuống ván cầu đều đặn với bao hàng trên vai, những chiếc sà lan dập dềnh và cọ nhẹ vào bến, đàn bò xê dịch trong bộ ách và một chiếc xe kẽo kẹt nhích tới, viên quan lật một thẻ tre trong tay, tay áo các thư lại lay động bên bàn thấp, mái che bằng phên bật lên trong gió, bụi lơ lửng và trôi trong nắng chói hắt từ mặt sông, cờ trơn đung đưa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản phu, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 19,
+      "narration": "Nên rốt cuộc tất cả nằm ở một chữ, là ai được chọn chiến trường. Chỉ có điều, chiến thắng của Ngô Quyền đẻ ra hẳn một quốc gia.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Wide low-tide mudflat at sunrise, a narrow water channel between two banks; Ngo Quyen stands small and off-center on the near bank left of centre, Zhou Yu stands small and further back on the opposite bank to the right, both facing each other across the channel; behind Ngo Quyen East Asian tenth-century Dai Viet crews in plain hemp tunics and conical palm-leaf hats wait by beached dugout boats among rows of iron-capped stakes; behind Zhou Yu East Asian late-second-century Chinese crews in lacquered leather lamellar wait by a tiered war junk with a burnt blackened hull; between them the bare channel bed glitters with running water, gulls picking over the mud, thin mist burning off, plain solid-indigo cloth banners on the left and plain solid-crimson cloth banners on the right, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve the exact identity of both characters, their faces, costumes, the two crews, the beached dugout boats, the burnt war junk, the stakes, lighting and composition; do not redesign, morph, add or remove any character or object; no period or style change; no text or watermark. Allow a slow push-in. Water runs and glitters along the bare channel bed and small eddies turn around the stake tops, thin mist lifts and burns off in the low sun, gulls step and pick over the mud and one lifts away, the crews on both banks shift and wait, the beached dugouts settle in the mud and the burnt junk creaks, plain banners sway on both sides. Keep both main figures stable, expressions and poses unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural. No facial deformation, body morphing, warped limbs, extra fingers, duplicated or merged characters, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Bãi bùn lúc triều cạn rộng vào bình minh quang đãng, một lạch nước hẹp chảy giữa hai bờ; Ngô Quyền đứng nhỏ và lệch tâm trên bờ bùn gần thấp bên trái tâm, Chu Du đứng nhỏ và lùi sâu hơn trên bờ đối diện bên phải, cả hai đối mặt nhau qua lòng lạch; sau lưng Ngô Quyền là thủy thủ Đại Việt thế kỷ 10 gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, đứng đợi bên những chiếc thuyền độc mộc mắc cạn giữa các hàng cọc bịt chóp sắt; sau lưng Chu Du là thủy thủ Trung Hoa cuối thế kỷ 2 gương mặt Đông Á mặc giáp phiến da sơn mài đứng đợi bên một lâu thuyền có thân cháy đen; giữa họ lòng lạch trơ ra lấp loáng dòng nước chảy, đàn mòng biển mổ trên bùn, sương mỏng tan dần trong thứ ánh sáng thấp, cờ vải chàm trơn bên trái và cờ vải đỏ thẫm trơn bên phải, không phù hiệu hay chữ viết. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính cả hai nhân vật, khuôn mặt, trang phục, hai đoàn thủy thủ, những chiếc thuyền độc mộc mắc cạn, chiếc lâu thuyền cháy đen, các cây cọc, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất kỳ nhân vật hay vật thể nào; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép một cú đẩy máy vào chậm. Nước chảy lấp loáng dọc lòng lạch trơ ra và những xoáy nhỏ quay quanh đầu cọc, sương mỏng bốc lên và tan trong nắng thấp, đàn mòng biển bước và mổ trên bùn, một con bay vụt lên, thủy thủ hai bờ xê dịch và chờ đợi, những chiếc thuyền độc mộc lún xuống bùn và chiếc lâu thuyền cháy kêu răng rắc, cờ trơn đung đưa ở cả hai phía. Giữ cả hai nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa phải và tự nhiên. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản hay hòa lẫn nhân vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 20,
+      "narration": "Còn bạn thì sao? Nếu trận đánh xảy ra ở cửa sông có thủy triều, mà hôm ấy trời lại nổi gió đông, bạn đặt cửa cho ai?",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide river mouth at pale dawn with a strong wind running across it; on the left half rows of iron-capped wooden stakes stand out of the ebbing water in staggered lines, on the right half the blackened ribs of a burnt war junk lie half sunk in the shallows still trailing thin smoke; a lone East Asian fisherman in a plain hemp tunic and conical palm-leaf hat poles a small dugout boat slowly down the open channel between them, net coiled at his feet; wind combs the reeds flat along both banks, gulls wheeling, low cloud tearing overhead, cold light on the moving water. No Tang/Song/Ming/Qing, Japanese or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve the exact stakes, the burnt hull, the small dugout boat, the fisherman, reeds, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The ebb runs past the stakes leaving swirling wakes, thin smoke still lifts from the blackened ribs and is torn flat by the wind, the small dugout glides slowly down the channel and the pole dips and rises, wind combs the reeds flat and they spring back in gusts, gulls wheel and cross the frame, low cloud tears overhead and the cold light shifts on the moving water. Keep the fisherman stable, pose unchanged. Motion intensity low, environmental motion moderate to strong and natural. No warped limbs, extra fingers, appearing figures, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cửa sông rộng lúc rạng đông nhợt nhạt với một luồng gió mạnh thổi ngang; nửa trái là những hàng cọc gỗ bịt chóp sắt trồi lên khỏi con nước đang rút thành các tuyến so le, nửa phải là bộ sườn cháy đen của một chiến thuyền nằm chìm nửa trong vùng nước nông vẫn còn tỏa khói mỏng; một người đánh cá gương mặt Đông Á mặc áo vải gai trơn, đội nón lá, một mình chống sào đưa chiếc thuyền độc mộc nhỏ chậm rãi xuôi lòng lạch trống giữa hai bên, tấm lưới cuộn dưới chân; gió chải rạp đám lau dọc hai bờ, mòng biển lượn vòng, mây thấp rách trên đầu, ánh sáng lạnh trên mặt nước đang chảy. Không yếu tố Đường/Tống/Minh/Thanh, Nhật hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh trầm lắng. Giữ nguyên chính xác các cây cọc, bộ sườn thuyền cháy, chiếc thuyền độc mộc nhỏ, người đánh cá, đám lau, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Con nước rút chảy qua các cọc để lại những xoáy nước, khói mỏng vẫn bốc lên từ bộ sườn cháy đen rồi bị gió xé ép nằm ngang, chiếc thuyền độc mộc nhỏ lướt chậm xuôi lòng lạch và cây sào nhấn xuống rồi nâng lên, gió chải rạp đám lau và chúng bật lại theo từng cơn, mòng biển lượn vòng cắt ngang khung hình, mây thấp rách trên đầu và ánh sáng lạnh xê dịch trên mặt nước đang chảy. Giữ người đánh cá ổn định, tư thế không đổi. Cường độ chuyển động thấp, môi trường chuyển động vừa đến mạnh và tự nhiên. Không tay chân vặn vẹo, không thừa ngón, không xuất hiện thêm người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": true
+    }
+  ],
+  "sceneDurations": [
+    4.94,
+    3.17,
+    5,
+    4.66,
+    5.16,
+    9.16,
+    6.87,
+    7.21,
+    5.9,
+    4.31,
+    5.7,
+    6.89,
+    5.71,
+    5.08,
+    6.94,
+    6.42,
+    6.02,
+    7.89,
+    7.58,
+    6.08
+  ],
+  "motionPlaybackRates": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "captionGroups": [
+    [
+      {
+        "text": "Hai",
+        "start": 0.232,
+        "end": 0.405
+      },
+      {
+        "text": "dòng",
+        "start": 0.405,
+        "end": 0.607
+      },
+      {
+        "text": "sông.",
+        "start": 0.607,
+        "end": 0.809
+      }
+    ],
+    [
+      {
+        "text": "Hai",
+        "start": 0.809,
+        "end": 1.428
+      },
+      {
+        "text": "hạm",
+        "start": 1.428,
+        "end": 1.6
+      },
+      {
+        "text": "đội",
+        "start": 1.6,
+        "end": 1.773
+      },
+      {
+        "text": "phương",
+        "start": 1.773,
+        "end": 2.025
+      },
+      {
+        "text": "Bắc",
+        "start": 2.025,
+        "end": 2.197
+      },
+      {
+        "text": "kéo",
+        "start": 2.197,
+        "end": 2.37
+      },
+      {
+        "text": "xuống.",
+        "start": 2.37,
+        "end": 2.598
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 2.598,
+        "end": 3.174
+      },
+      {
+        "text": "hai",
+        "start": 3.174,
+        "end": 3.346
+      },
+      {
+        "text": "đều",
+        "start": 3.346,
+        "end": 3.518
+      },
+      {
+        "text": "nằm",
+        "start": 3.518,
+        "end": 3.691
+      },
+      {
+        "text": "lại",
+        "start": 3.691,
+        "end": 3.863
+      },
+      {
+        "text": "dưới",
+        "start": 3.863,
+        "end": 4.065
+      },
+      {
+        "text": "đáy.",
+        "start": 4.065,
+        "end": 4.238
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 5.148,
+        "end": 5.333
+      },
+      {
+        "text": "người",
+        "start": 5.333,
+        "end": 5.577
+      },
+      {
+        "text": "đốt",
+        "start": 5.577,
+        "end": 5.761
+      },
+      {
+        "text": "sạch",
+        "start": 5.761,
+        "end": 5.977
+      },
+      {
+        "text": "hạm",
+        "start": 5.977,
+        "end": 6.162
+      },
+      {
+        "text": "đội",
+        "start": 6.162,
+        "end": 6.625
+      },
+      {
+        "text": "địch",
+        "start": 6.625,
+        "end": 6.841
+      }
+    ],
+    [
+      {
+        "text": "bằng",
+        "start": 6.841,
+        "end": 7.057
+      },
+      {
+        "text": "một",
+        "start": 7.057,
+        "end": 7.241
+      },
+      {
+        "text": "cơn",
+        "start": 7.241,
+        "end": 7.426
+      },
+      {
+        "text": "gió.",
+        "start": 7.426,
+        "end": 7.61
+      }
+    ],
+    [
+      {
+        "text": "Người",
+        "start": 8.323,
+        "end": 8.543
+      },
+      {
+        "text": "kia",
+        "start": 8.543,
+        "end": 8.709
+      },
+      {
+        "text": "dìm",
+        "start": 8.709,
+        "end": 8.875
+      },
+      {
+        "text": "cả",
+        "start": 8.875,
+        "end": 9.008
+      },
+      {
+        "text": "hạm",
+        "start": 9.008,
+        "end": 9.174
+      },
+      {
+        "text": "đội",
+        "start": 9.174,
+        "end": 9.34
+      },
+      {
+        "text": "bằng",
+        "start": 9.34,
+        "end": 9.535
+      }
+    ],
+    [
+      {
+        "text": "mấy",
+        "start": 9.535,
+        "end": 9.701
+      },
+      {
+        "text": "hàng",
+        "start": 9.701,
+        "end": 9.896
+      },
+      {
+        "text": "cọc",
+        "start": 9.896,
+        "end": 10.062
+      },
+      {
+        "text": "gỗ.",
+        "start": 10.062,
+        "end": 10.76
+      }
+    ],
+    [
+      {
+        "text": "Vậy",
+        "start": 10.76,
+        "end": 10.927
+      },
+      {
+        "text": "Ngô",
+        "start": 10.927,
+        "end": 11.093
+      },
+      {
+        "text": "Quyền",
+        "start": 11.093,
+        "end": 11.313
+      },
+      {
+        "text": "với",
+        "start": 11.313,
+        "end": 11.479
+      },
+      {
+        "text": "Chu",
+        "start": 11.479,
+        "end": 11.645
+      },
+      {
+        "text": "Du,",
+        "start": 11.645,
+        "end": 11.778
+      },
+      {
+        "text": "ai",
+        "start": 11.778,
+        "end": 11.911
+      }
+    ],
+    [
+      {
+        "text": "cao",
+        "start": 11.911,
+        "end": 12.077
+      },
+      {
+        "text": "tay",
+        "start": 12.077,
+        "end": 12.243
+      },
+      {
+        "text": "hơn?",
+        "start": 12.243,
+        "end": 12.409
+      }
+    ],
+    [
+      {
+        "text": "Ngô",
+        "start": 13.315,
+        "end": 13.473
+      },
+      {
+        "text": "Quyền",
+        "start": 13.473,
+        "end": 13.682
+      },
+      {
+        "text": "vừa",
+        "start": 13.682,
+        "end": 13.839
+      },
+      {
+        "text": "là",
+        "start": 13.839,
+        "end": 13.965
+      },
+      {
+        "text": "tướng,",
+        "start": 13.965,
+        "end": 14.174
+      },
+      {
+        "text": "vừa",
+        "start": 14.174,
+        "end": 14.783
+      },
+      {
+        "text": "là",
+        "start": 14.783,
+        "end": 14.909
+      }
+    ],
+    [
+      {
+        "text": "con",
+        "start": 14.909,
+        "end": 15.067
+      },
+      {
+        "text": "rể",
+        "start": 15.067,
+        "end": 15.193
+      },
+      {
+        "text": "của",
+        "start": 15.193,
+        "end": 15.35
+      },
+      {
+        "text": "Dương",
+        "start": 15.35,
+        "end": 15.559
+      },
+      {
+        "text": "Đình",
+        "start": 15.559,
+        "end": 15.743
+      },
+      {
+        "text": "Nghệ,",
+        "start": 15.743,
+        "end": 16.236
+      },
+      {
+        "text": "đang",
+        "start": 16.236,
+        "end": 16.421
+      }
+    ],
+    [
+      {
+        "text": "giữ",
+        "start": 16.421,
+        "end": 16.578
+      },
+      {
+        "text": "đất",
+        "start": 16.578,
+        "end": 16.736
+      },
+      {
+        "text": "Ái",
+        "start": 16.736,
+        "end": 16.862
+      },
+      {
+        "text": "Châu.",
+        "start": 16.862,
+        "end": 17.046
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 17.984,
+        "end": 18.169
+      },
+      {
+        "text": "Chu",
+        "start": 18.169,
+        "end": 18.355
+      },
+      {
+        "text": "Du,",
+        "start": 18.355,
+        "end": 18.503
+      },
+      {
+        "text": "tự",
+        "start": 18.503,
+        "end": 18.651
+      },
+      {
+        "text": "Công",
+        "start": 18.651,
+        "end": 18.868
+      },
+      {
+        "text": "Cẩn,",
+        "start": 18.868,
+        "end": 19.053
+      },
+      {
+        "text": "ngoài",
+        "start": 19.053,
+        "end": 19.659
+      }
+    ],
+    [
+      {
+        "text": "ba",
+        "start": 19.659,
+        "end": 19.808
+      },
+      {
+        "text": "mươi",
+        "start": 19.808,
+        "end": 20.025
+      },
+      {
+        "text": "tuổi",
+        "start": 20.025,
+        "end": 20.242
+      },
+      {
+        "text": "đã",
+        "start": 20.242,
+        "end": 20.39
+      },
+      {
+        "text": "nắm",
+        "start": 20.39,
+        "end": 20.575
+      },
+      {
+        "text": "trong",
+        "start": 20.575,
+        "end": 20.82
+      },
+      {
+        "text": "tay",
+        "start": 20.82,
+        "end": 21.006
+      }
+    ],
+    [
+      {
+        "text": "toàn",
+        "start": 21.006,
+        "end": 21.223
+      },
+      {
+        "text": "bộ",
+        "start": 21.223,
+        "end": 21.371
+      },
+      {
+        "text": "thủy",
+        "start": 21.371,
+        "end": 21.588
+      },
+      {
+        "text": "quân",
+        "start": 21.588,
+        "end": 21.805
+      },
+      {
+        "text": "Đông",
+        "start": 21.805,
+        "end": 22.022
+      },
+      {
+        "text": "Ngô.",
+        "start": 22.022,
+        "end": 22.43
+      }
+    ],
+    [
+      {
+        "text": "Năm",
+        "start": 23.134,
+        "end": 23.346
+      },
+      {
+        "text": "937,",
+        "start": 23.346,
+        "end": 23.558
+      },
+      {
+        "text": "Kiều",
+        "start": 23.558,
+        "end": 23.806
+      },
+      {
+        "text": "Công",
+        "start": 23.806,
+        "end": 24.449
+      },
+      {
+        "text": "Tiễn",
+        "start": 24.449,
+        "end": 24.697
+      },
+      {
+        "text": "giết",
+        "start": 24.697,
+        "end": 24.945
+      },
+      {
+        "text": "chủ",
+        "start": 24.945,
+        "end": 25.157
+      }
+    ],
+    [
+      {
+        "text": "tướng",
+        "start": 25.157,
+        "end": 25.437
+      },
+      {
+        "text": "để",
+        "start": 25.437,
+        "end": 25.607
+      },
+      {
+        "text": "cướp",
+        "start": 25.607,
+        "end": 25.855
+      },
+      {
+        "text": "ghế,",
+        "start": 25.855,
+        "end": 26.067
+      },
+      {
+        "text": "rồi",
+        "start": 26.067,
+        "end": 26.279
+      },
+      {
+        "text": "quay",
+        "start": 26.279,
+        "end": 26.827
+      },
+      {
+        "text": "sang",
+        "start": 26.827,
+        "end": 27.075
+      }
+    ],
+    [
+      {
+        "text": "cầu",
+        "start": 27.075,
+        "end": 27.286
+      },
+      {
+        "text": "cứu",
+        "start": 27.286,
+        "end": 27.498
+      },
+      {
+        "text": "Nam",
+        "start": 27.498,
+        "end": 27.71
+      },
+      {
+        "text": "Hán.",
+        "start": 27.71,
+        "end": 27.922
+      }
+    ],
+    [
+      {
+        "text": "Ngô",
+        "start": 27.922,
+        "end": 28.134
+      },
+      {
+        "text": "Quyền",
+        "start": 28.134,
+        "end": 29.25
+      },
+      {
+        "text": "kéo",
+        "start": 29.25,
+        "end": 29.462
+      },
+      {
+        "text": "quân",
+        "start": 29.462,
+        "end": 29.71
+      },
+      {
+        "text": "ra",
+        "start": 29.71,
+        "end": 29.879
+      },
+      {
+        "text": "Đại",
+        "start": 29.879,
+        "end": 30.091
+      },
+      {
+        "text": "La,",
+        "start": 30.091,
+        "end": 30.261
+      }
+    ],
+    [
+      {
+        "text": "chém",
+        "start": 30.261,
+        "end": 30.731
+      },
+      {
+        "text": "kẻ",
+        "start": 30.731,
+        "end": 30.901
+      },
+      {
+        "text": "phản",
+        "start": 30.901,
+        "end": 31.149
+      },
+      {
+        "text": "bội.",
+        "start": 31.149,
+        "end": 31.59
+      }
+    ],
+    [
+      {
+        "text": "Năm",
+        "start": 32.302,
+        "end": 32.506
+      },
+      {
+        "text": "208,",
+        "start": 32.506,
+        "end": 32.71
+      },
+      {
+        "text": "Tào",
+        "start": 32.71,
+        "end": 32.914
+      },
+      {
+        "text": "Tháo",
+        "start": 32.914,
+        "end": 33.153
+      },
+      {
+        "text": "ép",
+        "start": 33.153,
+        "end": 33.316
+      },
+      {
+        "text": "xuống",
+        "start": 33.316,
+        "end": 33.586
+      },
+      {
+        "text": "phía",
+        "start": 33.586,
+        "end": 33.825
+      }
+    ],
+    [
+      {
+        "text": "nam.",
+        "start": 33.825,
+        "end": 34.029
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 34.029,
+        "end": 34.192
+      },
+      {
+        "text": "triều",
+        "start": 34.192,
+        "end": 34.462
+      },
+      {
+        "text": "Đông",
+        "start": 34.462,
+        "end": 35.16
+      },
+      {
+        "text": "Ngô",
+        "start": 35.16,
+        "end": 35.364
+      },
+      {
+        "text": "bàn",
+        "start": 35.364,
+        "end": 35.568
+      },
+      {
+        "text": "nhau",
+        "start": 35.568,
+        "end": 35.807
+      },
+      {
+        "text": "chuyện",
+        "start": 35.807,
+        "end": 36.105
+      }
+    ],
+    [
+      {
+        "text": "đầu",
+        "start": 36.105,
+        "end": 36.309
+      },
+      {
+        "text": "hàng.",
+        "start": 36.309,
+        "end": 36.548
+      }
+    ],
+    [
+      {
+        "text": "Chỉ",
+        "start": 36.548,
+        "end": 37.207
+      },
+      {
+        "text": "một",
+        "start": 37.207,
+        "end": 37.411
+      },
+      {
+        "text": "mình",
+        "start": 37.411,
+        "end": 37.65
+      },
+      {
+        "text": "Chu",
+        "start": 37.65,
+        "end": 37.854
+      },
+      {
+        "text": "Du",
+        "start": 37.854,
+        "end": 38.017
+      },
+      {
+        "text": "đòi",
+        "start": 38.017,
+        "end": 38.221
+      },
+      {
+        "text": "đánh.",
+        "start": 38.221,
+        "end": 38.46
+      }
+    ],
+    [
+      {
+        "text": "Ngô",
+        "start": 39.165,
+        "end": 39.337
+      },
+      {
+        "text": "Quyền",
+        "start": 39.337,
+        "end": 39.564
+      },
+      {
+        "text": "cho",
+        "start": 39.564,
+        "end": 39.735
+      },
+      {
+        "text": "đóng",
+        "start": 39.735,
+        "end": 39.936
+      },
+      {
+        "text": "những",
+        "start": 39.936,
+        "end": 40.163
+      },
+      {
+        "text": "hàng",
+        "start": 40.163,
+        "end": 40.364
+      },
+      {
+        "text": "cọc",
+        "start": 40.364,
+        "end": 40.536
+      }
+    ],
+    [
+      {
+        "text": "lớn",
+        "start": 40.536,
+        "end": 40.707
+      },
+      {
+        "text": "bịt",
+        "start": 40.707,
+        "end": 40.879
+      },
+      {
+        "text": "sắt",
+        "start": 40.879,
+        "end": 41.05
+      },
+      {
+        "text": "xuống",
+        "start": 41.05,
+        "end": 41.277
+      },
+      {
+        "text": "đáy",
+        "start": 41.277,
+        "end": 41.449
+      },
+      {
+        "text": "Bạch",
+        "start": 41.449,
+        "end": 41.649
+      },
+      {
+        "text": "Đằng,",
+        "start": 41.649,
+        "end": 42.376
+      }
+    ],
+    [
+      {
+        "text": "đầu",
+        "start": 42.376,
+        "end": 42.548
+      },
+      {
+        "text": "cọc",
+        "start": 42.548,
+        "end": 42.719
+      },
+      {
+        "text": "nghiêng",
+        "start": 42.719,
+        "end": 42.992
+      },
+      {
+        "text": "theo",
+        "start": 42.992,
+        "end": 43.193
+      },
+      {
+        "text": "hướng",
+        "start": 43.193,
+        "end": 43.42
+      },
+      {
+        "text": "nước",
+        "start": 43.42,
+        "end": 43.621
+      },
+      {
+        "text": "rút.",
+        "start": 43.621,
+        "end": 44.383
+      }
+    ],
+    [
+      {
+        "text": "Triều",
+        "start": 44.383,
+        "end": 44.61
+      },
+      {
+        "text": "lên,",
+        "start": 44.61,
+        "end": 45.126
+      },
+      {
+        "text": "cọc",
+        "start": 45.126,
+        "end": 45.298
+      },
+      {
+        "text": "biến",
+        "start": 45.298,
+        "end": 45.499
+      },
+      {
+        "text": "mất.",
+        "start": 45.499,
+        "end": 45.67
+      }
+    ],
+    [
+      {
+        "text": "Chu",
+        "start": 46.377,
+        "end": 46.544
+      },
+      {
+        "text": "Du",
+        "start": 46.544,
+        "end": 46.678
+      },
+      {
+        "text": "thì",
+        "start": 46.678,
+        "end": 46.845
+      },
+      {
+        "text": "chọn",
+        "start": 46.845,
+        "end": 47.041
+      },
+      {
+        "text": "lửa.",
+        "start": 47.041,
+        "end": 48.007
+      }
+    ],
+    [
+      {
+        "text": "Hoàng",
+        "start": 48.007,
+        "end": 48.229
+      },
+      {
+        "text": "Cái",
+        "start": 48.229,
+        "end": 48.396
+      },
+      {
+        "text": "gửi",
+        "start": 48.396,
+        "end": 48.563
+      },
+      {
+        "text": "thư",
+        "start": 48.563,
+        "end": 48.73
+      },
+      {
+        "text": "trá",
+        "start": 48.73,
+        "end": 48.898
+      },
+      {
+        "text": "hàng,",
+        "start": 48.898,
+        "end": 49.094
+      },
+      {
+        "text": "rồi",
+        "start": 49.094,
+        "end": 49.261
+      }
+    ],
+    [
+      {
+        "text": "lùa",
+        "start": 49.261,
+        "end": 49.428
+      },
+      {
+        "text": "cả",
+        "start": 49.428,
+        "end": 49.562
+      },
+      {
+        "text": "đoàn",
+        "start": 49.562,
+        "end": 49.758
+      },
+      {
+        "text": "thuyền",
+        "start": 49.758,
+        "end": 50.003
+      },
+      {
+        "text": "chất",
+        "start": 50.003,
+        "end": 50.199
+      },
+      {
+        "text": "đầy",
+        "start": 50.199,
+        "end": 50.366
+      },
+      {
+        "text": "củi",
+        "start": 50.366,
+        "end": 50.533
+      }
+    ],
+    [
+      {
+        "text": "dầu",
+        "start": 50.533,
+        "end": 50.701
+      },
+      {
+        "text": "vào",
+        "start": 50.701,
+        "end": 50.868
+      },
+      {
+        "text": "hạm",
+        "start": 50.868,
+        "end": 51.035
+      },
+      {
+        "text": "đội",
+        "start": 51.035,
+        "end": 51.202
+      },
+      {
+        "text": "Tào.",
+        "start": 51.202,
+        "end": 51.37
+      }
+    ],
+    [
+      {
+        "text": "Nhìn",
+        "start": 52.287,
+        "end": 52.489
+      },
+      {
+        "text": "kỹ",
+        "start": 52.489,
+        "end": 52.626
+      },
+      {
+        "text": "thì",
+        "start": 52.626,
+        "end": 52.798
+      },
+      {
+        "text": "hai",
+        "start": 52.798,
+        "end": 52.97
+      },
+      {
+        "text": "người",
+        "start": 52.97,
+        "end": 53.197
+      },
+      {
+        "text": "giống",
+        "start": 53.197,
+        "end": 53.425
+      },
+      {
+        "text": "nhau",
+        "start": 53.425,
+        "end": 53.626
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 53.626,
+        "end": 53.798
+      },
+      {
+        "text": "điểm.",
+        "start": 53.798,
+        "end": 54.493
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 54.493,
+        "end": 54.63
+      },
+      {
+        "text": "hai",
+        "start": 54.63,
+        "end": 54.802
+      },
+      {
+        "text": "đều",
+        "start": 54.802,
+        "end": 54.974
+      },
+      {
+        "text": "ít",
+        "start": 54.974,
+        "end": 55.111
+      },
+      {
+        "text": "quân",
+        "start": 55.111,
+        "end": 55.312
+      },
+      {
+        "text": "hơn",
+        "start": 55.312,
+        "end": 55.484
+      },
+      {
+        "text": "hẳn.",
+        "start": 55.484,
+        "end": 55.656
+      }
+    ],
+    [
+      {
+        "text": "Và",
+        "start": 56.611,
+        "end": 56.743
+      },
+      {
+        "text": "không",
+        "start": 56.743,
+        "end": 56.962
+      },
+      {
+        "text": "ai",
+        "start": 56.962,
+        "end": 57.094
+      },
+      {
+        "text": "trong",
+        "start": 57.094,
+        "end": 57.313
+      },
+      {
+        "text": "hai",
+        "start": 57.313,
+        "end": 57.478
+      },
+      {
+        "text": "người",
+        "start": 57.478,
+        "end": 57.697
+      },
+      {
+        "text": "chịu",
+        "start": 57.697,
+        "end": 57.89
+      }
+    ],
+    [
+      {
+        "text": "đánh",
+        "start": 57.89,
+        "end": 58.083
+      },
+      {
+        "text": "thẳng.",
+        "start": 58.083,
+        "end": 58.838
+      }
+    ],
+    [
+      {
+        "text": "Thuyền",
+        "start": 58.838,
+        "end": 59.079
+      },
+      {
+        "text": "nhẹ",
+        "start": 59.079,
+        "end": 59.245
+      },
+      {
+        "text": "ra",
+        "start": 59.245,
+        "end": 59.377
+      },
+      {
+        "text": "giả",
+        "start": 59.377,
+        "end": 59.542
+      },
+      {
+        "text": "thua,",
+        "start": 59.542,
+        "end": 59.735
+      },
+      {
+        "text": "dụ",
+        "start": 59.735,
+        "end": 60.356
+      },
+      {
+        "text": "địch",
+        "start": 60.356,
+        "end": 60.55
+      }
+    ],
+    [
+      {
+        "text": "tự",
+        "start": 60.55,
+        "end": 60.682
+      },
+      {
+        "text": "lao",
+        "start": 60.682,
+        "end": 60.847
+      },
+      {
+        "text": "vào",
+        "start": 60.847,
+        "end": 61.012
+      },
+      {
+        "text": "chỗ",
+        "start": 61.012,
+        "end": 61.177
+      },
+      {
+        "text": "chết.",
+        "start": 61.177,
+        "end": 61.371
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 62.291,
+        "end": 62.534
+      },
+      {
+        "text": "vũ",
+        "start": 62.534,
+        "end": 62.681
+      },
+      {
+        "text": "khí",
+        "start": 62.681,
+        "end": 62.864
+      },
+      {
+        "text": "thì",
+        "start": 62.864,
+        "end": 63.048
+      },
+      {
+        "text": "khác",
+        "start": 63.048,
+        "end": 63.263
+      },
+      {
+        "text": "hẳn",
+        "start": 63.263,
+        "end": 63.446
+      },
+      {
+        "text": "nhau.",
+        "start": 63.446,
+        "end": 63.661
+      }
+    ],
+    [
+      {
+        "text": "Chu",
+        "start": 63.661,
+        "end": 64.143
+      },
+      {
+        "text": "Du",
+        "start": 64.143,
+        "end": 64.29
+      },
+      {
+        "text": "mượn",
+        "start": 64.29,
+        "end": 64.505
+      },
+      {
+        "text": "gió.",
+        "start": 64.505,
+        "end": 64.689
+      }
+    ],
+    [
+      {
+        "text": "Lửa",
+        "start": 64.689,
+        "end": 65.229
+      },
+      {
+        "text": "bén",
+        "start": 65.229,
+        "end": 65.413
+      },
+      {
+        "text": "vào",
+        "start": 65.413,
+        "end": 65.596
+      },
+      {
+        "text": "đoàn",
+        "start": 65.596,
+        "end": 65.811
+      },
+      {
+        "text": "thuyền",
+        "start": 65.811,
+        "end": 66.08
+      },
+      {
+        "text": "buộc",
+        "start": 66.08,
+        "end": 66.295
+      },
+      {
+        "text": "nối",
+        "start": 66.295,
+        "end": 66.479
+      }
+    ],
+    [
+      {
+        "text": "đuôi",
+        "start": 66.479,
+        "end": 66.693
+      },
+      {
+        "text": "nhau,",
+        "start": 66.693,
+        "end": 66.908
+      },
+      {
+        "text": "cháy",
+        "start": 66.908,
+        "end": 67.311
+      },
+      {
+        "text": "lan",
+        "start": 67.311,
+        "end": 67.494
+      },
+      {
+        "text": "không",
+        "start": 67.494,
+        "end": 67.737
+      },
+      {
+        "text": "sao",
+        "start": 67.737,
+        "end": 67.921
+      },
+      {
+        "text": "gỡ",
+        "start": 67.921,
+        "end": 68.068
+      }
+    ],
+    [
+      {
+        "text": "kịp.",
+        "start": 68.068,
+        "end": 68.47
+      }
+    ],
+    [
+      {
+        "text": "Ngô",
+        "start": 69.182,
+        "end": 69.353
+      },
+      {
+        "text": "Quyền",
+        "start": 69.353,
+        "end": 69.58
+      },
+      {
+        "text": "thì",
+        "start": 69.58,
+        "end": 69.751
+      },
+      {
+        "text": "mượn",
+        "start": 69.751,
+        "end": 69.951
+      },
+      {
+        "text": "đất.",
+        "start": 69.951,
+        "end": 70.372
+      }
+    ],
+    [
+      {
+        "text": "Triều",
+        "start": 70.372,
+        "end": 70.599
+      },
+      {
+        "text": "rút,",
+        "start": 70.599,
+        "end": 71.111
+      },
+      {
+        "text": "cọc",
+        "start": 71.111,
+        "end": 71.282
+      },
+      {
+        "text": "nhô",
+        "start": 71.282,
+        "end": 71.453
+      },
+      {
+        "text": "lên",
+        "start": 71.453,
+        "end": 71.624
+      },
+      {
+        "text": "đâm",
+        "start": 71.624,
+        "end": 71.795
+      },
+      {
+        "text": "thủng",
+        "start": 71.795,
+        "end": 72.022
+      }
+    ],
+    [
+      {
+        "text": "đáy",
+        "start": 72.022,
+        "end": 72.193
+      },
+      {
+        "text": "thuyền,",
+        "start": 72.193,
+        "end": 72.692
+      },
+      {
+        "text": "cả",
+        "start": 72.692,
+        "end": 72.829
+      },
+      {
+        "text": "hạm",
+        "start": 72.829,
+        "end": 73
+      },
+      {
+        "text": "đội",
+        "start": 73,
+        "end": 73.171
+      },
+      {
+        "text": "kẹt",
+        "start": 73.171,
+        "end": 73.342
+      },
+      {
+        "text": "cứng",
+        "start": 73.342,
+        "end": 73.543
+      }
+    ],
+    [
+      {
+        "text": "giữa",
+        "start": 73.543,
+        "end": 73.743
+      },
+      {
+        "text": "dòng.",
+        "start": 73.743,
+        "end": 73.944
+      }
+    ],
+    [
+      {
+        "text": "Sau",
+        "start": 74.891,
+        "end": 75.069
+      },
+      {
+        "text": "Bạch",
+        "start": 75.069,
+        "end": 75.278
+      },
+      {
+        "text": "Đằng,",
+        "start": 75.278,
+        "end": 75.487
+      },
+      {
+        "text": "Ngô",
+        "start": 75.487,
+        "end": 75.665
+      },
+      {
+        "text": "Quyền",
+        "start": 75.665,
+        "end": 75.901
+      },
+      {
+        "text": "xưng",
+        "start": 75.901,
+        "end": 76.11
+      },
+      {
+        "text": "vương,",
+        "start": 76.11,
+        "end": 76.678
+      }
+    ],
+    [
+      {
+        "text": "dời",
+        "start": 76.678,
+        "end": 76.856
+      },
+      {
+        "text": "đô",
+        "start": 76.856,
+        "end": 76.999
+      },
+      {
+        "text": "về",
+        "start": 76.999,
+        "end": 77.141
+      },
+      {
+        "text": "Cổ",
+        "start": 77.141,
+        "end": 77.284
+      },
+      {
+        "text": "Loa,",
+        "start": 77.284,
+        "end": 77.462
+      },
+      {
+        "text": "khép",
+        "start": 77.462,
+        "end": 77.671
+      },
+      {
+        "text": "lại",
+        "start": 77.671,
+        "end": 78.033
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 78.033,
+        "end": 78.212
+      },
+      {
+        "text": "nghìn",
+        "start": 78.212,
+        "end": 78.448
+      },
+      {
+        "text": "năm",
+        "start": 78.448,
+        "end": 78.626
+      },
+      {
+        "text": "Bắc",
+        "start": 78.626,
+        "end": 78.804
+      },
+      {
+        "text": "thuộc.",
+        "start": 78.804,
+        "end": 79.26
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 79.969,
+        "end": 80.144
+      },
+      {
+        "text": "sau",
+        "start": 80.144,
+        "end": 80.318
+      },
+      {
+        "text": "Xích",
+        "start": 80.318,
+        "end": 80.521
+      },
+      {
+        "text": "Bích,",
+        "start": 80.521,
+        "end": 81.054
+      },
+      {
+        "text": "Chu",
+        "start": 81.054,
+        "end": 81.228
+      },
+      {
+        "text": "Du",
+        "start": 81.228,
+        "end": 81.367
+      },
+      {
+        "text": "vẫn",
+        "start": 81.367,
+        "end": 81.541
+      }
+    ],
+    [
+      {
+        "text": "chỉ",
+        "start": 81.541,
+        "end": 81.715
+      },
+      {
+        "text": "là",
+        "start": 81.715,
+        "end": 81.854
+      },
+      {
+        "text": "một",
+        "start": 81.854,
+        "end": 82.028
+      },
+      {
+        "text": "viên",
+        "start": 82.028,
+        "end": 82.232
+      },
+      {
+        "text": "tướng.",
+        "start": 82.232,
+        "end": 83.148
+      }
+    ],
+    [
+      {
+        "text": "Ông",
+        "start": 83.148,
+        "end": 83.322
+      },
+      {
+        "text": "mất",
+        "start": 83.322,
+        "end": 83.496
+      },
+      {
+        "text": "ở",
+        "start": 83.496,
+        "end": 83.591
+      },
+      {
+        "text": "Ba",
+        "start": 83.591,
+        "end": 83.731
+      },
+      {
+        "text": "Khâu,",
+        "start": 83.731,
+        "end": 83.935
+      },
+      {
+        "text": "ba",
+        "start": 83.935,
+        "end": 84.074
+      },
+      {
+        "text": "mươi",
+        "start": 84.074,
+        "end": 84.278
+      }
+    ],
+    [
+      {
+        "text": "sáu",
+        "start": 84.278,
+        "end": 84.452
+      },
+      {
+        "text": "tuổi,",
+        "start": 84.452,
+        "end": 84.656
+      },
+      {
+        "text": "kế",
+        "start": 84.656,
+        "end": 85.228
+      },
+      {
+        "text": "hoạch",
+        "start": 85.228,
+        "end": 85.459
+      },
+      {
+        "text": "còn",
+        "start": 85.459,
+        "end": 85.633
+      },
+      {
+        "text": "dang",
+        "start": 85.633,
+        "end": 85.837
+      },
+      {
+        "text": "dở.",
+        "start": 85.837,
+        "end": 85.976
+      }
+    ],
+    [
+      {
+        "text": "Thử",
+        "start": 86.904,
+        "end": 87.083
+      },
+      {
+        "text": "đặt",
+        "start": 87.083,
+        "end": 87.262
+      },
+      {
+        "text": "hai",
+        "start": 87.262,
+        "end": 87.441
+      },
+      {
+        "text": "người",
+        "start": 87.441,
+        "end": 87.678
+      },
+      {
+        "text": "vào",
+        "start": 87.678,
+        "end": 87.857
+      },
+      {
+        "text": "cùng",
+        "start": 87.857,
+        "end": 88.067
+      },
+      {
+        "text": "một",
+        "start": 88.067,
+        "end": 88.678
+      }
+    ],
+    [
+      {
+        "text": "trận.",
+        "start": 88.678,
+        "end": 88.887
+      }
+    ],
+    [
+      {
+        "text": "Mặt",
+        "start": 88.887,
+        "end": 89.066
+      },
+      {
+        "text": "nước",
+        "start": 89.066,
+        "end": 89.276
+      },
+      {
+        "text": "rộng,",
+        "start": 89.276,
+        "end": 89.485
+      },
+      {
+        "text": "gió",
+        "start": 89.485,
+        "end": 89.664
+      },
+      {
+        "text": "lớn,",
+        "start": 89.664,
+        "end": 90.181
+      },
+      {
+        "text": "không",
+        "start": 90.181,
+        "end": 90.418
+      },
+      {
+        "text": "kịp",
+        "start": 90.418,
+        "end": 90.597
+      }
+    ],
+    [
+      {
+        "text": "dựng",
+        "start": 90.597,
+        "end": 90.806
+      },
+      {
+        "text": "trận",
+        "start": 90.806,
+        "end": 91.016
+      },
+      {
+        "text": "địa,",
+        "start": 91.016,
+        "end": 91.529
+      },
+      {
+        "text": "thì",
+        "start": 91.529,
+        "end": 91.708
+      },
+      {
+        "text": "phần",
+        "start": 91.708,
+        "end": 91.918
+      },
+      {
+        "text": "thắng",
+        "start": 91.918,
+        "end": 92.155
+      },
+      {
+        "text": "về",
+        "start": 92.155,
+        "end": 92.298
+      }
+    ],
+    [
+      {
+        "text": "Chu",
+        "start": 92.298,
+        "end": 92.477
+      },
+      {
+        "text": "Du.",
+        "start": 92.477,
+        "end": 92.62
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 93.328,
+        "end": 93.562
+      },
+      {
+        "text": "đổi",
+        "start": 93.562,
+        "end": 93.738
+      },
+      {
+        "text": "sang",
+        "start": 93.738,
+        "end": 93.944
+      },
+      {
+        "text": "cửa",
+        "start": 93.944,
+        "end": 94.12
+      },
+      {
+        "text": "sông",
+        "start": 94.12,
+        "end": 94.326
+      },
+      {
+        "text": "hẹp",
+        "start": 94.326,
+        "end": 94.502
+      },
+      {
+        "text": "có",
+        "start": 94.502,
+        "end": 94.643
+      }
+    ],
+    [
+      {
+        "text": "thủy",
+        "start": 94.643,
+        "end": 94.849
+      },
+      {
+        "text": "triều,",
+        "start": 94.849,
+        "end": 95.082
+      },
+      {
+        "text": "cho",
+        "start": 95.082,
+        "end": 95.629
+      },
+      {
+        "text": "thêm",
+        "start": 95.629,
+        "end": 95.835
+      },
+      {
+        "text": "ba",
+        "start": 95.835,
+        "end": 95.976
+      },
+      {
+        "text": "tháng",
+        "start": 95.976,
+        "end": 96.209
+      },
+      {
+        "text": "chuẩn",
+        "start": 96.209,
+        "end": 96.442
+      }
+    ],
+    [
+      {
+        "text": "bị,",
+        "start": 96.442,
+        "end": 96.583
+      },
+      {
+        "text": "thì",
+        "start": 96.583,
+        "end": 97.087
+      },
+      {
+        "text": "gần",
+        "start": 97.087,
+        "end": 97.263
+      },
+      {
+        "text": "như",
+        "start": 97.263,
+        "end": 97.439
+      },
+      {
+        "text": "chắc",
+        "start": 97.439,
+        "end": 97.646
+      },
+      {
+        "text": "chắn",
+        "start": 97.646,
+        "end": 97.852
+      },
+      {
+        "text": "là",
+        "start": 97.852,
+        "end": 97.993
+      }
+    ],
+    [
+      {
+        "text": "Ngô",
+        "start": 97.993,
+        "end": 98.169
+      },
+      {
+        "text": "Quyền.",
+        "start": 98.169,
+        "end": 98.402
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 99.343,
+        "end": 99.504
+      },
+      {
+        "text": "đánh",
+        "start": 99.504,
+        "end": 99.693
+      },
+      {
+        "text": "dài",
+        "start": 99.693,
+        "end": 99.854
+      },
+      {
+        "text": "hơi,",
+        "start": 99.854,
+        "end": 100.414
+      },
+      {
+        "text": "Chu",
+        "start": 100.414,
+        "end": 100.575
+      },
+      {
+        "text": "Du",
+        "start": 100.575,
+        "end": 100.704
+      },
+      {
+        "text": "có",
+        "start": 100.704,
+        "end": 100.833
+      }
+    ],
+    [
+      {
+        "text": "cả",
+        "start": 100.833,
+        "end": 100.962
+      },
+      {
+        "text": "nhà",
+        "start": 100.962,
+        "end": 101.123
+      },
+      {
+        "text": "nước",
+        "start": 101.123,
+        "end": 101.312
+      },
+      {
+        "text": "chống",
+        "start": 101.312,
+        "end": 101.525
+      },
+      {
+        "text": "lưng,",
+        "start": 101.525,
+        "end": 102.229
+      },
+      {
+        "text": "nhưng",
+        "start": 102.229,
+        "end": 102.442
+      },
+      {
+        "text": "đánh",
+        "start": 102.442,
+        "end": 102.631
+      }
+    ],
+    [
+      {
+        "text": "hay",
+        "start": 102.631,
+        "end": 102.792
+      },
+      {
+        "text": "không",
+        "start": 102.792,
+        "end": 103.006
+      },
+      {
+        "text": "vẫn",
+        "start": 103.006,
+        "end": 103.167
+      },
+      {
+        "text": "phải",
+        "start": 103.167,
+        "end": 103.356
+      },
+      {
+        "text": "chờ",
+        "start": 103.356,
+        "end": 103.517
+      },
+      {
+        "text": "cấp",
+        "start": 103.517,
+        "end": 103.678
+      },
+      {
+        "text": "trên",
+        "start": 103.678,
+        "end": 103.867
+      }
+    ],
+    [
+      {
+        "text": "duyệt.",
+        "start": 103.867,
+        "end": 104.739
+      }
+    ],
+    [
+      {
+        "text": "Lệnh",
+        "start": 104.739,
+        "end": 104.927
+      },
+      {
+        "text": "Ngô",
+        "start": 104.927,
+        "end": 105.089
+      },
+      {
+        "text": "Quyền",
+        "start": 105.089,
+        "end": 105.302
+      },
+      {
+        "text": "đưa",
+        "start": 105.302,
+        "end": 105.463
+      },
+      {
+        "text": "ra",
+        "start": 105.463,
+        "end": 105.592
+      },
+      {
+        "text": "là",
+        "start": 105.592,
+        "end": 105.721
+      },
+      {
+        "text": "lệnh",
+        "start": 105.721,
+        "end": 105.91
+      }
+    ],
+    [
+      {
+        "text": "cuối",
+        "start": 105.91,
+        "end": 106.099
+      },
+      {
+        "text": "cùng.",
+        "start": 106.099,
+        "end": 106.288
+      }
+    ],
+    [
+      {
+        "text": "Nên",
+        "start": 107.242,
+        "end": 107.433
+      },
+      {
+        "text": "rốt",
+        "start": 107.433,
+        "end": 107.625
+      },
+      {
+        "text": "cuộc",
+        "start": 107.625,
+        "end": 107.849
+      },
+      {
+        "text": "tất",
+        "start": 107.849,
+        "end": 108.04
+      },
+      {
+        "text": "cả",
+        "start": 108.04,
+        "end": 108.193
+      },
+      {
+        "text": "nằm",
+        "start": 108.193,
+        "end": 108.385
+      },
+      {
+        "text": "ở",
+        "start": 108.385,
+        "end": 108.489
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 108.489,
+        "end": 108.68
+      },
+      {
+        "text": "chữ,",
+        "start": 108.68,
+        "end": 108.872
+      },
+      {
+        "text": "là",
+        "start": 108.872,
+        "end": 109.025
+      },
+      {
+        "text": "ai",
+        "start": 109.025,
+        "end": 109.511
+      },
+      {
+        "text": "được",
+        "start": 109.511,
+        "end": 109.735
+      },
+      {
+        "text": "chọn",
+        "start": 109.735,
+        "end": 109.959
+      },
+      {
+        "text": "chiến",
+        "start": 109.959,
+        "end": 110.213
+      }
+    ],
+    [
+      {
+        "text": "trường.",
+        "start": 110.213,
+        "end": 110.493
+      }
+    ],
+    [
+      {
+        "text": "Chỉ",
+        "start": 110.493,
+        "end": 111.264
+      },
+      {
+        "text": "có",
+        "start": 111.264,
+        "end": 111.417
+      },
+      {
+        "text": "điều,",
+        "start": 111.417,
+        "end": 111.641
+      },
+      {
+        "text": "chiến",
+        "start": 111.641,
+        "end": 111.894
+      },
+      {
+        "text": "thắng",
+        "start": 111.894,
+        "end": 112.148
+      },
+      {
+        "text": "của",
+        "start": 112.148,
+        "end": 112.339
+      },
+      {
+        "text": "Ngô",
+        "start": 112.339,
+        "end": 112.531
+      }
+    ],
+    [
+      {
+        "text": "Quyền",
+        "start": 112.531,
+        "end": 112.784
+      },
+      {
+        "text": "đẻ",
+        "start": 112.784,
+        "end": 112.937
+      },
+      {
+        "text": "ra",
+        "start": 112.937,
+        "end": 113.09
+      },
+      {
+        "text": "hẳn",
+        "start": 113.09,
+        "end": 113.282
+      },
+      {
+        "text": "một",
+        "start": 113.282,
+        "end": 113.473
+      },
+      {
+        "text": "quốc",
+        "start": 113.473,
+        "end": 113.697
+      },
+      {
+        "text": "gia.",
+        "start": 113.697,
+        "end": 113.888
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 114.842,
+        "end": 115.02
+      },
+      {
+        "text": "bạn",
+        "start": 115.02,
+        "end": 115.198
+      },
+      {
+        "text": "thì",
+        "start": 115.198,
+        "end": 115.376
+      },
+      {
+        "text": "sao?",
+        "start": 115.376,
+        "end": 115.993
+      }
+    ],
+    [
+      {
+        "text": "Nếu",
+        "start": 115.993,
+        "end": 116.171
+      },
+      {
+        "text": "trận",
+        "start": 116.171,
+        "end": 116.379
+      },
+      {
+        "text": "đánh",
+        "start": 116.379,
+        "end": 116.587
+      },
+      {
+        "text": "xảy",
+        "start": 116.587,
+        "end": 116.765
+      },
+      {
+        "text": "ra",
+        "start": 116.765,
+        "end": 116.907
+      },
+      {
+        "text": "ở",
+        "start": 116.907,
+        "end": 117.004
+      },
+      {
+        "text": "cửa",
+        "start": 117.004,
+        "end": 117.182
+      }
+    ],
+    [
+      {
+        "text": "sông",
+        "start": 117.182,
+        "end": 117.39
+      },
+      {
+        "text": "có",
+        "start": 117.39,
+        "end": 117.532
+      },
+      {
+        "text": "thủy",
+        "start": 117.532,
+        "end": 117.741
+      },
+      {
+        "text": "triều,",
+        "start": 117.741,
+        "end": 118.2
+      },
+      {
+        "text": "mà",
+        "start": 118.2,
+        "end": 118.342
+      },
+      {
+        "text": "hôm",
+        "start": 118.342,
+        "end": 118.52
+      },
+      {
+        "text": "ấy",
+        "start": 118.52,
+        "end": 118.662
+      }
+    ],
+    [
+      {
+        "text": "trời",
+        "start": 118.662,
+        "end": 118.87
+      },
+      {
+        "text": "lại",
+        "start": 118.87,
+        "end": 119.048
+      },
+      {
+        "text": "nổi",
+        "start": 119.048,
+        "end": 119.226
+      },
+      {
+        "text": "gió",
+        "start": 119.226,
+        "end": 119.404
+      },
+      {
+        "text": "đông,",
+        "start": 119.404,
+        "end": 119.612
+      },
+      {
+        "text": "bạn",
+        "start": 119.612,
+        "end": 119.79
+      },
+      {
+        "text": "đặt",
+        "start": 119.79,
+        "end": 119.967
+      }
+    ],
+    [
+      {
+        "text": "cửa",
+        "start": 119.967,
+        "end": 120.145
+      },
+      {
+        "text": "cho",
+        "start": 120.145,
+        "end": 120.323
+      },
+      {
+        "text": "ai?",
+        "start": 120.323,
+        "end": 120.465
+      }
+    ]
+  ],
+  "uploadedScenes": []
+}

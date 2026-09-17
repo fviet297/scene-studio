@@ -1,0 +1,26 @@
+{
+  "character_id": "char-b",
+  "name": "Zhou Yu",
+  "display_name": "Chu Du",
+  "aliases": ["Công Cẩn", "Chu Lang", "Zhou Gongjin", "Zhou Lang"],
+  "country": "Đông Ngô (Eastern Wu), China",
+  "period": "late 2nd to early 3rd century (175-210)",
+  "dynasty": "End of Eastern Han / Three Kingdoms, serving the Sun clan",
+  "role": "Đại đô đốc (chief naval commander) of Sun Quan, allied commander at the Battle of Red Cliffs (Xích Bích) 208",
+  "known_facts": [
+    "Born 175 in Lư Giang, from a prominent Han official family; sworn friend of Tôn Sách and served him in conquering the Giang Đông region",
+    "After Tôn Sách's death in 200 he supported the young Tôn Quyền and commanded Wu's naval forces",
+    "In 208 Tào Tháo marched south after taking Kinh Châu; most of Sun Quan's court argued for surrender",
+    "Chu Du argued for war, pointing out Cao Cao's northern troops were unused to boats, exhausted, short of supplies and suffering from disease, and that his claimed troop numbers were inflated",
+    "Commanded roughly thirty thousand Wu troops in the allied Sun-Liu force against a far larger northern army at Xích Bích on the Trường Giang",
+    "His officer Hoàng Cái proposed the fire attack and sent a false letter of surrender, sailing boats packed with kindling and oil into the northern fleet, whose ships were linked together",
+    "The wind spread the fire through the linked fleet; Cao Cao burned the rest of his ships and retreated north, and the victory fixed the north-south division that became the Three Kingdoms",
+    "Afterwards took Giang Lăng from Tào Nhân in a long siege in which he was wounded by an arrow",
+    "Proposed a campaign west to take Ích Châu but died in 210 at Ba Khâu, aged about thirty-six",
+    "Praised by contemporaries for his cultivation and his ear for music ('khúc hữu ngộ, Chu Lang cố')",
+    "The 'Gia Cát Lượng cầu gió đông' scene and the jealous rivalry with Zhuge Liang are inventions of the novel Tam Quốc diễn nghĩa, not history"
+  ],
+  "interpretation": "Late-Han Chinese commander's dress (lamellar armour over robe, guan headwear), based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ngoquyen-chudu/characters/char-b.png"
+}

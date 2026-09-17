@@ -1,28 +1,28 @@
 {
-  "project": "ho-quy-ly",
+  "project": "ngoquyen-chudu",
   "characters": [
     {
       "id": "char-a",
-      "name": "Hồ Quý Ly",
+      "name": "Ngô Quyền",
       "aliases": [
-        "Hồ Quý Ly",
-        "Lê Quý Ly",
-        "Thánh Nguyên",
-        "hoàng đế Đại Ngu"
+        "Tiền Ngô Vương",
+        "Ngô Vương",
+        "Ngo Vuong"
       ],
-      "image": "projects/ho-quy-ly/characters/char-a.png",
-      "imageV2": "projects/ho-quy-ly/characters/char-a.png"
+      "image": "projects/ngoquyen-chudu/characters/char-a.png",
+      "imageV2": "projects/ngoquyen-chudu/characters/char-a.png"
     },
     {
       "id": "char-b",
-      "name": "Hồ Nguyên Trừng",
+      "name": "Chu Du",
       "aliases": [
-        "Hồ Nguyên Trừng",
-        "Lê Trừng",
-        "Nam Ông"
+        "Công Cẩn",
+        "Chu Lang",
+        "Zhou Gongjin",
+        "Zhou Lang"
       ],
-      "image": "projects/ho-quy-ly/characters/char-b.png",
-      "imageV2": "projects/ho-quy-ly/characters/char-b.png"
+      "image": "projects/ngoquyen-chudu/characters/char-b.jpg",
+      "imageV2": "projects/ngoquyen-chudu/characters/char-b.jpg"
     }
   ]
 }

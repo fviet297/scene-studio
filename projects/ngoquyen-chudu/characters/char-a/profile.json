@@ -1,0 +1,26 @@
+{
+  "character_id": "char-a",
+  "name": "Ngo Quyen",
+  "display_name": "Ngô Quyền",
+  "aliases": ["Tiền Ngô Vương", "Ngô Vương", "Ngo Vuong"],
+  "country": "Tĩnh Hải quân / Đại Việt buổi đầu tự chủ",
+  "period": "10th century (897-944)",
+  "dynasty": "Ngô dynasty (founded 939)",
+  "role": "Nha tướng and son-in-law of Dương Đình Nghệ, commander at the Battle of Bạch Đằng 938, then founding king",
+  "known_facts": [
+    "Born 897 in Đường Lâm, son of the châu mục Ngô Mân",
+    "Nha tướng, adopted son and son-in-law of Dương Đình Nghệ; left in charge of Ái Châu when Dương Đình Nghệ marched on Đại La in 931",
+    "In 937 Kiều Công Tiễn murdered Dương Đình Nghệ and claimed the post of tiết độ sứ; Ngô Quyền marched north from Ái Châu to avenge him",
+    "Local hào trưởng rallied to Ngô Quyền, isolating Kiều Công Tiễn, who sent gold to the Southern Han court begging for troops",
+    "Ngô Quyền took Đại La and killed Kiều Công Tiễn before the Southern Han fleet arrived",
+    "The Southern Han king Lưu Cung ignored his adviser Tiêu Ích's warning and sent his son Lưu Hoằng Tháo up the Bạch Đằng river",
+    "Planted large iron-tipped stakes in the riverbed at the estuary, hidden by the high tide, leaning toward the ebb direction",
+    "Lured the Southern Han fleet past the stake field with light boats feigning flight at high tide, then counterattacked as the tide fell; enemy ships were holed and capsized on the stakes, more than half the troops drowned and Lưu Hoằng Tháo was captured and killed (938)",
+    "Proclaimed himself king in 939, founded the Ngô dynasty and moved the capital to Cổ Loa, ending 1000 years of Bắc thuộc",
+    "Died in 944 aged 47 after a six-year reign; posterity calls him Tiền Ngô Vương",
+    "Lê Văn Hưu and Ngô Sĩ Liên both rank him first among kings for 'mưu tài đánh giỏi'"
+  ],
+  "interpretation": "10th-century early-autonomy Đại Việt military dress (plain hemp tunic, sash, topknot), based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/ngoquyen-chudu/characters/char-a.png"
+}
