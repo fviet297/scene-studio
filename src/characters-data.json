@@ -1,28 +1,17 @@
 {
-  "project": "ngoquyen-chudu",
+  "project": "le-thanh-tong",
   "characters": [
     {
       "id": "char-a",
-      "name": "Ngô Quyền",
+      "name": "Lê Thánh Tông",
       "aliases": [
-        "Tiền Ngô Vương",
-        "Ngô Vương",
-        "Ngo Vuong"
+        "Lê Tư Thành",
+        "Tư Thành",
+        "Gia Vương",
+        "Le Tu Thanh"
       ],
-      "image": "projects/ngoquyen-chudu/characters/char-a.png",
-      "imageV2": "projects/ngoquyen-chudu/characters/char-a.png"
-    },
-    {
-      "id": "char-b",
-      "name": "Chu Du",
-      "aliases": [
-        "Công Cẩn",
-        "Chu Lang",
-        "Zhou Gongjin",
-        "Zhou Lang"
-      ],
-      "image": "projects/ngoquyen-chudu/characters/char-b.jpg",
-      "imageV2": "projects/ngoquyen-chudu/characters/char-b.jpg"
+      "image": "projects/le-thanh-tong/characters/char-a.jpg",
+      "imageV2": "projects/le-thanh-tong/characters/char-a.jpg"
     }
   ]
 }

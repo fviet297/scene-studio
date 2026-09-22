@@ -1,0 +1,27 @@
+{
+  "character_id": "char-a",
+  "name": "Le Thanh Tong",
+  "display_name": "Lê Thánh Tông",
+  "aliases": ["Lê Tư Thành", "Tư Thành", "Gia Vương", "Le Tu Thanh"],
+  "country": "Đại Việt",
+  "period": "15th century (r. 1460-1497)",
+  "dynasty": "Later Lê dynasty (Lê Sơ)",
+  "role": "Fourth son of Lê Thái Tông; enthroned after the Diên Ninh coup and countercoup; emperor who compiled the Hồng Đức code, expanded the south by conquering Vijaya, and built Đại Việt's most prosperous era",
+  "known_facts": [
+    "Fourth son of Lê Thái Tông, born to a concubine, one of four princes (Nghi Dân, Bang Cơ, Khắc Xương, Tư Thành) caught in the succession struggle after Thái Tông's mysterious death at Lệ Chi Viên in 1442",
+    "1459: his half-brother Lê Nghi Dân staged the Diên Ninh coup, killing the reigning emperor Lê Nhân Tông (Bang Cơ) and the empress dowager at night",
+    "1460: the minister Nguyễn Xí led a countercoup that killed Nghi Dân's men and forced Nghi Dân, then 22, to hang himself with a silk cord; the court then enthroned Tư Thành as Lê Thánh Tông",
+    "1470-1471: personally led a fleet of 15 vạn troops (with Đinh Liệt and Lê Niệm leading 10 vạn by land) to conquer Chăm Pa, first writing 'Bình Chiêm sách'; captured and destroyed the Chăm capital Đồ Bàn, took over 30,000 captives",
+    "Toured the northern border and warned his officials: 'Một thước núi, một tấc sông của ta, lẽ nào lại nên vứt bỏ?' — left an inscription on Bài Thơ mountain, Hạ Long",
+    "Reorganized the military into five phủ đô đốc, adopted Hồ Nguyên Trừng's cannon-casting technique, built a standing and reserve army",
+    "Compiled the Hồng Đức code (bộ luật Hồng Đức), Đại Việt's landmark law code; stripped admiral Lê Thiệt of command and punished his son for abusing power, declaring 'Pháp luật là phép tắc chung của Nhà nước, ta và các người phải cùng tuân theo'",
+    "Famous vi hành (disguised inspection) story: posed as a poor scholar to meet the thief Quận Gió, who refused to rob honest merchants and instead stole silver marked 'Quốc khố chi bảo' from a corrupt treasury official; on New Year's morning the court recognized the disguised scholar as the emperor, the corrupt official was stripped and exiled, and Quận Gió was honored as 'quân tử đạo chích'",
+    "Abolished hereditary privilege for meritorious officials' descendants, had village officials elected by the people, gathered talents such as Thân Nhân Trung (author of 'Hiền tài là nguyên khí của quốc gia'), Ngô Sĩ Liên, Lương Thế Vinh, Vũ Hữu, Đỗ Nhuận",
+    "Founded the Hội Tao Đàn poetry circle, exonerated Nguyễn Trãi and gathered his writings, honored him with the line 'Tâm hồn Ức Trai rực rỡ tựa sao Khuê'",
+    "His reign restricted maritime trade to a single licensed port (Vân Đồn) under Confucian 'trọng nông ức thương' policy, and his Hồng Đức code branded the descendants of xướng ca (performer) families as barred from exams and marriage to the nobility",
+    "Reigned 37 years (1460-1497), died at 56, buried at Chiêu Lăng, Lam Kinh, Thanh Hóa; his reign is remembered as 'Hồng Đức thịnh thế', Đại Việt's most prosperous era"
+  ],
+  "interpretation": "15th-century Later-Lê Vietnamese emperor in Lê Sơ imperial dress based on the user reference.",
+  "unknowns": ["No verified contemporary life portrait survives"],
+  "reference": "public/projects/le-thanh-tong/characters/char-a.png"
+}

@@ -1230,6 +1230,15 @@ $("motionClose").addEventListener("click", () => {
 $("motionOverlay").addEventListener("click", (e) => {
   if (e.target === $("motionOverlay")) $("motionOverlay").hidden = true;
 });
+$("btnCopySearchQuery").addEventListener("click", async () => {
+  const query = $("searchQuery").textContent;
+  try {
+    await navigator.clipboard.writeText(query);
+    toast("Đã copy search query.");
+  } catch {
+    toast("Clipboard không dùng được.", false);
+  }
+});
 
 $("narrBox").addEventListener("input", (e) => {
   const s = current();

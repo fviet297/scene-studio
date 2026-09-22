@@ -316,7 +316,13 @@
       </div>
 
       <div class="block" id="searchBlock" hidden>
-        <div class="block-head"><span class="ttl">Search query</span></div>
+        <div class="block-head">
+          <span class="ttl">Search query</span>
+          <span class="grow"></span>
+          <button class="icon-btn" type="button" id="btnCopySearchQuery" aria-label="Copy search query" title="Copy search query">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
+        </div>
         <div class="readonly-field" id="searchQuery"></div>
       </div>
 

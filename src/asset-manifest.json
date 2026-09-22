@@ -3,38 +3,33 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Wide storm-dark river estuary at dusk; Ngo Quyen stands small and off-center on ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 multi-char ×2)",
+    "subject": "Wide 15th-century Đại Việt forbidden-palace wall at night; bamboo ladders lean a",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 multi-char ×2)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a",
-      "char-b"
-    ],
-    "prompt": "Wide storm-dark river estuary at dusk; Ngo Quyen stands small and off-center on the prow of a small dugout boat left of centre, Zhou Yu stands small and further back on the foredeck of a tiered lacquered war junk to the right, both facing each other across open grey water; behind Ngo Quyen East Asian tenth-century Dai Viet rowers in plain hemp tunics and conical palm-leaf hats crowd low boats among reed banks; behind Zhou Yu East Asian soldiers in late-second-century Chinese lacquered leather lamellar line the decks of tall tiered junks with ji halberds and crossbows; wind drives spray off the chop, torn cloud races low, dark smoke trails on the far horizon, plain solid-indigo cloth banners on the near boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide 15th-century Đại Việt forbidden-palace wall at night; bamboo ladders lean against the high brick wall, more than a hundred armed soldiers in Lê-dynasty lamellar armor climb over in three columns, faces turned away or in shadow, torches held low to stay hidden, a sentry lies fallen at the base, moonlit tiled roofs of the inner palace rise beyond the wall, mist drifts along the ground. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Wide night river seen low over the water; Zhou Yu stands small and off-center at",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt imperial bedchamber lit by a single fallen oil lamp; ",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide night river seen low over the water; Zhou Yu stands small and off-center at about one-fifth frame height on the prow of a low late-second-century Chinese war junk in the near foreground, back to the camera, watching; far across the black water a long line of tall tiered junks burns from end to end, orange flame climbing masts and rigging, sparks streaming downwind in a long trail, burning debris and swimming men scattered on the lit water between; East Asian crewmen in lacquered leather lamellar crouch at the oars around him, their faces lit orange, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide 15th-century Đại Việt imperial bedchamber lit by a single fallen oil lamp; soldiers in Lê-dynasty lamellar armor stand small and off-center around an overturned imperial bed with dragon-carved posts, silk curtains torn and swaying, a second group of soldiers moves toward an inner doorway toward the empress dowager's quarters, spilled lamp oil catches a low flame, wooden lattice windows cast broken shadows across the floor. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet river estuary at grey dawn, seen low over the water ",
+    "subject": "Wide 15th-century Đại Việt palace courtyard at first light; a young prince in pl",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -43,13 +38,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide tenth-century Dai Viet river estuary at grey dawn, seen low over the water at falling tide; rows of thick iron-capped wooden stakes break the surface in staggered lines across the channel, one tall tiered northern junk impaled and rolling onto its side in the middle distance, hull split, men spilling into the brown water; Ngo Quyen stands small and off-center at about one-fifth frame height on a low dugout boat at the left edge, arm out giving an order; East Asian rowers in plain hemp tunics and conical palm-leaf hats work the oars around him, reed banks and mudflats behind, cold mist on the water, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide 15th-century Đại Việt palace courtyard at first light; a young prince in plain Lê-dynasty court robes stands small and off-center at about one-fifth frame height at the edge of a long colonnade, looking toward the distant inner palace where soldiers and officials still gather after the night's chaos, morning mist clings to the tiled rooftops, a few servants sweep fallen torches and debris in the background, banners hang plain and still. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-04",
     "scene": 4,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet drill ground of packed red earth outside a low later",
+    "subject": "Wide 15th-century Đại Việt palace study hall in daylight; four young Lê-dynasty ",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -58,101 +53,91 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide tenth-century Dai Viet drill ground of packed red earth outside a low laterite-block rampart at mid-morning; Ngo Quyen stands small and off-center at about one-fifth frame height on a raised earthen step at the right, watching the drill; East Asian troops in plain hemp tunics and conical palm-leaf hats advance in ranks with bamboo spears and round rattan shields, a second group practises archery at straw butts, grooms lead horses along the rampart foot, a water buffalo cart brings bundled bamboo through a timber gate, dust hanging in the warm light, thatched stilt houses and areca palms beyond the wall, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide 15th-century Đại Việt palace study hall in daylight; four young Lê-dynasty princes in plain silk robes sit at a low lacquer table strewn with scrolls, the youngest prince small and off-center at about one-fifth frame height near the far end, listening while an elder tutor gestures over a scroll, sunlight falls through carved wooden lattice screens, servants wait quietly by the pillars. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-05",
     "scene": 5,
     "type": "ai_reconstruction",
-    "subject": "Wide late-second-century Chinese riverside naval base at clear sunrise; Zhou Yu ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide Đại Việt rice-farming valley at golden sunrise; terraced paddies stretch to",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide late-second-century Chinese riverside naval base at clear sunrise; Zhou Yu stands small and off-center at about one-fifth frame height on a long timber jetty at the left, reviewing the fleet; rows of tiered lacquered war junks lie moored along the bank with rowers running out oars and crews hauling on halyards, East Asian officers in lacquered leather lamellar walk the jetty with tallies, labourers roll water jars and carry bundled arrows aboard, a slipway holds a half-built hull with carpenters working on it, river mist burning off the wide brown water, low tile-roofed timber sheds and drying sails behind, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide Đại Việt rice-farming valley at golden sunrise; terraced paddies stretch to distant hills, farmers in plain conical hats wade and plant rice in small clusters across the middle distance, a Lê-dynasty village with tiled-roof communal house sits at the edge of the fields, oxen pull ploughs through wet paddies, mist rises off the water catching the gold light, a temple bell tower stands small on a far hill. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-06",
     "scene": 6,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet earthen citadel wall at overcast dawn, assault in pr",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide riverside garden retreat at dawn, Lệ Chi Viên, Đại Việt, 15th century; offi",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide tenth-century Dai Viet earthen citadel wall at overcast dawn, assault in progress; Ngo Quyen rides small and off-center at about one-fifth frame height across the churned field left of centre, sword raised, driving the attack; East Asian troops in plain hemp tunics and conical palm-leaf hats swarm up bamboo scaling ladders and batter a timber gate with a slung log, arrows fly both ways, defenders in plain tunics crowd the parapet with their backs to the camera and faces not readable, one defending officer already dragged down inside the gateway; smoke from a burning watch shed drifts across the wet field, mud and standing water underfoot, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide riverside garden retreat at dawn, Lệ Chi Viên, Đại Việt, 15th century; officials in dark mourning robes gather small and distant around a curtained palanquin near a wooden pavilion, torches still burning low from the night, a separate group of soldiers marches an elderly scholar-official in plain robes and his household away along a river path under guard, willows sway over the water, mist clings to the reeds. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Wide late-second-century Chinese timber audience hall at night, lit by standing ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide Đại Việt throne hall interior in soft daylight; a small child in miniature ",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide late-second-century Chinese timber audience hall at night, lit by standing bronze lamps; Zhou Yu stands small and off-center at about one-fifth frame height on the open matting floor to the right, alone and turned toward the dais, one hand out mid-argument; two long rows of East Asian officials in dark long-sleeved robes and lacquered gauze headwear kneel on mats facing each other, several leaning together murmuring, one rising to object, bamboo slip documents unrolled on low tables between them, guards in lacquered leather lamellar at the door posts, lamp smoke rising into the heavy roof timbers, rain running off the eaves outside, plain solid-crimson cloth hangings, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide Đại Việt throne hall interior in soft daylight; a small child in miniature imperial robes sits small and off-center at about one-fifth frame height on the tall lacquered throne, a regent official stands beside the dais holding the child steady, rows of court officials in Lê-dynasty robes kneel and bow in the foreground and midground, two officials near a side pillar lean together whispering behind raised sleeves, tall red-lacquer pillars and carved dragon beams frame the hall. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet tidal mudflat at night under torchlight, tide out; N",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide Đại Việt private residence courtyard at dusk; a disgraced prince in plain d",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide tenth-century Dai Viet tidal mudflat at night under torchlight, tide out; Ngo Quyen stands small and off-center at about one-fifth frame height on a bamboo raft at the right, leaning on a pole and watching the work; dozens of East Asian villagers and soldiers in plain hemp tunics and conical palm-leaf hats work along the exposed channel bed, some standing on crossbars lashed to tall wooden stakes and rocking them down into the mud, others hauling on guide ropes, a line of low boats ferries fresh stakes in with iron caps stacked in the bows, torches on poles reflecting in shallow water, mud churned around bare legs, reed banks and mangrove behind, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide Đại Việt private residence courtyard at dusk; a disgraced prince in plain dark robes stands small and off-center at about one-fifth frame height alone under a bare tree, fists clenched, a modest side building behind him where a demoted woman in plain mourning dress sits withdrawn behind a lattice window, fallen leaves scatter across the courtyard stones, a single dim lantern hangs from the eave, distant palace rooftops glow faintly beyond the wall. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-09",
     "scene": 9,
     "type": "ai_reconstruction",
-    "subject": "Wide late-second-century Chinese river anchorage at dusk seen from behind the la",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide Đại Việt court hall in daylight; a new emperor in plain imperial robes sits",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide late-second-century Chinese river anchorage at dusk seen from behind the launching line; Zhou Yu stands small and off-center at about one-fifth frame height on the high stern deck of a moored war junk at the left, arm lowered giving the signal; in the middle ground East Asian crewmen in lacquered leather lamellar pack a row of low broad boats with bundled brushwood, dry reed and sealed oil jars, lashing them down and casting off one by one, the nearest boat already alight with flame licking along the bundles as two men drop over the side into a trailing skiff, wind combing the water downstream toward a dark mass of tall moored junks on the far bank, sparks and smoke laying flat, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "characters": [],
+    "prompt": "Wide Đại Việt court hall in daylight; a new emperor in plain imperial robes sits small and off-center at about one-fifth frame height on the throne addressing kneeling officials, most bow with heads down, but two senior ministers near a side pillar stand upright with arms folded, exchanging a hard glance instead of bowing, tall red-lacquer pillars and dragon beams frame the hall, sunlight falls through high lattice windows. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-10",
     "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "Wide river mouth at hard midday light, seen from a low reed bank; an enormous te",
+    "subject": "Wide Đại Việt court hall courtyard right after morning session; soldiers loyal t",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide river mouth at hard midday light, seen from a low reed bank; an enormous tenth-century Chinese invasion fleet of tall tiered war junks fills the water from edge to edge in receding ranks, sails set, oars out, wakes crossing; in the near foreground four tiny Dai Viet dugout boats sit low among the reeds with East Asian scouts in plain hemp tunics and conical palm-leaf hats crouching to watch, one already pushing off with a pole; herons lifting off the shallows, heat haze over the brown water, plain solid-crimson cloth banners on the fleet and plain solid-indigo cloth banners on the small boats, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements."
+    "prompt": "Wide Đại Việt court hall courtyard right after morning session; soldiers loyal to a senior minister burst in from a side gate, swords drawn, clashing with a smaller group of startled officials-turned-guards near the meeting hall entrance, scattered scroll cases and overturned stools litter the stone courtyard, other officials flee toward the colonnade, dust and loose feathers from broken banners drift in the air, tall palace pillars frame the scene. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-11",
     "scene": 11,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet river channel at high tide in mid-morning, smooth br",
+    "subject": "Wide Đại Việt throne hall at dusk after the upheaval; the new young emperor stan",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -161,28 +146,28 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide tenth-century Dai Viet river channel at high tide in mid-morning, smooth brimming water with no stakes showing; a handful of small Dai Viet dugout boats race away from the camera up the channel, oars biting hard, spray flying, East Asian rowers in plain hemp tunics and conical palm-leaf hats glancing back over their shoulders; Ngo Quyen crouches small and off-center at about one-fifth frame height in the stern of the nearest boat at the right, looking back at the pursuit; behind them a line of tall tiered Chinese war junks crowds into the channel under full oar, bow waves piling, archers on the foredecks loosing arrows that fall short into the water; mangrove and reed banks closing in on both sides, plain solid-indigo cloth banners on the small boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements."
+    "prompt": "Wide Đại Việt throne hall at dusk after the upheaval; the new young emperor stands small and off-center at about one-quarter frame height before the tall lacquered throne as senior ministers kneel in formal rows presenting the imperial seal on a low table, scattered petals and swept debris still visible near the doorway hint at the recent violence, torchlight and fading daylight mix through the high windows, red-lacquer pillars and dragon beams rise around them. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-12",
     "scene": 12,
     "type": "ai_reconstruction",
-    "subject": "Wide red sandstone river bluff at first light, looking down and out over the wat",
+    "subject": "Wide Đại Việt war-planning hall by daylight; the emperor stands small and off-ce",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-b"
+      "char-a"
     ],
-    "prompt": "Wide red sandstone river bluff at first light, looking down and out over the water; Zhou Yu stands small and off-center at about one-fifth frame height on a rock ledge at the lower left, cloak dragged sideways by the wind; below and beyond, a long unbroken line of tall tiered Chinese war junks burns hull to hull, heavy iron chains hanging taut between the bows so none can pull clear, flame climbing masts and sails, whole decks collapsing inward; East Asian soldiers in lacquered leather lamellar leap from the burning decks into the water and cling to floating spars, small boats pulling survivors from the current, smoke bent flat downstream across the whole frame, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide Đại Việt war-planning hall by daylight; the emperor stands small and off-center at about one-quarter frame height over a low table bearing a hand-drawn campaign map and brush, generals in Lê-dynasty armor lean in around the table pointing at routes, a scribe kneels nearby recording orders, spears and a plain banner rest against a pillar, sunlight falls through open wooden shutters. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-13",
     "scene": 13,
     "type": "ai_reconstruction",
-    "subject": "Wide high view over a tenth-century Dai Viet river channel in bright late mornin",
+    "subject": "Wide river-mouth fleet departure at dawn, Đại Việt, 15th century; the emperor st",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -191,13 +176,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide high view over a tenth-century Dai Viet river channel in bright late morning, tide running out fast; a whole invasion fleet of tall tiered war junks is jammed across the stake field, hulls holed and canted at broken angles, several already half sunk with only masts above water, iron-capped stakes standing proud of the falling tide all around them; dozens of small Dai Viet dugout boats swarm in through the gaps, East Asian crews in plain hemp tunics and conical palm-leaf hats poling, hurling grappling hooks and firing bows at close range; Ngo Quyen stands small and off-center at about one-fifth frame height on a low boat in the near right foreground, arm raised; wreckage, floating oars and struggling men all through the muddy water, plain solid-indigo cloth banners on the small boats and plain solid-crimson cloth banners on the junks, no emblem or lettering. No Ming/Qing Chinese, Japanese or European elements."
+    "prompt": "Wide river-mouth fleet departure at dawn, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on the deck of the lead war-junk, banners plain and solid-color snapping in the wind, dozens of Lê-dynasty war-junks and rowboats fill the water behind him, oars churn the current, soldiers line the decks with spears and shields, smoke from cooking fires drifts from the rearmost boats, dawn light catches the wet sails. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-14",
     "scene": 14,
     "type": "ai_reconstruction",
-    "subject": "Wide tenth-century Dai Viet spiral earthen rampart enclosure at golden sunrise; ",
+    "subject": "Wide siege of Vijaya (Đồ Bàn) citadel at midday, Chăm Pa, 15th century; the Đại ",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -206,43 +191,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide tenth-century Dai Viet spiral earthen rampart enclosure at golden sunrise; Ngo Quyen rides small and off-center at about one-fifth frame height along the curving earth road left of centre, entering through a timber gateway in the packed-earth wall; a long procession follows with East Asian retainers in plain hemp tunics and conical palm-leaf hats leading horses, carrying bundled spears and drums, elders in long plain robes waiting at the gate with bowls and offerings; crowds of villagers line the grassy rampart top and the road, children running alongside, dust and morning haze in the low golden light, thatched houses and areca palms inside the enclosure, plain solid-indigo cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide siege of Vijaya (Đồ Bàn) citadel at midday, Chăm Pa, 15th century; the Đại Việt emperor stands small and off-center at about one-fifth frame height on a rise overlooking the battle, directing with a raised arm, Lê-dynasty soldiers storm the brick citadel walls with ladders and battering rams below, Cham defenders in sarong-style wrap garments and Hindu-Cham ornamented helmets fight back from the ramparts, sandstone Cham temple towers with tiered pyramidal roofs rise inside the walls, smoke and dust roll across the breach, a long line of bound captives is led away in the distance. No Khmer, Thai, or European elements."
   },
   {
     "id": "scene-15",
     "scene": 15,
     "type": "ai_reconstruction",
-    "subject": "Wide late-second-century Chinese riverside camp at grey rainy dusk; Zhou Yu sits",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide late-second-century Chinese riverside camp at grey rainy dusk; Zhou Yu sits small and off-center at about one-fifth frame height on a low couch under an open awning at the right, wrapped in a plain robe, head lowered over a campaign map weighted with bronze pieces; two East Asian officers in lacquered leather lamellar wait at the awning edge with their heads bowed, a physician kneels by a brazier warming a bowl, guards stand out in the rain along a muddy track; moored war junks rock at the bank behind with their sails furled and decks empty, rain dimpling the wide grey river, wet reeds bowed along the shore, a single bronze lamp burning low, plain solid-crimson cloth banners hanging soaked, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
-  },
-  {
-    "id": "scene-16",
-    "scene": 16,
-    "type": "ai_reconstruction",
-    "subject": "Wide open estuary under a hard grey sky with no land in sight but a thin far sho",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-b"
-    ],
-    "prompt": "Wide open estuary under a hard grey sky with no land in sight but a thin far shore; Zhou Yu stands small and off-center at about one-fifth frame height on the windward rail of a late-second-century Chinese war junk at the left, gripping a stay as the deck heels; his squadron drives across the frame in a spread wedge under full sail and oar, East Asian crews in lacquered leather lamellar bracing on canted decks, two low fire boats already cast loose and running ahead trailing flame and black smoke that lies flat on the water; heavy whitecaps everywhere, spray sheeting over the bows, gulls thrown sideways by the gusts, plain solid-crimson cloth banners streaming stiff, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
-  },
-  {
-    "id": "scene-17",
-    "scene": 17,
-    "type": "ai_reconstruction",
-    "subject": "Wide narrow tenth-century Dai Viet tidal creek at low slack water before dawn, m",
+    "subject": "Wide northern border mountain pass at Bài Thơ, Đại Việt, 15th century; the emper",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -251,50 +206,206 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide narrow tenth-century Dai Viet tidal creek at low slack water before dawn, mist to the waterline; dozens of small Dai Viet dugout boats lie hidden in the reed and mangrove fringe along both banks, tucked under cut branches, East Asian crews in plain hemp tunics and conical palm-leaf hats crouching motionless with poles and bows across their knees; in the channel two waders check the tops of the iron-capped stakes with lines, a lookout perches in a bent mangrove above them; Ngo Quyen crouches small and off-center at about one-fifth frame height on the bow of a boat in the near left foreground, one hand in the cold water reading the current; dark mudbanks, drifting mist, a heron standing in the shallows, plain solid-indigo cloth banners furled on the poles, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide northern border mountain pass at Bài Thơ, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a rocky outcrop overlooking a winding border river and misty limestone peaks, gesturing toward the frontier while a border garrison official kneels and listens attentively, a few Lê-dynasty soldiers stand watch nearby with spears and a plain banner, a stonemason chisels an inscription into a nearby rock face, morning mist drifts through the karst peaks. No Nguyễn-dynasty or European elements."
   },
   {
-    "id": "scene-18",
-    "scene": 18,
+    "id": "scene-16",
+    "scene": 16,
     "type": "ai_reconstruction",
-    "subject": "Wide late-second-century Chinese river supply depot at busy midday; Zhou Yu stan",
+    "subject": "Wide military drill ground and cannon workshop at midday, Đại Việt, 15th century",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-b"
+      "char-a"
     ],
-    "prompt": "Wide late-second-century Chinese river supply depot at busy midday; Zhou Yu stands small and off-center at about one-fifth frame height on a stone landing step at the right, waiting while a robed official checks bamboo slip tallies against the cargo; a long line of broad grain barges lies alongside, East Asian porters in short hemp jackets carrying sacks and jars up the planks in a continuous chain, ox carts backed to the quay, stacked crates of arrows and coiled rope under matting awnings, scribes at low tables under a timber shed, granary buildings with low tiled roofs behind, dust and river glare, moored war junks waiting empty downstream, plain solid-crimson cloth banners, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide military drill ground and cannon workshop at midday, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a raised viewing platform watching ranks of Lê-dynasty soldiers drill in formation with spears and rattan shields below, in a side yard artisans pour molten bronze into cannon-barrel molds under a thatched shed, smoke rises from the foundry fire, plain solid-color banners mark each formation, dust rises from marching feet. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-17",
+    "scene": 17,
+    "type": "ai_reconstruction",
+    "subject": "Wide Đại Việt royal study at night; the emperor sits small and off-center at abo",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Đại Việt royal study at night; the emperor sits small and off-center at about one-fifth frame height at a writing desk stacked with law scrolls and bamboo strips, brush in hand pausing mid-thought, a single oil lamp casts warm light across the desk, empty court robes hang on a stand nearby, shelves of bound documents line the far wall in shadow, a moth circles the lamp flame. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-18",
+    "scene": 18,
+    "type": "ai_reconstruction",
+    "subject": "Wide Đại Việt court hall by daylight; the emperor stands small and off-center at",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Đại Việt court hall by daylight; the emperor stands small and off-center at about one-quarter frame height before the throne holding out an open law scroll, a disgraced admiral kneels with head bowed as a guard removes his ceremonial sword and rank plaque, the admiral's young son stands nearby restrained by two officials awaiting punishment, court officials watch in silent rows along the pillars, sunlight falls evenly through high lattice windows. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-19",
     "scene": 19,
     "type": "ai_reconstruction",
-    "subject": "Wide low-tide mudflat at sunrise, a narrow water channel between two banks; Ngo ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 multi-char ×2)",
+    "subject": "Wide narrow Đại Việt city alley at night, New Year's eve; a figure in plain patc",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 multi-char ×2)",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-a",
-      "char-b"
+      "char-a"
     ],
-    "prompt": "Wide low-tide mudflat at sunrise, a narrow water channel between two banks; Ngo Quyen stands small and off-center on the near bank left of centre, Zhou Yu stands small and further back on the opposite bank to the right, both facing each other across the channel; behind Ngo Quyen East Asian tenth-century Dai Viet crews in plain hemp tunics and conical palm-leaf hats wait by beached dugout boats among rows of iron-capped stakes; behind Zhou Yu East Asian late-second-century Chinese crews in lacquered leather lamellar wait by a tiered war junk with a burnt blackened hull; between them the bare channel bed glitters with running water, gulls picking over the mud, thin mist burning off, plain solid-indigo cloth banners on the left and plain solid-crimson cloth banners on the right, no emblem or lettering. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide narrow Đại Việt city alley at night, New Year's eve; a figure in plain patched scholar's robes stands small and off-center at about one-fifth frame height at the alley's mouth, approaching a shadowy figure crouched on a low wall further down the lane, distant firecracker sparks and lantern glow flicker over rooftops beyond the alley, a stray dog trots past a shuttered stall, mist and smoke drift low along the ground. No Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-20",
     "scene": 20,
     "type": "ai_reconstruction",
-    "subject": "Wide river mouth at pale dawn with a strong wind running across it; on the left ",
+    "subject": "Wide rooftop overlooking a sleeping Đại Việt city at night; the disguised schola",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide rooftop overlooking a sleeping Đại Việt city at night; the disguised scholar sits small and off-center at about one-fifth frame height beside a lean, quick-eyed thief on a tiled rooftop ridge, the thief gestures out across the moonlit rooftops toward distant houses, pointing past a wealthy farmer's modest tiled house and a merchant's shopfront lantern toward a grander guarded compound with a barred storeroom, moonlight glints on the tiles, distant lantern lights dot the sleeping city below. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-21",
+    "scene": 21,
+    "type": "ai_reconstruction",
+    "subject": "Wide Đại Việt palace courtyard on New Year's morning; the emperor stands small a",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Đại Việt palace courtyard on New Year's morning; the emperor stands small and off-center at about one-quarter frame height on the palace steps holding up two engraved silver ingots before a crowd of bowing officials, a disgraced treasury official is led away in plain clothes stripped of rank insignia, the lean thief from the rooftop stands to one side being presented with an honorary plaque, red New Year banners and lanterns decorate the courtyard, morning sun brightens the scene. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-22",
+    "scene": 22,
+    "type": "ai_reconstruction",
+    "subject": "Wide Đại Việt palace audience hall by daylight; the emperor stands small and off",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Đại Việt palace audience hall by daylight; the emperor stands small and off-center at about one-quarter frame height welcoming a line of newly appointed scholar-officials in plain scholar robes, each bowing as they receive an appointment scroll, one carries a mathematics counting board, another an ink brush and manuscript, sunlight streams through open doors onto polished wooden floors, court attendants wait respectfully along the walls. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-23",
+    "scene": 23,
+    "type": "user_upload",
+    "subject": "User-uploaded image for scene 23",
+    "source": "User upload (review UI)",
+    "sourceUrl": null,
+    "license": "Provided by the user; ensure you hold the rights to use it.",
+    "credit": "User-provided image",
+    "authenticity": "USER_UPLOAD",
+    "characters": []
+  },
+  {
+    "id": "scene-24",
+    "scene": 24,
+    "type": "ai_reconstruction",
+    "subject": "Wide moonlit garden pavilion at night, Đại Việt palace grounds; the emperor sits",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide moonlit garden pavilion at night, Đại Việt palace grounds; the emperor sits small and off-center at about one-fifth frame height among a circle of robed poets exchanging verses on a raised wooden pavilion open to a lotus pond, scrolls of poetry rest on low tables, a lone attendant places a freshly rubbed stone inscription honoring a deceased scholar-official against a nearby pillar, lanterns hang from the eaves, moonlight glimmers on the pond. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-25",
+    "scene": 25,
+    "type": "ai_reconstruction",
+    "subject": "Wide Vân Đồn harbor at midday, Đại Việt, 15th century; the emperor stands small ",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide Vân Đồn harbor at midday, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a wooden watchtower overlooking the single licensed harbor, foreign trading junks wait at anchor in a long queue while officials inspect cargo and stamp permit papers at a checkpoint table on the dock, fishermen mend nets nearby, plain solid-color harbor banners mark the checkpoint, hazy midday light softens the distant hills. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-26",
+    "scene": 26,
+    "type": "ai_reconstruction",
+    "subject": "Wide Đại Việt provincial exam-hall gate at dawn, 15th century; a young man carry",
     "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide river mouth at pale dawn with a strong wind running across it; on the left half rows of iron-capped wooden stakes stand out of the ebbing water in staggered lines, on the right half the blackened ribs of a burnt war junk lie half sunk in the shallows still trailing thin smoke; a lone East Asian fisherman in a plain hemp tunic and conical palm-leaf hat poles a small dugout boat slowly down the open channel between them, net coiled at his feet; wind combs the reeds flat along both banks, gulls wheeling, low cloud tearing overhead, cold light on the moving water. No Tang/Song/Ming/Qing, Japanese or European elements."
+    "prompt": "Wide Đại Việt provincial exam-hall gate at dawn, 15th century; a young man carrying a scholar's satchel is turned away small and off-center at about one-fifth frame height by two gate officials checking a household register against a posted list, behind him a family of traveling performers with a hand-drum and lute wait outside the gate, other candidates in scholar robes pass freely through the open gate into the courtyard beyond, morning mist lingers over the tiled gatehouse roof. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-27",
+    "scene": 27,
+    "type": "user_upload",
+    "subject": "User-uploaded image for scene 27",
+    "source": "User upload (review UI)",
+    "sourceUrl": null,
+    "license": "Provided by the user; ensure you hold the rights to use it.",
+    "credit": "User-provided image",
+    "authenticity": "USER_UPLOAD",
+    "characters": []
+  },
+  {
+    "id": "scene-28",
+    "scene": 28,
+    "type": "ai_reconstruction",
+    "subject": "Wide panoramic view over a thriving Đại Việt at golden late afternoon; the emper",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide panoramic view over a thriving Đại Việt at golden late afternoon; the emperor stands small and off-center at about one-fifth frame height on a high palace terrace overlooking the capital below, tiled rooftops and busy market streets stretch toward the horizon, farmers and merchants move along a wide avenue, boats crowd a calm river beyond the city walls, plain banners flutter atop the gate towers, warm golden light bathes the whole skyline. No Nguyễn-dynasty or European elements."
+  },
+  {
+    "id": "scene-29",
+    "scene": 29,
+    "type": "ai_reconstruction",
+    "subject": "Wide empty Đại Việt throne hall at early morning, no one present; soft light str",
+    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide empty Đại Việt throne hall at early morning, no one present; soft light streams through high lattice windows onto the tall lacquered throne, dust motes drift visibly in the light beams, an open law scroll rests unrolled on a low table beside the throne, a lone plain banner outside the far doorway sways gently in a breeze, red-lacquer pillars and carved dragon beams recede into shadow at the edges. No Nguyễn-dynasty or European elements."
   }
 ]

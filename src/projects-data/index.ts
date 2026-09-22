@@ -4,6 +4,7 @@ import p_dinhbolinh_tanthuyhoang from "./dinhbolinh-tanthuyhoang.json";
 import p_ho_quy_ly from "./ho-quy-ly.json";
 import p_le_hoan from "./le-hoan.json";
 import p_le_loi from "./le-loi.json";
+import p_le_thanh_tong from "./le-thanh-tong.json";
 import p_ly_thai_to from "./ly-thai-to.json";
 import p_ly_thai_to_vs_ly_the_dan from "./ly-thai-to-vs-ly-the-dan.json";
 import p_ly_thuong_kiet from "./ly-thuong-kiet.json";
@@ -16,4 +17,4 @@ import p_tranhungdao_nhacphi from "./tranhungdao-nhacphi.json";
 import p_tranhungdao_quanvu from "./tranhungdao-quanvu.json";
 import type { ProjectData } from "../ScenePlanVideo";
 
-export const PROJECTS = [p_dinh_bo_linh, p_dinhbolinh_tanthuyhoang, p_ho_quy_ly, p_le_hoan, p_le_loi, p_ly_thai_to, p_ly_thai_to_vs_ly_the_dan, p_ly_thuong_kiet, p_ngo_quyen, p_ngoquyen_chudu, p_quangtrung_hangvu, p_quangtrung_hantin, p_tran_hung_dao, p_tranhungdao_nhacphi, p_tranhungdao_quanvu] as unknown as ProjectData[];
+export const PROJECTS = [p_dinh_bo_linh, p_dinhbolinh_tanthuyhoang, p_ho_quy_ly, p_le_hoan, p_le_loi, p_le_thanh_tong, p_ly_thai_to, p_ly_thai_to_vs_ly_the_dan, p_ly_thuong_kiet, p_ngo_quyen, p_ngoquyen_chudu, p_quangtrung_hangvu, p_quangtrung_hantin, p_tran_hung_dao, p_tranhungdao_nhacphi, p_tranhungdao_quanvu] as unknown as ProjectData[];

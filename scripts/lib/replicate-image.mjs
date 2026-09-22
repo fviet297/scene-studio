@@ -41,8 +41,17 @@ const GUARD = 'historically appropriate for the period, 9:16 vertical, clear cen
 
 // Appended after every editable template so a saved UI override cannot weaken this rule.
 // Text is added later by Remotion, never baked into generated scene artwork.
-export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no letters, numerals or glyphs of any writing system anywhere, especially no Vietnamese words or diacritics (à, ế, ộ, ữ, đ). Banners, flags, walls and objects stay blank — material, colour and folds only. Maps read through coastline, terrain, rivers and colour regions. Titles and narration text are added later by the editor.`;
-const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: no glyph-like mark or lettering anywhere; read the scene through pictures and shapes only.';
+export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no letters, numerals or glyphs of any writing system anywhere, especially no Vietnamese words or diacritics (à, ế, ộ, ữ, đ). Banners, flags, walls and objects stay blank — material, colour and folds only. Maps read through coastline, terrain, rivers and colour regions. Clothing counts as a blank surface too: chest and collar stay plain cloth, and garments close with cloth ties, a knotted sash or loops set off to one side — no emblem, badge, medallion, brooch, pendant, amulet, cord necklace or religious insignia on any figure. Titles and narration text are added later by the editor.`;
+// The garment clause exists because image models kept hanging a Christian cross on the chest of
+// 10th-century Vietnamese figures — the seed was the template's own "cross-collared tunic", and a
+// blank-chest rule is what stops the model from filling that space with any other stray insignia.
+const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: no glyph-like mark or lettering anywhere, and no emblem, pendant or cross-shaped clasp on any garment; read the scene through pictures and shapes only.';
+
+// The character templates each carry their own COHERENT ANATOMY section, but text2img has none —
+// and a no-reference scene still draws people. A lone figure holding a second prop (a pole plus a
+// net, an oar plus a rope) is where the model grows a third arm to free up a hand, so the rule
+// names that specific failure rather than just counting limbs.
+const FIGURE_ANATOMY_GUARD = 'FIGURE ANATOMY: every person has exactly two arms and two hands, one head and two legs, in a balanced natural pose — no extra, merged, duplicated or floating limb and no second pair of arms. A pole, oar, net, rope or tool is held by the two hands already drawn, or rests on the boat, ground or shoulder; never grow an extra arm to carry it.';
 
 // Kontext (image-to-image) character-lock template. The scene's action/setting prompt is
 // substituted into [SCENE-SPECIFIC PROMPT]; everything else forces identity from the reference.
@@ -205,7 +214,7 @@ const buildCharPrompt = (t, scenePrompt, template, aspect = currentAspect()) =>
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
 
 const buildTextPrompt = (t, scenePrompt, aspect = currentAspect()) =>
-  applyAspectText(`${NO_TEXT_POLICY}\n\n${t.text2img
+  applyAspectText(`${NO_TEXT_POLICY}\n\n${FIGURE_ANATOMY_GUARD}\n\n${t.text2img
     .replaceAll('[STYLE]', t.styleDna)
     .replaceAll('[GUARD]', t.guard)
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
