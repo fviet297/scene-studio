@@ -6,26 +6,14 @@ aspect: 16:9
 
 ## characters
 
-char-a = public/projects/gia-long/characters/char-a.png
-
-## scene 1
-
-title:
-cue: tense
-host:
-narration: Mười lăm tuổi, cả dòng họ bị truy sát.
-char: char-a
-prompt: Wide flooded rice paddies at night under a low red-lit sky; the teenage noble runs small and off-center at about one-fifth frame height along a narrow muddy dike, splashing through puddles, while far behind him a long line of Tây Sơn pursuers with Vietnamese faces in red cloth head-wraps spreads across the fields carrying torches and spears, sparks and smoke trail from the torches, stilt houses burn on the horizon, the black water mirrors the fire. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements.
-prompt_vi: Cảnh rộng ruộng lúa ngập nước về đêm dưới bầu trời thấp nhuốm đỏ; chàng thiếu niên quý tộc chạy nhỏ và lệch tâm cao khoảng một phần năm khung hình dọc bờ ruộng hẹp lầy bùn, nước bắn tung, trong khi xa phía sau một hàng dài quân Tây Sơn truy đuổi gương mặt người Việt chít khăn đỏ dàn ra khắp cánh đồng, tay cầm đuốc và giáo, tàn lửa và khói kéo theo những ngọn đuốc, nhà sàn cháy ở đường chân trời, mặt nước đen soi bóng lửa. Không yếu tố Thanh/Minh Trung Hoa, cung đình Nguyễn thế kỷ XIX hay châu Âu.
-motion: Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, dike, paddies, pursuers, torches, burning houses, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The torch line advances across the fields, flames stream and sparks fly, water ripples and splashes along the dike, smoke drifts from the burning horizon. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
-motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác nhận dạng nhân vật, bờ ruộng, ruộng lúa, quân truy đuổi, ngọn đuốc, nhà đang cháy, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Hàng đuốc tiến dần qua cánh đồng, lửa kéo dài và tàn lửa bay, mặt nước gợn và bắn tung dọc bờ ruộng, khói trôi từ chân trời đang cháy. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
+char-a = public/projects/gia-long/characters/char-a.jpg
 
 ## scene 2
 
 title:
 cue: somber
 host:
-narration: Những người thân cuối cùng lần lượt ngã xuống. Chỉ mình cậu chạy thoát.
+narration: Mười lăm tuổi, cả dòng họ bị truy sát. Những người thân cuối cùng lần lượt ngã xuống. Chỉ mình cậu chạy thoát.
 char: char-a
 prompt: Wide grey river at first light after a night of fighting; an overturned empty sampan and a torn plain yellow cloth canopy drift slowly among floating water hyacinth and charred planks, two Tây Sơn war boats with plain red cloth banners row away downstream, smoke still rises from a ruined riverside refuge on the far bank, and the teenage noble crouches small and off-center at about one-fifth frame height half hidden in the hyacinth near the near bank, watching. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements.
 prompt_vi: Cảnh rộng dòng sông xám lúc rạng sáng sau một đêm giao tranh; một chiếc xuồng lật úp trống trơn và tấm lọng vải vàng trơn rách trôi chậm giữa bèo lục bình và ván gỗ cháy xém, hai thuyền chiến Tây Sơn cờ vải đỏ trơn chèo xuôi về hạ lưu, khói vẫn bốc lên từ nơi trú ẩn đổ nát bên bờ xa, và chàng thiếu niên quý tộc thu mình nhỏ và lệch tâm cao khoảng một phần năm khung hình, nửa người khuất trong đám lục bình sát bờ gần, lặng lẽ nhìn theo. Không yếu tố Thanh/Minh Trung Hoa, cung đình Nguyễn thế kỷ XIX hay châu Âu.
