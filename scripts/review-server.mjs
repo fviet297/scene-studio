@@ -24,6 +24,8 @@
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
 //   POST /api/remove-motion-video → { scene } → remove clip and use the source image instead
 //   POST /api/approve         → spawn generate-narration.mjs, stream its log over SSE
+//   GET  /api/services        → state of the local OmniVoice / muse2api servers
+//   POST /api/services/start  → { id } → start that local server as a child of this one
 //
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
@@ -39,6 +41,7 @@ import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths
 import { aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
+import { listServices, startService } from './lib/local-services.mjs';
 
 loadEnv();
 
@@ -563,6 +566,21 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'GET' && pathname === '/api/state') {
       sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/services') {
+      sendJson(res, 200, { services: await listServices() });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/services/start') {
+      const { id } = await readBody(req);
+      try {
+        sendJson(res, 200, await startService(id));
+      } catch (error) {
+        sendJson(res, 400, { error: error.message });
+      }
       return;
     }
 

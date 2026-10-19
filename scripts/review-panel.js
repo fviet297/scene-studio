@@ -2467,6 +2467,71 @@ $("profSave").addEventListener("click", async () => {
   }
 });
 
+// ---------------------------------------------------------------- local services
+
+const SERVICE_STATE_WORD = { stopped: "off", starting: "starting", running: "on", failed: "failed" };
+const SERVICE_POLL_BOOTING_MS = 2000;
+// Slow idle poll so a server stopped from its own terminal is noticed without hammering it.
+const SERVICE_POLL_IDLE_MS = 15000;
+let serviceTimer = null;
+let serviceStates = {};
+
+function serviceTitle(s) {
+  if (s.state === "failed") return `${s.label} failed to start — click to retry.\n\n${s.log ?? ""}`;
+  if (s.state === "stopped") return `Start ${s.label} (${s.url})`;
+  return `${s.label} ${s.state} (${s.url})`;
+}
+
+function renderServices(services) {
+  $("services").innerHTML = services
+    .map((s) => {
+      const startable = s.state === "stopped" || s.state === "failed";
+      return `<button class="btn sm svc" type="button" data-service="${escapeHtml(s.id)}" data-state="${escapeHtml(s.state)}" title="${escapeHtml(serviceTitle(s))}"${startable ? "" : " disabled"}><span class="svc-dot"></span>${escapeHtml(s.label)}<span class="svc-state">${SERVICE_STATE_WORD[s.state]}</span></button>`;
+    })
+    .join("");
+}
+
+// Toast only the outcome of a start this panel asked for, not every poll.
+function announceServiceChanges(services) {
+  for (const s of services) {
+    if (serviceStates[s.id] !== "starting") continue;
+    if (s.state === "running") toast(`${s.label} is running.`);
+    if (s.state === "failed") toast(`${s.label} failed to start — hover its chip for the log.`, false);
+  }
+  serviceStates = Object.fromEntries(services.map((s) => [s.id, s.state]));
+}
+
+async function refreshServices() {
+  clearTimeout(serviceTimer);
+  let services = [];
+  try {
+    ({ services } = await api("/api/services"));
+    announceServiceChanges(services);
+    renderServices(services);
+  } catch {
+    // Review server unreachable: the scene refresh already reports that; keep the last chips
+    // and retry on the idle cadence.
+  }
+  const booting = services.some((s) => s.state === "starting");
+  serviceTimer = setTimeout(refreshServices, booting ? SERVICE_POLL_BOOTING_MS : SERVICE_POLL_IDLE_MS);
+}
+
+$("services").addEventListener("click", async (event) => {
+  const button = event.target.closest(".svc");
+  if (!button || button.disabled) return;
+  button.disabled = true;
+  try {
+    const s = await api("/api/services/start", { id: button.dataset.service });
+    serviceStates[s.id] = "starting";
+    toast(`Starting ${s.label}…`);
+  } catch (e) {
+    toast(e.message, false);
+  }
+  refreshServices();
+});
+
+refreshServices();
+
 setConsole("idle", "Loading scenes...");
 refresh().catch((e) => {
   setConsole("error", `Failed to load: ${e.message}`);

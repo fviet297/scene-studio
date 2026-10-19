@@ -9,3 +9,6 @@ out
 
 # Generated media resources (audio, images, videos, backups, manifests) — not code
 public/projects/
+
+# Logs of the OmniVoice / muse2api servers started from the review panel
+tmp/services/
