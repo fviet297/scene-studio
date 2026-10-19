@@ -37,7 +37,8 @@ const SERVICES = {
   },
 };
 
-// id → { proc, spawnError } for the child this review server spawned (absent when never started here).
+// id → { proc, spawnError, stopping } for the child this review server spawned (absent when never
+// started here, or once a requested stop has completed).
 const children = new Map();
 
 const logPath = (id) => join(LOG_DIR, `${id}.log`);
@@ -58,21 +59,29 @@ const logTail = (id) => {
 
 const lookup = (id) => {
   const service = SERVICES[id];
-  if (!service) throw new Error(`unknown service "${id}"`);
+  if (!service) throw new Error(`service không tồn tại: "${id}"`);
   return service;
 };
 
+const isAlive = ({ proc, spawnError }) => !spawnError && proc.exitCode === null && proc.signalCode === null;
+
 // state: running (health answers) | starting (our child is alive, not answering yet)
-//        | failed (our child exited without ever answering) | stopped
+//        | stopping (asked to stop, still answering) | failed (our child exited without ever
+//        answering) | stopped. `managed` = started by this server, so the panel may stop it.
 export const serviceStatus = async (id) => {
   const service = lookup(id);
-  const base = { id, label: service.label, url: service.healthUrl() };
-  if (await isHealthy(service.healthUrl())) return { ...base, state: 'running' };
   const record = children.get(id);
+  const base = { id, label: service.label, url: service.healthUrl(), managed: Boolean(record && !record.stopping && isAlive(record)) };
+  const healthy = await isHealthy(service.healthUrl());
+  if (record?.stopping) {
+    if (healthy) return { ...base, state: 'stopping' };
+    children.delete(id);
+    return { ...base, state: 'stopped' };
+  }
+  if (healthy) return { ...base, state: 'running' };
   if (!record) return { ...base, state: 'stopped' };
-  const { proc, spawnError } = record;
-  if (!spawnError && proc.exitCode === null && proc.signalCode === null) return { ...base, state: 'starting' };
-  return { ...base, state: 'failed', log: spawnError ?? logTail(id) };
+  if (isAlive(record)) return { ...base, state: 'starting' };
+  return { ...base, state: 'failed', log: record.spawnError ?? logTail(id) };
 };
 
 export const listServices = () => Promise.all(Object.keys(SERVICES).map(serviceStatus));
@@ -85,7 +94,7 @@ export const startService = async (id) => {
   const service = lookup(id);
   const dir = service.dir();
   const python = service.python(dir);
-  if (!existsSync(python)) throw new Error(`${service.label}: Python venv not found at ${python} — set it up in ${dir} first.`);
+  if (!existsSync(python)) throw new Error(`${service.label}: không tìm thấy Python venv ở ${python} — cài đặt trong ${dir} trước.`);
   mkdirSync(LOG_DIR, { recursive: true });
   const log = openSync(logPath(id), 'w');
   const proc = spawn(python, service.args(), {
@@ -94,8 +103,19 @@ export const startService = async (id) => {
     stdio: ['ignore', log, log],
   });
   closeSync(log); // the child holds its own copy of the descriptor
-  const record = { proc, spawnError: null };
+  const record = { proc, spawnError: null, stopping: false };
   proc.on('error', (error) => { record.spawnError = error.message; });
   children.set(id, record);
+  return serviceStatus(id);
+};
+
+// Only a server this review server started can be stopped here — one started from a terminal
+// has no process handle, so it is stopped from that terminal.
+export const stopService = async (id) => {
+  const service = lookup(id);
+  const record = children.get(id);
+  if (!record || !isAlive(record)) throw new Error(`${service.label} không được khởi động từ panel này — hãy dừng ở terminal đã chạy nó.`);
+  record.stopping = true;
+  record.proc.kill('SIGTERM');
   return serviceStatus(id);
 };

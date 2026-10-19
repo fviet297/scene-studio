@@ -77,23 +77,24 @@ button { cursor: pointer; }
 
 /* ---------------------------------------------------------------- topbar */
 
-/* Wraps rather than crushing its children, so no width silently drops a control. */
+/* Two deliberate rows instead of one row that wraps wherever it overflows: row 1 is context
+   (project, local services, progress), row 2 is work (view, editing tools, run output). Each
+   row still wraps rather than crushing its children, so no width silently drops a control. */
 .topbar {
   flex: none;
-  min-height: 52px;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 18px;
+  flex-direction: column;
+  gap: 8px;
   padding: 8px 14px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
-.topbar > * { flex: none; }
+.topbar-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; min-height: 32px; }
+.topbar-row > * { flex: none; }
+.topbar-row > .grow { flex: 1; }
 
 .brand { display: flex; align-items: baseline; gap: 9px; min-width: 0; }
 .brand h1 { margin: 0; font-size: 14px; font-weight: 650; letter-spacing: -0.01em; white-space: nowrap; }
-.brand .sub { color: var(--faint); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
 
 /* Pipeline meters: three stages of the same run, so they share one accent and
    are read left to right rather than being colour-coded against each other. */
@@ -126,6 +127,8 @@ button { cursor: pointer; }
 .svc[data-state="failed"] .svc-dot { background: var(--danger); box-shadow: none; }
 .svc[data-state="failed"] .svc-state { color: var(--danger); }
 .btn.svc:disabled { opacity: 1; cursor: default; }
+.svc[data-state="stopping"] .svc-dot { box-shadow: inset 0 0 0 1.5px var(--faint); animation: pulse 1.1s ease-in-out infinite; }
+.svc-item { display: inline-flex; align-items: center; gap: 2px; }
 
 .segmented { display: inline-flex; border: 1px solid var(--line); border-radius: var(--r-ctl); overflow: hidden; }
 .segmented button {
@@ -155,6 +158,8 @@ button { cursor: pointer; }
 .btn svg { width: 14px; height: 14px; flex: none; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn.primary:hover:not(:disabled) { background: #55c7b5; border-color: #55c7b5; }
+/* A faded accent still reads as "go"; a disabled primary drops to the neutral chrome instead. */
+.btn.primary:disabled { background: var(--surface-2); border-color: var(--line); color: var(--muted); }
 .btn.quiet { background: transparent; border-color: transparent; color: var(--muted); }
 .btn.quiet:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
 .btn.sm { height: 27px; padding: 0 9px; font-size: 12px; }
@@ -638,6 +643,20 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .text-input::placeholder { color: var(--faint); }
 /* Free-text model override sitting under each model dropdown; blank = use the dropdown. */
 .custom-model { display: block; width: 100%; margin-top: 6px; }
+
+/* Power-user settings tucked behind a disclosure (custom model ids); opens itself when one is set. */
+.advanced { margin-top: 6px; }
+.advanced summary {
+  width: fit-content; cursor: pointer; padding: 2px 0;
+  font-size: 11.5px; font-weight: 550; color: var(--faint);
+  transition: color .15s ease;
+}
+.advanced summary:hover { color: var(--text); }
+
+.template-version-row { display: flex; flex-direction: column; gap: 6px; }
+.template-version-row .btn { align-self: flex-start; }
+
+.confirm-body { margin: 0; font-size: 13px; line-height: 1.6; white-space: pre-line; }
 .custom-model:focus-visible { outline: none; border-color: var(--accent); }
 code { font-family: var(--mono); font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 1px 5px; border-radius: 4px; }
 
@@ -666,9 +685,6 @@ code { font-family: var(--mono); font-size: 11px; color: var(--accent); backgrou
 
 /* ---------------------------------------------------------------- responsive */
 
-@media (max-width: 1320px) {
-  .brand .sub { display: none; }
-}
 @media (max-width: 1180px) {
   .workbench { grid-template-columns: 200px minmax(0, 1fr) 320px; }
   .stage-meter .track { display: none; }

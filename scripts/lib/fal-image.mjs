@@ -10,8 +10,8 @@ import { aspectInfo } from './aspect.mjs';
 // auto-routed to the model's text sibling below, mirroring how the Replicate models transparently
 // handle both a referenced and an unreferenced scene.
 export const FAL_IMAGE_MODELS = [
-  { id: 'fal-ai/bytedance/seedream/v4/edit', label: 'Seedream v4 (fal) — multi-reference edit, best per-person identity' },
-  { id: 'fal-ai/nano-banana/edit', label: 'Nano Banana / Gemini (fal) — fast multi-reference' },
+  { id: 'fal-ai/bytedance/seedream/v4/edit', label: 'Seedream v4 — nhiều tham chiếu, giữ mặt từng người tốt nhất', price: null },
+  { id: 'fal-ai/nano-banana/edit', label: 'Nano Banana / Gemini — nhanh, nhiều tham chiếu', price: null },
 ];
 
 const TEXT_SIBLING = {

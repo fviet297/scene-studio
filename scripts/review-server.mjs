@@ -9,7 +9,8 @@
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
 //   GET  /api/projects        → list every projects/<slug> + which one is active
 //   POST /api/project         → { slug } → switch the active project, reparse
-//   POST /api/project-create  → { slug, title } → scaffold a new project from projects/_template
+//   POST /api/project-create  → { slug, title, aspect?, template?, plan? } → new project from a
+//                               pasted scene-plan.md, or scaffolded from projects/_template
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md, reparse
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md, reparse
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,prompt?,prompt_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
@@ -26,6 +27,7 @@
 //   POST /api/approve         → spawn generate-narration.mjs, stream its log over SSE
 //   GET  /api/services        → state of the local OmniVoice / muse2api servers
 //   POST /api/services/start  → { id } → start that local server as a child of this one
+//   POST /api/services/stop   → { id } → stop a server this one started
 //
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
@@ -38,10 +40,11 @@ import { dirname, join } from 'node:path';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
-import { aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
-import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
+import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
+import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlanHeader, writeCharacterPath, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
-import { listServices, startService } from './lib/local-services.mjs';
+import { listServices, startService, stopService } from './lib/local-services.mjs';
 
 loadEnv();
 
@@ -238,9 +241,9 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect() },
-    imageModels: IMAGE_MODELS,
-    motionVideoModels: MOTION_VIDEO_MODELS,
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion },
+    imageModels: withAvailability(IMAGE_MODELS),
+    motionVideoModels: withAvailability(MOTION_VIDEO_MODELS),
     seedreamPromptLimit: SEEDREAM_PROMPT_LIMIT,
     projects: listProjects().map((slug) => ({ slug, title: projectTitle(slug) })),
     scenes: scenes.map((s) => {
@@ -542,8 +545,43 @@ const activateProject = (slug) => {
   setActiveSlug(slug);
   P = projectPaths(slug);
   setImageProjectPaths(P);
+  syncProjectTemplate();
   reparse();
   rebuildBundles();
+};
+
+// A new project's scene-plan.md: a pasted plan (e.g. the lsvn / trangca skill output) or, when
+// none is given, the blank template. `<slug>` placeholders become the slug; the title replaces
+// the heading when given. Returns { text } or { error }.
+const buildNewPlan = ({ slug, title, plan }) => {
+  const heading = typeof title === 'string' ? title.trim() : '';
+  const pasted = typeof plan === 'string' ? plan.trim() : '';
+  if (pasted && !/^##\s+scene\s+\d+/im.test(pasted)) return { error: 'scene-plan dán vào không có khối "## scene N"' };
+  if (!pasted && !existsSync(TEMPLATE_MD)) return { error: `template missing at ${TEMPLATE_MD}` };
+  const base = (pasted || readFileSync(TEMPLATE_MD, 'utf8')).replaceAll('<slug>', slug);
+  const hasHeading = /^#\s+.*$/m.test(base);
+  if (!hasHeading) return { text: `# ${heading || slug}\n\n${base}\n` };
+  return { text: heading || !pasted ? base.replace(/^#\s+.*$/m, `# ${heading || slug}`) : base };
+};
+
+// The prompt-template version is one global setting, but projects use different styles (chibi,
+// pixar, flat…). A project records its style as a `template:` header line, and becoming active
+// re-activates that version so its images keep their look. A project without the line (or naming
+// a version that no longer exists) keeps whatever version is active.
+const syncProjectTemplate = () => {
+  if (!existsSync(P.planMd)) return;
+  const version = readPlanHeader(readFileSync(P.planMd, 'utf8'), 'template');
+  if (!version || version === getTemplates().activeVersion) return;
+  if (!listTemplateVersions().includes(version)) {
+    process.stdout.write(`⚠ ${P.slug}: template "${version}" not found, keeping "${getTemplates().activeVersion}"\n`);
+    return;
+  }
+  activateTemplateVersion(version);
+};
+
+// Remember the active template version on the active project (see syncProjectTemplate).
+const recordProjectTemplate = (version) => {
+  if (existsSync(P.planMd)) writePlanHeader(P.planMd, 'template', version);
 };
 
 const server = createServer(async (req, res) => {
@@ -574,10 +612,11 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === 'POST' && pathname === '/api/services/start') {
+    const serviceAction = { '/api/services/start': startService, '/api/services/stop': stopService }[pathname];
+    if (req.method === 'POST' && serviceAction) {
       const { id } = await readBody(req);
       try {
-        sendJson(res, 200, await startService(id));
+        sendJson(res, 200, await serviceAction(id));
       } catch (error) {
         sendJson(res, 400, { error: error.message });
       }
@@ -605,17 +644,18 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/project-create') {
-      const { slug, title } = await readBody(req);
+      const { slug, title, aspect, template, plan } = await readBody(req);
       if (!isValidSlug(slug)) { sendJson(res, 400, { error: 'slug must be lowercase letters, numbers and hyphens' }); return; }
       const target = projectPaths(slug);
       if (existsSync(target.planMd)) { sendJson(res, 400, { error: `project "${slug}" already exists` }); return; }
-      if (!existsSync(TEMPLATE_MD)) { sendJson(res, 500, { error: `template missing at ${TEMPLATE_MD}` }); return; }
+      if (aspect !== undefined && !ASPECTS[aspect]) { sendJson(res, 400, { error: `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}` }); return; }
+      if (template !== undefined && !listTemplateVersions().includes(template)) { sendJson(res, 400, { error: `không có style version "${template}"` }); return; }
+      const content = buildNewPlan({ slug, title, plan });
+      if (content.error) { sendJson(res, 400, { error: content.error }); return; }
       mkdirSync(dirname(target.planMd), { recursive: true });
-      const heading = typeof title === 'string' && title.trim() ? title.trim() : slug;
-      const content = readFileSync(TEMPLATE_MD, 'utf8')
-        .replace(/^#.*$/m, `# ${heading}`)
-        .replaceAll('<slug>', slug);
-      writeFileSync(target.planMd, content);
+      writeFileSync(target.planMd, content.text);
+      if (aspect) writePlanHeader(target.planMd, 'aspect', aspect);
+      if (template) writePlanHeader(target.planMd, 'template', template);
       ensureProjectDirs(target);
       activateProject(slug);
       sendJson(res, 200, buildState());
@@ -686,6 +726,7 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/templates') {
       const body = await readBody(req);
       const templates = saveTemplates(body, body.version || 'default');
+      recordProjectTemplate(templates.activeVersion);
       sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
       return;
     }
@@ -695,6 +736,7 @@ const server = createServer(async (req, res) => {
       if (typeof body.version !== 'string') { sendJson(res, 400, { error: 'version required' }); return; }
       if (!listTemplateVersions().includes(body.version)) { sendJson(res, 400, { error: `Unknown template version: ${body.version}` }); return; }
       const templates = activateTemplateVersion(body.version);
+      recordProjectTemplate(templates.activeVersion);
       sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
       return;
     }
@@ -1158,6 +1200,7 @@ const server = createServer(async (req, res) => {
   }
 });
 
+syncProjectTemplate();
 server.listen(PORT, '127.0.0.1', () => {
   process.stdout.write(`Review UI on http://127.0.0.1:${PORT}  (project: ${P.slug} — approve visuals, then audio is generated)\n`);
 });

@@ -11,7 +11,7 @@ const MAX_ATTEMPTS = 4;
 const RETRYABLE_STATUS = [429, 503];
 
 export const META_IMAGE_MODELS = [
-  { id: 'meta:muse-image-1.0', label: 'Muse Image 1.0 (Meta) — multi-reference edit, ~$0.01/img' },
+  { id: 'meta:muse-image-1.0', label: 'Muse Image 1.0 — nhiều tham chiếu (~$0.01/ảnh)', price: 0.01 },
 ];
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -84,6 +84,38 @@ export const writeCharacterPath = (planMd, id, relPath) => {
   writeFileSync(planMd, lines.join('\n'));
 };
 
+// Project-level `key: value` lines (aspect, template) live in the header, above the first `##`
+// block. Matching is anchored at the line start, so the template's commented-out example
+// ("<!-- ... `aspect: 16:9` ... -->") never counts.
+const headerLineRe = (key) => new RegExp(`^\\s*${key}\\s*:\\s*(.*?)\\s*$`, 'i');
+const headerEnd = (lines) => {
+  const end = lines.findIndex((l) => /^##\s+/.test(l));
+  return end < 0 ? lines.length : end;
+};
+
+export const readPlanHeader = (raw, key) => {
+  const lines = raw.split('\n');
+  const re = headerLineRe(key);
+  const match = lines.slice(0, headerEnd(lines)).map((l) => re.exec(l)).find(Boolean);
+  return match?.[1] || null;
+};
+
+// Set a header line, replacing an existing one or inserting it under the `# title`.
+export const writePlanHeader = (planMd, key, value) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const end = headerEnd(lines);
+  const re = headerLineRe(key);
+  const line = `${key}: ${value}`;
+  const existing = lines.findIndex((l, i) => i < end && re.test(l));
+  if (existing >= 0) lines[existing] = line;
+  else {
+    const title = lines.findIndex((l, i) => i < end && /^#\s+/.test(l));
+    if (title >= 0) lines.splice(title + 1, 0, '', line);
+    else lines.splice(0, 0, line, '');
+  }
+  writeFileSync(planMd, lines.join('\n'));
+};
+
 export const hasSceneHeading = (planMd, sceneNo) =>
   new RegExp(`^##\\s+scene\\s+${sceneNo}\\b`, 'im').test(readFileSync(planMd, 'utf8'));
 

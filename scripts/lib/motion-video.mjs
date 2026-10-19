@@ -4,7 +4,7 @@
 import { generateSceneVideo as replicateGenerate, VIDEO_MODELS as REPLICATE_MODELS, buildMotionPrompt } from './replicate-video.mjs';
 import { generateSceneVideo as vmediaGenerate } from './vmedia-video.mjs';
 import { generateSceneVideo as falGenerate, FAL_VIDEO_MODELS } from './fal-video.mjs';
-import { generateSceneVideo as museGenerate, MUSE_VIDEO_MODELS } from './muse-video.mjs';
+import { generateSceneVideo as museGenerate } from './muse-video.mjs';
 
 // VMedia (Gommo) image-to-video slugs offered in the picker, read from VMEDIA_VIDEO_MODELS
 // (comma-separated); each becomes a "vmedia:<slug>" entry. Slugs come from POST /ai/models
@@ -13,7 +13,7 @@ import { generateSceneVideo as museGenerate, MUSE_VIDEO_MODELS } from './muse-vi
 const VMEDIA_DEFAULT = 'veo_3_1,wan_2_5,kling_video_2_5,seedance_20_pro,hailuo_2_3';
 const vmediaSlugs = () => (process.env.VMEDIA_VIDEO_MODELS ?? process.env.VMEDIA_VIDEO_MODEL ?? VMEDIA_DEFAULT)
   .split(',').map((slug) => slug.trim()).filter(Boolean);
-const VMEDIA_MODELS = vmediaSlugs().map((slug) => ({ id: `vmedia:${slug}`, label: `${slug} (VMedia)`, provider: 'vmedia', durations: 'snapped to model' }));
+const VMEDIA_MODELS = vmediaSlugs().map((slug) => ({ id: `vmedia:${slug}`, label: slug, durations: 'làm tròn theo model' }));
 
 // Each Replicate/fal model's allowed video length, so the generated clip never runs far longer than
 // the scene's narration audio. `discrete` models only accept specific lengths; others accept any
@@ -37,13 +37,18 @@ const DURATION_RULES = {
 // Human-readable allowed-length hint for the UI's duration box. Discrete models list their exact
 // values (a non-matching entry snaps up to the next one); range models show min–max.
 const describeDurationRule = (rule) =>
-  !rule ? 'any length' : rule.discrete ? `${rule.discrete.join(' or ')}s only` : `${rule.min}–${rule.max}s`;
+  !rule ? 'độ dài bất kỳ' : rule.discrete ? `chỉ ${rule.discrete.join(' / ')}s` : `${rule.min}–${rule.max}s`;
 
+// fal ids are long endpoint paths; the picker groups by provider, so the label keeps only the
+// model part ("kling-video/v2.5-turbo/pro").
+const falLabel = (id) => id.replace(/^fal-ai\//, '').replace(/\/image-to-video$/, '');
+
+// muse2api video is not listed: muse.ai currently refuses video generation by region. Its
+// dispatch branch below stays, reachable by typing `muse:muse-video` into the custom-model field.
 export const MOTION_VIDEO_MODELS = [
-  ...REPLICATE_MODELS.map((id) => ({ id, label: id, provider: 'replicate', durations: describeDurationRule(DURATION_RULES[id]) })),
-  ...FAL_VIDEO_MODELS.map((id) => ({ id, label: `${id} (fal)`, provider: 'fal', durations: describeDurationRule(DURATION_RULES[id]) })),
+  ...REPLICATE_MODELS.map((id) => ({ id, label: id, durations: describeDurationRule(DURATION_RULES[id]) })),
+  ...FAL_VIDEO_MODELS.map((id) => ({ id, label: falLabel(id), durations: describeDurationRule(DURATION_RULES[id]) })),
   ...VMEDIA_MODELS,
-  ...MUSE_VIDEO_MODELS.map((id) => ({ id, label: `${id.slice('muse:'.length)} (muse2api)`, provider: 'muse', durations: describeDurationRule(DURATION_RULES[id]) })),
 ];
 
 export { buildMotionPrompt };

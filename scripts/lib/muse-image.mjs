@@ -12,7 +12,7 @@ const POLL_INTERVAL_MS = 3000;
 const POLL_MAX_ATTEMPTS = 200; // 10 minutes
 
 export const MUSE_IMAGE_MODELS = [
-  { id: 'muse:muse-image', label: 'Muse Image (muse2api) — single-reference edit, free web quota' },
+  { id: 'muse:muse-image', label: 'Muse Image — 1 tham chiếu, quota web miễn phí', price: 0 },
 ];
 
 // Run one muse2api image model → { url, via }. `refDataUri` (optional, WITH the data: prefix)

@@ -50,10 +50,10 @@ const TEMPLATE_FIELDS = [
   "guard",
 ];
 const STATE_LABEL = {
-  "need-image": "needs image",
-  "need-audio": "needs audio",
-  "need-render": "not rendered",
-  done: "done",
+  "need-image": "thiếu ảnh",
+  "need-audio": "thiếu audio",
+  "need-render": "thiếu motion",
+  done: "xong",
 };
 
 let state = {
@@ -76,7 +76,7 @@ let templateVersions = [];
 // "Dịch" buttons on template fields can show the stored Vietnamese without any translation call.
 let currentTemplates = {};
 const selected = new Set();
-const drafts = { prompt: new Map(), narr: new Map() };
+const drafts = { prompt: new Map(), narr: new Map(), motion: new Map() };
 
 const sceneStatus = (s) =>
   !s.hasImage
@@ -94,14 +94,16 @@ const shownScenes = () =>
 // Filled pip = stage finished. Shape, not colour, carries the meaning.
 const pips = (s) => {
   const on = [s.hasImage, s.hasAudio, s.hasMotionVideo];
-  const label = `image ${s.hasImage ? "done" : "missing"}, audio ${s.hasAudio ? "done" : "missing"}, motion ${s.hasMotionVideo ? "done" : "missing"}`;
+  const mark = (ok) => (ok ? "xong" : "thiếu");
+  const label = `ảnh ${mark(s.hasImage)}, audio ${mark(s.hasAudio)}, motion ${mark(s.hasMotionVideo)}`;
   return `<span class="pips" role="img" aria-label="${label}" title="${label}">${on.map((v) => `<span class="pip${v ? " on" : ""}"></span>`).join("")}</span>`;
 };
 
 // ------------------------------------------------------------------ render
 
 function render() {
-  $("title").textContent = state.title;
+  // The project name already shows in the project select; the tab title carries it too.
+  document.title = `${state.title} — Scene Studio`;
   // Preview panes follow the active project's aspect (9:16 vertical / 16:9 landscape) so a
   // generated still or clip is shown at its real shape instead of a fixed vertical box.
   const aspect =
@@ -135,37 +137,47 @@ function renderProjectSwitch() {
   $("projectSelect").innerHTML = options;
 }
 
-// Built once (same reason as the motion select below): rebuilding on every refresh() would
-// reset whatever model the user picked mid-workflow. Empty value = Auto (Grok Imagine default).
-// Two selects share the same option list: the sidebar one drives single-scene generate, the
-// contact-sheet one drives the batch "Generate images" button — each keeps its own choice.
-function renderImageModelSelect() {
-  const options = (state.imageModels || [])
-    .map(
-      (m) =>
-        `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`,
-    )
-    .join("");
-  for (const id of ["imageModelSelect", "batchImageModelSelect"]) {
-    const select = $(id);
-    if (!select.options.length) select.innerHTML = options;
+// Model options grouped by provider. A model whose provider key is missing from .env stays
+// listed (so the user sees it exists) but disabled, instead of failing only after the click.
+function modelOptionsHtml(models) {
+  const groups = new Map();
+  for (const m of models) {
+    const label = m.providerLabel || m.provider || "";
+    groups.set(label, [...(groups.get(label) ?? []), m]);
   }
+  return [...groups]
+    .map(([provider, list]) => {
+      const options = list
+        .map((m) => {
+          const text = m.available === false ? `${m.label} — thiếu ${m.keyEnv}` : m.label;
+          return `<option value="${escapeHtml(m.id)}"${m.available === false ? " disabled" : ""}>${escapeHtml(text)}</option>`;
+        })
+        .join("");
+      return `<optgroup label="${escapeHtml(provider)}">${options}</optgroup>`;
+    })
+    .join("");
 }
 
-// Built once: the model list is static for the session, and rebuilding on every refresh()
-// would reset whatever model the user picked mid-workflow.
-function renderMotionModelSelect() {
-  const options = (state.motionVideoModels || [])
-    .map(
-      (m) =>
-        `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`,
-    )
-    .join("");
-  for (const id of ["motionModelSelect", "batchMotionModelSelect"]) {
+// Built once: the model list is static for the session, and rebuilding on every refresh() would
+// reset whatever model the user picked mid-workflow. Two selects share each list: the per-scene
+// one drives single-scene generate, the contact-sheet one drives the batch run. When the first
+// option is disabled (its provider has no key), the first usable model is selected instead.
+function fillModelSelects(models, ids) {
+  const options = modelOptionsHtml(models || []);
+  for (const id of ids) {
     const select = $(id);
-    if (!select.options.length) select.innerHTML = options;
+    if (select.options.length) continue;
+    select.innerHTML = options;
+    if (select.selectedOptions[0]?.disabled) {
+      const usable = [...select.options].find((o) => !o.disabled);
+      if (usable) select.value = usable.value;
+    }
   }
 }
+const renderImageModelSelect = () =>
+  fillModelSelects(state.imageModels, ["imageModelSelect", "batchImageModelSelect"]);
+const renderMotionModelSelect = () =>
+  fillModelSelects(state.motionVideoModels, ["motionModelSelect", "batchMotionModelSelect"]);
 
 // A non-empty custom-model field lets any Replicate model id be used without editing the built-in
 // list; it overrides the dropdown for that media. Blank falls back to the dropdown selection.
@@ -200,11 +212,12 @@ const lsSet = (key, value) => {
   }
 };
 
-// Set a select's value only when that option exists, so a remembered model that has left the list
-// (e.g. an env-driven vmedia slug removed) leaves the dropdown on its default instead of blanking.
+// Set a select's value only when that option exists and is usable, so a remembered model that has
+// left the list (e.g. an env-driven vmedia slug removed) or lost its key leaves the dropdown on its
+// default instead of blanking.
 const setModelSelect = (id, value) => {
   const select = $(id);
-  if (value != null && [...select.options].some((o) => o.value === value))
+  if (value != null && [...select.options].some((o) => o.value === value && !o.disabled))
     select.value = value;
 };
 
@@ -224,10 +237,13 @@ function restoreModelSelection() {
   const motion = lsGet(MODEL_STORE.motion);
   setModelSelect("motionModelSelect", motion);
   setModelSelect("batchMotionModelSelect", motion);
+  // A remembered custom model overrides the dropdown, so its "Nâng cao" section opens to show it.
   const imageCustom = lsGet(MODEL_STORE.imageCustom);
   if (imageCustom) $("imageModelCustom").value = imageCustom;
+  $("imageAdvanced").open = Boolean(imageCustom);
   const motionCustom = lsGet(MODEL_STORE.motionCustom);
   if (motionCustom) $("motionModelCustom").value = motionCustom;
+  $("motionAdvanced").open = Boolean(motionCustom);
   modelSelectionRestored = true;
   updatePromptCount();
   updateDurationHint();
@@ -240,14 +256,16 @@ function updateDurationHint() {
   const id = effectiveMotionModel();
   const m = (state.motionVideoModels || []).find((x) => x.id === id);
   $("motionDurationHint").textContent = m
-    ? `${id} accepts ${m.durations}`
+    ? `${m.label}: ${m.durations}`
     : id
-      ? `${id}: custom model, durations snapped on the server`
+      ? `${id}: model tuỳ chỉnh, server tự làm tròn độ dài`
       : "";
 }
 
 // Live full-prompt length: fixed template overhead (from the server) + the scene prompt being
-// typed. Seedream rejects prompts over its limit, so the count turns red when it would fail.
+// typed. Only Replicate Seedream enforces a limit, so only then is the budget shown — with the
+// share the template already uses, since that is what leaves little room for the scene prompt.
+// The count turns red when it would fail.
 function updatePromptCount() {
   const el = $("promptCount");
   const s = current();
@@ -256,10 +274,13 @@ function updatePromptCount() {
     el.classList.remove("over");
     return;
   }
-  const total = (s.promptOverhead ?? 0) + $("promptBox").value.length;
+  const overhead = s.promptOverhead ?? 0;
+  const total = overhead + $("promptBox").value.length;
   const seedream = effectiveImageModel().startsWith("bytedance/seedream");
   const limit = state.seedreamPromptLimit ?? 4000;
-  el.textContent = seedream ? `${total} / ${limit} chars` : `${total} chars`;
+  el.textContent = seedream
+    ? `${total} / ${limit} ký tự (template ${overhead})`
+    : `${total} ký tự`;
   el.classList.toggle("over", seedream && total > limit);
 }
 
@@ -272,7 +293,7 @@ function renderCharGallery() {
   $("charGallery").innerHTML = list
     .map((c) => {
       const thumbs = c.refUrl
-        ? `<img class="char-thumb" src="${c.refUrl}" alt="Reference for ${escapeHtml(c.name)}" loading="lazy" title="Reference" />`
+        ? `<img class="char-thumb" src="${c.refUrl}" alt="Ảnh tham chiếu của ${escapeHtml(c.name)}" loading="lazy" title="Ảnh tham chiếu" />`
         : '<span class="char-thumb blank">?</span>';
       const chips = (c.scenes || [])
         .map(
@@ -287,8 +308,8 @@ function renderCharGallery() {
           <span class="char-id num">${escapeHtml(c.id)}</span>
           <div class="char-scenes">${chips}</div>
           <div class="char-actions">
-            <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}">Profile</button>
-            <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}">Upload ref</button>
+            <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}">Hồ sơ</button>
+            <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}">Tải ảnh ref</button>
           </div>
         </div>
       </div>`;
@@ -344,11 +365,11 @@ function renderPipeline() {
 
   if (!busy) {
     if (aiDone < ai.length)
-      setConsole("idle", `${ai.length - aiDone} image(s) left to generate`);
+      setConsole("idle", `Còn ${ai.length - aiDone} ảnh cần sinh`);
     else if (done.aud < total)
-      setConsole("idle", `${total - done.aud} scene(s) still need audio`);
+      setConsole("idle", `Còn ${total - done.aud} scene cần audio`);
     else if (done.img === total)
-      setConsole("idle", "Images and audio ready. Render when you are.");
+      setConsole("idle", "Ảnh và audio đã đủ. Có thể render.");
   }
 }
 
@@ -360,13 +381,13 @@ function renderRail() {
         ? `<img class="thumb" src="${s.imageUrl}" alt="" loading="lazy" />`
         : '<span class="thumb blank">?</span>';
       return `<li class="rail-row${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
-      <input type="checkbox" class="rail-check" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} title="Select scene ${s.scene}" aria-label="Select scene ${s.scene}" />
+      <input type="checkbox" class="rail-check" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} title="Chọn scene ${s.scene}" aria-label="Chọn scene ${s.scene}" />
       <button type="button" class="rail-item" data-scene="${s.scene}" aria-current="${s.scene === currentScene}">
         ${thumb}
         <span class="meta">
           <span class="no num">Scene ${s.scene}</span>
           ${pips(s)}
-          <span class="line">${escapeHtml((s.narration || "").slice(0, 70)) || "no narration"}</span>
+          <span class="line">${escapeHtml((s.narration || "").slice(0, 70)) || "chưa có narration"}</span>
         </span>
       </button>
     </li>`;
@@ -386,7 +407,7 @@ function renderRail() {
   }
   if (!list.length)
     $("railList").innerHTML =
-      '<li class="line" style="padding:14px;color:var(--faint)">No scene matches this filter.</li>';
+      '<li class="line" style="padding:14px;color:var(--faint)">Không có scene nào khớp bộ lọc.</li>';
   renderSelection();
 }
 
@@ -398,7 +419,7 @@ function renderStage() {
   if (!s) {
     $("canvasEmpty").hidden = false;
     $("canvasEmptyText").textContent =
-      "No scenes loaded. Run parse-scene-plan.mjs first.";
+      "Chưa có scene nào. Chạy parse-scene-plan.mjs trước.";
     $("stScene").textContent = "Scene";
     for (const id of ["stKind", "stSource", "stState"]) $(id).hidden = true;
     $("inspector").style.opacity = ".4";
@@ -409,9 +430,9 @@ function renderStage() {
   const status = sceneStatus(s);
   $("stScene").textContent = `Scene ${s.scene}`;
   $("stKind").hidden = false;
-  $("stKind").textContent = s.kind === "ai" ? "AI" : "SEARCH";
+  $("stKind").textContent = s.kind === "ai" ? "AI" : "TÌM ẢNH";
   $("stSource").hidden = s.source !== "upload";
-  $("stSource").textContent = "your image";
+  $("stSource").textContent = "ảnh của bạn";
   $("stState").hidden = false;
   $("stState").textContent = STATE_LABEL[status];
   $("stState").classList.toggle("on", status === "done");
@@ -442,8 +463,8 @@ function renderStage() {
     $("canvasEmpty").hidden = false;
     $("canvasEmptyText").textContent =
       s.kind === "search"
-        ? "Search scene. Source it, or drop your own image here."
-        : "Not generated yet. Generate from the prompt, or drop an image here.";
+        ? "Scene tìm ảnh. Tìm nguồn ảnh, hoặc thả ảnh của bạn vào đây."
+        : "Chưa sinh ảnh. Sinh từ prompt, hoặc thả ảnh vào đây.";
   }
 
   const audio = $("audioPlayer");
@@ -452,26 +473,34 @@ function renderStage() {
   if (s.hasAudio && audio.getAttribute("src") !== s.audioUrl)
     audio.src = s.audioUrl;
   $("btnAudio").textContent = audioBusy
-    ? "Generating audio…"
+    ? "Đang sinh audio…"
     : s.hasAudio
-      ? "Regenerate audio"
-      : "Generate audio";
+      ? "Sinh lại audio"
+      : "Sinh audio";
 
   $("btnMotionVideo").textContent = s.hasMotionVideo
-    ? "Regenerate motion video"
-    : "Generate motion video";
+    ? "Sinh lại motion video"
+    : "Sinh motion video";
   $("btnMotionVideo").disabled = busy || !s.hasImage || !s.hasAudio;
   $("btnMotionVideo").title =
     s.hasImage && s.hasAudio
       ? ""
-      : "Needs an image and audio first (video length is matched to the audio)";
+      : "Cần có ảnh và audio trước (độ dài video khớp theo audio)";
   $("btnUploadMotionVideo").textContent = s.hasMotionVideo
-    ? "Replace motion video"
-    : "Upload replacement video";
+    ? "Thay motion video"
+    : "Tải video thay thế";
   $("btnUploadMotionVideo").disabled = busy;
+  // The box shows the effective motion prompt (authored `motion:` or the auto-built one); saving
+  // writes it as the scene's `motion:` so an edit survives a refresh.
   const motionPrompt = $("motionPromptBox");
   if (document.activeElement !== motionPrompt)
-    motionPrompt.value = s.motionPrompt || "";
+    motionPrompt.value = drafts.motion.get(s.scene) ?? s.motionPrompt ?? "";
+  markDirty(
+    motionPrompt,
+    $("motionSave"),
+    $("motionHint"),
+    motionPrompt.value.trim() !== (s.motionPrompt ?? "").trim(),
+  );
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
   if (s.hasMotionVideo) {
     const v = $("motionVideo");
@@ -498,7 +527,7 @@ function renderStage() {
 // Stage-header done pill: shape (filled dot via .on) + word, matching the rail pips.
 function setStageState(id, done) {
   const el = $(id);
-  el.textContent = done ? "ready" : "pending";
+  el.textContent = done ? "xong" : "chưa có";
   el.classList.toggle("on", done);
 }
 
@@ -528,17 +557,17 @@ function syncInspector(s) {
       box.value.trim() !== (s.prompt ?? "").trim(),
     );
     $("btnGen").textContent = s.hasImage
-      ? "Regenerate image"
-      : "Generate image";
+      ? "Sinh lại ảnh"
+      : "Sinh ảnh";
     $("btnGen").disabled = busy;
     $("btnGenPrompt").disabled = busy || !(s.narration || "").trim();
   } else {
-    $("searchQuery").textContent = s.query || "no query";
+    $("searchQuery").textContent = s.query || "chưa có từ khoá";
   }
 
   $("btnUpload").textContent = s.hasImage
-    ? "Replace with your own image"
-    : "Upload your own image";
+    ? "Thay bằng ảnh của bạn"
+    : "Tải ảnh của bạn lên";
   $("btnAudio").disabled = audioBusy || !(s.narration || "").trim();
   updatePromptCount();
   showError("");
@@ -547,7 +576,7 @@ function syncInspector(s) {
 function markDirty(field, saveBtn, hint, dirty) {
   field.classList.toggle("dirty", dirty);
   saveBtn.disabled = !dirty;
-  hint.textContent = dirty ? "unsaved" : "";
+  hint.textContent = dirty ? "chưa lưu" : "";
   hint.classList.toggle("dirty", dirty);
 }
 
@@ -559,17 +588,17 @@ function renderSheet() {
       const status = sceneStatus(s);
       const imageInner = s.hasImage
         ? `<img src="${s.imageUrl}" alt="Scene ${s.scene}" loading="lazy" />`
-        : `<span class="empty">${s.kind === "search" ? "search scene" : "not generated"}</span>`;
+        : `<span class="empty">${s.kind === "search" ? "scene tìm ảnh" : "chưa sinh ảnh"}</span>`;
       const videoInner = s.hasMotionVideo
-        ? `<span class="ready-mark">${ICON_OK}<span>Video ready</span></span>`
-        : `<span class="empty">no video yet</span>`;
+        ? `<span class="ready-mark">${ICON_OK}<span>Đã có video</span></span>`
+        : `<span class="empty">chưa có video</span>`;
       return `<div class="tile${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
       <div class="tile-head"><span class="tile-no">${s.scene}</span></div>
       <div class="tile-media">
-        <button type="button" class="media-pane" data-role="open" title="Open scene ${s.scene} in the workbench">
+        <button type="button" class="media-pane" data-role="open" title="Mở scene ${s.scene} trong bàn làm việc">
           ${imageInner}${pips(s)}
         </button>
-        <button type="button" class="media-pane video-pane${s.hasMotionVideo ? " ready" : ""}" data-role="open" title="Open scene ${s.scene} in the workbench">
+        <button type="button" class="media-pane video-pane${s.hasMotionVideo ? " ready" : ""}" data-role="open" title="Mở scene ${s.scene} trong bàn làm việc">
           ${videoInner}
         </button>
       </div>
@@ -632,8 +661,8 @@ function renderSelection() {
   ).length;
 
   const info = chosen.length
-    ? `<b>${chosen.length}</b> selected: scene ${chosen.map((s) => s.scene).join(", ")}`
-    : "Nothing selected";
+    ? `Đã chọn <b>${chosen.length}</b>: scene ${chosen.map((s) => s.scene).join(", ")}`
+    : "Chưa chọn scene nào";
   $("sheetSelInfo").innerHTML = info;
   $("railSelInfo").innerHTML = info;
 
@@ -743,7 +772,7 @@ function setConsole(kind, message, tail = "") {
   $("conTail").textContent = tail;
 }
 
-function setBusy(on, label = "working") {
+function setBusy(on, label = "đang xử lý") {
   busy = on;
   const canvas = $("canvas");
   canvas.querySelector(".working")?.remove();
@@ -799,6 +828,7 @@ async function refresh() {
 function clearProjectLocalState() {
   drafts.prompt.clear();
   drafts.narr.clear();
+  drafts.motion.clear();
   selected.clear();
   currentScene = null;
 }
@@ -810,12 +840,12 @@ async function switchProject(slug) {
     renderProjectSwitch();
     return;
   }
-  setBusy(true, `switching to ${slug}`);
+  setBusy(true, `đang chuyển sang ${slug}`);
   try {
     clearProjectLocalState();
     state = await api("/api/project", { slug });
     render();
-    toast(`Switched to "${state.project.title}".`);
+    toast(`Đã chuyển sang "${state.project.title}" (style: ${state.project.template}).`);
   } catch (e) {
     toast(e.message, false);
     renderProjectSwitch();
@@ -916,9 +946,9 @@ async function streamJob(path, body, label, onDone) {
   } catch (e) {
     if (e.name === "AbortError") {
       log.textContent +=
-        "• Cancelled (current scene still finishes on the server)\n";
-      setConsole("idle", "Cancelled");
-      toast("Cancelled — the scene already generating still finishes.", false);
+        "• Đã huỷ (scene đang chạy vẫn hoàn tất trên server)\n";
+      setConsole("idle", "Đã huỷ");
+      toast("Đã huỷ — scene đang sinh vẫn chạy xong (và vẫn tính phí).", false);
     } else {
       failed = true;
       log.textContent += `✗ ${e.message}\n`;
@@ -942,7 +972,7 @@ async function runAudioJob(path, body) {
   if (audioBusy) return;
   audioBusy = true;
   $("btnAudio").disabled = true;
-  $("btnAudio").textContent = "Generating audio…";
+  $("btnAudio").textContent = "Đang sinh audio…";
   // Lock the whole audio lane the setBusy comment documents (btnAudio/batchAud/railBatchAud);
   // railBatchAud fires the same runAudioJob from the rail, so it must go down with batchAud.
   $("batchAud").disabled = true;
@@ -983,7 +1013,7 @@ async function runAudioJob(path, body) {
 function openLog(open) {
   $("console").classList.toggle("open", open);
   $("conToggle").setAttribute("aria-expanded", String(open));
-  $("conToggle").textContent = open ? "Hide log" : "Show log";
+  $("conToggle").textContent = open ? "Ẩn log" : "Xem log";
 }
 
 async function saveField(kind, value) {
@@ -992,7 +1022,7 @@ async function saveField(kind, value) {
   const isPrompt = kind === "prompt";
   const btn = isPrompt ? $("promptSave") : $("narrSave");
   btn.disabled = true;
-  btn.textContent = "Saving...";
+  btn.textContent = "Đang lưu...";
   try {
     const res = await api(isPrompt ? "/api/prompt" : "/api/narration", {
       scene: s.scene,
@@ -1008,11 +1038,32 @@ async function saveField(kind, value) {
     showError("");
     renderRail();
     renderStage();
-    toast(`Scene ${s.scene}: ${kind} saved.`);
+    toast(`Scene ${s.scene}: đã lưu ${kind}.`);
   } catch (e) {
     showError(e.message);
   } finally {
-    btn.textContent = isPrompt ? "Save prompt" : "Save narration";
+    btn.textContent = isPrompt ? "Lưu prompt" : "Lưu narration";
+  }
+}
+
+// Motion prompt goes through the bulk scene patch, the same writer the script editor uses.
+async function saveMotionPrompt() {
+  const s = current();
+  if (!s) return;
+  const btn = $("motionSave");
+  btn.disabled = true;
+  btn.textContent = "Đang lưu...";
+  try {
+    await api("/api/scenes-update", {
+      scenes: [{ scene: s.scene, motion: $("motionPromptBox").value.trim() }],
+    });
+    drafts.motion.delete(s.scene);
+    await refresh();
+    toast(`Scene ${s.scene}: đã lưu motion prompt.`);
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    btn.textContent = "Lưu motion prompt";
   }
 }
 
@@ -1021,7 +1072,7 @@ async function generateImage() {
   if (!s) return;
   const prompt = $("promptBox").value;
   if (!prompt.trim()) {
-    showError("Prompt is empty.");
+    showError("Prompt đang trống.");
     return;
   }
   if (prompt.trim() !== (s.prompt ?? "").trim())
@@ -1033,7 +1084,7 @@ async function generateImage() {
   await streamJob(
     "/api/generate",
     { scene: s.scene, model },
-    `Generating image for scene ${s.scene}`,
+    `Đang sinh ảnh cho scene ${s.scene}`,
   );
 }
 
@@ -1041,16 +1092,16 @@ async function generatePromptFromNarration() {
   const s = current();
   if (!s) return;
   if (!(s.narration || "").trim()) {
-    showError("Narration is empty — write it first.");
+    showError("Narration đang trống — viết narration trước.");
     return;
   }
-  setBusy(true, `writing prompt for scene ${s.scene}`);
-  setConsole("running", `Writing prompt for scene ${s.scene} from narration`);
+  setBusy(true, `đang viết prompt cho scene ${s.scene}`);
+  setConsole("running", `Đang viết prompt cho scene ${s.scene} từ narration`);
   try {
     const res = await api("/api/generate-prompt", { scene: s.scene });
-    setConsole("idle", `Scene ${s.scene} prompt written.`);
+    setConsole("idle", `Scene ${s.scene}: đã viết prompt.`);
     toast(
-      `Scene ${s.scene}: ${res.motion ? "image + motion prompt" : "prompt"} written from narration.`,
+      `Scene ${s.scene}: đã viết ${res.motion ? "prompt ảnh + motion prompt" : "prompt"} từ narration.`,
     );
     await refresh();
   } catch (e) {
@@ -1066,10 +1117,10 @@ async function uploadImage(file) {
   const s = current();
   if (!s || !file) return;
   if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
-    showError("Use a PNG, JPEG or WebP image.");
+    showError("Dùng ảnh PNG, JPEG hoặc WebP.");
     return;
   }
-  setBusy(true, "uploading");
+  setBusy(true, "đang tải lên");
   try {
     const res = await fetch(`/api/upload?scene=${s.scene}`, {
       method: "POST",
@@ -1078,7 +1129,7 @@ async function uploadImage(file) {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
-    toast(`Scene ${s.scene}: image replaced with your upload.`);
+    toast(`Scene ${s.scene}: đã thay bằng ảnh của bạn.`);
     await refresh();
   } catch (e) {
     showError(e.message);
@@ -1095,10 +1146,10 @@ async function uploadMotionVideo(file) {
     /^(video\/mp4|video\/quicktime)$/.test(file.type) ||
     /\.(mp4|mov)$/i.test(file.name);
   if (!isSupportedVideo) {
-    showError("Use a vertical MP4 or MOV video.");
+    showError("Dùng video MP4 hoặc MOV.");
     return;
   }
-  setBusy(true, "uploading replacement video");
+  setBusy(true, "đang tải video thay thế");
   try {
     const res = await fetch(`/api/upload-motion-video?scene=${s.scene}`, {
       method: "POST",
@@ -1107,7 +1158,7 @@ async function uploadMotionVideo(file) {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
-    toast(`Scene ${s.scene}: replacement video uploaded.`);
+    toast(`Scene ${s.scene}: đã tải video thay thế.`);
     await refresh();
   } catch (e) {
     showError(e.message);
@@ -1123,13 +1174,13 @@ async function undo(kind) {
   if (!s) return;
   setBusy(
     true,
-    `undoing ${kind === "image" ? "image" : "motion video"} for scene ${s.scene}`,
+    `đang hoàn tác ${kind === "image" ? "ảnh" : "motion video"} của scene ${s.scene}`,
   );
   try {
     state = await api("/api/undo", { scene: s.scene, kind });
     render();
     toast(
-      `Scene ${s.scene}: ${kind === "image" ? "image" : "motion video"} reverted.`,
+      `Scene ${s.scene}: đã hoàn tác ${kind === "image" ? "ảnh" : "motion video"}.`,
     );
   } catch (e) {
     toast(e.message, false);
@@ -1141,11 +1192,11 @@ async function undo(kind) {
 async function removeMotionVideo() {
   const s = current();
   if (!s?.hasMotionVideo) return;
-  setBusy(true, `removing motion video for scene ${s.scene}`);
+  setBusy(true, `đang bỏ motion video của scene ${s.scene}`);
   try {
     state = await api("/api/remove-motion-video", { scene: s.scene });
     render();
-    toast(`Scene ${s.scene}: using source image.`);
+    toast(`Scene ${s.scene}: dùng ảnh gốc thay video.`);
   } catch (e) {
     toast(e.message, false);
   } finally {
@@ -1297,6 +1348,18 @@ $("imageModelCustom").addEventListener("input", () => {
 $("narrSave").addEventListener("click", () =>
   saveField("narration", $("narrBox").value),
 );
+$("motionPromptBox").addEventListener("input", (e) => {
+  const s = current();
+  if (!s) return;
+  drafts.motion.set(s.scene, e.target.value);
+  markDirty(
+    e.target,
+    $("motionSave"),
+    $("motionHint"),
+    e.target.value.trim() !== (s.motionPrompt ?? "").trim(),
+  );
+});
+$("motionSave").addEventListener("click", saveMotionPrompt);
 $("promptSave").addEventListener("click", () =>
   saveField("prompt", $("promptBox").value),
 );
@@ -1351,16 +1414,16 @@ $("btnMotionVideo").addEventListener("click", async () => {
     prompt: $("motionPromptBox").value.trim(),
   };
   if (Number.isFinite(durVal) && durVal > 0) body.duration = durVal;
-  setBusy(true, `Generating motion video for scene ${s.scene}`);
+  setBusy(true, `Đang sinh motion video cho scene ${s.scene}`);
   setConsole(
     "running",
-    `Generating motion video for scene ${s.scene} (${model})`,
+    `Đang sinh motion video cho scene ${s.scene} (${model})`,
   );
   try {
     await streamJob(
       "/api/generate-motion-video",
       body,
-      `Generating motion video for scene ${s.scene} (${model})`,
+      `Đang sinh motion video cho scene ${s.scene} (${model})`,
     );
   } catch (e) {
     showError(e.message);
@@ -1389,13 +1452,13 @@ $("btnUndoImage").addEventListener("click", () => undo("image"));
 $("btnUndoMotion").addEventListener("click", () => undo("motion"));
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
 $("btnApprove").addEventListener("click", () =>
-  streamJob("/api/approve", null, "Generating narration audio for every scene"),
+  streamJob("/api/approve", null, "Đang sinh audio narration cho mọi scene"),
 );
 $("btnRender").addEventListener("click", () =>
   streamJob(
     "/api/finalize",
     null,
-    "Measuring audio, aligning captions, rendering MP4",
+    "Đang đo audio, căn phụ đề, render MP4",
     () => {
       const link = $("linkMp4");
       link.hidden = false;
@@ -1435,6 +1498,46 @@ $("railSelClear").addEventListener("click", () => {
   renderRail();
 });
 
+// Promise-based confirm on the panel's own dialog (a native confirm() would look foreign here).
+// Resolves true on "Chạy", false on "Huỷ", Escape or a backdrop click.
+let confirmResolve = null;
+function confirmRun(message) {
+  $("confirmBody").textContent = message;
+  $("confirmOverlay").hidden = false;
+  $("confirmOk").focus();
+  return new Promise((resolve) => {
+    confirmResolve = resolve;
+  });
+}
+function closeConfirm(answer) {
+  $("confirmOverlay").hidden = true;
+  confirmResolve?.(answer);
+  confirmResolve = null;
+}
+$("confirmOk").addEventListener("click", () => closeConfirm(true));
+$("confirmCancel").addEventListener("click", () => closeConfirm(false));
+$("confirmOverlay").addEventListener("click", (e) => {
+  if (e.target === $("confirmOverlay")) closeConfirm(false);
+});
+
+// Cost line for a batch run. `price` is USD per output (0 = free quota, null/absent = unknown).
+const formatUsd = (n) => `$${n.toFixed(n < 1 ? 2 : 1)}`;
+function costLine(model, count) {
+  if (!model) return "Model tuỳ chỉnh — chưa rõ giá.";
+  if (model.price === 0) return "Miễn phí (quota).";
+  if (typeof model.price !== "number")
+    return `Chưa rõ giá — kiểm tra bảng giá ${model.providerLabel || ""}.`.trim();
+  return `Ước tính: ${count} × ~${formatUsd(model.price)} ≈ ${formatUsd(count * model.price)}.`;
+}
+
+// Asks before a paid batch run; a free model (price 0) runs straight away.
+async function confirmBatch(kind, models, modelId, count) {
+  const model = models.find((m) => m.id === modelId);
+  if (model?.price === 0) return true;
+  const label = model?.label ?? modelId;
+  return confirmRun(`Sinh ${kind} cho ${count} scene bằng ${label}.\n${costLine(model, count)}`);
+}
+
 // One batch action per stage, shared by the rail bar and the contact-sheet bar. Both read the
 // same `selected` Set and the same sticky model selects, so either entry point behaves identically.
 const runBatchPrompts = () => {
@@ -1442,28 +1545,38 @@ const runBatchPrompts = () => {
   streamJob(
     "/api/generate-prompts-batch",
     { scenes },
-    `Writing prompts for scene ${scenes.join(", ")}`,
+    `Đang viết prompt cho scene ${scenes.join(", ")}`,
   );
 };
-const runBatchImages = () => {
+const runBatchImages = async () => {
   const scenes = [...selected].sort((a, b) => a - b);
+  const model = $("batchImageModelSelect").value;
+  const count = state.scenes.filter(
+    (s) => selected.has(s.scene) && s.kind === "ai",
+  ).length;
+  if (!(await confirmBatch("ảnh", state.imageModels || [], model, count))) return;
   streamJob(
     "/api/generate-batch",
-    { scenes, model: $("batchImageModelSelect").value },
-    `Generating images for scene ${scenes.join(", ")}`,
+    { scenes, model },
+    `Đang sinh ảnh cho scene ${scenes.join(", ")}`,
   );
 };
 const runBatchAudio = () => {
   const scenes = [...selected].sort((a, b) => a - b);
   runAudioJob("/api/audio-batch", { scenes });
 };
-const runBatchMotion = () => {
+const runBatchMotion = async () => {
   const scenes = [...selected].sort((a, b) => a - b);
   const model = $("batchMotionModelSelect").value;
+  const count = state.scenes.filter(
+    (s) => selected.has(s.scene) && s.hasImage && s.hasAudio,
+  ).length;
+  if (!(await confirmBatch("motion video", state.motionVideoModels || [], model, count)))
+    return;
   streamJob(
     "/api/generate-motion-videos-batch",
     { scenes, model },
-    `Generating motion videos for scene ${scenes.join(", ")} (${model})`,
+    `Đang sinh motion video cho scene ${scenes.join(", ")} (${model})`,
   );
 };
 $("batchPrompt").addEventListener("click", runBatchPrompts);
@@ -1527,7 +1640,7 @@ $("btnMergeConfirm").addEventListener("click", async () => {
   const narration = $("mergePreviewNarr").value;
   const btn = $("btnMergeConfirm");
   btn.disabled = true;
-  btn.textContent = "Merging...";
+  btn.textContent = "Đang gộp...";
   try {
     state = await api("/api/merge-scenes", { scenes, keep, narration });
     for (const n of scenes) {
@@ -1542,7 +1655,7 @@ $("btnMergeConfirm").addEventListener("click", async () => {
     // triggered from a script row (or from the sheet/rail while it happens to be open) shows up
     // without the user having to close and reopen it.
     if (!$("scriptOverlay").hidden) renderScriptList();
-    toast(`Merged scene ${scenes.join(", ")} into scene ${keep}.`);
+    toast(`Đã gộp scene ${scenes.join(", ")} vào scene ${keep}.`);
     // Leave the merged narration selected in the inspector for one more hand pass.
     $("narrBox").focus();
     $("narrBox").select();
@@ -1550,7 +1663,7 @@ $("btnMergeConfirm").addEventListener("click", async () => {
     toast(e.message, false);
   } finally {
     btn.disabled = false;
-    btn.textContent = "Merge scenes";
+    btn.textContent = "Gộp scene";
   }
 });
 
@@ -1591,14 +1704,14 @@ $("t_version").addEventListener("change", async (e) => {
     const t = response.templates;
     currentTemplates = t;
     for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
-    toast(`Switched to ${e.target.value}.`);
+    toast(`Đã chuyển style sang ${e.target.value} — lưu vào dự án này.`);
   } catch (err) {
     toast(err.message, false);
   }
 });
 $("t_activate").addEventListener("click", async () => {
   const version = $("t_newVersion").value.trim();
-  if (!version) return toast("Enter version name.", false);
+  if (!version) return toast("Nhập tên version.", false);
   try {
     const body = { version };
     for (const key of TEMPLATE_FIELDS) body[key] = $(`t_${key}`).value;
@@ -1606,7 +1719,7 @@ $("t_activate").addEventListener("click", async () => {
     templateVersions = response.versions;
     await loadTemplates();
     $("t_newVersion").value = "";
-    toast(`Created ${version}.`);
+    toast(`Đã tạo version ${version} và dùng cho dự án này.`);
   } catch (err) {
     toast(err.message, false);
   }
@@ -1619,7 +1732,7 @@ $("tplSave").addEventListener("click", async () => {
   $("tplSave").disabled = true;
   try {
     await api("/api/templates", body);
-    toast("Templates saved.");
+    toast("Đã lưu template.");
   } catch (e) {
     toast(e.message, false);
   } finally {
@@ -1638,6 +1751,14 @@ document.addEventListener("click", (e) => {
 
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    if (!$("confirmOverlay").hidden) {
+      closeConfirm(false);
+      return;
+    }
+    if (!$("mergeOverlay").hidden) {
+      $("mergeOverlay").hidden = true;
+      return;
+    }
     if (!$("lightbox").hidden) {
       closeLightbox();
       return;
@@ -1711,13 +1832,32 @@ $("projectSelect").addEventListener("change", (e) =>
   switchProject(e.target.value),
 );
 
-$("btnNewProject").addEventListener("click", () => {
+const NP_NOTE = "Tạo projects/<slug>/scene-plan.md rồi chuyển sang dự án đó.";
+
+$("btnNewProject").addEventListener("click", async () => {
   $("npSlug").value = "";
   $("npTitleInput").value = "";
-  $("npNote").textContent =
-    "Scaffolds from projects/_template and switches to it.";
+  $("npPlan").value = "";
+  $("npAspect").value = "16:9";
+  $("npNote").textContent = NP_NOTE;
   $("npOverlay").hidden = false;
   $("npSlug").focus();
+  try {
+    const { versions = ["default"], activeVersion } = await api("/api/templates");
+    $("npTemplate").innerHTML = versions
+      .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
+      .join("");
+    $("npTemplate").value = activeVersion || "default";
+  } catch (e) {
+    $("npNote").textContent = e.message;
+  }
+});
+// A pasted plan that declares its own `aspect:` sets the select, so the two never disagree.
+$("npPlan").addEventListener("input", () => {
+  const header = $("npPlan").value.split(/^##\s+/m)[0];
+  const aspect = header.match(/^\s*aspect\s*:\s*(\S+)\s*$/im)?.[1];
+  if (aspect && [...$("npAspect").options].some((o) => o.value === aspect))
+    $("npAspect").value = aspect;
 });
 $("npClose").addEventListener("click", () => {
   $("npOverlay").hidden = true;
@@ -1730,16 +1870,22 @@ $("npCreate").addEventListener("click", async () => {
   const title = $("npTitleInput").value.trim();
   if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) {
     $("npNote").textContent =
-      "Slug must be lowercase letters, numbers and hyphens, starting with a letter or number.";
+      "Slug chỉ gồm chữ thường, số và dấu gạch ngang, bắt đầu bằng chữ hoặc số.";
     return;
   }
   $("npCreate").disabled = true;
   try {
     clearProjectLocalState();
-    state = await api("/api/project-create", { slug, title });
+    state = await api("/api/project-create", {
+      slug,
+      title,
+      aspect: $("npAspect").value,
+      template: $("npTemplate").value || undefined,
+      plan: $("npPlan").value,
+    });
     render();
     $("npOverlay").hidden = true;
-    toast(`Created project "${state.project.title}".`);
+    toast(`Đã tạo dự án "${state.project.title}".`);
   } catch (e) {
     $("npNote").textContent = e.message;
   } finally {
@@ -1774,14 +1920,14 @@ const SCRIPT_GROUPS = [
     ],
   },
   {
-    title: "Image prompt",
+    title: "Prompt ảnh",
     tone: "image",
     fields: [
       {
         key: "prompt",
         sub: "EN",
         rows: 4,
-        ph: "Action + gesture; trống → Write from narration",
+        ph: "Hành động + cử chỉ; trống → Viết từ narration",
         get: (s) => s.prompt ?? "",
       },
       {
@@ -1801,7 +1947,7 @@ const SCRIPT_GROUPS = [
         key: "motion",
         sub: "EN",
         rows: 3,
-        ph: "Prompt image-to-video; trống = tự sinh khi generate video",
+        ph: "Prompt image-to-video; trống = tự sinh khi sinh video",
         get: (s) => s.motion ?? "",
       },
       {
@@ -1840,7 +1986,7 @@ function updateScriptFoot() {
   const dirty = rows.filter((r) => r.classList.contains("dirty")).length;
   $("scriptNote").textContent = state.scenes.length
     ? `${state.scenes.length} scene · ${words} từ${dirty ? ` · ${dirty} scene đã sửa` : ""}`
-    : "No scenes.";
+    : "Chưa có scene.";
   $("scriptSave").disabled = busy || audioBusy || dirty === 0;
 }
 
@@ -1871,9 +2017,9 @@ const scriptGroupHtml = (s, g) => {
 // same busy locks) — no dependency on the stage's currently-selected scene.
 const scriptGenHtml = (s, isLast) =>
   `<div class="script-gen">
-    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-scene="${s.scene}" title="Generate ảnh cho scene này (model theo batch image select)">Image</button>
-    <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-scene="${s.scene}" title="Generate narration audio cho scene này">Audio</button>
-    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-scene="${s.scene}" title="Generate motion video cho scene này (cần có image + audio)">Motion</button>
+    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở Lưới scene)">Ảnh</button>
+    <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-scene="${s.scene}" title="Sinh audio narration cho scene này">Audio</button>
+    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio)">Motion</button>
     ${isLast ? "" : `<button type="button" class="btn sm quiet script-gen-btn" data-merge-next="${s.scene}" title="Gộp scene này với scene kế tiếp">Gộp ↓</button>`}
   </div>`;
 
@@ -1954,14 +2100,14 @@ function runScriptGen(kind, sceneNo) {
     streamJob(
       "/api/generate-batch",
       { scenes, model: $("batchImageModelSelect").value },
-      `Generating image for scene ${sceneNo}`,
+      `Đang sinh ảnh cho scene ${sceneNo}`,
     );
   else if (kind === "audio") runAudioJob("/api/audio-batch", { scenes });
   else if (kind === "motion")
     streamJob(
       "/api/generate-motion-videos-batch",
       { scenes, model: $("batchMotionModelSelect").value },
-      `Generating motion video for scene ${sceneNo}`,
+      `Đang sinh motion video cho scene ${sceneNo}`,
     );
 }
 
@@ -2074,7 +2220,7 @@ $("scriptReload").addEventListener("click", async () => {
 });
 $("scriptSave").addEventListener("click", async () => {
   if (busy || audioBusy) {
-    toast("A job is running — wait for it to finish.", false);
+    toast("Đang có job chạy — chờ xong rồi lưu.", false);
     return;
   }
   const patches = [
@@ -2091,7 +2237,7 @@ $("scriptSave").addEventListener("click", async () => {
   }
   const btn = $("scriptSave");
   btn.disabled = true;
-  btn.textContent = "Saving...";
+  btn.textContent = "Đang lưu...";
   try {
     const res = await api("/api/scenes-update", { scenes: patches });
     toast(
@@ -2102,7 +2248,7 @@ $("scriptSave").addEventListener("click", async () => {
   } catch (e) {
     toast(e.message, false);
   } finally {
-    btn.textContent = "Save changed";
+    btn.textContent = "Lưu thay đổi";
     updateScriptFoot();
   }
 });
@@ -2116,7 +2262,7 @@ $("scriptCopy").addEventListener("click", async () => {
   } catch {
     openScriptImport(true);
     $("scriptImportBox").value = json;
-    toast("Clipboard không dùng được — đã dán vào ô Import.", false);
+    toast("Clipboard không dùng được — đã dán vào ô Nhập JSON.", false);
   }
 });
 
@@ -2194,7 +2340,7 @@ $("scriptImportApply").addEventListener("click", async () => {
   if (!scriptImportRows) return;
   const btn = $("scriptImportApply");
   btn.disabled = true;
-  btn.textContent = "Applying...";
+  btn.textContent = "Đang áp dụng...";
   try {
     const res = await api("/api/scenes-update", { scenes: scriptImportRows });
     toast(
@@ -2210,7 +2356,7 @@ $("scriptImportApply").addEventListener("click", async () => {
     $("scriptImportPreview").hidden = false;
     $("scriptImportPreview").textContent = e.message;
   } finally {
-    btn.textContent = "Apply";
+    btn.textContent = "Áp dụng";
     btn.disabled = !scriptImportRows;
   }
 });
@@ -2272,7 +2418,7 @@ $("btnAddChar").addEventListener("click", () => {
   $("acName").value = "";
   $("acFile").value = "";
   $("acNote").textContent =
-    "Adds to the ## characters block and creates profile.json.";
+    "Thêm vào khối ## characters và tạo profile.json.";
   $("acOverlay").hidden = false;
   $("acId").focus();
 });
@@ -2288,11 +2434,11 @@ $("acCreate").addEventListener("click", async () => {
   const file = $("acFile").files[0];
   if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
     $("acNote").textContent =
-      "Id must be lowercase letters, numbers and hyphens.";
+      "Id chỉ gồm chữ thường, số và dấu gạch ngang.";
     return;
   }
   if (!name) {
-    $("acNote").textContent = "Display name is required.";
+    $("acNote").textContent = "Cần nhập tên hiển thị.";
     return;
   }
   $("acCreate").disabled = true;
@@ -2301,7 +2447,7 @@ $("acCreate").addEventListener("click", async () => {
     if (file) await uploadCharacterFile(id, file);
     else render();
     $("acOverlay").hidden = true;
-    toast(`Added character "${name}".`);
+    toast(`Đã thêm nhân vật "${name}".`);
   } catch (e) {
     $("acNote").textContent = e.message;
   } finally {
@@ -2331,10 +2477,10 @@ $("charFileInput").addEventListener("change", async (e) => {
   if (!file || !pendingUploadCharId) return;
   const id = pendingUploadCharId;
   pendingUploadCharId = null;
-  setBusy(true, `uploading ${id}`);
+  setBusy(true, `đang tải ảnh ${id}`);
   try {
     await uploadCharacterFile(id, file);
-    toast(`Updated reference for "${id}".`);
+    toast(`Đã cập nhật ảnh tham chiếu của "${id}".`);
   } catch (err) {
     toast(err.message, false);
   } finally {
@@ -2351,7 +2497,7 @@ async function openProfile(id) {
       `/api/character-profile?id=${encodeURIComponent(id)}`,
     );
     profileCharId = id;
-    $("profTitle").textContent = `Profile — ${id}`;
+    $("profTitle").textContent = `Hồ sơ — ${id}`;
     $("prof_name").value = profile.display_name ?? profile.name ?? "";
     $("prof_aliases").value = (profile.aliases ?? []).join(", ");
     $("prof_country").value = profile.country ?? "";
@@ -2363,7 +2509,7 @@ async function openProfile(id) {
     $("prof_unknowns").value = (profile.unknowns ?? []).join("\n");
     $("prof_import").value = "";
     $("profNote").textContent =
-      "country / period / dynasty / role feed the OpenAI prompt writer.";
+      "Quốc gia / thời kỳ / triều đại / vai trò được dùng khi OpenAI viết prompt.";
     $("profOverlay").hidden = false;
     $("prof_name").focus();
   } catch (e) {
@@ -2435,7 +2581,7 @@ $("profImport").addEventListener("click", () => {
     $("prof_interp").value = obj.interpretation;
   if ("unknowns" in obj) $("prof_unknowns").value = asLines(obj.unknowns);
   $("profNote").textContent =
-    "Đã nhập vào form. Kiểm tra rồi bấm Save profile.";
+    "Đã nhập vào form. Kiểm tra rồi bấm Lưu hồ sơ.";
 });
 $("profSave").addEventListener("click", async () => {
   if (!profileCharId) return;
@@ -2459,7 +2605,7 @@ $("profSave").addEventListener("click", async () => {
     state = await api("/api/character-profile", { id: profileCharId, patch });
     render();
     $("profOverlay").hidden = true;
-    toast(`Saved profile for "${profileCharId}".`);
+    toast(`Đã lưu hồ sơ "${profileCharId}".`);
   } catch (e) {
     $("profNote").textContent = e.message;
   } finally {
@@ -2469,7 +2615,13 @@ $("profSave").addEventListener("click", async () => {
 
 // ---------------------------------------------------------------- local services
 
-const SERVICE_STATE_WORD = { stopped: "off", starting: "starting", running: "on", failed: "failed" };
+const SERVICE_STATE_WORD = {
+  stopped: "tắt",
+  starting: "đang bật",
+  running: "bật",
+  stopping: "đang tắt",
+  failed: "lỗi",
+};
 const SERVICE_POLL_BOOTING_MS = 2000;
 // Slow idle poll so a server stopped from its own terminal is noticed without hammering it.
 const SERVICE_POLL_IDLE_MS = 15000;
@@ -2477,26 +2629,36 @@ let serviceTimer = null;
 let serviceStates = {};
 
 function serviceTitle(s) {
-  if (s.state === "failed") return `${s.label} failed to start — click to retry.\n\n${s.log ?? ""}`;
-  if (s.state === "stopped") return `Start ${s.label} (${s.url})`;
-  return `${s.label} ${s.state} (${s.url})`;
+  if (s.state === "failed")
+    return `${s.label} khởi động lỗi — bấm để thử lại.\n\n${s.log ?? ""}`;
+  if (s.state === "stopped") return `Bật ${s.label} (${s.url})`;
+  const origin = s.managed ? "bật từ panel" : "bật từ terminal";
+  return `${s.label} ${SERVICE_STATE_WORD[s.state]} — ${origin} (${s.url})`;
 }
 
+// A chip per service; a server this panel started also gets a "Dừng" button beside its chip.
 function renderServices(services) {
   $("services").innerHTML = services
     .map((s) => {
       const startable = s.state === "stopped" || s.state === "failed";
-      return `<button class="btn sm svc" type="button" data-service="${escapeHtml(s.id)}" data-state="${escapeHtml(s.state)}" title="${escapeHtml(serviceTitle(s))}"${startable ? "" : " disabled"}><span class="svc-dot"></span>${escapeHtml(s.label)}<span class="svc-state">${SERVICE_STATE_WORD[s.state]}</span></button>`;
+      const chip = `<button class="btn sm svc" type="button" data-service="${escapeHtml(s.id)}" data-state="${escapeHtml(s.state)}" title="${escapeHtml(serviceTitle(s))}"${startable ? "" : " disabled"}><span class="svc-dot"></span>${escapeHtml(s.label)}<span class="svc-state">${SERVICE_STATE_WORD[s.state]}</span></button>`;
+      const stop =
+        s.managed && s.state === "running"
+          ? `<button class="btn sm quiet svc-stop" type="button" data-stop-service="${escapeHtml(s.id)}" title="Dừng ${escapeHtml(s.label)}">Dừng</button>`
+          : "";
+      return `<span class="svc-item">${chip}${stop}</span>`;
     })
     .join("");
 }
 
-// Toast only the outcome of a start this panel asked for, not every poll.
+// Toast only the outcome of a start/stop this panel asked for, not every poll.
 function announceServiceChanges(services) {
   for (const s of services) {
-    if (serviceStates[s.id] !== "starting") continue;
-    if (s.state === "running") toast(`${s.label} is running.`);
-    if (s.state === "failed") toast(`${s.label} failed to start — hover its chip for the log.`, false);
+    const asked = serviceStates[s.id];
+    if (asked === "starting" && s.state === "running") toast(`${s.label} đã bật.`);
+    if (asked === "starting" && s.state === "failed")
+      toast(`${s.label} khởi động lỗi — rê chuột vào chip để xem log.`, false);
+    if (asked === "stopping" && s.state === "stopped") toast(`${s.label} đã tắt.`);
   }
   serviceStates = Object.fromEntries(services.map((s) => [s.id, s.state]));
 }
@@ -2512,28 +2674,36 @@ async function refreshServices() {
     // Review server unreachable: the scene refresh already reports that; keep the last chips
     // and retry on the idle cadence.
   }
-  const booting = services.some((s) => s.state === "starting");
-  serviceTimer = setTimeout(refreshServices, booting ? SERVICE_POLL_BOOTING_MS : SERVICE_POLL_IDLE_MS);
+  const changing = services.some((s) => s.state === "starting" || s.state === "stopping");
+  serviceTimer = setTimeout(refreshServices, changing ? SERVICE_POLL_BOOTING_MS : SERVICE_POLL_IDLE_MS);
 }
 
-$("services").addEventListener("click", async (event) => {
-  const button = event.target.closest(".svc");
-  if (!button || button.disabled) return;
+async function requestService(action, id, button) {
   button.disabled = true;
   try {
-    const s = await api("/api/services/start", { id: button.dataset.service });
-    serviceStates[s.id] = "starting";
-    toast(`Starting ${s.label}…`);
+    const s = await api(`/api/services/${action}`, { id });
+    serviceStates[s.id] = action === "start" ? "starting" : "stopping";
+    toast(action === "start" ? `Đang bật ${s.label}…` : `Đang tắt ${s.label}…`);
   } catch (e) {
     toast(e.message, false);
   }
   refreshServices();
+}
+
+$("services").addEventListener("click", (event) => {
+  const stop = event.target.closest("[data-stop-service]");
+  if (stop) {
+    requestService("stop", stop.dataset.stopService, stop);
+    return;
+  }
+  const chip = event.target.closest(".svc");
+  if (chip && !chip.disabled) requestService("start", chip.dataset.service, chip);
 });
 
 refreshServices();
 
-setConsole("idle", "Loading scenes...");
+setConsole("idle", "Đang tải scene...");
 refresh().catch((e) => {
-  setConsole("error", `Failed to load: ${e.message}`);
+  setConsole("error", `Tải thất bại: ${e.message}`);
   toast(e.message, false);
 });

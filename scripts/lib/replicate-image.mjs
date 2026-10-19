@@ -17,6 +17,7 @@ import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
 import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
 import { META_IMAGE_MODELS, metaImageUrl } from './meta-image.mjs';
 import { MUSE_IMAGE_MODELS, museImageUrl } from './muse-image.mjs';
+import { providerOf } from './providers.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 
@@ -239,21 +240,20 @@ const DEFAULT_SINGLE = 'xai/grok-imagine-image';
 const DEFAULT_MULTI = 'xai/grok-imagine-image';
 const DEFAULT_TEXT = 'xai/grok-imagine-image';
 
-// Models the review UI lets the user force for a scene, overriding the default above. `id` is
-// empty for "Auto" (keep the default: Grok Imagine). Only Grok Imagine and Seedream 4.5 are
-// offered — Seedream is the per-scene override for two-character scenes needing both faces
-// locked (see note above).
+// Models the review UI lets the user force for a scene, overriding the default above. Only Grok
+// Imagine and Seedream 4.5 are offered — Seedream is the per-scene override for two-character
+// scenes needing both faces locked (see note above). There is no "Auto" entry: with the defaults
+// above it routed every scene to Grok Imagine, the same as picking Grok Imagine.
 //
-// Prices are Replicate USD per output image, from replicate.com/pricing (Aug 2026). They can
-// change and higher resolutions can cost more — treat the labels as guidance, not a billing
-// guarantee.
+// `price` is USD per output image (null = unknown), used by the panel's batch cost estimate.
+// Replicate prices are from replicate.com/pricing (Aug 2026); they can change and higher
+// resolutions can cost more — treat them as guidance, not a billing guarantee.
 // The picker posts a model id and generateSceneImage dispatches on its prefix: `fal-ai/...` → fal
 // (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), `meta:...` → Meta Model API
 // (meta-image.mjs), `muse:...` → muse2api (muse-image.mjs), everything else → Replicate.
 export const IMAGE_MODELS = [
-  { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — multi-reference, best per-person identity, default (~$0.03/img)' },
-  { id: 'xai/grok-imagine-image', label: 'Grok Imagine — single reference or text-to-image (~$0.04/img, +$0.01 to edit)' },
-  { id: '', label: 'Auto — route by reference count (Grok Imagine)' },
+  { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — nhiều tham chiếu, giữ mặt từng người tốt nhất (~$0.03/ảnh)', price: 0.03 },
+  { id: 'xai/grok-imagine-image', label: 'Grok Imagine — 1 tham chiếu hoặc không tham chiếu (~$0.04/ảnh, +$0.01 khi sửa)', price: 0.04 },
   ...FAL_IMAGE_MODELS,
   ...VMEDIA_IMAGE_MODELS,
   ...META_IMAGE_MODELS,
@@ -497,7 +497,7 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
   onLog(`saved: ${join(imageDir(), file)}`);
-  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : via.includes('meta:') ? 'Meta' : via.includes('muse:') ? 'muse2api' : 'Replicate';
+  const provider = providerOf(via).label;
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
     subject: scene.image.prompt.slice(0, 80), source: `AI generated (${provider}, ${via})`, sourceUrl: null,

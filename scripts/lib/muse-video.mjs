@@ -14,8 +14,6 @@ import { aspectInfo } from './aspect.mjs';
 const POLL_INTERVAL_MS = 5000;
 const POLL_MAX_ATTEMPTS = 180; // 15 minutes
 
-export const MUSE_VIDEO_MODELS = ['muse:muse-video'];
-
 export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const museModel = model.slice('muse:'.length);

@@ -13,7 +13,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // POST /ai/models type=image.
 const imageSlugs = () => (process.env.VMEDIA_IMAGE_MODELS ?? 'google_image_gen_banana_pro,seedream_4_5,seedream_5_0')
   .split(',').map((slug) => slug.trim()).filter(Boolean);
-export const VMEDIA_IMAGE_MODELS = imageSlugs().map((slug) => ({ id: `vmedia:${slug}`, label: `${slug} (VMedia)` }));
+export const VMEDIA_IMAGE_MODELS = imageSlugs().map((slug) => ({ id: `vmedia:${slug}`, label: slug, price: null }));
 
 // generateImage's ratio uses underscores (9_16 | 16_9 | 1_1); the project's aspect maps to one.
 
