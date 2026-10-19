@@ -34,8 +34,7 @@ writeFileSync('src/asset-manifest.json', `${JSON.stringify(assetManifest, null, 
 
 const segments = scenes
   .filter((s) => s.narration)
-  // `cue` carries the per-scene delivery emotion (resolved to TTS params in generate-narration.mjs);
-  // only emit it when set so scenes without a cue stay compact.
+  // Only emit `cue` when set so scenes without a cue stay compact.
   .map((s) => `  { scene: ${s.scene}, text: ${JSON.stringify(s.narration)}${s.cue ? `, cue: ${JSON.stringify(s.cue)}` : ''} },`);
 writeFileSync(
   'scripts/narration-segments.mjs',

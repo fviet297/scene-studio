@@ -12,7 +12,6 @@ import { join } from 'node:path';
 import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
 import { connectOmniVoice } from './lib/omnivoice-client.mjs';
-import { resolveEmotion } from './lib/tts-emotions.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
@@ -21,8 +20,7 @@ const TEMP_DIR = 'tmp/narration';
 const MAX_CHUNK = 500;
 // Iterative unmasking steps. Cost is linear in this number; quality saturates around the
 // model's default of 32 (docs/generation-parameters.md). Low values force each step to commit
-// many tokens at once, which frays consonants and tones — worse here than in a greedy setup,
-// because the emotion presets sample with class_temperature > 0.
+// many tokens at once, which frays consonants and tones.
 //   final render: leave at 32   ·   quick draft: TTS_NUM_STEP=12 node scripts/generate-narration.mjs
 const NUM_STEP = Number(process.env.TTS_NUM_STEP ?? 32);
 // Only trim genuinely long dead air (> 0.6s) and leave 0.35s of breathing room, so natural
@@ -37,10 +35,7 @@ const NARRATION_FILTER =
 // every clean scene below 19, so a chunk above this was given too little audio to fit its text.
 // Such a chunk is re-synthesised with a lower speed, which buys it a longer target duration.
 const MAX_RATE = 19;
-const RETRIES = [
-  { speed: 0.92, class_temperature: 0.25 },
-  { speed: 0.85, class_temperature: 0.15 },
-];
+const RETRIES = [{ speed: 0.92 }, { speed: 0.85 }];
 
 const argv = process.argv.slice(2);
 const paths = activePaths(argv);
@@ -70,9 +65,7 @@ mkdirSync(TEMP_DIR, { recursive: true });
 const client = await connectOmniVoice({ url: WS_URL });
 process.stdout.write('✓ connected to OmniVoice\n');
 
-// `emotion` (from the scene's cue) overrides speed/guidance_scale/position_temperature/
-// class_temperature so the delivery varies per scene; the rest stays fixed.
-const synthesize = (text, requestId, emotion = {}) =>
+const synthesize = (text, requestId, override = {}) =>
   client.synthesize(requestId, {
     text,
     lang: 'Vietnamese',
@@ -90,7 +83,7 @@ const synthesize = (text, requestId, emotion = {}) =>
     denoise: true,
     preprocess_prompt: true,
     postprocess_output: true,
-    ...emotion,
+    ...override,
   });
 
 // Letters per second with diacritics stripped, which is roughly the unit the model's duration
@@ -100,10 +93,10 @@ const speechRate = (text, seconds) =>
 
 // Synthesise one chunk, retrying at a lower speed while the result is too rushed to hold all the
 // text. Returns the slowest attempt if none clears MAX_RATE, since that one dropped the least.
-const synthesizeChunk = async (text, emotion, label) => {
+const synthesizeChunk = async (text, label) => {
   let best = null;
   for (const [attempt, override] of [{}, ...RETRIES].entries()) {
-    const result = await synthesize(text, ++requestId, { ...emotion, ...override });
+    const result = await synthesize(text, ++requestId, override);
     const rate = speechRate(text, result.meta.duration);
     if (!best || rate < best.rate) best = { ...result, rate };
     if (rate <= MAX_RATE) {
@@ -119,12 +112,11 @@ const synthesizeChunk = async (text, emotion, label) => {
 let requestId = 0;
 for (const segment of targets) {
   const chunks = toChunks(normaliseForTts(segment.text));
-  const { name: emotionName, params: emotion } = resolveEmotion(segment.cue);
-  process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars · emotion=${emotionName}${segment.cue ? ` (cue: ${segment.cue})` : ''}\n`);
+  process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars\n`);
   const files = [];
   for (const [index, chunk] of chunks.entries()) {
     const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.wav`);
-    const { wav: audio } = await synthesizeChunk(chunk, emotion, `scene ${segment.scene} chunk ${index + 1}`);
+    const { wav: audio } = await synthesizeChunk(chunk, `scene ${segment.scene} chunk ${index + 1}`);
     writeFileSync(wav, audio);
     files.push(wav);
   }
