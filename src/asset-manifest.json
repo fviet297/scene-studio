@@ -1,1 +1,312 @@
-[]
+[
+  {
+    "id": "scene-02",
+    "scene": 2,
+    "type": "ai_reconstruction",
+    "subject": "Wide grey river at first light after a night of fighting; an overturned empty sa",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide grey river at first light after a night of fighting; an overturned empty sampan and a torn plain yellow cloth canopy drift slowly among floating water hyacinth and charred planks, two Tây Sơn war boats with plain red cloth banners row away downstream, smoke still rises from a ruined riverside refuge on the far bank, and the teenage noble crouches small and off-center at about one-fifth frame height half hidden in the hyacinth near the near bank, watching. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-03",
+    "scene": 3,
+    "type": "ai_reconstruction",
+    "subject": "Wide early-19th-century Vietnamese palace courtyard at Phú Xuân at sunrise; a ne",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide early-19th-century Vietnamese palace courtyard at Phú Xuân at sunrise; a new emperor seen only from behind, small and off-center at about one-fifth frame height, walks up broad stone steps toward a red-lacquered wooden throne hall with a curved tiled roof, while long rows of court officials with Vietnamese faces in Nguyễn court robes kneel on both sides of the stone path, plain yellow silk parasols held high, incense smoke drifts across the yard, guards with spears line the walls. No Qing/Ming Chinese or European elements."
+  },
+  {
+    "id": "scene-04",
+    "scene": 4,
+    "type": "ai_reconstruction",
+    "subject": "Wide stormy coastline of the Mekong Delta at dusk; a tiny wooden boat with a pat",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide stormy coastline of the Mekong Delta at dusk; a tiny wooden boat with a patched woven-mat sail pulls away from a mangrove shore into a grey heaving sea, two oarsmen with Vietnamese faces in conical leaf hats straining at the oars, the teenage noble sits small and off-center at about one-fifth frame height at the stern looking back toward the land, where far along the shore the torches of searchers flicker between the mangroves, rain squalls sweep across the water. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-05",
+    "scene": 5,
+    "type": "ai_reconstruction",
+    "subject": "Wide aerial view of late-18th-century Gia Định at hazy dawn; brown rivers wind t",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide aerial view of late-18th-century Gia Định at hazy dawn; brown rivers wind through nipa-palm wetlands, wooden stilt houses with thatched roofs line the banks, dozens of small wooden sampans and sail junks with woven bamboo-mat sails move along the channels, a low earthen-and-timber stockade town in the distance with thin columns of smoke rising above it, flocks of egrets lift off the water. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-06",
+    "scene": 6,
+    "type": "ai_reconstruction",
+    "subject": "Wide late-18th-century southern Vietnamese riverbank road under a heavy monsoon ",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide late-18th-century southern Vietnamese riverbank road under a heavy monsoon sky; a long column of Tây Sơn foot soldiers with Vietnamese faces, in brown and indigo cotton tunics and red cloth head-wraps, marches with spears and long-handled sabres, plain solid-red cloth banners with no emblem or lettering, wooden war boats with woven-mat sails keep pace on the river beside them, dust rising from bare feet, frightened villagers watch from stilt houses. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-07",
+    "scene": 7,
+    "type": "ai_reconstruction",
+    "subject": "Wide late-18th-century wooden riverside residence of the Nguyễn lords in the Mek",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide late-18th-century wooden riverside residence of the Nguyễn lords in the Mekong Delta at late afternoon; the teenage noble stands small and off-center at about one-fifth frame height on the open veranda, looking out over the river, while behind him older Nguyễn officials with Vietnamese faces in indigo and brown cross-collar robes argue around a low lacquered table, servants carry rolled mats and chests toward a waiting boat at the landing, palm trees bend in the wind. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-08",
+    "scene": 8,
+    "type": "ai_reconstruction",
+    "subject": "Wide busy river landing of a late-18th-century southern Vietnamese market town a",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide busy river landing of a late-18th-century southern Vietnamese market town at dusk; a messenger leaps from a small fast sampan onto the wooden jetty while Nguyễn soldiers with Vietnamese faces in indigo cotton tunics run along the bank, merchants hurriedly load baskets and jars onto boats, inside an open timber hall beside the landing a cluster of officials leans over a hand-drawn river map lit by oil lamps, wet planks reflect the orange sky. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-09",
+    "scene": 9,
+    "type": "ai_reconstruction",
+    "subject": "Wide tropical estuary under a cloudy monsoon sky; a broad flotilla of late-18th-",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide tropical estuary under a cloudy monsoon sky; a broad flotilla of late-18th-century Tây Sơn wooden war junks with woven bamboo-mat sails and rows of oars advances upriver in a long line, crews with Vietnamese faces in red cloth head-wraps at the oars and bows, plain solid-red cloth banners with no emblem or lettering, spray thrown from the bows, a low fortified riverbank with timber palisades in the distance. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-10",
+    "scene": 10,
+    "type": "ai_reconstruction",
+    "subject": "Wide late-18th-century Nguyễn defensive river post on a gray overcast morning; a",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide late-18th-century Nguyễn defensive river post on a gray overcast morning; a sharpened timber palisade and a bamboo watch platform guard a river bend, Nguyễn soldiers with Vietnamese faces in indigo cotton tunics brace spears and matchlock muskets behind the stakes, a supply sampan is turned back from the landing, enemy boats loom through river mist downstream, cannon smoke drifts low across the water. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-11",
+    "scene": 11,
+    "type": "ai_reconstruction",
+    "subject": "Wide muddy riverside settlement at dusk; a dozen small wooden boats crowded with",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide muddy riverside settlement at dusk; a dozen small wooden boats crowded with Nguyễn retainers and families with Vietnamese faces, household bundles, chests and rolled mats push away from the bank, attendants wade knee-deep shoving the hulls off, abandoned thatched houses and a half-burnt stockade behind them, orange smoke on the horizon, a dog runs along the empty shore. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-12",
+    "scene": 12,
+    "type": "ai_reconstruction",
+    "subject": "Wide reed-lined Mekong Delta waterway near Long Xuyên under flat overcast light;",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide reed-lined Mekong Delta waterway near Long Xuyên under flat overcast light; a small convoy of exhausted wooden boats moves single file between tall reeds, the lead boat carries an older Nguyễn lord seen from behind under a woven-bamboo canopy, surrounded by a few armed retainers with Vietnamese faces in indigo tunics, the other boats branch off into side channels in different directions, herons stand in the shallows. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-13",
+    "scene": 13,
+    "type": "ai_reconstruction",
+    "subject": "Wide late-18th-century riverside stockade camp at gray morning after its fall; T",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide late-18th-century riverside stockade camp at gray morning after its fall; Tây Sơn soldiers with Vietnamese faces in red cloth head-wraps escort a small line of Nguyễn court attendants in indigo robes, hands bound, out through a broken timber gate toward waiting boats, all seen from a distance with faces not readable, an empty carved wooden seat and a torn plain yellow cloth canopy left in the yard, smoke rising from collapsed thatched roofs. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-14",
+    "scene": 14,
+    "type": "ai_reconstruction",
+    "subject": "Wide small riverside refuge near Long Xuyên at misty early morning; the young no",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide small riverside refuge near Long Xuyên at misty early morning; the young noble stands small and off-center at about one-fifth frame height beside a moored sampan, gripping its rope, as a few Nguyễn attendants with Vietnamese faces hurriedly gather bundles and help an older lord toward the boats, a lookout on a bamboo platform points downstream where the dark shapes of Tây Sơn war boats with plain red cloth banners emerge from the mist. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-15",
+    "scene": 15,
+    "type": "ai_reconstruction",
+    "subject": "Wide reed-filled wetland channel at gray dawn; the young noble, seen mostly from",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide reed-filled wetland channel at gray dawn; the young noble, seen mostly from behind, wades small and off-center at about one-fifth frame height into chest-high reeds, while far behind him across the water a riverside refuge burns and Tây Sơn war boats with plain red cloth banners circle the landing, small search parties with torches comb the bank, ash and smoke drift over the reeds, startled birds scatter. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-16",
+    "scene": 16,
+    "type": "ai_reconstruction",
+    "subject": "Wide mangrove forest at night under a half moon; the young noble crouches small ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide mangrove forest at night under a half moon; the young noble crouches small and off-center at about one-fifth frame height in the hollow of tangled mangrove roots, half in shadow, while on the moonlit channel beyond a Tây Sơn patrol boat with lanterns glides slowly past, its crew's silhouettes scanning the banks, fireflies drift among the leaves, black water reflects the lantern light. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-17",
+    "scene": 17,
+    "type": "ai_reconstruction",
+    "subject": "Wide narrow Mekong Delta creek at blue hour; a tiny wooden sampan slips between ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide narrow Mekong Delta creek at blue hour; a tiny wooden sampan slips between overhanging nipa palms and mangrove roots, poled by an old local boatman with a Vietnamese face in a conical leaf hat, the young noble seated small and off-center at about one-fifth frame height in the bow, mostly in silhouette, a maze of side channels splits ahead, on a distant open river beyond the palms a line of Tây Sơn boats passes in the opposite direction. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-18",
+    "scene": 18,
+    "type": "ai_reconstruction",
+    "subject": "Wide dim interior of a poor fisherman's stilt hut over the water at night, lit b",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide dim interior of a poor fisherman's stilt hut over the water at night, lit by one small oil lamp; the young noble sits small and off-center at about one-fifth frame height against the woven bamboo wall, damp and exhausted, while an elderly fisherman couple with Vietnamese faces quietly mend nets and keep watch at the open doorway, fishing traps and baskets hang from the rafters, beyond the doorway distant torches move along the far riverbank. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-19",
+    "scene": 19,
+    "type": "ai_reconstruction",
+    "subject": "Wide modest Long Xuyên river landing in early-morning mist; a small wooden boat ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide modest Long Xuyên river landing in early-morning mist; a small wooden boat slides against the muddy bank and the young noble steps ashore small and off-center at about one-fifth frame height, while a handful of wary former Nguyễn retainers with Vietnamese faces in worn indigo tunics come out from under a thatched shelter, one kneels on the planks, villagers peer from stilt houses, the wide empty river stretches behind in pale light. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-20",
+    "scene": 20,
+    "type": "ai_reconstruction",
+    "subject": "Wide thatched riverside meeting hall at night lit by oil lamps; the young noble ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide thatched riverside meeting hall at night lit by oil lamps; the young noble sits small and off-center at about one-fifth frame height on a plain mat at the head of a low table, while a dozen Nguyễn retainers and officers with Vietnamese faces in plain indigo and brown tunics crowd in, some kneeling, some arriving through the doorway still wet from the river, swords and spears leaned against the posts, a hand-drawn river map spread on the table, more boats tying up at the landing outside. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-21",
+    "scene": 21,
+    "type": "ai_reconstruction",
+    "subject": "Wide broad palm-lined river approaching Sa Đéc under pale morning sun; a convoy ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide broad palm-lined river approaching Sa Đéc under pale morning sun; a convoy of a dozen wooden boats with woven-mat sails moves upstream in a loose line, the young noble stands small and off-center at about one-fifth frame height at the bow of the lead boat beside two older generals with Vietnamese faces in brown tunics, rowers in conical leaf hats pull at the oars, woven cargo baskets stacked aboard, small sampans from the bank paddle out to join the convoy, birds lift from the shore. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-22",
+    "scene": 22,
+    "type": "ai_reconstruction",
+    "subject": "Wide busy riverside camp in the western Mekong Delta on a bright humid afternoon",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Wide busy riverside camp in the western Mekong Delta on a bright humid afternoon; boat crews with Vietnamese faces in loincloths and brown tunics caulk and repair upturned wooden hulls on log rollers, smoke rises from pitch fires, recruits drill with spears on a muddy clearing under an officer's watch, messengers pull small sampans onto the bank and run toward a thatched command shelter where officers confer over a map, plain cloth banners with no emblem or lettering hang from bamboo poles. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  },
+  {
+    "id": "scene-24",
+    "scene": 24,
+    "type": "ai_reconstruction",
+    "subject": "Wide riverfront of Gia Định at sunrise; the young noble stands small and off-cen",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide riverfront of Gia Định at sunrise; the young noble stands small and off-center at about one-fifth frame height on a raised wooden platform at the landing, as Nguyễn generals with Vietnamese faces in brown and indigo tunics bow before him, ranks of soldiers with spears line the bank, a flotilla of repaired war boats with woven-mat sails and plain cloth banners with no emblem or lettering pushes off toward a distant fortified town half hidden in mist, gold light breaks through low monsoon clouds. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements."
+  }
+]
