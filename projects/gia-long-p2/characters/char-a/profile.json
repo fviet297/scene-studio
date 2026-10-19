@@ -1,0 +1,29 @@
+{
+  "character_id": "char-a",
+  "name": "Nguyen Anh",
+  "display_name": "Nguyễn Ánh",
+  "aliases": [
+    "Nguyễn Phúc Ánh",
+    "Nguyễn Phúc Chủng",
+    "Gia Long",
+    "Nguyen Phuc Anh"
+  ],
+  "country": "Đàng Trong (southern Vietnam)",
+  "period": "late 18th century (1782-1783 for this part; born 1762, about 20-21 years old)",
+  "dynasty": "Nguyễn lords (chúa Nguyễn); later founded the Nguyễn dynasty",
+  "role": "Surviving prince of the Nguyễn lords who repeatedly fled the Tây Sơn, regrouped in the Mekong Delta and islands, and in 1802 became Emperor Gia Long",
+  "known_facts": [
+    "Born in 1762, son of Nguyễn Phúc Luân, grandson of lord Nguyễn Phúc Khoát",
+    "1777: the Tây Sơn campaign in Gia Định ended with Tân Chính Vương Nguyễn Phúc Dương and Định Vương Nguyễn Phúc Thuần killed; Nguyễn Ánh, about 15, escaped",
+    "Late 1777: reappeared at Long Xuyên, moved to Sa Đéc with former generals such as Đỗ Thanh Nhơn, and raided Long Hồ",
+    "1778: Nguyễn forces retook part of Gia Định and Nguyễn Ánh was raised to supreme command",
+    "1782-1785: after defeats by the Tây Sơn he fled repeatedly — Ba Giồng, Phú Quốc, other islands — and sought help from Siam",
+    "1802: proclaimed Emperor Gia Long, founding the Nguyễn dynasty"
+  ],
+  "interpretation": "Southern Vietnamese lord about 20-21 years old in 1782-1783, on the run between the Mekong Delta and the Gulf of Thailand islands; plain late-18th-century clothing, no crown or 19th-century imperial robe; same face as part 1, slightly older; appearance comes from the user reference.",
+  "unknowns": [
+    "No verified contemporary portrait from 1777-1785 survives",
+    "The day-by-day route of the 1777 escape is not recorded"
+  ],
+  "reference": "public/projects/gia-long-p2/characters/char-a.png"
+}
