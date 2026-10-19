@@ -53,14 +53,13 @@ const pickPricedCombo = (prices, target, resolutionPref) => {
 // Poll /ai/video. The status body wraps the fields in `videoInfo`; status appears both as the long
 // MEDIA_GENERATION_STATUS_* form and the short SUCCESS/ERROR form, so match on a substring. Per the
 // doc, download_url can lag a few seconds behind success, so a success without a URL keeps polling.
-const pollVideo = async (id, log) => {
+const pollVideo = async (id) => {
   for (let attempt = 0; attempt < 120; attempt++) {
     await wait(4000);
     const state = await gommoPost('/ai/video', { videoId: id }, { label: `gommo video status ${id}` });
     const info = state?.videoInfo ?? state;
     const status = String(info?.status ?? '');
     const url = info?.download_url || info?.url;
-    log?.(`poll ${attempt + 1}/120: ${status || 'pending'}`);
     if (/SUCCESS/i.test(status) && url) return url;
     if (/FAIL|ERROR/i.test(status)) throw new Error(`gommo video ${id} failed: ${info.status_message || info.message || JSON.stringify(info).slice(0, 200)}`);
   }
@@ -109,7 +108,7 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   const id = created?.videoInfo?.id_base;
   if (!id) throw new Error(`gommo create-video returned no id_base: ${JSON.stringify(created).slice(0, 300)}`);
   onLog?.(`job accepted: ${id}`);
-  const downloadUrl = await pollVideo(id, onLog);
+  const downloadUrl = await pollVideo(id);
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
   mkdirSync(outputDir, { recursive: true });

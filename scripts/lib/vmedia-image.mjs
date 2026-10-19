@@ -19,13 +19,12 @@ export const VMEDIA_IMAGE_MODELS = imageSlugs().map((slug) => ({ id: `vmedia:${s
 
 // Poll /ai/image. The status body wraps the fields in `imageInfo`; match status on a substring
 // (SUCCESS / ERROR appear in both the short and long forms). Seedream 2K can take several minutes.
-const pollImage = async (id, log) => {
+const pollImage = async (id) => {
   for (let attempt = 0; attempt < 120; attempt++) {
     await wait(3000);
     const state = await gommoPost('/ai/image', { id_base: id }, { label: `gommo image status ${id}` });
     const info = state?.imageInfo ?? state;
     const status = String(info?.status ?? '');
-    log?.(`poll ${attempt + 1}/120: ${status || 'pending'}`);
     if (/SUCCESS/i.test(status) && info.url) return info.url;
     if (/ERROR|FAIL/i.test(status)) throw new Error(`gommo image ${id} failed: ${info.status_message || info.message || JSON.stringify(info).slice(0, 200)}`);
   }
@@ -51,8 +50,8 @@ export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog }
   const created = await gommoPost('/ai/generateImage', params, { label: 'gommo generateImage' });
   const id = created?.imageInfo?.id_base;
   if (!id) throw new Error(`gommo generateImage returned no id_base: ${JSON.stringify(created).slice(0, 300)}`);
-  onLog?.('prediction accepted; polling for image');
-  const url = await pollImage(id, onLog);
+  onLog?.('prediction accepted');
+  const url = await pollImage(id);
   onLog?.('image URL received');
   return { url, via: `vmedia:${slug}` };
 };

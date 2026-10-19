@@ -442,7 +442,7 @@ const generateImagesBatch = async (req, res, sceneNos, model) => {
       backupImage(n); // snapshot the current image so /api/undo can restore it
       const { via } = await generateSceneImage(target, plan.characters, { model, onLog: (line) => sseSend(res, 'log', `  ${line}`) });
       ok++;
-      sseSend(res, 'log', `✓ scene ${n} (${via})`);
+      sseSend(res, 'log', `✓ scene ${n} (${via}) — ${ok}/${sceneNos.length} ảnh thành công`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
   }
   sseSend(res, ok === attempted ? 'done' : 'error', `Generated ${ok}/${attempted} scene image(s).`);
@@ -489,7 +489,7 @@ const generateMotionVideosBatch = async (req, res, sceneNos, model) => {
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
       });
       ok++;
-      sseSend(res, 'log', `✓ scene ${n} motion video ready`);
+      sseSend(res, 'log', `✓ scene ${n} motion video ready — ${ok}/${sceneNos.length} video thành công`);
     } catch (e) {
       sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
     }

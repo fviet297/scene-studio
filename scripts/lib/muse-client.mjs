@@ -55,7 +55,6 @@ export const pollTask = async (path, id, { intervalMs, maxAttempts, label, onLog
       onLog?.(`poll error ${errors}/${MAX_POLL_ERRORS}, retrying: ${error.message}`);
       continue;
     }
-    onLog?.(`poll ${attempt}/${maxAttempts}: ${task.status} ${task.progress ?? 0}%`);
     if (task.status === 'failed') throw new Error(`${label} ${id} failed: ${task.error ?? 'unknown error'}`);
     const url = task.url ?? task.result?.url ?? task.data?.[0]?.url;
     if (task.status === 'completed' && url) return new URL(url, `${baseUrl()}/`).href;

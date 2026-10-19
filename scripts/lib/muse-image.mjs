@@ -24,7 +24,7 @@ export const museImageUrl = async (model, { prompt, refDataUri, aspect, onLog } 
   };
   onLog?.(`POST /v1/images/tasks model=${model} aspect=${body.aspect_ratio}${refDataUri ? ' (edit)' : ''}`);
   const id = await createTask('/v1/images/tasks', body, 'muse image');
-  onLog?.(`task accepted: ${id}; polling for image`);
+  onLog?.(`task accepted: ${id}`);
   const url = await pollTask('/v1/images/tasks', id, {
     intervalMs: POLL_INTERVAL_MS, maxAttempts: POLL_MAX_ATTEMPTS, label: 'muse image', onLog,
   });
