@@ -1,9 +1,10 @@
 // Motion-video model picker + dispatcher. The review panel lets the user pick any model from
-// MOTION_VIDEO_MODELS; this routes the call to the right provider (Replicate, fal, or Gommo/VMedia)
+// MOTION_VIDEO_MODELS; this routes the call to the right provider (Replicate, fal, Gommo/VMedia, or muse2api)
 // so review-server.mjs stays provider-agnostic.
 import { generateSceneVideo as replicateGenerate, VIDEO_MODELS as REPLICATE_MODELS, buildMotionPrompt } from './replicate-video.mjs';
 import { generateSceneVideo as vmediaGenerate } from './vmedia-video.mjs';
 import { generateSceneVideo as falGenerate, FAL_VIDEO_MODELS } from './fal-video.mjs';
+import { generateSceneVideo as museGenerate, MUSE_VIDEO_MODELS } from './muse-video.mjs';
 
 // VMedia (Gommo) image-to-video slugs offered in the picker, read from VMEDIA_VIDEO_MODELS
 // (comma-separated); each becomes a "vmedia:<slug>" entry. Slugs come from POST /ai/models
@@ -28,6 +29,9 @@ const DURATION_RULES = {
   'fal-ai/kling-video/v2.5-turbo/pro/image-to-video': { discrete: [5, 10] },
   'fal-ai/wan-25-preview/image-to-video': { discrete: [5, 10] },
   'fal-ai/veo3.1/image-to-video': { discrete: [4, 6, 8] },
+  // muse2api (scripts/lib/muse-video.mjs) — lengths its README accepts; the final clip length is
+  // decided upstream by Muse.
+  'muse:muse-video': { discrete: [5, 6, 8, 10] },
 };
 
 // Human-readable allowed-length hint for the UI's duration box. Discrete models list their exact
@@ -39,6 +43,7 @@ export const MOTION_VIDEO_MODELS = [
   ...REPLICATE_MODELS.map((id) => ({ id, label: id, provider: 'replicate', durations: describeDurationRule(DURATION_RULES[id]) })),
   ...FAL_VIDEO_MODELS.map((id) => ({ id, label: `${id} (fal)`, provider: 'fal', durations: describeDurationRule(DURATION_RULES[id]) })),
   ...VMEDIA_MODELS,
+  ...MUSE_VIDEO_MODELS.map((id) => ({ id, label: `${id.slice('muse:'.length)} (muse2api)`, provider: 'muse', durations: describeDurationRule(DURATION_RULES[id]) })),
 ];
 
 export { buildMotionPrompt };
@@ -61,5 +66,6 @@ export const generateSceneVideo = async ({ model, audioSeconds, duration: reques
   if (model.startsWith('vmedia:')) return vmediaGenerate({ ...rest, targetSeconds: target, vmediaModel: model.slice('vmedia:'.length) });
   const duration = pickDuration(model, target);
   if (model.startsWith('fal-ai/')) return falGenerate({ ...rest, model, duration });
+  if (model.startsWith('muse:')) return museGenerate({ ...rest, model, duration });
   return replicateGenerate({ ...rest, model, duration });
 };

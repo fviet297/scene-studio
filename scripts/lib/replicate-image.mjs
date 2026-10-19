@@ -16,6 +16,7 @@ import { activePaths } from './project-paths.mjs';
 import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
 import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
 import { META_IMAGE_MODELS, metaImageUrl } from './meta-image.mjs';
+import { MUSE_IMAGE_MODELS, museImageUrl } from './muse-image.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 
@@ -248,7 +249,7 @@ const DEFAULT_TEXT = 'xai/grok-imagine-image';
 // guarantee.
 // The picker posts a model id and generateSceneImage dispatches on its prefix: `fal-ai/...` → fal
 // (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), `meta:...` → Meta Model API
-// (meta-image.mjs), everything else → Replicate.
+// (meta-image.mjs), `muse:...` → muse2api (muse-image.mjs), everything else → Replicate.
 export const IMAGE_MODELS = [
   { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — multi-reference, best per-person identity, default (~$0.03/img)' },
   { id: 'xai/grok-imagine-image', label: 'Grok Imagine — single reference or text-to-image (~$0.04/img, +$0.01 to edit)' },
@@ -256,6 +257,7 @@ export const IMAGE_MODELS = [
   ...FAL_IMAGE_MODELS,
   ...VMEDIA_IMAGE_MODELS,
   ...META_IMAGE_MODELS,
+  ...MUSE_IMAGE_MODELS,
 ];
 
 const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
@@ -426,6 +428,13 @@ const runImageModel = async (token, model, { prompt, refPaths, aspect = currentA
     });
     return url;
   }
+  if (model.startsWith('muse:')) {
+    // Single-reference like VMedia: a multi-character scene keeps only the first reference.
+    const { url } = await museImageUrl(model.slice('muse:'.length), {
+      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog,
+    });
+    return url;
+  }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
   const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }));
@@ -488,7 +497,7 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
   onLog(`saved: ${join(imageDir(), file)}`);
-  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : via.includes('meta:') ? 'Meta' : 'Replicate';
+  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : via.includes('meta:') ? 'Meta' : via.includes('muse:') ? 'muse2api' : 'Replicate';
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
     subject: scene.image.prompt.slice(0, 80), source: `AI generated (${provider}, ${via})`, sourceUrl: null,
