@@ -601,6 +601,18 @@ function renderSheet() {
   renderSelection();
 }
 
+// True when the given scene numbers, sorted, form an unbroken run in the plan's current scene
+// order — i.e. no other existing scene sits between the lowest and highest of the selection.
+// Merging across a gap would silently swallow whatever sits between them, so this gates the
+// Merge button the same way the server re-checks it before writing.
+function isContiguousSelection(nums) {
+  if (nums.length < 2) return false;
+  const sorted = [...nums].sort((a, b) => a - b);
+  const all = state.scenes.map((s) => s.scene);
+  const at = all.indexOf(sorted[0]);
+  return at >= 0 && sorted.every((n, i) => all[at + i] === n);
+}
+
 // Selection is shared by the rail (workbench) and the contact sheet. This keeps every
 // selection-driven control in both places in sync from the one `selected` Set, so a scene
 // ticked in the rail also reads as ticked when the sheet is opened, and vice versa.
@@ -629,14 +641,17 @@ function renderSelection() {
   const disImg = busy || aiCount === 0;
   const disAud = audioBusy || audioEligible === 0;
   const disMotion = busy || motionEligibleCount === 0;
+  const disMerge = busy || !isContiguousSelection(chosen.map((s) => s.scene));
   $("batchPrompt").disabled = disPrompt;
   $("batchImg").disabled = disImg;
   $("batchAud").disabled = disAud;
   $("batchMotion").disabled = disMotion;
+  $("batchMerge").disabled = disMerge;
   $("railBatchPrompt").disabled = disPrompt;
   $("railBatchImg").disabled = disImg;
   $("railBatchAud").disabled = disAud;
   $("railBatchMotion").disabled = disMotion;
+  $("railBatchMerge").disabled = disMerge;
   $("railBatch").hidden = chosen.length === 0;
 
   // Reflect the shared selection back onto the rail rows and the select-all box without a
@@ -1460,6 +1475,85 @@ $("railBatchImg").addEventListener("click", runBatchImages);
 $("railBatchAud").addEventListener("click", runBatchAudio);
 $("railBatchMotion").addEventListener("click", runBatchMotion);
 
+// ---- Merge scenes: combine the given adjacent scenes' narration into one, dropping the
+// rest of the selection's fields entirely. The dialog's radio picks which scene's image/prompt/
+// motion survives; its narration textarea previews the auto-join and can be hand-edited before
+// confirming (a further pass stays open in the inspector's narration box after merging).
+// Two entry points feed it a scene list: the sheet/rail batch bar (the `selected` Set) and, per
+// row, the Full script modal's "Merge ↓" button (just that row + the next one).
+let pendingMergeScenes = [];
+function openMergeDialog(scenesArg) {
+  const nums = Array.isArray(scenesArg) ? scenesArg : [...selected];
+  const chosen = [...state.scenes]
+    .filter((s) => nums.includes(s.scene))
+    .sort((a, b) => a.scene - b.scene);
+  if (chosen.length < 2) return;
+  pendingMergeScenes = chosen.map((s) => s.scene);
+  $("mergeDlgInfo").textContent =
+    `Scene ${chosen.map((s) => s.scene).join(", ")}`;
+  $("mergeKeepPicker").innerHTML = chosen
+    .map(
+      (s, i) => `<label class="char-check${i === 0 ? " checked" : ""}">
+        <input type="radio" name="mergeKeep" value="${s.scene}" ${i === 0 ? "checked" : ""} />
+        Scene ${s.scene}
+      </label>`,
+    )
+    .join("");
+  for (const label of $("mergeKeepPicker").querySelectorAll(".char-check")) {
+    label.querySelector("input").addEventListener("change", () => {
+      for (const l of $("mergeKeepPicker").querySelectorAll(".char-check"))
+        l.classList.toggle("checked", l.querySelector("input").checked);
+    });
+  }
+  $("mergePreviewNarr").value = chosen
+    .map((s) => (s.narration || "").trim())
+    .filter(Boolean)
+    .join(" ");
+  $("mergeOverlay").hidden = false;
+}
+$("batchMerge").addEventListener("click", () => openMergeDialog());
+$("railBatchMerge").addEventListener("click", () => openMergeDialog());
+$("mergeClose").addEventListener("click", () => {
+  $("mergeOverlay").hidden = true;
+});
+$("mergeOverlay").addEventListener("click", (e) => {
+  if (e.target === $("mergeOverlay")) $("mergeOverlay").hidden = true;
+});
+$("btnMergeConfirm").addEventListener("click", async () => {
+  const scenes = pendingMergeScenes;
+  if (scenes.length < 2) return;
+  const keepInput = $("mergeKeepPicker").querySelector("input:checked");
+  const keep = keepInput ? Number(keepInput.value) : scenes[0];
+  const narration = $("mergePreviewNarr").value;
+  const btn = $("btnMergeConfirm");
+  btn.disabled = true;
+  btn.textContent = "Merging...";
+  try {
+    state = await api("/api/merge-scenes", { scenes, keep, narration });
+    for (const n of scenes) {
+      drafts.narr.delete(n);
+      drafts.prompt.delete(n);
+    }
+    for (const n of scenes) selected.delete(n);
+    $("mergeOverlay").hidden = true;
+    render();
+    selectScene(keep);
+    // Full script modal renders its own snapshot on open — refresh it in place too, so a merge
+    // triggered from a script row (or from the sheet/rail while it happens to be open) shows up
+    // without the user having to close and reopen it.
+    if (!$("scriptOverlay").hidden) renderScriptList();
+    toast(`Merged scene ${scenes.join(", ")} into scene ${keep}.`);
+    // Leave the merged narration selected in the inspector for one more hand pass.
+    $("narrBox").focus();
+    $("narrBox").select();
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Merge scenes";
+  }
+});
+
 $("conToggle").addEventListener("click", () =>
   openLog(!$("console").classList.contains("open")),
 );
@@ -1775,22 +1869,24 @@ const scriptGroupHtml = (s, g) => {
 // Per-scene generate buttons for the script modal. They reuse the batch endpoints with a
 // single scene, so they behave exactly like the contact-sheet/rail batch runs (same models,
 // same busy locks) — no dependency on the stage's currently-selected scene.
-const scriptGenHtml = (s) =>
+const scriptGenHtml = (s, isLast) =>
   `<div class="script-gen">
     <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-scene="${s.scene}" title="Generate ảnh cho scene này (model theo batch image select)">Image</button>
     <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-scene="${s.scene}" title="Generate narration audio cho scene này">Audio</button>
     <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-scene="${s.scene}" title="Generate motion video cho scene này (cần có image + audio)">Motion</button>
+    ${isLast ? "" : `<button type="button" class="btn sm quiet script-gen-btn" data-merge-next="${s.scene}" title="Gộp scene này với scene kế tiếp">Gộp ↓</button>`}
   </div>`;
 
 function renderScriptList() {
   // Narration shows first; the image + motion prompts stay collapsed so the list reads as a pure
   // script until a scene's toggle opens them.
   $("scriptList").innerHTML = state.scenes
-    .map((s) => {
+    .map((s, i) => {
       const narration = scriptGroupHtml(s, SCRIPT_GROUPS[0]);
       const details = SCRIPT_GROUPS.slice(1)
         .map((g) => scriptGroupHtml(s, g))
         .join("");
+      const isLast = i === state.scenes.length - 1;
       return `<div class="script-row" data-scene="${s.scene}">
         <div class="script-row-head">
           <span class="script-no num">#${s.scene}</span>
@@ -1802,7 +1898,7 @@ function renderScriptList() {
           <span class="grow"></span>
           <div class="script-head-field"><label>cue</label><input class="text-input script-cue-input" data-scene="${s.scene}" data-field="cue" value="${escapeHtml(scriptCue(s))}" placeholder="neutral" spellcheck="false" /></div>
           <div class="script-head-field"><label>char</label><input class="text-input script-char-input" data-scene="${s.scene}" data-field="char" value="${escapeHtml(scriptChar(s))}" placeholder="char-a, char-b / none" spellcheck="false" /></div>
-          ${scriptGenHtml(s)}
+          ${scriptGenHtml(s, isLast)}
         </div>
         ${narration}
         <div class="script-details" hidden>${details}</div>
@@ -1833,6 +1929,15 @@ function syncScriptGenButtons() {
         ok = !busy && s.hasImage && s.hasAudio;
     }
     btn.disabled = !ok;
+  }
+  // "Merge ↓" reads both this row's and the next row's saved narration — block it while either
+  // has unsaved edits, same reasoning as the generate buttons above.
+  for (const btn of $("scriptList").querySelectorAll("[data-merge-next]")) {
+    const row = btn.closest(".script-row");
+    const next = row?.nextElementSibling;
+    const dirty =
+      row?.classList.contains("dirty") || next?.classList.contains("dirty");
+    btn.disabled = busy || audioBusy || !next || dirty;
   }
 }
 
@@ -1929,6 +2034,14 @@ $("scriptList").addEventListener("click", (e) => {
   const gen = e.target.closest("[data-gen]");
   if (gen) {
     runScriptGen(gen.dataset.gen, Number(gen.dataset.scene));
+    return;
+  }
+  const mergeBtn = e.target.closest("[data-merge-next]");
+  if (mergeBtn) {
+    const scene = Number(mergeBtn.dataset.mergeNext);
+    const i = state.scenes.findIndex((s) => s.scene === scene);
+    const next = state.scenes[i + 1];
+    if (next) openMergeDialog([scene, next.scene]);
     return;
   }
   const btn = e.target.closest(".script-toggle");

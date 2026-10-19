@@ -86,3 +86,44 @@ export const writeCharacterPath = (planMd, id, relPath) => {
 
 export const hasSceneHeading = (planMd, sceneNo) =>
   new RegExp(`^##\\s+scene\\s+${sceneNo}\\b`, 'im').test(readFileSync(planMd, 'utf8'));
+
+// Merge two or more scenes into one. Their narration lines are joined (ascending scene order,
+// single space, no added punctuation) into `keepScene`; every other listed scene's block is
+// removed outright, so its prompt/motion/char/etc. never survive the merge — only `keepScene`'s
+// own non-narration fields do. Caller (review-server) is responsible for checking the scenes are
+// adjacent in the plan; this just edits the markdown.
+export const mergeScenes = (planMd, sceneNumbers, keepScene) => {
+  const nums = [...new Set(sceneNumbers)].sort((a, b) => a - b);
+  if (nums.length < 2) throw new Error('merge needs at least 2 scenes');
+  if (!nums.includes(keepScene)) throw new Error(`keep scene ${keepScene} is not one of the merged scenes`);
+
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const range = (sceneNo) => {
+    const headRe = new RegExp(`^##\\s+scene\\s+${sceneNo}\\b`, 'i');
+    const start = lines.findIndex((l) => headRe.test(l.trim()));
+    if (start < 0) throw new Error(`scene ${sceneNo} not found in ${planMd}`);
+    const end = lines.findIndex((l, i) => i > start && /^##\s+/.test(l));
+    return { start, end: end < 0 ? lines.length : end };
+  };
+
+  const narrRe = /^narration\s*:\s*(.*)$/i;
+  const merged = nums
+    .map((n) => {
+      const { start, end } = range(n);
+      for (let i = start; i < end; i++) {
+        const m = narrRe.exec(lines[i].trim());
+        if (m) return m[1].trim();
+      }
+      return '';
+    })
+    .filter(Boolean)
+    .join(' ');
+
+  // Remove every merged-away block, highest start first, so earlier ranges stay valid as later
+  // ones are spliced out.
+  const removals = nums.filter((n) => n !== keepScene).map(range).sort((a, b) => b.start - a.start);
+  for (const { start, end } of removals) lines.splice(start, end - start);
+  writeFileSync(planMd, lines.join('\n'));
+
+  return writeSceneField(planMd, keepScene, 'narration', merged);
+};

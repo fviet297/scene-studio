@@ -12,15 +12,24 @@ export const DEFAULT_ASPECT = '9:16';
 //                  grok, fal nano, fal video seedance/veo, replicate seedance)
 //  falImageSize  — fal Seedream v4 `image_size` preset (it uses presets, not a ratio string)
 //  vmediaImage   — Gommo generateImage `ratio` (underscore form)
+//  metaImageSize — Meta Model API `size` (read as an aspect ratio only, not exact pixels)
 //  orientation   — 'vertical' | 'horizontal' (drives the template composition wording + checks)
+//  frame         — the [FRAME] template text: frame shape plus the zones the Remotion overlay
+//                  covers. Vertical: title scrim over the top ~18%, caption scrim over the bottom
+//                  ~24%. Wide: title over the top ~15%, and wrap-vertical.mjs later centre-crops
+//                  16:9 to 3:2, so the outer ~8% of each side is lost.
 export const ASPECTS = {
-  '9:16': { ratio: '9:16', width: 1080, height: 1920, orientation: 'vertical', falImageSize: 'portrait_16_9', vmediaImage: '9_16' },
-  '16:9': { ratio: '16:9', width: 1920, height: 1080, orientation: 'horizontal', falImageSize: 'landscape_16_9', vmediaImage: '16_9' },
-  '1:1': { ratio: '1:1', width: 1080, height: 1080, orientation: 'square', falImageSize: 'square_hd', vmediaImage: '1_1' },
+  '9:16': { ratio: '9:16', width: 1080, height: 1920, orientation: 'vertical', falImageSize: 'portrait_16_9', vmediaImage: '9_16', metaImageSize: '1080x1920',
+    frame: '9:16 vertical story frame; top sixth and bottom quarter calm and low-detail for title and captions, key action between them.' },
+  '16:9': { ratio: '16:9', width: 1920, height: 1080, orientation: 'horizontal', falImageSize: 'landscape_16_9', vmediaImage: '16_9', metaImageSize: '1920x1080',
+    frame: '16:9 landscape cinematic story frame; top sixth calm for the title, key action inside the central five-sixths of the width.' },
+  '1:1': { ratio: '1:1', width: 1080, height: 1080, orientation: 'square', falImageSize: 'square_hd', vmediaImage: '1_1', metaImageSize: '1080x1080',
+    frame: '1:1 square story frame; top sixth calm for the title, key action clear of the edges.' },
 };
 
 export const normalizeAspect = (a) => (a && ASPECTS[String(a).trim()] ? String(a).trim() : DEFAULT_ASPECT);
 export const aspectInfo = (a) => ASPECTS[normalizeAspect(a)];
+export const frameText = (a) => aspectInfo(a).frame;
 
 // Pull `aspect:` from a scene-plan's raw markdown (a header line, anywhere in the file). Missing
 // or unknown value → DEFAULT_ASPECT, so a plan that never mentions aspect stays 9:16.

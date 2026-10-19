@@ -96,6 +96,7 @@
         <button class="btn sm" type="button" id="railBatchImg" disabled title="Generate images for the selected AI scenes">Images</button>
         <button class="btn sm" type="button" id="railBatchAud" disabled title="Generate narration audio for the selected scenes">Audio</button>
         <button class="btn sm" type="button" id="railBatchMotion" disabled title="Generate motion video for the selected scenes (need image + audio)">Motion</button>
+        <button class="btn sm" type="button" id="railBatchMerge" disabled title="Merge the selected adjacent scenes into one">Merge</button>
       </div>
     </div>
   </aside>
@@ -210,6 +211,7 @@
       <select class="mini" id="batchMotionModelSelect" aria-label="Motion-video model for batch generate"></select>
       <button class="btn sm" type="button" id="batchMotion" disabled>Motion</button>
     </span>
+    <button class="btn sm" type="button" id="batchMerge" disabled title="Merge the selected adjacent scenes into one">Merge</button>
   </div>
   <div class="tiles" id="tiles"></div>
 </section>
@@ -246,7 +248,7 @@
       <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
     </div>
     <div class="dialog-foot">
-      <span class="note">Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char, face, multi-character and text templates, or the scene prompt is never inserted.</span>
+      <span class="note">Keep <code>[SCENE-SPECIFIC PROMPT]</code> in the char, face, multi-character and text templates, or the scene prompt is never inserted. <code>[FRAME]</code> = project aspect + caption safe zone; <code>[GUARD]</code> = shared negatives. Anatomy and no-text rules are added automatically.</span>
       <button class="btn" type="button" id="tplReload">Reload</button>
       <button class="btn primary" type="button" id="tplSave">Save templates</button>
     </div>
@@ -374,6 +376,34 @@
           <button class="btn quiet sm" type="button" id="btnUndoMotion" hidden>Undo motion</button>
         </div>
         <input type="file" id="motionVideoInput" accept="video/mp4,video/quicktime" aria-label="Choose a vertical MP4 or MOV file for this scene" hidden />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="mergeOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="mergeDlgTitle">
+  <div class="dialog">
+    <div class="dialog-head">
+      <h2 id="mergeDlgTitle">Merge scenes</h2>
+      <span class="note" id="mergeDlgInfo"></span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="mergeClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="block">
+        <div class="field">
+          <label>Keep image / prompt / motion from</label>
+          <div class="char-picker" id="mergeKeepPicker"></div>
+        </div>
+        <div class="field">
+          <label for="mergePreviewNarr">Merged narration (edit here or after merging)</label>
+          <textarea id="mergePreviewNarr" rows="4" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="block stage-action">
+        <button class="btn primary wide" type="button" id="btnMergeConfirm">Merge scenes</button>
       </div>
     </div>
   </div>

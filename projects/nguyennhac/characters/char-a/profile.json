@@ -1,0 +1,27 @@
+{
+  "character_id": "char-a",
+  "name": "Nguyen Nhac",
+  "display_name": "Nguyễn Nhạc",
+  "aliases": ["Đệ Nhất Tây Sơn Vương", "Tây Sơn Vương", "Thái Đức Hoàng Đế", "Nguyen Nhac"],
+  "country": "Đàng Trong (Đại Việt, under the Nguyễn lords)",
+  "period": "18th century (b. ~1743 – d. 1793)",
+  "dynasty": "Tây Sơn dynasty (eldest of the three founding brothers)",
+  "role": "Eldest of the three Tây Sơn brothers; former betel-leaf trader and tax collector who raised the Tây Sơn uprising in 1771 and later reigned as Thái Đức Hoàng Đế",
+  "known_facts": [
+    "Nguyễn-dynasty sources record him as a betel-leaf (trầu) trader who traded with highland communities before the uprising",
+    "His trading trips reportedly took him deep into the An Dương highlands, where he grew familiar with the terrain and the local people",
+    "18th-century Đàng Trong was marked by heavy taxation and social unrest, feeding widespread popular discontent",
+    "Đại Nam Chính Biên Liệt Truyện records that Nguyễn Nhạc 'tự bảo là gươm thần' (claimed he possessed a divine sword) and that the story won him followers — this is a recorded claim/legend, not a verified event",
+    "The National Museum of Vietnamese History (Bảo tàng Lịch sử Quốc gia) describes him secretly building rear bases in the Tây Sơn Thượng Đạo highland region before openly raising the uprising",
+    "He worked to link together different segments of the population — lowland farmers and highland communities — into a support network for the Tây Sơn forces",
+    "His two younger brothers, Nguyễn Huệ and Nguyễn Lữ, joined him as the core of the movement's leadership",
+    "The Tây Sơn uprising formally rose in 1771",
+    "Later took the throne title Thái Đức Hoàng Đế as the eldest of the three Tây Sơn brothers"
+  ],
+  "interpretation": "18th-century Đàng Trong Vietnamese trader-turned-uprising-leader, plain traveling merchant dress transitioning to a rebel leader's plain dress, based on the user reference.",
+  "unknowns": [
+    "No verified contemporary portrait survives",
+    "The 'gươm thần' (divine sword) story is preserved as a claim in Đại Nam Chính Biên Liệt Truyện, not a verified historical event"
+  ],
+  "reference": "public/projects/nguyennhac/characters/char-a.png"
+}

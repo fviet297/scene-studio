@@ -3,409 +3,189 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "Wide 15th-century Đại Việt forbidden-palace wall at night; bamboo ladders lean a",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Close view at night inside a 15th-century Đại Việt thatched scholar's house; an ",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide 15th-century Đại Việt forbidden-palace wall at night; bamboo ladders lean against the high brick wall, more than a hundred armed soldiers in Lê-dynasty lamellar armor climb over in three columns, faces turned away or in shadow, torches held low to stay hidden, a sentry lies fallen at the base, moonlit tiled roofs of the inner palace rise beyond the wall, mist drifts along the ground. No Nguyễn-dynasty or European elements."
+    "prompt": "Close view at night inside a 15th-century Đại Việt thatched scholar's house; an open hand-bound book of handwritten pages lies on a low dark wooden desk under a single oil lamp, three dark red drops of blood spread across the pale page, a fourth drop falls from the shadowy roof beam above where the tip of a white snake's tail slips into darkness, an ink stone and brush beside the book, lamp smoke curling, cold blue rain-light through a bamboo lattice window. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Wide 15th-century Đại Việt imperial bedchamber lit by a single fallen oil lamp; ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Low-angle view up at the heavy dark roof beam of a 15th-century Đại Việt thatche",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide 15th-century Đại Việt imperial bedchamber lit by a single fallen oil lamp; soldiers in Lê-dynasty lamellar armor stand small and off-center around an overturned imperial bed with dragon-carved posts, silk curtains torn and swaying, a second group of soldiers moves toward an inner doorway toward the empress dowager's quarters, spilled lamp oil catches a low flame, wooden lattice windows cast broken shadows across the floor. No Nguyễn-dynasty or European elements."
+    "prompt": "Low-angle view up at the heavy dark roof beam of a 15th-century Đại Việt thatched scholar's house at night; a long white snake coils along the beam with its head lowered over the edge, eyes catching the orange glow of an oil lamp far below, bamboo rafters and thatch fading into shadow, rain streaming past the eaves outside, moths circling up through the lamplight, dust drifting in the beam of light. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Wide 15th-century Đại Việt palace courtyard at first light; a young prince in pl",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt citadel road at grey overcast dawn; guards in Lê-dyna",
+    "source": "AI generated (Replicate, bytedance/seedream-4.5 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (bytedance/seedream-4.5 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide 15th-century Đại Việt palace courtyard at first light; a young prince in plain Lê-dynasty court robes stands small and off-center at about one-fifth frame height at the edge of a long colonnade, looking toward the distant inner palace where soldiers and officials still gather after the night's chaos, morning mist clings to the tiled rooftops, a few servants sweep fallen torches and debris in the background, banners hang plain and still. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt citadel road at grey overcast dawn; guards in Lê-dynasty lacquered lamellar armor with upright spears lead a long silent procession out of an arched gate in a low brick wall, a scholar walks small and off-center at about one-fifth frame height at its head with hands bound, his family of all ages following behind with bowed heads, a hushed crowd of Vietnamese commoners watches from behind a bamboo barrier, crows wheel in the grey sky, wind lifts dust along the road. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-04",
     "scene": 4,
     "type": "ai_reconstruction",
-    "subject": "Wide 15th-century Đại Việt palace study hall in daylight; four young Lê-dynasty ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt village scholar's house interior on a stormy night; a",
+    "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide 15th-century Đại Việt palace study hall in daylight; four young Lê-dynasty princes in plain silk robes sit at a low lacquer table strewn with scrolls, the youngest prince small and off-center at about one-fifth frame height near the far end, listening while an elder tutor gestures over a scroll, sunlight falls through carved wooden lattice screens, servants wait quietly by the pillars. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt village scholar's house interior on a stormy night; a scholar sits small and off-center at about one-fifth frame height at a low wooden desk with an open bound book and a single oil lamp, a long white snake coils along the dark roof beam above him, the lamp throws its huge shadow across the rafters, moths circle the flame, rain streams past the open bamboo-lattice door. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-05",
     "scene": 5,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt rice-farming valley at golden sunrise; terraced paddies stretch to",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide 15th-century Đại Việt riverside village in soft morning light; inside an op",
+    "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide Đại Việt rice-farming valley at golden sunrise; terraced paddies stretch to distant hills, farmers in plain conical hats wade and plant rice in small clusters across the middle distance, a Lê-dynasty village with tiled-roof communal house sits at the edge of the fields, oxen pull ploughs through wet paddies, mist rises off the water catching the gold light, a temple bell tower stands small on a far hill. No Nguyễn-dynasty or European elements."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Wide 15th-century Đại Việt riverside village in soft morning light; inside an open-sided tile-roofed schoolhouse on wooden pillars, a teacher sits small and off-center at about one-fifth frame height before a dozen Vietnamese boys kneeling at low desks with brushes and paper, bamboo hedges and thatched houses line the dirt lane outside, ducks paddle in a pond, a farmer leads a water buffalo past. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-06",
     "scene": 6,
     "type": "ai_reconstruction",
-    "subject": "Wide riverside garden retreat at dawn, Lệ Chi Viên, Đại Việt, 15th century; offi",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide 15th-century Đại Việt village hillock at bright midday; Vietnamese schoolbo",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide riverside garden retreat at dawn, Lệ Chi Viên, Đại Việt, 15th century; officials in dark mourning robes gather small and distant around a curtained palanquin near a wooden pavilion, torches still burning low from the night, a separate group of soldiers marches an elderly scholar-official in plain robes and his household away along a river path under guard, willows sway over the water, mist clings to the reeds. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt village hillock at bright midday; Vietnamese schoolboys in brown homespun tunics swing sickles through tall rough grass on a low earthen mound, cut grass flying, two of them crouch small and off-center pointing at a hollow nest holding two pale snake eggs in the flattened grass, bamboo groves and green rice paddies stretch behind, a white heron lifts off. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt throne hall interior in soft daylight; a small child in miniature ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide 15th-century Đại Việt riverside village at nightfall; thatched and tile-roo",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide Đại Việt throne hall interior in soft daylight; a small child in miniature imperial robes sits small and off-center at about one-fifth frame height on the tall lacquered throne, a regent official stands beside the dais holding the child steady, rows of court officials in Lê-dynasty robes kneel and bow in the foreground and midground, two officials near a side pillar lean together whispering behind raised sleeves, tall red-lacquer pillars and carved dragon beams frame the hall. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt riverside village at nightfall; thatched and tile-roofed houses huddle behind bamboo hedges, one scholar's house glows with a single oil lamp in its doorway, dark clouds slide across a rising moon, mist creeps over the rice paddies, a dog stands alert at the gate, Vietnamese villagers in nón lá hurry home along the earthen dyke carrying small lanterns. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt private residence courtyard at dusk; a disgraced prince in plain d",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide high view down onto a 15th-century Đại Việt scholar's low wooden desk at ni",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide Đại Việt private residence courtyard at dusk; a disgraced prince in plain dark robes stands small and off-center at about one-fifth frame height alone under a bare tree, fists clenched, a modest side building behind him where a demoted woman in plain mourning dress sits withdrawn behind a lattice window, fallen leaves scatter across the courtyard stones, a single dim lantern hangs from the eave, distant palace rooftops glow faintly beyond the wall. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide high view down onto a 15th-century Đại Việt scholar's low wooden desk at night; an open bound book of handwritten pages lies under a single oil lamp, a dark red drop of blood falls from the roof beam above where the tail of a white snake slides away into shadow, two fresh red drops already stain the page, a scholar's sleeve and still hand rest at the frame edge beside an ink stone and brush, lamp smoke curls upward. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-09",
     "scene": 9,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt court hall in daylight; a new emperor in plain imperial robes sits",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "type": "user_upload",
+    "subject": "User-uploaded image for scene 9",
+    "source": "User upload (review UI)",
     "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide Đại Việt court hall in daylight; a new emperor in plain imperial robes sits small and off-center at about one-fifth frame height on the throne addressing kneeling officials, most bow with heads down, but two senior ministers near a side pillar stand upright with arms folded, exchanging a hard glance instead of bowing, tall red-lacquer pillars and dragon beams frame the hall, sunlight falls through high lattice windows. No Nguyễn-dynasty or European elements."
+    "license": "Provided by the user; ensure you hold the rights to use it.",
+    "credit": "User-provided image",
+    "authenticity": "USER_UPLOAD",
+    "characters": []
   },
   {
     "id": "scene-10",
     "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt court hall courtyard right after morning session; soldiers loyal t",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
+    "subject": "Wide 15th-century Đại Việt royal camp in a lychee orchard at night; outside the ",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide Đại Việt court hall courtyard right after morning session; soldiers loyal to a senior minister burst in from a side gate, swords drawn, clashing with a smaller group of startled officials-turned-guards near the meeting hall entrance, scattered scroll cases and overturned stools litter the stone courtyard, other officials flee toward the colonnade, dust and loose feathers from broken banners drift in the air, tall palace pillars frame the scene. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt royal camp in a lychee orchard at night; outside the largest lamp-lit cloth tent, Vietnamese court officials and guards kneel in rows with heads bowed, palace women weep behind them, a physician hurries out through the tent flap, lanterns sway in the wind, lychee branches heavy with red fruit hang overhead, plain solid-crimson cloth banners, no emblem or lettering, droop on their poles. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-11",
     "scene": 11,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt throne hall at dusk after the upheaval; the new young emperor stan",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt village hillock at misty dawn; the low earthen mound ",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt throne hall at dusk after the upheaval; the new young emperor stands small and off-center at about one-quarter frame height before the tall lacquered throne as senior ministers kneel in formal rows presenting the imperial seal on a low table, scattered petals and swept debris still visible near the doorway hint at the recent violence, torchlight and fading daylight mix through the high windows, red-lacquer pillars and dragon beams rise around them. No Nguyễn-dynasty or European elements."
+    "characters": [],
+    "prompt": "Wide 15th-century Đại Việt village hillock at misty dawn; the low earthen mound now overgrown again with tall grass and wild flowers, a lone Vietnamese farmer in nón lá pauses small and off-center with a hoe on his shoulder staring at it, a thin trail through the grass winds into the brush, mist rolls across the flooded paddies, egrets stand in the shallow water, bamboo groves loom grey behind. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-12",
     "scene": 12,
     "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt war-planning hall by daylight; the emperor stands small and off-ce",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt village scribe's shaded veranda in hazy afternoon; an",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt war-planning hall by daylight; the emperor stands small and off-center at about one-quarter frame height over a low table bearing a hand-drawn campaign map and brush, generals in Lê-dynasty armor lean in around the table pointing at routes, a scribe kneels nearby recording orders, spears and a plain banner rest against a pillar, sunlight falls through open wooden shutters. No Nguyễn-dynasty or European elements."
+    "characters": [],
+    "prompt": "Wide 15th-century Đại Việt village scribe's shaded veranda in hazy afternoon; an elderly Vietnamese scribe copies folk tales with a brush at a low desk piled with bound books, beside his page a small ink sketch of a coiled snake, a young apprentice grinds ink on a stone, neighbours pause at the bamboo gate to listen, a breeze turns loose pages, areca palms and a fish pond beyond the yard. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-13",
     "scene": 13,
     "type": "ai_reconstruction",
-    "subject": "Wide river-mouth fleet departure at dawn, Đại Việt, 15th century; the emperor st",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide 15th-century Đại Việt rebel army camp in the forested Lam Sơn hills at nigh",
+    "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
       "char-a"
     ],
-    "prompt": "Wide river-mouth fleet departure at dawn, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on the deck of the lead war-junk, banners plain and solid-color snapping in the wind, dozens of Lê-dynasty war-junks and rowboats fill the water behind him, oars churn the current, soldiers line the decks with spears and shields, smoke from cooking fires drifts from the rearmost boats, dawn light catches the wet sails. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide 15th-century Đại Việt rebel army camp in the forested Lam Sơn hills at night; a scholar sits small and off-center at about one-fifth frame height inside an open bamboo-and-thatch command shelter writing on a scroll by lamplight, Vietnamese soldiers in lacquered leather armor with rattan shields and spears sharpen blades around campfires, war elephants stand among the trees, smoke drifts up into the jungle canopy, plain solid-crimson cloth banners, no emblem or lettering, lean against the posts. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   },
   {
     "id": "scene-14",
     "scene": 14,
     "type": "ai_reconstruction",
-    "subject": "Wide siege of Vijaya (Đồ Bàn) citadel at midday, Chăm Pa, 15th century; the Đại ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
+    "subject": "Wide moonlit 15th-century Đại Việt scholar's study, long abandoned; a white snak",
+    "source": "AI generated (Meta, meta:muse-image-1.0 text2img)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide siege of Vijaya (Đồ Bàn) citadel at midday, Chăm Pa, 15th century; the Đại Việt emperor stands small and off-center at about one-fifth frame height on a rise overlooking the battle, directing with a raised arm, Lê-dynasty soldiers storm the brick citadel walls with ladders and battering rams below, Cham defenders in sarong-style wrap garments and Hindu-Cham ornamented helmets fight back from the ramparts, sandstone Cham temple towers with tiered pyramidal roofs rise inside the walls, smoke and dust roll across the breach, a long line of bound captives is led away in the distance. No Khmer, Thai, or European elements."
-  },
-  {
-    "id": "scene-15",
-    "scene": 15,
-    "type": "ai_reconstruction",
-    "subject": "Wide northern border mountain pass at Bài Thơ, Đại Việt, 15th century; the emper",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide northern border mountain pass at Bài Thơ, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a rocky outcrop overlooking a winding border river and misty limestone peaks, gesturing toward the frontier while a border garrison official kneels and listens attentively, a few Lê-dynasty soldiers stand watch nearby with spears and a plain banner, a stonemason chisels an inscription into a nearby rock face, morning mist drifts through the karst peaks. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-16",
-    "scene": 16,
-    "type": "ai_reconstruction",
-    "subject": "Wide military drill ground and cannon workshop at midday, Đại Việt, 15th century",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide military drill ground and cannon workshop at midday, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a raised viewing platform watching ranks of Lê-dynasty soldiers drill in formation with spears and rattan shields below, in a side yard artisans pour molten bronze into cannon-barrel molds under a thatched shed, smoke rises from the foundry fire, plain solid-color banners mark each formation, dust rises from marching feet. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-17",
-    "scene": 17,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt royal study at night; the emperor sits small and off-center at abo",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt royal study at night; the emperor sits small and off-center at about one-fifth frame height at a writing desk stacked with law scrolls and bamboo strips, brush in hand pausing mid-thought, a single oil lamp casts warm light across the desk, empty court robes hang on a stand nearby, shelves of bound documents line the far wall in shadow, a moth circles the lamp flame. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-18",
-    "scene": 18,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt court hall by daylight; the emperor stands small and off-center at",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt court hall by daylight; the emperor stands small and off-center at about one-quarter frame height before the throne holding out an open law scroll, a disgraced admiral kneels with head bowed as a guard removes his ceremonial sword and rank plaque, the admiral's young son stands nearby restrained by two officials awaiting punishment, court officials watch in silent rows along the pillars, sunlight falls evenly through high lattice windows. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-19",
-    "scene": 19,
-    "type": "ai_reconstruction",
-    "subject": "Wide narrow Đại Việt city alley at night, New Year's eve; a figure in plain patc",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide narrow Đại Việt city alley at night, New Year's eve; a figure in plain patched scholar's robes stands small and off-center at about one-fifth frame height at the alley's mouth, approaching a shadowy figure crouched on a low wall further down the lane, distant firecracker sparks and lantern glow flicker over rooftops beyond the alley, a stray dog trots past a shuttered stall, mist and smoke drift low along the ground. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-20",
-    "scene": 20,
-    "type": "ai_reconstruction",
-    "subject": "Wide rooftop overlooking a sleeping Đại Việt city at night; the disguised schola",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide rooftop overlooking a sleeping Đại Việt city at night; the disguised scholar sits small and off-center at about one-fifth frame height beside a lean, quick-eyed thief on a tiled rooftop ridge, the thief gestures out across the moonlit rooftops toward distant houses, pointing past a wealthy farmer's modest tiled house and a merchant's shopfront lantern toward a grander guarded compound with a barred storeroom, moonlight glints on the tiles, distant lantern lights dot the sleeping city below. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-21",
-    "scene": 21,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt palace courtyard on New Year's morning; the emperor stands small a",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt palace courtyard on New Year's morning; the emperor stands small and off-center at about one-quarter frame height on the palace steps holding up two engraved silver ingots before a crowd of bowing officials, a disgraced treasury official is led away in plain clothes stripped of rank insignia, the lean thief from the rooftop stands to one side being presented with an honorary plaque, red New Year banners and lanterns decorate the courtyard, morning sun brightens the scene. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-22",
-    "scene": 22,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt palace audience hall by daylight; the emperor stands small and off",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Đại Việt palace audience hall by daylight; the emperor stands small and off-center at about one-quarter frame height welcoming a line of newly appointed scholar-officials in plain scholar robes, each bowing as they receive an appointment scroll, one carries a mathematics counting board, another an ink brush and manuscript, sunlight streams through open doors onto polished wooden floors, court attendants wait respectfully along the walls. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-23",
-    "scene": 23,
-    "type": "user_upload",
-    "subject": "User-uploaded image for scene 23",
-    "source": "User upload (review UI)",
-    "sourceUrl": null,
-    "license": "Provided by the user; ensure you hold the rights to use it.",
-    "credit": "User-provided image",
-    "authenticity": "USER_UPLOAD",
-    "characters": []
-  },
-  {
-    "id": "scene-24",
-    "scene": 24,
-    "type": "ai_reconstruction",
-    "subject": "Wide moonlit garden pavilion at night, Đại Việt palace grounds; the emperor sits",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide moonlit garden pavilion at night, Đại Việt palace grounds; the emperor sits small and off-center at about one-fifth frame height among a circle of robed poets exchanging verses on a raised wooden pavilion open to a lotus pond, scrolls of poetry rest on low tables, a lone attendant places a freshly rubbed stone inscription honoring a deceased scholar-official against a nearby pillar, lanterns hang from the eaves, moonlight glimmers on the pond. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-25",
-    "scene": 25,
-    "type": "ai_reconstruction",
-    "subject": "Wide Vân Đồn harbor at midday, Đại Việt, 15th century; the emperor stands small ",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide Vân Đồn harbor at midday, Đại Việt, 15th century; the emperor stands small and off-center at about one-fifth frame height on a wooden watchtower overlooking the single licensed harbor, foreign trading junks wait at anchor in a long queue while officials inspect cargo and stamp permit papers at a checkpoint table on the dock, fishermen mend nets nearby, plain solid-color harbor banners mark the checkpoint, hazy midday light softens the distant hills. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-26",
-    "scene": 26,
-    "type": "ai_reconstruction",
-    "subject": "Wide Đại Việt provincial exam-hall gate at dawn, 15th century; a young man carry",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 text2img)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
-    "prompt": "Wide Đại Việt provincial exam-hall gate at dawn, 15th century; a young man carrying a scholar's satchel is turned away small and off-center at about one-fifth frame height by two gate officials checking a household register against a posted list, behind him a family of traveling performers with a hand-drum and lute wait outside the gate, other candidates in scholar robes pass freely through the open gate into the courtyard beyond, morning mist lingers over the tiled gatehouse roof. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-27",
-    "scene": 27,
-    "type": "user_upload",
-    "subject": "User-uploaded image for scene 27",
-    "source": "User upload (review UI)",
-    "sourceUrl": null,
-    "license": "Provided by the user; ensure you hold the rights to use it.",
-    "credit": "User-provided image",
-    "authenticity": "USER_UPLOAD",
-    "characters": []
-  },
-  {
-    "id": "scene-28",
-    "scene": 28,
-    "type": "ai_reconstruction",
-    "subject": "Wide panoramic view over a thriving Đại Việt at golden late afternoon; the emper",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Wide panoramic view over a thriving Đại Việt at golden late afternoon; the emperor stands small and off-center at about one-fifth frame height on a high palace terrace overlooking the capital below, tiled rooftops and busy market streets stretch toward the horizon, farmers and merchants move along a wide avenue, boats crowd a calm river beyond the city walls, plain banners flutter atop the gate towers, warm golden light bathes the whole skyline. No Nguyễn-dynasty or European elements."
-  },
-  {
-    "id": "scene-29",
-    "scene": 29,
-    "type": "ai_reconstruction",
-    "subject": "Wide empty Đại Việt throne hall at early morning, no one present; soft light str",
-    "source": "AI generated (VMedia, vmedia:seedream_4_5 text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (vmedia:seedream_4_5 text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Wide empty Đại Việt throne hall at early morning, no one present; soft light streams through high lattice windows onto the tall lacquered throne, dust motes drift visibly in the light beams, an open law scroll rests unrolled on a low table beside the throne, a lone plain banner outside the far doorway sways gently in a breeze, red-lacquer pillars and carved dragon beams recede into shadow at the edges. No Nguyễn-dynasty or European elements."
+    "prompt": "Wide moonlit 15th-century Đại Việt scholar's study, long abandoned; a white snake lies coiled on the dark roof beam above an empty low desk where a closed book and a cold oil lamp gather dust, moonlight falls through the bamboo lattice in pale stripes, cobwebs drift between the rafters, outside the open door a lone village woman with a lantern pauses on the path to look in, bamboo sways and fog moves across the yard. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements."
   }
 ]

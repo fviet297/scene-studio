@@ -2,6 +2,9 @@ import React from "react";
 import {
   AbsoluteFill,
   Audio,
+  Easing,
+  Img,
+  interpolate,
   Sequence,
   staticFile,
   useCurrentFrame,
@@ -61,6 +64,12 @@ export type ProjectData = {
   // the clip stretches to fill the whole scene instead of leaving a frozen tail. 1 = play as-is.
   motionPlaybackRates?: number[];
   uploadedScenes: number[];
+  // Stamped by the builder: public/projects/<slug>/overlay/news-overlay.png exists.
+  hasOverlay?: boolean;
+  // Stamped by the builder: public/projects/<slug>/overlay/news-title.png exists.
+  hasTitleOverlay?: boolean;
+  // Scene number the headline card enters on (plan header `title-overlay-scene:`); default first.
+  titleOverlayScene?: number;
 };
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
@@ -257,12 +266,54 @@ export function SceneView({
   );
 }
 
+const TITLE_ON_SCREEN_SECONDS = 3;
+const TITLE_SLIDE_FRAMES = 12;
+// Far enough left to clear the card (left inset + card width) on a 1920-wide frame.
+const TITLE_OFFSCREEN_X = -1000;
+
+// Headline card over the opening seconds: slides in from the left, holds, slides back out so it
+// stops covering the artwork after the hook.
+function TitleOverlay({ src, durationInFrames }: { src: string; durationInFrames: number }) {
+  const frame = useCurrentFrame();
+  const slide = Math.min(TITLE_SLIDE_FRAMES, Math.floor(durationInFrames / 3));
+  const x = interpolate(
+    frame,
+    [0, slide, durationInFrames - slide, durationInFrames],
+    [TITLE_OFFSCREEN_X, 0, 0, TITLE_OFFSCREEN_X],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      easing: Easing.inOut(Easing.cubic),
+    },
+  );
+  return (
+    <Img
+      src={src}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        transform: `translateX(${x}px)`,
+      }}
+    />
+  );
+}
+
 export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
   project,
 }) => {
   const { frames, starts } = sceneTimeline(
     project.scenes,
     project.sceneDurations,
+  );
+  const titleIndex = Math.max(
+    0,
+    project.scenes.findIndex((s) => s.scene === project.titleOverlayScene),
+  );
+  const titleFrames = Math.min(
+    frames[titleIndex] ?? 0,
+    TITLE_ON_SCREEN_SECONDS * FPS,
   );
   return (
     <AbsoluteFill
@@ -292,6 +343,20 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
           )}
         </Sequence>
       ))}
+      {project.hasTitleOverlay && titleFrames > 0 && (
+        <Sequence from={starts[titleIndex]} durationInFrames={titleFrames}>
+          <TitleOverlay
+            src={staticFile(`${project.publicPrefix}/overlay/news-title.png`)}
+            durationInFrames={titleFrames}
+          />
+        </Sequence>
+      )}
+      {project.hasOverlay && (
+        <Img
+          src={staticFile(`${project.publicPrefix}/overlay/news-overlay.png`)}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+        />
+      )}
     </AbsoluteFill>
   );
 };

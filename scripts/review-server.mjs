@@ -37,7 +37,7 @@ import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
 import { aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
-import { addCharacterToPlan, appendScene, hasSceneHeading, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, writeCharacterPath, writeSceneField } from './lib/plan-writer.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 
 loadEnv();
@@ -764,6 +764,44 @@ const server = createServer(async (req, res) => {
       writeSceneField(P.planMd, scene, field, value);
       reparse();
       sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/merge-scenes') {
+      // Merge two or more adjacent scenes into one: narration is concatenated into `keep`
+      // (or the lowest scene number when omitted), every other scene's block — prompt, char,
+      // motion, cue, its generated image/audio/video files stay on disk but drop out of the
+      // plan — is deleted outright. Scenes must be contiguous in the current plan; merging
+      // across a gap would silently swallow whatever sits between them.
+      const { scenes, keep, narration } = await readBody(req);
+      const nums = Array.isArray(scenes)
+        ? [...new Set(scenes.map(Number))].filter(Number.isFinite).sort((a, b) => a - b)
+        : [];
+      if (nums.length < 2) { sendJson(res, 400, { error: 'select at least 2 scenes to merge' }); return; }
+      const keepScene = Number.isFinite(keep) ? Number(keep) : nums[0];
+      if (!nums.includes(keepScene)) { sendJson(res, 400, { error: 'keep scene must be one of the selected scenes' }); return; }
+
+      const allNums = readPlan().scenes.map((s) => s.scene).sort((a, b) => a - b);
+      const at = allNums.indexOf(nums[0]);
+      const contiguous = at >= 0 && nums.every((n, i) => allNums[at + i] === n);
+      if (!contiguous) { sendJson(res, 400, { error: 'selected scenes must be adjacent, with no other scene between them' }); return; }
+
+      writeFileSync(`${P.planMd}.bak`, readFileSync(P.planMd, 'utf8'));
+      let mergedNarration;
+      try {
+        // mergeScenes always writes its own auto-joined narration first; an edited preview from
+        // the merge dialog then overwrites it, so a hand-tightened join is never lost.
+        mergedNarration = mergeScenes(P.planMd, nums, keepScene);
+        if (typeof narration === 'string' && narration.trim() && narration.trim() !== mergedNarration) {
+          mergedNarration = writeSceneField(P.planMd, keepScene, 'narration', narration);
+        }
+      } catch (e) {
+        sendJson(res, 400, { error: e.message });
+        return;
+      }
+      reparse();
+      rebuildBundles();
+      sendJson(res, 200, { ...buildState(), mergedScene: keepScene, mergedNarration });
       return;
     }
 

@@ -15,7 +15,8 @@ import { join } from 'node:path';
 import { activePaths } from './project-paths.mjs';
 import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
 import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
-import { parsePlanAspect, aspectInfo, applyAspectText, DEFAULT_ASPECT } from './aspect.mjs';
+import { META_IMAGE_MODELS, metaImageUrl } from './meta-image.mjs';
+import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
@@ -37,106 +38,100 @@ export const manifestPath = () => paths.manifest;
 // direction; editing this line restyles the whole video.
 export const STYLE_DNA = `2D vector chibi game-asset art — 2.5-head chibi proportions, oversized round head, stubby body and limbs, mitten hands; bold uniform dark-brown lineart; flat cel-shading, one soft shadow tone, no gradients, glossy highlights or texture noise; small almond eyes with dark pupils, thick sharp black brows, dot nose, small mouth, determined serious expression; muted historical palette of crimson, antique gold, ochre, teal, olive, deep purple and leather brown`;
 
-const GUARD = 'historically appropriate for the period, 9:16 vertical, clear central subject, negative space at top, completely blank surfaces, no writing, no symbols, no watermark, no modern objects, no anachronistic equipment, no fantasy armor';
+// The style's shared negative list, substituted as [GUARD] into every template. It names style
+// qualities only: the image model renders whatever object a prompt names, even inside a
+// "NEGATIVE:" line, so an unwanted object is ruled out positively elsewhere instead.
+const GUARD = 'mixed art styles or proportions, semi-realistic or adult-proportioned people, painted or matte backdrop, gradients, gloss, haze, blur, silhouettes, photoreal, 3D render, mixed cultures or periods, anachronism, fantasy armour, empty background, watermark';
 
 // Appended after every editable template so a saved UI override cannot weaken this rule.
 // Text is added later by Remotion, never baked into generated scene artwork.
-export const NO_TEXT_POLICY = `SYMBOL-ONLY ARTWORK: no letters, numerals or glyphs of any writing system anywhere, especially no Vietnamese words or diacritics (à, ế, ộ, ữ, đ). Banners, flags, walls and objects stay blank — material, colour and folds only. Maps read through coastline, terrain, rivers and colour regions. Clothing counts as a blank surface too: chest and collar stay plain cloth, and garments close with cloth ties, a knotted sash or loops set off to one side — no emblem, badge, medallion, brooch, pendant, amulet, cord necklace or religious insignia on any figure. Titles and narration text are added later by the editor.`;
+export const NO_TEXT_POLICY = `NO TEXT: no letters, numerals or glyphs of any script anywhere, especially no Vietnamese words or diacritics. Banners, flags, walls, signs and maps stay blank — material, colour, folds and terrain only. Garments too: plain chest and collar, closed by cloth ties or a knotted sash — no emblem, badge, brooch, pendant, amulet, necklace or religious insignia on anyone.`;
 // The garment clause exists because image models kept hanging a Christian cross on the chest of
 // 10th-century Vietnamese figures — the seed was the template's own "cross-collared tunic", and a
 // blank-chest rule is what stops the model from filling that space with any other stray insignia.
-const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: no glyph-like mark or lettering anywhere, and no emblem, pendant or cross-shaped clasp on any garment; read the scene through pictures and shapes only.';
+const NO_TEXT_FINAL_CHECK = 'FINAL CHECK: no lettering anywhere, no emblem or cross-shaped clasp on any chest, two arms per person.';
 
-// The character templates each carry their own COHERENT ANATOMY section, but text2img has none —
-// and a no-reference scene still draws people. A lone figure holding a second prop (a pole plus a
-// net, an oar plus a rope) is where the model grows a third arm to free up a hand, so the rule
-// names that specific failure rather than just counting limbs.
-const FIGURE_ANATOMY_GUARD = 'FIGURE ANATOMY: every person has exactly two arms and two hands, one head and two legs, in a balanced natural pose — no extra, merged, duplicated or floating limb and no second pair of arms. A pole, oar, net, rope or tool is held by the two hands already drawn, or rests on the boat, ground or shoulder; never grow an extra arm to carry it.';
+// Style-independent figure rules, appended to every route so no template (shipped or saved from
+// the UI) has to carry its own copy. A lone figure holding a second prop (a pole plus a net, an
+// oar plus a rope) is where the model grows a third arm to free up a hand, so the rule names that
+// failure; the strap clause is phrased positively because naming bags in a negative drew them in.
+const FIGURE_RULES = 'ANATOMY & SCALE: each person has one head, two legs, exactly two arms and two hands — no extra, merged or floating limb, no fused bodies. Props sit whole in those two hands or rest on a shoulder, belt, the ground or a boat — never an extra arm to hold one, never a strap across the body. Every horse, ox or elephant shows four legs, ridden or not; a rider faces where the mount faces. One ground plane, one scale; distant figures shrink.';
+
+// Shared by every template: which culture each element belongs to. Kept generic — the scene
+// prompt names the specific wrong dynasty to exclude, so no project's enemies are baked in here.
+const WORLD_RULE = "WORLD: the SCENE's named country and century decide architecture, dress, armour, weapons and objects; two named sides each keep their own; nothing from a culture or era the SCENE does not name.";
+
+const CHIBI_FIGURES = 'Distant scenery = flat outlined shapes in cooler tones; no painted backdrop, haze or blur. Mains, soldiers and crowd share the same 2.5-head proportions, mitten hands, line weight and flat cel shading; a crowd is many small chibi figures, never a textured mass.';
+const CHIBI_STAGING = 'STAGING: wide environmental story shot, never a close-up portrait; each main about 20–30% of frame height. Layered depth, leading lines, varied scale, visible activity; asymmetric or diagonal, never a centred lineup. Faces readable and uncropped.';
 
 // Kontext (image-to-image) character-lock template. The scene's action/setting prompt is
 // substituted into [SCENE-SPECIFIC PROMPT]; everything else forces identity from the reference.
-const MASTER_PROMPT = `ONE flat chibi cartoon illustration. Reference = art style for the ENTIRE image (not a sticker).
+const MASTER_PROMPT = `ONE flat 2D chibi cartoon illustration. [FRAME]
 
-STYLE: [STYLE]. Distant scenery = flat outlined cartoon shapes in cooler tones only. No painted backdrop, haze or blur.
+STYLE: [STYLE]. ${CHIBI_FIGURES}
 
-ALL figures (soldiers, crowds, bystanders) use identical 2.5-head chibi proportions, round head, mitten hands, line weight, eyes, cel-shading and detail as the main character. Never sketchier, semi-realistic, painted or silhouetted. A crowd = many small chibi characters, never a textured mass.
+MAIN CHARACTER: locked to the reference — same face, hair, skin, proportions, costume, armour, colours and weapon; only pose, expression, action, camera and lighting change. Extras wear plainer gear and never copy the main's face, helmet or armour.
 
-ONE CULTURE ONLY: Follow the SCENE’s country + century for architecture, costumes, armour, banners and weapons. Strictly no mixing (especially Chinese ↔ Vietnamese).
+${WORLD_RULE}
 
-MAIN CHARACTER: Locked to reference — same face, hair, skin, proportions, costume, armour, colours and weapon. Only pose, expression, orientation, action, camera angle and lighting may change. Never redesign face/armour. Extras wear plainer gear; never copy main character’s face, helmet or golden armour.
+SCENE: [SCENE-SPECIFIC PROMPT]
 
-BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all surfaces completely blank and non-symbolic.
+${CHIBI_STAGING}
 
-TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
-
-COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
-
-SCENE:
-[SCENE-SPECIFIC PROMPT]
-
-COMPOSITION: 9:16 vertical, wide environmental story shot, never a close-up portrait. Main character is deliberately small, about 20–30% of frame height, with generous visible surroundings. Use foreground, middle ground and background layers, clear leading lines, varied scale, and visible activity around the character. Prefer asymmetrical or diagonal composition over a static centered lineup. Head/face remains readable and uncropped; reserve calm negative space only at top for captions.
-
-NEGATIVE (style qualities only — never name a drawable object here, the model renders whatever is named): mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, redesigned main face/costume, main character filling the frame, empty background, extras in main’s armour, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
+NEGATIVE: [GUARD], redesigned main face or costume, main filling the frame.`;
 
 // Face-lock variant for scenes tagged `identity: face`. Locks the person's face, hair, age and
 // 2D style from the reference but lets the scene prompt re-dress the figure — e.g. a general
 // shown poor and in commoner's clothes before his rise, where the reference armor would be wrong.
-const FACE_LOCK_PROMPT = `SAME PERSON, DIFFERENT SCENE — ONE flat chibi cartoon illustration. Reference = art style for the ENTIRE image (not a sticker).
+const FACE_LOCK_PROMPT = `SAME PERSON, DIFFERENT SCENE — ONE flat 2D chibi cartoon illustration. [FRAME]
 
-STYLE: [STYLE]. Distant scenery = flat outlined cartoon shapes in cooler tones only. No painted backdrop, haze or blur.
+STYLE: [STYLE]. ${CHIBI_FIGURES}
 
-ALL figures use identical 2.5-head chibi proportions, round head, mitten hands, line weight, eyes, cel-shading and detail. Never sketchier, semi-realistic, painted or silhouetted. A crowd = many small chibi characters, never a textured mass.
+FACE LOCK: the reference fixes face, eyes, nose, mouth, hairstyle, hair colour, skin tone, apparent age and chibi proportions only. Clothing and pose follow the SCENE, even when the reference wears armour.
 
-ONE CULTURE ONLY: Follow the SCENE’s country + century strictly. No mixing cultures in either direction.
+${WORLD_RULE}
 
-REFERENCE = FACE + IDENTITY only: keep exact face shape/features, eyes, nose, mouth, hairstyle, hair colour, skin tone, apparent age and chibi proportions. Never change face, hairstyle or age.
+SCENE: [SCENE-SPECIFIC PROMPT]
 
-CLOTHING + POSE follow the SCENE (not the reference). Dress according to the scene even if the reference wears armour. Everything else (other people, buildings, terrain) also comes from the SCENE.
+${CHIBI_STAGING}
 
-BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. Keep all surfaces completely blank and non-symbolic.
-
-TYPOGRAPHY BAN: no visible glyphs, marks arranged as writing, or typographic decoration anywhere in the frame. Visual information must use shapes, colour, plain dots and plain lines only.
-
-COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
-
-SCENE:
-[SCENE-SPECIFIC PROMPT]
-
-COMPOSITION: 9:16 vertical, wide environmental story shot, never a close-up portrait. Person is deliberately small, about 20–30% of frame height, with generous visible surroundings. Use foreground, middle ground and background layers, clear leading lines, varied scale, and visible activity around the person. Prefer asymmetrical or diagonal composition over a static centered lineup. Head/face remains readable and uncropped; reserve calm negative space only at top for captions.
-
-NEGATIVE (style qualities only — never name a drawable object here, the model renders whatever is named): mixed styles/proportions, painted/matte backgrounds, semi-realistic people, silhouettes, gradients, glossy highlights, haze/blur, mixed cultures, anachronistic, different face/hairstyle/person/age, empty background, adult proportions, deformed hands, photorealistic, 3D, text, watermark.`;
+NEGATIVE: [GUARD], different face, hairstyle, age or person.`;
 
 // Multi-reference variant for scenes listing two or more characters (`char: a, b`). Every
 // reference is uploaded and each figure is locked to its own one; without this the model gets a
 // single reference for a two-person scene and paints the same face onto both figures.
-const MULTI_CHAR_PROMPT = `SEVERAL DIFFERENT PEOPLE IN ONE SCENE — ONE flat chibi cartoon illustration. References set the art style for the WHOLE image, not stickers.
+const MULTI_CHAR_PROMPT = `SEVERAL DIFFERENT PEOPLE — ONE flat 2D chibi cartoon illustration. [FRAME]
 
-STYLE: [STYLE]. Distant scenery uses cooler flat outlined shapes.
+STYLE: [STYLE]. ${CHIBI_FIGURES}
 
-ALL PEOPLE: same chibi proportions, line weight, eyes and cel-shading. Crowds contain distinct small chibi figures.
+REFERENCES: reference 1 = the first named character, reference 2 = the second, further ones in named order. Keep each person's face, hair, skin, costume, armour, colours and weapon; each main appears exactly once and stays distinct. Extras wear plain gear and copy neither main.
 
-REFERENCE ORDER: reference 1 = first named character; reference 2 = second. Preserve each person's face, hair, skin, costume, armour, colours and weapon. Change only pose, expression, orientation and camera. Each main appears once and remains visually distinct. Extras use plain gear and copy neither main.
+${WORLD_RULE}
 
-CULTURE: each side uses its named country and century for architecture, costume, armour and weapons. Never swap Chinese and Vietnamese elements.
+SCENE: [SCENE-SPECIFIC PROMPT]
 
-SURFACES: banners, flags, shields and walls remain blank, using only flat colour, material and folds.
+${CHIBI_STAGING} Follow the SCENE's placement and keep the mains clearly separated.
 
-COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused into one. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face the same way. Cel shading stays flat and even — no 3D gradient, cast shadow or gloss.
-
-SCENE:
-[SCENE-SPECIFIC PROMPT]
-
-COMPOSITION: 9:16 vertical environmental shot. Follow SCENE placement. Each main occupies 20–30% of frame height, clearly separated and uncropped. Show foreground, middle ground and background, varied scale, active secondary figures and calm top space.
-
-NEGATIVE: cloned or mirrored mains, shared faces, mixed cultures or styles, adult proportions, painted background, gradients, gloss, haze, blur, photorealism, 3D, text, watermark.`;
+NEGATIVE: [GUARD], cloned, mirrored or merged mains, shared faces.`;
 
 // Text-to-image template for scenes with no character reference (e.g. an enemy army,
 // a symbolic shot). Placeholders below are filled at generate time.
-const TEXT2IMG_TEMPLATE = `Historical reconstruction. [SCENE-SPECIFIC PROMPT]. [STYLE], [GUARD].`;
+const TEXT2IMG_TEMPLATE = `ONE flat 2D chibi cartoon ENVIRONMENT illustration — the setting is the subject. [FRAME]
+
+STYLE: [STYLE]. Distant scenery = flat outlined shapes in cooler tones.
+
+CAST: draw only the people, animals and objects the SCENE names. No person named → no human figure. A named group stays small and supports the environment; never invent a protagonist.
+
+${WORLD_RULE}
+
+SCENE: [SCENE-SPECIFIC PROMPT]
+
+NEGATIVE: [GUARD], character portrait, giant foreground figure.`;
 
 // The editable prompt pieces the review UI exposes. Every generated image combines the
-// scene's own prompt with these. Placeholders: [STYLE] = style DNA, [GUARD] = the text2img
-// guard/negative line, [SCENE-SPECIFIC PROMPT] = that scene's prompt from the plan.
+// scene's own prompt with these. Placeholders, filled in every template: [STYLE] = style DNA,
+// [GUARD] = the style's shared negative list, [FRAME] = the project aspect's frame and safe-zone
+// line (aspect.mjs), [SCENE-SPECIFIC PROMPT] = that scene's prompt from the plan.
 const TEMPLATE_DEFAULTS = {
   styleDna: STYLE_DNA,
   guard: GUARD,
@@ -208,16 +203,15 @@ export const activateTemplateVersion = (version) => {
   return getTemplates();
 };
 
-const buildCharPrompt = (t, scenePrompt, template, aspect = currentAspect()) =>
+// Every route shares one assembly: fixed text policy, the filled template, fixed figure rules.
+// applyAspectText still runs for saved versions authored before [FRAME] that spell out "9:16".
+const buildPrompt = (t, scenePrompt, template, aspect = currentAspect()) =>
   applyAspectText(`${NO_TEXT_POLICY}\n\n${template
-    .replaceAll('[STYLE]', t.styleDna)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
-
-const buildTextPrompt = (t, scenePrompt, aspect = currentAspect()) =>
-  applyAspectText(`${NO_TEXT_POLICY}\n\n${FIGURE_ANATOMY_GUARD}\n\n${t.text2img
+    .replaceAll('[FRAME]', frameText(aspect))
     .replaceAll('[STYLE]', t.styleDna)
     .replaceAll('[GUARD]', t.guard)
-    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
+    .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${FIGURE_RULES}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
+
 
 // The full prompt string generateSceneImage would send for one scene (template + style + scene
 // prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
@@ -229,9 +223,9 @@ export const assemblePrompt = (scene, templates = getTemplates(), aspect = curre
     const multi = chars.length > 1;
     const face = !multi && scene.image?.identity === 'face';
     const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
-    return buildCharPrompt(templates, scenePrompt, template, aspect);
+    return buildPrompt(templates, scenePrompt, template, aspect);
   }
-  return buildTextPrompt(templates, scenePrompt, aspect);
+  return buildPrompt(templates, scenePrompt, templates.text2img, aspect);
 };
 
 // Default image model for every scene regardless of reference count (single-character,
@@ -253,13 +247,15 @@ const DEFAULT_TEXT = 'xai/grok-imagine-image';
 // change and higher resolutions can cost more — treat the labels as guidance, not a billing
 // guarantee.
 // The picker posts a model id and generateSceneImage dispatches on its prefix: `fal-ai/...` → fal
-// (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), everything else → Replicate.
+// (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), `meta:...` → Meta Model API
+// (meta-image.mjs), everything else → Replicate.
 export const IMAGE_MODELS = [
   { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — multi-reference, best per-person identity, default (~$0.03/img)' },
   { id: 'xai/grok-imagine-image', label: 'Grok Imagine — single reference or text-to-image (~$0.04/img, +$0.01 to edit)' },
   { id: '', label: 'Auto — route by reference count (Grok Imagine)' },
   ...FAL_IMAGE_MODELS,
   ...VMEDIA_IMAGE_MODELS,
+  ...META_IMAGE_MODELS,
 ];
 
 const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
@@ -424,6 +420,12 @@ const runImageModel = async (token, model, { prompt, refPaths, aspect = currentA
     });
     return url;
   }
+  if (model.startsWith('meta:')) {
+    const { url } = await metaImageUrl(model.slice('meta:'.length), {
+      prompt, refUris: refPaths.map(dataUri), size: aspectInfo(aspect).metaImageSize, onLog,
+    });
+    return url;
+  }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
   const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }));
@@ -470,13 +472,13 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     const face = !multi && scene.image.identity === 'face';
     const template = multi ? t.multiCharPrompt : face ? t.faceLockPrompt : t.masterPrompt;
     const route = multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock';
-    const prompt = buildCharPrompt(t, scene.image.prompt, template, aspect);
+    const prompt = buildPrompt(t, scene.image.prompt, template, aspect);
     onLog(`route: ${route}, model=${model}, aspect=${aspect}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
     url = await runImageModel(token, model, { prompt, refPaths: refs, aspect, onLog });
     via = `${model} ${route}`;
   } else {
     const model = override ?? text;
-    const prompt = buildTextPrompt(t, scene.image.prompt, aspect);
+    const prompt = buildPrompt(t, scene.image.prompt, t.text2img, aspect);
     onLog(`route: text2img, model=${model}, aspect=${aspect}, no reference, prompt=${prompt.length} chars`);
     url = await runImageModel(token, model, { prompt, refPaths: [], aspect, onLog });
     via = `${model} text2img`;
@@ -486,7 +488,7 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
   onLog(`saved: ${join(imageDir(), file)}`);
-  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : 'Replicate';
+  const provider = via.includes('fal-ai/') ? 'fal.ai' : via.includes('vmedia:') ? 'VMedia' : via.includes('meta:') ? 'Meta' : 'Replicate';
   const manifestEntry = {
     id: file.replace(/\.[^.]+$/, ''), scene: scene.scene, type: 'ai_reconstruction',
     subject: scene.image.prompt.slice(0, 80), source: `AI generated (${provider}, ${via})`, sourceUrl: null,

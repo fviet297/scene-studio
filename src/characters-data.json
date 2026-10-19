@@ -1,17 +1,15 @@
 {
-  "project": "le-thanh-tong",
+  "project": "nguyen-trai-ran-bao-oan",
   "characters": [
     {
       "id": "char-a",
-      "name": "Lê Thánh Tông",
+      "name": "Nguyễn Trãi",
       "aliases": [
-        "Lê Tư Thành",
-        "Tư Thành",
-        "Gia Vương",
-        "Le Tu Thanh"
+        "Ức Trai",
+        "Nguyen Trai"
       ],
-      "image": "projects/le-thanh-tong/characters/char-a.jpg",
-      "imageV2": "projects/le-thanh-tong/characters/char-a.jpg"
+      "image": "projects/nguyen-trai-ran-bao-oan/characters/char-a.jpg",
+      "imageV2": "projects/nguyen-trai-ran-bao-oan/characters/char-a.jpg"
     }
   ]
 }

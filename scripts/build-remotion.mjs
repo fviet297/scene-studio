@@ -10,7 +10,7 @@
 // Run: node scripts/build-remotion.mjs [--project <slug>] [--all]
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { listProjects, projectPaths, resolveSlug } from './lib/project-paths.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
@@ -36,6 +36,11 @@ for (const slug of targets) {
 }
 
 mkdirSync(OUT_DIR, { recursive: true });
+
+const titleOverlaySceneOf = (planMd) => {
+  const match = readFileSync(planMd, 'utf8').match(/^title-overlay-scene:\s*(\d+)\s*$/m);
+  return match ? Number(match[1]) : undefined;
+};
 
 const built = [];
 for (const slug of targets) {
@@ -97,6 +102,13 @@ for (const slug of targets) {
     motionPlaybackRates,
     captionGroups,
     uploadedScenes,
+    // Optional full-frame broadcast overlay drawn over every scene (projects/<slug>/overlay/*.html
+    // rendered to PNG). Stamped like hasAudio so a project without one never requests the file.
+    hasOverlay: existsSync(join(paths.publicRoot, 'overlay', 'news-overlay.png')),
+    // Optional headline card shown only over the opening scene.
+    hasTitleOverlay: existsSync(join(paths.publicRoot, 'overlay', 'news-title.png')),
+    // Scene the headline card enters on: plan header `title-overlay-scene: N`, else the first scene.
+    titleOverlayScene: titleOverlaySceneOf(paths.planMd),
   };
   writeFileSync(join(OUT_DIR, `${slug}.json`), `${JSON.stringify(data, null, 2)}\n`);
   built.push(slug);

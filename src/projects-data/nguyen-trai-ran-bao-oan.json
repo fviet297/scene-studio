@@ -1,0 +1,3167 @@
+{
+  "slug": "nguyen-trai-ran-bao-oan",
+  "title": "Nguyễn Trãi - Rắn báo oán",
+  "aspect": "16:9",
+  "width": 1920,
+  "height": 1080,
+  "publicPrefix": "projects/nguyen-trai-ran-bao-oan",
+  "fps": 30,
+  "durationInFrames": 4042,
+  "scenes": [
+    {
+      "scene": 1,
+      "narration": "Một giọt máu rơi xuống trang sách của nhà nho.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Close view at night inside a 15th-century Đại Việt thatched scholar's house; an open hand-bound book of handwritten pages lies on a low dark wooden desk under a single oil lamp, three dark red drops of blood spread across the pale page, a fourth drop falls from the shadowy roof beam above where the tip of a white snake's tail slips into darkness, an ink stone and brush beside the book, lamp smoke curling, cold blue rain-light through a bamboo lattice window. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact book, blood drops, desk, oil lamp, snake tail, ink stone, brush, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in toward the page. The falling drop lands and the red stain spreads slowly into the paper, the snake tail slips away into the dark, lamp smoke curls and the flame wavers, rain-light flickers at the window. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No warped objects, duplicated drops, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cận cảnh về đêm trong ngôi nhà tranh của một nhà nho Đại Việt thế kỷ 15; một cuốn sách đóng tay chép tay mở trên chiếc bàn gỗ thấp sẫm màu dưới một ngọn đèn dầu, ba giọt máu đỏ sẫm loang trên trang giấy nhạt, giọt thứ tư đang rơi từ xà nhà tối phía trên nơi chóp đuôi con rắn trắng trườn khuất vào bóng tối, nghiên mực và bút lông cạnh cuốn sách, khói đèn cuộn lên, ánh mưa xanh lạnh rọi qua song cửa tre. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác cuốn sách, các giọt máu, bàn, đèn dầu, đuôi rắn, nghiên mực, bút lông, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy rất chậm về phía trang sách. Giọt máu rơi chạm trang và vết đỏ thấm loang chậm vào giấy, đuôi rắn trườn khuất vào bóng tối, khói đèn cuộn và ngọn lửa run rẩy, ánh mưa chập chờn nơi cửa sổ. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không vật thể méo mó, không nhân bản giọt máu, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "motionVideo": true,
+      "hasAudio": true
+    },
+    {
+      "scene": 2,
+      "narration": "Trên xà nhà, một con rắn trắng lặng lẽ nhìn xuống.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Low-angle view up at the heavy dark roof beam of a 15th-century Đại Việt thatched scholar's house at night; a long white snake coils along the beam with its head lowered over the edge, eyes catching the orange glow of an oil lamp far below, bamboo rafters and thatch fading into shadow, rain streaming past the eaves outside, moths circling up through the lamplight, dust drifting in the beam of light. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact white snake, roof beam, rafters, thatch, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The snake's head sways slowly and its tongue flickers, warm lamplight wavers across its scales, moths drift upward, dust floats in the light, rain streams past the eaves. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated snakes, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Góc máy thấp nhìn ngược lên thanh xà gỗ tối nặng nề của ngôi nhà tranh nhà nho Đại Việt thế kỷ 15 về đêm; một con rắn trắng dài cuộn dọc thanh xà, đầu thò xuống mép xà, đôi mắt bắt ánh cam của ngọn đèn dầu xa phía dưới, rui tre và mái tranh chìm dần vào bóng tối, mưa trút qua mái hiên bên ngoài, thiêu thân bay lên qua ánh đèn, bụi lơ lửng trong luồng sáng. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác con rắn trắng, xà nhà, rui, mái tranh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đầu rắn đung đưa chậm và lưỡi thè ra thụt vào, ánh đèn ấm run rẩy trên lớp vảy, thiêu thân bay lên, bụi lơ lửng trong ánh sáng, mưa trút qua mái hiên. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản rắn, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 3,
+      "narration": "Nhiều năm sau, người viết Bình Ngô đại cáo bị chém cả ba họ.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt citadel road at grey overcast dawn; guards in Lê-dynasty lacquered lamellar armor with upright spears lead a long silent procession out of an arched gate in a low brick wall, a scholar walks small and off-center at about one-fifth frame height at its head with hands bound, his family of all ages following behind with bowed heads, a hushed crowd of Vietnamese commoners watches from behind a bamboo barrier, crows wheel in the grey sky, wind lifts dust along the road. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, procession, guards, spears, arched gate, brick wall, crowd, bamboo barrier, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Wind drives thin dust across the ground and stirs robes and hair, crows circle slowly overhead, grey clouds creep across the sky, the procession shuffles slowly forward, the crowd shifts faintly. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng con đường trước thành Đại Việt thế kỷ 15 lúc rạng sáng u ám; lính canh mặc giáp phiến sơn mài thời Lê cầm giáo dựng thẳng dẫn một đoàn người lặng lẽ đi ra từ cổng vòm của bức tường gạch thấp, một nhà nho bước nhỏ và lệch tâm cao khoảng một phần năm khung hình ở đầu đoàn, tay bị trói, người nhà đủ mọi lứa tuổi cúi đầu theo sau, đám đông dân thường người Việt lặng im nhìn từ sau hàng rào tre, bầy quạ lượn trên trời xám, gió cuốn bụi dọc con đường. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác danh tính nhân vật, đoàn người, lính canh, giáo, cổng vòm, tường gạch, đám đông, hàng rào tre, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Gió lùa làn bụi mỏng ngang mặt đất và lay vạt áo, mái tóc, bầy quạ lượn chậm trên cao, mây xám bò ngang trời, đoàn người lê bước chậm về phía trước, đám đông khẽ xao động. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 4,
+      "narration": "TIN NÓNG LỊCH SỬ! Dân gian bảo, tất cả bắt đầu từ hai quả trứng rắn. Chuyện gì đã xảy ra?",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt village scholar's house interior on a stormy night; a scholar sits small and off-center at about one-fifth frame height at a low wooden desk with an open bound book and a single oil lamp, a long white snake coils along the dark roof beam above him, the lamp throws its huge shadow across the rafters, moths circle the flame, rain streams past the open bamboo-lattice door. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, desk, book, oil lamp, white snake, roof beams, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in. The white snake slides slowly along the beam, the lamp flame gutters and its shadow sways over the rafters, moths flutter, rain streams past the door. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated snakes, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng bên trong nhà một nhà nho làng quê Đại Việt thế kỷ 15 trong đêm giông; một nhà nho ngồi nhỏ và lệch tâm cao khoảng một phần năm khung hình bên chiếc bàn gỗ thấp có cuốn sách mở và một ngọn đèn dầu, một con rắn trắng dài cuộn mình trên xà nhà tối phía trên, ngọn đèn hắt bóng rắn khổng lồ lên các thanh rui, thiêu thân lượn quanh ngọn lửa, mưa trút qua khung cửa chấn song tre mở. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác danh tính nhân vật, bàn, sách, đèn dầu, rắn trắng, xà nhà, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy chậm vào trong. Rắn trắng trườn chậm dọc xà nhà, ngọn đèn chập chờn và bóng của nó lay trên rui, thiêu thân bay lượn, mưa trút qua cửa. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản rắn, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "dramatic",
+      "hasAudio": true
+    },
+    {
+      "scene": 5,
+      "narration": "Theo một giai thoại được lưu truyền trong sách xưa, câu chuyện bắt đầu tại Nhị Khê, quê hương Nguyễn Trãi, khi ông còn dạy học.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt riverside village in soft morning light; inside an open-sided tile-roofed schoolhouse on wooden pillars, a teacher sits small and off-center at about one-fifth frame height before a dozen Vietnamese boys kneeling at low desks with brushes and paper, bamboo hedges and thatched houses line the dirt lane outside, ducks paddle in a pond, a farmer leads a water buffalo past. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, schoolhouse, pupils, desks, bamboo hedges, buffalo, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Pupils dip brushes and bend over their papers, ducks paddle and ripple the pond, the farmer and buffalo plod along the lane, bamboo sways in a light breeze. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated children, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng làng quê ven sông Đại Việt thế kỷ 15 trong nắng sớm dịu; bên trong một lớp học mái ngói không vách dựng trên cột gỗ, một người thầy ngồi nhỏ và lệch tâm cao khoảng một phần năm khung hình trước chừng chục cậu bé người Việt quỳ bên bàn thấp với bút lông và giấy, lũy tre và nhà tranh chạy dọc con đường đất bên ngoài, đàn vịt bơi trong ao, một nông dân dắt trâu đi ngang. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, lớp học, học trò, bàn, lũy tre, con trâu, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Học trò chấm bút và cúi xuống trang giấy, đàn vịt bơi làm mặt ao gợn sóng, người nông dân và con trâu thong thả đi dọc đường, lũy tre đung đưa trong gió nhẹ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản trẻ em, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 6,
+      "narration": "Một ngày nọ, học trò phát cỏ trên một gò đất. Giữa đám cỏ rậm, họ phát hiện hai quả trứng rắn. Câu chuyện kể rằng con rắn mẹ bị thương sau khi gò đất bị xáo trộn, rồi bò đi, để lại ổ trứng phía sau.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt village hillock at bright midday; Vietnamese schoolboys in brown homespun tunics swing sickles through tall rough grass on a low earthen mound, cut grass flying, two of them crouch small and off-center pointing at a hollow nest holding two pale snake eggs in the flattened grass, bamboo groves and green rice paddies stretch behind, a white heron lifts off. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact schoolboys, sickles, mound, snake eggs, bamboo groves, paddies, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Sickles swing and cut grass flies and drifts down, tall grass ripples in the wind, the heron flaps up and away, rice paddies shimmer. Keep the two crouching boys stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated children, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng gò đất làng quê Đại Việt thế kỷ 15 giữa trưa nắng; những cậu học trò người Việt mặc áo vải nâu vung liềm phát đám cỏ cao rậm trên một gò đất thấp, cỏ cắt bay tung, hai cậu ngồi xổm nhỏ và lệch tâm chỉ vào một ổ trũng có hai quả trứng rắn màu nhạt giữa đám cỏ rạp, lũy tre và ruộng lúa xanh trải dài phía sau, một con cò trắng cất cánh. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác các cậu học trò, liềm, gò đất, trứng rắn, lũy tre, ruộng lúa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Liềm vung lên và cỏ cắt bay rồi rơi lả tả, cỏ cao gợn theo gió, con cò vỗ cánh bay xa, ruộng lúa lấp lánh. Giữ hai cậu bé ngồi xổm ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản trẻ em, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": true
+    },
+    {
+      "scene": 7,
+      "narration": "Nhưng điều kỳ lạ nhất lại xảy ra khi đêm xuống. Trong giai thoại, một con rắn trắng xuất hiện trên xà nhà. Ánh đèn dầu chập chờn.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt riverside village at nightfall; thatched and tile-roofed houses huddle behind bamboo hedges, one scholar's house glows with a single oil lamp in its doorway, dark clouds slide across a rising moon, mist creeps over the rice paddies, a dog stands alert at the gate, Vietnamese villagers in nón lá hurry home along the earthen dyke carrying small lanterns. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact village houses, lit doorway, dog, villagers, lanterns, dyke, moon, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Dark clouds slide across the moon dimming and brightening the light, mist creeps over the paddies, villagers' lanterns bob along the dyke, the doorway lamp flickers, bamboo sways. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng làng quê ven sông Đại Việt thế kỷ 15 lúc màn đêm buông; những ngôi nhà tranh và mái ngói nép sau lũy tre, một ngôi nhà của nhà nho le lói một ngọn đèn dầu nơi ngưỡng cửa, mây đen trôi qua vầng trăng đang lên, sương mù bò trên ruộng lúa, một con chó đứng cảnh giác ở cổng, dân làng người Việt đội nón lá vội vã về nhà trên con đê đất, tay cầm đèn lồng nhỏ. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác nhà cửa trong làng, ngưỡng cửa sáng đèn, con chó, dân làng, đèn lồng, con đê, vầng trăng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Mây đen trôi qua trăng làm ánh sáng mờ đi rồi sáng lại, sương bò trên ruộng, đèn lồng của dân làng nhấp nhô dọc đê, ngọn đèn nơi cửa chập chờn, lũy tre đung đưa. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 8,
+      "narration": "Bóng rắn lặng lẽ trườn qua những thanh gỗ cũ. Rồi một chi tiết rùng rợn được truyền lại: máu nhỏ xuống trang sách của nhà nho. Người đời kể rằng đó là điềm báo của một món nợ oan nghiệt, một lời báo oán có thể kéo dài qua ba đời.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide high view down onto a 15th-century Đại Việt scholar's low wooden desk at night; an open bound book of handwritten pages lies under a single oil lamp, a dark red drop of blood falls from the roof beam above where the tail of a white snake slides away into shadow, two fresh red drops already stain the page, a scholar's sleeve and still hand rest at the frame edge beside an ink stone and brush, lamp smoke curls upward. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact desk, open book, blood drops, oil lamp, snake tail, ink stone, brush, hand and sleeve, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in toward the page. The falling drop lands softly and the stain spreads slightly into the paper, the snake tail slips into the dark, lamp smoke curls and the flame wavers. Keep the hand stable and unmoving. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No body morphing, warped fingers, extra fingers, duplicated objects, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng nhìn từ trên cao xuống chiếc bàn gỗ thấp của nhà nho Đại Việt thế kỷ 15 về đêm; một cuốn sách đóng gáy chép tay mở ra dưới ngọn đèn dầu duy nhất, một giọt máu đỏ sẫm rơi từ xà nhà phía trên nơi đuôi con rắn trắng đang trườn khuất vào bóng tối, hai giọt máu đỏ tươi đã loang trên trang sách, tay áo và bàn tay bất động của nhà nho đặt ở mép khung bên nghiên mực và bút lông, khói đèn cuộn lên. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác bàn, cuốn sách mở, các giọt máu, đèn dầu, đuôi rắn, nghiên mực, bút lông, bàn tay và tay áo, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy rất chậm về phía trang sách. Giọt máu rơi chạm nhẹ và vết loang thấm rộng thêm chút vào giấy, đuôi rắn khuất vào bóng tối, khói đèn cuộn và ngọn lửa run rẩy. Giữ bàn tay ổn định, bất động. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không biến dạng cơ thể, không ngón tay vặn vẹo, không thừa ngón, không nhân bản đồ vật, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "tense",
+      "hasAudio": true
+    },
+    {
+      "scene": 9,
+      "narration": "Nhưng hãy nhớ, đây là những chi tiết thuộc về giai thoại, không phải sự kiện siêu nhiên đã được lịch sử xác minh. Muốn hiểu vì sao câu chuyện này ám ảnh người đời, chúng ta phải trở lại một biến cố có thật.",
+      "image": {
+        "kind": "search",
+        "characters": [],
+        "query": "Sách cổ chữ Hán Nôm in mộc bản — Lan Trì kiến văn lục (Vũ Trinh), chép giai thoại rắn báo oán"
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 10,
+      "narration": "Năm một nghìn bốn trăm bốn mươi hai, vua Lê Thái Tông qua đời tại Lệ Chi Viên. Nguyễn Trãi và gia đình bị cuốn vào vụ án lớn của triều đình. Nguyễn Trãi bị kết án tru di tam tộc, để lại một trong những bi kịch đau xót nhất trong lịch sử Đại Việt. Sau thảm kịch ấy, câu chuyện rắn báo oán được truyền tụng như một cách lý giải mang màu sắc tâm linh về nỗi oan của vị danh nhân.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt royal camp in a lychee orchard at night; outside the largest lamp-lit cloth tent, Vietnamese court officials and guards kneel in rows with heads bowed, palace women weep behind them, a physician hurries out through the tent flap, lanterns sway in the wind, lychee branches heavy with red fruit hang overhead, plain solid-crimson cloth banners, no emblem or lettering, droop on their poles. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact tent, kneeling officials and guards, palace women, physician, lanterns, lychee trees, banners, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Lanterns sway and their light wavers over the bowed rows, the tent flap stirs in the wind, lychee leaves rustle, the drooping banners lift faintly. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng hành dinh xa giá trong vườn vải Đại Việt thế kỷ 15 về đêm; bên ngoài chiếc lều vải lớn nhất sáng đèn, quan lại và lính canh người Việt quỳ thành hàng cúi đầu, cung nữ khóc phía sau họ, một thầy thuốc vội vã bước ra khỏi vạt lều, đèn lồng đung đưa trong gió, cành vải trĩu quả đỏ rủ trên cao, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, rũ xuống trên cán. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác chiếc lều, quan lại và lính canh đang quỳ, cung nữ, thầy thuốc, đèn lồng, cây vải, cờ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Đèn lồng đung đưa, ánh sáng run rẩy trên những hàng người cúi đầu, vạt lều khẽ động trong gió, lá vải xào xạc, những lá cờ rũ khẽ nâng lên. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "somber",
+      "hasAudio": true
+    },
+    {
+      "scene": 11,
+      "narration": "Vậy lời nguyền có thật không? Cho đến nay, không có bằng chứng lịch sử đáng tin cậy xác nhận rằng một lời nguyền siêu nhiên đã gây ra vụ án.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt village hillock at misty dawn; the low earthen mound now overgrown again with tall grass and wild flowers, a lone Vietnamese farmer in nón lá pauses small and off-center with a hoe on his shoulder staring at it, a thin trail through the grass winds into the brush, mist rolls across the flooded paddies, egrets stand in the shallow water, bamboo groves loom grey behind. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact mound, farmer, hoe, grass, egrets, paddies, bamboo groves, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in toward the mound. Mist rolls slowly over the paddies, the tall grass and wild flowers sway, an egret steps in the shallow water, bamboo sways in the grey distance. Keep the small farmer stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated birds, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng gò đất làng quê Đại Việt thế kỷ 15 lúc bình minh sương mù; gò đất thấp nay lại mọc đầy cỏ cao và hoa dại, một nông dân người Việt đội nón lá đứng nhỏ và lệch tâm, vác cuốc trên vai dừng lại nhìn chăm chú, một vệt lối mảnh xuyên qua đám cỏ uốn vào bụi rậm, sương lăn trên ruộng ngập nước, đàn cò đứng trong nước nông, lũy tre xám mờ phía sau. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác gò đất, người nông dân, cái cuốc, đám cỏ, đàn cò, ruộng lúa, lũy tre, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy chậm về phía gò đất. Sương lăn chậm trên ruộng, cỏ cao và hoa dại đung đưa, một con cò bước trong nước nông, lũy tre lay động trong khoảng xa xám mờ. Giữ người nông dân nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản chim, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": true
+    },
+    {
+      "scene": 12,
+      "narration": "Những chi tiết về rắn trắng, máu trên trang sách và lời báo oán cần được nhìn nhận như những yếu tố của giai thoại. Điều lịch sử ghi nhận là Nguyễn Trãi đã được vua Lê Thánh Tông minh oan vào năm một nghìn bốn trăm sáu mươi tư.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt village scribe's shaded veranda in hazy afternoon; an elderly Vietnamese scribe copies folk tales with a brush at a low desk piled with bound books, beside his page a small ink sketch of a coiled snake, a young apprentice grinds ink on a stone, neighbours pause at the bamboo gate to listen, a breeze turns loose pages, areca palms and a fish pond beyond the yard. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact scribe, apprentice, desk, books, snake sketch, neighbours, bamboo gate, areca palms, pond, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. The scribe's brush moves slowly across the page, the apprentice grinds ink in small circles, a breeze lifts and turns loose pages, areca palms sway and the pond ripples. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng hiên nhà râm mát của một người chép sách trong làng Đại Việt thế kỷ 15 lúc chiều mờ nắng; một ông lão chép sách người Việt dùng bút lông chép truyện dân gian bên bàn thấp chất đầy sách đóng gáy, cạnh trang giấy là một hình vẽ mực nhỏ con rắn cuộn tròn, một cậu học việc mài mực trên nghiên đá, hàng xóm dừng lại ở cổng tre lắng nghe, làn gió lật những trang giấy rời, hàng cau và ao cá phía bên kia sân. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác ông lão chép sách, cậu học việc, bàn, sách, hình vẽ con rắn, hàng xóm, cổng tre, hàng cau, ao cá, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Ngọn bút của ông lão đưa chậm trên trang giấy, cậu học việc mài mực theo vòng nhỏ, làn gió nâng và lật những trang giấy rời, hàng cau đung đưa và mặt ao gợn sóng. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "neutral",
+      "hasAudio": true
+    },
+    {
+      "scene": 13,
+      "narration": "Một con người từng có công lớn với đất nước, cuối cùng phải chịu kết cục bi thảm, rồi được phục hồi danh dự sau nhiều năm. Có lẽ, sức sống của chuyện rắn báo oán không chỉ nằm ở yếu tố kỳ bí. Nó còn phản ánh nỗi xót thương của người đời trước một vụ án oan và khát vọng công lý vượt qua thời gian.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Wide 15th-century Đại Việt rebel army camp in the forested Lam Sơn hills at night; a scholar sits small and off-center at about one-fifth frame height inside an open bamboo-and-thatch command shelter writing on a scroll by lamplight, Vietnamese soldiers in lacquered leather armor with rattan shields and spears sharpen blades around campfires, war elephants stand among the trees, smoke drifts up into the jungle canopy, plain solid-crimson cloth banners, no emblem or lettering, lean against the posts. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, command shelter, scroll, lamp, soldiers, rattan shields, spears, war elephants, campfires, banners, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Campfires crackle and throw sparks, soldiers draw whetstones along their blades, the elephants sway and flap their ears, smoke rises into the canopy, the lamp flame flickers. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng doanh trại nghĩa quân giữa rừng núi Lam Sơn Đại Việt thế kỷ 15 về đêm; một nhà nho ngồi nhỏ và lệch tâm cao khoảng một phần năm khung hình trong lán chỉ huy tre nứa mái tranh không vách, viết trên cuộn giấy dưới ánh đèn, binh sĩ người Việt mặc giáp da sơn mài với khiên mây và giáo mài vũ khí quanh đống lửa trại, voi chiến đứng giữa những tán cây, khói bốc lên tán rừng rậm, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, dựng tựa vào cột. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác danh tính nhân vật, lán chỉ huy, cuộn giấy, đèn, binh sĩ, khiên mây, giáo, voi chiến, lửa trại, cờ, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Lửa trại lách tách tóe tàn, binh sĩ miết đá mài dọc lưỡi vũ khí, voi đung đưa và phe phẩy tai, khói bốc lên tán rừng, ngọn đèn chập chờn. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "hopeful",
+      "hasAudio": true
+    },
+    {
+      "scene": 14,
+      "narration": "Vậy theo bạn, chuyện rắn báo oán là một truyền thuyết nhằm lý giải nỗi oan của Nguyễn Trãi, hay còn ẩn chứa những tầng ý nghĩa khác trong văn hóa dân gian Việt Nam? Hãy để lại ý kiến của bạn và đón xem những hồ sơ bí ẩn khác trong lịch sử Việt Nam!",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Wide moonlit 15th-century Đại Việt scholar's study, long abandoned; a white snake lies coiled on the dark roof beam above an empty low desk where a closed book and a cold oil lamp gather dust, moonlight falls through the bamboo lattice in pale stripes, cobwebs drift between the rafters, outside the open door a lone village woman with a lantern pauses on the path to look in, bamboo sways and fog moves across the yard. No Ming/Qing Chinese, Japanese, Nguyễn-dynasty or European elements.",
+        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact white snake, roof beam, desk, book, oil lamp, lattice, village woman, lantern, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow push-in toward the beam. The coiled snake lifts its head slightly and its tongue flickers, moonlight stripes shift faintly, cobwebs drift, the woman's lantern sways, fog moves across the yard. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated snakes, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng thư phòng nhà nho Đại Việt thế kỷ 15 bỏ hoang từ lâu dưới ánh trăng; một con rắn trắng nằm cuộn trên thanh xà tối phía trên chiếc bàn thấp trống trơn, nơi cuốn sách gấp và ngọn đèn dầu nguội phủ bụi, ánh trăng rọi qua chấn song tre thành những vệt sáng nhạt, mạng nhện lay giữa các rui nhà, ngoài cửa mở một người phụ nữ trong làng cầm đèn lồng dừng chân trên lối đi nhìn vào, lũy tre đung đưa và sương trôi ngang sân. Không yếu tố Minh/Thanh Trung Hoa, Nhật Bản, thời Nguyễn hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác con rắn trắng, xà nhà, bàn, cuốn sách, đèn dầu, chấn song, người phụ nữ trong làng, đèn lồng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy chậm về phía xà nhà. Con rắn đang cuộn khẽ ngóc đầu và lưỡi thè ra thụt vào, các vệt trăng khẽ dịch chuyển, mạng nhện lay động, đèn lồng của người phụ nữ đung đưa, sương trôi ngang sân. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản rắn, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+      },
+      "cue": "curious",
+      "hasAudio": true
+    }
+  ],
+  "sceneDurations": [
+    2.83,
+    3.18,
+    4.02,
+    5.45,
+    6.79,
+    10.82,
+    7.38,
+    12.32,
+    11.27,
+    21.81,
+    7.548,
+    12.33,
+    16.2,
+    12.78
+  ],
+  "motionPlaybackRates": [
+    0.8605,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "captionGroups": [
+    [
+      {
+        "text": "Một",
+        "start": 0.217,
+        "end": 0.39
+      },
+      {
+        "text": "giọt",
+        "start": 0.39,
+        "end": 0.591
+      },
+      {
+        "text": "máu",
+        "start": 0.591,
+        "end": 0.763
+      },
+      {
+        "text": "rơi",
+        "start": 0.763,
+        "end": 0.936
+      },
+      {
+        "text": "xuống",
+        "start": 0.936,
+        "end": 1.164
+      },
+      {
+        "text": "trang",
+        "start": 1.164,
+        "end": 1.392
+      },
+      {
+        "text": "sách",
+        "start": 1.392,
+        "end": 1.593
+      }
+    ],
+    [
+      {
+        "text": "của",
+        "start": 1.593,
+        "end": 1.765
+      },
+      {
+        "text": "nhà",
+        "start": 1.765,
+        "end": 1.938
+      },
+      {
+        "text": "nho.",
+        "start": 1.938,
+        "end": 2.11
+      }
+    ],
+    [
+      {
+        "text": "Trên",
+        "start": 3.038,
+        "end": 3.262
+      },
+      {
+        "text": "xà",
+        "start": 3.262,
+        "end": 3.415
+      },
+      {
+        "text": "nhà,",
+        "start": 3.415,
+        "end": 3.607
+      },
+      {
+        "text": "một",
+        "start": 3.607,
+        "end": 3.798
+      },
+      {
+        "text": "con",
+        "start": 3.798,
+        "end": 3.99
+      },
+      {
+        "text": "rắn",
+        "start": 3.99,
+        "end": 4.181
+      },
+      {
+        "text": "trắng",
+        "start": 4.181,
+        "end": 4.434
+      }
+    ],
+    [
+      {
+        "text": "lặng",
+        "start": 4.434,
+        "end": 4.659
+      },
+      {
+        "text": "lẽ",
+        "start": 4.659,
+        "end": 4.812
+      },
+      {
+        "text": "nhìn",
+        "start": 4.812,
+        "end": 5.036
+      },
+      {
+        "text": "xuống.",
+        "start": 5.036,
+        "end": 5.29
+      }
+    ],
+    [
+      {
+        "text": "Nhiều",
+        "start": 6.228,
+        "end": 6.47
+      },
+      {
+        "text": "năm",
+        "start": 6.47,
+        "end": 6.653
+      },
+      {
+        "text": "sau,",
+        "start": 6.653,
+        "end": 7.261
+      },
+      {
+        "text": "người",
+        "start": 7.261,
+        "end": 7.504
+      },
+      {
+        "text": "viết",
+        "start": 7.504,
+        "end": 7.718
+      },
+      {
+        "text": "Bình",
+        "start": 7.718,
+        "end": 7.933
+      },
+      {
+        "text": "Ngô",
+        "start": 7.933,
+        "end": 8.116
+      }
+    ],
+    [
+      {
+        "text": "đại",
+        "start": 8.116,
+        "end": 8.299
+      },
+      {
+        "text": "cáo",
+        "start": 8.299,
+        "end": 8.482
+      },
+      {
+        "text": "bị",
+        "start": 8.482,
+        "end": 8.628
+      },
+      {
+        "text": "chém",
+        "start": 8.628,
+        "end": 8.843
+      },
+      {
+        "text": "cả",
+        "start": 8.843,
+        "end": 8.99
+      },
+      {
+        "text": "ba",
+        "start": 8.99,
+        "end": 9.136
+      },
+      {
+        "text": "họ.",
+        "start": 9.136,
+        "end": 9.53
+      }
+    ],
+    [
+      {
+        "text": "TIN",
+        "start": 10.235,
+        "end": 10.415
+      },
+      {
+        "text": "NÓNG",
+        "start": 10.415,
+        "end": 10.624
+      },
+      {
+        "text": "LỊCH",
+        "start": 10.624,
+        "end": 10.834
+      },
+      {
+        "text": "SỬ!",
+        "start": 10.834,
+        "end": 11.718
+      }
+    ],
+    [
+      {
+        "text": "Dân",
+        "start": 11.718,
+        "end": 11.897
+      },
+      {
+        "text": "gian",
+        "start": 11.897,
+        "end": 12.107
+      },
+      {
+        "text": "bảo,",
+        "start": 12.107,
+        "end": 12.286
+      },
+      {
+        "text": "tất",
+        "start": 12.286,
+        "end": 12.465
+      },
+      {
+        "text": "cả",
+        "start": 12.465,
+        "end": 12.609
+      },
+      {
+        "text": "bắt",
+        "start": 12.609,
+        "end": 12.788
+      },
+      {
+        "text": "đầu",
+        "start": 12.788,
+        "end": 12.967
+      }
+    ],
+    [
+      {
+        "text": "từ",
+        "start": 12.967,
+        "end": 13.11
+      },
+      {
+        "text": "hai",
+        "start": 13.11,
+        "end": 13.289
+      },
+      {
+        "text": "quả",
+        "start": 13.289,
+        "end": 13.469
+      },
+      {
+        "text": "trứng",
+        "start": 13.469,
+        "end": 13.706
+      },
+      {
+        "text": "rắn.",
+        "start": 13.706,
+        "end": 14.109
+      }
+    ],
+    [
+      {
+        "text": "Chuyện",
+        "start": 14.109,
+        "end": 14.371
+      },
+      {
+        "text": "gì",
+        "start": 14.371,
+        "end": 14.514
+      },
+      {
+        "text": "đã",
+        "start": 14.514,
+        "end": 14.658
+      },
+      {
+        "text": "xảy",
+        "start": 14.658,
+        "end": 14.837
+      },
+      {
+        "text": "ra?",
+        "start": 14.837,
+        "end": 14.98
+      }
+    ],
+    [
+      {
+        "text": "Theo",
+        "start": 15.685,
+        "end": 15.864
+      },
+      {
+        "text": "một",
+        "start": 15.864,
+        "end": 16.017
+      },
+      {
+        "text": "giai",
+        "start": 16.017,
+        "end": 16.196
+      },
+      {
+        "text": "thoại",
+        "start": 16.196,
+        "end": 16.399
+      },
+      {
+        "text": "được",
+        "start": 16.399,
+        "end": 16.578
+      },
+      {
+        "text": "lưu",
+        "start": 16.578,
+        "end": 16.731
+      },
+      {
+        "text": "truyền",
+        "start": 16.731,
+        "end": 16.955
+      }
+    ],
+    [
+      {
+        "text": "trong",
+        "start": 16.955,
+        "end": 17.158
+      },
+      {
+        "text": "sách",
+        "start": 17.158,
+        "end": 17.337
+      },
+      {
+        "text": "xưa,",
+        "start": 17.337,
+        "end": 18.055
+      },
+      {
+        "text": "câu",
+        "start": 18.055,
+        "end": 18.208
+      },
+      {
+        "text": "chuyện",
+        "start": 18.208,
+        "end": 18.432
+      },
+      {
+        "text": "bắt",
+        "start": 18.432,
+        "end": 18.585
+      },
+      {
+        "text": "đầu",
+        "start": 18.585,
+        "end": 18.737
+      }
+    ],
+    [
+      {
+        "text": "tại",
+        "start": 18.737,
+        "end": 18.89
+      },
+      {
+        "text": "Nhị",
+        "start": 18.89,
+        "end": 19.043
+      },
+      {
+        "text": "Khê,",
+        "start": 19.043,
+        "end": 19.196
+      },
+      {
+        "text": "quê",
+        "start": 19.196,
+        "end": 19.349
+      },
+      {
+        "text": "hương",
+        "start": 19.349,
+        "end": 20.019
+      },
+      {
+        "text": "Nguyễn",
+        "start": 20.019,
+        "end": 20.243
+      },
+      {
+        "text": "Trãi,",
+        "start": 20.243,
+        "end": 20.422
+      }
+    ],
+    [
+      {
+        "text": "khi",
+        "start": 20.422,
+        "end": 20.93
+      },
+      {
+        "text": "ông",
+        "start": 20.93,
+        "end": 21.083
+      },
+      {
+        "text": "còn",
+        "start": 21.083,
+        "end": 21.236
+      },
+      {
+        "text": "dạy",
+        "start": 21.236,
+        "end": 21.389
+      },
+      {
+        "text": "học.",
+        "start": 21.389,
+        "end": 21.542
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 22.451,
+        "end": 22.622
+      },
+      {
+        "text": "ngày",
+        "start": 22.622,
+        "end": 22.824
+      },
+      {
+        "text": "nọ,",
+        "start": 22.824,
+        "end": 23.227
+      },
+      {
+        "text": "học",
+        "start": 23.227,
+        "end": 23.399
+      },
+      {
+        "text": "trò",
+        "start": 23.399,
+        "end": 23.57
+      },
+      {
+        "text": "phát",
+        "start": 23.57,
+        "end": 23.772
+      },
+      {
+        "text": "cỏ",
+        "start": 23.772,
+        "end": 23.909
+      }
+    ],
+    [
+      {
+        "text": "trên",
+        "start": 23.909,
+        "end": 24.11
+      },
+      {
+        "text": "một",
+        "start": 24.11,
+        "end": 24.282
+      },
+      {
+        "text": "gò",
+        "start": 24.282,
+        "end": 24.952
+      },
+      {
+        "text": "đất.",
+        "start": 24.952,
+        "end": 25.123
+      }
+    ],
+    [
+      {
+        "text": "Giữa",
+        "start": 25.123,
+        "end": 25.325
+      },
+      {
+        "text": "đám",
+        "start": 25.325,
+        "end": 25.496
+      },
+      {
+        "text": "cỏ",
+        "start": 25.496,
+        "end": 25.634
+      },
+      {
+        "text": "rậm,",
+        "start": 25.634,
+        "end": 26.023
+      },
+      {
+        "text": "họ",
+        "start": 26.023,
+        "end": 26.161
+      },
+      {
+        "text": "phát",
+        "start": 26.161,
+        "end": 26.362
+      },
+      {
+        "text": "hiện",
+        "start": 26.362,
+        "end": 26.563
+      }
+    ],
+    [
+      {
+        "text": "hai",
+        "start": 26.563,
+        "end": 26.735
+      },
+      {
+        "text": "quả",
+        "start": 26.735,
+        "end": 26.906
+      },
+      {
+        "text": "trứng",
+        "start": 26.906,
+        "end": 27.689
+      },
+      {
+        "text": "rắn.",
+        "start": 27.689,
+        "end": 27.861
+      }
+    ],
+    [
+      {
+        "text": "Câu",
+        "start": 27.861,
+        "end": 28.033
+      },
+      {
+        "text": "chuyện",
+        "start": 28.033,
+        "end": 28.284
+      },
+      {
+        "text": "kể",
+        "start": 28.284,
+        "end": 28.421
+      },
+      {
+        "text": "rằng",
+        "start": 28.421,
+        "end": 28.623
+      },
+      {
+        "text": "con",
+        "start": 28.623,
+        "end": 28.794
+      },
+      {
+        "text": "rắn",
+        "start": 28.794,
+        "end": 28.966
+      },
+      {
+        "text": "mẹ",
+        "start": 28.966,
+        "end": 29.104
+      }
+    ],
+    [
+      {
+        "text": "bị",
+        "start": 29.104,
+        "end": 29.241
+      },
+      {
+        "text": "thương",
+        "start": 29.241,
+        "end": 29.492
+      },
+      {
+        "text": "sau",
+        "start": 29.492,
+        "end": 29.664
+      },
+      {
+        "text": "khi",
+        "start": 29.664,
+        "end": 29.836
+      },
+      {
+        "text": "gò",
+        "start": 29.836,
+        "end": 29.973
+      },
+      {
+        "text": "đất",
+        "start": 29.973,
+        "end": 30.145
+      },
+      {
+        "text": "bị",
+        "start": 30.145,
+        "end": 30.282
+      }
+    ],
+    [
+      {
+        "text": "xáo",
+        "start": 30.282,
+        "end": 30.454
+      },
+      {
+        "text": "trộn,",
+        "start": 30.454,
+        "end": 30.655
+      },
+      {
+        "text": "rồi",
+        "start": 30.655,
+        "end": 30.827
+      },
+      {
+        "text": "bò",
+        "start": 30.827,
+        "end": 30.964
+      },
+      {
+        "text": "đi,",
+        "start": 30.964,
+        "end": 31.102
+      },
+      {
+        "text": "để",
+        "start": 31.102,
+        "end": 31.529
+      },
+      {
+        "text": "lại",
+        "start": 31.529,
+        "end": 31.7
+      }
+    ],
+    [
+      {
+        "text": "ổ",
+        "start": 31.7,
+        "end": 31.794
+      },
+      {
+        "text": "trứng",
+        "start": 31.794,
+        "end": 32.022
+      },
+      {
+        "text": "phía",
+        "start": 32.022,
+        "end": 32.223
+      },
+      {
+        "text": "sau.",
+        "start": 32.223,
+        "end": 32.394
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 33.296,
+        "end": 33.529
+      },
+      {
+        "text": "điều",
+        "start": 33.529,
+        "end": 33.735
+      },
+      {
+        "text": "kỳ",
+        "start": 33.735,
+        "end": 33.876
+      },
+      {
+        "text": "lạ",
+        "start": 33.876,
+        "end": 34.017
+      },
+      {
+        "text": "nhất",
+        "start": 34.017,
+        "end": 34.223
+      },
+      {
+        "text": "lại",
+        "start": 34.223,
+        "end": 34.399
+      },
+      {
+        "text": "xảy",
+        "start": 34.399,
+        "end": 34.575
+      }
+    ],
+    [
+      {
+        "text": "ra",
+        "start": 34.575,
+        "end": 34.716
+      },
+      {
+        "text": "khi",
+        "start": 34.716,
+        "end": 34.892
+      },
+      {
+        "text": "đêm",
+        "start": 34.892,
+        "end": 35.068
+      },
+      {
+        "text": "xuống.",
+        "start": 35.068,
+        "end": 35.301
+      }
+    ],
+    [
+      {
+        "text": "Trong",
+        "start": 35.301,
+        "end": 36.201
+      },
+      {
+        "text": "giai",
+        "start": 36.201,
+        "end": 36.407
+      },
+      {
+        "text": "thoại,",
+        "start": 36.407,
+        "end": 36.641
+      },
+      {
+        "text": "một",
+        "start": 36.641,
+        "end": 36.817
+      },
+      {
+        "text": "con",
+        "start": 36.817,
+        "end": 36.993
+      },
+      {
+        "text": "rắn",
+        "start": 36.993,
+        "end": 37.169
+      },
+      {
+        "text": "trắng",
+        "start": 37.169,
+        "end": 37.402
+      }
+    ],
+    [
+      {
+        "text": "xuất",
+        "start": 37.402,
+        "end": 37.608
+      },
+      {
+        "text": "hiện",
+        "start": 37.608,
+        "end": 37.814
+      },
+      {
+        "text": "trên",
+        "start": 37.814,
+        "end": 38.02
+      },
+      {
+        "text": "xà",
+        "start": 38.02,
+        "end": 38.161
+      },
+      {
+        "text": "nhà.",
+        "start": 38.161,
+        "end": 38.337
+      }
+    ],
+    [
+      {
+        "text": "Ánh",
+        "start": 38.337,
+        "end": 38.988
+      },
+      {
+        "text": "đèn",
+        "start": 38.988,
+        "end": 39.165
+      },
+      {
+        "text": "dầu",
+        "start": 39.165,
+        "end": 39.341
+      },
+      {
+        "text": "chập",
+        "start": 39.341,
+        "end": 39.547
+      },
+      {
+        "text": "chờn.",
+        "start": 39.547,
+        "end": 39.753
+      }
+    ],
+    [
+      {
+        "text": "Bóng",
+        "start": 40.691,
+        "end": 40.905
+      },
+      {
+        "text": "rắn",
+        "start": 40.905,
+        "end": 41.087
+      },
+      {
+        "text": "lặng",
+        "start": 41.087,
+        "end": 41.3
+      },
+      {
+        "text": "lẽ",
+        "start": 41.3,
+        "end": 41.445
+      },
+      {
+        "text": "trườn",
+        "start": 41.445,
+        "end": 41.687
+      },
+      {
+        "text": "qua",
+        "start": 41.687,
+        "end": 41.869
+      },
+      {
+        "text": "những",
+        "start": 41.869,
+        "end": 42.11
+      }
+    ],
+    [
+      {
+        "text": "thanh",
+        "start": 42.11,
+        "end": 42.351
+      },
+      {
+        "text": "gỗ",
+        "start": 42.351,
+        "end": 42.496
+      },
+      {
+        "text": "cũ.",
+        "start": 42.496,
+        "end": 43.035
+      }
+    ],
+    [
+      {
+        "text": "Rồi",
+        "start": 43.035,
+        "end": 43.217
+      },
+      {
+        "text": "một",
+        "start": 43.217,
+        "end": 43.399
+      },
+      {
+        "text": "chi",
+        "start": 43.399,
+        "end": 43.581
+      },
+      {
+        "text": "tiết",
+        "start": 43.581,
+        "end": 43.795
+      },
+      {
+        "text": "rùng",
+        "start": 43.795,
+        "end": 44.008
+      },
+      {
+        "text": "rợn",
+        "start": 44.008,
+        "end": 44.19
+      },
+      {
+        "text": "được",
+        "start": 44.19,
+        "end": 44.403
+      }
+    ],
+    [
+      {
+        "text": "truyền",
+        "start": 44.403,
+        "end": 44.67
+      },
+      {
+        "text": "lại:",
+        "start": 44.67,
+        "end": 45.177
+      }
+    ],
+    [
+      {
+        "text": "máu",
+        "start": 45.177,
+        "end": 45.359
+      },
+      {
+        "text": "nhỏ",
+        "start": 45.359,
+        "end": 45.541
+      },
+      {
+        "text": "xuống",
+        "start": 45.541,
+        "end": 45.782
+      },
+      {
+        "text": "trang",
+        "start": 45.782,
+        "end": 46.024
+      },
+      {
+        "text": "sách",
+        "start": 46.024,
+        "end": 46.237
+      },
+      {
+        "text": "của",
+        "start": 46.237,
+        "end": 46.419
+      },
+      {
+        "text": "nhà",
+        "start": 46.419,
+        "end": 46.601
+      }
+    ],
+    [
+      {
+        "text": "nho.",
+        "start": 46.601,
+        "end": 47.199
+      }
+    ],
+    [
+      {
+        "text": "Người",
+        "start": 47.199,
+        "end": 47.44
+      },
+      {
+        "text": "đời",
+        "start": 47.44,
+        "end": 47.622
+      },
+      {
+        "text": "kể",
+        "start": 47.622,
+        "end": 47.768
+      },
+      {
+        "text": "rằng",
+        "start": 47.768,
+        "end": 47.981
+      },
+      {
+        "text": "đó",
+        "start": 47.981,
+        "end": 48.127
+      },
+      {
+        "text": "là",
+        "start": 48.127,
+        "end": 48.272
+      },
+      {
+        "text": "điềm",
+        "start": 48.272,
+        "end": 48.485
+      }
+    ],
+    [
+      {
+        "text": "báo",
+        "start": 48.485,
+        "end": 48.667
+      },
+      {
+        "text": "của",
+        "start": 48.667,
+        "end": 48.849
+      },
+      {
+        "text": "một",
+        "start": 48.849,
+        "end": 49.032
+      },
+      {
+        "text": "món",
+        "start": 49.032,
+        "end": 49.214
+      },
+      {
+        "text": "nợ",
+        "start": 49.214,
+        "end": 49.359
+      },
+      {
+        "text": "oan",
+        "start": 49.359,
+        "end": 49.541
+      },
+      {
+        "text": "nghiệt,",
+        "start": 49.541,
+        "end": 50.14
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 50.14,
+        "end": 50.322
+      },
+      {
+        "text": "lời",
+        "start": 50.322,
+        "end": 50.504
+      },
+      {
+        "text": "báo",
+        "start": 50.504,
+        "end": 50.686
+      },
+      {
+        "text": "oán",
+        "start": 50.686,
+        "end": 50.868
+      },
+      {
+        "text": "có",
+        "start": 50.868,
+        "end": 51.014
+      },
+      {
+        "text": "thể",
+        "start": 51.014,
+        "end": 51.196
+      },
+      {
+        "text": "kéo",
+        "start": 51.196,
+        "end": 51.378
+      }
+    ],
+    [
+      {
+        "text": "dài",
+        "start": 51.378,
+        "end": 51.56
+      },
+      {
+        "text": "qua",
+        "start": 51.56,
+        "end": 51.742
+      },
+      {
+        "text": "ba",
+        "start": 51.742,
+        "end": 51.887
+      },
+      {
+        "text": "đời.",
+        "start": 51.887,
+        "end": 52.29
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 52.997,
+        "end": 53.234
+      },
+      {
+        "text": "hãy",
+        "start": 53.234,
+        "end": 53.412
+      },
+      {
+        "text": "nhớ,",
+        "start": 53.412,
+        "end": 53.591
+      },
+      {
+        "text": "đây",
+        "start": 53.591,
+        "end": 54.016
+      },
+      {
+        "text": "là",
+        "start": 54.016,
+        "end": 54.159
+      },
+      {
+        "text": "những",
+        "start": 54.159,
+        "end": 54.395
+      },
+      {
+        "text": "chi",
+        "start": 54.395,
+        "end": 54.574
+      }
+    ],
+    [
+      {
+        "text": "tiết",
+        "start": 54.574,
+        "end": 54.783
+      },
+      {
+        "text": "thuộc",
+        "start": 54.783,
+        "end": 55.02
+      },
+      {
+        "text": "về",
+        "start": 55.02,
+        "end": 55.163
+      },
+      {
+        "text": "giai",
+        "start": 55.163,
+        "end": 55.372
+      },
+      {
+        "text": "thoại,",
+        "start": 55.372,
+        "end": 55.608
+      },
+      {
+        "text": "không",
+        "start": 55.608,
+        "end": 56.162
+      },
+      {
+        "text": "phải",
+        "start": 56.162,
+        "end": 56.371
+      }
+    ],
+    [
+      {
+        "text": "sự",
+        "start": 56.371,
+        "end": 56.514
+      },
+      {
+        "text": "kiện",
+        "start": 56.514,
+        "end": 56.723
+      },
+      {
+        "text": "siêu",
+        "start": 56.723,
+        "end": 56.932
+      },
+      {
+        "text": "nhiên",
+        "start": 56.932,
+        "end": 57.168
+      },
+      {
+        "text": "đã",
+        "start": 57.168,
+        "end": 57.311
+      },
+      {
+        "text": "được",
+        "start": 57.311,
+        "end": 57.52
+      },
+      {
+        "text": "lịch",
+        "start": 57.52,
+        "end": 57.73
+      }
+    ],
+    [
+      {
+        "text": "sử",
+        "start": 57.73,
+        "end": 57.872
+      },
+      {
+        "text": "xác",
+        "start": 57.872,
+        "end": 58.051
+      },
+      {
+        "text": "minh.",
+        "start": 58.051,
+        "end": 58.26
+      }
+    ],
+    [
+      {
+        "text": "Muốn",
+        "start": 58.26,
+        "end": 59.211
+      },
+      {
+        "text": "hiểu",
+        "start": 59.211,
+        "end": 59.421
+      },
+      {
+        "text": "vì",
+        "start": 59.421,
+        "end": 59.563
+      },
+      {
+        "text": "sao",
+        "start": 59.563,
+        "end": 59.742
+      },
+      {
+        "text": "câu",
+        "start": 59.742,
+        "end": 59.921
+      },
+      {
+        "text": "chuyện",
+        "start": 59.921,
+        "end": 60.182
+      },
+      {
+        "text": "này",
+        "start": 60.182,
+        "end": 60.36
+      }
+    ],
+    [
+      {
+        "text": "ám",
+        "start": 60.36,
+        "end": 60.503
+      },
+      {
+        "text": "ảnh",
+        "start": 60.503,
+        "end": 60.682
+      },
+      {
+        "text": "người",
+        "start": 60.682,
+        "end": 60.918
+      },
+      {
+        "text": "đời,",
+        "start": 60.918,
+        "end": 61.097
+      },
+      {
+        "text": "chúng",
+        "start": 61.097,
+        "end": 61.749
+      },
+      {
+        "text": "ta",
+        "start": 61.749,
+        "end": 61.892
+      },
+      {
+        "text": "phải",
+        "start": 61.892,
+        "end": 62.101
+      }
+    ],
+    [
+      {
+        "text": "trở",
+        "start": 62.101,
+        "end": 62.28
+      },
+      {
+        "text": "lại",
+        "start": 62.28,
+        "end": 62.459
+      },
+      {
+        "text": "một",
+        "start": 62.459,
+        "end": 62.637
+      },
+      {
+        "text": "biến",
+        "start": 62.637,
+        "end": 62.846
+      },
+      {
+        "text": "cố",
+        "start": 62.846,
+        "end": 62.989
+      },
+      {
+        "text": "có",
+        "start": 62.989,
+        "end": 63.132
+      },
+      {
+        "text": "thật.",
+        "start": 63.132,
+        "end": 63.341
+      }
+    ],
+    [
+      {
+        "text": "Năm",
+        "start": 64.275,
+        "end": 64.472
+      },
+      {
+        "text": "một",
+        "start": 64.472,
+        "end": 64.67
+      },
+      {
+        "text": "nghìn",
+        "start": 64.67,
+        "end": 64.931
+      },
+      {
+        "text": "bốn",
+        "start": 64.931,
+        "end": 65.129
+      },
+      {
+        "text": "trăm",
+        "start": 65.129,
+        "end": 65.36
+      },
+      {
+        "text": "bốn",
+        "start": 65.36,
+        "end": 65.882
+      },
+      {
+        "text": "mươi",
+        "start": 65.882,
+        "end": 66.114
+      }
+    ],
+    [
+      {
+        "text": "hai,",
+        "start": 66.114,
+        "end": 66.311
+      },
+      {
+        "text": "vua",
+        "start": 66.311,
+        "end": 66.509
+      },
+      {
+        "text": "Lê",
+        "start": 66.509,
+        "end": 66.667
+      },
+      {
+        "text": "Thái",
+        "start": 66.667,
+        "end": 66.898
+      },
+      {
+        "text": "Tông",
+        "start": 66.898,
+        "end": 67.129
+      },
+      {
+        "text": "qua",
+        "start": 67.129,
+        "end": 67.327
+      },
+      {
+        "text": "đời",
+        "start": 67.327,
+        "end": 67.524
+      }
+    ],
+    [
+      {
+        "text": "tại",
+        "start": 67.524,
+        "end": 67.721
+      },
+      {
+        "text": "Lệ",
+        "start": 67.721,
+        "end": 67.879
+      },
+      {
+        "text": "Chi",
+        "start": 67.879,
+        "end": 68.538
+      },
+      {
+        "text": "Viên.",
+        "start": 68.538,
+        "end": 68.77
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 68.77,
+        "end": 69.059
+      },
+      {
+        "text": "Trãi",
+        "start": 69.059,
+        "end": 69.29
+      },
+      {
+        "text": "và",
+        "start": 69.29,
+        "end": 69.448
+      },
+      {
+        "text": "gia",
+        "start": 69.448,
+        "end": 69.645
+      },
+      {
+        "text": "đình",
+        "start": 69.645,
+        "end": 69.877
+      },
+      {
+        "text": "bị",
+        "start": 69.877,
+        "end": 70.035
+      },
+      {
+        "text": "cuốn",
+        "start": 70.035,
+        "end": 70.266
+      }
+    ],
+    [
+      {
+        "text": "vào",
+        "start": 70.266,
+        "end": 70.463
+      },
+      {
+        "text": "vụ",
+        "start": 70.463,
+        "end": 70.621
+      },
+      {
+        "text": "án",
+        "start": 70.621,
+        "end": 70.779
+      },
+      {
+        "text": "lớn",
+        "start": 70.779,
+        "end": 70.977
+      },
+      {
+        "text": "của",
+        "start": 70.977,
+        "end": 71.174
+      },
+      {
+        "text": "triều",
+        "start": 71.174,
+        "end": 72.396
+      },
+      {
+        "text": "đình.",
+        "start": 72.396,
+        "end": 72.627
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 72.627,
+        "end": 72.916
+      },
+      {
+        "text": "Trãi",
+        "start": 72.916,
+        "end": 73.147
+      },
+      {
+        "text": "bị",
+        "start": 73.147,
+        "end": 73.305
+      },
+      {
+        "text": "kết",
+        "start": 73.305,
+        "end": 73.503
+      },
+      {
+        "text": "án",
+        "start": 73.503,
+        "end": 73.661
+      },
+      {
+        "text": "tru",
+        "start": 73.661,
+        "end": 73.858
+      },
+      {
+        "text": "di",
+        "start": 73.858,
+        "end": 74.016
+      }
+    ],
+    [
+      {
+        "text": "tam",
+        "start": 74.016,
+        "end": 74.214
+      },
+      {
+        "text": "tộc,",
+        "start": 74.214,
+        "end": 74.768
+      },
+      {
+        "text": "để",
+        "start": 74.768,
+        "end": 74.926
+      },
+      {
+        "text": "lại",
+        "start": 74.926,
+        "end": 75.124
+      },
+      {
+        "text": "một",
+        "start": 75.124,
+        "end": 75.321
+      },
+      {
+        "text": "trong",
+        "start": 75.321,
+        "end": 75.583
+      },
+      {
+        "text": "những",
+        "start": 75.583,
+        "end": 75.844
+      }
+    ],
+    [
+      {
+        "text": "bi",
+        "start": 75.844,
+        "end": 76.002
+      },
+      {
+        "text": "kịch",
+        "start": 76.002,
+        "end": 76.234
+      },
+      {
+        "text": "đau",
+        "start": 76.234,
+        "end": 76.431
+      },
+      {
+        "text": "xót",
+        "start": 76.431,
+        "end": 76.628
+      },
+      {
+        "text": "nhất",
+        "start": 76.628,
+        "end": 77.043
+      },
+      {
+        "text": "trong",
+        "start": 77.043,
+        "end": 77.304
+      },
+      {
+        "text": "lịch",
+        "start": 77.304,
+        "end": 77.535
+      }
+    ],
+    [
+      {
+        "text": "sử",
+        "start": 77.535,
+        "end": 77.693
+      },
+      {
+        "text": "Đại",
+        "start": 77.693,
+        "end": 77.891
+      },
+      {
+        "text": "Việt.",
+        "start": 77.891,
+        "end": 78.938
+      }
+    ],
+    [
+      {
+        "text": "Sau",
+        "start": 78.938,
+        "end": 79.135
+      },
+      {
+        "text": "thảm",
+        "start": 79.135,
+        "end": 79.366
+      },
+      {
+        "text": "kịch",
+        "start": 79.366,
+        "end": 79.598
+      },
+      {
+        "text": "ấy,",
+        "start": 79.598,
+        "end": 80.098
+      },
+      {
+        "text": "câu",
+        "start": 80.098,
+        "end": 80.296
+      },
+      {
+        "text": "chuyện",
+        "start": 80.296,
+        "end": 80.585
+      },
+      {
+        "text": "rắn",
+        "start": 80.585,
+        "end": 80.782
+      }
+    ],
+    [
+      {
+        "text": "báo",
+        "start": 80.782,
+        "end": 80.98
+      },
+      {
+        "text": "oán",
+        "start": 80.98,
+        "end": 81.177
+      },
+      {
+        "text": "được",
+        "start": 81.177,
+        "end": 81.408
+      },
+      {
+        "text": "truyền",
+        "start": 81.408,
+        "end": 81.697
+      },
+      {
+        "text": "tụng",
+        "start": 81.697,
+        "end": 81.929
+      },
+      {
+        "text": "như",
+        "start": 81.929,
+        "end": 82.126
+      },
+      {
+        "text": "một",
+        "start": 82.126,
+        "end": 82.324
+      }
+    ],
+    [
+      {
+        "text": "cách",
+        "start": 82.324,
+        "end": 82.555
+      },
+      {
+        "text": "lý",
+        "start": 82.555,
+        "end": 82.713
+      },
+      {
+        "text": "giải",
+        "start": 82.713,
+        "end": 82.944
+      },
+      {
+        "text": "mang",
+        "start": 82.944,
+        "end": 83.175
+      },
+      {
+        "text": "màu",
+        "start": 83.175,
+        "end": 83.373
+      },
+      {
+        "text": "sắc",
+        "start": 83.373,
+        "end": 83.57
+      },
+      {
+        "text": "tâm",
+        "start": 83.57,
+        "end": 83.768
+      }
+    ],
+    [
+      {
+        "text": "linh",
+        "start": 83.768,
+        "end": 83.999
+      },
+      {
+        "text": "về",
+        "start": 83.999,
+        "end": 84.157
+      },
+      {
+        "text": "nỗi",
+        "start": 84.157,
+        "end": 84.354
+      },
+      {
+        "text": "oan",
+        "start": 84.354,
+        "end": 84.552
+      },
+      {
+        "text": "của",
+        "start": 84.552,
+        "end": 84.749
+      },
+      {
+        "text": "vị",
+        "start": 84.749,
+        "end": 84.907
+      },
+      {
+        "text": "danh",
+        "start": 84.907,
+        "end": 85.139
+      }
+    ],
+    [
+      {
+        "text": "nhân.",
+        "start": 85.139,
+        "end": 85.37
+      }
+    ],
+    [
+      {
+        "text": "Vậy",
+        "start": 86.081,
+        "end": 86.259
+      },
+      {
+        "text": "lời",
+        "start": 86.259,
+        "end": 86.436
+      },
+      {
+        "text": "nguyền",
+        "start": 86.436,
+        "end": 86.696
+      },
+      {
+        "text": "có",
+        "start": 86.696,
+        "end": 86.838
+      },
+      {
+        "text": "thật",
+        "start": 86.838,
+        "end": 87.045
+      },
+      {
+        "text": "không?",
+        "start": 87.045,
+        "end": 88.26
+      }
+    ],
+    [
+      {
+        "text": "Cho",
+        "start": 88.26,
+        "end": 88.437
+      },
+      {
+        "text": "đến",
+        "start": 88.437,
+        "end": 88.614
+      },
+      {
+        "text": "nay,",
+        "start": 88.614,
+        "end": 88.792
+      },
+      {
+        "text": "không",
+        "start": 88.792,
+        "end": 89.027
+      },
+      {
+        "text": "có",
+        "start": 89.027,
+        "end": 89.169
+      },
+      {
+        "text": "bằng",
+        "start": 89.169,
+        "end": 89.376
+      },
+      {
+        "text": "chứng",
+        "start": 89.376,
+        "end": 89.611
+      }
+    ],
+    [
+      {
+        "text": "lịch",
+        "start": 89.611,
+        "end": 89.819
+      },
+      {
+        "text": "sử",
+        "start": 89.819,
+        "end": 89.961
+      },
+      {
+        "text": "đáng",
+        "start": 89.961,
+        "end": 90.168
+      },
+      {
+        "text": "tin",
+        "start": 90.168,
+        "end": 90.346
+      },
+      {
+        "text": "cậy",
+        "start": 90.346,
+        "end": 90.523
+      },
+      {
+        "text": "xác",
+        "start": 90.523,
+        "end": 90.7
+      },
+      {
+        "text": "nhận",
+        "start": 90.7,
+        "end": 90.908
+      }
+    ],
+    [
+      {
+        "text": "rằng",
+        "start": 90.908,
+        "end": 91.116
+      },
+      {
+        "text": "một",
+        "start": 91.116,
+        "end": 91.293
+      },
+      {
+        "text": "lời",
+        "start": 91.293,
+        "end": 91.471
+      },
+      {
+        "text": "nguyền",
+        "start": 91.471,
+        "end": 91.73
+      },
+      {
+        "text": "siêu",
+        "start": 91.73,
+        "end": 91.938
+      },
+      {
+        "text": "nhiên",
+        "start": 91.938,
+        "end": 92.173
+      },
+      {
+        "text": "đã",
+        "start": 92.173,
+        "end": 92.315
+      }
+    ],
+    [
+      {
+        "text": "gây",
+        "start": 92.315,
+        "end": 92.492
+      },
+      {
+        "text": "ra",
+        "start": 92.492,
+        "end": 92.634
+      },
+      {
+        "text": "vụ",
+        "start": 92.634,
+        "end": 92.776
+      },
+      {
+        "text": "án.",
+        "start": 92.776,
+        "end": 92.918
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 93.63,
+        "end": 93.876
+      },
+      {
+        "text": "chi",
+        "start": 93.876,
+        "end": 94.061
+      },
+      {
+        "text": "tiết",
+        "start": 94.061,
+        "end": 94.279
+      },
+      {
+        "text": "về",
+        "start": 94.279,
+        "end": 94.427
+      },
+      {
+        "text": "rắn",
+        "start": 94.427,
+        "end": 94.613
+      },
+      {
+        "text": "trắng,",
+        "start": 94.613,
+        "end": 94.859
+      },
+      {
+        "text": "máu",
+        "start": 94.859,
+        "end": 95.325
+      }
+    ],
+    [
+      {
+        "text": "trên",
+        "start": 95.325,
+        "end": 95.543
+      },
+      {
+        "text": "trang",
+        "start": 95.543,
+        "end": 95.789
+      },
+      {
+        "text": "sách",
+        "start": 95.789,
+        "end": 96.006
+      },
+      {
+        "text": "và",
+        "start": 96.006,
+        "end": 96.409
+      },
+      {
+        "text": "lời",
+        "start": 96.409,
+        "end": 96.595
+      },
+      {
+        "text": "báo",
+        "start": 96.595,
+        "end": 96.78
+      },
+      {
+        "text": "oán",
+        "start": 96.78,
+        "end": 96.966
+      }
+    ],
+    [
+      {
+        "text": "cần",
+        "start": 96.966,
+        "end": 97.151
+      },
+      {
+        "text": "được",
+        "start": 97.151,
+        "end": 97.369
+      },
+      {
+        "text": "nhìn",
+        "start": 97.369,
+        "end": 97.586
+      },
+      {
+        "text": "nhận",
+        "start": 97.586,
+        "end": 97.804
+      },
+      {
+        "text": "như",
+        "start": 97.804,
+        "end": 97.989
+      },
+      {
+        "text": "những",
+        "start": 97.989,
+        "end": 98.235
+      },
+      {
+        "text": "yếu",
+        "start": 98.235,
+        "end": 98.421
+      }
+    ],
+    [
+      {
+        "text": "tố",
+        "start": 98.421,
+        "end": 98.569
+      },
+      {
+        "text": "của",
+        "start": 98.569,
+        "end": 98.755
+      },
+      {
+        "text": "giai",
+        "start": 98.755,
+        "end": 98.972
+      },
+      {
+        "text": "thoại.",
+        "start": 98.972,
+        "end": 100.107
+      }
+    ],
+    [
+      {
+        "text": "Điều",
+        "start": 100.107,
+        "end": 100.324
+      },
+      {
+        "text": "lịch",
+        "start": 100.324,
+        "end": 100.542
+      },
+      {
+        "text": "sử",
+        "start": 100.542,
+        "end": 100.69
+      },
+      {
+        "text": "ghi",
+        "start": 100.69,
+        "end": 100.876
+      },
+      {
+        "text": "nhận",
+        "start": 100.876,
+        "end": 101.093
+      },
+      {
+        "text": "là",
+        "start": 101.093,
+        "end": 101.242
+      },
+      {
+        "text": "Nguyễn",
+        "start": 101.242,
+        "end": 101.513
+      }
+    ],
+    [
+      {
+        "text": "Trãi",
+        "start": 101.513,
+        "end": 101.731
+      },
+      {
+        "text": "đã",
+        "start": 101.731,
+        "end": 101.879
+      },
+      {
+        "text": "được",
+        "start": 101.879,
+        "end": 102.097
+      },
+      {
+        "text": "vua",
+        "start": 102.097,
+        "end": 102.282
+      },
+      {
+        "text": "Lê",
+        "start": 102.282,
+        "end": 102.431
+      },
+      {
+        "text": "Thánh",
+        "start": 102.431,
+        "end": 102.677
+      },
+      {
+        "text": "Tông",
+        "start": 102.677,
+        "end": 102.894
+      }
+    ],
+    [
+      {
+        "text": "minh",
+        "start": 102.894,
+        "end": 103.112
+      },
+      {
+        "text": "oan",
+        "start": 103.112,
+        "end": 103.297
+      },
+      {
+        "text": "vào",
+        "start": 103.297,
+        "end": 103.483
+      },
+      {
+        "text": "năm",
+        "start": 103.483,
+        "end": 103.668
+      },
+      {
+        "text": "một",
+        "start": 103.668,
+        "end": 103.854
+      },
+      {
+        "text": "nghìn",
+        "start": 103.854,
+        "end": 104.1
+      },
+      {
+        "text": "bốn",
+        "start": 104.1,
+        "end": 104.285
+      }
+    ],
+    [
+      {
+        "text": "trăm",
+        "start": 104.285,
+        "end": 104.503
+      },
+      {
+        "text": "sáu",
+        "start": 104.503,
+        "end": 104.688
+      },
+      {
+        "text": "mươi",
+        "start": 104.688,
+        "end": 104.906
+      },
+      {
+        "text": "tư.",
+        "start": 104.906,
+        "end": 105.054
+      }
+    ],
+    [
+      {
+        "text": "Một",
+        "start": 105.965,
+        "end": 106.155
+      },
+      {
+        "text": "con",
+        "start": 106.155,
+        "end": 106.344
+      },
+      {
+        "text": "người",
+        "start": 106.344,
+        "end": 106.595
+      },
+      {
+        "text": "từng",
+        "start": 106.595,
+        "end": 106.818
+      },
+      {
+        "text": "có",
+        "start": 106.818,
+        "end": 106.969
+      },
+      {
+        "text": "công",
+        "start": 106.969,
+        "end": 107.191
+      },
+      {
+        "text": "lớn",
+        "start": 107.191,
+        "end": 107.381
+      }
+    ],
+    [
+      {
+        "text": "với",
+        "start": 107.381,
+        "end": 107.571
+      },
+      {
+        "text": "đất",
+        "start": 107.571,
+        "end": 108.14
+      },
+      {
+        "text": "nước,",
+        "start": 108.14,
+        "end": 108.362
+      },
+      {
+        "text": "cuối",
+        "start": 108.362,
+        "end": 108.584
+      },
+      {
+        "text": "cùng",
+        "start": 108.584,
+        "end": 108.806
+      },
+      {
+        "text": "phải",
+        "start": 108.806,
+        "end": 109.028
+      },
+      {
+        "text": "chịu",
+        "start": 109.028,
+        "end": 109.25
+      }
+    ],
+    [
+      {
+        "text": "kết",
+        "start": 109.25,
+        "end": 109.44
+      },
+      {
+        "text": "cục",
+        "start": 109.44,
+        "end": 109.904
+      },
+      {
+        "text": "bi",
+        "start": 109.904,
+        "end": 110.055
+      },
+      {
+        "text": "thảm,",
+        "start": 110.055,
+        "end": 110.277
+      },
+      {
+        "text": "rồi",
+        "start": 110.277,
+        "end": 110.467
+      },
+      {
+        "text": "được",
+        "start": 110.467,
+        "end": 110.689
+      },
+      {
+        "text": "phục",
+        "start": 110.689,
+        "end": 110.911
+      }
+    ],
+    [
+      {
+        "text": "hồi",
+        "start": 110.911,
+        "end": 111.101
+      },
+      {
+        "text": "danh",
+        "start": 111.101,
+        "end": 111.323
+      },
+      {
+        "text": "dự",
+        "start": 111.323,
+        "end": 111.475
+      },
+      {
+        "text": "sau",
+        "start": 111.475,
+        "end": 112.285
+      },
+      {
+        "text": "nhiều",
+        "start": 112.285,
+        "end": 112.801
+      },
+      {
+        "text": "năm.",
+        "start": 112.801,
+        "end": 112.991
+      }
+    ],
+    [
+      {
+        "text": "Có",
+        "start": 112.991,
+        "end": 113.143
+      },
+      {
+        "text": "lẽ,",
+        "start": 113.143,
+        "end": 113.294
+      },
+      {
+        "text": "sức",
+        "start": 113.294,
+        "end": 113.484
+      },
+      {
+        "text": "sống",
+        "start": 113.484,
+        "end": 113.706
+      },
+      {
+        "text": "của",
+        "start": 113.706,
+        "end": 113.896
+      },
+      {
+        "text": "chuyện",
+        "start": 113.896,
+        "end": 114.173
+      },
+      {
+        "text": "rắn",
+        "start": 114.173,
+        "end": 114.363
+      }
+    ],
+    [
+      {
+        "text": "báo",
+        "start": 114.363,
+        "end": 114.552
+      },
+      {
+        "text": "oán",
+        "start": 114.552,
+        "end": 114.742
+      },
+      {
+        "text": "không",
+        "start": 114.742,
+        "end": 114.993
+      },
+      {
+        "text": "chỉ",
+        "start": 114.993,
+        "end": 115.183
+      },
+      {
+        "text": "nằm",
+        "start": 115.183,
+        "end": 115.372
+      },
+      {
+        "text": "ở",
+        "start": 115.372,
+        "end": 115.476
+      },
+      {
+        "text": "yếu",
+        "start": 115.476,
+        "end": 115.666
+      }
+    ],
+    [
+      {
+        "text": "tố",
+        "start": 115.666,
+        "end": 116.345
+      },
+      {
+        "text": "kỳ",
+        "start": 116.345,
+        "end": 116.497
+      },
+      {
+        "text": "bí.",
+        "start": 116.497,
+        "end": 116.648
+      }
+    ],
+    [
+      {
+        "text": "Nó",
+        "start": 116.648,
+        "end": 116.8
+      },
+      {
+        "text": "còn",
+        "start": 116.8,
+        "end": 116.99
+      },
+      {
+        "text": "phản",
+        "start": 116.99,
+        "end": 117.212
+      },
+      {
+        "text": "ánh",
+        "start": 117.212,
+        "end": 117.401
+      },
+      {
+        "text": "nỗi",
+        "start": 117.401,
+        "end": 117.591
+      },
+      {
+        "text": "xót",
+        "start": 117.591,
+        "end": 117.781
+      },
+      {
+        "text": "thương",
+        "start": 117.781,
+        "end": 118.058
+      }
+    ],
+    [
+      {
+        "text": "của",
+        "start": 118.058,
+        "end": 118.248
+      },
+      {
+        "text": "người",
+        "start": 118.248,
+        "end": 118.499
+      },
+      {
+        "text": "đời",
+        "start": 118.499,
+        "end": 118.689
+      },
+      {
+        "text": "trước",
+        "start": 118.689,
+        "end": 118.94
+      },
+      {
+        "text": "một",
+        "start": 118.94,
+        "end": 119.129
+      },
+      {
+        "text": "vụ",
+        "start": 119.129,
+        "end": 119.281
+      },
+      {
+        "text": "án",
+        "start": 119.281,
+        "end": 119.433
+      }
+    ],
+    [
+      {
+        "text": "oan",
+        "start": 119.433,
+        "end": 119.622
+      },
+      {
+        "text": "và",
+        "start": 119.622,
+        "end": 119.774
+      },
+      {
+        "text": "khát",
+        "start": 119.774,
+        "end": 119.996
+      },
+      {
+        "text": "vọng",
+        "start": 119.996,
+        "end": 120.218
+      },
+      {
+        "text": "công",
+        "start": 120.218,
+        "end": 120.44
+      },
+      {
+        "text": "lý",
+        "start": 120.44,
+        "end": 120.592
+      },
+      {
+        "text": "vượt",
+        "start": 120.592,
+        "end": 120.814
+      }
+    ],
+    [
+      {
+        "text": "qua",
+        "start": 120.814,
+        "end": 121.004
+      },
+      {
+        "text": "thời",
+        "start": 121.004,
+        "end": 121.226
+      },
+      {
+        "text": "gian.",
+        "start": 121.226,
+        "end": 121.448
+      }
+    ],
+    [
+      {
+        "text": "Vậy",
+        "start": 122.171,
+        "end": 122.348
+      },
+      {
+        "text": "theo",
+        "start": 122.348,
+        "end": 122.555
+      },
+      {
+        "text": "bạn,",
+        "start": 122.555,
+        "end": 123.302
+      },
+      {
+        "text": "chuyện",
+        "start": 123.302,
+        "end": 123.561
+      },
+      {
+        "text": "rắn",
+        "start": 123.561,
+        "end": 123.737
+      },
+      {
+        "text": "báo",
+        "start": 123.737,
+        "end": 123.914
+      },
+      {
+        "text": "oán",
+        "start": 123.914,
+        "end": 124.091
+      }
+    ],
+    [
+      {
+        "text": "là",
+        "start": 124.091,
+        "end": 124.233
+      },
+      {
+        "text": "một",
+        "start": 124.233,
+        "end": 124.41
+      },
+      {
+        "text": "truyền",
+        "start": 124.41,
+        "end": 124.669
+      },
+      {
+        "text": "thuyết",
+        "start": 124.669,
+        "end": 124.928
+      },
+      {
+        "text": "nhằm",
+        "start": 124.928,
+        "end": 125.135
+      },
+      {
+        "text": "lý",
+        "start": 125.135,
+        "end": 125.277
+      },
+      {
+        "text": "giải",
+        "start": 125.277,
+        "end": 125.484
+      }
+    ],
+    [
+      {
+        "text": "nỗi",
+        "start": 125.484,
+        "end": 125.661
+      },
+      {
+        "text": "oan",
+        "start": 125.661,
+        "end": 125.838
+      },
+      {
+        "text": "của",
+        "start": 125.838,
+        "end": 126.015
+      },
+      {
+        "text": "Nguyễn",
+        "start": 126.015,
+        "end": 126.274
+      },
+      {
+        "text": "Trãi,",
+        "start": 126.274,
+        "end": 126.862
+      },
+      {
+        "text": "hay",
+        "start": 126.862,
+        "end": 127.039
+      },
+      {
+        "text": "còn",
+        "start": 127.039,
+        "end": 127.216
+      }
+    ],
+    [
+      {
+        "text": "ẩn",
+        "start": 127.216,
+        "end": 127.357
+      },
+      {
+        "text": "chứa",
+        "start": 127.357,
+        "end": 127.564
+      },
+      {
+        "text": "những",
+        "start": 127.564,
+        "end": 127.799
+      },
+      {
+        "text": "tầng",
+        "start": 127.799,
+        "end": 128.006
+      },
+      {
+        "text": "ý",
+        "start": 128.006,
+        "end": 128.103
+      },
+      {
+        "text": "nghĩa",
+        "start": 128.103,
+        "end": 128.337
+      },
+      {
+        "text": "khác",
+        "start": 128.337,
+        "end": 128.544
+      }
+    ],
+    [
+      {
+        "text": "trong",
+        "start": 128.544,
+        "end": 128.779
+      },
+      {
+        "text": "văn",
+        "start": 128.779,
+        "end": 128.956
+      },
+      {
+        "text": "hóa",
+        "start": 128.956,
+        "end": 129.132
+      },
+      {
+        "text": "dân",
+        "start": 129.132,
+        "end": 129.309
+      },
+      {
+        "text": "gian",
+        "start": 129.309,
+        "end": 129.517
+      },
+      {
+        "text": "Việt",
+        "start": 129.517,
+        "end": 129.724
+      },
+      {
+        "text": "Nam?",
+        "start": 129.724,
+        "end": 129.901
+      }
+    ],
+    [
+      {
+        "text": "Hãy",
+        "start": 129.901,
+        "end": 131.055
+      },
+      {
+        "text": "để",
+        "start": 131.055,
+        "end": 131.196
+      },
+      {
+        "text": "lại",
+        "start": 131.196,
+        "end": 131.373
+      },
+      {
+        "text": "ý",
+        "start": 131.373,
+        "end": 131.47
+      },
+      {
+        "text": "kiến",
+        "start": 131.47,
+        "end": 131.677
+      },
+      {
+        "text": "của",
+        "start": 131.677,
+        "end": 131.854
+      },
+      {
+        "text": "bạn",
+        "start": 131.854,
+        "end": 132.031
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 132.031,
+        "end": 132.173
+      },
+      {
+        "text": "đón",
+        "start": 132.173,
+        "end": 132.35
+      },
+      {
+        "text": "xem",
+        "start": 132.35,
+        "end": 132.527
+      },
+      {
+        "text": "những",
+        "start": 132.527,
+        "end": 132.761
+      },
+      {
+        "text": "hồ",
+        "start": 132.761,
+        "end": 132.902
+      },
+      {
+        "text": "sơ",
+        "start": 132.902,
+        "end": 133.044
+      },
+      {
+        "text": "bí",
+        "start": 133.044,
+        "end": 133.185
+      }
+    ],
+    [
+      {
+        "text": "ẩn",
+        "start": 133.185,
+        "end": 133.327
+      },
+      {
+        "text": "khác",
+        "start": 133.327,
+        "end": 133.534
+      },
+      {
+        "text": "trong",
+        "start": 133.534,
+        "end": 133.769
+      },
+      {
+        "text": "lịch",
+        "start": 133.769,
+        "end": 133.976
+      },
+      {
+        "text": "sử",
+        "start": 133.976,
+        "end": 134.117
+      },
+      {
+        "text": "Việt",
+        "start": 134.117,
+        "end": 134.325
+      },
+      {
+        "text": "Nam!",
+        "start": 134.325,
+        "end": 134.728
+      }
+    ]
+  ],
+  "uploadedScenes": [
+    9
+  ],
+  "hasOverlay": true,
+  "hasTitleOverlay": true,
+  "titleOverlayScene": 4
+}

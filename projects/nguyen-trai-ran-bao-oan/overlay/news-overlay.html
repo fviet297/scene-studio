@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>News overlay</title>
+<!-- 1920x1080 transparent broadcast overlay for the 16:9 render. Open with #preview to see it
+     over a dark stand-in frame. Keep-outs from ScenePlanVideo's wide overlay profile: AI tag at
+     top-left (x≈171, y≈49) and the centred scene title (x 315–1605, y≈97–160), so the top
+     chrome is only the channel bug in the top-right corner. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,700;6..72,800&family=Roboto+Condensed:wght@500;700;800&display=block" rel="stylesheet">
+<style>
+  :root {
+    --crimson: #b3121b;
+    --crimson-deep: #7a0a10;
+    --lacquer: #120c0a;
+    --ivory: #f4ecdc;
+    --gold: #d9b46a;
+    --ink: #1a1210;
+    --font-head: "Newsreader", Georgia, serif;
+    --font-ui: "Roboto Condensed", "Arial Narrow", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; background: transparent; overflow: hidden; }
+  /* #chrome → bug + ticker only (whole video); #title → lower-third only (opening scene). */
+  body.only-chrome .lower-third, body.only-title .bug, body.only-title .ticker { display: none; }
+  body.preview { background: radial-gradient(ellipse at 50% 40%, #3a2a22 0%, #0d0907 75%); }
+
+  .bug { position: absolute; top: 44px; right: 64px; font-family: var(--font-head);
+    font-weight: 800; font-size: 40px; line-height: 1; color: var(--ivory); text-align: right;
+    text-shadow: 0 2px 10px rgba(0,0,0,.75); }
+  .bug small { display: block; margin-top: 8px; font-family: var(--font-ui); font-weight: 700;
+    font-size: 20px; letter-spacing: .24em; color: var(--gold); }
+
+  .lower-third { position: absolute; left: 96px; bottom: 112px;
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,.55)); }
+  .lt__kicker { display: flex; height: 56px; font-family: var(--font-ui); font-weight: 800;
+    font-size: 32px; letter-spacing: .07em; text-transform: uppercase; }
+  .lt__live { display: flex; align-items: center; gap: 14px; padding: 0 24px;
+    background: linear-gradient(90deg, var(--crimson) 0%, var(--crimson-deep) 100%); color: #fff; }
+  .lt__dot { width: 14px; height: 14px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 0 5px rgba(255,255,255,.28); }
+  .lt__topic { display: flex; align-items: center; padding: 0 22px;
+    background: rgba(18,12,10,.9); color: var(--gold); }
+  .lt__body { display: flex; background: var(--ivory); border-top: 5px solid var(--gold); }
+  .lt__year { flex: 0 0 170px; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; background: var(--lacquer); color: var(--gold);
+    font-family: var(--font-head); font-weight: 800; font-size: 54px; line-height: 1; }
+  .lt__year span { margin-top: 10px; font-family: var(--font-ui); font-size: 17px;
+    font-weight: 700; letter-spacing: .2em; color: var(--ivory); }
+  .lt__text { padding: 22px 48px 24px 32px; }
+  .lt__headline { font-family: var(--font-head); font-weight: 800; font-size: 56px;
+    line-height: 1.05; color: var(--ink); letter-spacing: -.01em; }
+  .lt__headline em { font-style: normal; color: var(--crimson); }
+  .lt__sub { margin-top: 10px; font-family: var(--font-ui); font-weight: 500; font-size: 28px;
+    color: #5a4a40; }
+
+  .ticker { position: absolute; left: 0; right: 0; bottom: 40px; height: 56px;
+    display: flex; background: rgba(18,12,10,.92); border-top: 3px solid var(--crimson); }
+  .ticker__label { flex: 0 0 auto; display: flex; align-items: center; padding: 0 22px 0 96px;
+    background: var(--gold); color: var(--ink); font-family: var(--font-ui); font-weight: 800;
+    font-size: 26px; letter-spacing: .1em; }
+  .ticker__items { display: flex; align-items: center; white-space: nowrap; padding-left: 24px;
+    font-family: var(--font-ui); font-weight: 500; font-size: 27px; color: var(--ivory); }
+  .ticker__items i { font-style: normal; color: var(--crimson); margin: 0 20px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="bug">Sử Việt<small>KỲ ÁN</small></div>
+
+  <section class="lower-third">
+    <div class="lt__kicker">
+      <span class="lt__live"><span class="lt__dot"></span>Tin nóng lịch sử</span>
+      <span class="lt__topic">Hồ sơ bí ẩn</span>
+    </div>
+    <div class="lt__body">
+      <div class="lt__year">1442<span>NHÂM TUẤT</span></div>
+      <div class="lt__text">
+        <h1 class="lt__headline">Rắn báo oán &amp;<br><em>bi kịch Nguyễn Trãi</em></h1>
+        <p class="lt__sub">Giai thoại Nhị Khê · Vụ án Lệ Chi Viên</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker">
+    <span class="ticker__label">GIAI THOẠI</span>
+    <span class="ticker__items">Chi tiết rắn trắng, máu trên trang sách chưa được sử sách xác minh<i>/</i>Năm 1464, vua Lê Thánh Tông minh oan cho Nguyễn Trãi</span>
+  </div>
+
+  <script>
+    const mode = location.hash.slice(1);
+    if (mode === 'preview') document.body.classList.add('preview');
+    if (mode === 'chrome') document.body.classList.add('only-chrome');
+    if (mode === 'title') document.body.classList.add('only-title');
+  </script>
+</body>
+</html>
