@@ -3,7 +3,7 @@
 // control-panel page plus a small JSON/SSE API:
 //
 //   GET  /                    → the control panel (scripts/review-panel.html)
-//   GET  /panel.css|/panel.js → the panel's stylesheet and script
+//   GET  /panel.css|/panel.js|/timeline.js → the panel's stylesheet and scripts
 //   GET  /api/state           → scenes from src/scene-plan.json + which images exist
 //   GET  /images/scene-NN.jpg → serve the current scene image (no-cache so regen shows)
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
@@ -34,7 +34,7 @@
 
 import { execFileSync, spawn } from 'node:child_process';
 import { createServer } from 'node:http';
-import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
+import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
@@ -64,6 +64,7 @@ const PANEL = join(HERE, 'review-panel.html');
 const PANEL_ASSETS = {
   '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
+  '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -300,6 +301,26 @@ const sendJson = (res, code, obj) => {
   const body = JSON.stringify(obj);
   res.writeHead(code, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
   res.end(body);
+};
+// Audio/video with HTTP Range support: without it Chrome cannot seek a media element (setting
+// currentTime snaps back to 0), and the timeline preview seeks into every clip.
+const sendMedia = (req, res, path, type) => {
+  const size = statSync(path).size;
+  const headers = { 'Content-Type': type, 'Cache-Control': 'no-store', 'Accept-Ranges': 'bytes' };
+  const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? '');
+  if (!range || (!range[1] && !range[2])) {
+    res.writeHead(200, { ...headers, 'Content-Length': size });
+    createReadStream(path).pipe(res);
+    return;
+  }
+  const start = range[1] ? Number(range[1]) : Math.max(0, size - Number(range[2]));
+  const end = range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+  if (start >= size || start > end) {
+    res.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
+    return;
+  }
+  res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+  createReadStream(path, { start, end }).pipe(res);
 };
 const readBody = (req) => new Promise((resolve) => {
   let data = '';
@@ -678,8 +699,7 @@ const server = createServer(async (req, res) => {
       const name = decodeURIComponent(pathname.slice('/audio/'.length));
       const path = join(P.audioDir, name);
       if (!name.includes('..') && existsSync(path)) {
-        res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store' });
-        res.end(readFileSync(path));
+        sendMedia(req, res, path, 'audio/mpeg');
       } else {
         res.writeHead(404).end('not found');
       }
@@ -711,10 +731,8 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && pathname.startsWith('/motion-video/')) {
       const name = decodeURIComponent(pathname.slice('/motion-video/'.length));
       const path = join(P.sceneVideoDir, name);
-      if (!name.includes('..') && existsSync(path)) {
-        res.writeHead(200, { 'Content-Type': 'video/mp4', 'Cache-Control': 'no-store' });
-        res.end(readFileSync(path));
-      } else res.writeHead(404).end('not found');
+      if (!name.includes('..') && existsSync(path)) sendMedia(req, res, path, 'video/mp4');
+      else res.writeHead(404).end('not found');
       return;
     }
 

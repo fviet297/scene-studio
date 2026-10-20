@@ -50,6 +50,7 @@
     <div class="segmented" role="group" aria-label="Chế độ xem">
       <button type="button" id="viewStage" data-view="stage" aria-pressed="true" title="Bàn làm việc (phím 1)">Bàn làm việc</button>
       <button type="button" id="viewSheet" data-view="sheet" aria-pressed="false" title="Lưới scene (phím 2)">Lưới scene</button>
+      <button type="button" id="viewTimeline" data-view="timeline" aria-pressed="false" title="Xem trước cả video theo timeline (phím 3)">Timeline</button>
     </div>
     <span class="bar-sep"></span>
     <button class="btn" type="button" id="btnTemplates">Template prompt</button>
@@ -216,6 +217,51 @@
     <button class="btn sm" type="button" id="batchMerge" disabled title="Gộp các scene liền kề đã chọn thành một">Gộp</button>
   </div>
   <div class="tiles" id="tiles"></div>
+</section>
+
+<!-- Timeline: plays the scenes back to back the way the render lays them out (scene length =
+     narration audio length), so the whole cut can be watched before paying for a render. -->
+<section class="timeline" aria-label="Xem trước video theo timeline">
+  <div class="tl-preview">
+    <div class="tl-screen" id="tlScreen">
+      <img id="tlStill" alt="" hidden />
+      <video id="tlVideo" muted playsinline preload="auto" hidden></video>
+      <span class="tl-empty" id="tlEmpty">Chưa có ảnh cho scene này</span>
+    </div>
+    <p class="tl-caption" id="tlCaption"></p>
+    <audio id="tlAudio" preload="auto"></audio>
+  </div>
+
+  <div class="tl-transport">
+    <button class="icon-btn" type="button" id="tlPrev" aria-label="Scene trước" title="Scene trước (←)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 20 9 12l10-8v16ZM5 19V5"/></svg>
+    </button>
+    <button class="tl-play" type="button" id="tlPlay" aria-label="Phát" title="Phát / tạm dừng (Space)">
+      <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>
+      <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+    </button>
+    <button class="icon-btn" type="button" id="tlNext" aria-label="Scene sau" title="Scene sau (→)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 4 10 8-10 8V4ZM19 5v14"/></svg>
+    </button>
+    <span class="tl-time num"><span id="tlNow">0:00.0</span><span class="tl-total"> / <span id="tlTotal">0:00.0</span></span></span>
+    <span class="bar-sep"></span>
+    <span class="scene-no" id="tlScene">Scene</span>
+    <span class="tag" id="tlKind"></span>
+    <span class="grow"></span>
+    <label class="tl-zoom">
+      <span>Thu phóng</span>
+      <input type="range" id="tlZoom" min="4" max="80" step="1" value="16" aria-label="Thu phóng timeline (px mỗi giây)" />
+    </label>
+    <button class="btn sm" type="button" id="tlOpen" title="Mở scene đang xem trong bàn làm việc">Sửa scene này</button>
+  </div>
+
+  <div class="tl-track" id="tlTrack">
+    <div class="tl-inner" id="tlInner">
+      <div class="tl-ruler" id="tlRuler" aria-hidden="true"></div>
+      <div class="tl-clips" id="tlClips"></div>
+      <div class="tl-playhead" id="tlPlayhead" aria-hidden="true"></div>
+    </div>
+  </div>
 </section>
 
 <!-- Console: non-blocking, so a running job never hides the scenes -->
@@ -559,5 +605,6 @@
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script src="/panel.js"></script>
+<script src="/timeline.js"></script>
 </body>
 </html>

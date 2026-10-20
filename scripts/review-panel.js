@@ -125,6 +125,8 @@ function render() {
   renderStage();
   renderSheet();
   syncScriptGenButtons();
+  // The timeline lives in its own script (review-timeline.js) and redraws on this signal.
+  document.dispatchEvent(new CustomEvent("studio:render"));
 }
 
 function renderProjectSwitch() {
@@ -149,7 +151,8 @@ function modelOptionsHtml(models) {
     .map(([provider, list]) => {
       const options = list
         .map((m) => {
-          const text = m.available === false ? `${m.label} — thiếu ${m.keyEnv}` : m.label;
+          const text =
+            m.available === false ? `${m.label} — thiếu ${m.keyEnv}` : m.label;
           return `<option value="${escapeHtml(m.id)}"${m.available === false ? " disabled" : ""}>${escapeHtml(text)}</option>`;
         })
         .join("");
@@ -175,9 +178,15 @@ function fillModelSelects(models, ids) {
   }
 }
 const renderImageModelSelect = () =>
-  fillModelSelects(state.imageModels, ["imageModelSelect", "batchImageModelSelect"]);
+  fillModelSelects(state.imageModels, [
+    "imageModelSelect",
+    "batchImageModelSelect",
+  ]);
 const renderMotionModelSelect = () =>
-  fillModelSelects(state.motionVideoModels, ["motionModelSelect", "batchMotionModelSelect"]);
+  fillModelSelects(state.motionVideoModels, [
+    "motionModelSelect",
+    "batchMotionModelSelect",
+  ]);
 
 // A non-empty custom-model field lets any Replicate model id be used without editing the built-in
 // list; it overrides the dropdown for that media. Blank falls back to the dropdown selection.
@@ -217,7 +226,10 @@ const lsSet = (key, value) => {
 // default instead of blanking.
 const setModelSelect = (id, value) => {
   const select = $(id);
-  if (value != null && [...select.options].some((o) => o.value === value && !o.disabled))
+  if (
+    value != null &&
+    [...select.options].some((o) => o.value === value && !o.disabled)
+  )
     select.value = value;
 };
 
@@ -556,9 +568,7 @@ function syncInspector(s) {
       $("promptHint"),
       box.value.trim() !== (s.prompt ?? "").trim(),
     );
-    $("btnGen").textContent = s.hasImage
-      ? "Sinh lại ảnh"
-      : "Sinh ảnh";
+    $("btnGen").textContent = s.hasImage ? "Sinh lại ảnh" : "Sinh ảnh";
     $("btnGen").disabled = busy;
     $("btnGenPrompt").disabled = busy || !(s.narration || "").trim();
   } else {
@@ -734,6 +744,8 @@ function setView(next) {
   document.body.className = `view-${next}`;
   $("viewStage").setAttribute("aria-pressed", String(next === "stage"));
   $("viewSheet").setAttribute("aria-pressed", String(next === "sheet"));
+  $("viewTimeline").setAttribute("aria-pressed", String(next === "timeline"));
+  document.dispatchEvent(new CustomEvent("studio:view", { detail: next }));
 }
 
 function showError(message) {
@@ -845,7 +857,9 @@ async function switchProject(slug) {
     clearProjectLocalState();
     state = await api("/api/project", { slug });
     render();
-    toast(`Đã chuyển sang "${state.project.title}" (style: ${state.project.template}).`);
+    toast(
+      `Đã chuyển sang "${state.project.title}" (style: ${state.project.template}).`,
+    );
   } catch (e) {
     toast(e.message, false);
     renderProjectSwitch();
@@ -1266,7 +1280,7 @@ $("railFilter").addEventListener("change", (e) => {
   renderRail();
 });
 
-for (const btn of [$("viewStage"), $("viewSheet")])
+for (const btn of [$("viewStage"), $("viewSheet"), $("viewTimeline")])
   btn.addEventListener("click", () => setView(btn.dataset.view));
 
 // Image and Motion each edit in a focused popup, opened from their inspector row, so the
@@ -1535,7 +1549,9 @@ async function confirmBatch(kind, models, modelId, count) {
   const model = models.find((m) => m.id === modelId);
   if (model?.price === 0) return true;
   const label = model?.label ?? modelId;
-  return confirmRun(`Sinh ${kind} cho ${count} scene bằng ${label}.\n${costLine(model, count)}`);
+  return confirmRun(
+    `Sinh ${kind} cho ${count} scene bằng ${label}.\n${costLine(model, count)}`,
+  );
 }
 
 // One batch action per stage, shared by the rail bar and the contact-sheet bar. Both read the
@@ -1554,7 +1570,8 @@ const runBatchImages = async () => {
   const count = state.scenes.filter(
     (s) => selected.has(s.scene) && s.kind === "ai",
   ).length;
-  if (!(await confirmBatch("ảnh", state.imageModels || [], model, count))) return;
+  if (!(await confirmBatch("ảnh", state.imageModels || [], model, count)))
+    return;
   streamJob(
     "/api/generate-batch",
     { scenes, model },
@@ -1571,7 +1588,14 @@ const runBatchMotion = async () => {
   const count = state.scenes.filter(
     (s) => selected.has(s.scene) && s.hasImage && s.hasAudio,
   ).length;
-  if (!(await confirmBatch("motion video", state.motionVideoModels || [], model, count)))
+  if (
+    !(await confirmBatch(
+      "motion video",
+      state.motionVideoModels || [],
+      model,
+      count,
+    ))
+  )
     return;
   streamJob(
     "/api/generate-motion-videos-batch",
@@ -1806,6 +1830,9 @@ window.addEventListener("keydown", (e) => {
   )
     return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  // The timeline pages its own clips (review-timeline.js).
+  if (view === "timeline" && ["ArrowDown", "ArrowUp", "j", "k"].includes(e.key))
+    return;
   if (e.key === "ArrowDown" || e.key === "j") {
     e.preventDefault();
     stepScene(1);
@@ -1814,6 +1841,7 @@ window.addEventListener("keydown", (e) => {
     stepScene(-1);
   } else if (e.key === "1") setView("stage");
   else if (e.key === "2") setView("sheet");
+  else if (e.key === "3") setView("timeline");
 });
 
 // Cmd/Ctrl+Enter saves the field under the cursor.
@@ -1843,7 +1871,8 @@ $("btnNewProject").addEventListener("click", async () => {
   $("npOverlay").hidden = false;
   $("npSlug").focus();
   try {
-    const { versions = ["default"], activeVersion } = await api("/api/templates");
+    const { versions = ["default"], activeVersion } =
+      await api("/api/templates");
     $("npTemplate").innerHTML = versions
       .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
       .join("");
@@ -2417,8 +2446,7 @@ $("btnAddChar").addEventListener("click", () => {
   $("acId").value = "";
   $("acName").value = "";
   $("acFile").value = "";
-  $("acNote").textContent =
-    "Thêm vào khối ## characters và tạo profile.json.";
+  $("acNote").textContent = "Thêm vào khối ## characters và tạo profile.json.";
   $("acOverlay").hidden = false;
   $("acId").focus();
 });
@@ -2433,8 +2461,7 @@ $("acCreate").addEventListener("click", async () => {
   const name = $("acName").value.trim();
   const file = $("acFile").files[0];
   if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
-    $("acNote").textContent =
-      "Id chỉ gồm chữ thường, số và dấu gạch ngang.";
+    $("acNote").textContent = "Id chỉ gồm chữ thường, số và dấu gạch ngang.";
     return;
   }
   if (!name) {
@@ -2580,8 +2607,7 @@ $("profImport").addEventListener("click", () => {
   if (typeof obj.interpretation === "string")
     $("prof_interp").value = obj.interpretation;
   if ("unknowns" in obj) $("prof_unknowns").value = asLines(obj.unknowns);
-  $("profNote").textContent =
-    "Đã nhập vào form. Kiểm tra rồi bấm Lưu hồ sơ.";
+  $("profNote").textContent = "Đã nhập vào form. Kiểm tra rồi bấm Lưu hồ sơ.";
 });
 $("profSave").addEventListener("click", async () => {
   if (!profileCharId) return;
@@ -2655,10 +2681,12 @@ function renderServices(services) {
 function announceServiceChanges(services) {
   for (const s of services) {
     const asked = serviceStates[s.id];
-    if (asked === "starting" && s.state === "running") toast(`${s.label} đã bật.`);
+    if (asked === "starting" && s.state === "running")
+      toast(`${s.label} đã bật.`);
     if (asked === "starting" && s.state === "failed")
       toast(`${s.label} khởi động lỗi — rê chuột vào chip để xem log.`, false);
-    if (asked === "stopping" && s.state === "stopped") toast(`${s.label} đã tắt.`);
+    if (asked === "stopping" && s.state === "stopped")
+      toast(`${s.label} đã tắt.`);
   }
   serviceStates = Object.fromEntries(services.map((s) => [s.id, s.state]));
 }
@@ -2674,8 +2702,13 @@ async function refreshServices() {
     // Review server unreachable: the scene refresh already reports that; keep the last chips
     // and retry on the idle cadence.
   }
-  const changing = services.some((s) => s.state === "starting" || s.state === "stopping");
-  serviceTimer = setTimeout(refreshServices, changing ? SERVICE_POLL_BOOTING_MS : SERVICE_POLL_IDLE_MS);
+  const changing = services.some(
+    (s) => s.state === "starting" || s.state === "stopping",
+  );
+  serviceTimer = setTimeout(
+    refreshServices,
+    changing ? SERVICE_POLL_BOOTING_MS : SERVICE_POLL_IDLE_MS,
+  );
 }
 
 async function requestService(action, id, button) {
@@ -2697,7 +2730,8 @@ $("services").addEventListener("click", (event) => {
     return;
   }
   const chip = event.target.closest(".svc");
-  if (chip && !chip.disabled) requestService("start", chip.dataset.service, chip);
+  if (chip && !chip.disabled)
+    requestService("start", chip.dataset.service, chip);
 });
 
 refreshServices();

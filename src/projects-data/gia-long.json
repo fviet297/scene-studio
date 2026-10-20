@@ -6,11 +6,11 @@
   "height": 1080,
   "publicPrefix": "projects/gia-long",
   "fps": 30,
-  "durationInFrames": 7450,
+  "durationInFrames": 7992,
   "scenes": [
     {
       "scene": 2,
-      "narration": "Mười lăm tuổi, cả dòng họ bị truy sát. Những người thân cuối cùng lần lượt ngã xuống. Chỉ mình cậu chạy thoát.",
+      "narration": "Mười lăm tuổi, cái tuổi bây giờ người ta còn lo thi vào lớp mười. Nguyễn Ánh thì lo chuyện khác: sống sót. Cả dòng họ bị truy sát, những người thân cuối cùng lần lượt ngã xuống. Chỉ mình cậu chạy thoát.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -27,7 +27,7 @@
     },
     {
       "scene": 3,
-      "narration": "Hai mươi lăm năm sau, cậu bé ấy lên ngôi hoàng đế.",
+      "narration": "Hai mươi lăm năm sau, cũng chính cậu thiếu niên ấy bước lên ngai vàng, trở thành hoàng đế.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -42,7 +42,7 @@
     },
     {
       "scene": 4,
-      "narration": "Nhưng con đường tới ngai vàng ấy, bắt đầu bằng những cuộc trốn chạy.",
+      "narration": "Nghe thì giống truyện cổ tích. Nhưng con đường tới ngai vàng không trải thảm đỏ. Nó trải bằng nước sông, bùn lầy, và rất nhiều lần phải bỏ chạy.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -59,7 +59,7 @@
     },
     {
       "scene": 5,
-      "narration": "Cuối thế kỷ XVIII, vùng đất Gia Định không còn yên ổn. Những cuộc tranh chấp quyền lực lan theo đường sông, cửa biển và các thành lũy; giữa biến động ấy, một dòng họ đang mất dần quyền kiểm soát.",
+      "narration": "Muốn hiểu Nguyễn Ánh, phải nhìn vùng đất cậu đang trú thân. Gia Định cuối thế kỷ 18 là xứ của sông rạch và ghe thuyền. Ai giữ được đường sông, người đó giữ được quyền lực. Và dòng họ Nguyễn đang tuột dần khỏi tay cả hai.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -74,7 +74,7 @@
     },
     {
       "scene": 6,
-      "narration": "Phong trào Tây Sơn đã làm rung chuyển trật tự cũ. Sau những thắng lợi liên tiếp, quân Tây Sơn tiến sâu về phía Nam, nơi phe Nguyễn vừa phải chống đối thủ bên ngoài, vừa đối mặt với sự chia rẽ trong nội bộ.",
+      "narration": "Đối thủ của họ là Tây Sơn. Sau những thắng lợi liên tiếp, quân Tây Sơn tiến sâu về phía Nam. Còn phe Nguyễn thì giống một ngôi nhà vừa cháy mái vừa cãi nhau trong bếp: ngoài có giặc, trong có chia rẽ.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -89,7 +89,7 @@
     },
     {
       "scene": 7,
-      "narration": "Nguyễn Ánh sinh năm 1762. Đến năm 1777, ông mới khoảng mười lăm tuổi, còn quá trẻ để tự mình quyết định vận mệnh, nhưng đã bị cuốn vào cuộc chiến sống còn của gia tộc.",
+      "narration": "Nguyễn Ánh sinh năm 1762. Năm 1777, cậu mới khoảng mười lăm tuổi. Người lớn bàn chuyện sống còn của gia tộc, còn cậu chưa có tiếng nói quyết định. Nhưng chiến tranh thì chẳng chờ ai đủ lớn.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -106,7 +106,7 @@
     },
     {
       "scene": 8,
-      "narration": "Tin quân Tây Sơn tiến đến nhanh chóng truyền qua các bến sông. Những người từng tin rằng thành lũy và quân đội có thể giữ được Gia Định giờ phải tính đến con đường rút lui.",
+      "narration": "Rồi tin dữ tới bằng đường sông, nhanh hơn mọi lời trấn an. Quân Tây Sơn đang đến. Những người hôm qua còn tin thành lũy giữ được Gia Định, hôm nay phải tính đường rút. Với Nguyễn Ánh, nơi trú thân cũng bắt đầu lung lay.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -121,7 +121,7 @@
     },
     {
       "scene": 9,
-      "narration": "Cuộc tiến công của năm 1777 đưa chiến tranh đến gần các trung tâm của phe Nguyễn. Trên sông, những đoàn thuyền nối nhau xuất hiện, báo hiệu rằng lối thoát trên mặt nước cũng có thể sớm bị chặn.",
+      "narration": "Năm 1777, chiến thuyền Tây Sơn nối nhau ngược dòng. Ở xứ sông nước, mất đường sông cũng như mất luôn cánh cửa thoát hiểm. Lối thoát của Nguyễn Ánh hẹp lại từng ngày.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -136,7 +136,7 @@
     },
     {
       "scene": 10,
-      "narration": "Lực lượng phòng thủ liên tiếp chịu sức ép. Những tuyến sông vốn là đường giao thông và tiếp tế giờ trở thành chiến tuyến, nơi một thất bại có thể cắt đứt liên lạc giữa các nhóm quân.",
+      "narration": "Các đồn phòng thủ liên tiếp chịu sức ép. Những tuyến sông từng chở lúa gạo, giờ thành chiến tuyến. Chỉ một trận thua là liên lạc giữa các nhóm quân có thể đứt. Ở tuổi mười lăm, Nguyễn Ánh được nhìn tận mắt một thế trận sụp nhanh thế nào.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -151,7 +151,7 @@
     },
     {
       "scene": 11,
-      "narration": "Khi các vị trí phòng thủ mất dần, những người thuộc phe Nguyễn phải rời nơi đóng quân. Cuộc rút lui không phải một hành trình có kế hoạch hoàn hảo, mà là chuỗi quyết định gấp gáp trước sức ép đang áp sát.",
+      "narration": "Đồn mất dần, người phe Nguyễn phải bỏ nơi đóng quân. Đây không phải cuộc rút lui có bản đồ và kế hoạch đẹp đẽ. Đó là những quyết định gấp gáp, đồ đạc gói vội, và trong dòng người ấy có Nguyễn Ánh.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -166,7 +166,7 @@
     },
     {
       "scene": 12,
-      "narration": "Các nhân vật chủ chốt trong chính quyền Nguyễn lần lượt rút về những địa điểm khác nhau ở miền Tây. Định Vương Nguyễn Phúc Thuần tìm đường đến Long Xuyên, trong khi tình thế của cả phe Nguyễn ngày càng nguy cấp.",
+      "narration": "Các nhân vật chủ chốt tản về miền Tây. Định Vương Nguyễn Phúc Thuần, chú của Nguyễn Ánh, tìm đường tới Long Xuyên. Cậu đi theo những người thân còn lại, giữa lúc tình thế mỗi ngày một ngặt nghèo.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -181,7 +181,7 @@
     },
     {
       "scene": 13,
-      "narration": "Tháng chín năm 1777, Nguyễn Phúc Dương, tức Tân Chính Vương, bị bắt và bị giết cùng những người theo hầu. Sự kiện ấy đánh dấu thêm một bước sụp đổ của dòng chính quyền chúa Nguyễn ở Đàng Trong.",
+      "narration": "Tháng chín năm 1777, Tân Chính Vương Nguyễn Phúc Dương bị bắt và bị giết cùng những người theo hầu. Với Nguyễn Ánh, đó không chỉ là một dòng trong sử sách. Đó là thêm một người thân mất đi, thêm một trụ cột của chính quyền chúa Nguyễn đổ xuống.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -196,7 +196,7 @@
     },
     {
       "scene": 14,
-      "narration": "Đến tháng mười, quân Tây Sơn tiếp tục truy kích Định Vương Nguyễn Phúc Thuần tại Long Xuyên. Những người còn lại quanh ông không thể đảo ngược tình thế, và Nguyễn Ánh đứng trước nguy cơ mất đi những người thân cuối cùng trong cuộc chiến.",
+      "narration": "Tháng mười, quân Tây Sơn truy kích tới Long Xuyên, nơi Định Vương đang trú. Những người quanh ông không còn đủ sức xoay chuyển tình thế. Còn Nguyễn Ánh đứng trước nguy cơ mất nốt những người thân cuối cùng.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -230,7 +230,7 @@
     },
     {
       "scene": 16,
-      "narration": "Sử liệu không ghi lại từng bước chân của cuộc đào thoát. Có thể hình dung đây là khoảng thời gian của sợ hãi, im lặng và những lựa chọn trong bóng tối, khi một thiếu niên phải tìm cách sống sót.",
+      "narration": "Sử sách không ghi lại từng bước chân của cuộc đào thoát. Nhưng thử đặt mình vào chỗ cậu: mười lăm tuổi, mất người thân, phía sau là quân truy đuổi. Lúc ấy, im lặng có khi là cách duy nhất để sống.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -247,7 +247,7 @@
     },
     {
       "scene": 17,
-      "narration": "Ở vùng đồng bằng chằng chịt sông rạch, địa hình vừa gây khó khăn cho việc di chuyển, vừa có thể che giấu người đang bị truy tìm. Nước, lau sậy và những lối đi nhỏ trở thành một phần của hành trình sống còn.",
+      "narration": "Ở đồng bằng chằng chịt sông rạch, địa hình làm khó người đi, nhưng cũng giấu được người trốn. Nước, lau sậy và những con rạch nhỏ, thứ cản bước quân lính, lại thành đường sống của Nguyễn Ánh.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -264,7 +264,7 @@
     },
     {
       "scene": 18,
-      "narration": "Không có lời nói nào được xác nhận là của Nguyễn Ánh trong những ngày ấy. Thay vì gán cho ông một câu thoại hư cấu, câu chuyện chỉ giữ lại điều có thể thấy từ diễn biến lịch sử: ông đã không bị bắt cùng những người còn lại.",
+      "narration": "Không có câu nói nào được xác nhận là của Nguyễn Ánh trong những ngày ấy. Không lời thề, không tuyên ngôn. Điều sử liệu cho thấy đơn giản hơn nhiều: cậu đã không bị bắt. Đôi khi, một câu chuyện lớn bắt đầu chỉ bằng việc còn sống.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -281,7 +281,7 @@
     },
     {
       "scene": 19,
-      "narration": "Khoảng một tháng sau cuộc truy quét, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Sự trở lại ấy không đồng nghĩa với chiến thắng; nó chỉ cho thấy cuộc chiến chưa kết thúc và vẫn còn người sẵn sàng đi theo ông.",
+      "narration": "Khoảng một tháng sau, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Đừng vội gọi đó là chiến thắng. Nó chỉ cho thấy cuộc chiến chưa kết thúc, và vẫn còn người sẵn sàng đi theo cậu.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -298,7 +298,7 @@
     },
     {
       "scene": 20,
-      "narration": "Những người còn trung thành bắt đầu tập hợp quanh Nguyễn Ánh. Mạng lưới ấy chưa thể sánh với một chính quyền ổn định, nhưng tạo nên nền tảng cho một cuộc phản công được chuẩn bị từ những lực lượng còn sót lại.",
+      "narration": "Những người còn trung thành bắt đầu tụ lại quanh Nguyễn Ánh. Chưa có triều đình, chưa có kinh đô, chỉ có vài ngọn đèn dầu và một nhóm người chưa chịu bỏ cuộc. Nhưng cuộc phản công nào cũng bắt đầu từ những gì còn sót lại.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -315,7 +315,7 @@
     },
     {
       "scene": 21,
-      "narration": "Tháng mười một năm 1777, Nguyễn Ánh cùng một số tướng cũ tiến đến Sa Đéc. Từ những điểm trú ẩn rải rác, phe Nguyễn bắt đầu nối lại liên lạc và thử khôi phục một lực lượng có thể hành động.",
+      "narration": "Tháng mười một năm 1777, Nguyễn Ánh cùng một số tướng cũ tiến về Sa Đéc. Từ những chỗ trú ẩn rải rác, phe Nguyễn nối lại liên lạc, như người ta vá từng mắt lưới rách trước khi thả xuống sông lần nữa.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -332,7 +332,7 @@
     },
     {
       "scene": 22,
-      "narration": "Những cái tên như Đỗ Thanh Nhơn và Lê Văn Quân gắn với quá trình tái tổ chức lực lượng Nguyễn. Lúc này, điều quan trọng không phải là sở hữu một kinh đô, mà là giữ được người, thuyền và các tuyến liên lạc.",
+      "narration": "Những cái tên như Đỗ Thanh Nhơn và Lê Văn Quân gắn với việc tái tổ chức lực lượng quanh Nguyễn Ánh. Lúc này, thứ quý nhất không phải kinh đô hay ngai vàng. Mà là người, là thuyền, và những tuyến liên lạc chưa bị cắt.",
       "image": {
         "kind": "ai",
         "characters": [],
@@ -347,24 +347,24 @@
     },
     {
       "scene": 23,
-      "narration": "Cuối năm 1777, lực lượng của Nguyễn Ánh tiến hành một cuộc đánh úp tại Long Hồ. Đó là một bước đi nhỏ so với việc khôi phục toàn bộ Gia Định, nhưng đủ để cho thấy phe Nguyễn vẫn có khả năng tập hợp và chủ động phản kích.",
+      "narration": "Cuối năm 1777, lực lượng của Nguyễn Ánh đánh úp Long Hồ. So với việc lấy lại cả Gia Định, đó chỉ là một bước nhỏ. Nhưng với một nhóm người vừa chạy trốn, chuyển từ bị đuổi sang đi đánh đã là một cú lật đáng kể.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Wide night river approaching the Tây Sơn-held outpost at Long Hồ under a misty moon; a pack of low wooden assault boats glides in silently with lanterns shuttered, Nguyễn soldiers with Vietnamese faces in dark indigo tunics crouch with spears and matchlock muskets, the young noble kneels small and off-center at about one-fifth frame height in the second boat, ahead on the bank sleepy sentries stand by a timber palisade and watch fire, the first boats already scrape onto the mud and men leap ashore. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements.",
-        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, assault boats, soldiers, sentries, palisade, watch fire, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow drift forward with the boats. Paddles dip without splash, the boats glide toward the bank, men leap ashore from the first hulls, the watch fire flickers and sparks rise, mist rolls over the black water. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.",
-        "promptVi": "Cảnh rộng khúc sông về đêm tiến sát đồn Long Hồ do Tây Sơn trấn giữ dưới vầng trăng mờ sương; một đoàn thuyền gỗ đột kích thấp lặng lẽ lướt vào với đèn lồng che kín, lính nhà Nguyễn gương mặt người Việt mặc áo chàm sẫm cúi thấp cầm giáo và súng hỏa mai, chàng quý tộc trẻ quỳ nhỏ và lệch tâm cao khoảng một phần năm khung hình trên chiếc thuyền thứ hai, phía trước trên bờ lính gác ngái ngủ đứng cạnh hàng rào gỗ và đống lửa canh, những chiếc thuyền đầu đã chạm bùn và lính nhảy lên bờ. Không yếu tố Thanh/Minh Trung Hoa, cung đình Nguyễn thế kỷ XIX hay châu Âu.",
-        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác nhận dạng nhân vật, thuyền đột kích, quân lính, lính gác, hàng rào, đống lửa canh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép máy quay trôi chậm tới cùng đoàn thuyền. Mái chèo khua không tóe nước, thuyền lướt về phía bờ, lính nhảy lên bờ từ những thân thuyền đầu, lửa canh chập chờn và tàn lửa bay lên, sương cuộn trên mặt nước đen. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
+        "prompt": "Wide night river under a misty moon; a quiet flotilla of low wooden boats glides toward a distant riverside outpost with lanterns shuttered, Nguyễn men with Vietnamese faces in dark indigo tunics crouch low and paddle in silence, the young noble kneels small and off-center at about one-fifth frame height in the second boat gazing ahead, far ahead on the bank a timber palisade and a small watch fire glow through the mist, reeds and black water in the foreground. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements.",
+        "motion": "Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact character identity, boats, rowers, palisade, watch fire, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a slow drift forward with the boats. Paddles dip without splash, the boats glide quietly toward the far bank, the distant watch fire flickers, mist rolls over the black water, reeds sway gently. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion strong and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
+        "promptVi": "Cảnh rộng khúc sông về đêm dưới vầng trăng mờ sương; một đoàn thuyền gỗ thấp lặng lẽ lướt về phía một đồn ven sông ở xa với đèn lồng che kín, người nhà Nguyễn gương mặt người Việt mặc áo chàm sẫm cúi thấp chèo trong im lặng, chàng quý tộc trẻ quỳ nhỏ và lệch tâm cao khoảng một phần năm khung hình trên chiếc thuyền thứ hai nhìn về phía trước, xa phía trước trên bờ hàng rào gỗ và đống lửa canh nhỏ hắt sáng qua màn sương, lau sậy và mặt nước đen ở tiền cảnh. Không yếu tố Thanh/Minh Trung Hoa, cung đình Nguyễn thế kỷ XIX hay châu Âu.",
+        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác nhận dạng nhân vật, thuyền, người chèo, hàng rào, đống lửa canh, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép máy quay trôi chậm tới cùng đoàn thuyền. Mái chèo khua không tóe nước, thuyền lặng lẽ lướt về phía bờ xa, lửa canh ở xa chập chờn, sương cuộn trên mặt nước đen, lau sậy đung đưa nhẹ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động mạnh và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
       "cue": "tense",
       "hasAudio": true
     },
     {
       "scene": 24,
-      "narration": "Đầu năm 1778, thế lực Nguyễn từng bước lấy lại một phần Gia Định và Nguyễn Ánh được các tướng tôn lên vị trí chỉ huy cao hơn. Cuộc đào thoát không đem lại hòa bình; nó mở ra vòng xoáy mới, nơi mỗi thất bại lại buộc ông rút lui, tập hợp người và tìm cách trở về.",
+      "narration": "Đầu năm 1778, phe Nguyễn từng bước lấy lại một phần Gia Định, và Nguyễn Ánh, mới khoảng mười sáu tuổi, được các tướng tôn lên vị trí chỉ huy cao hơn. Nhưng chưa phải lúc ăn mừng. Cuộc đào thoát không mang lại hòa bình. Nó mở ra một vòng xoáy mới: thua, chạy, gom người, rồi quay lại. Và cậu thiếu niên ấy sẽ còn phải chạy nhiều lần nữa.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -381,29 +381,29 @@
     }
   ],
   "sceneDurations": [
-    6.99,
-    3.26,
-    3.87,
+    11.1,
+    5.32,
+    8.11,
+    12.27,
+    11.11,
+    12.89,
+    11.9,
+    10.17,
+    13,
+    10.79,
+    10.94,
+    14.52,
+    11.7,
+    11.87,
     10.86,
-    11.27,
-    11.16,
-    9.05,
-    11.53,
-    10.1,
-    11.563,
-    11.126,
-    13.11,
-    12.85,
-    12.617,
-    11.33,
-    10.7,
-    12.689,
-    11.54,
-    11.51,
-    11.6,
-    11.28,
-    12.65,
-    15.61
+    10.6,
+    12.43,
+    9.78,
+    11.99,
+    11.75,
+    11.61,
+    12.66,
+    18.99
   ],
   "motionPlaybackRates": [
     1,
@@ -435,4914 +435,5337 @@
       {
         "text": "Mười",
         "start": 0.215,
-        "end": 0.434
+        "end": 0.422
       },
       {
         "text": "lăm",
-        "start": 0.434,
-        "end": 0.62
+        "start": 0.422,
+        "end": 0.598
       },
       {
         "text": "tuổi,",
-        "start": 0.62,
-        "end": 0.839
+        "start": 0.598,
+        "end": 1.195
       },
       {
-        "text": "cả",
-        "start": 0.839,
-        "end": 0.989
+        "text": "cái",
+        "start": 1.195,
+        "end": 1.372
+      },
+      {
+        "text": "tuổi",
+        "start": 1.372,
+        "end": 1.579
+      },
+      {
+        "text": "bây",
+        "start": 1.579,
+        "end": 1.755
+      },
+      {
+        "text": "giờ",
+        "start": 1.755,
+        "end": 1.932
+      }
+    ],
+    [
+      {
+        "text": "người",
+        "start": 1.932,
+        "end": 2.165
+      },
+      {
+        "text": "ta",
+        "start": 2.165,
+        "end": 2.307
+      },
+      {
+        "text": "còn",
+        "start": 2.307,
+        "end": 2.483
+      },
+      {
+        "text": "lo",
+        "start": 2.483,
+        "end": 2.624
+      },
+      {
+        "text": "thi",
+        "start": 2.624,
+        "end": 2.801
+      },
+      {
+        "text": "vào",
+        "start": 2.801,
+        "end": 2.977
+      },
+      {
+        "text": "lớp",
+        "start": 2.977,
+        "end": 3.154
+      }
+    ],
+    [
+      {
+        "text": "mười.",
+        "start": 3.154,
+        "end": 3.821
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 3.821,
+        "end": 4.08
+      },
+      {
+        "text": "Ánh",
+        "start": 4.08,
+        "end": 4.256
+      },
+      {
+        "text": "thì",
+        "start": 4.256,
+        "end": 4.433
+      },
+      {
+        "text": "lo",
+        "start": 4.433,
+        "end": 4.574
+      },
+      {
+        "text": "chuyện",
+        "start": 4.574,
+        "end": 4.832
+      },
+      {
+        "text": "khác:",
+        "start": 4.832,
+        "end": 5.346
+      }
+    ],
+    [
+      {
+        "text": "sống",
+        "start": 5.346,
+        "end": 5.553
+      },
+      {
+        "text": "sót.",
+        "start": 5.553,
+        "end": 6.101
+      }
+    ],
+    [
+      {
+        "text": "Cả",
+        "start": 6.101,
+        "end": 6.242
       },
       {
         "text": "dòng",
-        "start": 0.989,
-        "end": 1.208
+        "start": 6.242,
+        "end": 6.449
       },
       {
         "text": "họ",
-        "start": 1.208,
-        "end": 1.357
+        "start": 6.449,
+        "end": 6.59
       },
       {
         "text": "bị",
-        "start": 1.357,
-        "end": 1.507
-      }
-    ],
-    [
+        "start": 6.59,
+        "end": 6.732
+      },
       {
         "text": "truy",
-        "start": 1.507,
-        "end": 1.725
+        "start": 6.732,
+        "end": 6.938
       },
       {
-        "text": "sát.",
-        "start": 1.725,
-        "end": 1.912
+        "text": "sát,",
+        "start": 6.938,
+        "end": 7.115
+      },
+      {
+        "text": "những",
+        "start": 7.115,
+        "end": 7.542
       }
     ],
     [
       {
-        "text": "Những",
-        "start": 1.912,
-        "end": 2.986
-      },
-      {
         "text": "người",
-        "start": 2.986,
-        "end": 3.233
+        "start": 7.542,
+        "end": 7.775
       },
       {
         "text": "thân",
-        "start": 3.233,
-        "end": 3.452
+        "start": 7.775,
+        "end": 7.982
       },
       {
         "text": "cuối",
-        "start": 3.452,
-        "end": 3.671
+        "start": 7.982,
+        "end": 8.189
       },
       {
         "text": "cùng",
-        "start": 3.671,
-        "end": 3.89
+        "start": 8.189,
+        "end": 8.396
       },
       {
         "text": "lần",
-        "start": 3.89,
-        "end": 4.077
+        "start": 8.396,
+        "end": 8.572
       },
       {
         "text": "lượt",
-        "start": 4.077,
-        "end": 4.296
+        "start": 8.572,
+        "end": 8.779
+      },
+      {
+        "text": "ngã",
+        "start": 8.779,
+        "end": 8.955
       }
     ],
     [
       {
-        "text": "ngã",
-        "start": 4.296,
-        "end": 4.482
-      },
-      {
         "text": "xuống.",
-        "start": 4.482,
-        "end": 4.73
+        "start": 8.955,
+        "end": 9.377
       }
     ],
     [
       {
         "text": "Chỉ",
-        "start": 4.73,
-        "end": 5.411
+        "start": 9.377,
+        "end": 9.554
       },
       {
         "text": "mình",
-        "start": 5.411,
-        "end": 5.629
+        "start": 9.554,
+        "end": 9.761
       },
       {
         "text": "cậu",
-        "start": 5.629,
-        "end": 5.816
+        "start": 9.761,
+        "end": 9.937
       },
       {
         "text": "chạy",
-        "start": 5.816,
-        "end": 6.035
+        "start": 9.937,
+        "end": 10.144
       },
       {
         "text": "thoát.",
-        "start": 6.035,
-        "end": 6.282
+        "start": 10.144,
+        "end": 10.6
       }
     ],
     [
       {
         "text": "Hai",
-        "start": 7.227,
-        "end": 7.384
+        "start": 11.319,
+        "end": 11.491
       },
       {
         "text": "mươi",
-        "start": 7.384,
-        "end": 7.569
+        "start": 11.491,
+        "end": 11.692
       },
       {
         "text": "lăm",
-        "start": 7.569,
-        "end": 7.727
+        "start": 11.692,
+        "end": 11.864
       },
       {
         "text": "năm",
-        "start": 7.727,
-        "end": 7.884
+        "start": 11.864,
+        "end": 12.036
       },
       {
         "text": "sau,",
-        "start": 7.884,
-        "end": 8.448
+        "start": 12.036,
+        "end": 12.208
       },
       {
-        "text": "cậu",
-        "start": 8.448,
-        "end": 8.606
+        "text": "cũng",
+        "start": 12.208,
+        "end": 12.882
       },
       {
-        "text": "bé",
-        "start": 8.606,
-        "end": 8.732
+        "text": "chính",
+        "start": 12.882,
+        "end": 13.109
       }
     ],
     [
       {
+        "text": "cậu",
+        "start": 13.109,
+        "end": 13.281
+      },
+      {
+        "text": "thiếu",
+        "start": 13.281,
+        "end": 13.508
+      },
+      {
+        "text": "niên",
+        "start": 13.508,
+        "end": 13.71
+      },
+      {
         "text": "ấy",
-        "start": 8.732,
-        "end": 8.858
+        "start": 13.71,
+        "end": 13.847
+      },
+      {
+        "text": "bước",
+        "start": 13.847,
+        "end": 14.048
       },
       {
         "text": "lên",
-        "start": 8.858,
-        "end": 9.016
+        "start": 14.048,
+        "end": 14.22
       },
       {
-        "text": "ngôi",
-        "start": 9.016,
-        "end": 9.2
+        "text": "ngai",
+        "start": 14.22,
+        "end": 14.421
+      }
+    ],
+    [
+      {
+        "text": "vàng,",
+        "start": 14.421,
+        "end": 14.935
+      },
+      {
+        "text": "trở",
+        "start": 14.935,
+        "end": 15.107
+      },
+      {
+        "text": "thành",
+        "start": 15.107,
+        "end": 15.335
       },
       {
         "text": "hoàng",
-        "start": 9.2,
-        "end": 9.409
+        "start": 15.335,
+        "end": 15.562
       },
       {
         "text": "đế.",
-        "start": 9.409,
-        "end": 9.535
+        "start": 15.562,
+        "end": 15.7
+      }
+    ],
+    [
+      {
+        "text": "Nghe",
+        "start": 16.626,
+        "end": 16.823
+      },
+      {
+        "text": "thì",
+        "start": 16.823,
+        "end": 16.991
+      },
+      {
+        "text": "giống",
+        "start": 16.991,
+        "end": 17.214
+      },
+      {
+        "text": "truyện",
+        "start": 17.214,
+        "end": 17.461
+      },
+      {
+        "text": "cổ",
+        "start": 17.461,
+        "end": 17.595
+      },
+      {
+        "text": "tích.",
+        "start": 17.595,
+        "end": 18.668
       }
     ],
     [
       {
         "text": "Nhưng",
-        "start": 10.462,
-        "end": 10.674
+        "start": 18.668,
+        "end": 18.891
       },
       {
         "text": "con",
-        "start": 10.674,
-        "end": 10.834
+        "start": 18.891,
+        "end": 19.06
       },
       {
         "text": "đường",
-        "start": 10.834,
-        "end": 11.046
+        "start": 19.06,
+        "end": 19.282
       },
       {
         "text": "tới",
-        "start": 11.046,
-        "end": 11.206
+        "start": 19.282,
+        "end": 19.451
       },
       {
         "text": "ngai",
-        "start": 11.206,
-        "end": 11.394
+        "start": 19.451,
+        "end": 19.648
       },
       {
         "text": "vàng",
-        "start": 11.394,
-        "end": 11.581
-      },
-      {
-        "text": "ấy,",
-        "start": 11.581,
-        "end": 11.709
-      }
-    ],
-    [
-      {
-        "text": "bắt",
-        "start": 11.709,
-        "end": 12.266
-      },
-      {
-        "text": "đầu",
-        "start": 12.266,
-        "end": 12.426
-      },
-      {
-        "text": "bằng",
-        "start": 12.426,
-        "end": 12.613
-      },
-      {
-        "text": "những",
-        "start": 12.613,
-        "end": 12.825
-      },
-      {
-        "text": "cuộc",
-        "start": 12.825,
-        "end": 13.013
-      },
-      {
-        "text": "trốn",
-        "start": 13.013,
-        "end": 13.2
-      },
-      {
-        "text": "chạy.",
-        "start": 13.2,
-        "end": 13.388
-      }
-    ],
-    [
-      {
-        "text": "Cuối",
-        "start": 14.348,
-        "end": 14.554
-      },
-      {
-        "text": "thế",
-        "start": 14.554,
-        "end": 14.73
-      },
-      {
-        "text": "kỷ",
-        "start": 14.73,
-        "end": 14.87
-      },
-      {
-        "text": "XVIII,",
-        "start": 14.87,
-        "end": 15.103
-      },
-      {
-        "text": "vùng",
-        "start": 15.103,
-        "end": 15.31
-      },
-      {
-        "text": "đất",
-        "start": 15.31,
-        "end": 15.81
-      },
-      {
-        "text": "Gia",
-        "start": 15.81,
-        "end": 15.986
-      }
-    ],
-    [
-      {
-        "text": "Định",
-        "start": 15.986,
-        "end": 16.192
+        "start": 19.648,
+        "end": 19.845
       },
       {
         "text": "không",
-        "start": 16.192,
-        "end": 16.425
-      },
-      {
-        "text": "còn",
-        "start": 16.425,
-        "end": 16.601
-      },
-      {
-        "text": "yên",
-        "start": 16.601,
-        "end": 16.777
-      },
-      {
-        "text": "ổn.",
-        "start": 16.777,
-        "end": 16.917
+        "start": 19.845,
+        "end": 20.068
       }
     ],
     [
       {
-        "text": "Những",
-        "start": 16.917,
-        "end": 17.759
+        "text": "trải",
+        "start": 20.068,
+        "end": 20.265
       },
       {
-        "text": "cuộc",
-        "start": 17.759,
-        "end": 17.965
+        "text": "thảm",
+        "start": 20.265,
+        "end": 20.463
       },
       {
-        "text": "tranh",
-        "start": 17.965,
-        "end": 18.198
-      },
-      {
-        "text": "chấp",
-        "start": 18.198,
-        "end": 18.404
-      },
-      {
-        "text": "quyền",
-        "start": 18.404,
-        "end": 18.637
-      },
-      {
-        "text": "lực",
-        "start": 18.637,
-        "end": 18.813
-      },
-      {
-        "text": "lan",
-        "start": 18.813,
-        "end": 18.989
+        "text": "đỏ.",
+        "start": 20.463,
+        "end": 20.987
       }
     ],
     [
       {
-        "text": "theo",
-        "start": 18.989,
-        "end": 19.195
+        "text": "Nó",
+        "start": 20.987,
+        "end": 21.121
       },
       {
-        "text": "đường",
-        "start": 19.195,
-        "end": 19.428
+        "text": "trải",
+        "start": 21.121,
+        "end": 21.318
+      },
+      {
+        "text": "bằng",
+        "start": 21.318,
+        "end": 21.516
+      },
+      {
+        "text": "nước",
+        "start": 21.516,
+        "end": 21.713
       },
       {
         "text": "sông,",
-        "start": 19.428,
-        "end": 19.82
+        "start": 21.713,
+        "end": 21.91
       },
       {
-        "text": "cửa",
-        "start": 19.82,
-        "end": 19.996
+        "text": "bùn",
+        "start": 21.91,
+        "end": 22.078
       },
       {
-        "text": "biển",
-        "start": 19.996,
-        "end": 20.389
-      },
+        "text": "lầy,",
+        "start": 22.078,
+        "end": 22.247
+      }
+    ],
+    [
       {
         "text": "và",
-        "start": 20.389,
-        "end": 20.53
+        "start": 22.247,
+        "end": 22.722
       },
       {
-        "text": "các",
-        "start": 20.53,
-        "end": 20.706
+        "text": "rất",
+        "start": 22.722,
+        "end": 22.89
+      },
+      {
+        "text": "nhiều",
+        "start": 22.89,
+        "end": 23.113
+      },
+      {
+        "text": "lần",
+        "start": 23.113,
+        "end": 23.281
+      },
+      {
+        "text": "phải",
+        "start": 23.281,
+        "end": 23.479
+      },
+      {
+        "text": "bỏ",
+        "start": 23.479,
+        "end": 23.613
+      },
+      {
+        "text": "chạy.",
+        "start": 23.613,
+        "end": 23.81
       }
     ],
     [
       {
-        "text": "thành",
-        "start": 20.706,
-        "end": 20.939
+        "text": "Muốn",
+        "start": 24.74,
+        "end": 24.949
       },
       {
-        "text": "lũy;",
-        "start": 20.939,
-        "end": 21.603
+        "text": "hiểu",
+        "start": 24.949,
+        "end": 25.158
       },
       {
-        "text": "giữa",
-        "start": 21.603,
-        "end": 21.809
+        "text": "Nguyễn",
+        "start": 25.158,
+        "end": 25.419
       },
       {
-        "text": "biến",
-        "start": 21.809,
-        "end": 22.015
+        "text": "Ánh,",
+        "start": 25.419,
+        "end": 25.869
       },
       {
-        "text": "động",
-        "start": 22.015,
-        "end": 22.221
+        "text": "phải",
+        "start": 25.869,
+        "end": 26.078
       },
       {
-        "text": "ấy,",
-        "start": 22.221,
-        "end": 22.561
+        "text": "nhìn",
+        "start": 26.078,
+        "end": 26.287
       },
       {
-        "text": "một",
-        "start": 22.561,
-        "end": 22.737
+        "text": "vùng",
+        "start": 26.287,
+        "end": 26.496
       }
     ],
     [
       {
-        "text": "dòng",
-        "start": 22.737,
-        "end": 22.944
+        "text": "đất",
+        "start": 26.496,
+        "end": 26.674
       },
       {
-        "text": "họ",
-        "start": 22.944,
-        "end": 23.084
+        "text": "cậu",
+        "start": 26.674,
+        "end": 26.853
       },
       {
         "text": "đang",
-        "start": 23.084,
-        "end": 23.29
+        "start": 26.853,
+        "end": 27.061
       },
       {
-        "text": "mất",
-        "start": 23.29,
-        "end": 23.466
+        "text": "trú",
+        "start": 27.061,
+        "end": 27.24
       },
       {
-        "text": "dần",
-        "start": 23.466,
-        "end": 23.642
+        "text": "thân.",
+        "start": 27.24,
+        "end": 27.449
+      }
+    ],
+    [
+      {
+        "text": "Gia",
+        "start": 27.449,
+        "end": 28.434
+      },
+      {
+        "text": "Định",
+        "start": 28.434,
+        "end": 28.643
+      },
+      {
+        "text": "cuối",
+        "start": 28.643,
+        "end": 28.852
+      },
+      {
+        "text": "thế",
+        "start": 28.852,
+        "end": 29.03
+      },
+      {
+        "text": "kỷ",
+        "start": 29.03,
+        "end": 29.173
+      },
+      {
+        "text": "18",
+        "start": 29.173,
+        "end": 29.315
+      },
+      {
+        "text": "là",
+        "start": 29.315,
+        "end": 29.458
+      }
+    ],
+    [
+      {
+        "text": "xứ",
+        "start": 29.458,
+        "end": 29.601
+      },
+      {
+        "text": "của",
+        "start": 29.601,
+        "end": 29.779
+      },
+      {
+        "text": "sông",
+        "start": 29.779,
+        "end": 29.988
+      },
+      {
+        "text": "rạch",
+        "start": 29.988,
+        "end": 30.197
+      },
+      {
+        "text": "và",
+        "start": 30.197,
+        "end": 30.339
+      },
+      {
+        "text": "ghe",
+        "start": 30.339,
+        "end": 30.518
+      },
+      {
+        "text": "thuyền.",
+        "start": 30.518,
+        "end": 30.779
+      }
+    ],
+    [
+      {
+        "text": "Ai",
+        "start": 30.779,
+        "end": 30.922
+      },
+      {
+        "text": "giữ",
+        "start": 30.922,
+        "end": 31.519
+      },
+      {
+        "text": "được",
+        "start": 31.519,
+        "end": 31.728
+      },
+      {
+        "text": "đường",
+        "start": 31.728,
+        "end": 31.964
+      },
+      {
+        "text": "sông,",
+        "start": 31.964,
+        "end": 32.173
+      },
+      {
+        "text": "người",
+        "start": 32.173,
+        "end": 32.753
+      },
+      {
+        "text": "đó",
+        "start": 32.753,
+        "end": 32.896
+      }
+    ],
+    [
+      {
+        "text": "giữ",
+        "start": 32.896,
+        "end": 33.074
+      },
+      {
+        "text": "được",
+        "start": 33.074,
+        "end": 33.283
       },
       {
         "text": "quyền",
-        "start": 23.642,
-        "end": 23.875
+        "start": 33.283,
+        "end": 33.519
       },
       {
-        "text": "kiểm",
-        "start": 23.875,
-        "end": 24.082
+        "text": "lực.",
+        "start": 33.519,
+        "end": 34.01
       }
     ],
     [
       {
-        "text": "soát.",
-        "start": 24.082,
-        "end": 24.48
+        "text": "Và",
+        "start": 34.01,
+        "end": 34.153
+      },
+      {
+        "text": "dòng",
+        "start": 34.153,
+        "end": 34.362
+      },
+      {
+        "text": "họ",
+        "start": 34.362,
+        "end": 34.504
+      },
+      {
+        "text": "Nguyễn",
+        "start": 34.504,
+        "end": 34.765
+      },
+      {
+        "text": "đang",
+        "start": 34.765,
+        "end": 34.974
+      },
+      {
+        "text": "tuột",
+        "start": 34.974,
+        "end": 35.183
+      },
+      {
+        "text": "dần",
+        "start": 35.183,
+        "end": 35.362
       }
     ],
     [
       {
-        "text": "Phong",
-        "start": 25.211,
-        "end": 25.438
+        "text": "khỏi",
+        "start": 35.362,
+        "end": 35.571
       },
       {
-        "text": "trào",
-        "start": 25.438,
-        "end": 25.639
+        "text": "tay",
+        "start": 35.571,
+        "end": 35.749
+      },
+      {
+        "text": "cả",
+        "start": 35.749,
+        "end": 35.892
+      },
+      {
+        "text": "hai.",
+        "start": 35.892,
+        "end": 36.07
+      }
+    ],
+    [
+      {
+        "text": "Đối",
+        "start": 37.007,
+        "end": 37.183
+      },
+      {
+        "text": "thủ",
+        "start": 37.183,
+        "end": 37.359
+      },
+      {
+        "text": "của",
+        "start": 37.359,
+        "end": 37.535
+      },
+      {
+        "text": "họ",
+        "start": 37.535,
+        "end": 37.676
+      },
+      {
+        "text": "là",
+        "start": 37.676,
+        "end": 37.816
       },
       {
         "text": "Tây",
-        "start": 25.639,
-        "end": 25.811
+        "start": 37.816,
+        "end": 37.992
       },
       {
-        "text": "Sơn",
-        "start": 25.811,
-        "end": 25.982
-      },
-      {
-        "text": "đã",
-        "start": 25.982,
-        "end": 26.119
-      },
-      {
-        "text": "làm",
-        "start": 26.119,
-        "end": 26.291
-      },
-      {
-        "text": "rung",
-        "start": 26.291,
-        "end": 26.492
-      }
-    ],
-    [
-      {
-        "text": "chuyển",
-        "start": 26.492,
-        "end": 26.743
-      },
-      {
-        "text": "trật",
-        "start": 26.743,
-        "end": 26.944
-      },
-      {
-        "text": "tự",
-        "start": 26.944,
-        "end": 27.081
-      },
-      {
-        "text": "cũ.",
-        "start": 27.081,
-        "end": 27.218
+        "text": "Sơn.",
+        "start": 37.992,
+        "end": 38.88
       }
     ],
     [
       {
         "text": "Sau",
-        "start": 27.218,
-        "end": 28.178
+        "start": 38.88,
+        "end": 39.056
       },
       {
         "text": "những",
-        "start": 28.178,
-        "end": 28.405
+        "start": 39.056,
+        "end": 39.289
       },
       {
         "text": "thắng",
-        "start": 28.405,
-        "end": 28.633
+        "start": 39.289,
+        "end": 39.522
       },
       {
         "text": "lợi",
-        "start": 28.633,
-        "end": 28.804
+        "start": 39.522,
+        "end": 39.698
       },
       {
         "text": "liên",
-        "start": 28.804,
-        "end": 29.005
+        "start": 39.698,
+        "end": 39.904
       },
       {
         "text": "tiếp,",
-        "start": 29.005,
-        "end": 29.571
+        "start": 39.904,
+        "end": 40.433
       },
       {
         "text": "quân",
-        "start": 29.571,
-        "end": 29.772
+        "start": 40.433,
+        "end": 40.639
       }
     ],
     [
       {
         "text": "Tây",
-        "start": 29.772,
-        "end": 29.943
+        "start": 40.639,
+        "end": 40.815
       },
       {
         "text": "Sơn",
-        "start": 29.943,
-        "end": 30.115
+        "start": 40.815,
+        "end": 40.991
       },
       {
         "text": "tiến",
-        "start": 30.115,
-        "end": 30.316
+        "start": 40.991,
+        "end": 41.197
       },
       {
         "text": "sâu",
-        "start": 30.316,
-        "end": 30.487
+        "start": 41.197,
+        "end": 41.373
       },
       {
         "text": "về",
-        "start": 30.487,
-        "end": 30.624
+        "start": 41.373,
+        "end": 41.514
       },
       {
         "text": "phía",
-        "start": 30.624,
-        "end": 30.825
+        "start": 41.514,
+        "end": 41.72
       },
       {
-        "text": "Nam,",
-        "start": 30.825,
-        "end": 30.997
+        "text": "Nam.",
+        "start": 41.72,
+        "end": 41.895
       }
     ],
     [
       {
-        "text": "nơi",
-        "start": 30.997,
-        "end": 31.574
+        "text": "Còn",
+        "start": 41.895,
+        "end": 42.569
       },
       {
         "text": "phe",
-        "start": 31.574,
-        "end": 31.745
+        "start": 42.569,
+        "end": 42.745
       },
       {
         "text": "Nguyễn",
-        "start": 31.745,
-        "end": 31.996
+        "start": 42.745,
+        "end": 43.003
       },
       {
-        "text": "vừa",
-        "start": 31.996,
-        "end": 32.168
+        "text": "thì",
+        "start": 43.003,
+        "end": 43.178
       },
       {
-        "text": "phải",
-        "start": 32.168,
-        "end": 32.369
+        "text": "giống",
+        "start": 43.178,
+        "end": 43.411
       },
       {
-        "text": "chống",
-        "start": 32.369,
-        "end": 32.596
+        "text": "một",
+        "start": 43.411,
+        "end": 43.587
       },
       {
-        "text": "đối",
-        "start": 32.596,
-        "end": 32.768
+        "text": "ngôi",
+        "start": 43.587,
+        "end": 43.793
       }
     ],
     [
       {
-        "text": "thủ",
-        "start": 32.768,
-        "end": 32.939
-      },
-      {
-        "text": "bên",
-        "start": 32.939,
-        "end": 33.111
-      },
-      {
-        "text": "ngoài,",
-        "start": 33.111,
-        "end": 33.804
+        "text": "nhà",
+        "start": 43.793,
+        "end": 43.969
       },
       {
         "text": "vừa",
-        "start": 33.804,
-        "end": 33.976
+        "start": 43.969,
+        "end": 44.145
       },
       {
-        "text": "đối",
-        "start": 33.976,
-        "end": 34.147
+        "text": "cháy",
+        "start": 44.145,
+        "end": 44.351
       },
       {
-        "text": "mặt",
-        "start": 34.147,
-        "end": 34.319
+        "text": "mái",
+        "start": 44.351,
+        "end": 44.527
       },
       {
-        "text": "với",
-        "start": 34.319,
-        "end": 34.49
+        "text": "vừa",
+        "start": 44.527,
+        "end": 44.703
+      },
+      {
+        "text": "cãi",
+        "start": 44.703,
+        "end": 44.878
+      },
+      {
+        "text": "nhau",
+        "start": 44.878,
+        "end": 45.084
       }
     ],
     [
       {
-        "text": "sự",
-        "start": 34.49,
-        "end": 34.628
+        "text": "trong",
+        "start": 45.084,
+        "end": 45.317
+      },
+      {
+        "text": "bếp:",
+        "start": 45.317,
+        "end": 45.919
+      }
+    ],
+    [
+      {
+        "text": "ngoài",
+        "start": 45.919,
+        "end": 46.152
+      },
+      {
+        "text": "có",
+        "start": 46.152,
+        "end": 46.293
+      },
+      {
+        "text": "giặc,",
+        "start": 46.293,
+        "end": 46.69
+      },
+      {
+        "text": "trong",
+        "start": 46.69,
+        "end": 46.923
+      },
+      {
+        "text": "có",
+        "start": 46.923,
+        "end": 47.063
       },
       {
         "text": "chia",
-        "start": 34.628,
-        "end": 34.829
+        "start": 47.063,
+        "end": 47.269
       },
       {
-        "text": "rẽ",
-        "start": 34.829,
-        "end": 34.966
-      },
-      {
-        "text": "trong",
-        "start": 34.966,
-        "end": 35.193
-      },
-      {
-        "text": "nội",
-        "start": 35.193,
-        "end": 35.364
-      },
-      {
-        "text": "bộ.",
-        "start": 35.364,
-        "end": 35.502
+        "text": "rẽ.",
+        "start": 47.269,
+        "end": 47.41
       }
     ],
     [
       {
         "text": "Nguyễn",
-        "start": 36.462,
-        "end": 36.773
+        "start": 48.119,
+        "end": 48.429
       },
       {
         "text": "Ánh",
-        "start": 36.773,
-        "end": 36.986
+        "start": 48.429,
+        "end": 48.641
       },
       {
         "text": "sinh",
-        "start": 36.986,
-        "end": 37.235
+        "start": 48.641,
+        "end": 48.888
       },
       {
         "text": "năm",
-        "start": 37.235,
-        "end": 37.447
+        "start": 48.888,
+        "end": 49.1
       },
       {
         "text": "1762.",
-        "start": 37.447,
-        "end": 37.696
+        "start": 49.1,
+        "end": 49.347
       }
     ],
     [
       {
-        "text": "Đến",
-        "start": 37.696,
-        "end": 37.909
-      },
-      {
-        "text": "năm",
-        "start": 37.909,
-        "end": 38.122
+        "text": "Năm",
+        "start": 49.347,
+        "end": 49.559
       },
       {
         "text": "1777,",
-        "start": 38.122,
-        "end": 39.345
+        "start": 49.559,
+        "end": 49.807
       },
       {
-        "text": "ông",
-        "start": 39.345,
-        "end": 39.558
+        "text": "cậu",
+        "start": 49.807,
+        "end": 50.576
       },
       {
         "text": "mới",
-        "start": 39.558,
-        "end": 39.77
+        "start": 50.576,
+        "end": 50.787
       },
       {
         "text": "khoảng",
-        "start": 39.77,
-        "end": 40.081
+        "start": 50.787,
+        "end": 51.097
       },
       {
         "text": "mười",
-        "start": 40.081,
-        "end": 40.563
-      }
-    ],
-    [
+        "start": 51.097,
+        "end": 51.345
+      },
       {
         "text": "lăm",
-        "start": 40.563,
-        "end": 40.776
-      },
-      {
-        "text": "tuổi,",
-        "start": 40.776,
-        "end": 41.025
-      },
-      {
-        "text": "còn",
-        "start": 41.025,
-        "end": 41.238
-      },
-      {
-        "text": "quá",
-        "start": 41.238,
-        "end": 41.45
-      },
-      {
-        "text": "trẻ",
-        "start": 41.45,
-        "end": 41.663
-      },
-      {
-        "text": "để",
-        "start": 41.663,
-        "end": 42.095
-      },
-      {
-        "text": "tự",
-        "start": 42.095,
-        "end": 42.266
+        "start": 51.345,
+        "end": 51.933
       }
     ],
     [
       {
-        "text": "mình",
-        "start": 42.266,
-        "end": 42.515
-      },
-      {
-        "text": "quyết",
-        "start": 42.515,
-        "end": 42.796
-      },
-      {
-        "text": "định",
-        "start": 42.796,
-        "end": 43.045
-      },
-      {
-        "text": "vận",
-        "start": 43.045,
-        "end": 43.258
-      },
-      {
-        "text": "mệnh,",
-        "start": 43.258,
-        "end": 43.507
-      },
-      {
-        "text": "nhưng",
-        "start": 43.507,
-        "end": 44.247
-      },
-      {
-        "text": "đã",
-        "start": 44.247,
-        "end": 44.417
+        "text": "tuổi.",
+        "start": 51.933,
+        "end": 52.181
       }
     ],
     [
       {
-        "text": "bị",
-        "start": 44.417,
-        "end": 44.587
+        "text": "Người",
+        "start": 52.181,
+        "end": 52.461
       },
       {
-        "text": "cuốn",
-        "start": 44.587,
-        "end": 44.836
+        "text": "lớn",
+        "start": 52.461,
+        "end": 52.673
       },
       {
-        "text": "vào",
-        "start": 44.836,
-        "end": 45.048
+        "text": "bàn",
+        "start": 52.673,
+        "end": 52.884
       },
       {
-        "text": "cuộc",
-        "start": 45.048,
-        "end": 45.298
-      },
-      {
-        "text": "chiến",
-        "start": 45.298,
-        "end": 45.579
+        "text": "chuyện",
+        "start": 52.884,
+        "end": 53.819
       },
       {
         "text": "sống",
-        "start": 45.579,
-        "end": 45.828
+        "start": 53.819,
+        "end": 54.066
       },
       {
         "text": "còn",
-        "start": 45.828,
-        "end": 46.041
-      }
-    ],
-    [
+        "start": 54.066,
+        "end": 54.278
+      },
       {
         "text": "của",
-        "start": 46.041,
-        "end": 46.253
-      },
+        "start": 54.278,
+        "end": 54.489
+      }
+    ],
+    [
       {
         "text": "gia",
-        "start": 46.253,
-        "end": 46.466
+        "start": 54.489,
+        "end": 54.701
       },
       {
-        "text": "tộc.",
-        "start": 46.466,
-        "end": 46.679
-      }
-    ],
-    [
-      {
-        "text": "Tin",
-        "start": 47.614,
-        "end": 47.789
+        "text": "tộc,",
+        "start": 54.701,
+        "end": 54.912
       },
       {
-        "text": "quân",
-        "start": 47.789,
-        "end": 47.994
+        "text": "còn",
+        "start": 54.912,
+        "end": 55.124
       },
       {
-        "text": "Tây",
-        "start": 47.994,
-        "end": 48.17
+        "text": "cậu",
+        "start": 55.124,
+        "end": 55.335
       },
       {
-        "text": "Sơn",
-        "start": 48.17,
-        "end": 48.345
-      },
-      {
-        "text": "tiến",
-        "start": 48.345,
-        "end": 48.55
-      },
-      {
-        "text": "đến",
-        "start": 48.55,
-        "end": 48.725
-      },
-      {
-        "text": "nhanh",
-        "start": 48.725,
-        "end": 48.957
-      }
-    ],
-    [
-      {
-        "text": "chóng",
-        "start": 48.957,
-        "end": 49.189
-      },
-      {
-        "text": "truyền",
-        "start": 49.189,
-        "end": 49.446
-      },
-      {
-        "text": "qua",
-        "start": 49.446,
-        "end": 49.621
-      },
-      {
-        "text": "các",
-        "start": 49.621,
-        "end": 49.796
-      },
-      {
-        "text": "bến",
-        "start": 49.796,
-        "end": 49.971
-      },
-      {
-        "text": "sông.",
-        "start": 49.971,
-        "end": 50.914
-      }
-    ],
-    [
-      {
-        "text": "Những",
-        "start": 50.914,
-        "end": 51.146
-      },
-      {
-        "text": "người",
-        "start": 51.146,
-        "end": 51.378
-      },
-      {
-        "text": "từng",
-        "start": 51.378,
-        "end": 51.584
-      },
-      {
-        "text": "tin",
-        "start": 51.584,
-        "end": 51.759
-      },
-      {
-        "text": "rằng",
-        "start": 51.759,
-        "end": 51.964
-      },
-      {
-        "text": "thành",
-        "start": 51.964,
-        "end": 52.196
-      },
-      {
-        "text": "lũy",
-        "start": 52.196,
-        "end": 52.371
-      }
-    ],
-    [
-      {
-        "text": "và",
-        "start": 52.371,
-        "end": 52.511
-      },
-      {
-        "text": "quân",
-        "start": 52.511,
-        "end": 52.717
-      },
-      {
-        "text": "đội",
-        "start": 52.717,
-        "end": 52.892
+        "text": "chưa",
+        "start": 55.335,
+        "end": 56.085
       },
       {
         "text": "có",
-        "start": 52.892,
-        "end": 53.032
+        "start": 56.085,
+        "end": 56.255
       },
       {
-        "text": "thể",
-        "start": 53.032,
-        "end": 53.207
-      },
-      {
-        "text": "giữ",
-        "start": 53.207,
-        "end": 53.382
-      },
-      {
-        "text": "được",
-        "start": 53.382,
-        "end": 53.588
+        "text": "tiếng",
+        "start": 56.255,
+        "end": 56.535
       }
     ],
     [
       {
-        "text": "Gia",
-        "start": 53.588,
-        "end": 53.763
+        "text": "nói",
+        "start": 56.535,
+        "end": 56.746
       },
       {
-        "text": "Định",
-        "start": 53.763,
-        "end": 54.219
+        "text": "quyết",
+        "start": 56.746,
+        "end": 57.026
       },
       {
-        "text": "giờ",
-        "start": 54.219,
-        "end": 54.395
-      },
-      {
-        "text": "phải",
-        "start": 54.395,
-        "end": 54.6
-      },
-      {
-        "text": "tính",
-        "start": 54.6,
-        "end": 54.805
-      },
-      {
-        "text": "đến",
-        "start": 54.805,
-        "end": 54.98
-      },
-      {
-        "text": "con",
-        "start": 54.98,
-        "end": 55.155
+        "text": "định.",
+        "start": 57.026,
+        "end": 57.274
       }
     ],
     [
       {
-        "text": "đường",
-        "start": 55.155,
-        "end": 55.387
+        "text": "Nhưng",
+        "start": 57.274,
+        "end": 58.268
       },
-      {
-        "text": "rút",
-        "start": 55.387,
-        "end": 55.563
-      },
-      {
-        "text": "lui.",
-        "start": 55.563,
-        "end": 55.738
-      }
-    ],
-    [
-      {
-        "text": "Cuộc",
-        "start": 56.688,
-        "end": 56.916
-      },
-      {
-        "text": "tiến",
-        "start": 56.916,
-        "end": 57.144
-      },
-      {
-        "text": "công",
-        "start": 57.144,
-        "end": 57.372
-      },
-      {
-        "text": "của",
-        "start": 57.372,
-        "end": 57.566
-      },
-      {
-        "text": "năm",
-        "start": 57.566,
-        "end": 57.761
-      },
-      {
-        "text": "1777",
-        "start": 57.761,
-        "end": 57.989
-      },
-      {
-        "text": "đưa",
-        "start": 57.989,
-        "end": 58.184
-      }
-    ],
-    [
       {
         "text": "chiến",
-        "start": 58.184,
-        "end": 58.442
+        "start": 58.268,
+        "end": 58.548
       },
       {
         "text": "tranh",
-        "start": 58.442,
-        "end": 58.699
+        "start": 58.548,
+        "end": 58.828
       },
       {
-        "text": "đến",
-        "start": 58.699,
-        "end": 58.894
+        "text": "thì",
+        "start": 58.828,
+        "end": 59.039
       },
       {
-        "text": "gần",
-        "start": 58.894,
-        "end": 59.089
+        "text": "chẳng",
+        "start": 59.039,
+        "end": 59.319
       },
       {
-        "text": "các",
-        "start": 59.089,
-        "end": 59.283
+        "text": "chờ",
+        "start": 59.319,
+        "end": 59.531
       },
       {
-        "text": "trung",
-        "start": 59.283,
-        "end": 59.541
-      },
-      {
-        "text": "tâm",
-        "start": 59.541,
-        "end": 59.736
+        "text": "ai",
+        "start": 59.531,
+        "end": 59.7
       }
     ],
     [
       {
-        "text": "của",
-        "start": 59.736,
-        "end": 59.93
+        "text": "đủ",
+        "start": 59.7,
+        "end": 59.869
       },
       {
-        "text": "phe",
-        "start": 59.93,
-        "end": 60.125
-      },
-      {
-        "text": "Nguyễn.",
-        "start": 60.125,
-        "end": 60.41
+        "text": "lớn.",
+        "start": 59.869,
+        "end": 60.081
       }
     ],
     [
       {
-        "text": "Trên",
-        "start": 60.41,
-        "end": 60.638
+        "text": "Rồi",
+        "start": 61.008,
+        "end": 61.177
+      },
+      {
+        "text": "tin",
+        "start": 61.177,
+        "end": 61.346
+      },
+      {
+        "text": "dữ",
+        "start": 61.346,
+        "end": 61.482
+      },
+      {
+        "text": "tới",
+        "start": 61.482,
+        "end": 61.651
+      },
+      {
+        "text": "bằng",
+        "start": 61.651,
+        "end": 61.85
+      },
+      {
+        "text": "đường",
+        "start": 61.85,
+        "end": 62.074
       },
       {
         "text": "sông,",
-        "start": 60.638,
-        "end": 60.866
-      },
-      {
-        "text": "những",
-        "start": 60.866,
-        "end": 61.124
-      },
-      {
-        "text": "đoàn",
-        "start": 61.124,
-        "end": 62.178
-      },
-      {
-        "text": "thuyền",
-        "start": 62.178,
-        "end": 62.463
-      },
-      {
-        "text": "nối",
-        "start": 62.463,
-        "end": 63.054
-      },
-      {
-        "text": "nhau",
-        "start": 63.054,
-        "end": 63.282
+        "start": 62.074,
+        "end": 62.272
       }
     ],
     [
       {
-        "text": "xuất",
-        "start": 63.282,
-        "end": 63.51
+        "text": "nhanh",
+        "start": 62.272,
+        "end": 62.497
       },
       {
-        "text": "hiện,",
-        "start": 63.51,
-        "end": 63.738
+        "text": "hơn",
+        "start": 62.497,
+        "end": 62.666
       },
       {
-        "text": "báo",
-        "start": 63.738,
-        "end": 63.933
+        "text": "mọi",
+        "start": 62.666,
+        "end": 62.835
       },
       {
-        "text": "hiệu",
-        "start": 63.933,
-        "end": 64.161
+        "text": "lời",
+        "start": 62.835,
+        "end": 63.005
       },
       {
-        "text": "rằng",
-        "start": 64.161,
-        "end": 64.704
+        "text": "trấn",
+        "start": 63.005,
+        "end": 63.203
       },
       {
-        "text": "lối",
-        "start": 64.704,
-        "end": 64.899
-      },
-      {
-        "text": "thoát",
-        "start": 64.899,
-        "end": 65.157
+        "text": "an.",
+        "start": 63.203,
+        "end": 63.339
       }
     ],
     [
       {
-        "text": "trên",
-        "start": 65.157,
-        "end": 65.385
-      },
-      {
-        "text": "mặt",
-        "start": 65.385,
-        "end": 65.58
-      },
-      {
-        "text": "nước",
-        "start": 65.58,
-        "end": 65.808
-      },
-      {
-        "text": "cũng",
-        "start": 65.808,
-        "end": 66.036
-      },
-      {
-        "text": "có",
-        "start": 66.036,
-        "end": 66.477
-      },
-      {
-        "text": "thể",
-        "start": 66.477,
-        "end": 66.672
-      },
-      {
-        "text": "sớm",
-        "start": 66.672,
-        "end": 66.867
-      }
-    ],
-    [
-      {
-        "text": "bị",
-        "start": 66.867,
-        "end": 67.022
-      },
-      {
-        "text": "chặn.",
-        "start": 67.022,
-        "end": 67.25
-      }
-    ],
-    [
-      {
-        "text": "Lực",
-        "start": 68.206,
-        "end": 68.393
-      },
-      {
-        "text": "lượng",
-        "start": 68.393,
-        "end": 68.64
-      },
-      {
-        "text": "phòng",
-        "start": 68.64,
-        "end": 68.888
-      },
-      {
-        "text": "thủ",
-        "start": 68.888,
-        "end": 69.075
-      },
-      {
-        "text": "liên",
-        "start": 69.075,
-        "end": 69.293
-      },
-      {
-        "text": "tiếp",
-        "start": 69.293,
-        "end": 69.512
-      },
-      {
-        "text": "chịu",
-        "start": 69.512,
-        "end": 69.731
-      }
-    ],
-    [
-      {
-        "text": "sức",
-        "start": 69.731,
-        "end": 69.918
-      },
-      {
-        "text": "ép.",
-        "start": 69.918,
-        "end": 70.838
-      }
-    ],
-    [
-      {
-        "text": "Những",
-        "start": 70.838,
-        "end": 71.086
-      },
-      {
-        "text": "tuyến",
-        "start": 71.086,
-        "end": 71.333
-      },
-      {
-        "text": "sông",
-        "start": 71.333,
-        "end": 71.552
-      },
-      {
-        "text": "vốn",
-        "start": 71.552,
-        "end": 71.739
-      },
-      {
-        "text": "là",
-        "start": 71.739,
-        "end": 71.889
-      },
-      {
-        "text": "đường",
-        "start": 71.889,
-        "end": 72.136
-      },
-      {
-        "text": "giao",
-        "start": 72.136,
-        "end": 72.355
-      }
-    ],
-    [
-      {
-        "text": "thông",
-        "start": 72.355,
-        "end": 72.602
-      },
-      {
-        "text": "và",
-        "start": 72.602,
-        "end": 72.752
-      },
-      {
-        "text": "tiếp",
-        "start": 72.752,
-        "end": 72.971
-      },
-      {
-        "text": "tế",
-        "start": 72.971,
-        "end": 73.12
-      },
-      {
-        "text": "giờ",
-        "start": 73.12,
-        "end": 73.307
-      },
-      {
-        "text": "trở",
-        "start": 73.307,
-        "end": 73.494
-      },
-      {
-        "text": "thành",
-        "start": 73.494,
-        "end": 73.742
-      }
-    ],
-    [
-      {
-        "text": "chiến",
-        "start": 73.742,
-        "end": 73.989
-      },
-      {
-        "text": "tuyến,",
-        "start": 73.989,
-        "end": 74.615
-      },
-      {
-        "text": "nơi",
-        "start": 74.615,
-        "end": 74.802
-      },
-      {
-        "text": "một",
-        "start": 74.802,
-        "end": 74.988
-      },
-      {
-        "text": "thất",
-        "start": 74.988,
-        "end": 75.207
-      },
-      {
-        "text": "bại",
-        "start": 75.207,
-        "end": 75.394
-      },
-      {
-        "text": "có",
-        "start": 75.394,
-        "end": 75.544
-      }
-    ],
-    [
-      {
-        "text": "thể",
-        "start": 75.544,
-        "end": 75.731
-      },
-      {
-        "text": "cắt",
-        "start": 75.731,
-        "end": 75.917
-      },
-      {
-        "text": "đứt",
-        "start": 75.917,
-        "end": 76.104
-      },
-      {
-        "text": "liên",
-        "start": 76.104,
-        "end": 76.323
-      },
-      {
-        "text": "lạc",
-        "start": 76.323,
-        "end": 76.51
-      },
-      {
-        "text": "giữa",
-        "start": 76.51,
-        "end": 76.729
-      },
-      {
-        "text": "các",
-        "start": 76.729,
-        "end": 76.916
-      }
-    ],
-    [
-      {
-        "text": "nhóm",
-        "start": 76.916,
-        "end": 77.135
-      },
-      {
-        "text": "quân.",
-        "start": 77.135,
-        "end": 77.354
-      }
-    ],
-    [
-      {
-        "text": "Khi",
-        "start": 78.324,
-        "end": 78.509
-      },
-      {
-        "text": "các",
-        "start": 78.509,
-        "end": 78.695
-      },
-      {
-        "text": "vị",
-        "start": 78.695,
-        "end": 78.843
-      },
-      {
-        "text": "trí",
-        "start": 78.843,
-        "end": 79.028
-      },
-      {
-        "text": "phòng",
-        "start": 79.028,
-        "end": 79.273
-      },
-      {
-        "text": "thủ",
-        "start": 79.273,
-        "end": 79.458
-      },
-      {
-        "text": "mất",
-        "start": 79.458,
-        "end": 79.643
-      }
-    ],
-    [
-      {
-        "text": "dần,",
-        "start": 79.643,
-        "end": 79.828
-      },
-      {
-        "text": "những",
-        "start": 79.828,
-        "end": 80.435
-      },
-      {
-        "text": "người",
-        "start": 80.435,
-        "end": 80.68
-      },
-      {
-        "text": "thuộc",
-        "start": 80.68,
-        "end": 80.925
-      },
-      {
-        "text": "phe",
-        "start": 80.925,
-        "end": 81.11
-      },
-      {
-        "text": "Nguyễn",
-        "start": 81.11,
-        "end": 81.381
-      },
-      {
-        "text": "phải",
-        "start": 81.381,
-        "end": 81.598
-      }
-    ],
-    [
-      {
-        "text": "rời",
-        "start": 81.598,
-        "end": 81.783
-      },
-      {
-        "text": "nơi",
-        "start": 81.783,
-        "end": 81.968
-      },
-      {
-        "text": "đóng",
-        "start": 81.968,
-        "end": 82.185
-      },
-      {
-        "text": "quân.",
-        "start": 82.185,
-        "end": 83.404
-      }
-    ],
-    [
-      {
-        "text": "Cuộc",
-        "start": 83.404,
-        "end": 83.62
-      },
-      {
-        "text": "rút",
-        "start": 83.62,
-        "end": 83.806
-      },
-      {
-        "text": "lui",
-        "start": 83.806,
-        "end": 83.991
-      },
-      {
-        "text": "không",
-        "start": 83.991,
-        "end": 84.236
-      },
-      {
-        "text": "phải",
-        "start": 84.236,
-        "end": 84.453
-      },
-      {
-        "text": "một",
-        "start": 84.453,
-        "end": 84.638
-      },
-      {
-        "text": "hành",
-        "start": 84.638,
-        "end": 84.855
-      }
-    ],
-    [
-      {
-        "text": "trình",
-        "start": 84.855,
-        "end": 85.1
-      },
-      {
-        "text": "có",
-        "start": 85.1,
-        "end": 85.248
-      },
-      {
-        "text": "kế",
-        "start": 85.248,
-        "end": 85.396
-      },
-      {
-        "text": "hoạch",
-        "start": 85.396,
-        "end": 85.641
-      },
-      {
-        "text": "hoàn",
-        "start": 85.641,
-        "end": 85.858
-      },
-      {
-        "text": "hảo,",
-        "start": 85.858,
-        "end": 86.431
-      },
-      {
-        "text": "mà",
-        "start": 86.431,
-        "end": 86.579
-      }
-    ],
-    [
-      {
-        "text": "là",
-        "start": 86.579,
-        "end": 86.727
-      },
-      {
-        "text": "chuỗi",
-        "start": 86.727,
-        "end": 86.972
-      },
-      {
-        "text": "quyết",
-        "start": 86.972,
-        "end": 87.217
-      },
-      {
-        "text": "định",
-        "start": 87.217,
-        "end": 87.434
-      },
-      {
-        "text": "gấp",
-        "start": 87.434,
-        "end": 87.619
-      },
-      {
-        "text": "gáp",
-        "start": 87.619,
-        "end": 87.804
-      },
-      {
-        "text": "trước",
-        "start": 87.804,
-        "end": 88.05
-      }
-    ],
-    [
-      {
-        "text": "sức",
-        "start": 88.05,
-        "end": 88.235
-      },
-      {
-        "text": "ép",
-        "start": 88.235,
-        "end": 88.383
-      },
-      {
-        "text": "đang",
-        "start": 88.383,
-        "end": 88.6
-      },
-      {
-        "text": "áp",
-        "start": 88.6,
-        "end": 88.748
-      },
-      {
-        "text": "sát.",
-        "start": 88.748,
-        "end": 89.153
-      }
-    ],
-    [
-      {
-        "text": "Các",
-        "start": 89.864,
-        "end": 90.044
-      },
-      {
-        "text": "nhân",
-        "start": 90.044,
-        "end": 90.256
-      },
-      {
-        "text": "vật",
-        "start": 90.256,
-        "end": 90.437
-      },
-      {
-        "text": "chủ",
-        "start": 90.437,
-        "end": 90.617
-      },
-      {
-        "text": "chốt",
-        "start": 90.617,
-        "end": 90.829
-      },
-      {
-        "text": "trong",
-        "start": 90.829,
-        "end": 91.068
-      },
-      {
-        "text": "chính",
-        "start": 91.068,
-        "end": 91.308
-      }
-    ],
-    [
-      {
-        "text": "quyền",
-        "start": 91.308,
-        "end": 91.547
-      },
-      {
-        "text": "Nguyễn",
-        "start": 91.547,
-        "end": 91.812
-      },
-      {
-        "text": "lần",
-        "start": 91.812,
-        "end": 91.992
-      },
-      {
-        "text": "lượt",
-        "start": 91.992,
-        "end": 92.204
-      },
-      {
-        "text": "rút",
-        "start": 92.204,
-        "end": 92.385
-      },
-      {
-        "text": "về",
-        "start": 92.385,
-        "end": 92.529
-      },
-      {
-        "text": "những",
-        "start": 92.529,
-        "end": 92.769
-      }
-    ],
-    [
-      {
-        "text": "địa",
-        "start": 92.769,
-        "end": 92.949
-      },
-      {
-        "text": "điểm",
-        "start": 92.949,
-        "end": 93.161
-      },
-      {
-        "text": "khác",
-        "start": 93.161,
-        "end": 93.373
-      },
-      {
-        "text": "nhau",
-        "start": 93.373,
-        "end": 93.585
-      },
-      {
-        "text": "ở",
-        "start": 93.585,
-        "end": 93.683
-      },
-      {
-        "text": "miền",
-        "start": 93.683,
-        "end": 93.895
-      },
-      {
-        "text": "Tây.",
-        "start": 93.895,
-        "end": 95.057
-      }
-    ],
-    [
-      {
-        "text": "Định",
-        "start": 95.057,
-        "end": 95.269
-      },
-      {
-        "text": "Vương",
-        "start": 95.269,
-        "end": 95.508
-      },
-      {
-        "text": "Nguyễn",
-        "start": 95.508,
-        "end": 95.773
-      },
-      {
-        "text": "Phúc",
-        "start": 95.773,
-        "end": 95.985
-      },
-      {
-        "text": "Thuần",
-        "start": 95.985,
-        "end": 96.224
-      },
-      {
-        "text": "tìm",
-        "start": 96.224,
-        "end": 96.405
-      },
-      {
-        "text": "đường",
-        "start": 96.405,
-        "end": 96.644
-      }
-    ],
-    [
-      {
-        "text": "đến",
-        "start": 96.644,
-        "end": 96.825
-      },
-      {
-        "text": "Long",
-        "start": 96.825,
-        "end": 97.036
-      },
-      {
-        "text": "Xuyên,",
-        "start": 97.036,
-        "end": 97.633
-      },
-      {
-        "text": "trong",
-        "start": 97.633,
-        "end": 97.872
-      },
-      {
-        "text": "khi",
-        "start": 97.872,
-        "end": 98.053
-      },
-      {
-        "text": "tình",
-        "start": 98.053,
-        "end": 98.264
-      },
-      {
-        "text": "thế",
-        "start": 98.264,
-        "end": 98.445
-      }
-    ],
-    [
-      {
-        "text": "của",
-        "start": 98.445,
-        "end": 98.626
-      },
-      {
-        "text": "cả",
-        "start": 98.626,
-        "end": 98.77
-      },
-      {
-        "text": "phe",
-        "start": 98.77,
-        "end": 98.951
-      },
-      {
-        "text": "Nguyễn",
-        "start": 98.951,
-        "end": 99.216
-      },
-      {
-        "text": "ngày",
-        "start": 99.216,
-        "end": 99.427
-      },
-      {
-        "text": "càng",
-        "start": 99.427,
-        "end": 99.639
-      },
-      {
-        "text": "nguy",
-        "start": 99.639,
-        "end": 99.851
-      }
-    ],
-    [
-      {
-        "text": "cấp.",
-        "start": 99.851,
-        "end": 100.031
-      }
-    ],
-    [
-      {
-        "text": "Tháng",
-        "start": 100.988,
-        "end": 101.255
-      },
-      {
-        "text": "chín",
-        "start": 101.255,
-        "end": 101.491
-      },
-      {
-        "text": "năm",
-        "start": 101.491,
-        "end": 101.692
-      },
-      {
-        "text": "1777,",
-        "start": 101.692,
-        "end": 101.928
-      },
-      {
-        "text": "Nguyễn",
-        "start": 101.928,
-        "end": 102.223
-      },
-      {
-        "text": "Phúc",
-        "start": 102.223,
-        "end": 102.928
-      },
-      {
-        "text": "Dương,",
-        "start": 102.928,
-        "end": 103.195
-      }
-    ],
-    [
-      {
-        "text": "tức",
-        "start": 103.195,
-        "end": 103.396
-      },
-      {
-        "text": "Tân",
-        "start": 103.396,
-        "end": 103.862
-      },
-      {
-        "text": "Chính",
-        "start": 103.862,
-        "end": 104.463
-      },
-      {
-        "text": "Vương,",
-        "start": 104.463,
-        "end": 104.73
-      },
-      {
-        "text": "bị",
-        "start": 104.73,
-        "end": 105.432
-      },
-      {
-        "text": "bắt",
-        "start": 105.432,
-        "end": 105.633
-      },
-      {
-        "text": "và",
-        "start": 105.633,
-        "end": 105.986
-      }
-    ],
-    [
-      {
-        "text": "bị",
-        "start": 105.986,
-        "end": 106.147
-      },
-      {
-        "text": "giết",
-        "start": 106.147,
-        "end": 106.383
-      },
-      {
-        "text": "cùng",
-        "start": 106.383,
-        "end": 106.869
-      },
-      {
-        "text": "những",
-        "start": 106.869,
-        "end": 107.135
-      },
-      {
-        "text": "người",
-        "start": 107.135,
-        "end": 107.402
-      },
-      {
-        "text": "theo",
-        "start": 107.402,
-        "end": 107.638
-      },
-      {
-        "text": "hầu.",
-        "start": 107.638,
-        "end": 108.666
-      }
-    ],
-    [
-      {
-        "text": "Sự",
-        "start": 108.666,
-        "end": 108.827
-      },
-      {
-        "text": "kiện",
-        "start": 108.827,
-        "end": 109.063
-      },
-      {
-        "text": "ấy",
-        "start": 109.063,
-        "end": 109.224
-      },
-      {
-        "text": "đánh",
-        "start": 109.224,
-        "end": 109.46
-      },
-      {
-        "text": "dấu",
-        "start": 109.46,
-        "end": 109.662
-      },
-      {
-        "text": "thêm",
-        "start": 109.662,
-        "end": 109.898
-      },
-      {
-        "text": "một",
-        "start": 109.898,
-        "end": 110.099
-      }
-    ],
-    [
-      {
-        "text": "bước",
-        "start": 110.099,
-        "end": 110.335
-      },
-      {
-        "text": "sụp",
-        "start": 110.335,
-        "end": 110.537
-      },
-      {
-        "text": "đổ",
-        "start": 110.537,
-        "end": 110.698
-      },
-      {
-        "text": "của",
-        "start": 110.698,
-        "end": 110.899
-      },
-      {
-        "text": "dòng",
-        "start": 110.899,
-        "end": 111.477
-      },
-      {
-        "text": "chính",
-        "start": 111.477,
-        "end": 111.744
-      },
-      {
-        "text": "quyền",
-        "start": 111.744,
-        "end": 112.011
-      }
-    ],
-    [
-      {
-        "text": "chúa",
-        "start": 112.011,
-        "end": 112.247
-      },
-      {
-        "text": "Nguyễn",
-        "start": 112.247,
-        "end": 112.542
-      },
-      {
-        "text": "ở",
-        "start": 112.542,
-        "end": 112.652
-      },
-      {
-        "text": "Đàng",
-        "start": 112.652,
-        "end": 112.888
-      },
-      {
-        "text": "Trong.",
-        "start": 112.888,
-        "end": 113.389
-      }
-    ],
-    [
-      {
-        "text": "Đến",
-        "start": 114.096,
-        "end": 114.278
-      },
-      {
-        "text": "tháng",
-        "start": 114.278,
-        "end": 114.519
-      },
-      {
-        "text": "mười,",
-        "start": 114.519,
-        "end": 115.293
-      },
-      {
-        "text": "quân",
-        "start": 115.293,
-        "end": 115.506
+        "text": "Quân",
+        "start": 63.339,
+        "end": 63.537
       },
       {
         "text": "Tây",
-        "start": 115.506,
-        "end": 115.688
+        "start": 63.537,
+        "end": 64.106
       },
       {
         "text": "Sơn",
-        "start": 115.688,
-        "end": 115.869
+        "start": 64.106,
+        "end": 64.275
       },
       {
-        "text": "tiếp",
-        "start": 115.869,
-        "end": 116.082
-      }
-    ],
-    [
-      {
-        "text": "tục",
-        "start": 116.082,
-        "end": 116.264
+        "text": "đang",
+        "start": 64.275,
+        "end": 64.473
       },
       {
-        "text": "truy",
-        "start": 116.264,
-        "end": 116.477
-      },
-      {
-        "text": "kích",
-        "start": 116.477,
-        "end": 116.69
-      },
-      {
-        "text": "Định",
-        "start": 116.69,
-        "end": 116.902
-      },
-      {
-        "text": "Vương",
-        "start": 116.902,
-        "end": 117.143
-      },
-      {
-        "text": "Nguyễn",
-        "start": 117.143,
-        "end": 117.409
-      },
-      {
-        "text": "Phúc",
-        "start": 117.409,
-        "end": 117.622
-      }
-    ],
-    [
-      {
-        "text": "Thuần",
-        "start": 117.622,
-        "end": 117.862
-      },
-      {
-        "text": "tại",
-        "start": 117.862,
-        "end": 118.044
-      },
-      {
-        "text": "Long",
-        "start": 118.044,
-        "end": 118.257
-      },
-      {
-        "text": "Xuyên.",
-        "start": 118.257,
-        "end": 118.498
+        "text": "đến.",
+        "start": 64.473,
+        "end": 64.643
       }
     ],
     [
       {
         "text": "Những",
-        "start": 118.498,
-        "end": 119.772
+        "start": 64.643,
+        "end": 64.867
       },
       {
         "text": "người",
-        "start": 119.772,
-        "end": 120.013
+        "start": 64.867,
+        "end": 65.861
+      },
+      {
+        "text": "hôm",
+        "start": 65.861,
+        "end": 66.03
+      },
+      {
+        "text": "qua",
+        "start": 66.03,
+        "end": 66.2
       },
       {
         "text": "còn",
-        "start": 120.013,
-        "end": 120.194
+        "start": 66.2,
+        "end": 66.369
       },
       {
-        "text": "lại",
-        "start": 120.194,
-        "end": 120.376
+        "text": "tin",
+        "start": 66.369,
+        "end": 66.538
       },
       {
-        "text": "quanh",
-        "start": 120.376,
-        "end": 120.617
-      },
-      {
-        "text": "ông",
-        "start": 120.617,
-        "end": 120.798
-      },
-      {
-        "text": "không",
-        "start": 120.798,
-        "end": 121.039
+        "text": "thành",
+        "start": 66.538,
+        "end": 66.763
       }
     ],
     [
       {
-        "text": "thể",
-        "start": 121.039,
-        "end": 121.221
+        "text": "lũy",
+        "start": 66.763,
+        "end": 66.932
       },
       {
-        "text": "đảo",
-        "start": 121.221,
-        "end": 121.402
-      },
-      {
-        "text": "ngược",
-        "start": 121.402,
-        "end": 121.643
-      },
-      {
-        "text": "tình",
-        "start": 121.643,
-        "end": 121.856
-      },
-      {
-        "text": "thế,",
-        "start": 121.856,
-        "end": 122.038
-      },
-      {
-        "text": "và",
-        "start": 122.038,
-        "end": 122.624
-      },
-      {
-        "text": "Nguyễn",
-        "start": 122.624,
-        "end": 122.89
-      }
-    ],
-    [
-      {
-        "text": "Ánh",
-        "start": 122.89,
-        "end": 123.072
-      },
-      {
-        "text": "đứng",
-        "start": 123.072,
-        "end": 123.285
-      },
-      {
-        "text": "trước",
-        "start": 123.285,
-        "end": 123.525
-      },
-      {
-        "text": "nguy",
-        "start": 123.525,
-        "end": 123.738
-      },
-      {
-        "text": "cơ",
-        "start": 123.738,
-        "end": 123.884
-      },
-      {
-        "text": "mất",
-        "start": 123.884,
-        "end": 124.065
-      },
-      {
-        "text": "đi",
-        "start": 124.065,
-        "end": 124.211
-      }
-    ],
-    [
-      {
-        "text": "những",
-        "start": 124.211,
-        "end": 124.451
-      },
-      {
-        "text": "người",
-        "start": 124.451,
-        "end": 124.692
-      },
-      {
-        "text": "thân",
-        "start": 124.692,
-        "end": 124.905
-      },
-      {
-        "text": "cuối",
-        "start": 124.905,
-        "end": 125.118
-      },
-      {
-        "text": "cùng",
-        "start": 125.118,
-        "end": 125.33
-      },
-      {
-        "text": "trong",
-        "start": 125.33,
-        "end": 125.571
-      },
-      {
-        "text": "cuộc",
-        "start": 125.571,
-        "end": 125.784
-      }
-    ],
-    [
-      {
-        "text": "chiến.",
-        "start": 125.784,
-        "end": 126.239
-      }
-    ],
-    [
-      {
-        "text": "Ngày",
-        "start": 126.945,
-        "end": 127.199
-      },
-      {
-        "text": "18",
-        "start": 127.199,
-        "end": 127.372
-      },
-      {
-        "text": "tháng",
-        "start": 127.372,
-        "end": 127.658
-      },
-      {
-        "text": "10",
-        "start": 127.658,
-        "end": 127.831
-      },
-      {
-        "text": "năm",
-        "start": 127.831,
-        "end": 128.048
-      },
-      {
-        "text": "1777,",
-        "start": 128.048,
-        "end": 128.301
-      },
-      {
-        "text": "Định",
-        "start": 128.301,
-        "end": 128.554
-      }
-    ],
-    [
-      {
-        "text": "Vương",
-        "start": 128.554,
-        "end": 128.841
-      },
-      {
-        "text": "bị",
-        "start": 128.841,
-        "end": 129.014
-      },
-      {
-        "text": "giết",
-        "start": 129.014,
-        "end": 129.267
-      },
-      {
-        "text": "cùng",
-        "start": 129.267,
-        "end": 129.858
-      },
-      {
-        "text": "một",
-        "start": 129.858,
-        "end": 130.074
-      },
-      {
-        "text": "số",
-        "start": 130.074,
-        "end": 130.247
-      },
-      {
-        "text": "thân",
-        "start": 130.247,
-        "end": 130.5
-      }
-    ],
-    [
-      {
-        "text": "thuộc",
-        "start": 130.5,
-        "end": 130.787
-      },
-      {
-        "text": "và",
-        "start": 130.787,
-        "end": 130.96
-      },
-      {
-        "text": "tướng",
-        "start": 130.96,
-        "end": 131.246
-      },
-      {
-        "text": "lĩnh.",
-        "start": 131.246,
-        "end": 131.5
-      }
-    ],
-    [
-      {
-        "text": "Theo",
-        "start": 131.5,
-        "end": 131.753
-      },
-      {
-        "text": "biên",
-        "start": 131.753,
-        "end": 132.007
-      },
-      {
-        "text": "niên",
-        "start": 132.007,
-        "end": 133.232
-      },
-      {
-        "text": "sử",
-        "start": 133.232,
-        "end": 133.405
+        "text": "giữ",
+        "start": 66.932,
+        "end": 67.102
       },
       {
         "text": "được",
-        "start": 133.405,
-        "end": 133.659
+        "start": 67.102,
+        "end": 67.3
       },
       {
-        "text": "các",
-        "start": 133.659,
-        "end": 133.875
+        "text": "Gia",
+        "start": 67.3,
+        "end": 67.469
       },
       {
-        "text": "nhà",
-        "start": 133.875,
-        "end": 134.091
+        "text": "Định,",
+        "start": 67.469,
+        "end": 68.176
+      },
+      {
+        "text": "hôm",
+        "start": 68.176,
+        "end": 68.345
+      },
+      {
+        "text": "nay",
+        "start": 68.345,
+        "end": 68.515
       }
     ],
     [
       {
-        "text": "nghiên",
-        "start": 134.091,
-        "end": 134.408
+        "text": "phải",
+        "start": 68.515,
+        "end": 68.713
       },
       {
-        "text": "cứu",
-        "start": 134.408,
-        "end": 134.625
+        "text": "tính",
+        "start": 68.713,
+        "end": 68.911
       },
       {
-        "text": "dẫn",
-        "start": 134.625,
-        "end": 134.841
+        "text": "đường",
+        "start": 68.911,
+        "end": 69.136
       },
       {
-        "text": "lại,",
-        "start": 134.841,
-        "end": 135.057
+        "text": "rút.",
+        "start": 69.136,
+        "end": 69.721
+      }
+    ],
+    [
+      {
+        "text": "Với",
+        "start": 69.721,
+        "end": 69.89
       },
       {
         "text": "Nguyễn",
-        "start": 135.057,
-        "end": 135.374
+        "start": 69.89,
+        "end": 70.138
       },
       {
         "text": "Ánh,",
-        "start": 135.374,
-        "end": 135.97
+        "start": 70.138,
+        "end": 70.538
       },
       {
-        "text": "khi",
-        "start": 135.97,
-        "end": 136.186
+        "text": "nơi",
+        "start": 70.538,
+        "end": 70.708
+      },
+      {
+        "text": "trú",
+        "start": 70.708,
+        "end": 70.877
+      },
+      {
+        "text": "thân",
+        "start": 70.877,
+        "end": 71.075
+      },
+      {
+        "text": "cũng",
+        "start": 71.075,
+        "end": 71.274
       }
     ],
     [
       {
-        "text": "ấy",
-        "start": 136.186,
-        "end": 136.677
+        "text": "bắt",
+        "start": 71.274,
+        "end": 71.443
       },
       {
-        "text": "mười",
-        "start": 136.677,
-        "end": 136.93
+        "text": "đầu",
+        "start": 71.443,
+        "end": 71.612
       },
       {
-        "text": "lăm",
-        "start": 136.93,
-        "end": 137.147
+        "text": "lung",
+        "start": 71.612,
+        "end": 71.811
       },
       {
-        "text": "tuổi,",
-        "start": 137.147,
-        "end": 137.4
-      },
-      {
-        "text": "là",
-        "start": 137.4,
-        "end": 138.03
-      },
-      {
-        "text": "người",
-        "start": 138.03,
-        "end": 138.317
-      },
-      {
-        "text": "chạy",
-        "start": 138.317,
-        "end": 138.57
+        "text": "lay.",
+        "start": 71.811,
+        "end": 72.2
       }
     ],
     [
       {
-        "text": "thoát.",
-        "start": 138.57,
-        "end": 138.856
+        "text": "Năm",
+        "start": 72.914,
+        "end": 73.102
+      },
+      {
+        "text": "1777,",
+        "start": 73.102,
+        "end": 73.323
+      },
+      {
+        "text": "chiến",
+        "start": 73.323,
+        "end": 73.573
+      },
+      {
+        "text": "thuyền",
+        "start": 73.573,
+        "end": 73.849
+      },
+      {
+        "text": "Tây",
+        "start": 73.849,
+        "end": 74.037
+      },
+      {
+        "text": "Sơn",
+        "start": 74.037,
+        "end": 74.226
+      },
+      {
+        "text": "nối",
+        "start": 74.226,
+        "end": 74.414
       }
     ],
     [
       {
-        "text": "Sử",
-        "start": 139.575,
-        "end": 139.719
+        "text": "nhau",
+        "start": 74.414,
+        "end": 74.635
       },
       {
-        "text": "liệu",
-        "start": 139.719,
-        "end": 139.929
+        "text": "ngược",
+        "start": 74.635,
+        "end": 74.885
       },
       {
-        "text": "không",
-        "start": 139.929,
-        "end": 140.166
-      },
-      {
-        "text": "ghi",
-        "start": 140.166,
-        "end": 140.346
-      },
-      {
-        "text": "lại",
-        "start": 140.346,
-        "end": 140.525
-      },
-      {
-        "text": "từng",
-        "start": 140.525,
-        "end": 140.735
-      },
-      {
-        "text": "bước",
-        "start": 140.735,
-        "end": 140.945
-      }
-    ],
-    [
-      {
-        "text": "chân",
-        "start": 140.945,
-        "end": 141.155
-      },
-      {
-        "text": "của",
-        "start": 141.155,
-        "end": 141.335
-      },
-      {
-        "text": "cuộc",
-        "start": 141.335,
-        "end": 141.545
-      },
-      {
-        "text": "đào",
-        "start": 141.545,
-        "end": 141.724
-      },
-      {
-        "text": "thoát.",
-        "start": 141.724,
-        "end": 141.962
-      }
-    ],
-    [
-      {
-        "text": "Có",
-        "start": 141.962,
-        "end": 143.04
-      },
-      {
-        "text": "thể",
-        "start": 143.04,
-        "end": 143.219
-      },
-      {
-        "text": "hình",
-        "start": 143.219,
-        "end": 143.43
-      },
-      {
-        "text": "dung",
-        "start": 143.43,
-        "end": 143.64
-      },
-      {
-        "text": "đây",
-        "start": 143.64,
-        "end": 143.819
-      },
-      {
-        "text": "là",
-        "start": 143.819,
-        "end": 143.963
-      },
-      {
-        "text": "khoảng",
-        "start": 143.963,
-        "end": 144.225
-      }
-    ],
-    [
-      {
-        "text": "thời",
-        "start": 144.225,
-        "end": 144.435
-      },
-      {
-        "text": "gian",
-        "start": 144.435,
-        "end": 144.645
-      },
-      {
-        "text": "của",
-        "start": 144.645,
-        "end": 144.825
-      },
-      {
-        "text": "sợ",
-        "start": 144.825,
-        "end": 144.968
-      },
-      {
-        "text": "hãi,",
-        "start": 144.968,
-        "end": 145.148
-      },
-      {
-        "text": "im",
-        "start": 145.148,
-        "end": 145.974
-      },
-      {
-        "text": "lặng",
-        "start": 145.974,
-        "end": 146.184
-      }
-    ],
-    [
-      {
-        "text": "và",
-        "start": 146.184,
-        "end": 146.532
-      },
-      {
-        "text": "những",
-        "start": 146.532,
-        "end": 146.769
-      },
-      {
-        "text": "lựa",
-        "start": 146.769,
-        "end": 146.949
-      },
-      {
-        "text": "chọn",
-        "start": 146.949,
-        "end": 147.159
-      },
-      {
-        "text": "trong",
-        "start": 147.159,
-        "end": 147.396
-      },
-      {
-        "text": "bóng",
-        "start": 147.396,
-        "end": 147.606
-      },
-      {
-        "text": "tối,",
-        "start": 147.606,
-        "end": 147.786
-      }
-    ],
-    [
-      {
-        "text": "khi",
-        "start": 147.786,
-        "end": 148.353
-      },
-      {
-        "text": "một",
-        "start": 148.353,
-        "end": 148.532
-      },
-      {
-        "text": "thiếu",
-        "start": 148.532,
-        "end": 148.77
-      },
-      {
-        "text": "niên",
-        "start": 148.77,
-        "end": 148.98
-      },
-      {
-        "text": "phải",
-        "start": 148.98,
-        "end": 149.19
-      },
-      {
-        "text": "tìm",
-        "start": 149.19,
-        "end": 149.37
-      },
-      {
-        "text": "cách",
-        "start": 149.37,
-        "end": 149.58
-      }
-    ],
-    [
-      {
-        "text": "sống",
-        "start": 149.58,
-        "end": 149.79
-      },
-      {
-        "text": "sót.",
-        "start": 149.79,
-        "end": 150.186
+        "text": "dòng.",
+        "start": 74.885,
+        "end": 75.105
       }
     ],
     [
       {
         "text": "Ở",
-        "start": 150.89,
-        "end": 150.986
+        "start": 75.105,
+        "end": 75.208
       },
       {
-        "text": "vùng",
-        "start": 150.986,
-        "end": 151.193
-      },
-      {
-        "text": "đồng",
-        "start": 151.193,
-        "end": 151.399
-      },
-      {
-        "text": "bằng",
-        "start": 151.399,
-        "end": 151.606
-      },
-      {
-        "text": "chằng",
-        "start": 151.606,
-        "end": 151.839
-      },
-      {
-        "text": "chịt",
-        "start": 151.839,
-        "end": 152.046
+        "text": "xứ",
+        "start": 75.208,
+        "end": 75.359
       },
       {
         "text": "sông",
-        "start": 152.046,
-        "end": 152.252
+        "start": 75.359,
+        "end": 76.07
+      },
+      {
+        "text": "nước,",
+        "start": 76.07,
+        "end": 76.291
+      },
+      {
+        "text": "mất",
+        "start": 76.291,
+        "end": 76.479
+      },
+      {
+        "text": "đường",
+        "start": 76.479,
+        "end": 76.729
+      },
+      {
+        "text": "sông",
+        "start": 76.729,
+        "end": 77.438
       }
     ],
     [
       {
-        "text": "rạch,",
-        "start": 152.252,
-        "end": 152.706
-      },
-      {
-        "text": "địa",
-        "start": 152.706,
-        "end": 152.882
-      },
-      {
-        "text": "hình",
-        "start": 152.882,
-        "end": 153.089
-      },
-      {
-        "text": "vừa",
-        "start": 153.089,
-        "end": 153.265
-      },
-      {
-        "text": "gây",
-        "start": 153.265,
-        "end": 153.442
-      },
-      {
-        "text": "khó",
-        "start": 153.442,
-        "end": 153.618
-      },
-      {
-        "text": "khăn",
-        "start": 153.618,
-        "end": 153.824
-      }
-    ],
-    [
-      {
-        "text": "cho",
-        "start": 153.824,
-        "end": 154.001
-      },
-      {
-        "text": "việc",
-        "start": 154.001,
-        "end": 154.207
-      },
-      {
-        "text": "di",
-        "start": 154.207,
-        "end": 154.348
-      },
-      {
-        "text": "chuyển,",
-        "start": 154.348,
-        "end": 154.606
-      },
-      {
-        "text": "vừa",
-        "start": 154.606,
-        "end": 155.164
-      },
-      {
-        "text": "có",
-        "start": 155.164,
-        "end": 155.305
-      },
-      {
-        "text": "thể",
-        "start": 155.305,
-        "end": 155.481
-      }
-    ],
-    [
-      {
-        "text": "che",
-        "start": 155.481,
-        "end": 155.658
-      },
-      {
-        "text": "giấu",
-        "start": 155.658,
-        "end": 155.864
-      },
-      {
-        "text": "người",
-        "start": 155.864,
-        "end": 156.098
-      },
-      {
-        "text": "đang",
-        "start": 156.098,
-        "end": 156.304
-      },
-      {
-        "text": "bị",
-        "start": 156.304,
-        "end": 156.445
-      },
-      {
-        "text": "truy",
-        "start": 156.445,
-        "end": 156.652
-      },
-      {
-        "text": "tìm.",
-        "start": 156.652,
-        "end": 157.442
-      }
-    ],
-    [
-      {
-        "text": "Nước,",
-        "start": 157.442,
-        "end": 157.649
-      },
-      {
-        "text": "lau",
-        "start": 157.649,
-        "end": 157.825
-      },
-      {
-        "text": "sậy",
-        "start": 157.825,
-        "end": 158.001
-      },
-      {
-        "text": "và",
-        "start": 158.001,
-        "end": 158.142
-      },
-      {
-        "text": "những",
-        "start": 158.142,
-        "end": 158.376
-      },
-      {
-        "text": "lối",
-        "start": 158.376,
-        "end": 158.552
-      },
-      {
-        "text": "đi",
-        "start": 158.552,
-        "end": 158.693
-      }
-    ],
-    [
-      {
-        "text": "nhỏ",
-        "start": 158.693,
-        "end": 158.87
-      },
-      {
-        "text": "trở",
-        "start": 158.87,
-        "end": 159.046
-      },
-      {
-        "text": "thành",
-        "start": 159.046,
-        "end": 159.28
-      },
-      {
-        "text": "một",
-        "start": 159.28,
-        "end": 159.456
-      },
-      {
-        "text": "phần",
-        "start": 159.456,
-        "end": 159.662
-      },
-      {
-        "text": "của",
-        "start": 159.662,
-        "end": 159.839
-      },
-      {
-        "text": "hành",
-        "start": 159.839,
-        "end": 160.045
-      }
-    ],
-    [
-      {
-        "text": "trình",
-        "start": 160.045,
-        "end": 160.279
-      },
-      {
-        "text": "sống",
-        "start": 160.279,
-        "end": 160.485
-      },
-      {
-        "text": "còn.",
-        "start": 160.485,
-        "end": 160.662
-      }
-    ],
-    [
-      {
-        "text": "Không",
-        "start": 161.659,
-        "end": 161.891
-      },
-      {
-        "text": "có",
-        "start": 161.891,
-        "end": 162.031
-      },
-      {
-        "text": "lời",
-        "start": 162.031,
-        "end": 162.205
-      },
-      {
-        "text": "nói",
-        "start": 162.205,
-        "end": 162.38
-      },
-      {
-        "text": "nào",
-        "start": 162.38,
-        "end": 162.555
-      },
-      {
-        "text": "được",
-        "start": 162.555,
-        "end": 162.76
-      },
-      {
-        "text": "xác",
-        "start": 162.76,
-        "end": 162.935
-      }
-    ],
-    [
-      {
-        "text": "nhận",
-        "start": 162.935,
-        "end": 163.14
-      },
-      {
-        "text": "là",
-        "start": 163.14,
-        "end": 163.28
-      },
-      {
-        "text": "của",
-        "start": 163.28,
-        "end": 163.455
-      },
-      {
-        "text": "Nguyễn",
-        "start": 163.455,
-        "end": 163.711
-      },
-      {
-        "text": "Ánh",
-        "start": 163.711,
-        "end": 163.886
-      },
-      {
-        "text": "trong",
-        "start": 163.886,
-        "end": 164.362
-      },
-      {
-        "text": "những",
-        "start": 164.362,
-        "end": 164.594
-      }
-    ],
-    [
-      {
-        "text": "ngày",
-        "start": 164.594,
-        "end": 164.799
-      },
-      {
-        "text": "ấy.",
-        "start": 164.799,
-        "end": 165.913
-      }
-    ],
-    [
-      {
-        "text": "Thay",
-        "start": 165.913,
-        "end": 166.118
-      },
-      {
-        "text": "vì",
-        "start": 166.118,
-        "end": 166.258
-      },
-      {
-        "text": "gán",
-        "start": 166.258,
-        "end": 166.432
-      },
-      {
-        "text": "cho",
-        "start": 166.432,
-        "end": 166.607
-      },
-      {
-        "text": "ông",
-        "start": 166.607,
-        "end": 166.782
-      },
-      {
-        "text": "một",
-        "start": 166.782,
-        "end": 166.957
-      },
-      {
-        "text": "câu",
-        "start": 166.957,
-        "end": 167.132
-      }
-    ],
-    [
-      {
-        "text": "thoại",
-        "start": 167.132,
-        "end": 167.364
-      },
-      {
-        "text": "hư",
-        "start": 167.364,
-        "end": 167.504
-      },
-      {
-        "text": "cấu,",
-        "start": 167.504,
-        "end": 167.679
-      },
-      {
-        "text": "câu",
-        "start": 167.679,
-        "end": 168.26
-      },
-      {
-        "text": "chuyện",
-        "start": 168.26,
-        "end": 168.516
-      },
-      {
-        "text": "chỉ",
-        "start": 168.516,
-        "end": 168.691
-      },
-      {
-        "text": "giữ",
-        "start": 168.691,
-        "end": 168.866
-      }
-    ],
-    [
-      {
-        "text": "lại",
-        "start": 168.866,
-        "end": 169.04
-      },
-      {
-        "text": "điều",
-        "start": 169.04,
-        "end": 169.245
-      },
-      {
-        "text": "có",
-        "start": 169.245,
-        "end": 169.385
-      },
-      {
-        "text": "thể",
-        "start": 169.385,
-        "end": 169.56
-      },
-      {
-        "text": "thấy",
-        "start": 169.56,
-        "end": 169.765
-      },
-      {
-        "text": "từ",
-        "start": 169.765,
-        "end": 169.905
-      },
-      {
-        "text": "diễn",
-        "start": 169.905,
-        "end": 170.11
-      }
-    ],
-    [
-      {
-        "text": "biến",
-        "start": 170.11,
-        "end": 170.315
-      },
-      {
-        "text": "lịch",
-        "start": 170.315,
-        "end": 170.52
-      },
-      {
-        "text": "sử:",
-        "start": 170.52,
-        "end": 170.66
-      }
-    ],
-    [
-      {
-        "text": "ông",
-        "start": 170.66,
-        "end": 171.331
-      },
-      {
-        "text": "đã",
-        "start": 171.331,
-        "end": 171.471
-      },
-      {
-        "text": "không",
-        "start": 171.471,
-        "end": 171.703
-      },
-      {
-        "text": "bị",
-        "start": 171.703,
-        "end": 171.842
-      },
-      {
-        "text": "bắt",
-        "start": 171.842,
-        "end": 172.017
-      },
-      {
-        "text": "cùng",
-        "start": 172.017,
-        "end": 172.515
-      },
-      {
-        "text": "những",
-        "start": 172.515,
-        "end": 172.747
-      }
-    ],
-    [
-      {
-        "text": "người",
-        "start": 172.747,
-        "end": 172.978
-      },
-      {
-        "text": "còn",
-        "start": 172.978,
-        "end": 173.153
-      },
-      {
-        "text": "lại.",
-        "start": 173.153,
-        "end": 173.328
-      }
-    ],
-    [
-      {
-        "text": "Khoảng",
-        "start": 174.31,
-        "end": 174.569
-      },
-      {
-        "text": "một",
-        "start": 174.569,
-        "end": 174.747
-      },
-      {
-        "text": "tháng",
-        "start": 174.747,
-        "end": 174.982
-      },
-      {
-        "text": "sau",
-        "start": 174.982,
-        "end": 175.159
-      },
-      {
-        "text": "cuộc",
-        "start": 175.159,
-        "end": 175.367
-      },
-      {
-        "text": "truy",
-        "start": 175.367,
-        "end": 175.575
-      },
-      {
-        "text": "quét,",
-        "start": 175.575,
-        "end": 176.316
-      }
-    ],
-    [
-      {
-        "text": "Nguyễn",
-        "start": 176.316,
-        "end": 176.575
-      },
-      {
-        "text": "Ánh",
-        "start": 176.575,
-        "end": 176.753
-      },
-      {
-        "text": "xuất",
-        "start": 176.753,
-        "end": 176.961
-      },
-      {
-        "text": "hiện",
-        "start": 176.961,
-        "end": 177.169
-      },
-      {
-        "text": "trở",
-        "start": 177.169,
-        "end": 177.346
-      },
-      {
-        "text": "lại",
-        "start": 177.346,
-        "end": 177.523
-      },
-      {
-        "text": "ở",
-        "start": 177.523,
-        "end": 177.62
-      }
-    ],
-    [
-      {
-        "text": "Long",
-        "start": 177.62,
-        "end": 177.828
-      },
-      {
-        "text": "Xuyên.",
-        "start": 177.828,
-        "end": 178.697
-      }
-    ],
-    [
-      {
-        "text": "Sự",
-        "start": 178.697,
-        "end": 178.839
-      },
-      {
-        "text": "trở",
-        "start": 178.839,
-        "end": 179.017
-      },
-      {
-        "text": "lại",
-        "start": 179.017,
-        "end": 179.194
-      },
-      {
-        "text": "ấy",
-        "start": 179.194,
-        "end": 179.336
-      },
-      {
-        "text": "không",
-        "start": 179.336,
-        "end": 179.571
-      },
-      {
-        "text": "đồng",
-        "start": 179.571,
-        "end": 179.779
-      },
-      {
-        "text": "nghĩa",
-        "start": 179.779,
-        "end": 180.014
-      }
-    ],
-    [
-      {
-        "text": "với",
-        "start": 180.014,
-        "end": 180.191
-      },
-      {
-        "text": "chiến",
-        "start": 180.191,
-        "end": 180.426
-      },
-      {
-        "text": "thắng;",
-        "start": 180.426,
-        "end": 180.987
-      },
-      {
-        "text": "nó",
-        "start": 180.987,
-        "end": 181.129
-      },
-      {
-        "text": "chỉ",
-        "start": 181.129,
-        "end": 181.307
-      },
-      {
-        "text": "cho",
-        "start": 181.307,
-        "end": 181.484
-      },
-      {
-        "text": "thấy",
-        "start": 181.484,
-        "end": 181.692
-      }
-    ],
-    [
-      {
-        "text": "cuộc",
-        "start": 181.692,
-        "end": 181.9
-      },
-      {
-        "text": "chiến",
-        "start": 181.9,
-        "end": 182.135
-      },
-      {
-        "text": "chưa",
-        "start": 182.135,
-        "end": 182.343
-      },
-      {
-        "text": "kết",
-        "start": 182.343,
-        "end": 182.52
-      },
-      {
-        "text": "thúc",
-        "start": 182.52,
-        "end": 183.246
-      },
-      {
-        "text": "và",
-        "start": 183.246,
-        "end": 183.388
-      },
-      {
-        "text": "vẫn",
-        "start": 183.388,
-        "end": 183.565
-      }
-    ],
-    [
-      {
-        "text": "còn",
-        "start": 183.565,
-        "end": 183.742
-      },
-      {
-        "text": "người",
-        "start": 183.742,
-        "end": 183.977
-      },
-      {
-        "text": "sẵn",
-        "start": 183.977,
-        "end": 184.155
-      },
-      {
-        "text": "sàng",
-        "start": 184.155,
-        "end": 184.363
-      },
-      {
-        "text": "đi",
-        "start": 184.363,
-        "end": 184.505
-      },
-      {
-        "text": "theo",
-        "start": 184.505,
-        "end": 184.712
-      },
-      {
-        "text": "ông.",
-        "start": 184.712,
-        "end": 184.89
-      }
-    ],
-    [
-      {
-        "text": "Những",
-        "start": 185.826,
-        "end": 186.066
-      },
-      {
-        "text": "người",
-        "start": 186.066,
-        "end": 186.305
-      },
-      {
-        "text": "còn",
-        "start": 186.305,
-        "end": 186.486
-      },
-      {
-        "text": "trung",
-        "start": 186.486,
-        "end": 186.725
-      },
-      {
-        "text": "thành",
-        "start": 186.725,
-        "end": 186.965
-      },
-      {
-        "text": "bắt",
-        "start": 186.965,
-        "end": 187.145
-      },
-      {
-        "text": "đầu",
-        "start": 187.145,
-        "end": 187.326
-      }
-    ],
-    [
-      {
-        "text": "tập",
-        "start": 187.326,
-        "end": 187.507
-      },
-      {
-        "text": "hợp",
-        "start": 187.507,
-        "end": 187.688
-      },
-      {
-        "text": "quanh",
-        "start": 187.688,
-        "end": 187.927
-      },
-      {
-        "text": "Nguyễn",
-        "start": 187.927,
-        "end": 188.192
-      },
-      {
-        "text": "Ánh.",
-        "start": 188.192,
-        "end": 189.381
-      }
-    ],
-    [
-      {
-        "text": "Mạng",
-        "start": 189.381,
-        "end": 189.593
-      },
-      {
-        "text": "lưới",
-        "start": 189.593,
-        "end": 189.804
-      },
-      {
-        "text": "ấy",
-        "start": 189.804,
-        "end": 189.949
-      },
-      {
-        "text": "chưa",
-        "start": 189.949,
-        "end": 190.161
-      },
-      {
-        "text": "thể",
-        "start": 190.161,
-        "end": 190.342
-      },
-      {
-        "text": "sánh",
-        "start": 190.342,
-        "end": 190.553
-      },
-      {
-        "text": "với",
-        "start": 190.553,
-        "end": 190.734
-      }
-    ],
-    [
-      {
-        "text": "một",
-        "start": 190.734,
-        "end": 190.915
-      },
-      {
-        "text": "chính",
-        "start": 190.915,
-        "end": 191.154
-      },
-      {
-        "text": "quyền",
-        "start": 191.154,
-        "end": 191.394
-      },
-      {
-        "text": "ổn",
-        "start": 191.394,
-        "end": 191.538
-      },
-      {
-        "text": "định,",
-        "start": 191.538,
-        "end": 191.75
-      },
-      {
-        "text": "nhưng",
-        "start": 191.75,
-        "end": 192.441
-      },
-      {
-        "text": "tạo",
-        "start": 192.441,
-        "end": 192.621
-      }
-    ],
-    [
-      {
-        "text": "nên",
-        "start": 192.621,
-        "end": 192.802
-      },
-      {
-        "text": "nền",
-        "start": 192.802,
-        "end": 192.983
-      },
-      {
-        "text": "tảng",
-        "start": 192.983,
-        "end": 193.195
-      },
-      {
-        "text": "cho",
-        "start": 193.195,
-        "end": 193.375
-      },
-      {
-        "text": "một",
-        "start": 193.375,
-        "end": 193.556
-      },
-      {
-        "text": "cuộc",
-        "start": 193.556,
-        "end": 193.768
-      },
-      {
-        "text": "phản",
-        "start": 193.768,
-        "end": 193.98
-      }
-    ],
-    [
-      {
-        "text": "công",
-        "start": 193.98,
-        "end": 194.191
-      },
-      {
-        "text": "được",
-        "start": 194.191,
-        "end": 194.403
-      },
-      {
-        "text": "chuẩn",
-        "start": 194.403,
-        "end": 194.642
-      },
-      {
-        "text": "bị",
-        "start": 194.642,
-        "end": 194.787
-      },
-      {
-        "text": "từ",
-        "start": 194.787,
-        "end": 195.163
-      },
-      {
-        "text": "những",
-        "start": 195.163,
-        "end": 195.403
-      },
-      {
-        "text": "lực",
-        "start": 195.403,
-        "end": 195.583
-      }
-    ],
-    [
-      {
-        "text": "lượng",
-        "start": 195.583,
-        "end": 195.823
-      },
-      {
-        "text": "còn",
-        "start": 195.823,
-        "end": 196.003
-      },
-      {
-        "text": "sót",
-        "start": 196.003,
-        "end": 196.184
-      },
-      {
-        "text": "lại.",
-        "start": 196.184,
-        "end": 196.365
-      }
-    ],
-    [
-      {
-        "text": "Tháng",
-        "start": 197.326,
-        "end": 197.595
-      },
-      {
-        "text": "mười",
-        "start": 197.595,
-        "end": 197.834
-      },
-      {
-        "text": "một",
-        "start": 197.834,
-        "end": 198.037
-      },
-      {
-        "text": "năm",
-        "start": 198.037,
-        "end": 198.241
-      },
-      {
-        "text": "1777,",
-        "start": 198.241,
-        "end": 198.479
-      },
-      {
-        "text": "Nguyễn",
-        "start": 198.479,
-        "end": 198.777
-      },
-      {
-        "text": "Ánh",
-        "start": 198.777,
-        "end": 198.981
-      }
-    ],
-    [
-      {
-        "text": "cùng",
-        "start": 198.981,
-        "end": 199.679
-      },
-      {
-        "text": "một",
-        "start": 199.679,
-        "end": 199.883
-      },
-      {
-        "text": "số",
-        "start": 199.883,
-        "end": 200.046
-      },
-      {
-        "text": "tướng",
-        "start": 200.046,
-        "end": 200.315
-      },
-      {
-        "text": "cũ",
-        "start": 200.315,
-        "end": 200.478
-      },
-      {
-        "text": "tiến",
-        "start": 200.478,
-        "end": 200.717
-      },
-      {
-        "text": "đến",
-        "start": 200.717,
-        "end": 200.92
-      }
-    ],
-    [
-      {
-        "text": "Sa",
-        "start": 200.92,
-        "end": 201.083
-      },
-      {
-        "text": "Đéc.",
-        "start": 201.083,
-        "end": 201.287
-      }
-    ],
-    [
-      {
-        "text": "Từ",
-        "start": 201.287,
-        "end": 201.45
-      },
-      {
-        "text": "những",
-        "start": 201.45,
-        "end": 201.719
-      },
-      {
-        "text": "điểm",
-        "start": 201.719,
-        "end": 202.607
-      },
-      {
-        "text": "trú",
-        "start": 202.607,
-        "end": 202.81
-      },
-      {
-        "text": "ẩn",
-        "start": 202.81,
-        "end": 202.973
-      },
-      {
-        "text": "rải",
-        "start": 202.973,
-        "end": 203.177
-      },
-      {
-        "text": "rác,",
-        "start": 203.177,
-        "end": 203.38
-      }
-    ],
-    [
-      {
-        "text": "phe",
-        "start": 203.38,
-        "end": 203.584
-      },
-      {
-        "text": "Nguyễn",
-        "start": 203.584,
-        "end": 204.383
-      },
-      {
-        "text": "bắt",
-        "start": 204.383,
-        "end": 204.586
-      },
-      {
-        "text": "đầu",
-        "start": 204.586,
-        "end": 204.79
-      },
-      {
-        "text": "nối",
-        "start": 204.79,
-        "end": 204.993
-      },
-      {
-        "text": "lại",
-        "start": 204.993,
-        "end": 205.197
-      },
-      {
-        "text": "liên",
-        "start": 205.197,
-        "end": 205.435
-      }
-    ],
-    [
-      {
-        "text": "lạc",
-        "start": 205.435,
-        "end": 205.639
-      },
-      {
-        "text": "và",
-        "start": 205.639,
-        "end": 205.802
-      },
-      {
-        "text": "thử",
-        "start": 205.802,
-        "end": 206.005
-      },
-      {
-        "text": "khôi",
-        "start": 206.005,
-        "end": 206.244
-      },
-      {
-        "text": "phục",
-        "start": 206.244,
-        "end": 206.482
-      },
-      {
-        "text": "một",
-        "start": 206.482,
-        "end": 206.686
-      },
-      {
-        "text": "lực",
-        "start": 206.686,
-        "end": 206.889
-      }
-    ],
-    [
-      {
-        "text": "lượng",
-        "start": 206.889,
-        "end": 207.159
-      },
-      {
-        "text": "có",
-        "start": 207.159,
-        "end": 207.322
-      },
-      {
-        "text": "thể",
-        "start": 207.322,
-        "end": 207.525
-      },
-      {
-        "text": "hành",
-        "start": 207.525,
-        "end": 207.764
-      },
-      {
-        "text": "động.",
-        "start": 207.764,
-        "end": 208.002
-      }
-    ],
-    [
-      {
-        "text": "Những",
-        "start": 208.935,
-        "end": 209.185
-      },
-      {
-        "text": "cái",
-        "start": 209.185,
-        "end": 209.373
-      },
-      {
-        "text": "tên",
-        "start": 209.373,
-        "end": 209.561
+        "text": "cũng",
+        "start": 77.438,
+        "end": 77.658
       },
       {
         "text": "như",
-        "start": 209.561,
-        "end": 209.749
+        "start": 77.658,
+        "end": 77.847
       },
       {
-        "text": "Đỗ",
-        "start": 209.749,
-        "end": 209.9
+        "text": "mất",
+        "start": 77.847,
+        "end": 78.353
       },
       {
-        "text": "Thanh",
-        "start": 209.9,
-        "end": 210.149
+        "text": "luôn",
+        "start": 78.353,
+        "end": 78.574
       },
       {
-        "text": "Nhơn",
-        "start": 210.149,
-        "end": 210.369
+        "text": "cánh",
+        "start": 78.574,
+        "end": 78.795
+      },
+      {
+        "text": "cửa",
+        "start": 78.795,
+        "end": 78.983
+      },
+      {
+        "text": "thoát",
+        "start": 78.983,
+        "end": 79.233
       }
     ],
     [
       {
-        "text": "và",
-        "start": 210.369,
-        "end": 210.52
-      },
-      {
-        "text": "Lê",
-        "start": 210.52,
-        "end": 210.67
-      },
-      {
-        "text": "Văn",
-        "start": 210.67,
-        "end": 210.858
-      },
-      {
-        "text": "Quân",
-        "start": 210.858,
-        "end": 211.079
-      },
-      {
-        "text": "gắn",
-        "start": 211.079,
-        "end": 211.592
-      },
-      {
-        "text": "với",
-        "start": 211.592,
-        "end": 211.78
-      },
-      {
-        "text": "quá",
-        "start": 211.78,
-        "end": 211.968
+        "text": "hiểm.",
+        "start": 79.233,
+        "end": 79.454
       }
     ],
     [
       {
-        "text": "trình",
-        "start": 211.968,
-        "end": 212.218
+        "text": "Lối",
+        "start": 79.454,
+        "end": 79.642
       },
       {
-        "text": "tái",
-        "start": 212.218,
-        "end": 212.406
-      },
-      {
-        "text": "tổ",
-        "start": 212.406,
-        "end": 212.556
-      },
-      {
-        "text": "chức",
-        "start": 212.556,
-        "end": 212.777
-      },
-      {
-        "text": "lực",
-        "start": 212.777,
-        "end": 212.965
-      },
-      {
-        "text": "lượng",
-        "start": 212.965,
-        "end": 213.214
-      },
-      {
-        "text": "Nguyễn.",
-        "start": 213.214,
-        "end": 213.722
-      }
-    ],
-    [
-      {
-        "text": "Lúc",
-        "start": 213.722,
-        "end": 213.911
-      },
-      {
-        "text": "này,",
-        "start": 213.911,
-        "end": 214.387
-      },
-      {
-        "text": "điều",
-        "start": 214.387,
-        "end": 214.607
-      },
-      {
-        "text": "quan",
-        "start": 214.607,
-        "end": 214.827
-      },
-      {
-        "text": "trọng",
-        "start": 214.827,
-        "end": 215.077
-      },
-      {
-        "text": "không",
-        "start": 215.077,
-        "end": 215.326
-      },
-      {
-        "text": "phải",
-        "start": 215.326,
-        "end": 215.546
-      }
-    ],
-    [
-      {
-        "text": "là",
-        "start": 215.546,
-        "end": 215.697
-      },
-      {
-        "text": "sở",
-        "start": 215.697,
-        "end": 215.847
-      },
-      {
-        "text": "hữu",
-        "start": 215.847,
-        "end": 216.036
-      },
-      {
-        "text": "một",
-        "start": 216.036,
-        "end": 216.224
-      },
-      {
-        "text": "kinh",
-        "start": 216.224,
-        "end": 216.444
-      },
-      {
-        "text": "đô,",
-        "start": 216.444,
-        "end": 216.595
-      },
-      {
-        "text": "mà",
-        "start": 216.595,
-        "end": 217.022
-      }
-    ],
-    [
-      {
-        "text": "là",
-        "start": 217.022,
-        "end": 217.173
-      },
-      {
-        "text": "giữ",
-        "start": 217.173,
-        "end": 217.361
-      },
-      {
-        "text": "được",
-        "start": 217.361,
-        "end": 217.581
-      },
-      {
-        "text": "người,",
-        "start": 217.581,
-        "end": 217.83
-      },
-      {
-        "text": "thuyền",
-        "start": 217.83,
-        "end": 218.295
-      },
-      {
-        "text": "và",
-        "start": 218.295,
-        "end": 218.445
-      },
-      {
-        "text": "các",
-        "start": 218.445,
-        "end": 218.633
-      }
-    ],
-    [
-      {
-        "text": "tuyến",
-        "start": 218.633,
-        "end": 218.883
-      },
-      {
-        "text": "liên",
-        "start": 218.883,
-        "end": 219.103
-      },
-      {
-        "text": "lạc.",
-        "start": 219.103,
-        "end": 219.291
-      }
-    ],
-    [
-      {
-        "text": "Cuối",
-        "start": 220.216,
-        "end": 220.435
-      },
-      {
-        "text": "năm",
-        "start": 220.435,
-        "end": 220.622
-      },
-      {
-        "text": "1777,",
-        "start": 220.622,
-        "end": 220.842
-      },
-      {
-        "text": "lực",
-        "start": 220.842,
-        "end": 221.029
-      },
-      {
-        "text": "lượng",
-        "start": 221.029,
-        "end": 221.597
+        "text": "thoát",
+        "start": 79.642,
+        "end": 80.669
       },
       {
         "text": "của",
-        "start": 221.597,
-        "end": 221.784
+        "start": 80.669,
+        "end": 80.858
       },
       {
         "text": "Nguyễn",
-        "start": 221.784,
-        "end": 222.058
+        "start": 80.858,
+        "end": 81.134
+      },
+      {
+        "text": "Ánh",
+        "start": 81.134,
+        "end": 81.322
+      },
+      {
+        "text": "hẹp",
+        "start": 81.322,
+        "end": 81.511
+      },
+      {
+        "text": "lại",
+        "start": 81.511,
+        "end": 81.699
       }
     ],
     [
       {
-        "text": "Ánh",
-        "start": 222.058,
-        "end": 222.246
+        "text": "từng",
+        "start": 81.699,
+        "end": 81.92
       },
       {
-        "text": "tiến",
-        "start": 222.246,
-        "end": 222.465
+        "text": "ngày.",
+        "start": 81.92,
+        "end": 82.141
+      }
+    ],
+    [
+      {
+        "text": "Các",
+        "start": 83.357,
+        "end": 83.528
       },
       {
-        "text": "hành",
-        "start": 222.465,
-        "end": 222.684
+        "text": "đồn",
+        "start": 83.528,
+        "end": 83.699
+      },
+      {
+        "text": "phòng",
+        "start": 83.699,
+        "end": 83.925
+      },
+      {
+        "text": "thủ",
+        "start": 83.925,
+        "end": 84.096
+      },
+      {
+        "text": "liên",
+        "start": 84.096,
+        "end": 84.296
+      },
+      {
+        "text": "tiếp",
+        "start": 84.296,
+        "end": 84.496
+      },
+      {
+        "text": "chịu",
+        "start": 84.496,
+        "end": 84.696
+      }
+    ],
+    [
+      {
+        "text": "sức",
+        "start": 84.696,
+        "end": 84.867
+      },
+      {
+        "text": "ép.",
+        "start": 84.867,
+        "end": 85.44
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 85.44,
+        "end": 85.666
+      },
+      {
+        "text": "tuyến",
+        "start": 85.666,
+        "end": 85.892
+      },
+      {
+        "text": "sông",
+        "start": 85.892,
+        "end": 86.093
+      },
+      {
+        "text": "từng",
+        "start": 86.093,
+        "end": 86.293
+      },
+      {
+        "text": "chở",
+        "start": 86.293,
+        "end": 86.464
+      },
+      {
+        "text": "lúa",
+        "start": 86.464,
+        "end": 86.634
+      },
+      {
+        "text": "gạo,",
+        "start": 86.634,
+        "end": 86.805
+      }
+    ],
+    [
+      {
+        "text": "giờ",
+        "start": 86.805,
+        "end": 87.215
+      },
+      {
+        "text": "thành",
+        "start": 87.215,
+        "end": 87.441
+      },
+      {
+        "text": "chiến",
+        "start": 87.441,
+        "end": 87.668
+      },
+      {
+        "text": "tuyến.",
+        "start": 87.668,
+        "end": 87.894
+      }
+    ],
+    [
+      {
+        "text": "Chỉ",
+        "start": 87.894,
+        "end": 88.065
       },
       {
         "text": "một",
-        "start": 222.684,
-        "end": 222.871
+        "start": 88.065,
+        "end": 88.806
       },
       {
-        "text": "cuộc",
-        "start": 222.871,
-        "end": 223.091
+        "text": "trận",
+        "start": 88.806,
+        "end": 89.006
       },
       {
-        "text": "đánh",
-        "start": 223.091,
-        "end": 223.31
+        "text": "thua",
+        "start": 89.006,
+        "end": 89.207
       },
       {
-        "text": "úp",
-        "start": 223.31,
-        "end": 223.46
+        "text": "là",
+        "start": 89.207,
+        "end": 89.343
+      },
+      {
+        "text": "liên",
+        "start": 89.343,
+        "end": 89.543
+      },
+      {
+        "text": "lạc",
+        "start": 89.543,
+        "end": 89.714
       }
     ],
     [
       {
-        "text": "tại",
-        "start": 223.46,
-        "end": 223.647
+        "text": "giữa",
+        "start": 89.714,
+        "end": 89.914
       },
       {
-        "text": "Long",
-        "start": 223.647,
-        "end": 223.867
+        "text": "các",
+        "start": 89.914,
+        "end": 90.085
       },
       {
-        "text": "Hồ.",
-        "start": 223.867,
-        "end": 224.016
+        "text": "nhóm",
+        "start": 90.085,
+        "end": 90.285
+      },
+      {
+        "text": "quân",
+        "start": 90.285,
+        "end": 90.486
+      },
+      {
+        "text": "có",
+        "start": 90.486,
+        "end": 90.622
+      },
+      {
+        "text": "thể",
+        "start": 90.622,
+        "end": 90.793
+      },
+      {
+        "text": "đứt.",
+        "start": 90.793,
+        "end": 90.964
+      }
+    ],
+    [
+      {
+        "text": "Ở",
+        "start": 90.964,
+        "end": 91.057
+      },
+      {
+        "text": "tuổi",
+        "start": 91.057,
+        "end": 91.953
+      },
+      {
+        "text": "mười",
+        "start": 91.953,
+        "end": 92.153
+      },
+      {
+        "text": "lăm,",
+        "start": 92.153,
+        "end": 92.324
+      },
+      {
+        "text": "Nguyễn",
+        "start": 92.324,
+        "end": 92.957
+      },
+      {
+        "text": "Ánh",
+        "start": 92.957,
+        "end": 93.128
+      },
+      {
+        "text": "được",
+        "start": 93.128,
+        "end": 93.328
+      }
+    ],
+    [
+      {
+        "text": "nhìn",
+        "start": 93.328,
+        "end": 93.528
+      },
+      {
+        "text": "tận",
+        "start": 93.528,
+        "end": 93.699
+      },
+      {
+        "text": "mắt",
+        "start": 93.699,
+        "end": 93.87
+      },
+      {
+        "text": "một",
+        "start": 93.87,
+        "end": 94.041
+      },
+      {
+        "text": "thế",
+        "start": 94.041,
+        "end": 94.211
+      },
+      {
+        "text": "trận",
+        "start": 94.211,
+        "end": 94.412
+      },
+      {
+        "text": "sụp",
+        "start": 94.412,
+        "end": 94.582
+      }
+    ],
+    [
+      {
+        "text": "nhanh",
+        "start": 94.582,
+        "end": 94.809
+      },
+      {
+        "text": "thế",
+        "start": 94.809,
+        "end": 94.98
+      },
+      {
+        "text": "nào.",
+        "start": 94.98,
+        "end": 95.15
+      }
+    ],
+    [
+      {
+        "text": "Đồn",
+        "start": 96.075,
+        "end": 96.253
+      },
+      {
+        "text": "mất",
+        "start": 96.253,
+        "end": 96.431
+      },
+      {
+        "text": "dần,",
+        "start": 96.431,
+        "end": 96.609
+      },
+      {
+        "text": "người",
+        "start": 96.609,
+        "end": 97.094
+      },
+      {
+        "text": "phe",
+        "start": 97.094,
+        "end": 97.272
+      },
+      {
+        "text": "Nguyễn",
+        "start": 97.272,
+        "end": 97.533
+      },
+      {
+        "text": "phải",
+        "start": 97.533,
+        "end": 97.742
+      }
+    ],
+    [
+      {
+        "text": "bỏ",
+        "start": 97.742,
+        "end": 97.884
+      },
+      {
+        "text": "nơi",
+        "start": 97.884,
+        "end": 98.062
+      },
+      {
+        "text": "đóng",
+        "start": 98.062,
+        "end": 98.271
+      },
+      {
+        "text": "quân.",
+        "start": 98.271,
+        "end": 99.163
+      }
+    ],
+    [
+      {
+        "text": "Đây",
+        "start": 99.163,
+        "end": 99.341
+      },
+      {
+        "text": "không",
+        "start": 99.341,
+        "end": 99.577
+      },
+      {
+        "text": "phải",
+        "start": 99.577,
+        "end": 99.786
+      },
+      {
+        "text": "cuộc",
+        "start": 99.786,
+        "end": 99.994
+      },
+      {
+        "text": "rút",
+        "start": 99.994,
+        "end": 100.173
+      },
+      {
+        "text": "lui",
+        "start": 100.173,
+        "end": 100.351
+      },
+      {
+        "text": "có",
+        "start": 100.351,
+        "end": 100.493
+      }
+    ],
+    [
+      {
+        "text": "bản",
+        "start": 100.493,
+        "end": 100.671
+      },
+      {
+        "text": "đồ",
+        "start": 100.671,
+        "end": 100.814
+      },
+      {
+        "text": "và",
+        "start": 100.814,
+        "end": 100.957
+      },
+      {
+        "text": "kế",
+        "start": 100.957,
+        "end": 101.099
+      },
+      {
+        "text": "hoạch",
+        "start": 101.099,
+        "end": 101.335
+      },
+      {
+        "text": "đẹp",
+        "start": 101.335,
+        "end": 102.106
+      },
+      {
+        "text": "đẽ.",
+        "start": 102.106,
+        "end": 102.249
       }
     ],
     [
       {
         "text": "Đó",
-        "start": 224.016,
-        "end": 225.02
+        "start": 102.249,
+        "end": 102.391
       },
       {
         "text": "là",
-        "start": 225.02,
-        "end": 225.169
+        "start": 102.391,
+        "end": 102.534
       },
       {
-        "text": "một",
-        "start": 225.169,
-        "end": 225.357
+        "text": "những",
+        "start": 102.534,
+        "end": 102.77
       },
       {
-        "text": "bước",
-        "start": 225.357,
-        "end": 225.576
+        "text": "quyết",
+        "start": 102.77,
+        "end": 103.006
       },
       {
-        "text": "đi",
-        "start": 225.576,
-        "end": 225.726
+        "text": "định",
+        "start": 103.006,
+        "end": 103.214
       },
       {
-        "text": "nhỏ",
-        "start": 225.726,
-        "end": 225.913
+        "text": "gấp",
+        "start": 103.214,
+        "end": 103.393
       },
       {
-        "text": "so",
-        "start": 225.913,
-        "end": 226.063
+        "text": "gáp,",
+        "start": 103.393,
+        "end": 103.571
       }
     ],
     [
       {
-        "text": "với",
-        "start": 226.063,
-        "end": 226.25
+        "text": "đồ",
+        "start": 103.571,
+        "end": 103.713
       },
       {
-        "text": "việc",
-        "start": 226.25,
-        "end": 226.469
+        "text": "đạc",
+        "start": 103.713,
+        "end": 103.891
       },
       {
-        "text": "khôi",
-        "start": 226.469,
-        "end": 226.689
+        "text": "gói",
+        "start": 103.891,
+        "end": 104.07
       },
       {
-        "text": "phục",
-        "start": 226.689,
-        "end": 226.908
+        "text": "vội,",
+        "start": 104.07,
+        "end": 104.613
       },
       {
-        "text": "toàn",
-        "start": 226.908,
-        "end": 227.127
+        "text": "và",
+        "start": 104.613,
+        "end": 104.755
       },
       {
-        "text": "bộ",
-        "start": 227.127,
-        "end": 227.277
+        "text": "trong",
+        "start": 104.755,
+        "end": 104.991
       },
       {
-        "text": "Gia",
-        "start": 227.277,
-        "end": 227.465
+        "text": "dòng",
+        "start": 104.991,
+        "end": 105.2
       }
     ],
     [
       {
-        "text": "Định,",
-        "start": 227.465,
-        "end": 227.684
+        "text": "người",
+        "start": 105.2,
+        "end": 105.436
       },
       {
-        "text": "nhưng",
-        "start": 227.684,
-        "end": 228.425
-      },
-      {
-        "text": "đủ",
-        "start": 228.425,
-        "end": 228.575
-      },
-      {
-        "text": "để",
-        "start": 228.575,
-        "end": 228.725
-      },
-      {
-        "text": "cho",
-        "start": 228.725,
-        "end": 228.912
-      },
-      {
-        "text": "thấy",
-        "start": 228.912,
-        "end": 229.132
-      },
-      {
-        "text": "phe",
-        "start": 229.132,
-        "end": 229.319
-      }
-    ],
-    [
-      {
-        "text": "Nguyễn",
-        "start": 229.319,
-        "end": 229.593
-      },
-      {
-        "text": "vẫn",
-        "start": 229.593,
-        "end": 229.78
+        "text": "ấy",
+        "start": 105.436,
+        "end": 105.578
       },
       {
         "text": "có",
-        "start": 229.78,
-        "end": 229.93
+        "start": 105.578,
+        "end": 105.721
       },
       {
-        "text": "khả",
-        "start": 229.93,
-        "end": 230.117
+        "text": "Nguyễn",
+        "start": 105.721,
+        "end": 105.982
       },
       {
-        "text": "năng",
-        "start": 230.117,
-        "end": 230.337
-      },
-      {
-        "text": "tập",
-        "start": 230.337,
-        "end": 230.524
-      },
-      {
-        "text": "hợp",
-        "start": 230.524,
-        "end": 230.711
+        "text": "Ánh.",
+        "start": 105.982,
+        "end": 106.16
       }
     ],
     [
       {
-        "text": "và",
-        "start": 230.711,
-        "end": 230.861
+        "text": "Các",
+        "start": 106.861,
+        "end": 107.028
+      },
+      {
+        "text": "nhân",
+        "start": 107.028,
+        "end": 107.222
+      },
+      {
+        "text": "vật",
+        "start": 107.222,
+        "end": 107.388
       },
       {
         "text": "chủ",
-        "start": 230.861,
-        "end": 231.273
+        "start": 107.388,
+        "end": 107.554
       },
       {
-        "text": "động",
-        "start": 231.273,
-        "end": 231.492
+        "text": "chốt",
+        "start": 107.554,
+        "end": 107.749
       },
       {
-        "text": "phản",
-        "start": 231.492,
-        "end": 231.712
+        "text": "tản",
+        "start": 107.749,
+        "end": 107.915
       },
       {
-        "text": "kích.",
-        "start": 231.712,
-        "end": 232.155
+        "text": "về",
+        "start": 107.915,
+        "end": 108.048
       }
     ],
     [
       {
-        "text": "Đầu",
-        "start": 232.865,
-        "end": 233.067
+        "text": "miền",
+        "start": 108.048,
+        "end": 108.242
       },
       {
-        "text": "năm",
-        "start": 233.067,
-        "end": 233.269
-      },
-      {
-        "text": "1778,",
-        "start": 233.269,
-        "end": 233.506
-      },
-      {
-        "text": "thế",
-        "start": 233.506,
-        "end": 233.708
-      },
-      {
-        "text": "lực",
-        "start": 233.708,
-        "end": 233.91
-      },
-      {
-        "text": "Nguyễn",
-        "start": 233.91,
-        "end": 234.603
-      },
-      {
-        "text": "từng",
-        "start": 234.603,
-        "end": 234.84
+        "text": "Tây.",
+        "start": 108.242,
+        "end": 108.408
       }
     ],
     [
-      {
-        "text": "bước",
-        "start": 234.84,
-        "end": 235.076
-      },
-      {
-        "text": "lấy",
-        "start": 235.076,
-        "end": 235.278
-      },
-      {
-        "text": "lại",
-        "start": 235.278,
-        "end": 235.48
-      },
-      {
-        "text": "một",
-        "start": 235.48,
-        "end": 235.683
-      },
-      {
-        "text": "phần",
-        "start": 235.683,
-        "end": 235.919
-      },
-      {
-        "text": "Gia",
-        "start": 235.919,
-        "end": 236.121
-      },
       {
         "text": "Định",
-        "start": 236.121,
-        "end": 236.358
-      }
-    ],
-    [
+        "start": 108.408,
+        "end": 109.577
+      },
       {
-        "text": "và",
-        "start": 236.358,
-        "end": 236.52
+        "text": "Vương",
+        "start": 109.577,
+        "end": 109.797
       },
       {
         "text": "Nguyễn",
-        "start": 236.52,
-        "end": 237.113
+        "start": 109.797,
+        "end": 110.04
       },
       {
-        "text": "Ánh",
-        "start": 237.113,
-        "end": 237.315
+        "text": "Phúc",
+        "start": 110.04,
+        "end": 110.234
       },
       {
-        "text": "được",
-        "start": 237.315,
-        "end": 237.551
+        "text": "Thuần,",
+        "start": 110.234,
+        "end": 110.454
       },
       {
-        "text": "các",
-        "start": 237.551,
-        "end": 237.753
+        "text": "chú",
+        "start": 110.454,
+        "end": 110.856
       },
       {
-        "text": "tướng",
-        "start": 237.753,
-        "end": 238.021
-      },
-      {
-        "text": "tôn",
-        "start": 238.021,
-        "end": 238.223
+        "text": "của",
+        "start": 110.856,
+        "end": 111.022
       }
     ],
     [
       {
-        "text": "lên",
-        "start": 238.223,
-        "end": 238.425
+        "text": "Nguyễn",
+        "start": 111.022,
+        "end": 111.265
       },
       {
-        "text": "vị",
-        "start": 238.425,
-        "end": 238.587
-      },
-      {
-        "text": "trí",
-        "start": 238.587,
-        "end": 238.789
-      },
-      {
-        "text": "chỉ",
-        "start": 238.789,
-        "end": 238.991
-      },
-      {
-        "text": "huy",
-        "start": 238.991,
-        "end": 239.193
-      },
-      {
-        "text": "cao",
-        "start": 239.193,
-        "end": 239.395
-      },
-      {
-        "text": "hơn.",
-        "start": 239.395,
-        "end": 239.598
-      }
-    ],
-    [
-      {
-        "text": "Cuộc",
-        "start": 239.598,
-        "end": 239.834
-      },
-      {
-        "text": "đào",
-        "start": 239.834,
-        "end": 240.036
-      },
-      {
-        "text": "thoát",
-        "start": 240.036,
-        "end": 241.199
-      },
-      {
-        "text": "không",
-        "start": 241.199,
-        "end": 241.466
-      },
-      {
-        "text": "đem",
-        "start": 241.466,
-        "end": 241.669
-      },
-      {
-        "text": "lại",
-        "start": 241.669,
-        "end": 241.871
-      },
-      {
-        "text": "hòa",
-        "start": 241.871,
-        "end": 242.073
-      }
-    ],
-    [
-      {
-        "text": "bình;",
-        "start": 242.073,
-        "end": 242.309
-      },
-      {
-        "text": "nó",
-        "start": 242.309,
-        "end": 242.471
-      },
-      {
-        "text": "mở",
-        "start": 242.471,
-        "end": 243.044
-      },
-      {
-        "text": "ra",
-        "start": 243.044,
-        "end": 243.206
-      },
-      {
-        "text": "vòng",
-        "start": 243.206,
-        "end": 243.442
-      },
-      {
-        "text": "xoáy",
-        "start": 243.442,
-        "end": 243.679
-      },
-      {
-        "text": "mới,",
-        "start": 243.679,
-        "end": 243.881
-      }
-    ],
-    [
-      {
-        "text": "nơi",
-        "start": 243.881,
-        "end": 244.083
-      },
-      {
-        "text": "mỗi",
-        "start": 244.083,
-        "end": 244.285
-      },
-      {
-        "text": "thất",
-        "start": 244.285,
-        "end": 244.855
-      },
-      {
-        "text": "bại",
-        "start": 244.855,
-        "end": 245.057
-      },
-      {
-        "text": "lại",
-        "start": 245.057,
-        "end": 245.26
-      },
-      {
-        "text": "buộc",
-        "start": 245.26,
-        "end": 245.496
-      },
-      {
-        "text": "ông",
-        "start": 245.496,
-        "end": 245.698
-      }
-    ],
-    [
-      {
-        "text": "rút",
-        "start": 245.698,
-        "end": 245.901
-      },
-      {
-        "text": "lui,",
-        "start": 245.901,
-        "end": 246.103
-      },
-      {
-        "text": "tập",
-        "start": 246.103,
-        "end": 246.611
-      },
-      {
-        "text": "hợp",
-        "start": 246.611,
-        "end": 246.813
-      },
-      {
-        "text": "người",
-        "start": 246.813,
-        "end": 247.081
-      },
-      {
-        "text": "và",
-        "start": 247.081,
-        "end": 247.243
+        "text": "Ánh,",
+        "start": 111.265,
+        "end": 111.432
       },
       {
         "text": "tìm",
-        "start": 247.243,
-        "end": 247.445
+        "start": 111.432,
+        "end": 111.832
+      },
+      {
+        "text": "đường",
+        "start": 111.832,
+        "end": 112.052
+      },
+      {
+        "text": "tới",
+        "start": 112.052,
+        "end": 112.218
+      },
+      {
+        "text": "Long",
+        "start": 112.218,
+        "end": 112.412
+      },
+      {
+        "text": "Xuyên.",
+        "start": 112.412,
+        "end": 112.632
+      }
+    ],
+    [
+      {
+        "text": "Cậu",
+        "start": 112.632,
+        "end": 113.551
+      },
+      {
+        "text": "đi",
+        "start": 113.551,
+        "end": 113.684
+      },
+      {
+        "text": "theo",
+        "start": 113.684,
+        "end": 113.878
+      },
+      {
+        "text": "những",
+        "start": 113.878,
+        "end": 114.098
+      },
+      {
+        "text": "người",
+        "start": 114.098,
+        "end": 114.318
+      },
+      {
+        "text": "thân",
+        "start": 114.318,
+        "end": 114.513
+      },
+      {
+        "text": "còn",
+        "start": 114.513,
+        "end": 114.679
+      }
+    ],
+    [
+      {
+        "text": "lại,",
+        "start": 114.679,
+        "end": 115.213
+      },
+      {
+        "text": "giữa",
+        "start": 115.213,
+        "end": 115.408
+      },
+      {
+        "text": "lúc",
+        "start": 115.408,
+        "end": 115.574
+      },
+      {
+        "text": "tình",
+        "start": 115.574,
+        "end": 115.769
+      },
+      {
+        "text": "thế",
+        "start": 115.769,
+        "end": 115.935
+      },
+      {
+        "text": "mỗi",
+        "start": 115.935,
+        "end": 116.101
+      },
+      {
+        "text": "ngày",
+        "start": 116.101,
+        "end": 116.295
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 116.295,
+        "end": 116.461
+      },
+      {
+        "text": "ngặt",
+        "start": 116.461,
+        "end": 116.656
+      },
+      {
+        "text": "nghèo.",
+        "start": 116.656,
+        "end": 116.876
+      }
+    ],
+    [
+      {
+        "text": "Tháng",
+        "start": 117.816,
+        "end": 118.071
+      },
+      {
+        "text": "chín",
+        "start": 118.071,
+        "end": 118.297
+      },
+      {
+        "text": "năm",
+        "start": 118.297,
+        "end": 118.49
+      },
+      {
+        "text": "1777,",
+        "start": 118.49,
+        "end": 118.715
+      },
+      {
+        "text": "Tân",
+        "start": 118.715,
+        "end": 118.908
+      },
+      {
+        "text": "Chính",
+        "start": 118.908,
+        "end": 119.163
+      },
+      {
+        "text": "Vương",
+        "start": 119.163,
+        "end": 119.847
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 119.847,
+        "end": 120.129
+      },
+      {
+        "text": "Phúc",
+        "start": 120.129,
+        "end": 120.354
+      },
+      {
+        "text": "Dương",
+        "start": 120.354,
+        "end": 120.609
+      },
+      {
+        "text": "bị",
+        "start": 120.609,
+        "end": 120.763
+      },
+      {
+        "text": "bắt",
+        "start": 120.763,
+        "end": 120.956
+      },
+      {
+        "text": "và",
+        "start": 120.956,
+        "end": 121.11
+      },
+      {
+        "text": "bị",
+        "start": 121.11,
+        "end": 121.264
+      }
+    ],
+    [
+      {
+        "text": "giết",
+        "start": 121.264,
+        "end": 121.49
+      },
+      {
+        "text": "cùng",
+        "start": 121.49,
+        "end": 121.715
+      },
+      {
+        "text": "những",
+        "start": 121.715,
+        "end": 121.97
+      },
+      {
+        "text": "người",
+        "start": 121.97,
+        "end": 122.225
+      },
+      {
+        "text": "theo",
+        "start": 122.225,
+        "end": 122.451
+      },
+      {
+        "text": "hầu.",
+        "start": 122.451,
+        "end": 122.643
+      }
+    ],
+    [
+      {
+        "text": "Với",
+        "start": 122.643,
+        "end": 122.836
+      },
+      {
+        "text": "Nguyễn",
+        "start": 122.836,
+        "end": 123.965
+      },
+      {
+        "text": "Ánh,",
+        "start": 123.965,
+        "end": 124.157
+      },
+      {
+        "text": "đó",
+        "start": 124.157,
+        "end": 124.311
+      },
+      {
+        "text": "không",
+        "start": 124.311,
+        "end": 124.751
+      },
+      {
+        "text": "chỉ",
+        "start": 124.751,
+        "end": 124.943
+      },
+      {
+        "text": "là",
+        "start": 124.943,
+        "end": 125.097
+      }
+    ],
+    [
+      {
+        "text": "một",
+        "start": 125.097,
+        "end": 125.29
+      },
+      {
+        "text": "dòng",
+        "start": 125.29,
+        "end": 125.515
+      },
+      {
+        "text": "trong",
+        "start": 125.515,
+        "end": 125.77
+      },
+      {
+        "text": "sử",
+        "start": 125.77,
+        "end": 125.924
+      },
+      {
+        "text": "sách.",
+        "start": 125.924,
+        "end": 126.15
+      }
+    ],
+    [
+      {
+        "text": "Đó",
+        "start": 126.15,
+        "end": 127.119
+      },
+      {
+        "text": "là",
+        "start": 127.119,
+        "end": 127.273
+      },
+      {
+        "text": "thêm",
+        "start": 127.273,
+        "end": 127.498
+      },
+      {
+        "text": "một",
+        "start": 127.498,
+        "end": 127.691
+      },
+      {
+        "text": "người",
+        "start": 127.691,
+        "end": 127.946
+      },
+      {
+        "text": "thân",
+        "start": 127.946,
+        "end": 128.172
+      },
+      {
+        "text": "mất",
+        "start": 128.172,
+        "end": 128.364
+      }
+    ],
+    [
+      {
+        "text": "đi,",
+        "start": 128.364,
+        "end": 129.197
+      },
+      {
+        "text": "thêm",
+        "start": 129.197,
+        "end": 129.423
+      },
+      {
+        "text": "một",
+        "start": 129.423,
+        "end": 129.615
+      },
+      {
+        "text": "trụ",
+        "start": 129.615,
+        "end": 129.808
+      },
+      {
+        "text": "cột",
+        "start": 129.808,
+        "end": 130.001
+      },
+      {
+        "text": "của",
+        "start": 130.001,
+        "end": 130.193
+      },
+      {
+        "text": "chính",
+        "start": 130.193,
+        "end": 130.448
+      }
+    ],
+    [
+      {
+        "text": "quyền",
+        "start": 130.448,
+        "end": 130.703
+      },
+      {
+        "text": "chúa",
+        "start": 130.703,
+        "end": 130.929
+      },
+      {
+        "text": "Nguyễn",
+        "start": 130.929,
+        "end": 131.211
+      },
+      {
+        "text": "đổ",
+        "start": 131.211,
+        "end": 131.365
+      },
+      {
+        "text": "xuống.",
+        "start": 131.365,
+        "end": 131.62
+      }
+    ],
+    [
+      {
+        "text": "Tháng",
+        "start": 132.329,
+        "end": 132.562
+      },
+      {
+        "text": "mười,",
+        "start": 132.562,
+        "end": 133.381
+      },
+      {
+        "text": "quân",
+        "start": 133.381,
+        "end": 133.587
+      },
+      {
+        "text": "Tây",
+        "start": 133.587,
+        "end": 133.763
+      },
+      {
+        "text": "Sơn",
+        "start": 133.763,
+        "end": 133.938
+      },
+      {
+        "text": "truy",
+        "start": 133.938,
+        "end": 134.144
+      },
+      {
+        "text": "kích",
+        "start": 134.144,
+        "end": 134.35
+      }
+    ],
+    [
+      {
+        "text": "tới",
+        "start": 134.35,
+        "end": 134.526
+      },
+      {
+        "text": "Long",
+        "start": 134.526,
+        "end": 134.732
+      },
+      {
+        "text": "Xuyên,",
+        "start": 134.732,
+        "end": 135.311
+      },
+      {
+        "text": "nơi",
+        "start": 135.311,
+        "end": 135.487
+      },
+      {
+        "text": "Định",
+        "start": 135.487,
+        "end": 135.693
+      },
+      {
+        "text": "Vương",
+        "start": 135.693,
+        "end": 135.926
+      },
+      {
+        "text": "đang",
+        "start": 135.926,
+        "end": 136.132
+      }
+    ],
+    [
+      {
+        "text": "trú.",
+        "start": 136.132,
+        "end": 136.308
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 136.308,
+        "end": 137.437
+      },
+      {
+        "text": "người",
+        "start": 137.437,
+        "end": 137.67
+      },
+      {
+        "text": "quanh",
+        "start": 137.67,
+        "end": 137.903
+      },
+      {
+        "text": "ông",
+        "start": 137.903,
+        "end": 138.079
+      },
+      {
+        "text": "không",
+        "start": 138.079,
+        "end": 138.312
+      },
+      {
+        "text": "còn",
+        "start": 138.312,
+        "end": 138.488
+      },
+      {
+        "text": "đủ",
+        "start": 138.488,
+        "end": 138.629
+      }
+    ],
+    [
+      {
+        "text": "sức",
+        "start": 138.629,
+        "end": 138.804
+      },
+      {
+        "text": "xoay",
+        "start": 138.804,
+        "end": 139.01
+      },
+      {
+        "text": "chuyển",
+        "start": 139.01,
+        "end": 139.268
+      },
+      {
+        "text": "tình",
+        "start": 139.268,
+        "end": 139.474
+      },
+      {
+        "text": "thế.",
+        "start": 139.474,
+        "end": 140.245
+      }
+    ],
+    [
+      {
+        "text": "Còn",
+        "start": 140.245,
+        "end": 140.421
+      },
+      {
+        "text": "Nguyễn",
+        "start": 140.421,
+        "end": 140.678
+      },
+      {
+        "text": "Ánh",
+        "start": 140.678,
+        "end": 140.854
+      },
+      {
+        "text": "đứng",
+        "start": 140.854,
+        "end": 141.06
+      },
+      {
+        "text": "trước",
+        "start": 141.06,
+        "end": 141.293
+      },
+      {
+        "text": "nguy",
+        "start": 141.293,
+        "end": 141.499
+      },
+      {
+        "text": "cơ",
+        "start": 141.499,
+        "end": 141.64
+      }
+    ],
+    [
+      {
+        "text": "mất",
+        "start": 141.64,
+        "end": 141.815
+      },
+      {
+        "text": "nốt",
+        "start": 141.815,
+        "end": 141.991
+      },
+      {
+        "text": "những",
+        "start": 141.991,
+        "end": 142.224
+      },
+      {
+        "text": "người",
+        "start": 142.224,
+        "end": 142.457
+      },
+      {
+        "text": "thân",
+        "start": 142.457,
+        "end": 142.663
+      },
+      {
+        "text": "cuối",
+        "start": 142.663,
+        "end": 142.869
+      },
+      {
+        "text": "cùng.",
+        "start": 142.869,
+        "end": 143.32
+      }
+    ],
+    [
+      {
+        "text": "Ngày",
+        "start": 144.028,
+        "end": 144.252
+      },
+      {
+        "text": "18",
+        "start": 144.252,
+        "end": 144.405
+      },
+      {
+        "text": "tháng",
+        "start": 144.405,
+        "end": 144.659
+      },
+      {
+        "text": "10",
+        "start": 144.659,
+        "end": 144.812
+      },
+      {
+        "text": "năm",
+        "start": 144.812,
+        "end": 145.003
+      },
+      {
+        "text": "1777,",
+        "start": 145.003,
+        "end": 145.227
+      },
+      {
+        "text": "Định",
+        "start": 145.227,
+        "end": 145.452
+      }
+    ],
+    [
+      {
+        "text": "Vương",
+        "start": 145.452,
+        "end": 145.705
+      },
+      {
+        "text": "bị",
+        "start": 145.705,
+        "end": 145.858
+      },
+      {
+        "text": "giết",
+        "start": 145.858,
+        "end": 146.475
+      },
+      {
+        "text": "cùng",
+        "start": 146.475,
+        "end": 146.699
+      },
+      {
+        "text": "một",
+        "start": 146.699,
+        "end": 146.891
+      },
+      {
+        "text": "số",
+        "start": 146.891,
+        "end": 147.044
+      },
+      {
+        "text": "thân",
+        "start": 147.044,
+        "end": 147.268
+      }
+    ],
+    [
+      {
+        "text": "thuộc",
+        "start": 147.268,
+        "end": 147.752
+      },
+      {
+        "text": "và",
+        "start": 147.752,
+        "end": 147.905
+      },
+      {
+        "text": "tướng",
+        "start": 147.905,
+        "end": 148.158
+      },
+      {
+        "text": "lĩnh.",
+        "start": 148.158,
+        "end": 148.382
+      }
+    ],
+    [
+      {
+        "text": "Theo",
+        "start": 148.382,
+        "end": 148.607
+      },
+      {
+        "text": "biên",
+        "start": 148.607,
+        "end": 148.831
+      },
+      {
+        "text": "niên",
+        "start": 148.831,
+        "end": 149.055
+      },
+      {
+        "text": "sử",
+        "start": 149.055,
+        "end": 150.069
+      },
+      {
+        "text": "được",
+        "start": 150.069,
+        "end": 150.293
+      },
+      {
+        "text": "các",
+        "start": 150.293,
+        "end": 150.484
+      },
+      {
+        "text": "nhà",
+        "start": 150.484,
+        "end": 150.676
+      }
+    ],
+    [
+      {
+        "text": "nghiên",
+        "start": 150.676,
+        "end": 150.956
+      },
+      {
+        "text": "cứu",
+        "start": 150.956,
+        "end": 151.147
+      },
+      {
+        "text": "dẫn",
+        "start": 151.147,
+        "end": 151.339
+      },
+      {
+        "text": "lại,",
+        "start": 151.339,
+        "end": 151.53
+      },
+      {
+        "text": "Nguyễn",
+        "start": 151.53,
+        "end": 151.81
+      },
+      {
+        "text": "Ánh,",
+        "start": 151.81,
+        "end": 152.435
+      },
+      {
+        "text": "khi",
+        "start": 152.435,
+        "end": 152.626
+      }
+    ],
+    [
+      {
+        "text": "ấy",
+        "start": 152.626,
+        "end": 152.779
+      },
+      {
+        "text": "mười",
+        "start": 152.779,
+        "end": 153.384
+      },
+      {
+        "text": "lăm",
+        "start": 153.384,
+        "end": 153.575
+      },
+      {
+        "text": "tuổi,",
+        "start": 153.575,
+        "end": 153.799
+      },
+      {
+        "text": "là",
+        "start": 153.799,
+        "end": 153.952
+      },
+      {
+        "text": "người",
+        "start": 153.952,
+        "end": 154.522
+      },
+      {
+        "text": "chạy",
+        "start": 154.522,
+        "end": 154.746
+      }
+    ],
+    [
+      {
+        "text": "thoát.",
+        "start": 154.746,
+        "end": 155.19
+      }
+    ],
+    [
+      {
+        "text": "Sử",
+        "start": 155.904,
+        "end": 156.048
+      },
+      {
+        "text": "sách",
+        "start": 156.048,
+        "end": 156.26
+      },
+      {
+        "text": "không",
+        "start": 156.26,
+        "end": 156.498
+      },
+      {
+        "text": "ghi",
+        "start": 156.498,
+        "end": 156.679
+      },
+      {
+        "text": "lại",
+        "start": 156.679,
+        "end": 156.859
+      },
+      {
+        "text": "từng",
+        "start": 156.859,
+        "end": 157.07
+      },
+      {
+        "text": "bước",
+        "start": 157.07,
+        "end": 157.282
+      }
+    ],
+    [
+      {
+        "text": "chân",
+        "start": 157.282,
+        "end": 157.493
+      },
+      {
+        "text": "của",
+        "start": 157.493,
+        "end": 157.673
+      },
+      {
+        "text": "cuộc",
+        "start": 157.673,
+        "end": 157.884
+      },
+      {
+        "text": "đào",
+        "start": 157.884,
+        "end": 158.673
+      },
+      {
+        "text": "thoát.",
+        "start": 158.673,
+        "end": 158.912
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 158.912,
+        "end": 159.151
+      },
+      {
+        "text": "thử",
+        "start": 159.151,
+        "end": 159.331
+      },
+      {
+        "text": "đặt",
+        "start": 159.331,
+        "end": 159.512
+      },
+      {
+        "text": "mình",
+        "start": 159.512,
+        "end": 159.723
+      },
+      {
+        "text": "vào",
+        "start": 159.723,
+        "end": 159.903
+      },
+      {
+        "text": "chỗ",
+        "start": 159.903,
+        "end": 160.478
+      },
+      {
+        "text": "cậu:",
+        "start": 160.478,
+        "end": 160.658
+      }
+    ],
+    [
+      {
+        "text": "mười",
+        "start": 160.658,
+        "end": 160.869
+      },
+      {
+        "text": "lăm",
+        "start": 160.869,
+        "end": 161.049
+      },
+      {
+        "text": "tuổi,",
+        "start": 161.049,
+        "end": 161.261
+      },
+      {
+        "text": "mất",
+        "start": 161.261,
+        "end": 161.441
+      },
+      {
+        "text": "người",
+        "start": 161.441,
+        "end": 162.116
+      },
+      {
+        "text": "thân,",
+        "start": 162.116,
+        "end": 162.327
+      },
+      {
+        "text": "phía",
+        "start": 162.327,
+        "end": 162.538
+      }
+    ],
+    [
+      {
+        "text": "sau",
+        "start": 162.538,
+        "end": 162.718
+      },
+      {
+        "text": "là",
+        "start": 162.718,
+        "end": 162.863
+      },
+      {
+        "text": "quân",
+        "start": 162.863,
+        "end": 163.074
+      },
+      {
+        "text": "truy",
+        "start": 163.074,
+        "end": 163.731
+      },
+      {
+        "text": "đuổi.",
+        "start": 163.731,
+        "end": 163.943
+      }
+    ],
+    [
+      {
+        "text": "Lúc",
+        "start": 163.943,
+        "end": 164.123
+      },
+      {
+        "text": "ấy,",
+        "start": 164.123,
+        "end": 164.267
+      },
+      {
+        "text": "im",
+        "start": 164.267,
+        "end": 164.412
+      },
+      {
+        "text": "lặng",
+        "start": 164.412,
+        "end": 164.623
+      },
+      {
+        "text": "có",
+        "start": 164.623,
+        "end": 164.767
+      },
+      {
+        "text": "khi",
+        "start": 164.767,
+        "end": 164.947
+      },
+      {
+        "text": "là",
+        "start": 164.947,
+        "end": 165.092
       }
     ],
     [
       {
         "text": "cách",
-        "start": 247.445,
-        "end": 247.681
+        "start": 165.092,
+        "end": 165.303
+      },
+      {
+        "text": "duy",
+        "start": 165.303,
+        "end": 165.483
+      },
+      {
+        "text": "nhất",
+        "start": 165.483,
+        "end": 165.694
+      },
+      {
+        "text": "để",
+        "start": 165.694,
+        "end": 165.839
+      },
+      {
+        "text": "sống.",
+        "start": 165.839,
+        "end": 166.05
+      }
+    ],
+    [
+      {
+        "text": "Ở",
+        "start": 166.755,
+        "end": 166.853
+      },
+      {
+        "text": "đồng",
+        "start": 166.853,
+        "end": 167.062
+      },
+      {
+        "text": "bằng",
+        "start": 167.062,
+        "end": 167.272
+      },
+      {
+        "text": "chằng",
+        "start": 167.272,
+        "end": 167.51
+      },
+      {
+        "text": "chịt",
+        "start": 167.51,
+        "end": 167.719
+      },
+      {
+        "text": "sông",
+        "start": 167.719,
+        "end": 167.929
+      },
+      {
+        "text": "rạch,",
+        "start": 167.929,
+        "end": 168.448
+      }
+    ],
+    [
+      {
+        "text": "địa",
+        "start": 168.448,
+        "end": 168.627
+      },
+      {
+        "text": "hình",
+        "start": 168.627,
+        "end": 168.837
+      },
+      {
+        "text": "làm",
+        "start": 168.837,
+        "end": 169.016
+      },
+      {
+        "text": "khó",
+        "start": 169.016,
+        "end": 169.195
+      },
+      {
+        "text": "người",
+        "start": 169.195,
+        "end": 169.766
+      },
+      {
+        "text": "đi,",
+        "start": 169.766,
+        "end": 169.909
+      },
+      {
+        "text": "nhưng",
+        "start": 169.909,
+        "end": 170.146
+      }
+    ],
+    [
+      {
+        "text": "cũng",
+        "start": 170.146,
+        "end": 170.356
+      },
+      {
+        "text": "giấu",
+        "start": 170.356,
+        "end": 170.566
+      },
+      {
+        "text": "được",
+        "start": 170.566,
+        "end": 170.776
+      },
+      {
+        "text": "người",
+        "start": 170.776,
+        "end": 171.451
+      },
+      {
+        "text": "trốn.",
+        "start": 171.451,
+        "end": 171.976
+      }
+    ],
+    [
+      {
+        "text": "Nước,",
+        "start": 171.976,
+        "end": 172.186
+      },
+      {
+        "text": "lau",
+        "start": 172.186,
+        "end": 172.365
+      },
+      {
+        "text": "sậy",
+        "start": 172.365,
+        "end": 172.544
+      },
+      {
+        "text": "và",
+        "start": 172.544,
+        "end": 172.687
+      },
+      {
+        "text": "những",
+        "start": 172.687,
+        "end": 172.925
+      },
+      {
+        "text": "con",
+        "start": 172.925,
+        "end": 173.104
+      },
+      {
+        "text": "rạch",
+        "start": 173.104,
+        "end": 173.313
+      }
+    ],
+    [
+      {
+        "text": "nhỏ,",
+        "start": 173.313,
+        "end": 173.719
+      },
+      {
+        "text": "thứ",
+        "start": 173.719,
+        "end": 173.898
+      },
+      {
+        "text": "cản",
+        "start": 173.898,
+        "end": 174.077
+      },
+      {
+        "text": "bước",
+        "start": 174.077,
+        "end": 174.287
+      },
+      {
+        "text": "quân",
+        "start": 174.287,
+        "end": 174.497
+      },
+      {
+        "text": "lính,",
+        "start": 174.497,
+        "end": 174.706
+      },
+      {
+        "text": "lại",
+        "start": 174.706,
+        "end": 175.117
+      }
+    ],
+    [
+      {
+        "text": "thành",
+        "start": 175.117,
+        "end": 175.354
+      },
+      {
+        "text": "đường",
+        "start": 175.354,
+        "end": 175.592
+      },
+      {
+        "text": "sống",
+        "start": 175.592,
+        "end": 175.802
+      },
+      {
+        "text": "của",
+        "start": 175.802,
+        "end": 175.981
+      },
+      {
+        "text": "Nguyễn",
+        "start": 175.981,
+        "end": 176.243
+      },
+      {
+        "text": "Ánh.",
+        "start": 176.243,
+        "end": 176.422
+      }
+    ],
+    [
+      {
+        "text": "Không",
+        "start": 177.417,
+        "end": 177.653
+      },
+      {
+        "text": "có",
+        "start": 177.653,
+        "end": 177.796
+      },
+      {
+        "text": "câu",
+        "start": 177.796,
+        "end": 177.975
+      },
+      {
+        "text": "nói",
+        "start": 177.975,
+        "end": 178.153
+      },
+      {
+        "text": "nào",
+        "start": 178.153,
+        "end": 178.331
+      },
+      {
+        "text": "được",
+        "start": 178.331,
+        "end": 178.54
+      },
+      {
+        "text": "xác",
+        "start": 178.54,
+        "end": 178.719
+      }
+    ],
+    [
+      {
+        "text": "nhận",
+        "start": 178.719,
+        "end": 178.927
+      },
+      {
+        "text": "là",
+        "start": 178.927,
+        "end": 179.07
+      },
+      {
+        "text": "của",
+        "start": 179.07,
+        "end": 179.249
+      },
+      {
+        "text": "Nguyễn",
+        "start": 179.249,
+        "end": 179.51
+      },
+      {
+        "text": "Ánh",
+        "start": 179.51,
+        "end": 179.688
+      },
+      {
+        "text": "trong",
+        "start": 179.688,
+        "end": 179.924
+      },
+      {
+        "text": "những",
+        "start": 179.924,
+        "end": 180.16
+      }
+    ],
+    [
+      {
+        "text": "ngày",
+        "start": 180.16,
+        "end": 180.834
+      },
+      {
+        "text": "ấy.",
+        "start": 180.834,
+        "end": 180.977
+      }
+    ],
+    [
+      {
+        "text": "Không",
+        "start": 180.977,
+        "end": 181.213
+      },
+      {
+        "text": "lời",
+        "start": 181.213,
+        "end": 181.391
+      },
+      {
+        "text": "thề,",
+        "start": 181.391,
+        "end": 181.569
+      },
+      {
+        "text": "không",
+        "start": 181.569,
+        "end": 181.806
+      },
+      {
+        "text": "tuyên",
+        "start": 181.806,
+        "end": 182.042
+      },
+      {
+        "text": "ngôn.",
+        "start": 182.042,
+        "end": 182.659
+      }
+    ],
+    [
+      {
+        "text": "Điều",
+        "start": 182.659,
+        "end": 182.868
+      },
+      {
+        "text": "sử",
+        "start": 182.868,
+        "end": 183.01
+      },
+      {
+        "text": "liệu",
+        "start": 183.01,
+        "end": 183.219
+      },
+      {
+        "text": "cho",
+        "start": 183.219,
+        "end": 183.398
+      },
+      {
+        "text": "thấy",
+        "start": 183.398,
+        "end": 183.606
+      },
+      {
+        "text": "đơn",
+        "start": 183.606,
+        "end": 183.785
+      },
+      {
+        "text": "giản",
+        "start": 183.785,
+        "end": 183.994
+      }
+    ],
+    [
+      {
+        "text": "hơn",
+        "start": 183.994,
+        "end": 184.172
+      },
+      {
+        "text": "nhiều:",
+        "start": 184.172,
+        "end": 184.91
+      }
+    ],
+    [
+      {
+        "text": "cậu",
+        "start": 184.91,
+        "end": 185.089
+      },
+      {
+        "text": "đã",
+        "start": 185.089,
+        "end": 185.232
+      },
+      {
+        "text": "không",
+        "start": 185.232,
+        "end": 185.468
+      },
+      {
+        "text": "bị",
+        "start": 185.468,
+        "end": 185.61
+      },
+      {
+        "text": "bắt.",
+        "start": 185.61,
+        "end": 186.362
+      }
+    ],
+    [
+      {
+        "text": "Đôi",
+        "start": 186.362,
+        "end": 186.54
+      },
+      {
+        "text": "khi,",
+        "start": 186.54,
+        "end": 186.719
+      },
+      {
+        "text": "một",
+        "start": 186.719,
+        "end": 186.897
+      },
+      {
+        "text": "câu",
+        "start": 186.897,
+        "end": 187.075
+      },
+      {
+        "text": "chuyện",
+        "start": 187.075,
+        "end": 187.336
+      },
+      {
+        "text": "lớn",
+        "start": 187.336,
+        "end": 187.515
+      },
+      {
+        "text": "bắt",
+        "start": 187.515,
+        "end": 187.693
+      }
+    ],
+    [
+      {
+        "text": "đầu",
+        "start": 187.693,
+        "end": 187.872
+      },
+      {
+        "text": "chỉ",
+        "start": 187.872,
+        "end": 188.05
+      },
+      {
+        "text": "bằng",
+        "start": 188.05,
+        "end": 188.259
+      },
+      {
+        "text": "việc",
+        "start": 188.259,
+        "end": 188.468
+      },
+      {
+        "text": "còn",
+        "start": 188.468,
+        "end": 188.646
+      },
+      {
+        "text": "sống.",
+        "start": 188.646,
+        "end": 188.855
+      }
+    ],
+    [
+      {
+        "text": "Khoảng",
+        "start": 189.813,
+        "end": 190.056
+      },
+      {
+        "text": "một",
+        "start": 190.056,
+        "end": 190.221
+      },
+      {
+        "text": "tháng",
+        "start": 190.221,
+        "end": 190.44
+      },
+      {
+        "text": "sau,",
+        "start": 190.44,
+        "end": 190.899
+      },
+      {
+        "text": "Nguyễn",
+        "start": 190.899,
+        "end": 191.141
+      },
+      {
+        "text": "Ánh",
+        "start": 191.141,
+        "end": 191.307
+      },
+      {
+        "text": "xuất",
+        "start": 191.307,
+        "end": 191.501
+      }
+    ],
+    [
+      {
+        "text": "hiện",
+        "start": 191.501,
+        "end": 191.695
       },
       {
         "text": "trở",
-        "start": 247.681,
-        "end": 247.884
+        "start": 191.695,
+        "end": 191.86
       },
       {
-        "text": "về.",
-        "start": 247.884,
-        "end": 248.045
+        "text": "lại",
+        "start": 191.86,
+        "end": 192.026
+      },
+      {
+        "text": "ở",
+        "start": 192.026,
+        "end": 192.116
+      },
+      {
+        "text": "Long",
+        "start": 192.116,
+        "end": 192.31
+      },
+      {
+        "text": "Xuyên.",
+        "start": 192.31,
+        "end": 193.362
+      }
+    ],
+    [
+      {
+        "text": "Đừng",
+        "start": 193.362,
+        "end": 193.556
+      },
+      {
+        "text": "vội",
+        "start": 193.556,
+        "end": 193.722
+      },
+      {
+        "text": "gọi",
+        "start": 193.722,
+        "end": 193.887
+      },
+      {
+        "text": "đó",
+        "start": 193.887,
+        "end": 194.02
+      },
+      {
+        "text": "là",
+        "start": 194.02,
+        "end": 194.152
+      },
+      {
+        "text": "chiến",
+        "start": 194.152,
+        "end": 194.371
+      },
+      {
+        "text": "thắng.",
+        "start": 194.371,
+        "end": 194.591
+      }
+    ],
+    [
+      {
+        "text": "Nó",
+        "start": 194.591,
+        "end": 195.133
+      },
+      {
+        "text": "chỉ",
+        "start": 195.133,
+        "end": 195.298
+      },
+      {
+        "text": "cho",
+        "start": 195.298,
+        "end": 195.464
+      },
+      {
+        "text": "thấy",
+        "start": 195.464,
+        "end": 195.658
+      },
+      {
+        "text": "cuộc",
+        "start": 195.658,
+        "end": 195.852
+      },
+      {
+        "text": "chiến",
+        "start": 195.852,
+        "end": 196.071
+      },
+      {
+        "text": "chưa",
+        "start": 196.071,
+        "end": 196.265
+      }
+    ],
+    [
+      {
+        "text": "kết",
+        "start": 196.265,
+        "end": 196.43
+      },
+      {
+        "text": "thúc,",
+        "start": 196.43,
+        "end": 197.104
+      },
+      {
+        "text": "và",
+        "start": 197.104,
+        "end": 197.236
+      },
+      {
+        "text": "vẫn",
+        "start": 197.236,
+        "end": 197.402
+      },
+      {
+        "text": "còn",
+        "start": 197.402,
+        "end": 197.567
+      },
+      {
+        "text": "người",
+        "start": 197.567,
+        "end": 197.786
+      },
+      {
+        "text": "sẵn",
+        "start": 197.786,
+        "end": 197.952
+      }
+    ],
+    [
+      {
+        "text": "sàng",
+        "start": 197.952,
+        "end": 198.146
+      },
+      {
+        "text": "đi",
+        "start": 198.146,
+        "end": 198.278
+      },
+      {
+        "text": "theo",
+        "start": 198.278,
+        "end": 198.472
+      },
+      {
+        "text": "cậu.",
+        "start": 198.472,
+        "end": 198.86
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 199.571,
+        "end": 199.815
+      },
+      {
+        "text": "người",
+        "start": 199.815,
+        "end": 200.06
+      },
+      {
+        "text": "còn",
+        "start": 200.06,
+        "end": 200.244
+      },
+      {
+        "text": "trung",
+        "start": 200.244,
+        "end": 200.489
+      },
+      {
+        "text": "thành",
+        "start": 200.489,
+        "end": 200.733
+      },
+      {
+        "text": "bắt",
+        "start": 200.733,
+        "end": 200.918
+      },
+      {
+        "text": "đầu",
+        "start": 200.918,
+        "end": 201.103
+      }
+    ],
+    [
+      {
+        "text": "tụ",
+        "start": 201.103,
+        "end": 201.25
+      },
+      {
+        "text": "lại",
+        "start": 201.25,
+        "end": 201.435
+      },
+      {
+        "text": "quanh",
+        "start": 201.435,
+        "end": 201.679
+      },
+      {
+        "text": "Nguyễn",
+        "start": 201.679,
+        "end": 202.616
+      },
+      {
+        "text": "Ánh.",
+        "start": 202.616,
+        "end": 202.8
+      }
+    ],
+    [
+      {
+        "text": "Chưa",
+        "start": 202.8,
+        "end": 203.017
+      },
+      {
+        "text": "có",
+        "start": 203.017,
+        "end": 203.164
+      },
+      {
+        "text": "triều",
+        "start": 203.164,
+        "end": 203.409
+      },
+      {
+        "text": "đình,",
+        "start": 203.409,
+        "end": 203.625
+      },
+      {
+        "text": "chưa",
+        "start": 203.625,
+        "end": 203.841
+      },
+      {
+        "text": "có",
+        "start": 203.841,
+        "end": 203.989
+      },
+      {
+        "text": "kinh",
+        "start": 203.989,
+        "end": 204.507
+      }
+    ],
+    [
+      {
+        "text": "đô,",
+        "start": 204.507,
+        "end": 204.655
+      },
+      {
+        "text": "chỉ",
+        "start": 204.655,
+        "end": 204.839
+      },
+      {
+        "text": "có",
+        "start": 204.839,
+        "end": 204.987
+      },
+      {
+        "text": "vài",
+        "start": 204.987,
+        "end": 205.172
+      },
+      {
+        "text": "ngọn",
+        "start": 205.172,
+        "end": 205.388
+      },
+      {
+        "text": "đèn",
+        "start": 205.388,
+        "end": 205.572
+      },
+      {
+        "text": "dầu",
+        "start": 205.572,
+        "end": 205.757
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 205.757,
+        "end": 205.905
+      },
+      {
+        "text": "một",
+        "start": 205.905,
+        "end": 206.089
+      },
+      {
+        "text": "nhóm",
+        "start": 206.089,
+        "end": 206.305
+      },
+      {
+        "text": "người",
+        "start": 206.305,
+        "end": 206.55
+      },
+      {
+        "text": "chưa",
+        "start": 206.55,
+        "end": 206.766
+      },
+      {
+        "text": "chịu",
+        "start": 206.766,
+        "end": 206.982
+      },
+      {
+        "text": "bỏ",
+        "start": 206.982,
+        "end": 207.13
+      }
+    ],
+    [
+      {
+        "text": "cuộc.",
+        "start": 207.13,
+        "end": 207.849
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 207.849,
+        "end": 208.093
+      },
+      {
+        "text": "cuộc",
+        "start": 208.093,
+        "end": 208.31
+      },
+      {
+        "text": "phản",
+        "start": 208.31,
+        "end": 208.526
+      },
+      {
+        "text": "công",
+        "start": 208.526,
+        "end": 208.742
+      },
+      {
+        "text": "nào",
+        "start": 208.742,
+        "end": 208.927
+      },
+      {
+        "text": "cũng",
+        "start": 208.927,
+        "end": 209.143
+      },
+      {
+        "text": "bắt",
+        "start": 209.143,
+        "end": 209.328
+      }
+    ],
+    [
+      {
+        "text": "đầu",
+        "start": 209.328,
+        "end": 209.512
+      },
+      {
+        "text": "từ",
+        "start": 209.512,
+        "end": 209.66
+      },
+      {
+        "text": "những",
+        "start": 209.66,
+        "end": 209.904
+      },
+      {
+        "text": "gì",
+        "start": 209.904,
+        "end": 210.052
+      },
+      {
+        "text": "còn",
+        "start": 210.052,
+        "end": 210.237
+      },
+      {
+        "text": "sót",
+        "start": 210.237,
+        "end": 210.421
+      },
+      {
+        "text": "lại.",
+        "start": 210.421,
+        "end": 210.606
+      }
+    ],
+    [
+      {
+        "text": "Tháng",
+        "start": 211.554,
+        "end": 211.793
+      },
+      {
+        "text": "mười",
+        "start": 211.793,
+        "end": 212.006
+      },
+      {
+        "text": "một",
+        "start": 212.006,
+        "end": 212.187
+      },
+      {
+        "text": "năm",
+        "start": 212.187,
+        "end": 212.368
+      },
+      {
+        "text": "1777,",
+        "start": 212.368,
+        "end": 212.58
+      },
+      {
+        "text": "Nguyễn",
+        "start": 212.58,
+        "end": 213.28
+      },
+      {
+        "text": "Ánh",
+        "start": 213.28,
+        "end": 213.461
+      }
+    ],
+    [
+      {
+        "text": "cùng",
+        "start": 213.461,
+        "end": 213.673
+      },
+      {
+        "text": "một",
+        "start": 213.673,
+        "end": 213.854
+      },
+      {
+        "text": "số",
+        "start": 213.854,
+        "end": 213.999
+      },
+      {
+        "text": "tướng",
+        "start": 213.999,
+        "end": 214.239
+      },
+      {
+        "text": "cũ",
+        "start": 214.239,
+        "end": 214.384
+      },
+      {
+        "text": "tiến",
+        "start": 214.384,
+        "end": 214.596
+      },
+      {
+        "text": "về",
+        "start": 214.596,
+        "end": 214.741
+      }
+    ],
+    [
+      {
+        "text": "Sa",
+        "start": 214.741,
+        "end": 214.886
+      },
+      {
+        "text": "Đéc.",
+        "start": 214.886,
+        "end": 215.067
+      }
+    ],
+    [
+      {
+        "text": "Từ",
+        "start": 215.067,
+        "end": 215.212
+      },
+      {
+        "text": "những",
+        "start": 215.212,
+        "end": 216.357
+      },
+      {
+        "text": "chỗ",
+        "start": 216.357,
+        "end": 216.538
+      },
+      {
+        "text": "trú",
+        "start": 216.538,
+        "end": 216.719
+      },
+      {
+        "text": "ẩn",
+        "start": 216.719,
+        "end": 216.864
+      },
+      {
+        "text": "rải",
+        "start": 216.864,
+        "end": 217.045
+      },
+      {
+        "text": "rác,",
+        "start": 217.045,
+        "end": 217.227
+      }
+    ],
+    [
+      {
+        "text": "phe",
+        "start": 217.227,
+        "end": 217.408
+      },
+      {
+        "text": "Nguyễn",
+        "start": 217.408,
+        "end": 218.022
+      },
+      {
+        "text": "nối",
+        "start": 218.022,
+        "end": 218.203
+      },
+      {
+        "text": "lại",
+        "start": 218.203,
+        "end": 218.384
+      },
+      {
+        "text": "liên",
+        "start": 218.384,
+        "end": 218.597
+      },
+      {
+        "text": "lạc,",
+        "start": 218.597,
+        "end": 218.778
+      },
+      {
+        "text": "như",
+        "start": 218.778,
+        "end": 218.959
+      }
+    ],
+    [
+      {
+        "text": "người",
+        "start": 218.959,
+        "end": 219.627
+      },
+      {
+        "text": "ta",
+        "start": 219.627,
+        "end": 219.772
+      },
+      {
+        "text": "vá",
+        "start": 219.772,
+        "end": 219.917
+      },
+      {
+        "text": "từng",
+        "start": 219.917,
+        "end": 220.129
+      },
+      {
+        "text": "mắt",
+        "start": 220.129,
+        "end": 220.31
+      },
+      {
+        "text": "lưới",
+        "start": 220.31,
+        "end": 220.522
+      },
+      {
+        "text": "rách",
+        "start": 220.522,
+        "end": 220.734
+      }
+    ],
+    [
+      {
+        "text": "trước",
+        "start": 220.734,
+        "end": 220.974
+      },
+      {
+        "text": "khi",
+        "start": 220.974,
+        "end": 221.389
+      },
+      {
+        "text": "thả",
+        "start": 221.389,
+        "end": 221.57
+      },
+      {
+        "text": "xuống",
+        "start": 221.57,
+        "end": 221.81
+      },
+      {
+        "text": "sông",
+        "start": 221.81,
+        "end": 222.022
+      },
+      {
+        "text": "lần",
+        "start": 222.022,
+        "end": 222.203
+      },
+      {
+        "text": "nữa.",
+        "start": 222.203,
+        "end": 222.384
+      }
+    ],
+    [
+      {
+        "text": "Những",
+        "start": 223.305,
+        "end": 223.535
+      },
+      {
+        "text": "cái",
+        "start": 223.535,
+        "end": 223.709
+      },
+      {
+        "text": "tên",
+        "start": 223.709,
+        "end": 223.883
+      },
+      {
+        "text": "như",
+        "start": 223.883,
+        "end": 224.057
+      },
+      {
+        "text": "Đỗ",
+        "start": 224.057,
+        "end": 224.196
+      },
+      {
+        "text": "Thanh",
+        "start": 224.196,
+        "end": 224.426
+      },
+      {
+        "text": "Nhơn",
+        "start": 224.426,
+        "end": 224.63
+      }
+    ],
+    [
+      {
+        "text": "và",
+        "start": 224.63,
+        "end": 224.769
+      },
+      {
+        "text": "Lê",
+        "start": 224.769,
+        "end": 224.908
+      },
+      {
+        "text": "Văn",
+        "start": 224.908,
+        "end": 225.082
+      },
+      {
+        "text": "Quân",
+        "start": 225.082,
+        "end": 225.286
+      },
+      {
+        "text": "gắn",
+        "start": 225.286,
+        "end": 225.728
+      },
+      {
+        "text": "với",
+        "start": 225.728,
+        "end": 225.901
+      },
+      {
+        "text": "việc",
+        "start": 225.901,
+        "end": 226.105
+      }
+    ],
+    [
+      {
+        "text": "tái",
+        "start": 226.105,
+        "end": 226.279
+      },
+      {
+        "text": "tổ",
+        "start": 226.279,
+        "end": 226.418
+      },
+      {
+        "text": "chức",
+        "start": 226.418,
+        "end": 226.622
+      },
+      {
+        "text": "lực",
+        "start": 226.622,
+        "end": 226.796
+      },
+      {
+        "text": "lượng",
+        "start": 226.796,
+        "end": 227.026
+      },
+      {
+        "text": "quanh",
+        "start": 227.026,
+        "end": 227.256
+      },
+      {
+        "text": "Nguyễn",
+        "start": 227.256,
+        "end": 227.511
+      }
+    ],
+    [
+      {
+        "text": "Ánh.",
+        "start": 227.511,
+        "end": 228.26
+      }
+    ],
+    [
+      {
+        "text": "Lúc",
+        "start": 228.26,
+        "end": 228.434
+      },
+      {
+        "text": "này,",
+        "start": 228.434,
+        "end": 228.608
+      },
+      {
+        "text": "thứ",
+        "start": 228.608,
+        "end": 228.782
+      },
+      {
+        "text": "quý",
+        "start": 228.782,
+        "end": 228.956
+      },
+      {
+        "text": "nhất",
+        "start": 228.956,
+        "end": 229.159
+      },
+      {
+        "text": "không",
+        "start": 229.159,
+        "end": 229.389
+      },
+      {
+        "text": "phải",
+        "start": 229.389,
+        "end": 229.593
+      }
+    ],
+    [
+      {
+        "text": "kinh",
+        "start": 229.593,
+        "end": 229.797
+      },
+      {
+        "text": "đô",
+        "start": 229.797,
+        "end": 229.936
+      },
+      {
+        "text": "hay",
+        "start": 229.936,
+        "end": 230.11
+      },
+      {
+        "text": "ngai",
+        "start": 230.11,
+        "end": 230.313
+      },
+      {
+        "text": "vàng.",
+        "start": 230.313,
+        "end": 230.517
+      }
+    ],
+    [
+      {
+        "text": "Mà",
+        "start": 230.517,
+        "end": 231.4
+      },
+      {
+        "text": "là",
+        "start": 231.4,
+        "end": 231.539
+      },
+      {
+        "text": "người,",
+        "start": 231.539,
+        "end": 231.77
+      },
+      {
+        "text": "là",
+        "start": 231.77,
+        "end": 231.909
+      },
+      {
+        "text": "thuyền,",
+        "start": 231.909,
+        "end": 232.163
+      },
+      {
+        "text": "và",
+        "start": 232.163,
+        "end": 232.303
+      },
+      {
+        "text": "những",
+        "start": 232.303,
+        "end": 232.862
+      }
+    ],
+    [
+      {
+        "text": "tuyến",
+        "start": 232.862,
+        "end": 233.092
+      },
+      {
+        "text": "liên",
+        "start": 233.092,
+        "end": 233.295
+      },
+      {
+        "text": "lạc",
+        "start": 233.295,
+        "end": 233.469
+      },
+      {
+        "text": "chưa",
+        "start": 233.469,
+        "end": 233.673
+      },
+      {
+        "text": "bị",
+        "start": 233.673,
+        "end": 233.812
+      },
+      {
+        "text": "cắt.",
+        "start": 233.812,
+        "end": 233.986
+      }
+    ],
+    [
+      {
+        "text": "Cuối",
+        "start": 234.912,
+        "end": 235.138
+      },
+      {
+        "text": "năm",
+        "start": 235.138,
+        "end": 235.332
+      },
+      {
+        "text": "1777,",
+        "start": 235.332,
+        "end": 235.558
+      },
+      {
+        "text": "lực",
+        "start": 235.558,
+        "end": 235.751
+      },
+      {
+        "text": "lượng",
+        "start": 235.751,
+        "end": 236.007
+      },
+      {
+        "text": "của",
+        "start": 236.007,
+        "end": 236.2
+      },
+      {
+        "text": "Nguyễn",
+        "start": 236.2,
+        "end": 236.738
+      }
+    ],
+    [
+      {
+        "text": "Ánh",
+        "start": 236.738,
+        "end": 236.931
+      },
+      {
+        "text": "đánh",
+        "start": 236.931,
+        "end": 237.157
+      },
+      {
+        "text": "úp",
+        "start": 237.157,
+        "end": 237.312
+      },
+      {
+        "text": "Long",
+        "start": 237.312,
+        "end": 237.538
+      },
+      {
+        "text": "Hồ.",
+        "start": 237.538,
+        "end": 237.693
+      }
+    ],
+    [
+      {
+        "text": "So",
+        "start": 237.693,
+        "end": 237.847
+      },
+      {
+        "text": "với",
+        "start": 237.847,
+        "end": 238.04
+      },
+      {
+        "text": "việc",
+        "start": 238.04,
+        "end": 238.847
+      },
+      {
+        "text": "lấy",
+        "start": 238.847,
+        "end": 239.041
+      },
+      {
+        "text": "lại",
+        "start": 239.041,
+        "end": 239.234
+      },
+      {
+        "text": "cả",
+        "start": 239.234,
+        "end": 239.388
+      },
+      {
+        "text": "Gia",
+        "start": 239.388,
+        "end": 239.582
+      }
+    ],
+    [
+      {
+        "text": "Định,",
+        "start": 239.582,
+        "end": 239.808
+      },
+      {
+        "text": "đó",
+        "start": 239.808,
+        "end": 239.963
+      },
+      {
+        "text": "chỉ",
+        "start": 239.963,
+        "end": 240.399
+      },
+      {
+        "text": "là",
+        "start": 240.399,
+        "end": 240.554
+      },
+      {
+        "text": "một",
+        "start": 240.554,
+        "end": 240.747
+      },
+      {
+        "text": "bước",
+        "start": 240.747,
+        "end": 240.974
+      },
+      {
+        "text": "nhỏ.",
+        "start": 240.974,
+        "end": 241.167
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 241.167,
+        "end": 242.171
+      },
+      {
+        "text": "với",
+        "start": 242.171,
+        "end": 242.364
+      },
+      {
+        "text": "một",
+        "start": 242.364,
+        "end": 242.558
+      },
+      {
+        "text": "nhóm",
+        "start": 242.558,
+        "end": 242.784
+      },
+      {
+        "text": "người",
+        "start": 242.784,
+        "end": 243.04
+      },
+      {
+        "text": "vừa",
+        "start": 243.04,
+        "end": 243.233
+      },
+      {
+        "text": "chạy",
+        "start": 243.233,
+        "end": 243.459
+      }
+    ],
+    [
+      {
+        "text": "trốn,",
+        "start": 243.459,
+        "end": 243.686
+      },
+      {
+        "text": "chuyển",
+        "start": 243.686,
+        "end": 244.267
+      },
+      {
+        "text": "từ",
+        "start": 244.267,
+        "end": 244.422
+      },
+      {
+        "text": "bị",
+        "start": 244.422,
+        "end": 244.577
+      },
+      {
+        "text": "đuổi",
+        "start": 244.577,
+        "end": 244.803
+      },
+      {
+        "text": "sang",
+        "start": 244.803,
+        "end": 245.029
+      },
+      {
+        "text": "đi",
+        "start": 245.029,
+        "end": 245.184
+      }
+    ],
+    [
+      {
+        "text": "đánh",
+        "start": 245.184,
+        "end": 245.41
+      },
+      {
+        "text": "đã",
+        "start": 245.41,
+        "end": 245.565
+      },
+      {
+        "text": "là",
+        "start": 245.565,
+        "end": 245.719
+      },
+      {
+        "text": "một",
+        "start": 245.719,
+        "end": 245.913
+      },
+      {
+        "text": "cú",
+        "start": 245.913,
+        "end": 246.067
+      },
+      {
+        "text": "lật",
+        "start": 246.067,
+        "end": 246.261
+      },
+      {
+        "text": "đáng",
+        "start": 246.261,
+        "end": 246.487
+      }
+    ],
+    [
+      {
+        "text": "kể.",
+        "start": 246.487,
+        "end": 246.641
+      }
+    ],
+    [
+      {
+        "text": "Đầu",
+        "start": 247.588,
+        "end": 247.777
+      },
+      {
+        "text": "năm",
+        "start": 247.777,
+        "end": 247.965
+      },
+      {
+        "text": "1778,",
+        "start": 247.965,
+        "end": 248.186
+      },
+      {
+        "text": "phe",
+        "start": 248.186,
+        "end": 248.375
+      },
+      {
+        "text": "Nguyễn",
+        "start": 248.375,
+        "end": 248.65
+      },
+      {
+        "text": "từng",
+        "start": 248.65,
+        "end": 248.871
+      },
+      {
+        "text": "bước",
+        "start": 248.871,
+        "end": 249.347
+      }
+    ],
+    [
+      {
+        "text": "lấy",
+        "start": 249.347,
+        "end": 249.536
+      },
+      {
+        "text": "lại",
+        "start": 249.536,
+        "end": 249.724
+      },
+      {
+        "text": "một",
+        "start": 249.724,
+        "end": 249.913
+      },
+      {
+        "text": "phần",
+        "start": 249.913,
+        "end": 250.134
+      },
+      {
+        "text": "Gia",
+        "start": 250.134,
+        "end": 250.322
+      },
+      {
+        "text": "Định,",
+        "start": 250.322,
+        "end": 250.543
+      },
+      {
+        "text": "và",
+        "start": 250.543,
+        "end": 250.694
+      }
+    ],
+    [
+      {
+        "text": "Nguyễn",
+        "start": 250.694,
+        "end": 251.406
+      },
+      {
+        "text": "Ánh,",
+        "start": 251.406,
+        "end": 251.595
+      },
+      {
+        "text": "mới",
+        "start": 251.595,
+        "end": 251.783
+      },
+      {
+        "text": "khoảng",
+        "start": 251.783,
+        "end": 252.059
+      },
+      {
+        "text": "mười",
+        "start": 252.059,
+        "end": 252.28
+      },
+      {
+        "text": "sáu",
+        "start": 252.28,
+        "end": 252.468
+      },
+      {
+        "text": "tuổi,",
+        "start": 252.468,
+        "end": 252.689
+      }
+    ],
+    [
+      {
+        "text": "được",
+        "start": 252.689,
+        "end": 252.91
+      },
+      {
+        "text": "các",
+        "start": 252.91,
+        "end": 253.098
+      },
+      {
+        "text": "tướng",
+        "start": 253.098,
+        "end": 253.767
+      },
+      {
+        "text": "tôn",
+        "start": 253.767,
+        "end": 253.955
+      },
+      {
+        "text": "lên",
+        "start": 253.955,
+        "end": 254.144
+      },
+      {
+        "text": "vị",
+        "start": 254.144,
+        "end": 254.294
+      },
+      {
+        "text": "trí",
+        "start": 254.294,
+        "end": 254.483
+      }
+    ],
+    [
+      {
+        "text": "chỉ",
+        "start": 254.483,
+        "end": 254.671
+      },
+      {
+        "text": "huy",
+        "start": 254.671,
+        "end": 254.86
+      },
+      {
+        "text": "cao",
+        "start": 254.86,
+        "end": 255.048
+      },
+      {
+        "text": "hơn.",
+        "start": 255.048,
+        "end": 255.237
+      }
+    ],
+    [
+      {
+        "text": "Nhưng",
+        "start": 255.237,
+        "end": 255.486
+      },
+      {
+        "text": "chưa",
+        "start": 255.486,
+        "end": 255.707
+      },
+      {
+        "text": "phải",
+        "start": 255.707,
+        "end": 256.363
+      },
+      {
+        "text": "lúc",
+        "start": 256.363,
+        "end": 256.552
+      },
+      {
+        "text": "ăn",
+        "start": 256.552,
+        "end": 256.702
+      },
+      {
+        "text": "mừng.",
+        "start": 256.702,
+        "end": 256.923
+      }
+    ],
+    [
+      {
+        "text": "Cuộc",
+        "start": 256.923,
+        "end": 257.144
+      },
+      {
+        "text": "đào",
+        "start": 257.144,
+        "end": 257.332
+      },
+      {
+        "text": "thoát",
+        "start": 257.332,
+        "end": 258.503
+      },
+      {
+        "text": "không",
+        "start": 258.503,
+        "end": 258.753
+      },
+      {
+        "text": "mang",
+        "start": 258.753,
+        "end": 258.973
+      },
+      {
+        "text": "lại",
+        "start": 258.973,
+        "end": 259.162
+      },
+      {
+        "text": "hòa",
+        "start": 259.162,
+        "end": 259.35
+      }
+    ],
+    [
+      {
+        "text": "bình.",
+        "start": 259.35,
+        "end": 259.571
+      }
+    ],
+    [
+      {
+        "text": "Nó",
+        "start": 259.571,
+        "end": 260.239
+      },
+      {
+        "text": "mở",
+        "start": 260.239,
+        "end": 260.389
+      },
+      {
+        "text": "ra",
+        "start": 260.389,
+        "end": 260.54
+      },
+      {
+        "text": "một",
+        "start": 260.54,
+        "end": 260.729
+      },
+      {
+        "text": "vòng",
+        "start": 260.729,
+        "end": 260.95
+      },
+      {
+        "text": "xoáy",
+        "start": 260.95,
+        "end": 261.17
+      },
+      {
+        "text": "mới:",
+        "start": 261.17,
+        "end": 261.359
+      }
+    ],
+    [
+      {
+        "text": "thua,",
+        "start": 261.359,
+        "end": 261.853
+      },
+      {
+        "text": "chạy,",
+        "start": 261.853,
+        "end": 262.074
+      },
+      {
+        "text": "gom",
+        "start": 262.074,
+        "end": 262.262
+      },
+      {
+        "text": "người,",
+        "start": 262.262,
+        "end": 262.735
+      },
+      {
+        "text": "rồi",
+        "start": 262.735,
+        "end": 262.923
+      },
+      {
+        "text": "quay",
+        "start": 262.923,
+        "end": 263.144
+      },
+      {
+        "text": "lại.",
+        "start": 263.144,
+        "end": 263.332
+      }
+    ],
+    [
+      {
+        "text": "Và",
+        "start": 263.332,
+        "end": 263.483
+      },
+      {
+        "text": "cậu",
+        "start": 263.483,
+        "end": 263.672
+      },
+      {
+        "text": "thiếu",
+        "start": 263.672,
+        "end": 264.366
+      },
+      {
+        "text": "niên",
+        "start": 264.366,
+        "end": 264.587
+      },
+      {
+        "text": "ấy",
+        "start": 264.587,
+        "end": 264.737
+      },
+      {
+        "text": "sẽ",
+        "start": 264.737,
+        "end": 264.888
+      },
+      {
+        "text": "còn",
+        "start": 264.888,
+        "end": 265.077
+      }
+    ],
+    [
+      {
+        "text": "phải",
+        "start": 265.077,
+        "end": 265.298
+      },
+      {
+        "text": "chạy",
+        "start": 265.298,
+        "end": 265.518
+      },
+      {
+        "text": "nhiều",
+        "start": 265.518,
+        "end": 265.768
+      },
+      {
+        "text": "lần",
+        "start": 265.768,
+        "end": 265.956
+      },
+      {
+        "text": "nữa.",
+        "start": 265.956,
+        "end": 266.36
       }
     ]
   ],
