@@ -2662,17 +2662,18 @@ function serviceTitle(s) {
   return `${s.label} ${SERVICE_STATE_WORD[s.state]} — ${origin} (${s.url})`;
 }
 
-// A chip per service; a server this panel started also gets a "Dừng" button beside its chip.
+// A chip per service; a server this panel started also gets "Khởi động lại" and "Dừng" beside it.
 function renderServices(services) {
   $("services").innerHTML = services
     .map((s) => {
       const startable = s.state === "stopped" || s.state === "failed";
       const chip = `<button class="btn sm svc" type="button" data-service="${escapeHtml(s.id)}" data-state="${escapeHtml(s.state)}" title="${escapeHtml(serviceTitle(s))}"${startable ? "" : " disabled"}><span class="svc-dot"></span>${escapeHtml(s.label)}<span class="svc-state">${SERVICE_STATE_WORD[s.state]}</span></button>`;
-      const stop =
+      const controls =
         s.managed && s.state === "running"
-          ? `<button class="btn sm quiet svc-stop" type="button" data-stop-service="${escapeHtml(s.id)}" title="Dừng ${escapeHtml(s.label)}">Dừng</button>`
+          ? `<button class="btn sm quiet svc-restart" type="button" data-restart-service="${escapeHtml(s.id)}" data-label="${escapeHtml(s.label)}" title="Khởi động lại ${escapeHtml(s.label)} (tác vụ đang chạy sẽ bị huỷ)">Khởi động lại</button>` +
+            `<button class="btn sm quiet svc-stop" type="button" data-stop-service="${escapeHtml(s.id)}" title="Dừng ${escapeHtml(s.label)}">Dừng</button>`
           : "";
-      return `<span class="svc-item">${chip}${stop}</span>`;
+      return `<span class="svc-item">${chip}${controls}</span>`;
     })
     .join("");
 }
@@ -2715,8 +2716,11 @@ async function requestService(action, id, button) {
   button.disabled = true;
   try {
     const s = await api(`/api/services/${action}`, { id });
-    serviceStates[s.id] = action === "start" ? "starting" : "stopping";
-    toast(action === "start" ? `Đang bật ${s.label}…` : `Đang tắt ${s.label}…`);
+    serviceStates[s.id] = action === "stop" ? "stopping" : "starting";
+    if (action !== "restart")
+      toast(
+        action === "start" ? `Đang bật ${s.label}…` : `Đang tắt ${s.label}…`,
+      );
   } catch (e) {
     toast(e.message, false);
   }
@@ -2724,6 +2728,13 @@ async function requestService(action, id, button) {
 }
 
 $("services").addEventListener("click", (event) => {
+  const restart = event.target.closest("[data-restart-service]");
+  if (restart) {
+    // The request only returns once the old process has exited, so announce it up front.
+    toast(`Đang khởi động lại ${restart.dataset.label}…`);
+    requestService("restart", restart.dataset.restartService, restart);
+    return;
+  }
   const stop = event.target.closest("[data-stop-service]");
   if (stop) {
     requestService("stop", stop.dataset.stopService, stop);

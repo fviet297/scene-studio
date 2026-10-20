@@ -1,10 +1,10 @@
 # NHỮNG CUỘC TRỐN CHẠY CỦA NGUYỄN ÁNH
 
-**Kịch bản kể chuyện điện ảnh, 1777–1785 | 4 phần | 80 cảnh**
+**Kịch bản kể chuyện lịch sử có sắc thái châm biếm nhẹ, 1777–1785 | 4 phần | 80 cảnh**
 
 > Lưu ý sử liệu: hình ảnh là tái dựng AI, không phải tư liệu xác thực. Mốc Côn Lôn/Côn Đảo năm 1783 còn tranh luận; kịch bản không khẳng định chắc chắn địa điểm. Các chi tiết sinh hoạt/cảm xúc là tái dựng, không phải lời trích từ sử liệu.
 
-## Visual Bible & workflow
+## Giọng kể, Visual Bible & workflow
 
 - **Nguyễn Ánh:** Nhân vật Việt Nam dáng người mảnh, mặt trái xoan, mắt sẫm, tóc đen buộc gọn theo phong cách thế kỷ XVIII. Năm 1777 khoảng 15 tuổi; đến 1784–1785 khoảng 22 tuổi, trưởng thành hơn nhưng vẫn cùng khuôn mặt nhận diện. Trang phục chủ đạo là áo giao lĩnh/áo dài cổ chéo kiểu cuối thế kỷ XVIII, vải chàm hoặc nâu, đai đơn giản; không đội vương miện, không mặc long bào Gia Long thế kỷ XIX.
 
@@ -15,6 +15,7 @@
 - **Tàu thuyền và bối cảnh:** Thuyền gỗ, buồm, mái chèo, bến đất, nhà gỗ và mái lá; sông Tiền, các nhánh sông Mekong, cửa Cần Giờ và đảo nhiệt đới. Không đưa tàu máy, đèn điện, bê tông hiện đại, bản đồ hiện đại có nhãn rõ ràng vào khung hình.
 
 - **Phong cách hình ảnh:** Cinematic historical realism; ánh sáng nhiệt đới ẩm, khói sương tự nhiên, tông đất và chàm tiết chế, độ sâu điện ảnh, 16:9. Cảnh chiến trận không máu me; ưu tiên đội hình thuyền, không gian, hậu quả và cảm giác bất định.
+- **Tông narration:** Kể chuyện bình dân, tỉnh bơ và có chút châm biếm: nhấn vào cảnh cứ vừa tìm được chỗ trú lại phải đi, tưởng có viện binh thì lại phải chạy. Sự mỉa mai hướng vào nghịch cảnh và những tính toán trớ trêu, không chế giễu người đói khát hay người vô can.
 
 
 **Prompt tham chiếu nhân vật Nguyễn Ánh:**
@@ -23,20 +24,19 @@
 Create a historically inspired character reference sheet for Nguyễn Ánh, age 15 in 1777: Vietnamese teenage male, slender build, oval face, dark thoughtful eyes, straight black hair tied in a simple late-18th-century topknot, medium warm skin, wearing a dark indigo cross-collar tunic and plain sash. Show front, three-quarter and side views with neutral expression and full-body view, plain muted background, no crown, no later Nguyễn-dynasty imperial robe, no text. Cinematic historical realism, 16:9, high detail; this is an illustrative design, not an authenticated portrait.
 ```
 
-**Cách dùng:** Mỗi cảnh có lời narration tiếng Việt, prompt ảnh và prompt video tiếng Anh. Mỗi prompt đã kèm phần style/motion continuity, nên có thể sao chép riêng. Đề xuất clip 6–10 giây, 16:9.
+**Cách dùng:** Mỗi cảnh có lời narration tiếng Việt, prompt ảnh và prompt video tiếng Anh. Mạch hình ảnh ưu tiên hành trình trốn chạy, thiếu thốn, chờ tin, chuẩn bị rời đi và hậu quả sau thất bại; chiến trận chỉ xuất hiện như bối cảnh ngắn, không mô tả chiến thuật chi tiết. Mỗi clip đề xuất dài 6–10 giây, tỷ lệ 16:9. Lời kể có sắc thái châm biếm nhẹ, nhưng không gán lời thoại hư cấu cho nhân vật lịch sử.
 
 
 # PHẦN 1 — NGƯỜI SỐNG SÓT CỦA DÒNG HỌ NGUYỄN
 
 *Thời gian: 1777–1778 | 20 cảnh*
 
-Từ một thiếu niên đứng bên bờ sụp đổ của chính quyền chúa Nguyễn, Nguyễn Ánh thoát khỏi cuộc truy quét và trở lại Long Xuyên, mở đầu cuộc chiến kéo dài nhiều thập niên.
+Mở đầu bằng một thiếu niên phải chạy thoát giữa lúc gia tộc sụp đổ. Chưa có chuyện phục quốc oai phong; trước mắt, Nguyễn Ánh chỉ cần tìm được chỗ trốn, người đi cùng và đường sống cho ngày hôm sau.
 
 
 ## Cảnh 01 — Mở đầu: miền Nam trong khói lửa
 
-**Narration:** Cuối thế kỷ XVIII, vùng đất Gia Định không còn yên ổn. Những cuộc tranh chấp quyền lực lan theo đường sông, cửa biển và các thành lũy; giữa biến động ấy, một dòng họ đang mất dần quyền kiểm soát.
-
+**Narration:** Cuối thế kỷ XVIII, Gia Định bước vào thời kỳ mà tin vui thường sống không quá một buổi. Quyền lực đổi chủ, thuyền bè xuôi ngược, còn người dân và những nhà quyền quý đều phải tự hỏi: ngày mai mình còn ở đúng chỗ hôm nay không?
 
 **Prompt ảnh:**
 
@@ -56,13 +56,12 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 02 — Tây Sơn trỗi dậy
 
-**Narration:** Phong trào Tây Sơn đã làm rung chuyển trật tự cũ. Sau những thắng lợi liên tiếp, quân Tây Sơn tiến sâu về phía Nam, nơi phe Nguyễn vừa phải chống đối thủ bên ngoài, vừa đối mặt với sự chia rẽ trong nội bộ.
-
+**Narration:** Tây Sơn tiến xuống phía Nam, và phe Nguyễn bắt đầu thấy cái giá của việc mất thế chủ động. Trên giấy tờ, họ vẫn có người, có thành, có thuyền. Ngoài thực tế, mỗi tuần lại có thêm một nơi phải bỏ lại.
 
 **Prompt ảnh:**
 
 ```text
-Late-18th-century Tây Sơn troops moving along a riverbank in southern Vietnam, cloth standards, wooden boats and period garments, disciplined formation seen from a respectful distance.
+Late-18th-century Nguyễn retainers watching distant movement on the river from a shaded riverside house, packed travel bundles ready, an uncertain and tense atmosphere, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -70,15 +69,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A measured tracking shot follows the marching column along the riverbank; flags ripple, feet stir dust, boats rock gently at their moorings.
+The camera stays with Nguyễn retainers watching the river; one quietly lifts a travel bundle as distant sails emerge through the haze, no battle shown.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 03 — Nguyễn Ánh ở tuổi mười lăm
 
-**Narration:** Nguyễn Ánh sinh năm 1762. Đến năm 1777, ông mới khoảng mười lăm tuổi, còn quá trẻ để tự mình quyết định vận mệnh, nhưng đã bị cuốn vào cuộc chiến sống còn của gia tộc.
-
+**Narration:** Nguyễn Ánh sinh năm 1762; năm 1777, ông mới khoảng mười lăm tuổi. Ở tuổi người khác còn lo chuyện học hành, ông đã phải học một môn chẳng ai đăng ký: làm sao biến mất trước khi người truy tìm tới nơi.
 
 **Prompt ảnh:**
 
@@ -98,8 +96,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 04 — Tin dữ từ tuyến trước
 
-**Narration:** Tin quân Tây Sơn tiến đến nhanh chóng truyền qua các bến sông. Những người từng tin rằng thành lũy và quân đội có thể giữ được Gia Định giờ phải tính đến con đường rút lui.
-
+**Narration:** Tin xấu chạy dọc các bến sông nhanh hơn bất cứ đoàn người nào. Những người trong phe Nguyễn buộc phải chuẩn bị rời đi. Khi phải lo gói ghém trước cả bữa ăn kế tiếp, chuyện giữ thể diện triều đình bỗng thành thứ xa xỉ.
 
 **Prompt ảnh:**
 
@@ -117,15 +114,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 05 — Thuyền chiến tiến vào
+## Cảnh 05 — Trên sông, lối thoát cũng hẹp dần
 
-**Narration:** Cuộc tiến công của năm 1777 đưa chiến tranh đến gần các trung tâm của phe Nguyễn. Trên sông, những đoàn thuyền nối nhau xuất hiện, báo hiệu rằng lối thoát trên mặt nước cũng có thể sớm bị chặn.
-
+**Narration:** Những đoàn thuyền lạ xuất hiện ngoài sông. Con đường từng dùng để chuyển lương thực giờ có thể là lối đối phương đi tới. Nước vẫn chảy đều, chỉ có kế hoạch của phe Nguyễn là liên tục mắc cạn.
 
 **Prompt ảnh:**
 
 ```text
-A broad flotilla of late-18th-century wooden war junks advancing through a tropical estuary, low sails and oars, distant fortified riverbank, cloudy monsoon sky, non-graphic historical tableau.
+Distant wooden vessels appearing through humid river haze while a few small family boats quietly pull away from the bank, the feeling of a route closing, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -133,20 +129,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-Water-level camera tracks beside the moving wooden vessels; oars dip in rhythm, rigging creaks in the wind, distant shore slowly approaches.
+Distant vessels advance through river mist while small boats slip quietly away from the bank; the camera remains with the people preparing to leave, not the fighting.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 06 — Phòng tuyến lung lay
 
-**Narration:** Lực lượng phòng thủ liên tiếp chịu sức ép. Những tuyến sông vốn là đường giao thông và tiếp tế giờ trở thành chiến tuyến, nơi một thất bại có thể cắt đứt liên lạc giữa các nhóm quân.
-
+**Narration:** Các điểm phòng thủ dần trở nên khó giữ. Một bến sông mất đi là thêm một lối đi bị khóa; một kho lương bỏ lại là thêm vài ngày sống khó hơn. Bản đồ vẫn còn nguyên, nhưng những chỗ có thể nghỉ chân thì cứ ít dần.
 
 **Prompt ảnh:**
 
 ```text
-A late-18th-century defensive river post in southern Vietnam, wooden palisades, watch platform, anxious soldiers looking toward incoming boats, no modern structures or equipment.
+A quiet late-18th-century river post after its defenders have begun to leave, abandoned baskets and rolled mats beside a wooden watch platform, distant smoke only, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -154,15 +149,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera pans along the palisade toward the river; soldiers turn their heads, flags snap lightly and water reflects the gray sky.
+A slow pan crosses the nearly abandoned river post, pausing on a packed basket and empty watch platform as distant smoke drifts past, no active combat.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 07 — Rút lui qua miền sông nước
 
-**Narration:** Khi các vị trí phòng thủ mất dần, những người thuộc phe Nguyễn phải rời nơi đóng quân. Cuộc rút lui không phải một hành trình có kế hoạch hoàn hảo, mà là chuỗi quyết định gấp gáp trước sức ép đang áp sát.
-
+**Narration:** Cuộc rút lui bắt đầu bằng những thứ rất đời thường: gói đồ, tìm thuyền, gọi người còn ở lại và quyết định thứ gì phải bỏ. Không có thời gian cho một cuộc chia tay dài. Khi đối thủ đang đến, hành lý nhẹ đôi khi quý hơn cả đồ quý.
 
 **Prompt ảnh:**
 
@@ -182,8 +176,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 08 — Long Hưng, rồi Long Xuyên
 
-**Narration:** Các nhân vật chủ chốt trong chính quyền Nguyễn lần lượt rút về những địa điểm khác nhau ở miền Tây. Định Vương Nguyễn Phúc Thuần tìm đường đến Long Xuyên, trong khi tình thế của cả phe Nguyễn ngày càng nguy cấp.
-
+**Narration:** Định Vương Nguyễn Phúc Thuần phải tìm đường về miền Tây, trong khi những người còn lại tản ra nhiều hướng. Càng đi sâu vào vùng sông nước, họ càng có nhiều lối nhỏ để tránh bị phát hiện — và cũng càng dễ lạc nhau.
 
 **Prompt ảnh:**
 
@@ -203,13 +196,12 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 09 — Sụp đổ của Tân Chính Vương
 
-**Narration:** Tháng chín năm 1777, Nguyễn Phúc Dương, tức Tân Chính Vương, bị bắt và bị giết cùng những người theo hầu. Sự kiện ấy đánh dấu thêm một bước sụp đổ của dòng chính quyền chúa Nguyễn ở Đàng Trong.
-
+**Narration:** Tháng 9 năm 1777, Nguyễn Phúc Dương, tức Tân Chính Vương, bị bắt và bị giết cùng những người theo hầu. Với phe Nguyễn, đây không chỉ là thêm một mất mát; đó là lời nhắc rất rõ rằng danh phận cao đến đâu cũng không giúp người ta an toàn khi đã mất chỗ dựa.
 
 **Prompt ảnh:**
 
 ```text
-Somber exterior of a deserted temporary court encampment after a defeat, discarded ceremonial cloth and empty wooden seats, figures in the far background, no bodies, no blood, no graphic detail.
+An emptied late-18th-century temporary court encampment, an abandoned wooden seat and ceremonial cloth left behind, a few distant figures leaving the grounds, no bodies or graphic detail.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -217,20 +209,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow, restrained dolly through the abandoned encampment; a loose strip of cloth moves in the wind as distant figures disappear beyond the trees.
+The camera slowly passes the abandoned temporary court and settles on the empty seat while a few figures disappear beyond the trees, no graphic detail.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 10 — Long Xuyên bị truy kích
 
-**Narration:** Đến tháng mười, quân Tây Sơn tiếp tục truy kích Định Vương Nguyễn Phúc Thuần tại Long Xuyên. Những người còn lại quanh ông không thể đảo ngược tình thế, và Nguyễn Ánh đứng trước nguy cơ mất đi những người thân cuối cùng trong cuộc chiến.
-
+**Narration:** Đến tháng 10, quân Tây Sơn tiếp tục truy kích Định Vương ở Long Xuyên. Những người quanh ông không còn nhiều lựa chọn. Còn Nguyễn Ánh, một thiếu niên giữa cuộc rối ren ấy, sắp phải tự tìm câu trả lời cho câu hỏi đơn giản nhất: chạy đường nào để còn sống?
 
 **Prompt ảnh:**
 
 ```text
-A small riverside refuge near Long Xuyên under threat, a few attendants gathering travel bundles, distant boats barely visible through morning mist, 18th-century southern Vietnamese setting.
+A small riverside refuge near Long Xuyên, attendants hurriedly tying bundles to a modest wooden boat while looking back toward the tree line, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -238,15 +229,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera circles slowly around the hurried preparations; a boatman loosens a mooring rope and mist drifts between the trees.
+Attendants hurry to secure bundles in a wooden boat; the camera glances back toward the treeline, then follows the boat as it leaves the bank.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 11 — Một mình thoát nạn
 
-**Narration:** Ngày 18 tháng 10 năm 1777, Định Vương bị giết cùng một số thân thuộc và tướng lĩnh. Theo biên niên sử được các nhà nghiên cứu dẫn lại, Nguyễn Ánh, khi ấy mười lăm tuổi, là người chạy thoát.
-
+**Narration:** Theo các ghi chép được dẫn lại, Nguyễn Phúc Thuần cùng nhiều thân thuộc và tướng lĩnh bị bắt, còn Nguyễn Ánh chạy thoát. Gọi đó là may mắn cũng được, nhưng là kiểu may mắn chẳng có gì để ăn mừng: ông sống, trong khi gần như mọi chỗ dựa quen thuộc đều biến mất.
 
 **Prompt ảnh:**
 
@@ -266,8 +256,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 12 — Đêm không có nơi trú
 
-**Narration:** Sử liệu không ghi lại từng bước chân của cuộc đào thoát. Có thể hình dung đây là khoảng thời gian của sợ hãi, im lặng và những lựa chọn trong bóng tối, khi một thiếu niên phải tìm cách sống sót.
-
+**Narration:** Sử liệu không ghi Nguyễn Ánh đã ngủ ở đâu trong những đêm trốn chạy. Có thể hình dung điều quan trọng nhất lúc ấy không phải tìm chỗ nghỉ cho dễ chịu, mà là tìm chỗ đủ kín để sáng hôm sau còn có cơ hội đi tiếp.
 
 **Prompt ảnh:**
 
@@ -287,8 +276,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 13 — Những con rạch nhỏ
 
-**Narration:** Ở vùng đồng bằng chằng chịt sông rạch, địa hình vừa gây khó khăn cho việc di chuyển, vừa có thể che giấu người đang bị truy tìm. Nước, lau sậy và những lối đi nhỏ trở thành một phần của hành trình sống còn.
-
+**Narration:** Miền Tây có vô số rạch nhỏ, bờ lau và lối nước quanh co. Với người bị truy tìm, đó vừa là tấm màn che vừa là cái bẫy: rẽ đúng thì thoát, rẽ nhầm thì tự đưa mình vào chỗ không còn đường ra.
 
 **Prompt ảnh:**
 
@@ -308,8 +296,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 14 — Không lời tuyên thệ
 
-**Narration:** Không có lời nói nào được xác nhận là của Nguyễn Ánh trong những ngày ấy. Thay vì gán cho ông một câu thoại hư cấu, câu chuyện chỉ giữ lại điều có thể thấy từ diễn biến lịch sử: ông đã không bị bắt cùng những người còn lại.
-
+**Narration:** Chẳng có lời thề hùng hồn nào được ghi lại trong những ngày ấy. Điều có thể nói là Nguyễn Ánh vẫn tiếp tục lẩn tránh, giữ mạng và chờ lúc có thể quay lại.
 
 **Prompt ảnh:**
 
@@ -329,8 +316,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 15 — Một tháng sau
 
-**Narration:** Khoảng một tháng sau cuộc truy quét, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Sự trở lại ấy không đồng nghĩa với chiến thắng; nó chỉ cho thấy cuộc chiến chưa kết thúc và vẫn còn người sẵn sàng đi theo ông.
-
+**Narration:** Khoảng một tháng sau, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Đó chưa phải màn trở về trong tiếng trống và cờ xí; nó giống việc một người vừa qua khỏi cơn nguy cấp, nhìn quanh và nhận ra mình vẫn còn một vài người để gọi tên.
 
 **Prompt ảnh:**
 
@@ -350,8 +336,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 16 — Gặp lại những người cũ
 
-**Narration:** Những người còn trung thành bắt đầu tập hợp quanh Nguyễn Ánh. Mạng lưới ấy chưa thể sánh với một chính quyền ổn định, nhưng tạo nên nền tảng cho một cuộc phản công được chuẩn bị từ những lực lượng còn sót lại.
-
+**Narration:** Một số tướng lĩnh và người theo phe Nguyễn bắt đầu tìm về. Họ chưa thể dựng lại một chính quyền vững vàng, nhưng ít nhất không còn phải xoay xở hoàn toàn đơn độc. Trong thời buổi ấy, có người chịu ở lại đã là một loại tài sản quý.
 
 **Prompt ảnh:**
 
@@ -371,8 +356,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 17 — Về phía Sa Đéc
 
-**Narration:** Tháng mười một năm 1777, Nguyễn Ánh cùng một số tướng cũ tiến đến Sa Đéc. Từ những điểm trú ẩn rải rác, phe Nguyễn bắt đầu nối lại liên lạc và thử khôi phục một lực lượng có thể hành động.
-
+**Narration:** Tháng 11 năm 1777, Nguyễn Ánh cùng một số tướng cũ tiến về Sa Đéc. Hành trình trở lại không giống chuyến đi của một đoàn quân chiến thắng; đó là nỗ lực nối lại những mối liên lạc đã đứt, từ bến này sang bến khác.
 
 **Prompt ảnh:**
 
@@ -392,8 +376,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 18 — Tập hợp ở miền Tây
 
-**Narration:** Những cái tên như Đỗ Thanh Nhơn và Lê Văn Quân gắn với quá trình tái tổ chức lực lượng Nguyễn. Lúc này, điều quan trọng không phải là sở hữu một kinh đô, mà là giữ được người, thuyền và các tuyến liên lạc.
-
+**Narration:** Phe Nguyễn bắt đầu gom lại người, thuyền và nguồn tiếp tế. Nghe thì đơn giản, nhưng thử làm việc đó khi ai cũng có lý do để bỏ đi mới thấy khó. Một lực lượng có thể dựng lại bằng lời hứa; để nó ở lại với nhau thì cần nhiều hơn thế.
 
 **Prompt ảnh:**
 
@@ -411,15 +394,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 19 — Đánh úp Long Hồ
+## Cảnh 19 — Long Hồ: một lần ngoi lên
 
-**Narration:** Cuối năm 1777, lực lượng của Nguyễn Ánh tiến hành một cuộc đánh úp tại Long Hồ. Đó là một bước đi nhỏ so với việc khôi phục toàn bộ Gia Định, nhưng đủ để cho thấy phe Nguyễn vẫn có khả năng tập hợp và chủ động phản kích.
-
+**Narration:** Cuối năm 1777, lực lượng của Nguyễn Ánh bất ngờ đánh úp tại Long Hồ. Ta không cần đi sâu vào cách đánh; điều đáng chú ý là phe Nguyễn đã có thể ngẩng đầu trở lại sau nhiều tháng chỉ lo thoát thân. Lần này, ít nhất họ chủ động được một việc.
 
 **Prompt ảnh:**
 
 ```text
-Night raid on a riverside outpost at Long Hồ, shadowed wooden boats approaching a quiet landing, lanterns dimmed, figures moving through river mist, no graphic violence.
+A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ at dusk, cautious faces and a nearly empty riverbank, showing a fragile return rather than battle.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -427,15 +409,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera moves quietly with the approaching boats; paddles dip without splashes, lanterns glow faintly and silhouettes advance through mist.
+A restrained tracking shot follows a small group loading supplies and pushing away from the Long Hồ riverbank at dusk, emphasizing caution and a fragile comeback.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 20 — Trở lại — nhưng chiến tranh chưa kết thúc
 
-**Narration:** Đầu năm 1778, thế lực Nguyễn từng bước lấy lại một phần Gia Định và Nguyễn Ánh được các tướng tôn lên vị trí chỉ huy cao hơn. Cuộc đào thoát không đem lại hòa bình; nó mở ra vòng xoáy mới, nơi mỗi thất bại lại buộc ông rút lui, tập hợp người và tìm cách trở về.
-
+**Narration:** Đầu năm 1778, phe Nguyễn lấy lại được một phần Gia Định và Nguyễn Ánh được các tướng tôn lên vị trí chỉ huy cao hơn. Nhưng đừng vội gọi đó là kết thúc đẹp: ông vừa quay lại được bàn cờ, còn bàn cờ thì vẫn đầy những ô có thể khiến ông phải bỏ chạy lần nữa.
 
 **Prompt ảnh:**
 
@@ -457,13 +438,12 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 *Thời gian: 1782–đầu 1783 | 20 cảnh*
 
-Nguyễn Ánh giành lại thế đứng nhưng không giữ được Gia Định lâu dài. Các trận thua năm 1782 và 1783 đẩy ông ngày càng xa đất liền.
+Phe Nguyễn vừa lấy lại được chỗ đứng thì lại phải bỏ đi. Nguyễn Ánh chạy về Ba Giồng, ra Phú Quốc, quay lại đất liền rồi tiếp tục tìm đường thoát khi nguy hiểm ập đến.
 
 
 ## Cảnh 01 — Tái thiết Gia Định
 
-**Narration:** Sau những biến động cuối năm 1777, phe Nguyễn từng bước xây dựng lại lực lượng tại Gia Định. Trong vài năm, họ tổ chức lại quân ngũ, đóng thuyền và cố giữ các tuyến sông quan trọng.
-
+**Narration:** Sau khi thoát nạn, Nguyễn Ánh quay lại Gia Định và bắt đầu dựng lại lực lượng. Công việc nghe giống tái thiết sau khủng hoảng, chỉ khác là không có ngân sách ổn định, nhân sự hay bỏ đi, và đối thủ có thể xuất hiện ngay ngoài cửa sông.
 
 **Prompt ảnh:**
 
@@ -483,8 +463,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 02 — Một thế lực chưa vững
 
-**Narration:** Quyền lực của Nguyễn Ánh vẫn dựa vào những tướng lĩnh và nhóm quân có lợi ích riêng. Những mâu thuẫn bên trong khiến sức mạnh ấy không hoàn toàn ổn định, ngay cả khi các phòng tuyến được gia cố.
-
+**Narration:** Quyền lực của Nguyễn Ánh vẫn phụ thuộc nhiều vào các tướng lĩnh và nhóm quân riêng. Liên minh ấy có ích khi mọi việc thuận lợi, nhưng lúc nguy cấp thì ai cũng phải tự tính xem nên ở lại hay giữ đường lui cho mình.
 
 **Prompt ảnh:**
 
@@ -502,15 +481,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 03 — Hạm đội Tây Sơn ở Cần Giờ
+## Cảnh 03 — Tin thuyền Tây Sơn đến Cần Giờ
 
-**Narration:** Mùa xuân năm 1782, Nguyễn Nhạc và Nguyễn Huệ đưa một lực lượng thủy quân lớn tiến vào cửa Cần Giờ. Cuộc tiến công này đặt Gia Định trước một thử thách mới và buộc Nguyễn Ánh phải đối mặt với nguy cơ mất căn cứ.
-
+**Narration:** Mùa xuân năm 1782, tin một hạm đội lớn của Tây Sơn tiến vào cửa Cần Giờ khiến Gia Định lại đứng trước nguy cơ. Từ xa, những cánh buồm có thể trông rất bình thản. Với người đang ở bờ bên này, đó là lời nhắc rằng kỳ nghỉ yên ổn lại bị hủy.
 
 **Prompt ảnh:**
 
 ```text
-A large late-18th-century wooden fleet entering the Cần Giờ estuary, humid gray sky, mangrove shoreline, sails and oars, historically inspired naval scene.
+From the bank, a broad line of late-18th-century wooden vessels appears on the far horizon near Cần Giờ, seen through humid haze by anxious lookouts, no battle in frame.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -518,20 +496,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A water-level shot moves alongside the fleet as sails fill with wind and the estuary opens ahead.
+From behind the lookout, the camera slowly reveals distant sails near Cần Giờ; cloth flutters in the breeze as attendants exchange worried glances, no battle shown.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 04 — Phòng tuyến trên sông
+## Cảnh 04 — Sông ngòi không phải lá chắn
 
-**Narration:** Phe Nguyễn tìm cách ngăn chặn đối phương bằng thủy quân. Trên những nhánh sông giao nhau, thuyền chiến khó xoay trở nhanh, còn dòng nước và gió làm tình hình càng khó đoán.
-
+**Narration:** Các nhánh sông vốn giúp đi lại nay cũng có thể biến thành đường bị chặn. Thuyền nặng xoay trở khó, tin tức đến chậm, còn người giữ bến phải đoán xem đối phương sẽ xuất hiện ở đâu. Nói ngắn gọn: địa hình quen thuộc không tự động biến thành lợi thế.
 
 **Prompt ảnh:**
 
 ```text
-Late-18th-century river battle preparations near a network of southern Vietnamese waterways, wooden boats facing one another at a distance, crews in period garments, overcast light.
+A few late-18th-century wooden boats moving cautiously through a branching river channel, watchmen scanning both banks, heavy overcast light and a feeling of uncertainty, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -539,20 +516,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera pans across two opposing groups of boats; water currents move between them and flags flutter unevenly in the wind.
+The camera glides beside a wooden boat through a branching channel; lookouts scan each bank while the boat advances slowly, no combat.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 05 — Thất bại ở Ngã Bảy
+## Cảnh 05 — Ngã Bảy: lại thêm một lần mất chỗ đứng
 
-**Narration:** Theo biên niên sử, quân Nguyễn chịu thất bại nặng ở khu vực Ngã Bảy. Khi thế trận tan vỡ, khả năng giữ Gia Định suy giảm nhanh, và Nguyễn Ánh phải nghĩ đến một cuộc rút lui mới.
-
+**Narration:** Phe Nguyễn thất bại ở khu vực Ngã Bảy và không còn giữ được thế đứng tại Gia Định như trước. Kết quả thì không thể né: lại phải thu dọn, rời đi và tìm nơi có thể trú tạm.
 
 **Prompt ảnh:**
 
 ```text
-Aftermath of an 18th-century river engagement at Ngã Bảy, scattered empty boats and torn cloth near a misty river bend, distant retreating silhouettes, no bodies or graphic detail.
+The quiet aftermath of a setback in the late-18th-century Mekong Delta: tired Nguyễn retainers collecting scattered bundles beside a muddy landing, a few damaged boats in the distance, no bodies or combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -560,15 +536,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow boat-height drift passes the quiet aftermath; loose ropes move in the current and smoke thins toward the horizon.
+Tired retainers gather a few bundles from a muddy landing and help one another board a boat; distant haze suggests danger without depicting fighting.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 06 — Chạy về Ba Giồng
 
-**Narration:** Nguyễn Ánh rút về Ba Giồng, vùng đất có địa hình sông rạch và gò thấp. Một lần nữa, khoảng cách với trung tâm quyền lực được đổi lấy cơ hội thoát khỏi vòng truy kích trước mắt.
-
+**Narration:** Nguyễn Ánh chạy về Ba Giồng. Cái tên địa danh nghe có vẻ bình yên, nhưng chuyến đến đó chẳng phải một chuyến dã ngoại. Ông đang đổi căn cứ lấy khoảng cách với người truy đuổi — một phép tính quen thuộc, dù lần nào cũng đắt đỏ.
 
 **Prompt ảnh:**
 
@@ -588,8 +563,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 07 — Phú Quốc hiện ra
 
-**Narration:** Sau thất bại năm 1782, Nguyễn Ánh chạy ra Phú Quốc. Từ đất liền, ông chuyển sang một nơi trú ẩn ngoài khơi, nơi biển có thể tạo ra khoảng cách với quân truy đuổi nhưng cũng khiến việc tiếp tế trở nên khó khăn.
-
+**Narration:** Sau thất bại năm 1782, Nguyễn Ánh chạy ra Phú Quốc. Từ đất liền ra đảo, ông đổi một kiểu nguy hiểm lấy kiểu khác: ít đường bộ hơn, nhưng mọi thứ từ lương thực đến tin tức đều phải trông vào thuyền.
 
 **Prompt ảnh:**
 
@@ -609,8 +583,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 08 — Trú ẩn giữa rừng và biển
 
-**Narration:** Một hòn đảo có thể là nơi lánh nạn, nhưng không thể tự biến thành thành trì an toàn. Đường ra vào phụ thuộc vào thuyền, thời tiết và tin tức từ đất liền; mỗi chuyến đi đều có thể đem theo cơ hội hoặc nguy hiểm.
-
+**Narration:** Đảo có rừng, có vịnh nhỏ và nhiều góc khuất; nghe qua khá lý tưởng. Nhưng rừng không tự nấu cơm, còn biển không cam kết ngày nào cũng cho thuyền cập bến. Một nơi ẩn náu chỉ tốt cho đến khi người ở đó hết đồ ăn hoặc bị phát hiện.
 
 **Prompt ảnh:**
 
@@ -630,8 +603,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 09 — Tin từ đất liền
 
-**Narration:** Trong lúc Nguyễn Ánh ở ngoài đảo, tình thế tại Gia Định tiếp tục thay đổi. Tin tức đến bằng thuyền nhỏ, chậm chạp và không đầy đủ, khiến mọi quyết định phải được đưa ra trong điều kiện thiếu chắc chắn.
-
+**Narration:** Tin từ đất liền đến bằng thuyền nhỏ và thường không đầy đủ. Nguyễn Ánh phải quyết định dựa trên những mẩu thông tin có thể đã cũ vài ngày. Trong hoàn cảnh ấy, đoán sai một lần có thể khiến cả đoàn phải lại lên đường.
 
 **Prompt ảnh:**
 
@@ -651,8 +623,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 10 — Châu Văn Tiếp phản công
 
-**Narration:** Tháng chín đến tháng mười năm 1782, Châu Văn Tiếp chiếm lại Gia Định và đón Nguyễn Ánh trở về. Việc quay lại đất liền cho thấy các cuộc trốn chạy của ông thường không phải điểm kết thúc, mà là khoảng lùi để chờ thời cơ.
-
+**Narration:** Cuối năm 1782, Châu Văn Tiếp chiếm lại Gia Định và đón Nguyễn Ánh trở về. Cuộc trở về là tin tốt, dĩ nhiên; chỉ có điều nhà cũ vừa được lấy lại chưa kịp sửa xong thì người ta đã phải nghĩ xem lần sau sẽ chạy theo hướng nào.
 
 **Prompt ảnh:**
 
@@ -672,8 +643,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 11 — Trở về nhưng chưa an toàn
 
-**Narration:** Nguyễn Ánh trở lại một Gia Định vừa được giành lại, nhưng chiến sự chưa chấm dứt. Các đồn lũy và thuyền chiến được sửa sang trong tâm thế rằng đối phương có thể trở lại bất cứ lúc nào.
-
+**Narration:** Nguyễn Ánh trở lại Gia Định, nhưng cảm giác an toàn thì không đi cùng. Những người quanh ông sửa sang chỗ đóng quân trong khi vẫn canh tin từ các tuyến sông. Ở đây, ngay cả lúc đang trở về cũng chẳng ai dám tháo giày nghỉ lâu.
 
 **Prompt ảnh:**
 
@@ -691,15 +661,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 12 — Một cuộc tấn công mới
+## Cảnh 12 — Đối thủ quay lại
 
-**Narration:** Đầu năm 1783, Nguyễn Huệ và Nguyễn Lữ lại tiến vào Gia Định. Quân Nguyễn có chuẩn bị, nhưng sức ép từ những hướng khác nhau khiến việc giữ vững phòng tuyến ngày càng khó khăn.
-
+**Narration:** Đầu năm 1783, quân Tây Sơn lại tiến vào Gia Định. Chỉ một thời gian ngắn sau khi quay về, Nguyễn Ánh đã phải chuẩn bị cho một chuyến rút lui khác. Nếu có ai hỏi kế hoạch dài hạn là gì, có lẽ câu trả lời thực tế nhất lúc ấy chỉ là: trước hết, sống qua tuần này.
 
 **Prompt ảnh:**
 
 ```text
-Multiple groups of late-18th-century wooden boats advancing through intersecting waterways near Cần Giờ, southern Vietnam, distant riverbank forts under a heavy sky.
+Messengers arrive at a late-18th-century riverside camp with urgent news; exhausted men pause over travel bundles and a rough river map, no battle shown.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -707,20 +676,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-An aerial-style camera move traces the waterways as separate boat groups advance toward the same broad river basin.
+A messenger arrives at the camp and hands over a folded note; the group studies a rough river map, then begins quietly packing.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 13 — Bè hỏa công mất kiểm soát
+## Cảnh 13 — Kế hoạch hỏa công phản tác dụng
 
-**Narration:** Sử liệu kể rằng bè hỏa công của quân Nguyễn bị ngược gió, quay lại đốt thuyền của chính mình. Một kế hoạch định chặn đối phương vì thế lại góp phần làm đội hình phòng thủ rối loạn.
-
+**Narration:** Sử liệu kể rằng bè hỏa công của quân Nguyễn gặp gió bất lợi và quay lại gây rối cho chính thuyền của mình. Một kế hoạch nghe có vẻ thông minh đã gặp đúng người phản biện khó chịu nhất: thời tiết. Và Nguyễn Ánh lại phải tính đường tháo lui.
 
 **Prompt ảnh:**
 
 ```text
-A non-graphic historical illustration of an unmanned burning raft drifting back toward a cluster of wooden boats on a river, smoke and orange reflections, crews moving away at a safe distance.
+A late-18th-century river landing after a failed fire-raft plan, driftwood and smoke near the water, anxious attendants preparing to leave, no close-up fighting or casualties.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -728,15 +696,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera follows the burning raft as wind pushes it sideways; smoke streams across the river and nearby boats turn away in confusion, no explosions or injuries shown.
+Smoke drifts across a deserted river landing; attendants collect what remains and push a small boat into the water, no combat or casualties shown.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 14 — Rút về Ba Giồng lần nữa
 
-**Narration:** Sau thất bại, Nguyễn Ánh chạy về Ba Giồng. Đội ngũ từng được gây dựng nhiều năm nhanh chóng tan rã; người ở lại bên cạnh ông chỉ còn một nhóm nhỏ so với lực lượng trước đó.
-
+**Narration:** Sau thất bại, ông chạy về Ba Giồng lần nữa. Lực lượng từng được gây dựng qua nhiều năm lại tản ra. Đội tùy tùng nhỏ đi, đồ mang theo ít đi, còn danh sách những nơi không thể ở lâu thì dài lên rất nhanh.
 
 **Prompt ảnh:**
 
@@ -756,8 +723,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 15 — Lật Giang: dòng nước dữ
 
-**Narration:** Trong một lần bị dồn ép, Nguyễn Ánh chạy đến Lật Giang, nơi dòng sông chảy mạnh. Biên niên sử thuật lại rằng ông bơi giỏi và đã thoát chết trong khi nhiều binh sĩ bị dòng nước cuốn đi.
-
+**Narration:** Trong một lần bị dồn ép, Nguyễn Ánh chạy đến Lật Giang. Sử liệu thuật lại rằng ông bơi giỏi và thoát chết giữa dòng nước mạnh, trong khi nhiều người khác gặp nạn. Đôi khi, kế hoạch thoát thân của cả một phe lại phụ thuộc vào kỹ năng rất cá nhân: biết bơi và chưa hết sức.
 
 **Prompt ảnh:**
 
@@ -777,8 +743,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 16 — Mỹ Tho — chuẩn bị rời đất liền
 
-**Narration:** Sau khi thoát qua sông, Nguyễn Ánh đến Mỹ Tho. Tại đây, ông cho thuyền đưa gia quyến ra Phú Quốc, lựa chọn bảo toàn những người thân trong lúc chính mình tiếp tục tìm đường thoát khỏi vòng vây.
-
+**Narration:** Sau khi qua được dòng sông, Nguyễn Ánh đến Mỹ Tho. Gia quyến được đưa ra Phú Quốc trước, còn ông tiếp tục lo đường đi nước bước. Khi chẳng thể bảo đảm an toàn cho tất cả ở cùng một nơi, chia đoàn ra có thể là lựa chọn hợp lý — dù chẳng dễ chịu cho ai.
 
 **Prompt ảnh:**
 
@@ -798,8 +763,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 17 — Thuyền trinh sát
 
-**Narration:** Nguyễn Ánh sai người ra cửa Cần Giờ dò xét tình hình. Trong một cuộc chiến mà các cửa sông có thể bị phong tỏa nhanh chóng, tin tức về thuyền địch và luồng nước gần như quyết định cơ hội sống sót.
-
+**Narration:** Nguyễn Ánh sai người dò xét cửa Cần Giờ và các luồng nước. Trong lúc này, tin về thuyền địch, bến neo và đường đi an toàn đáng giá hơn mọi lời động viên. Một thông tin đúng có thể giúp thoát; một thông tin cũ có thể khiến thuyền đi thẳng vào rắc rối.
 
 **Prompt ảnh:**
 
@@ -819,8 +783,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 18 — Mọi tuyến đường đều bất ổn
 
-**Narration:** Đất liền không còn là nơi trú ẩn lâu dài, còn ngoài khơi cũng chưa chắc an toàn. Nguyễn Ánh ngày càng bị đẩy vào một vùng không gian hẹp: các hòn đảo rải rác, thuyền nhỏ và những chuyến đi đầy rủi ro.
-
+**Narration:** Đất liền đã không còn an toàn, còn đảo cũng không hứa hẹn điều gì. Trước mặt Nguyễn Ánh là những con rạch, bến nhỏ và khoảng biển rộng, cùng một câu hỏi lặp đi lặp lại: nếu bị phát hiện ở đây, sẽ chạy tiếp về đâu?
 
 **Prompt ảnh:**
 
@@ -840,8 +803,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 19 — Gia quyến hướng ra biển
 
-**Narration:** Gia quyến đã rời đất liền trước, còn Nguyễn Ánh phải tiếp tục xoay xở giữa tin tức quân sự và các đường biển. Cuộc sống lưu động khiến mọi thứ thiết yếu — lương thực, nước ngọt, chỗ neo đậu — đều trở thành vấn đề sinh tồn.
-
+**Narration:** Gia quyến đã hướng ra biển, còn Nguyễn Ánh vẫn phải xoay xở để theo kịp tình hình. Lương thực, nước ngọt và nơi neo thuyền trở thành những câu chuyện lớn hơn nhiều so với vẻ ngoài của chúng. Trên đường lưu lạc, một vò nước tốt cũng đáng giá như một kế hoạch tốt.
 
 **Prompt ảnh:**
 
@@ -861,8 +823,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 20 — Kết phần hai
 
-**Narration:** Đến giữa năm 1783, đường chạy của Nguyễn Ánh đã chuyển hẳn từ những vùng sông nước trong đất liền sang các đảo ngoài khơi. Nhưng quân Tây Sơn vẫn tiếp tục truy kích, và biển cả sắp trở thành nơi thử thách khắc nghiệt nhất.
-
+**Narration:** Đến giữa năm 1783, Nguyễn Ánh bị đẩy khỏi những căn cứ quen thuộc và dựa vào các đảo ngoài khơi để cầm cự. Biển có thể giấu ông khỏi đất liền, nhưng cũng có thể biến một chuyến đi ngắn thành cuộc đánh cược với gió, sóng và nguồn lương thực đang vơi.
 
 **Prompt ảnh:**
 
@@ -889,8 +850,7 @@ Bị truy kích đến tận biển đảo, Nguyễn Ánh và số tùy tùng í
 
 ## Cảnh 01 — Bờ biển Phú Quốc
 
-**Narration:** Phú Quốc trở thành một trong những nơi trú chân quan trọng của Nguyễn Ánh trong năm 1783. Rừng rậm, vịnh nhỏ và đường bờ biển phức tạp đem lại chỗ ẩn náu, nhưng không đủ bảo đảm rằng ông sẽ tránh được quân Tây Sơn.
-
+**Narration:** Phú Quốc trở thành nơi trú chân quan trọng trong năm 1783. Rừng rậm và các vịnh nhỏ giúp che mắt người ngoài, nhưng chẳng hòn đảo nào có thể bảo đảm rằng một đoàn người đang bị truy đuổi sẽ được yên ổn mãi.
 
 **Prompt ảnh:**
 
@@ -910,8 +870,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 02 — Hòn Điệp Thạch
 
-**Narration:** Biên niên sử ghi rằng tháng bảy năm 1783, Nguyễn Ánh đóng ở hòn Điệp Thạch, thuộc khu vực Phú Quốc. Vị trí ấy có thể giúp ông theo dõi mặt biển, nhưng cũng khiến nơi trú đóng dễ bị phát hiện từ ngoài khơi.
-
+**Narration:** Theo ghi chép, Nguyễn Ánh từng đóng ở hòn Điệp Thạch, thuộc vùng Phú Quốc. Một điểm cao có thể giúp quan sát mặt biển, nhưng cũng có mặt trái: đứng đó lâu quá thì chính mình có thể thành dấu hiệu dễ thấy nhất trên đảo.
 
 **Prompt ảnh:**
 
@@ -929,15 +888,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 03 — Quân truy kích xuất hiện
+## Cảnh 03 — Không còn chỗ khuất
 
-**Narration:** Tây Sơn tiếp tục đưa lực lượng đến đánh các vị trí của Nguyễn Ánh. Cuộc chiến giờ đây không còn chỉ xoay quanh thành trì lớn; một bến neo, một nguồn nước hoặc một nơi lấy lương thực cũng có thể trở thành mục tiêu.
-
+**Narration:** Quân truy kích tiếp tục xuất hiện quanh nơi trú ẩn. Cuộc sống lúc này xoay quanh những việc rất nhỏ: ai đi lấy nước, ai canh ngoài bờ, thuyền nào còn dùng được và khi nào phải nhổ neo. Không còn căn cứ lớn; đến một bến đậu cũng phải tính như tài sản chiến lược.
 
 **Prompt ảnh:**
 
 ```text
-Distant late-18th-century wooden warboats appearing beyond a tropical island headland, small camp hidden in foreground foliage, tense overcast light.
+A remote Phú Quốc shoreline with a few hidden wooden boats and lookouts watching distant sails beyond the headland, the fugitives' camp partly concealed by tropical vegetation, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -945,20 +903,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera peers from behind leaves toward the advancing boats; sails grow clearer as the camera makes a restrained push-in.
+The camera moves from hidden boats under the trees to distant sails beyond the headland; a lookout gestures urgently and the group starts preparing to leave.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 04 — Lê Phúc Điển cứu chủ
+## Cảnh 04 — Một người ở lại đánh lạc hướng
 
-**Narration:** Theo ghi chép được tổng hợp trong các bài biên khảo, trong một lần bị đánh tại khu vực Phú Quốc, Lê Phúc Điển mặc áo ngự để đánh lạc hướng và cứu Nguyễn Ánh. Chi tiết cho thấy những cuộc thoát thân có khi phụ thuộc vào sự hy sinh của người tùy tùng.
-
+**Narration:** Một câu chuyện được lưu truyền kể rằng Lê Phúc Điển đã mặc áo ngự để đánh lạc hướng, giúp Nguyễn Ánh thoát nạn. Chi tiết này cần được đối chiếu thận trọng; dù vậy, nó cho thấy trong cảnh bị vây, đôi khi người ở lại phải tạo cơ hội cho người khác chạy trước.
 
 **Prompt ảnh:**
 
 ```text
-A non-graphic historical tableau: a loyal Nguyễn retainer in ceremonial outer clothing draws attention near a rocky landing while another small boat slips behind vegetation, no gore or explicit violence.
+At a secluded island cove, one retainer in a distinctive formal robe prepares to draw attention toward a different path while Nguyễn Ánh and a few attendants ready a small boat farther away, restrained and non-violent, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -966,20 +923,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera holds on the retainer at the landing as figures move in the background; then it gently pans to the small boat disappearing behind the headland.
+One retainer moves toward a visible path in formal robes while Nguyễn Ánh's small group slips toward a waiting boat farther away; slow, restrained movement, no violence.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 05 — Sau trận đánh
+## Cảnh 05 — Sau cuộc truy kích
 
-**Narration:** Những người bên cạnh Nguyễn Ánh tiếp tục chịu tổn thất. Một số thân thuộc và tướng lĩnh bị bắt hoặc thiệt mạng trong những đợt truy kích; các nguồn ghi chép khác nhau về từng chi tiết, nhưng đều cho thấy thế lực Nguyễn đang ở tình cảnh rất mong manh.
-
+**Narration:** Sau các đợt truy kích, đoàn tùy tùng tiếp tục mất người và mất đồ. Bờ biển vắng, vài gói hành lý bị bỏ lại, những người sống sót nhìn quanh tìm nhau — chỉ vậy cũng đủ thấy cuộc sống của họ đang co lại thế nào.
 
 **Prompt ảnh:**
 
 ```text
-An abandoned island camp at dawn, empty bedding mats, a broken lantern and a few retainers silently gathering surviving supplies, no bodies, no graphic detail.
+A sparse island camp after a night of pursuit, a half-empty food basket, damp bedding and a few anxious survivors searching the shore, no bodies or active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -987,15 +943,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow dolly passes the abandoned sleeping area and settles on the small group collecting supplies before departure.
+A slow dolly through the sparse camp reveals damp bedding and an almost empty food basket; survivors search the shoreline and exchange worried looks.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 06 — Không thể ở lại lâu
 
-**Narration:** Mỗi nơi trú ẩn đều có giới hạn. Nếu ở lại quá lâu, thuyền địch có thể tìm ra; nếu rời đi, người ta phải mạo hiểm ra khơi mà không biết điểm đến tiếp theo có an toàn hay không.
-
+**Narration:** Ở lại lâu thì có nguy cơ bị tìm ra; rời đi thì phải ra khơi với lương thực và tin tức chưa chắc đủ dùng. Mỗi lựa chọn đều có nhược điểm, chỉ khác nhau ở chỗ nhược điểm nào ít nguy hiểm hơn trong ngày hôm đó.
 
 **Prompt ảnh:**
 
@@ -1015,8 +970,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 07 — Lương thực vơi dần
 
-**Narration:** Khi các chuyến tiếp tế bị gián đoạn, cuộc sống ngoài đảo nhanh chóng trở nên khắc nghiệt. Những ghi chép về giai đoạn này kể đến cảnh quân lính phải tìm rau rừng, củ và những nguồn thức ăn ít ỏi để cầm cự.
-
+**Narration:** Lương thực dần cạn. Những câu chuyện về giai đoạn này nhắc đến việc người của Nguyễn Ánh phải tìm rau rừng, củ và thức ăn có thể kiếm được trên đảo. Từ bỏ một căn cứ đã khó; phát hiện nơi mới chẳng có gì để ăn còn khó hơn.
 
 **Prompt ảnh:**
 
@@ -1036,8 +990,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 08 — Nhìn ra mặt biển
 
-**Narration:** Biển vừa mở ra đường thoát, vừa phơi bày thuyền nhỏ trước gió lớn. Mỗi đêm, người canh gác đều phải nhìn về phía đường chân trời, cố phân biệt bóng thuyền trong bóng tối.
-
+**Narration:** Mỗi khi nhìn ra biển, người ta vừa thấy lối thoát vừa thấy một vấn đề mới. Thuyền nhỏ có thể lách đi, nhưng cũng dễ bị sóng đánh chao đảo. Không có bến nào ghi sẵn rằng hôm nay còn chỗ, mai vẫn còn chỗ.
 
 **Prompt ảnh:**
 
@@ -1057,8 +1010,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 09 — Côn Lôn trong sử liệu
 
-**Narration:** Một số ghi chép của triều Nguyễn kể rằng Nguyễn Ánh chạy từ Phú Quốc ra Côn Lôn rồi tiếp tục qua Cổ Cốt. Tuy nhiên, các nghiên cứu sau này tranh luận về cách định vị địa danh Côn Lôn trong sự kiện năm 1783.
-
+**Narration:** Một số ghi chép triều Nguyễn kể rằng Nguyễn Ánh chạy từ Phú Quốc đến Côn Lôn rồi qua Cổ Cốt. Nhưng tên gọi và vị trí địa lý trong sự kiện này còn bị giới nghiên cứu tranh luận, nên ta không nên vội gắn câu chuyện với Côn Đảo ngày nay.
 
 **Prompt ảnh:**
 
@@ -1078,8 +1030,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 10 — Một địa danh chưa ngã ngũ
 
-**Narration:** Có học giả cho rằng đảo nơi Nguyễn Ánh ẩn náu có thể nằm gần Koh Rong hoặc Thổ Chu, phía tây Phú Quốc. Vì vậy, bộ phim không khẳng định chắc chắn đây là Côn Đảo ngày nay, mà giữ nguyên sự dè dặt của giới nghiên cứu.
-
+**Narration:** Có học giả cho rằng hòn đảo được nhắc tới có thể nằm phía tây Phú Quốc, gần khu vực Koh Rong hoặc Thổ Chu. Vì vậy, bộ phim chỉ cho thấy một hòn đảo xa giữa biển, thay vì đặt một cái tên chắc nịch lên bản đồ khi sử liệu vẫn chưa thống nhất.
 
 **Prompt ảnh:**
 
@@ -1097,15 +1048,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 11 — Vòng vây trên biển
+## Cảnh 11 — Những con thuyền ngoài khơi
 
-**Narration:** Theo câu chuyện được truyền lại trong sử liệu triều Nguyễn, quân Tây Sơn đã bao vây nơi Nguyễn Ánh trú ẩn. Dù vị trí chính xác còn tranh luận, cốt lõi của sự kiện vẫn là một đoàn thuyền nhỏ đang tìm cách thoát khỏi lực lượng mạnh hơn.
-
+**Narration:** Theo câu chuyện trong sử liệu triều Nguyễn, lực lượng truy đuổi áp sát nơi Nguyễn Ánh trú ẩn. Khi các lối đi trên đất liền gần như không còn, cả đoàn lại phải đặt hy vọng vào thuyền và một khe hở giữa biển rộng.
 
 **Prompt ảnh:**
 
 ```text
-A small wooden refuge boat enclosed at a distance by a ring of late-18th-century warboats on a rough tropical sea, wide cinematic composition, no battle impact shown.
+A small island camp hidden among coastal trees while several distant wooden vessels are visible offshore through mist, emphasizing the shrinking hiding place, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1113,15 +1063,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera makes a slow circular movement around the distant ring of vessels; waves roll between the boats and cloud cover thickens.
+The camera peers through coastal leaves toward distant sails offshore, then returns to the small hidden camp where attendants quietly pack supplies.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 12 — Bầu trời đổi màu
 
-**Narration:** Rồi thời tiết chuyển xấu. Những câu chuyện lịch sử nhắc đến sóng gió lớn khiến thuyền quân truy đuổi gặp nạn, tạo ra một khoảng trống ngắn ngủi mà Nguyễn Ánh có thể tận dụng để thoát khỏi vòng vây.
-
+**Narration:** Rồi bầu trời đổi màu. Mây dày lên, gió mạnh hơn, và biển bắt đầu cho thấy nó không quan tâm bên nào đang thắng. Với người trốn chạy, thời tiết xấu có thể là cơ hội; đồng thời, nó cũng có thể chấm dứt chuyến đi ngay giữa đường.
 
 **Prompt ảnh:**
 
@@ -1139,15 +1088,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 13 — Cơn bão
+## Cảnh 13 — Biển không bênh ai
 
-**Narration:** Sử liệu mô tả một cơn bão dữ dội, trong đó nhiều thuyền của lực lượng truy đuổi bị chìm hoặc trôi dạt. Đây không phải cảnh chiến thắng của một đạo quân, mà là khoảnh khắc con người tìm cách sống sót giữa thiên nhiên không thể kiểm soát.
-
+**Narration:** Các ghi chép kể về một cơn bão dữ dội khiến thuyền bè của lực lượng truy đuổi gặp nạn. Không cần biến nó thành cảnh kỳ vĩ hóa thiên nhiên: giữa biển động, ai cũng chỉ là người đang cố giữ cho con thuyền của mình không bị nuốt mất.
 
 **Prompt ảnh:**
 
 ```text
-A powerful monsoon storm at sea with late-18th-century wooden boats tossed by tall waves, lightning far in the distance, no people falling into the water, no graphic peril close-ups.
+Heavy monsoon clouds building over a late-18th-century island coastline, palms bending under rising wind, a few wooden boats straining at their moorings, no shipwreck close-up.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1155,20 +1103,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A restrained wide shot rocks gently with the waves; rain sweeps across the frame and a distant vessel vanishes behind a wave crest.
+Wind rises across the island shoreline; palm fronds bend, mooring ropes strain, and the camera tilts from dark clouds to the restless sea.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 14 — Thoát khỏi vòng vây
+## Cảnh 14 — Khe hở để thoát
 
-**Narration:** Trong lúc đội hình truy đuổi bị thời tiết làm rối loạn, thuyền của Nguyễn Ánh tìm cách rời đi. Các nguồn kể chi tiết không hoàn toàn giống nhau, nhưng đều đặt cơn bão ở vị trí then chốt trong câu chuyện đào thoát.
-
+**Narration:** Trong lúc đội hình truy đuổi bị thời tiết làm rối loạn, thuyền của Nguyễn Ánh tìm cách rời đi. Đây không phải chiến thắng được tính bằng cờ chiếm thành; đó là vài giờ mong manh để thoát khỏi tầm mắt của đối phương và tiếp tục sống.
 
 **Prompt ảnh:**
 
 ```text
-A small late-18th-century wooden boat slipping between storm-driven waves while larger ships are obscured by rain and mist, dramatic long shot, historically inspired.
+A small wooden boat cautiously slipping away from a tropical island cove as storm clouds and confused sails recede behind it, focus on escape and uncertainty, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1176,15 +1123,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera follows the small boat from behind as it rises and falls with the waves; the larger silhouettes fade into rain and sea spray.
+A small boat slips out of a cove as distant sails blur in rain and mist; the camera follows the boat into the open water, emphasizing risk rather than triumph.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 15 — Đảo Cổ Cốt
 
-**Narration:** Các ghi chép cổ nhắc đến đảo Cổ Cốt như một điểm dừng sau khi thoát vòng vây. Việc xác định chính xác địa danh này theo bản đồ hiện đại vẫn cần thận trọng, nên hình ảnh ở đây chỉ tái hiện một nơi trú ẩn ngoài khơi.
-
+**Narration:** Các nguồn cổ nhắc đến đảo Cổ Cốt như một điểm dừng sau cuộc thoát thân. Vị trí chính xác vẫn cần thận trọng khi đối chiếu với bản đồ hiện đại. Trong câu chuyện này, hòn đảo trước hết là một chỗ dừng tạm — tạm đến mức không ai dám unpack hành lý cho hết.
 
 **Prompt ảnh:**
 
@@ -1204,8 +1150,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 16 — Quay về Phú Quốc
 
-**Narration:** Sau những chặng di chuyển nguy hiểm, Nguyễn Ánh được ghi nhận đã quay lại Phú Quốc. Nhưng trở về một điểm trú cũ không có nghĩa là mọi hiểm nguy đã qua; chỉ là ông còn có thể tập hợp những người sống sót.
-
+**Narration:** Sau nhiều chặng nguy hiểm, Nguyễn Ánh được ghi nhận đã quay lại Phú Quốc. Quay về nơi cũ có thể đem lại chút quen thuộc, nhưng chẳng phải sự bảo đảm. Những người còn lại phải bắt đầu lại từ đầu: đếm người, xem thuyền và tìm thứ gì có thể ăn.
 
 **Prompt ảnh:**
 
@@ -1225,8 +1170,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 17 — Bữa ăn ít ỏi
 
-**Narration:** Những câu chuyện về việc phải ăn rau rừng, củ và tìm thức ăn trong điều kiện thiếu thốn trở thành một phần ký ức về thời kỳ này. Đời sống lưu vong không chỉ là những cuộc truy đuổi, mà còn là chuỗi ngày đối phó với đói khát và bất định.
-
+**Narration:** Bữa ăn lúc ấy chẳng giống bàn tiệc của một gia tộc từng nắm quyền. Rau rừng, củ và những gì kiếm được trên đảo giúp cầm cự qua ngày. Nếu có ai còn nghĩ lưu vong nghe lãng mạn, có lẽ họ chưa từng phải tính bữa tối bằng những gì mọc quanh chỗ trú.
 
 **Prompt ảnh:**
 
@@ -1246,8 +1190,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 18 — Những người còn lại
 
-**Narration:** Đến cuối năm 1783, vòng người bên cạnh Nguyễn Ánh đã ít hơn nhiều so với những năm đầu cuộc chiến. Sự tồn tại của phe Nguyễn giờ phụ thuộc vào lòng trung thành của một nhóm nhỏ và khả năng tìm kiếm sự trợ giúp bên ngoài.
-
+**Narration:** Vòng người bên cạnh Nguyễn Ánh ngày một nhỏ. Một số đã mất, một số tản đi, số khác phải lo chính mình sống sót. Để duy trì hy vọng khôi phục thế lực, ông cần không chỉ người trung thành mà cả sự trợ giúp từ bên ngoài.
 
 **Prompt ảnh:**
 
@@ -1267,8 +1210,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 19 — Tin về Bá Đa Lộc
 
-**Narration:** Trong giai đoạn lưu vong, Nguyễn Ánh tìm cách liên lạc với giám mục Bá Đa Lộc, người có mạng lưới quan hệ châu Âu và đang hoạt động trong khu vực. Đây là một bước mở đầu cho nỗ lực tìm viện trợ ở bên ngoài Đàng Trong.
-
+**Narration:** Nguyễn Ánh tìm cách liên lạc với giám mục Bá Đa Lộc, người có quan hệ với các mạng lưới châu Âu trong khu vực. Đây là một hướng đi mới sau nhiều tháng chạy giữa đất liền và biển đảo. Khi cửa trước cứ đóng lại, ông bắt đầu gõ cửa những nơi xa hơn.
 
 **Prompt ảnh:**
 
@@ -1288,8 +1230,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 20 — Kết phần ba — hướng về Xiêm
 
-**Narration:** Đến đầu năm 1784, Phú Quốc và các đảo lân cận không còn đem lại triển vọng lâu dài. Sau cơn bão, Nguyễn Ánh vẫn sống sót nhưng chưa lấy lại được căn cứ; trước mặt ông là lựa chọn tìm đến Xiêm để đổi lấy hy vọng viện trợ quân sự, cùng những rủi ro mới.
-
+**Narration:** Đầu năm 1784, các đảo quanh Phú Quốc không còn là lựa chọn lâu dài. Nguyễn Ánh vẫn sống sót, nhưng chưa lấy lại được căn cứ hay sự ổn định. Bước tiếp theo là sang Xiêm cầu viện — hy vọng mới, kèm một điều hiển nhiên: người cho mượn sức mạnh thường cũng muốn có tiếng nói.
 
 **Prompt ảnh:**
 
@@ -1311,13 +1252,12 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 *Thời gian: 1784–1785 | 20 cảnh*
 
-Nguyễn Ánh cầu viện Xiêm, quay lại miền Nam cùng một đạo quân lớn, nhưng thất bại của liên quân tại Rạch Gầm – Xoài Mút buộc ông phải tiếp tục chạy trốn.
+Nguyễn Ánh đặt hy vọng vào viện binh Xiêm. Nhưng sau thất bại Rạch Gầm – Xoài Mút năm 1785, hành lý lại phải gói gọn, thuyền lại phải nhổ neo, và cuộc lưu lạc vẫn chưa có dấu hiệu dừng lại.
 
 
 ## Cảnh 01 — Thổ Châu, đầu năm 1784
 
-**Narration:** Đầu năm 1784, sử liệu ghi Nguyễn Ánh còn ở khu vực đảo Thổ Châu. Sau nhiều tháng thiếu thốn và bị truy kích, ông chuẩn bị rời vùng biển phía tây Phú Quốc để tìm nơi nương náu mới.
-
+**Narration:** Đầu năm 1784, sử liệu còn ghi Nguyễn Ánh ở vùng Thổ Châu. Sau nhiều tháng ngoài đảo, ông đã quen với việc phải tính từng chuyến thuyền, nhưng quen không có nghĩa là dễ chịu. Đến lúc phải tìm một nơi trú mới, mà những nơi gần đó đều đã quá nguy hiểm.
 
 **Prompt ảnh:**
 
@@ -1337,8 +1277,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 02 — Quyết định sang Xiêm
 
-**Narration:** Trong tháng ba đến tháng tư năm 1784, Nguyễn Ánh cùng một nhóm quan lại và binh sĩ ít ỏi rời vùng biển để sang Xiêm. Đây là quyết định sinh tử: đổi quyền tự chủ trước mắt lấy hy vọng nhận được quân viện trợ.
-
+**Narration:** Nguyễn Ánh quyết định sang Xiêm cùng một nhóm quan lại và binh sĩ. Đây không phải chuyến đi thăm hỏi; ông đang đặt vận mệnh của mình vào tay một triều đình khác, bởi ở nhà thì chẳng còn nơi nào đủ an toàn để làm căn cứ.
 
 **Prompt ảnh:**
 
@@ -1358,8 +1297,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 03 — Vượt vịnh Xiêm La
 
-**Narration:** Chuyến đi đưa Nguyễn Ánh ra khỏi mạng lưới đảo nơi ông đã lẩn tránh suốt nhiều tháng. Trên biển rộng, không còn lau sậy hay cửa sông để che giấu thuyền; an toàn phụ thuộc vào hành trình và thời tiết.
-
+**Narration:** Vượt vịnh Xiêm La nghĩa là rời khỏi những đảo nhỏ từng giúp che giấu đoàn người. Trên biển rộng, chẳng có bờ lau để nấp hay con rạch để rẽ nhầm. Còn cách duy nhất là đi tiếp, hy vọng thời tiết và đường đi đừng cùng lúc trở mặt.
 
 **Prompt ảnh:**
 
@@ -1379,8 +1317,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 04 — Đến Vọng Các
 
-**Narration:** Vào mùa xuân năm 1784, Nguyễn Ánh đến Vọng Các, tên gọi trong sử Việt dành cho kinh đô Xiêm thời ấy. Sau những năm chạy trốn, ông bước vào một không gian chính trị mới, nơi sự giúp đỡ luôn gắn với tính toán quyền lực.
-
+**Narration:** Vào mùa xuân năm 1784, Nguyễn Ánh đến Vọng Các, kinh đô Xiêm thời ấy. Sau bao tháng sống nhờ bến nhỏ và thuyền tạm, nay ông có mái nhà lớn hơn để bước vào — nhưng vị thế của một người đi cầu viện thì không vì thế mà lớn theo.
 
 **Prompt ảnh:**
 
@@ -1400,8 +1337,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 05 — Một cuộc tiếp kiến
 
-**Narration:** Các ghi chép cho biết Nguyễn Ánh được phía Xiêm tiếp đón. Không cần dựng lời thoại chưa được xác nhận, chỉ cần thấy rõ vị thế của người lưu vong: ông có thể xin viện trợ, nhưng không còn hoàn toàn kiểm soát điều kiện của cuộc chiến.
-
+**Narration:** Phía Xiêm tiếp đón Nguyễn Ánh, nhưng cuộc gặp không làm biến mất những tính toán chính trị. Ông có điều cần xin; phía chủ nhà có điều muốn đạt. Trong ngoại giao, lòng tốt có thể có thật, nhưng ít khi đi một mình mà không mang theo hóa đơn.
 
 **Prompt ảnh:**
 
@@ -1421,8 +1357,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 06 — Những tính toán của Xiêm
 
-**Narration:** Đối với triều đình Xiêm, việc can thiệp vào Đàng Trong cũng mở ra cơ hội gia tăng ảnh hưởng trong khu vực. Vì vậy, liên minh này không đơn thuần là một cuộc cứu giúp cá nhân, mà còn là sự gặp nhau giữa những mục tiêu chính trị.
-
+**Narration:** Triều đình Xiêm cũng nhìn thấy cơ hội gia tăng ảnh hưởng ở Đàng Trong. Vì vậy, sự giúp đỡ dành cho Nguyễn Ánh không chỉ là chuyện một người lưu vong gặp được lòng thương hại. Hai bên có mục tiêu riêng, tạm thời tìm thấy điểm chung.
 
 **Prompt ảnh:**
 
@@ -1442,8 +1377,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 07 — Từ lưu vong đến cầu viện
 
-**Narration:** Nguyễn Ánh đã trải qua nhiều lần mất căn cứ, nhưng chưa từ bỏ việc trở về. Nay ông tìm cách biến sự lưu vong thành một cơ hội quân sự, chấp nhận đi cùng lực lượng Xiêm để giành lại Gia Định.
-
+**Narration:** Từ người chạy trốn, Nguyễn Ánh chuyển sang người đi cầu viện. Ông hy vọng lực lượng Xiêm sẽ giúp mình trở lại Gia Định, nhưng cái giá là phải cùng bước vào một chiến dịch do đồng minh mạnh hơn tổ chức. Sau nhiều lần không có nơi trú, đây là một canh bạc lớn.
 
 **Prompt ảnh:**
 
@@ -1461,15 +1395,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 08 — Hạm đội vượt biển
+## Cảnh 08 — Hy vọng lên thuyền
 
-**Narration:** Mùa hè năm 1784, các tướng Xiêm Chiêu Tăng và Chiêu Sương dẫn thủy quân cùng hàng trăm chiến thuyền tiến về miền Nam. Các nguồn lịch sử đưa ra những con số khác nhau về quy mô lực lượng, nhưng đều ghi nhận đây là một cuộc can thiệp lớn.
-
+**Narration:** Mùa hè năm 1784, lực lượng Xiêm do Chiêu Tăng và Chiêu Sương chỉ huy lên đường về phía Nam. Con số chiến thuyền khác nhau giữa các nguồn, nhưng quy mô cuộc can thiệp là đáng kể. Với Nguyễn Ánh, những cánh buồm ấy có lẽ trông như lời hứa — mà lời hứa thì vẫn phải chờ xem có thành thật không.
 
 **Prompt ảnh:**
 
 ```text
-A large late-18th-century Siamese fleet of wooden sailing and rowing vessels crossing the Gulf toward the Mekong delta, dense formation across a wide sea, historically grounded.
+A late-18th-century fleet of wooden sailing vessels crossing the Gulf of Thailand, viewed from a small accompanying boat carrying Nguyễn Ánh and a few weary retainers, no combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1477,20 +1410,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A high, slow aerial move reveals the fleet stretching across the water; sails billow and the ships advance in a steady rhythm.
+The camera travels alongside wooden vessels crossing the Gulf; Nguyễn Ánh sits among a few weary companions, watching the horizon as sails shift in the wind.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 09 — Đổ bộ ở Rạch Giá
+## Cảnh 09 — Đặt chân lên đất liền
 
-**Narration:** Liên quân Xiêm – Nguyễn tiến vào khu vực Rạch Giá và xây dựng các điểm đóng quân để tiếp tế. Họ không lập tức tiến thẳng đến Gia Định; cuộc tiến quân kéo dài qua nhiều tháng và nhiều tuyến sông.
-
+**Narration:** Liên quân tiến vào khu vực Rạch Giá và lập các điểm đóng quân. Họ cần lương thực, nơi neo thuyền và tin tức từ đất liền. Ngay cả khi có nhiều thuyền, một đoàn quân vẫn phải ăn mỗi ngày; chuyện tiếp tế không vì khí thế mà tự giải quyết.
 
 **Prompt ảnh:**
 
 ```text
-Late-18th-century allied force unloading provisions from wooden boats at a riverbank near Rạch Giá, baskets, timber shelters, period clothing, tropical landscape.
+A temporary late-18th-century riverside camp near Rạch Giá, wooden boats moored beside stacked food baskets and rolled mats, tired attendants unloading supplies after a long voyage, no battle.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1498,20 +1430,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera tracks along the shoreline as bundles are carried ashore and boats turn back toward the fleet.
+Attendants carry baskets and rolled mats ashore near Rạch Giá; the camera follows the slow unloading and tired faces, with no fighting in view.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 10 — Tiến sâu vào đồng bằng
 
-**Narration:** Từ các điểm đổ bộ, liên quân tiếp tục tiến vào vùng đồng bằng. Những dòng sông lớn vừa là con đường di chuyển thuận lợi, vừa đặt các đoàn thuyền phụ thuộc vào bến neo, nguồn lương thực và khả năng kiểm soát bờ sông.
-
+**Narration:** Từ Rạch Giá, liên quân tiến sâu vào đồng bằng qua các tuyến sông. Địa hình vừa mở đường, vừa buộc họ phải phụ thuộc vào bến nước và nguồn tiếp tế. Nguyễn Ánh đã trở lại đất mình muốn giành lại, nhưng lần này cũng phải quan sát mọi việc từ vị trí người đi cùng một đội quân khác.
 
 **Prompt ảnh:**
 
 ```text
-A broad late-18th-century flotilla moving up a Mekong Delta waterway, green banks, scattered wooden settlements and river traffic, late afternoon haze.
+A slow line of wooden boats threading through a broad Mekong Delta river, crews watching the banks and checking provisions, tropical humidity and uncertain skies, no active combat.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1519,15 +1450,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A low camera glides just above the river beside the moving vessels; small boats pass in the foreground and the fleet fills the distance.
+A measured tracking shot follows boats through a wide river bend; crews look toward the banks and check supplies while the humid sky darkens.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 11 — Long Hồ vẫn đứng vững
 
-**Narration:** Quân Tây Sơn tại Gia Định tiếp tục chống cự và giữ các vị trí quan trọng. Dù tương quan lực lượng bất lợi, họ bám sát đối phương và khiến cuộc tiến quân của liên quân không diễn ra nhanh như dự định.
-
+**Narration:** Quân Tây Sơn ở Gia Định không dễ dàng rút khỏi các vị trí. Tin tức về sự kháng cự kéo dài khiến hy vọng tái chiếm nhanh chóng trở nên mong manh. Những tháng năm chờ đợi của Nguyễn Ánh vẫn chưa biến thành một cuộc trở về có thể yên tâm.
 
 **Prompt ảnh:**
 
@@ -1545,15 +1475,14 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 ```
 
 
-## Cảnh 12 — Tin báo về Quy Nhơn
+## Cảnh 12 — Tin dữ đến Mỹ Tho
 
-**Narration:** Trước sức ép của quân Xiêm – Nguyễn, quân Tây Sơn ở miền Nam báo tin về Quy Nhơn. Nguyễn Huệ nhanh chóng tập hợp lực lượng và lên đường, chuẩn bị đối đầu với đạo quân đang tiến sâu vào vùng sông Tiền.
-
+**Narration:** Tin liên quân tiến sâu về phía Mỹ Tho được đưa về Quy Nhơn. Nguyễn Huệ chuẩn bị kéo quân xuống phía Nam. Với Nguyễn Ánh, điều đáng lo không cần diễn giải dài: chiến dịch mà ông đặt hy vọng vào sắp gặp một đối thủ đủ sức đảo ngược mọi tính toán.
 
 **Prompt ảnh:**
 
 ```text
-A late-18th-century messenger arriving at a Tây Sơn command encampment with a sealed dispatch, commanders studying a river map, energetic but grounded historical staging.
+A breathless messenger reaches a riverside command tent near Mỹ Tho; men bend over a rough map while other attendants quietly prepare boats and provisions, no battle shown.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1561,20 +1490,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The messenger steps into the camp as the camera follows; an officer unfolds the dispatch and the commanders turn toward the map.
+A messenger hurries into the camp; the camera follows him to a rough map, then to attendants quietly checking the moored boats.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 13 — Nguyễn Huệ đến Mỹ Tho
 
-**Narration:** Đầu năm 1785, Nguyễn Huệ đưa quân đến Mỹ Tho. Thay vì vội vàng lao vào căn cứ của đối phương, ông quan sát địa hình, vị trí đóng quân và tâm lý của liên quân trước khi quyết định thời điểm giao chiến.
-
+**Narration:** Đầu năm 1785, Nguyễn Huệ đến Mỹ Tho. Tin ấy báo rằng sức ép sắp đổi chiều. Nguyễn Ánh từng hy vọng chiến dịch này sẽ đưa mình trở lại Gia Định; giờ ông lại phải tính xem khi mọi chuyện hỏng đi, còn đường nào để chạy.
 
 **Prompt ảnh:**
 
 ```text
-A historically inspired portrayal of Nguyễn Huệ at a command position overlooking the Mỹ Tho river, late-18th-century Vietnamese garments, officers and scouts in the background, no exact portrait claim.
+At a late-18th-century camp near Mỹ Tho, commanders study the river from the bank as distant boats approach, Nguyễn Ánh's small group watching with guarded expressions, no combat in frame.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1582,20 +1510,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow camera move follows Nguyễn Huệ looking across the river and then shifts focus to scouts returning along the bank.
+The camera tracks along the riverbank as commanders study the distant boats; Nguyễn Ánh's group watches from a short distance, tense and silent.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 14 — Rạch Gầm – Xoài Mút
+## Cảnh 14 — Rạch Gầm – Xoài Mút: hy vọng ngắn ngủi
 
-**Narration:** Nguyễn Huệ lựa chọn khúc sông Tiền từ Rạch Gầm đến Xoài Mút làm nơi quyết chiến. Địa hình sông nước và các nhánh rạch trở thành bối cảnh của một trong những trận thủy chiến quan trọng nhất trong lịch sử Việt Nam thế kỷ XVIII.
-
+**Narration:** Rạch Gầm – Xoài Mút trở thành địa danh gắn với thất bại nặng nề của liên quân Xiêm – Nguyễn. Chỉ cần nhìn những con thuyền chật vật giữa dòng và những gương mặt không còn chắc chắn, người xem đã hiểu: kế hoạch trở về của Nguyễn Ánh đang đổ vỡ thêm lần nữa.
 
 **Prompt ảnh:**
 
 ```text
-A wide establishing shot of the Mekong River near Rạch Gầm and Xoài Mút in 1785, low green banks, side channels and wooden boats at a distance, calm before battle.
+A broad, quiet reach of the Tiền River near Rạch Gầm–Xoài Mút at dawn, late-18th-century wooden boats partly obscured by mist, the water and geography carrying the tension, no active fighting.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1603,20 +1530,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera slowly sweeps along the river from Rạch Gầm toward Xoài Mút; currents ripple and a few boats move in the far distance.
+A slow aerial drift follows the broad river through morning mist, revealing wooden vessels partly hidden by the banks; no battle action is shown.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 15 — Đêm trước trận đánh
+## Cảnh 15 — Đêm dài trước ngày rút chạy
 
-**Narration:** Trong đêm, hai bên chuẩn bị cho cuộc đụng độ quyết định. Đối với liên quân, những thắng lợi ban đầu có thể tạo cảm giác tự tin; với Tây Sơn, đây là thời điểm phải biến sự am hiểu địa hình thành ưu thế thực tế.
-
+**Narration:** Đêm trước trận đánh, doanh trại của liên quân vẫn có người canh, người lo tiếp tế và người cố ngủ một chút. Đối với Nguyễn Ánh, đêm ấy là một quãng chờ không dễ chịu: sau bao lần chạy trốn, ông đã có đồng minh và thuyền bè, nhưng vẫn chưa nắm được kết quả trong tay.
 
 **Prompt ảnh:**
 
 ```text
-Nighttime river scene before the 1785 battle, silhouettes of late-18th-century wooden boats under a moon partly hidden by clouds, lanterns dimmed, reflective and non-graphic.
+A late-18th-century riverside camp at night, exhausted attendants sitting beside tightly packed travel bundles, a dim oil lamp and boats tied in darkness, anxious waiting before an uncertain morning.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1624,20 +1550,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow drift between anchored boats; lanterns sway gently, water laps against hulls and distant silhouettes remain still.
+Oil-lamp light flickers over exhausted men and packed bundles; the camera drifts toward tied boats in the dark, lingering on the uneasy wait.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 16 — Bình minh trên sông Tiền
+## Cảnh 16 — Buổi sáng đổi hết cục diện
 
-**Narration:** Khi trời sáng, mặt sông mở ra như một khoảng không rộng lớn nhưng khó đoán. Cuộc giao chiến ở Rạch Gầm – Xoài Mút nhanh chóng làm thay đổi cục diện, phá vỡ hy vọng của liên quân về một cuộc tái chiếm thuận lợi.
-
+**Narration:** Đến sáng, cục diện đổi rất nhanh. Liên quân thất bại, hy vọng của Nguyễn Ánh lại bị đẩy lùi. Chiến dịch chuẩn bị suốt nhiều tháng biến thành một câu hỏi cấp bách: thuyền nào còn đi được, và đường nào còn mở?
 
 **Prompt ảnh:**
 
 ```text
-Dawn over the Mekong River in 1785, rows of late-18th-century wooden warboats emerge through morning mist, distant flags and riverbanks, epic but historically restrained composition.
+Dawn over the Tiền River after a major setback, distant smoke over the water and a few wooden boats turning away from the main channel, tired survivors seen from behind, no combat close-up.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1645,20 +1570,19 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-The camera floats above the water as silhouettes resolve through the mist; sails move and the first sunlight touches the river.
+Dawn light reveals drifting smoke far across the river as several boats change course and move away; the camera stays with the retreating group, no combat close-up.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
-## Cảnh 17 — Đội hình tan vỡ
+## Cảnh 17 — Mọi tính toán tan theo dòng nước
 
-**Narration:** Trận đánh kết thúc bằng thất bại nặng nề của thủy quân Xiêm – Nguyễn. Để tránh phóng đại con số tổn thất vốn khác nhau giữa các nguồn, hình ảnh tập trung vào đội hình vỡ vụn, thuyền rút lui và làn khói phủ mặt sông.
-
+**Narration:** Sau thất bại, đội hình liên quân tan rã và những người sống sót tìm đường rút lui. Không còn những lời hứa về việc sớm lấy lại Gia Định; lúc này, điều cần thiết là tìm được một con thuyền, một lối nước và một chỗ không bị phát hiện.
 
 **Prompt ảnh:**
 
 ```text
-Non-graphic aftermath of the Battle of Rạch Gầm–Xoài Mút, scattered damaged wooden vessels on a broad river, drifting smoke and crews retreating in the distance, no bodies or gore.
+A handful of damaged wooden boats moving downstream through mist after defeat, exhausted passengers keeping low, wide river landscape dwarfing the small retreating group, no bodies or graphic detail.
 Style continuity: cinematic historical realism set in southern Vietnam and the Gulf of Thailand in the late 18th century; natural humid atmosphere, authentic-looking wood, cotton, silk and woven materials, muted earth tones and indigo, 35mm film still, 16:9 widescreen, high detail, non-graphic, no text, no watermark, no modern objects, no modern vessels, no modern weapons, no 19th-century Nguyễn imperial regalia. Keep Nguyễn Ánh's face consistent with the reference design and age him appropriately across the timeline; AI visuals are illustrative, not authenticated portraits.
 ```
 
@@ -1666,15 +1590,14 @@ Style continuity: cinematic historical realism set in southern Vietnam and the G
 **Prompt video:**
 
 ```text
-A slow panoramic move crosses the river as smoke drifts away and surviving boats move downstream; the tone remains solemn, not triumphant or graphic.
+The camera follows a small group of damaged boats into a narrow side channel; tired passengers keep low as reeds gradually hide them from the main river.
 Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.
 ```
 
 
 ## Cảnh 18 — Nguyễn Ánh lại rút chạy
 
-**Narration:** Sau thất bại năm 1785, Nguyễn Ánh rút về Trấn Giang cùng số tùy tùng ít ỏi. Một lần nữa, hành trình của ông trở thành cuộc tìm đường sống sau khi một chiến dịch lớn sụp đổ.
-
+**Narration:** Nguyễn Ánh lại rút về Trấn Giang cùng số tùy tùng ít ỏi. Từng đặt hy vọng vào các đảo, rồi vào Xiêm, giờ ông lại quay về với thuyền nhỏ và đường nước. Nếu có một điều nhất quán suốt những năm này, thì đó là ông chưa bao giờ thiếu lý do để phải thu dọn đồ.
 
 **Prompt ảnh:**
 
@@ -1694,8 +1617,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 19 — Bên bờ Trấn Giang
 
-**Narration:** Những người còn lại bên Nguyễn Ánh chỉ là một nhóm nhỏ. Sau khi đặt hy vọng vào một đạo quân viện trợ, ông lại phải đối diện với thực tế rằng sức mạnh từ bên ngoài không thể bảo đảm thắng lợi trên đất liền.
-
+**Narration:** Bên bờ Trấn Giang, nhóm người quanh Nguyễn Ánh không còn đông. Sau một chiến dịch lớn, họ lại phải kiểm kê người, lương thực và nơi trú. Cầu viện đã giúp ông trở lại chiến trường, nhưng không thể bảo đảm rằng ngày mai sẽ có một mái nhà an toàn hơn hôm nay.
 
 **Prompt ảnh:**
 
@@ -1715,8 +1637,7 @@ Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deli
 
 ## Cảnh 20 — Lưu vong chưa kết thúc — lời kết
 
-**Narration:** Năm 1785 khép lại bằng một thất bại nữa, chứ không phải sự kết thúc của cuộc chiến. Từ Long Xuyên năm 1777 đến Trấn Giang năm 1785, những cuộc thoát thân của Nguyễn Ánh nối thành chuỗi thất trận, lưu vong và trở lại. Câu chuyện dừng ở đây — trước khi kết cục cuối cùng của cuộc chiến được quyết định.
-
+**Narration:** Năm 1785 kết thúc bằng một lần rút chạy nữa, chứ không phải hồi kết. Từ Long Xuyên năm 1777 đến Trấn Giang năm 1785, Nguyễn Ánh liên tục mất chỗ đứng, tìm nơi nương náu rồi quay lại. Trong phần đời này, ngai vàng vẫn ở rất xa; thứ gần nhất luôn là chuyến đi tiếp theo.
 
 **Prompt ảnh:**
 

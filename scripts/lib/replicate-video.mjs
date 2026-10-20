@@ -72,21 +72,21 @@ const assertResolution = (videoPath, aspect) => {
   }
 };
 
-// Fallback motion prompt when a scene has no hand-written `motion:` in the plan. Keeps the same
-// house style lsvn authors by hand: animate-not-redesign, locked camera, matched environmental
-// motion, stable character, stated intensity, artifact ban. The image `prompt` (English) hints
-// at which elements can move; narration is intentionally NOT injected — it is Vietnamese and only
-// confuses the image-to-video model. For per-scene control, author `motion:` in the plan instead.
+// Fallback motion prompt when a scene has no hand-written `motion:` in the plan. Follows the same
+// house style lsvn/trangca author by hand: camera move, main action, strong environmental motion,
+// identity/style lock only. Composition is deliberately NOT locked — "preserve the composition /
+// do not add or remove anything" makes image-to-video models return a near-still frame. The image
+// `prompt` (English) hints at which elements can move; narration is intentionally NOT injected —
+// it is Vietnamese and only confuses the model. For per-scene control, author `motion:` instead.
 export const buildMotionPrompt = ({ narration = '', scenePrompt = '' }) => [
-  'Animate this existing historical illustration into a lively, cute, cinematic image-to-video shot.',
-  'Preserve the exact character identity, face, hairstyle, costume, body proportions, colors, props, soldiers, architecture, lighting, and composition from the source image. Do not redesign, morph, replace, add, or remove any character or object. Do not change the historical period or visual style. No text, symbols, logos, or watermark.',
-  'Keep the camera completely locked. No camera movement, zoom, pan, tilt, orbit, dolly, perspective shift, or scene transition.',
-  'Create gentle, charming environmental motion: cloth, robes, sleeves and banners sway in a soft breeze; grass and reeds bend; water ripples and reflects; mist or dust drifts slowly; background figures make tiny natural idle movements while holding their formation.',
-  scenePrompt.trim() ? `Elements present in this scene (animate only what is visible, do not add anything): ${scenePrompt.trim()}` : '',
-  'Keep the main character(s) stable, recognizable, and visually consistent throughout. Do not change their facial expressions or poses. Use lively secondary motion rather than strong character animation. The scene should feel like a charming animated historical diorama: warm, playful, cinematic, and alive while remaining believable.',
-  'Motion intensity: low to medium. Character motion: very subtle. Environmental motion: moderate and natural.',
-  'No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements, exaggerated physics, or visual artifacts.',
-].filter(Boolean).join('\n');
+  'Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second.',
+  'The camera moves with purpose: a steady push-in or a tracking move that follows the main action.',
+  scenePrompt.trim() ? `The main character performs the action of this scene with clear, natural movement, and the surroundings come alive: ${scenePrompt.trim()}` : 'The main character moves clearly and naturally, and the surroundings come alive.',
+  'Wind, water, fire, smoke, banners and background figures move strongly and continuously across the whole frame.',
+  'Keep the characters\' faces and costumes and the art style consistent; no new characters, no text or watermark.',
+  'Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame.',
+  'No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.',
+].join('\n');
 
 export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);

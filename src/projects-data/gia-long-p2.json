@@ -6,7 +6,7 @@
   "height": 1080,
   "publicPrefix": "projects/gia-long-p2",
   "fps": 30,
-  "durationInFrames": 3090,
+  "durationInFrames": 2955,
   "scenes": [
     {
       "scene": 1,
@@ -27,7 +27,7 @@
     },
     {
       "scene": 2,
-      "narration": "Từ người cầm quyền ở Gia Định, ông thành kẻ phải bơi qua sông để giữ mạng sống.",
+      "narration": "Từ người cầm quyền ở Gia Định, ông thành kẻ phải bơi qua sông để giữ mạng sống. Và lần này, đất liền không còn chỗ cho ông trốn.",
       "image": {
         "kind": "ai",
         "characters": [
@@ -40,23 +40,6 @@
         "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác nhận dạng nhân vật, những người sống sót, dòng sông, vật trôi, binh lính phía xa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Dòng nước nâu cuồn cuộn cuốn theo giáo, nón và ván gỗ, những người sống sót kéo nhau lên bãi bùn, sương trôi trên mặt nước, bóng người xa xê dịch dọc bờ bên kia. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
       },
       "cue": "somber",
-      "hasAudio": false
-    },
-    {
-      "scene": 3,
-      "narration": "Và lần này, đất liền không còn chỗ cho ông trốn.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "char-a"
-        ],
-        "identity": "full",
-        "prompt": "Wide rocky shore of a forested island in the Gulf of Thailand at night under scattered clouds; the young lord stands small and off-center at about one-fifth frame height on a dark boulder at the water's edge, looking back across the strait toward the distant mainland coastline, where a long chain of Tây Sơn watch fires burns along the shore, a single small boat is pulled up on the pebbles below him, waves break white against the rocks, wind bends the palms. No Qing/Ming Chinese, 19th-century Nguyễn imperial or European elements.",
-        "motion": "Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact character identity, boulder, beached boat, palms, distant watch fires, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in. Waves break and wash white over the rocks, the palms bend and recover in the wind, the distant watch fires flicker along the mainland, clouds drift across the moon. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated people, melting objects, sudden movements or visual artifacts.",
-        "promptVi": "Cảnh rộng bờ đá của một hòn đảo rừng rậm trong vịnh Thái Lan về đêm dưới mây thưa; vị chúa trẻ đứng nhỏ và lệch tâm cao khoảng một phần năm khung hình trên tảng đá tối sát mép nước, ngoái nhìn qua eo biển về dải bờ đất liền xa xa, nơi một chuỗi dài lửa canh của Tây Sơn cháy dọc bờ, một chiếc thuyền nhỏ được kéo lên bãi sỏi dưới chân ông, sóng vỡ trắng xóa vào ghềnh đá, gió uốn cong hàng dừa. Không yếu tố Thanh/Minh Trung Hoa, cung đình Nguyễn thế kỷ XIX hay châu Âu.",
-        "motionVi": "Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác nhận dạng nhân vật, tảng đá, thuyền trên bãi, hàng dừa, lửa canh phía xa, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép máy quay tiến rất chậm. Sóng vỡ và tràn trắng xóa qua ghềnh đá, hàng dừa uốn cong rồi bật lại trong gió, lửa canh xa chập chờn dọc đất liền, mây trôi ngang vầng trăng. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản người, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh."
-      },
-      "cue": "curious",
       "hasAudio": false
     },
     {
@@ -406,11 +389,9 @@
     4.5,
     4.5,
     4.5,
-    4.5,
     4
   ],
   "motionPlaybackRates": [
-    1,
     1,
     1,
     1,

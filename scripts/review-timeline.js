@@ -1,14 +1,16 @@
 // Scene Studio - timeline preview.
 //
-// Plays the scenes back to back the way ScenePlanVideo lays them out: each scene lasts exactly
-// its narration audio, and a scene without audio holds for the same placeholder the render uses.
-// The motion clip (or the still when there is none) plays muted under the narration.
+// Plays the scenes back to back with the timing build-remotion.mjs gives the render: a scene
+// lasts max(narration audio, motion clip) plus a short pause before the next one; a clip shorter
+// than its scene is slowed (rate = clip / scene) to span it, then holds its last frame through the
+// pause. A scene without audio holds for the render's placeholder. Clips play muted.
 //
 // Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast) from
 // review-panel.js, which loads first, and redraws on its "studio:render" / "studio:view" events.
 
-// Must match PLACEHOLDER_SCENE_SECONDS in src/ScenePlanVideo.tsx.
+// Must match PLACEHOLDER_SCENE_SECONDS and SCENE_GAP_SECONDS in scripts/build-remotion.mjs.
 const TL_PLACEHOLDER_SECONDS = 4;
+const TL_SCENE_GAP_SECONDS = 0.5;
 const TL_ZOOM_MIN = 4;
 const TL_ZOOM_MAX = 80;
 // Narrowest gap between two ruler labels, so the m:ss text never overlaps.
@@ -22,13 +24,13 @@ const TL_FOLLOW_MARGIN_PX = 40;
 // "Previous" past this point rewinds the current scene instead of jumping back one.
 const TL_REWIND_THRESHOLD_SECONDS = 1;
 
-// audioUrl → measured seconds. The url carries ?v=<mtime>, so regenerated audio is re-measured.
-const tlAudioSeconds = new Map();
+// Media url → measured seconds. Urls carry ?v=<mtime>, so a regenerated file is re-measured.
+const tlMediaSeconds = new Map();
 const tl = {
   index: 0, // clip on screen
   offset: 0, // seconds into that clip
   playing: false,
-  clockStart: 0, // performance.now() origin, drives clips that have no audio
+  clockStart: 0, // performance.now() origin of the playback clock
   raf: 0,
   pxPerSec: 16,
   userZoom: false,
@@ -48,32 +50,42 @@ function formatClock(sec) {
   return `${minutes}:${String(Math.round(sec - minutes * 60)).padStart(2, "0")}`;
 }
 
-function measureAudio(url) {
-  if (tlAudioSeconds.has(url)) return;
-  tlAudioSeconds.set(url, null);
-  const probe = new Audio();
+function measureMedia(url, tag) {
+  if (tlMediaSeconds.has(url)) return;
+  tlMediaSeconds.set(url, null);
+  const probe = document.createElement(tag);
   probe.preload = "metadata";
   probe.addEventListener("loadedmetadata", () => {
-    tlAudioSeconds.set(
+    tlMediaSeconds.set(
       url,
       Number.isFinite(probe.duration) ? probe.duration : null,
     );
     if (tlVisible()) renderTimeline();
   });
   probe.addEventListener("error", () =>
-    console.warn(
-      `timeline: could not read audio duration of ${url}, using placeholder`,
-    ),
+    console.warn(`timeline: could not read the duration of ${url}`),
   );
   probe.src = url;
 }
 
 function timelineClips() {
   let start = 0;
-  return state.scenes.map((scene) => {
-    const measured = scene.hasAudio ? tlAudioSeconds.get(scene.audioUrl) : null;
-    const seconds = measured ?? TL_PLACEHOLDER_SECONDS;
-    const clip = { scene, start, seconds };
+  const last = state.scenes.length - 1;
+  return state.scenes.map((scene, i) => {
+    const audioSeconds = scene.hasAudio
+      ? (tlMediaSeconds.get(scene.audioUrl) ?? null)
+      : null;
+    const videoSeconds = scene.hasMotionVideo
+      ? (tlMediaSeconds.get(scene.motionVideoUrl) ?? 0)
+      : 0;
+    const content = Math.max(
+      audioSeconds ?? TL_PLACEHOLDER_SECONDS,
+      videoSeconds,
+    );
+    const rate =
+      videoSeconds > 0 && videoSeconds < content ? videoSeconds / content : 1;
+    const seconds = content + (i < last ? TL_SCENE_GAP_SECONDS : 0);
+    const clip = { scene, start, seconds, content, audioSeconds, rate };
     start += seconds;
     return clip;
   });
@@ -98,8 +110,8 @@ function clipHtml(clip, i) {
   const showDuration = width >= TL_CLIP_DURATION_MIN_PX;
   const showIcon = width >= TL_CLIP_ICON_MIN_PX;
   const duration = s.hasAudio
-    ? `${clip.seconds.toFixed(1)}s`
-    : `~${clip.seconds}s`;
+    ? `${clip.content.toFixed(1)}s`
+    : `~${clip.content}s`;
   const icon = !showIcon
     ? ""
     : s.hasMotionVideo
@@ -116,7 +128,7 @@ function clipHtml(clip, i) {
     .filter(Boolean)
     .join(" ");
   return `<button type="button" class="${classes}" data-index="${i}" style="width:${width}px"
-      aria-current="${i === tl.index}" aria-label="Scene ${s.scene}, ${clip.seconds.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
+      aria-current="${i === tl.index}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
       title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}">
     ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
     <span class="tl-clip-label">
@@ -149,7 +161,10 @@ function fitZoom(total) {
 }
 
 function renderTimeline() {
-  for (const s of state.scenes) if (s.hasAudio) measureAudio(s.audioUrl);
+  for (const s of state.scenes) {
+    if (s.hasAudio) measureMedia(s.audioUrl, "audio");
+    if (s.hasMotionVideo) measureMedia(s.motionVideoUrl, "video");
+  }
   const clips = timelineClips();
   const total = clipsTotal(clips);
   fitZoom(total);
@@ -217,7 +232,8 @@ function showSceneInfo(s) {
 }
 
 function loadClip(clips, index, offset) {
-  const s = clips[index].scene;
+  const clip = clips[index];
+  const s = clip.scene;
   tl.index = index;
   tl.offset = offset;
   currentScene = s.scene;
@@ -234,7 +250,12 @@ function loadClip(clips, index, offset) {
   setMediaSrc($("tlAudio"), s.hasAudio ? s.audioUrl : null);
   setMediaSrc(video, s.hasMotionVideo ? s.motionVideoUrl : null);
   if (s.hasAudio) $("tlAudio").currentTime = offset;
-  if (s.hasMotionVideo) video.currentTime = offset;
+  if (s.hasMotionVideo) {
+    // A new src resets playbackRate to the default, so set both.
+    video.defaultPlaybackRate = clip.rate;
+    video.playbackRate = clip.rate;
+    video.currentTime = offset * clip.rate;
+  }
   showSceneInfo(s);
 }
 
@@ -250,7 +271,10 @@ function startMedia(clip) {
         if (!isAbort(error))
           console.warn(`timeline: scene ${s.scene} video`, error);
       });
-  if (s.hasAudio)
+  // Seeking into the trailing pause or a padded clip tail starts past the narration's end.
+  const narrationLeft =
+    s.hasAudio && tl.offset < (clip.audioSeconds ?? clip.content);
+  if (narrationLeft)
     $("tlAudio")
       .play()
       .catch((error) => {
@@ -263,12 +287,8 @@ function startMedia(clip) {
       });
 }
 
-function clipFinished(clip) {
-  const audio = $("tlAudio");
-  if (clip.scene.hasAudio) return audio.ended || tl.offset >= clip.seconds;
-  return tl.offset >= clip.seconds;
-}
-
+// One wall clock drives every scene, because a scene runs past its narration (padded clip tail,
+// pause before the next scene) and the audio element stops at its own end.
 function tick() {
   if (!tl.playing) return;
   const clips = timelineClips();
@@ -277,11 +297,9 @@ function tick() {
     pause();
     return;
   }
-  tl.offset = clip.scene.hasAudio
-    ? $("tlAudio").currentTime
-    : (performance.now() - tl.clockStart) / 1000;
+  tl.offset = (performance.now() - tl.clockStart) / 1000;
 
-  if (clipFinished(clip)) {
+  if (tl.offset >= clip.seconds) {
     if (tl.index + 1 >= clips.length) {
       tl.offset = clip.seconds;
       pause();

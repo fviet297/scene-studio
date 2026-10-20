@@ -12,6 +12,9 @@ import { baseUrl as museBaseUrl } from './muse-client.mjs';
 
 const LOG_DIR = 'tmp/services';
 const HEALTH_TIMEOUT_MS = 1500;
+// muse2api closes its headless Chrome on SIGTERM, which can take a while; past this it is killed.
+const STOP_GRACE_MS = 20000;
+const KILL_GRACE_MS = 5000;
 const LOG_TAIL_CHARS = 1200;
 // generate-narration.mjs connects to ws://127.0.0.1:8765/ws, so OmniVoice must listen there.
 const OMNIVOICE_PORT = 8765;
@@ -118,4 +121,29 @@ export const stopService = async (id) => {
   record.stopping = true;
   record.proc.kill('SIGTERM');
   return serviceStatus(id);
+};
+
+// Resolves true once the process has exited, false when it is still alive after `ms`.
+const waitForExit = (proc, ms) => new Promise((resolveExit) => {
+  if (proc.exitCode !== null || proc.signalCode !== null) {
+    resolveExit(true);
+    return;
+  }
+  const timer = setTimeout(() => resolveExit(false), ms);
+  proc.once('exit', () => {
+    clearTimeout(timer);
+    resolveExit(true);
+  });
+});
+
+// Stop the child, wait until it has exited so its port is free, then start it again.
+export const restartService = async (id) => {
+  const record = children.get(id);
+  await stopService(id); // throws unless this panel started it
+  if (!(await waitForExit(record.proc, STOP_GRACE_MS))) {
+    record.proc.kill('SIGKILL');
+    await waitForExit(record.proc, KILL_GRACE_MS);
+  }
+  children.delete(id);
+  return startService(id);
 };

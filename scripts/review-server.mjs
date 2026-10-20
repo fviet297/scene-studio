@@ -28,6 +28,7 @@
 //   GET  /api/services        → state of the local OmniVoice / muse2api servers
 //   POST /api/services/start  → { id } → start that local server as a child of this one
 //   POST /api/services/stop   → { id } → stop a server this one started
+//   POST /api/services/restart → { id } → stop a server this one started, wait for exit, start it
 //
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
@@ -44,7 +45,7 @@ import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlanHeader, writeCharacterPath, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
-import { listServices, startService, stopService } from './lib/local-services.mjs';
+import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 
 loadEnv();
 
@@ -633,7 +634,11 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    const serviceAction = { '/api/services/start': startService, '/api/services/stop': stopService }[pathname];
+    const serviceAction = {
+      '/api/services/start': startService,
+      '/api/services/stop': stopService,
+      '/api/services/restart': restartService,
+    }[pathname];
     if (req.method === 'POST' && serviceAction) {
       const { id } = await readBody(req);
       try {
