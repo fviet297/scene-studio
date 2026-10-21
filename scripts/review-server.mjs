@@ -25,6 +25,18 @@
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
 //   POST /api/remove-motion-video → { scene } → remove clip and use the source image instead
 //   POST /api/approve         → spawn generate-narration.mjs, stream its log over SSE
+//   GET  /api/branding        → the active project's corner logo + watermark settings
+//   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
+//   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
+//   POST /api/project-aspect  → { aspect } → change the active project's `aspect:` header
+//   POST /api/finalize        → { format: wide|vertical } → render; a 16:9 project's vertical
+//                               export is the master plus its 1080x1920 wrap (wrap-vertical.mjs)
+//   GET  /video[?f=9x16]      → the rendered master, or its 9:16 wrap
+//   GET  /preview.js          → src/preview/preview-entry.tsx bundled: the render composition in
+//                               @remotion/player, for the timeline's "as rendered" modes
+//   GET  /api/preview-data    → rebuild + return the active project's Remotion data (same builder
+//                               the render runs first), so the preview plays exactly what renders
+//   GET  /public/<path>       → files under public/ (what staticFile() points at in the preview)
 //   GET  /api/services        → state of the local OmniVoice / muse2api servers
 //   POST /api/services/start  → { id } → start that local server as a child of this one
 //   POST /api/services/stop   → { id } → stop a server this one started
@@ -33,7 +45,8 @@
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
 
-import { execFileSync, spawn } from 'node:child_process';
+import { execFile, execFileSync, spawn } from 'node:child_process';
+import { promisify } from 'node:util';
 import { createServer } from 'node:http';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -46,6 +59,8 @@ import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlan
 import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
+import { readBranding, writeBranding } from './lib/branding.mjs';
+import { previewBundle } from './lib/preview-bundle.mjs';
 
 loadEnv();
 
@@ -66,6 +81,7 @@ const PANEL_ASSETS = {
   '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
+  '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -80,6 +96,11 @@ const sceneFile = (n) => `${sceneBase(n)}.jpg`;
 const audioFile = (n) => `${sceneBase(n)}.mp3`;
 const sceneVideoFile = (n) => `${sceneBase(n)}.mp4`;
 const outMp4 = () => join(P.outDir, `${P.slug}.mp4`);
+// Written by wrap-vertical.mjs from a 16:9 master (same name it uses).
+const outMp4Vertical = () => join(P.outDir, `${P.slug}-9x16.mp4`);
+// Export formats a 16:9 project can render: the YouTube master alone, or the master plus its
+// Shorts/TikTok wrap (the panel picks it from the timeline's preview mode).
+const RENDER_FORMATS = ['wide', 'vertical'];
 const imagePathFor = (n) => join(P.imageDir, sceneFile(n));
 const motionPathFor = (n) => join(P.sceneVideoDir, sceneVideoFile(n));
 
@@ -176,23 +197,34 @@ const reparse = () => execFileSync('node', [join(HERE, 'parse-scene-plan.mjs'), 
 // motion clips, or a switched/created project show up in the studio without a manual
 // build-remotion run. Only the active project is rebuilt — the other bundles on disk stay in the
 // index untouched, so a rebuild costs seconds instead of re-measuring every project.
-// Sync variant for non-streaming callers (project switch/create); a failed rebuild must never
-// break the API call, so its own logged warnings are enough.
-const rebuildBundles = () => {
-  try { execFileSync('node', [join(HERE, 'build-remotion.mjs'), '--project', P.slug], { stdio: 'ignore' }); } catch { /* build-remotion prints its own warnings */ }
+// SSE callers pass `send` so the browser sees the rebuild step. Always resolves — a rebuild
+// failure is surfaced as a log line, never as a failure of the job or API call that asked for it.
+// Rebuilds are chained, never concurrent: two jobs finishing close together (e.g. an audio batch
+// and a motion clip) would otherwise run build-remotion.mjs at once and race on the same files.
+let rebuildChain = Promise.resolve();
+const rebuildBundles = (send = () => {}) => {
+  const slug = P.slug;
+  rebuildChain = rebuildChain.then(() => new Promise((resolve) => {
+    send('log', '▶ Rebuilding Remotion data (src/projects-data)...');
+    const child = spawn('node', [join(HERE, 'build-remotion.mjs'), '--project', slug], { cwd: process.cwd() });
+    const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
+    pipe(child.stdout);
+    pipe(child.stderr);
+    child.on('close', () => resolve());
+    child.on('error', (e) => { send('log', `✗ build-remotion: ${e.message}`); resolve(); });
+  }));
+  return rebuildChain;
 };
 
-// Streaming variant for SSE flows (audio + motion generation), so the browser sees the rebuild
-// step. Always resolves — a rebuild failure is surfaced as a log line, not a job failure.
-const rebuildBundlesStreaming = (send) => new Promise((resolve) => {
-  send('log', '▶ Rebuilding Remotion data (src/projects-data)...');
-  const child = spawn('node', [join(HERE, 'build-remotion.mjs'), '--project', P.slug], { cwd: process.cwd() });
-  const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
-  pipe(child.stdout);
-  pipe(child.stderr);
-  child.on('close', () => resolve());
-  child.on('error', (e) => { send('log', `✗ build-remotion: ${e.message}`); resolve(); });
-});
+// Generation jobs still running server-side. A job outlives its browser connection (the scene
+// already in flight finishes after a cancel), and every job writes through the active project's
+// paths — so a project switch while this is non-zero would land its files in the wrong project.
+let activeJobs = 0;
+const trackJob = async (work) => {
+  activeJobs++;
+  try { await work(); } finally { activeJobs--; }
+};
+const JOBS_RUNNING_ERROR = 'Đang có job chạy trên server — chờ xong rồi đổi project.';
 
 // Normalize a bulk-import row's `char` value → the comma id string scene-plan.md expects.
 // Accepts an id, comma ids, an array of ids, "both"/"all" (every project character), or
@@ -244,6 +276,8 @@ const buildState = () => {
   return {
     title,
     project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion },
+    // Corner logo + watermark, so the timeline preview shows what the render will draw.
+    branding: readBranding(P.slug),
     imageModels: withAvailability(IMAGE_MODELS),
     motionVideoModels: withAvailability(MOTION_VIDEO_MODELS),
     seedreamPromptLimit: SEEDREAM_PROMPT_LIMIT,
@@ -351,6 +385,10 @@ const isSupportedImage = (buf) => {
   return false;
 };
 const MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+// Everything the composition can reach through staticFile(); media goes out with Range support.
+const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav' };
+const PUBLIC_DIR = 'public';
+const execFileAsync = promisify(execFile);
 // Validate an uploaded scene video against the active project's aspect: orientation must match
 // (portrait for 9:16, landscape for 16:9) and the long edge must be at least 1280px.
 const probeSceneVideo = (path) => {
@@ -383,9 +421,19 @@ const probeSceneVideo = (path) => {
   return { width, height };
 };
 
+// Aborts when the browser drops the stream before it is finished — the panel's Cancel, or a closed
+// tab. Watches `res`, not `req`: once the request body has been read, req never emits 'close'
+// again, so a req listener attached after readBody() would never fire.
+const disconnectSignal = (res) => {
+  const controller = new AbortController();
+  res.on('close', () => { if (!res.writableEnded) controller.abort(); });
+  return controller.signal;
+};
+
 // Run generate-narration.mjs (optionally for specific scene numbers) and stream its log to the
-// browser as SSE. Shared by "generate one scene" and "approve → all scenes".
-const streamNarration = (req, res, args, startMsg) => {
+// browser as SSE. Shared by "generate one scene" and "approve → all scenes". Resolves once the
+// child has exited (and the bundle is rebuilt), so trackJob counts the whole run.
+const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
   res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
   const send = (event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
   send('log', startMsg);
@@ -394,39 +442,42 @@ const streamNarration = (req, res, args, startMsg) => {
   pipe(child.stdout);
   pipe(child.stderr);
   child.on('close', async (code) => {
-    if (code !== 0) { send('error', `Exited with code ${code}`); res.end(); return; }
-    await rebuildBundlesStreaming(send); // new audio → refresh hasAudio/durations/captions in the bundle
+    if (code !== 0) { send('error', `Exited with code ${code}`); res.end(); resolve(); return; }
+    await rebuildBundles(send); // new audio → refresh hasAudio/durations/captions in the bundle
     send('done', 'Audio generation finished.');
     res.end();
+    resolve();
   });
-  req.on('close', () => { if (!child.killed) child.kill(); });
-};
+  disconnectSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
+});
 
 // --- shared SSE helpers --------------------------------------------------------------------
 const sseHead = (res) => res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
 const sseSend = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 
 // Run generate-puppet-references.mjs (optionally for one character id) and stream its log.
-const streamPuppets = (req, res, args, startMsg) => {
+// Resolves once the child has exited.
+const streamPuppets = (res, args, startMsg) => new Promise((resolve) => {
   sseHead(res);
   sseSend(res, 'log', startMsg);
   const child = spawn('node', [join(HERE, 'generate-puppet-references.mjs'), ...args], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => sseSend(res, 'log', line)));
   pipe(child.stdout);
   pipe(child.stderr);
-  child.on('close', (code) => { sseSend(res, code === 0 ? 'done' : 'error', code === 0 ? 'Puppet reference(s) generated.' : `Exited with code ${code}`); res.end(); });
-  req.on('close', () => { if (!child.killed) child.kill(); });
-};
+  child.on('close', (code) => { sseSend(res, code === 0 ? 'done' : 'error', code === 0 ? 'Puppet reference(s) generated.' : `Exited with code ${code}`); res.end(); resolve(); });
+  disconnectSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
+});
 
 // Run shell steps in order, streaming each step's log; stop at the first non-zero exit.
-const runSteps = (req, res, steps, doneMsg) => {
+// Resolves once the last step (or the aborted one) has exited.
+const runSteps = (res, steps, doneMsg) => {
   sseHead(res);
-  let aborted = false;
   let current = null;
-  req.on('close', () => { aborted = true; if (current && !current.killed) current.kill(); });
-  (async () => {
+  const signal = disconnectSignal(res);
+  signal.addEventListener('abort', () => { if (current && !current.killed) current.kill(); });
+  return (async () => {
     for (const step of steps) {
-      if (aborted) return;
+      if (signal.aborted) return;
       sseSend(res, 'log', `▶ ${step.label}`);
       const code = await new Promise((resolve) => {
         current = spawn(step.cmd, step.args, { cwd: process.cwd() });
@@ -444,16 +495,16 @@ const runSteps = (req, res, steps, doneMsg) => {
 };
 
 // Generate images for several AI scenes in turn (in-process, not a subprocess). One reference
-// image per frame, so scenes run sequentially; a failure on one does not abort the rest.
-const generateImagesBatch = async (req, res, sceneNos, model) => {
+// image per frame, so scenes run sequentially; a failure on one does not abort the rest. A cancel
+// stops the scene in flight too (its provider call is cancelled and its image never written).
+const generateImagesBatch = async (res, sceneNos, model) => {
   sseHead(res);
-  let aborted = false;
-  req.on('close', () => { aborted = true; });
+  const signal = disconnectSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
   for (const n of sceneNos) {
-    if (aborted) return;
+    if (signal.aborted) return;
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
@@ -462,26 +513,29 @@ const generateImagesBatch = async (req, res, sceneNos, model) => {
     sseSend(res, 'log', `▶ generating scene ${n}...`);
     try {
       backupImage(n); // snapshot the current image so /api/undo can restore it
-      const { via } = await generateSceneImage(target, plan.characters, { model, onLog: (line) => sseSend(res, 'log', `  ${line}`) });
+      const { via } = await generateSceneImage(target, plan.characters, { model, signal, onLog: (line) => sseSend(res, 'log', `  ${line}`) });
       ok++;
       sseSend(res, 'log', `✓ scene ${n} (${via}) — ${ok}/${sceneNos.length} ảnh thành công`);
-    } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
+    } catch (e) {
+      if (signal.aborted) { console.log(`[image batch] cancelled at scene ${n}`); return; }
+      sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
+    }
   }
   sseSend(res, ok === attempted ? 'done' : 'error', `Generated ${ok}/${attempted} scene image(s).`);
   res.end();
 };
 
 // Generate selected motion videos sequentially. Every prediction is paid, so never parallelize
-// this batch; cancel stops before the next scene starts and a failed scene does not stop others.
-const generateMotionVideosBatch = async (req, res, sceneNos, model) => {
+// this batch; a failed scene does not stop others. A cancel stops the scene in flight too (its
+// provider call is cancelled and its clip never written); clips finished before it are kept.
+const generateMotionVideosBatch = async (res, sceneNos, model) => {
   sseHead(res);
-  let aborted = false;
-  req.on('close', () => { aborted = true; });
+  const signal = disconnectSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
   for (const n of sceneNos) {
-    if (aborted) return;
+    if (signal.aborted) break;
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     const imagePath = join(P.imageDir, sceneFile(n));
@@ -508,17 +562,19 @@ const generateMotionVideosBatch = async (req, res, sceneNos, model) => {
         model,
         audioSeconds,
         aspect: activeAspect(),
+        signal,
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
       });
       ok++;
       sseSend(res, 'log', `✓ scene ${n} motion video ready — ${ok}/${sceneNos.length} video thành công`);
     } catch (e) {
+      if (signal.aborted) { console.log(`[motion batch] cancelled at scene ${n}`); break; }
       sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
     }
   }
   if (ok) {
     reparse();
-    await rebuildBundlesStreaming((event, data) => sseSend(res, event, data));
+    await rebuildBundles((event, data) => sseSend(res, event, data));
   }
   sseSend(res, ok === attempted ? 'done' : 'error', `Generated ${ok}/${attempted} motion video(s).`);
   res.end();
@@ -527,15 +583,14 @@ const generateMotionVideosBatch = async (req, res, sceneNos, model) => {
 // Write prompts for several AI scenes in turn via OpenAI (scripts/lib/prompt-writer.mjs). One
 // LLM call per scene, sequential; a failure on one does not abort the rest. Reparses once at the
 // end so every written prompt shows up together.
-const generatePromptsBatch = async (req, res, sceneNos) => {
+const generatePromptsBatch = async (res, sceneNos) => {
   sseHead(res);
-  let aborted = false;
-  req.on('close', () => { aborted = true; });
+  const signal = disconnectSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
   for (const n of sceneNos) {
-    if (aborted) return;
+    if (signal.aborted) break;
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
@@ -563,13 +618,13 @@ const generatePromptsBatch = async (req, res, sceneNos) => {
 // Switch the active project: persist it, point every path at it, reparse, and rebuild the
 // Remotion bundles so the Studio shows this project (measured durations + captions when its audio
 // is complete). Never triggers TTS itself (OmniVoice may not be running).
-const activateProject = (slug) => {
+const activateProject = async (slug) => {
   setActiveSlug(slug);
   P = projectPaths(slug);
   setImageProjectPaths(P);
   syncProjectTemplate();
   reparse();
-  rebuildBundles();
+  await rebuildBundles();
 };
 
 // A new project's scene-plan.md: a pasted plan (e.g. the lsvn / trangca skill output) or, when
@@ -661,16 +716,18 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && pathname === '/api/project') {
       const { slug } = await readBody(req);
+      if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
       if (!isValidSlug(slug)) { sendJson(res, 400, { error: 'invalid project slug' }); return; }
       const target = projectPaths(slug);
       if (!existsSync(target.planMd)) { sendJson(res, 404, { error: `project "${slug}" not found` }); return; }
-      activateProject(slug);
+      await activateProject(slug);
       sendJson(res, 200, buildState());
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/project-create') {
       const { slug, title, aspect, template, plan } = await readBody(req);
+      if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
       if (!isValidSlug(slug)) { sendJson(res, 400, { error: 'slug must be lowercase letters, numbers and hyphens' }); return; }
       const target = projectPaths(slug);
       if (existsSync(target.planMd)) { sendJson(res, 400, { error: `project "${slug}" already exists` }); return; }
@@ -683,7 +740,7 @@ const server = createServer(async (req, res) => {
       if (aspect) writePlanHeader(target.planMd, 'aspect', aspect);
       if (template) writePlanHeader(target.planMd, 'template', template);
       ensureProjectDirs(target);
-      activateProject(slug);
+      await activateProject(slug);
       sendJson(res, 200, buildState());
       return;
     }
@@ -726,10 +783,42 @@ const server = createServer(async (req, res) => {
     }
 
     // The finished render, so the panel can offer a play/download link after finalize.
+    if (req.method === 'GET' && pathname === '/preview.js') {
+      res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(await previewBundle());
+      return;
+    }
+
+    // Async so a rebuild (ffprobe + silence detection per scene) never blocks the other routes.
+    if (req.method === 'GET' && pathname === '/api/preview-data') {
+      await execFileAsync('node', [join(HERE, 'build-remotion.mjs'), '--project', P.slug]);
+      sendJson(res, 200, { project: JSON.parse(readFileSync(join('src', 'projects-data', `${P.slug}.json`), 'utf8')) });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname.startsWith('/public/')) {
+      const name = decodeURIComponent(pathname.slice('/public/'.length));
+      const path = join(PUBLIC_DIR, name);
+      const type = PUBLIC_MIME[name.split('.').pop().toLowerCase()];
+      if (name.includes('..') || !type || !existsSync(path)) { res.writeHead(404).end('not found'); return; }
+      sendMedia(req, res, path, type);
+      return;
+    }
+
     if (req.method === 'GET' && pathname === '/video') {
-      if (!existsSync(outMp4())) { res.writeHead(404).end('no render yet'); return; }
-      res.writeHead(200, { 'Content-Type': 'video/mp4', 'Cache-Control': 'no-store' });
-      res.end(readFileSync(outMp4()));
+      const file = url.searchParams.get('f') === '9x16' ? outMp4Vertical() : outMp4();
+      if (!existsSync(file)) { res.writeHead(404).end('no render yet'); return; }
+      sendMedia(req, res, file, 'video/mp4');
+      return;
+    }
+
+    // Images and motion clips already generated keep their old shape; the render covers-crops
+    // them to the new frame and new generations follow the new aspect.
+    if (req.method === 'POST' && pathname === '/api/project-aspect') {
+      const { aspect } = await readBody(req);
+      if (!ASPECTS[aspect]) { sendJson(res, 400, { error: `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}` }); return; }
+      writePlanHeader(P.planMd, 'aspect', aspect);
+      sendJson(res, 200, buildState());
       return;
     }
 
@@ -738,6 +827,17 @@ const server = createServer(async (req, res) => {
       const path = join(P.sceneVideoDir, name);
       if (!name.includes('..') && existsSync(path)) sendMedia(req, res, path, 'video/mp4');
       else res.writeHead(404).end('not found');
+      return;
+    }
+
+    // Corner logo + centre watermark for the final render; applied at the next Render MP4, whose
+    // build step stamps branding.json into the Remotion bundle.
+    if (req.method === 'GET' && pathname === '/api/branding') {
+      sendJson(res, 200, { branding: readBranding(P.slug) });
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/api/branding') {
+      sendJson(res, 200, { branding: writeBranding(P.slug, await readBody(req)) });
       return;
     }
 
@@ -832,7 +932,7 @@ const server = createServer(async (req, res) => {
         }
       }
       reparse();
-      rebuildBundles();
+      await rebuildBundles();
       sendJson(res, 200, { ok: true, updated, appended });
       return;
     }
@@ -883,7 +983,7 @@ const server = createServer(async (req, res) => {
         return;
       }
       reparse();
-      rebuildBundles();
+      await rebuildBundles();
       sendJson(res, 200, { ...buildState(), mergedScene: keepScene, mergedNarration });
       return;
     }
@@ -954,7 +1054,7 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/generate-puppets') {
       const { id } = await readBody(req);
       const args = id ? [String(id)] : [];
-      streamPuppets(req, res, args, id ? `Generating puppet for ${id}...` : 'Generating puppet references for every character...');
+      trackJob(() => streamPuppets(res, args, id ? `Generating puppet for ${id}...` : 'Generating puppet references for every character...'));
       return;
     }
 
@@ -969,14 +1069,16 @@ const server = createServer(async (req, res) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
-      writeSceneField(P.planMd, scene, 'prompt', text);
-      writeSceneField(P.planMd, scene, 'prompt_vi', vi);
-      // Skipped when the reply had no motion sections, so a hand-authored `motion:` is not lost.
-      if (motion) writeSceneField(P.planMd, scene, 'motion', motion);
-      if (motionVi) writeSceneField(P.planMd, scene, 'motion_vi', motionVi);
-      reparse();
-      sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi, motion, motionVi });
+      await trackJob(async () => {
+        const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+        writeSceneField(P.planMd, scene, 'prompt', text);
+        writeSceneField(P.planMd, scene, 'prompt_vi', vi);
+        // Skipped when the reply had no motion sections, so a hand-authored `motion:` is not lost.
+        if (motion) writeSceneField(P.planMd, scene, 'motion', motion);
+        if (motionVi) writeSceneField(P.planMd, scene, 'motion_vi', motionVi);
+        reparse();
+        sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi, motion, motionVi });
+      });
       return;
     }
 
@@ -984,7 +1086,7 @@ const server = createServer(async (req, res) => {
       const { scenes } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      generatePromptsBatch(req, res, list);
+      trackJob(() => generatePromptsBatch(res, list));
       return;
     }
 
@@ -999,15 +1101,19 @@ const server = createServer(async (req, res) => {
       if (!target.image.prompt) { sendJson(res, 400, { error: `scene ${scene} has no prompt yet` }); return; }
       sseHead(res);
       const log = (line) => { console.log(`[image scene ${scene}] ${line}`); sseSend(res, 'log', line); };
-      try {
-        log(`▶ generating scene ${scene}${model ? ` (model=${model})` : ' (auto route by reference count)'}`);
-        backupImage(scene); // snapshot the current image so /api/undo can restore it
-        const { via } = await generateSceneImage(target, plan.characters, { model, onLog: log });
-        sseSend(res, 'done', `Scene ${scene} image generated (${via})`);
-      } catch (e) {
-        log(`error: ${e.message}`);
-        sseSend(res, 'error', e.message);
-      }
+      const signal = disconnectSignal(res);
+      await trackJob(async () => {
+        try {
+          log(`▶ generating scene ${scene}${model ? ` (model=${model})` : ' (auto route by reference count)'}`);
+          backupImage(scene); // snapshot the current image so /api/undo can restore it
+          const { via } = await generateSceneImage(target, plan.characters, { model, signal, onLog: log });
+          sseSend(res, 'done', `Scene ${scene} image generated (${via})`);
+        } catch (e) {
+          if (signal.aborted) { console.log(`[image scene ${scene}] cancelled`); return; }
+          log(`error: ${e.message}`);
+          sseSend(res, 'error', e.message);
+        }
+      });
       res.end();
       return;
     }
@@ -1058,7 +1164,7 @@ const server = createServer(async (req, res) => {
         return;
       }
       reparse();
-      rebuildBundles();
+      await rebuildBundles();
       sendJson(res, 200, {
         ok: true,
         scene,
@@ -1074,7 +1180,7 @@ const server = createServer(async (req, res) => {
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
       if (!target.narration) { sendJson(res, 400, { error: `scene ${scene} has no narration` }); return; }
-      streamNarration(req, res, [String(scene)], `Generating audio for scene ${scene}...`);
+      trackJob(() => streamNarration(res, [String(scene)], `Generating audio for scene ${scene}...`));
       return;
     }
 
@@ -1083,7 +1189,7 @@ const server = createServer(async (req, res) => {
       const { scenes } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      streamNarration(req, res, list.map(String), `Generating audio for scenes ${list.join(', ')}...`);
+      trackJob(() => streamNarration(res, list.map(String), `Generating audio for scenes ${list.join(', ')}...`));
       return;
     }
 
@@ -1092,7 +1198,7 @@ const server = createServer(async (req, res) => {
       const { scenes, model } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      generateImagesBatch(req, res, list, model);
+      trackJob(() => generateImagesBatch(res, list, model));
       return;
     }
 
@@ -1100,18 +1206,21 @@ const server = createServer(async (req, res) => {
       const { scenes, model } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      generateMotionVideosBatch(req, res, list, model);
+      trackJob(() => generateMotionVideosBatch(res, list, model));
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/approve') {
       // Stream generate-narration.mjs (all scenes) to the browser as it runs (SSE).
-      streamNarration(req, res, [], 'Approved. Generating narration audio (all scenes)...');
+      trackJob(() => streamNarration(res, [], 'Approved. Generating narration audio (all scenes)...'));
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/finalize') {
       // After every image + audio exists: measure durations, align captions, audit, render MP4.
+      const { format = 'wide' } = await readBody(req);
+      if (!RENDER_FORMATS.includes(format)) { sendJson(res, 400, { error: `format phải là ${RENDER_FORMATS.join(', ')}` }); return; }
+      const wrapVertical = activeAspect() === '16:9' && format !== 'wide';
       const plan = readPlan();
       const missImg = plan.scenes.filter((s) => !existsSync(join(P.imageDir, sceneFile(s.scene)))).map((s) => s.scene);
       const missAud = plan.scenes.filter((s) => !existsSync(join(P.audioDir, audioFile(s.scene)))).map((s) => s.scene);
@@ -1124,7 +1233,7 @@ const server = createServer(async (req, res) => {
         return;
       }
       mkdirSync(P.outDir, { recursive: true });
-      runSteps(req, res, [
+      trackJob(() => runSteps(res, [
         { label: 'Audit assets', cmd: 'node', args: [join(HERE, 'check-assets.mjs')] },
         // Rebuild this project's Remotion bundle (measures audio + aligns captions into
         // src/projects-data/<slug>.json). The composition id is the active project's slug.
@@ -1144,7 +1253,10 @@ const server = createServer(async (req, res) => {
             '--jpeg-quality=100',
           ],
         },
-      ], `Finished. Rendered ${outMp4()}`);
+        ...(wrapVertical
+          ? [{ label: 'Wrap 16:9 → 9:16 1080x1920 (Shorts / TikTok)', cmd: 'node', args: [join(HERE, 'wrap-vertical.mjs'), '--project', P.slug] }]
+          : []),
+      ], `Finished. Rendered ${wrapVertical ? `${outMp4()} + ${outMp4Vertical()}` : outMp4()}`));
       return;
     }
 
@@ -1158,7 +1270,7 @@ const server = createServer(async (req, res) => {
       }
       const restored = kind === 'image' ? undoImage(scene) : undoMotion(scene);
       if (!restored) { sendJson(res, 400, { error: `nothing to undo for scene ${scene} ${kind}` }); return; }
-      if (kind === 'motion') { reparse(); rebuildBundles(); }
+      if (kind === 'motion') { reparse(); await rebuildBundles(); }
       sendJson(res, 200, buildState());
       return;
     }
@@ -1177,7 +1289,7 @@ const server = createServer(async (req, res) => {
       backupMotion(scene);
       unlinkSync(videoPath);
       reparse();
-      rebuildBundles();
+      await rebuildBundles();
       sendJson(res, 200, buildState());
       return;
     }
@@ -1197,22 +1309,26 @@ const server = createServer(async (req, res) => {
       } catch (e) { sendJson(res, 500, { error: `ffprobe failed: ${e.message}` }); return; }
       sseHead(res);
       const log = (line) => { console.log(`[motion-video scene ${scene}] ${line}`); sseSend(res, 'log', line); };
-      try {
-        const motionPrompt = prompt || sceneMotionPrompt(target);
-        log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
-        log(`audio duration: ${audioSeconds.toFixed(1)}s`);
-        if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
-        backupMotion(scene); // snapshot the current motion video so /api/undo can restore it
-        const result = await generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), onLog: log });
-        // The final Remotion render plays this clip in place of the scene image — reparse +
-        // rebuild so the bundle's motionVideo flag flips on without a separate manual step.
-        reparse();
-        await rebuildBundlesStreaming((event, data) => sseSend(res, event, data));
-        sseSend(res, 'done', `Scene ${scene} motion video ready: /motion-video/${sceneVideoFile(scene)} (${result.model})`);
-      } catch (e) {
-        log(`error: ${e.message}`);
-        sseSend(res, 'error', e.message);
-      }
+      const signal = disconnectSignal(res);
+      await trackJob(async () => {
+        try {
+          const motionPrompt = prompt || sceneMotionPrompt(target);
+          log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
+          log(`audio duration: ${audioSeconds.toFixed(1)}s`);
+          if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
+          backupMotion(scene); // snapshot the current motion video so /api/undo can restore it
+          const result = await generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), signal, onLog: log });
+          // The final Remotion render plays this clip in place of the scene image — reparse +
+          // rebuild so the bundle's motionVideo flag flips on without a separate manual step.
+          reparse();
+          await rebuildBundles((event, data) => sseSend(res, event, data));
+          sseSend(res, 'done', `Scene ${scene} motion video ready: /motion-video/${sceneVideoFile(scene)} (${result.model})`);
+        } catch (e) {
+          if (signal.aborted) { console.log(`[motion-video scene ${scene}] cancelled`); return; }
+          log(`error: ${e.message}`);
+          sseSend(res, 'error', e.message);
+        }
+      });
       res.end();
       return;
     }

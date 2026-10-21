@@ -67,10 +67,8 @@ let state = {
 let currentScene = null;
 let filter = "all";
 let view = "stage";
-let busy = false;
-// Audio runs in its own lane: it writes only .mp3 files (never the manifest that image
-// generation touches), so it may run concurrently with the image/motion `busy` lane.
-let audioBusy = false;
+// Label of a whole-panel operation (a project switch) that locks every control, or null.
+let globalOp = null;
 let templateVersions = [];
 // Latest effective templates (incl. the *_vi reading aids) from /api/templates, kept so the
 // "Dịch" buttons on template fields can show the stored Vietnamese without any translation call.
@@ -86,6 +84,248 @@ const sceneStatus = (s) =>
       : !s.hasMotionVideo
         ? "need-render"
         : "done";
+// ------------------------------------------------------------------ job lanes
+//
+// Two FIFO lanes, each running one job at a time:
+//   media — image, prompt, motion and the final render. Paid Replicate/OpenAI calls therefore
+//           still run one after another, never in parallel. Its running job owns the console
+//           log and the Cancel button.
+//   audio — narration TTS (one OmniVoice backend). Writes only .mp3 files, so it runs alongside
+//           the media lane.
+// A click while a lane is busy queues the job instead of being refused, so work on one scene
+// never locks the others; gates below block only the actions that conflict with a pending job.
+const lanes = {
+  media: { running: null, queue: [] },
+  audio: { running: null, queue: [] },
+};
+// Direct, unqueued actions in progress (upload, undo, remove motion): scene → label.
+const sceneOps = new Map();
+const JOB_KIND_LABEL = {
+  image: "ảnh",
+  prompt: "prompt",
+  motion: "motion",
+  audio: "audio",
+  render: "render",
+};
+
+const laneJobs = (name) =>
+  [lanes[name].running, ...lanes[name].queue].filter(Boolean);
+const allJobs = () => [...laneJobs("media"), ...laneJobs("audio")];
+const anyJobActive = () => allJobs().length > 0;
+const renderActive = () => laneJobs("media").some((j) => j.kind === "render");
+// Scene n is still ahead in job j: neither finished by the server nor cancelled out of it.
+const jobCovers = (j, n) =>
+  j.scenes.includes(n) && !j.done.has(n) && !j.skip.has(n);
+// A running or queued job of `kind` already covers scene n — a second one would pay twice.
+const hasPending = (kind, n) =>
+  allJobs().some((j) => j.kind === kind && jobCovers(j, n));
+// Scene n's image/motion files are being written or read (or are about to be) — direct edits
+// wait. Prompt jobs only touch the plan text, so they do not count.
+const FILE_JOB_KINDS = ["image", "motion", "render"];
+const sceneMediaBusy = (n) =>
+  sceneOps.has(n) ||
+  laneJobs("media").some(
+    (j) => FILE_JOB_KINDS.includes(j.kind) && jobCovers(j, n),
+  );
+// Any pending work on scene n; plan rewrites (merge, script save) of that scene wait.
+const sceneInAnyLane = (n) =>
+  sceneOps.has(n) || allJobs().some((j) => jobCovers(j, n));
+
+// A job for `scenes` built from a spec or from an earlier job (whose `labelFor` carries over).
+// current/done/skip track the server's progress through the scenes (trackSceneProgress).
+function newJob(spec, scenes) {
+  const labelFor = spec.labelFor ?? spec.label;
+  return {
+    ...spec,
+    scenes,
+    labelFor,
+    label: labelFor(scenes),
+    current: null,
+    done: new Set(),
+    skip: new Set(),
+    controller: null,
+    cancelNote: null,
+  };
+}
+
+// spec: { lane, kind, scenes, label(scenes) → string, run(job) → Promise, cancellable? }.
+// `cancellable: false` hides Cancel for a runner that ignores job.controller. Scenes that already
+// have a pending job of the same kind are dropped, so a double click or an overlapping batch
+// never queues the same paid generation twice.
+function enqueueJob(spec) {
+  const fresh = spec.scenes.filter((n) => !hasPending(spec.kind, n));
+  if (!fresh.length) {
+    toast(
+      `Scene ${spec.scenes.join(", ")} đã có ${JOB_KIND_LABEL[spec.kind]} trong hàng chờ.`,
+      false,
+    );
+    return;
+  }
+  const skipped = spec.scenes.length - fresh.length;
+  const job = newJob(spec, fresh);
+  const lane = lanes[spec.lane];
+  lane.queue.push(job);
+  if (lane.running)
+    toast(
+      `Đã xếp hàng: ${job.label}${skipped ? ` (bỏ qua ${skipped} scene đã chờ)` : ""}.`,
+    );
+  syncJobUi();
+  pumpLane(spec.lane);
+}
+
+async function pumpLane(name) {
+  const lane = lanes[name];
+  if (lane.running || !lane.queue.length) return;
+  const job = lane.queue.shift();
+  job.controller = new AbortController();
+  lane.running = job;
+  syncJobUi();
+  try {
+    await job.run(job);
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    lane.running = null;
+    await refresh().catch(() => {});
+    syncJobUi();
+    pumpLane(name);
+  }
+}
+
+// Drop every queued (not yet started) job in both lanes; running jobs carry on.
+function clearQueues() {
+  const n = lanes.media.queue.length + lanes.audio.queue.length;
+  lanes.media.queue.length = 0;
+  lanes.audio.queue.length = 0;
+  syncJobUi();
+  if (n) toast(`Đã xoá ${n} job khỏi hàng chờ.`);
+}
+
+// Cancel scene n's pending `kind` job, and nothing else. A queued job just drops the scene (and
+// goes once empty). A running job is aborted only when no other scene of it is still unfinished;
+// in a batch the scene is marked skipped instead, and trackSceneProgress aborts the batch the
+// moment the server starts that scene, re-queueing the rest — so cancelling one scene never
+// kills a paid call already running for another.
+function cancelSceneJob(kind, n) {
+  for (const lane of Object.values(lanes)) {
+    for (const job of [...lane.queue]) {
+      if (job.kind !== kind || !jobCovers(job, n)) continue;
+      job.scenes = job.scenes.filter((x) => x !== n);
+      if (job.scenes.length) job.label = job.labelFor(job.scenes);
+      else lane.queue.splice(lane.queue.indexOf(job), 1);
+    }
+    const job = lane.running;
+    if (job?.kind !== kind || !jobCovers(job, n)) continue;
+    job.skip.add(n);
+    if (job.current === n || !unfinishedScenes(job).length) abortForSkip(job);
+  }
+  toast(`Đã huỷ ${JOB_KIND_LABEL[kind]} scene ${n}.`);
+  syncJobUi();
+}
+
+// Scenes of a running job the server has yet to finish, cancelled ones left out.
+const unfinishedScenes = (job) =>
+  job.scenes.filter((x) => !job.done.has(x) && !job.skip.has(x));
+
+// Abort a running job for its skipped scene(s); the scenes it had not reached go back to the
+// front of its lane, so the rest of the batch still runs.
+function abortForSkip(job) {
+  const rest = unfinishedScenes(job).filter((x) => x !== job.current);
+  if (rest.length) lanes[job.lane].queue.unshift(newJob(job, rest));
+  job.cancelNote =
+    `Đã huỷ scene ${[...job.skip].join(", ")}` +
+    (rest.length ? ` — scene ${rest.join(", ")} xếp lại đầu hàng chờ` : "");
+  job.controller.abort();
+}
+
+// Follow the server's per-scene log lines ("▶ … scene N" when one starts; "✓/✗/• scene N" or
+// "✓ scene-NN.mp3" when it ends), shared by the image, motion and audio endpoints.
+const SCENE_START = /^▶ .*?\bscene (\d+)/;
+const SCENE_END = /^[✓✗•] scene[- ](\d+)/;
+function trackSceneProgress(job, line) {
+  if (job.controller.signal.aborted) return;
+  const start = SCENE_START.exec(line);
+  if (start) {
+    job.current = Number(start[1]);
+    if (job.skip.has(job.current)) abortForSkip(job);
+    else syncJobUi();
+    return;
+  }
+  const end = SCENE_END.exec(line);
+  if (!end) return;
+  job.done.add(Number(end[1]));
+  job.current = null;
+  if (job.skip.size && !unfinishedScenes(job).length) abortForSkip(job);
+  syncJobUi();
+}
+
+// Run a direct (unqueued) action on one scene, refused while that scene has media work pending.
+async function withSceneOp(n, label, work) {
+  if (sceneMediaBusy(n)) {
+    toast(`Scene ${n} đang có job ảnh/motion — chờ xong rồi thử lại.`, false);
+    return;
+  }
+  sceneOps.set(n, label);
+  syncJobUi();
+  try {
+    await work();
+  } finally {
+    sceneOps.delete(n);
+    syncJobUi();
+  }
+}
+
+// What scene n is waiting on, for the stage and the rail:
+//   work  — label of a running media job or direct op on this scene (covers the stage);
+//   notes — running audio and queued jobs with their lane position (a chip, never a cover);
+//   mark  — "running" | "queued" | null for the rail row.
+function sceneJobStatus(n) {
+  const media = lanes.media.running;
+  const work =
+    sceneOps.get(n) ?? (media && jobCovers(media, n) ? media.label : null);
+  const audio = lanes.audio.running;
+  const audioRunning = Boolean(audio && jobCovers(audio, n));
+  const notes = audioRunning ? ["đang sinh audio"] : [];
+  for (const name of ["media", "audio"])
+    lanes[name].queue.forEach((j, i) => {
+      if (jobCovers(j, n))
+        notes.push(`chờ ${JOB_KIND_LABEL[j.kind]} · #${i + 1}`);
+    });
+  const mark =
+    work || audioRunning ? "running" : notes.length ? "queued" : null;
+  return { work, notes, mark };
+}
+
+// Re-run every job-dependent gate and marker without refetching state.
+function syncJobUi() {
+  renderPipeline();
+  renderRail();
+  renderStage();
+  syncScriptGenButtons();
+  updateScriptFoot();
+  syncGlobalButtons();
+  syncConsoleQueue();
+}
+
+// Project switch/create rewrite the server's active paths, so they wait for every lane to drain.
+function syncGlobalButtons() {
+  const locked = Boolean(globalOp) || anyJobActive();
+  $("projectSelect").disabled = locked;
+  $("aspectSelect").disabled = locked;
+  $("btnNewProject").disabled = locked;
+  $("btnAddChar").disabled = Boolean(globalOp);
+}
+
+function syncConsoleQueue() {
+  const queued = lanes.media.queue.length + lanes.audio.queue.length;
+  $("conQueue").hidden = queued === 0;
+  $("conQueue").textContent = `+${queued} chờ`;
+  $("conClearQueue").hidden = queued === 0;
+  const media = lanes.media.running;
+  $("conCancel").hidden = !media || media.cancellable === false;
+  if (media) $("conCancel").disabled = media.controller.signal.aborted;
+}
+
 const findScene = (n) => state.scenes.find((s) => s.scene === n) ?? null;
 const current = () => findScene(currentScene);
 const shownScenes = () =>
@@ -137,6 +377,7 @@ function renderProjectSwitch() {
     )
     .join("");
   $("projectSelect").innerHTML = options;
+  $("aspectSelect").value = state.project?.aspect || "9:16";
 }
 
 // Model options grouped by provider. A model whose provider key is missing from .env stays
@@ -371,11 +612,19 @@ function renderPipeline() {
 
   const ai = state.scenes.filter((s) => s.kind === "ai");
   const aiDone = ai.filter((s) => s.hasImage).length;
-  $("btnApprove").disabled = busy || !(ai.length > 0 && aiDone === ai.length);
+  // Approve re-voices every scene, so it waits for the audio lane to drain; render reads every
+  // image and audio file, so it waits for both lanes (and blocks new audio while it runs).
+  $("btnApprove").disabled =
+    Boolean(globalOp) ||
+    laneJobs("audio").length > 0 ||
+    renderActive() ||
+    !(ai.length > 0 && aiDone === ai.length);
   $("btnRender").disabled =
-    busy || !(total > 0 && done.img === total && done.aud === total);
+    Boolean(globalOp) ||
+    anyJobActive() ||
+    !(total > 0 && done.img === total && done.aud === total);
 
-  if (!busy) {
+  if (!lanes.media.running && !globalOp) {
     if (aiDone < ai.length)
       setConsole("idle", `Còn ${ai.length - aiDone} ảnh cần sinh`);
     else if (done.aud < total)
@@ -392,12 +641,16 @@ function renderRail() {
       const thumb = s.hasImage
         ? `<img class="thumb" src="${s.imageUrl}" alt="" loading="lazy" />`
         : '<span class="thumb blank">?</span>';
+      const { mark } = sceneJobStatus(s.scene);
+      const jobMark = mark
+        ? `<span class="job-mark ${mark}">${mark === "running" ? "đang chạy" : "chờ"}</span>`
+        : "";
       return `<li class="rail-row${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
       <input type="checkbox" class="rail-check" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} title="Chọn scene ${s.scene}" aria-label="Chọn scene ${s.scene}" />
       <button type="button" class="rail-item" data-scene="${s.scene}" aria-current="${s.scene === currentScene}">
         ${thumb}
         <span class="meta">
-          <span class="no num">Scene ${s.scene}</span>
+          <span class="no num">Scene ${s.scene}${jobMark}</span>
           ${pips(s)}
           <span class="line">${escapeHtml((s.narration || "").slice(0, 70)) || "chưa có narration"}</span>
         </span>
@@ -427,6 +680,7 @@ function renderStage() {
   const s = current();
   const canvas = $("canvas");
   canvas.querySelector(".frame")?.remove();
+  syncStageJob(s);
 
   if (!s) {
     $("canvasEmpty").hidden = false;
@@ -484,24 +738,37 @@ function renderStage() {
   $("audioMissing").hidden = s.hasAudio;
   if (s.hasAudio && audio.getAttribute("src") !== s.audioUrl)
     audio.src = s.audioUrl;
-  $("btnAudio").textContent = audioBusy
-    ? "Đang sinh audio…"
-    : s.hasAudio
-      ? "Sinh lại audio"
-      : "Sinh audio";
-
-  $("btnMotionVideo").textContent = s.hasMotionVideo
-    ? "Sinh lại motion video"
-    : "Sinh motion video";
-  $("btnMotionVideo").disabled = busy || !s.hasImage || !s.hasAudio;
-  $("btnMotionVideo").title =
+  // Scene-scoped locks: a pending job turns only this scene's button of its kind into Cancel,
+  // and direct file edits (upload/undo/remove) wait only while this scene's media is written.
+  const mediaLocked = Boolean(globalOp) || sceneMediaBusy(s.scene);
+  const canMotion = !globalOp && s.hasImage && s.hasAudio;
+  syncGenButton(
+    $("btnMotionVideo"),
+    "motion",
+    s.scene,
+    s.hasMotionVideo ? "Sinh lại motion video" : "Sinh motion video",
+    canMotion,
+  );
+  syncGenButton(
+    $("btnRowGenMotion"),
+    "motion",
+    s.scene,
+    s.hasMotionVideo ? "Sinh lại" : "Sinh",
+    canMotion,
+    true,
+  );
+  const motionNeeds =
     s.hasImage && s.hasAudio
       ? ""
       : "Cần có ảnh và audio trước (độ dài video khớp theo audio)";
+  $("btnMotionVideo").title = motionNeeds;
+  $("btnRowGenMotion").title =
+    motionNeeds ||
+    "Sinh motion video cho scene này (model, độ dài ở popup Sửa)";
   $("btnUploadMotionVideo").textContent = s.hasMotionVideo
     ? "Thay motion video"
     : "Tải video thay thế";
-  $("btnUploadMotionVideo").disabled = busy;
+  $("btnUploadMotionVideo").disabled = mediaLocked;
   // The box shows the effective motion prompt (authored `motion:` or the auto-built one); saving
   // writes it as the scene's `motion:` so an edit survives a refresh.
   const motionPrompt = $("motionPromptBox");
@@ -522,11 +789,11 @@ function renderStage() {
     if (v.getAttribute("src") !== s.motionVideoUrl) v.src = s.motionVideoUrl;
   }
   $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
-  $("btnRemoveMotionVideo").disabled = busy;
+  $("btnRemoveMotionVideo").disabled = mediaLocked;
   $("btnUndoImage").hidden = !s.hasImageBackup;
-  $("btnUndoImage").disabled = busy;
+  $("btnUndoImage").disabled = mediaLocked;
   $("btnUndoMotion").hidden = !s.hasMotionBackup;
-  $("btnUndoMotion").disabled = busy;
+  $("btnUndoMotion").disabled = mediaLocked;
 
   setStageState("stageImgState", s.hasImage);
   setStageState("stageAudState", s.hasAudio);
@@ -535,6 +802,64 @@ function renderStage() {
   syncSetupBlock(s);
   syncInspector(s);
 }
+
+// The canvas veil covers the stage only while *this* scene's media is being written; queued
+// jobs and running audio show as a chip that leaves the image visible and droppable.
+function syncStageJob(s) {
+  const canvas = $("canvas");
+  canvas.querySelector(".working")?.remove();
+  canvas.querySelector(".job-chip")?.remove();
+  const { work, notes } = s
+    ? sceneJobStatus(s.scene)
+    : { work: null, notes: [] };
+  const cover = work ?? globalOp;
+  if (cover) {
+    const veil = document.createElement("div");
+    veil.className = "working";
+    veil.innerHTML = `<span class="spinner"></span><span>${escapeHtml(cover)}</span>`;
+    canvas.appendChild(veil);
+  }
+  if (notes.length) {
+    const chip = document.createElement("span");
+    chip.className = "job-chip";
+    chip.textContent = notes.join(" · ");
+    canvas.appendChild(chip);
+  }
+}
+
+// The `kind` job covering scene n is running for it right now, not just waiting its turn
+// (queued, or later in a running batch).
+const sceneJobRunning = (kind, n) =>
+  Object.values(lanes).some(
+    ({ running: j }) =>
+      j?.kind === kind &&
+      jobCovers(j, n) &&
+      (j.current === n || j.scenes.length === 1),
+  );
+
+// A generate button doubles as its scene's Cancel while that job is pending, so a scene is
+// stopped from where it was started. `idle` is the start label and `canStart` its usual gate;
+// `short` keeps the label to one word for the compact row and script buttons.
+function syncGenButton(btn, kind, n, idle, canStart, short = false) {
+  const pending = hasPending(kind, n);
+  btn.classList.toggle("is-cancel", pending);
+  btn.textContent = !pending
+    ? idle
+    : short
+      ? "Huỷ"
+      : sceneJobRunning(kind, n)
+        ? "Huỷ · đang chạy"
+        : "Huỷ · đang chờ";
+  btn.disabled = pending ? false : !canStart;
+}
+
+// Click handler for a generate button synced by syncGenButton: cancel when pending, else start.
+const genOrCancel = (kind, start) => () => {
+  const s = current();
+  if (!s) return;
+  if (hasPending(kind, s.scene)) cancelSceneJob(kind, s.scene);
+  else start(s);
+};
 
 // Stage-header done pill: shape (filled dot via .on) + word, matching the rail pips.
 function setStageState(id, done) {
@@ -568,9 +893,17 @@ function syncInspector(s) {
       $("promptHint"),
       box.value.trim() !== (s.prompt ?? "").trim(),
     );
-    $("btnGen").textContent = s.hasImage ? "Sinh lại ảnh" : "Sinh ảnh";
-    $("btnGen").disabled = busy;
-    $("btnGenPrompt").disabled = busy || !(s.narration || "").trim();
+    syncGenButton(
+      $("btnGen"),
+      "image",
+      s.scene,
+      s.hasImage ? "Sinh lại ảnh" : "Sinh ảnh",
+      !globalOp,
+    );
+    $("btnGenPrompt").disabled =
+      Boolean(globalOp) ||
+      hasPending("prompt", s.scene) ||
+      !(s.narration || "").trim();
   } else {
     $("searchQuery").textContent = s.query || "chưa có từ khoá";
   }
@@ -578,7 +911,31 @@ function syncInspector(s) {
   $("btnUpload").textContent = s.hasImage
     ? "Thay bằng ảnh của bạn"
     : "Tải ảnh của bạn lên";
-  $("btnAudio").disabled = audioBusy || !(s.narration || "").trim();
+  $("btnUpload").disabled = Boolean(globalOp) || sceneMediaBusy(s.scene);
+  // The row button reads the saved prompt (generateImage saves a draft first), so it needs one.
+  const hasPrompt = Boolean(
+    (drafts.prompt.get(s.scene) ?? s.prompt ?? "").trim(),
+  );
+  syncGenButton(
+    $("btnRowGenImage"),
+    "image",
+    s.scene,
+    s.hasImage ? "Sinh lại" : "Sinh",
+    !globalOp && isAi && hasPrompt,
+    true,
+  );
+  $("btnRowGenImage").title = !isAi
+    ? "Scene tìm ảnh — không sinh bằng AI; tải ảnh lên trong popup Sửa"
+    : hasPrompt
+      ? "Sinh ảnh cho scene này từ prompt (model ở popup Sửa)"
+      : "Chưa có prompt — viết prompt trong popup Sửa";
+  syncGenButton(
+    $("btnAudio"),
+    "audio",
+    s.scene,
+    s.hasAudio ? "Sinh lại audio" : "Sinh audio",
+    !globalOp && !renderActive() && Boolean((s.narration || "").trim()),
+  );
   updatePromptCount();
   showError("");
 }
@@ -676,11 +1033,19 @@ function renderSelection() {
   $("sheetSelInfo").innerHTML = info;
   $("railSelInfo").innerHTML = info;
 
-  const disPrompt = busy || promptEligible === 0;
-  const disImg = busy || aiCount === 0;
-  const disAud = audioBusy || audioEligible === 0;
-  const disMotion = busy || motionEligibleCount === 0;
-  const disMerge = busy || !isContiguousSelection(chosen.map((s) => s.scene));
+  // Batches queue behind running jobs (enqueueJob drops scenes already pending), so only a
+  // project switch blocks them — plus a render for audio, which must not rewrite files it reads.
+  // Merge rewrites the plan blocks of every selected scene, so it waits while any of them has
+  // work pending.
+  const locked = Boolean(globalOp);
+  const disPrompt = locked || promptEligible === 0;
+  const disImg = locked || aiCount === 0;
+  const disAud = locked || renderActive() || audioEligible === 0;
+  const disMotion = locked || motionEligibleCount === 0;
+  const disMerge =
+    locked ||
+    chosen.some((s) => sceneInAnyLane(s.scene)) ||
+    !isContiguousSelection(chosen.map((s) => s.scene));
   $("batchPrompt").disabled = disPrompt;
   $("batchImg").disabled = disImg;
   $("batchAud").disabled = disAud;
@@ -784,52 +1149,6 @@ function setConsole(kind, message, tail = "") {
   $("conTail").textContent = tail;
 }
 
-function setBusy(on, label = "đang xử lý") {
-  busy = on;
-  const canvas = $("canvas");
-  canvas.querySelector(".working")?.remove();
-  if (on) {
-    const veil = document.createElement("div");
-    veil.className = "working";
-    veil.innerHTML = `<span class="spinner"></span><span>${escapeHtml(label)}</span>`;
-    canvas.appendChild(veil);
-  }
-  // btnAudio/batchAud/railBatchAud are intentionally absent: the audio lane is gated by
-  // `audioBusy`, not the image/motion `busy` lock, so audio can be started while a job runs.
-  // btnScript is also absent: the Full script modal only reads the plan until Save, and its Save
-  // and per-scene gen buttons already guard against busy, so it stays openable during a job.
-  for (const id of [
-    "btnGen",
-    "btnGenPrompt",
-    "btnUpload",
-    "btnUndoImage",
-    "btnUndoMotion",
-    "btnRemoveMotionVideo",
-    "btnRender",
-    "railBatchPrompt",
-    "railBatchImg",
-    "railBatchMotion",
-    "btnApprove",
-    "batchPrompt",
-    "batchImg",
-    "batchMotion",
-    "projectSelect",
-    "btnNewProject",
-    "btnAddChar",
-  ])
-    $(id).disabled = on;
-  syncScriptGenButtons();
-  if (!on) {
-    renderPipeline();
-    renderSelection();
-    const s = current();
-    if (s) {
-      syncSetupBlock(s);
-      syncInspector(s);
-    }
-  }
-}
-
 async function refresh() {
   state = await api("/api/state");
   render();
@@ -846,13 +1165,14 @@ function clearProjectLocalState() {
 }
 
 async function switchProject(slug) {
-  // Also blocked while audio runs: switching changes the server's active-project paths, which
-  // an in-flight audio job would otherwise write into.
-  if (busy || audioBusy || !slug || slug === state.project?.slug) {
+  // Blocked while any job is running or queued: switching changes the server's active-project
+  // paths, which an in-flight job would otherwise write into (the server also refuses with 409).
+  if (globalOp || anyJobActive() || !slug || slug === state.project?.slug) {
     renderProjectSwitch();
     return;
   }
-  setBusy(true, `đang chuyển sang ${slug}`);
+  globalOp = `đang chuyển sang ${slug}`;
+  syncJobUi();
   try {
     clearProjectLocalState();
     state = await api("/api/project", { slug });
@@ -864,7 +1184,8 @@ async function switchProject(slug) {
     toast(e.message, false);
     renderProjectSwitch();
   } finally {
-    setBusy(false);
+    globalOp = null;
+    syncJobUi();
   }
 }
 
@@ -904,49 +1225,62 @@ function buildExportJson() {
   );
 }
 
-// Streams an SSE endpoint into the console. Opens the log on failure only, so a
-// successful run never covers the scene you were looking at.
-// Holds the in-flight streaming job's AbortController so the Cancel button can stop it.
-// Aborting closes the SSE fetch; the server sees the connection drop and stops before the next
-// scene (the scene already generating on Replicate still finishes and still bills).
-let currentJob = null;
+// POST an SSE endpoint and hand each event to onEvent(type, line). A request refused before the
+// stream opens (validation error) comes back as JSON, and is thrown as an Error.
+async function readSse(path, body, signal, onEvent) {
+  const res = await fetch(path, {
+    method: "POST",
+    headers: body ? { "Content-Type": "application/json" } : {},
+    body: body ? JSON.stringify(body) : undefined,
+    signal,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || res.statusText);
+  }
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const chunks = buffer.split("\n\n");
+    buffer = chunks.pop();
+    for (const chunk of chunks) {
+      const type = (chunk.match(/^event: (.*)$/m) || [])[1];
+      const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
+      if (raw) onEvent(type, JSON.parse(raw));
+    }
+  }
+}
 
-async function streamJob(path, body, label, onDone) {
+// Which providers stop a generation when it is cancelled (scripts/lib/*-image|video.mjs).
+const CANCEL_PROVIDER_NOTE =
+  "Replicate/fal huỷ luôn prediction; muse2api/VMedia không có API huỷ nên job vẫn chạy xong bên đó (có thể vẫn tính phí), kết quả bị bỏ.";
+
+// Media-lane runner: streams the job's SSE endpoint into the console. Opens the log on failure
+// only, so a successful run never covers the scene you were looking at. Cancel aborts the
+// job's controller, which closes the fetch; the server sees the connection drop and stops the
+// scene in flight too (see CANCEL_PROVIDER_NOTE for what that means at the provider).
+const consoleJob = (path, bodyFor, onDone) => async (job) => {
   const log = $("conLog");
   log.textContent = "";
-  const controller = new AbortController();
-  currentJob = controller;
-  $("conCancel").disabled = false;
-  $("conCancel").hidden = false;
-  setBusy(true, label);
-  setConsole("running", label);
+  setConsole("running", job.label);
   let failed = false;
   try {
-    const res = await fetch(path, {
-      method: "POST",
-      headers: body ? { "Content-Type": "application/json" } : {},
-      body: body ? JSON.stringify(body) : undefined,
-      signal: controller.signal,
-    });
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    for (;;) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const chunks = buffer.split("\n\n");
-      buffer = chunks.pop();
-      for (const chunk of chunks) {
-        const type = (chunk.match(/^event: (.*)$/m) || [])[1];
-        const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
-        if (!raw) continue;
-        const line = JSON.parse(raw);
+    await readSse(
+      path,
+      bodyFor(job.scenes),
+      job.controller.signal,
+      (type, line) => {
         log.textContent +=
           (type === "done" ? "✓ " : type === "error" ? "✗ " : "") + line + "\n";
         log.scrollTop = log.scrollHeight;
-        if (type === "log") setConsole("running", label, line);
-        else if (type === "done") {
+        if (type === "log") {
+          setConsole("running", job.label, line);
+          trackSceneProgress(job, line);
+        } else if (type === "done") {
           setConsole("idle", line);
           toast(line);
           onDone?.();
@@ -955,14 +1289,14 @@ async function streamJob(path, body, label, onDone) {
           setConsole("error", line);
           toast(line, false);
         }
-      }
-    }
+      },
+    );
   } catch (e) {
     if (e.name === "AbortError") {
-      log.textContent +=
-        "• Đã huỷ (scene đang chạy vẫn hoàn tất trên server)\n";
-      setConsole("idle", "Đã huỷ");
-      toast("Đã huỷ — scene đang sinh vẫn chạy xong (và vẫn tính phí).", false);
+      log.textContent += `• ${job.cancelNote ?? "Đã huỷ"}. ${CANCEL_PROVIDER_NOTE}\n`;
+      setConsole("idle", job.cancelNote ?? "Đã huỷ");
+      // A per-scene cancel already toasted from cancelSceneJob.
+      if (!job.cancelNote) toast(`Đã huỷ. ${CANCEL_PROVIDER_NOTE}`, false);
     } else {
       failed = true;
       log.textContent += `✗ ${e.message}\n`;
@@ -970,59 +1304,66 @@ async function streamJob(path, body, label, onDone) {
       toast(e.message, false);
     }
   } finally {
-    currentJob = null;
-    $("conCancel").hidden = true;
-    setBusy(false);
     if (failed) openLog(true);
-    await refresh().catch(() => {});
   }
-}
+};
 
-// Audio lane, independent of streamJob's image/motion `busy` lock. It never touches the shared
-// console, veil or Cancel button, so an audio run and an image/motion run can proceed at once
-// without their logs colliding. Progress is shown on the button; the result comes via toast.
-// Only one audio job runs at a time (single OmniVoice TTS backend), guarded by `audioBusy`.
-async function runAudioJob(path, body) {
-  if (audioBusy) return;
-  audioBusy = true;
-  $("btnAudio").disabled = true;
-  $("btnAudio").textContent = "Đang sinh audio…";
-  // Lock the whole audio lane the setBusy comment documents (btnAudio/batchAud/railBatchAud);
-  // railBatchAud fires the same runAudioJob from the rail, so it must go down with batchAud.
-  $("batchAud").disabled = true;
-  $("railBatchAud").disabled = true;
-  syncScriptGenButtons();
+// Audio-lane runner. It never touches the shared console or Cancel button, so an audio run and
+// a media run proceed at once without their logs colliding; progress shows on the scene's audio
+// button and rail mark, the result comes via toast. An error toast carries the last log line,
+// since the exit code alone does not say what OmniVoice complained about.
+// A cancel (cancelSceneJob, which toasts itself) ends the run quietly; the server kills the
+// TTS child process when the stream drops.
+const quietJob = (path, bodyFor) => async (job) => {
+  let lastLog = "";
   try {
-    const res = await fetch(path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    for (;;) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const chunks = buffer.split("\n\n");
-      buffer = chunks.pop();
-      for (const chunk of chunks) {
-        const type = (chunk.match(/^event: (.*)$/m) || [])[1];
-        const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
-        if (!raw) continue;
-        const line = JSON.parse(raw);
-        if (type === "done") toast(line);
-        else if (type === "error") toast(line, false);
-      }
-    }
+    await readSse(
+      path,
+      bodyFor(job.scenes),
+      job.controller.signal,
+      (type, line) => {
+        if (type === "log") {
+          lastLog = line;
+          trackSceneProgress(job, line);
+        } else if (type === "done") toast(line);
+        else if (type === "error")
+          toast(lastLog ? `${line} — ${lastLog}` : line, false);
+      },
+    );
   } catch (e) {
-    toast(e.message, false);
-  } finally {
-    audioBusy = false;
-    await refresh().catch(() => {});
+    if (e.name !== "AbortError") throw e;
   }
-}
+};
+
+const sceneList = (scenes) => scenes.join(", ");
+const enqueueImages = (scenes, model) =>
+  enqueueJob({
+    lane: "media",
+    kind: "image",
+    scenes,
+    label: (ns) => `Đang sinh ảnh cho scene ${sceneList(ns)}`,
+    run: consoleJob("/api/generate-batch", (ns) => ({ scenes: ns, model })),
+  });
+const enqueueMotions = (scenes, model) =>
+  enqueueJob({
+    lane: "media",
+    kind: "motion",
+    scenes,
+    label: (ns) =>
+      `Đang sinh motion video cho scene ${sceneList(ns)} (${model})`,
+    run: consoleJob("/api/generate-motion-videos-batch", (ns) => ({
+      scenes: ns,
+      model,
+    })),
+  });
+const enqueueAudio = (scenes) =>
+  enqueueJob({
+    lane: "audio",
+    kind: "audio",
+    scenes,
+    label: (ns) => `Sinh audio cho scene ${sceneList(ns)}`,
+    run: quietJob("/api/audio-batch", (ns) => ({ scenes: ns })),
+  });
 
 function openLog(open) {
   $("console").classList.toggle("open", open);
@@ -1093,38 +1434,46 @@ async function generateImage() {
     await saveField("prompt", prompt);
 
   const model = effectiveImageModel();
-  // Streamed so the Replicate call is logged in the panel console (Show log); streamJob owns
-  // busy/console/refresh.
-  await streamJob(
-    "/api/generate",
-    { scene: s.scene, model },
-    `Đang sinh ảnh cho scene ${s.scene}`,
-  );
+  // Streamed so the Replicate call is logged in the panel console (Show log).
+  enqueueJob({
+    lane: "media",
+    kind: "image",
+    scenes: [s.scene],
+    label: () => `Đang sinh ảnh cho scene ${s.scene}`,
+    run: consoleJob("/api/generate", () => ({ scene: s.scene, model })),
+  });
 }
 
-async function generatePromptFromNarration() {
+// Queued like an image so "write prompt, then generate" can be lined up back to back; the
+// image job reads the plan when it starts, so it picks up the freshly written prompt.
+function generatePromptFromNarration() {
   const s = current();
   if (!s) return;
   if (!(s.narration || "").trim()) {
     showError("Narration đang trống — viết narration trước.");
     return;
   }
-  setBusy(true, `đang viết prompt cho scene ${s.scene}`);
-  setConsole("running", `Đang viết prompt cho scene ${s.scene} từ narration`);
-  try {
-    const res = await api("/api/generate-prompt", { scene: s.scene });
-    setConsole("idle", `Scene ${s.scene}: đã viết prompt.`);
-    toast(
-      `Scene ${s.scene}: đã viết ${res.motion ? "prompt ảnh + motion prompt" : "prompt"} từ narration.`,
-    );
-    await refresh();
-  } catch (e) {
-    showError(e.message);
-    setConsole("error", e.message);
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
+  const n = s.scene;
+  enqueueJob({
+    lane: "media",
+    kind: "prompt",
+    scenes: [n],
+    label: () => `Đang viết prompt cho scene ${n} từ narration`,
+    cancellable: false,
+    run: async (job) => {
+      setConsole("running", job.label);
+      try {
+        const res = await api("/api/generate-prompt", { scene: n });
+        setConsole("idle", `Scene ${n}: đã viết prompt.`);
+        toast(
+          `Scene ${n}: đã viết ${res.motion ? "prompt ảnh + motion prompt" : "prompt"} từ narration.`,
+        );
+      } catch (e) {
+        setConsole("error", e.message);
+        toast(e.message, false);
+      }
+    },
+  });
 }
 
 async function uploadImage(file) {
@@ -1134,23 +1483,22 @@ async function uploadImage(file) {
     showError("Dùng ảnh PNG, JPEG hoặc WebP.");
     return;
   }
-  setBusy(true, "đang tải lên");
-  try {
-    const res = await fetch(`/api/upload?scene=${s.scene}`, {
-      method: "POST",
-      headers: { "Content-Type": file.type },
-      body: await file.arrayBuffer(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || res.statusText);
-    toast(`Scene ${s.scene}: đã thay bằng ảnh của bạn.`);
-    await refresh();
-  } catch (e) {
-    showError(e.message);
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
+  await withSceneOp(s.scene, "đang tải lên", async () => {
+    try {
+      const res = await fetch(`/api/upload?scene=${s.scene}`, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: await file.arrayBuffer(),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || res.statusText);
+      toast(`Scene ${s.scene}: đã thay bằng ảnh của bạn.`);
+      await refresh();
+    } catch (e) {
+      showError(e.message);
+      toast(e.message, false);
+    }
+  });
 }
 
 async function uploadMotionVideo(file) {
@@ -1163,59 +1511,60 @@ async function uploadMotionVideo(file) {
     showError("Dùng video MP4 hoặc MOV.");
     return;
   }
-  setBusy(true, "đang tải video thay thế");
-  try {
-    const res = await fetch(`/api/upload-motion-video?scene=${s.scene}`, {
-      method: "POST",
-      headers: { "Content-Type": file.type },
-      body: await file.arrayBuffer(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || res.statusText);
-    toast(`Scene ${s.scene}: đã tải video thay thế.`);
-    await refresh();
-  } catch (e) {
-    showError(e.message);
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
+  await withSceneOp(s.scene, "đang tải video thay thế", async () => {
+    try {
+      const res = await fetch(`/api/upload-motion-video?scene=${s.scene}`, {
+        method: "POST",
+        headers: { "Content-Type": file.type },
+        body: await file.arrayBuffer(),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || res.statusText);
+      toast(`Scene ${s.scene}: đã tải video thay thế.`);
+      await refresh();
+    } catch (e) {
+      showError(e.message);
+      toast(e.message, false);
+    }
+  });
 }
 
 // Restore the previous scene image or motion video from its one-level `.bak` snapshot.
 async function undo(kind) {
   const s = current();
   if (!s) return;
-  setBusy(
-    true,
-    `đang hoàn tác ${kind === "image" ? "ảnh" : "motion video"} của scene ${s.scene}`,
+  const what = kind === "image" ? "ảnh" : "motion video";
+  await withSceneOp(
+    s.scene,
+    `đang hoàn tác ${what} của scene ${s.scene}`,
+    async () => {
+      try {
+        state = await api("/api/undo", { scene: s.scene, kind });
+        render();
+        toast(`Scene ${s.scene}: đã hoàn tác ${what}.`);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    },
   );
-  try {
-    state = await api("/api/undo", { scene: s.scene, kind });
-    render();
-    toast(
-      `Scene ${s.scene}: đã hoàn tác ${kind === "image" ? "ảnh" : "motion video"}.`,
-    );
-  } catch (e) {
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
 }
 
 async function removeMotionVideo() {
   const s = current();
   if (!s?.hasMotionVideo) return;
-  setBusy(true, `đang bỏ motion video của scene ${s.scene}`);
-  try {
-    state = await api("/api/remove-motion-video", { scene: s.scene });
-    render();
-    toast(`Scene ${s.scene}: dùng ảnh gốc thay video.`);
-  } catch (e) {
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
+  await withSceneOp(
+    s.scene,
+    `đang bỏ motion video của scene ${s.scene}`,
+    async () => {
+      try {
+        state = await api("/api/remove-motion-video", { scene: s.scene });
+        render();
+        toast(`Scene ${s.scene}: dùng ảnh gốc thay video.`);
+      } catch (e) {
+        toast(e.message, false);
+      }
+    },
+  );
 }
 
 // Where a "Dịch" button's stored Vietnamese lives: the current scene's promptVi/motionVi, or a
@@ -1377,7 +1726,11 @@ $("motionSave").addEventListener("click", saveMotionPrompt);
 $("promptSave").addEventListener("click", () =>
   saveField("prompt", $("promptBox").value),
 );
-$("btnGen").addEventListener("click", generateImage);
+$("btnGen").addEventListener("click", genOrCancel("image", generateImage));
+$("btnRowGenImage").addEventListener(
+  "click",
+  genOrCancel("image", generateImage),
+);
 $("btnGenPrompt").addEventListener("click", generatePromptFromNarration);
 
 $("btnUpload").addEventListener("click", () => $("fileInput").click());
@@ -1407,17 +1760,20 @@ for (const ev of ["dragleave", "drop"])
   });
 canvas.addEventListener("drop", (e) => uploadImage(e.dataTransfer.files[0]));
 
-$("btnAudio").addEventListener("click", () => {
-  const s = current();
-  if (s)
-    runAudioJob("/api/audio", {
-      scene: s.scene,
-      prompt: $("motionPromptBox").value.trim(),
-    });
-});
-$("btnMotionVideo").addEventListener("click", async () => {
-  const s = current();
-  if (!s) return;
+$("btnAudio").addEventListener(
+  "click",
+  genOrCancel("audio", (s) => enqueueAudio([s.scene])),
+);
+$("btnMotionVideo").addEventListener(
+  "click",
+  genOrCancel("motion", generateMotionVideo),
+);
+$("btnRowGenMotion").addEventListener(
+  "click",
+  genOrCancel("motion", generateMotionVideo),
+);
+// Reads the motion popup's fields even when it is closed — they always mirror the scene.
+function generateMotionVideo(s) {
   const model = effectiveMotionModel();
   // Empty duration box = auto (server matches the narration audio); a number overrides it.
   const durVal = Number($("motionDurationBox").value);
@@ -1428,25 +1784,14 @@ $("btnMotionVideo").addEventListener("click", async () => {
     prompt: $("motionPromptBox").value.trim(),
   };
   if (Number.isFinite(durVal) && durVal > 0) body.duration = durVal;
-  setBusy(true, `Đang sinh motion video cho scene ${s.scene}`);
-  setConsole(
-    "running",
-    `Đang sinh motion video cho scene ${s.scene} (${model})`,
-  );
-  try {
-    await streamJob(
-      "/api/generate-motion-video",
-      body,
-      `Đang sinh motion video cho scene ${s.scene} (${model})`,
-    );
-  } catch (e) {
-    showError(e.message);
-    setConsole("error", e.message);
-    toast(e.message, false);
-  } finally {
-    setBusy(false);
-  }
-});
+  enqueueJob({
+    lane: "media",
+    kind: "motion",
+    scenes: [s.scene],
+    label: () => `Đang sinh motion video cho scene ${s.scene} (${model})`,
+    run: consoleJob("/api/generate-motion-video", () => body),
+  });
+}
 // Same sticky behaviour for the motion-video model across the per-scene and batch selects.
 for (const [from, to] of [
   ["motionModelSelect", "batchMotionModelSelect"],
@@ -1465,21 +1810,82 @@ $("motionModelCustom").addEventListener("input", () => {
 $("btnUndoImage").addEventListener("click", () => undo("image"));
 $("btnUndoMotion").addEventListener("click", () => undo("motion"));
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
+// Approve voices every scene in one OmniVoice run, so it is an audio-lane job covering them all.
 $("btnApprove").addEventListener("click", () =>
-  streamJob("/api/approve", null, "Đang sinh audio narration cho mọi scene"),
+  enqueueJob({
+    lane: "audio",
+    kind: "audio",
+    scenes: state.scenes.map((s) => s.scene),
+    label: () => "Đang sinh audio narration cho mọi scene",
+    run: quietJob("/api/approve", () => null),
+  }),
 );
-$("btnRender").addEventListener("click", () =>
-  streamJob(
-    "/api/finalize",
-    null,
-    "Đang đo audio, căn phụ đề, render MP4",
-    () => {
-      const link = $("linkMp4");
-      link.hidden = false;
-      link.href = `/video?v=${Date.now()}`;
-    },
-  ),
-);
+const ASPECT_SIZES = { "16:9": "1920×1080", "9:16": "1080×1920", "1:1": "1080×1080" };
+
+// What Render MP4 produces follows the timeline preview: the 9:16 mode of a 16:9 project renders
+// the master and wraps it to 1080x1920 (both files); every other mode renders the master.
+function renderPlan() {
+  const aspect = state.project?.aspect || "9:16";
+  if (aspect === "16:9" && tl.mode === "vertical")
+    return {
+      format: "vertical",
+      message:
+        "Render bản 9:16 · 1080×1920 (Shorts / TikTok) như preview 9:16? Bản 16:9 · 1920×1080 được render trước rồi cắt dải giữa, nên có cả hai file.",
+    };
+  const hint =
+    aspect === "16:9"
+      ? " Muốn bản 9:16 cho Shorts / TikTok thì chọn 9:16 trong Timeline trước."
+      : "";
+  return {
+    format: "wide",
+    message: `Render bản ${aspect} · ${ASPECT_SIZES[aspect] ?? ""}?${hint}`,
+  };
+}
+
+// Render reads every scene's files, so it covers every scene: direct edits wait until it ends.
+$("btnRender").addEventListener("click", async () => {
+  const { format, message } = renderPlan();
+  if (!(await confirmRun(message, "Render"))) return;
+  enqueueJob({
+    lane: "media",
+    kind: "render",
+    scenes: state.scenes.map((s) => s.scene),
+    label: () => "Đang đo audio, căn phụ đề, render MP4",
+    run: consoleJob(
+      "/api/finalize",
+      () => ({ format }),
+      () => {
+        const stamp = Date.now();
+        $("linkMp4").hidden = false;
+        $("linkMp4").href = `/video?v=${stamp}`;
+        $("linkMp4Vertical").hidden = format === "wide";
+        $("linkMp4Vertical").href = `/video?f=9x16&v=${stamp}`;
+      },
+    ),
+  });
+});
+
+// Changing a project's aspect re-frames the render and every new generation; media already
+// generated keeps its old shape and gets cover-cropped, so ask first.
+$("aspectSelect").addEventListener("change", async () => {
+  const aspect = $("aspectSelect").value;
+  const ok = await confirmRun(
+    `Đổi tỉ lệ dự án sang ${aspect}? Không sinh lại gì. Ảnh và motion đã có giữ tỉ lệ cũ và bị crop khi render; ảnh sinh mới sẽ theo ${aspect}. Chỉ muốn xem bản 9:16 thì dùng chế độ 9:16 trong Timeline.`,
+    "Đổi tỉ lệ",
+  );
+  if (!ok) {
+    $("aspectSelect").value = state.project?.aspect || "9:16";
+    return;
+  }
+  try {
+    state = await api("/api/project-aspect", { aspect });
+    render();
+    toast(`Đã đổi tỉ lệ dự án sang ${aspect}.`);
+  } catch (e) {
+    $("aspectSelect").value = state.project?.aspect || "9:16";
+    toast(e.message, false);
+  }
+});
 
 const pickWhere = (test) => {
   for (const s of state.scenes) if (test(s)) selected.add(s.scene);
@@ -1513,10 +1919,12 @@ $("railSelClear").addEventListener("click", () => {
 });
 
 // Promise-based confirm on the panel's own dialog (a native confirm() would look foreign here).
-// Resolves true on "Chạy", false on "Huỷ", Escape or a backdrop click.
+// Resolves true on the OK button ("Chạy" unless `okLabel` names the action), false on "Huỷ",
+// Escape or a backdrop click.
 let confirmResolve = null;
-function confirmRun(message) {
+function confirmRun(message, okLabel = "Chạy") {
   $("confirmBody").textContent = message;
+  $("confirmOk").textContent = okLabel;
   $("confirmOverlay").hidden = false;
   $("confirmOk").focus();
   return new Promise((resolve) => {
@@ -1558,35 +1966,37 @@ async function confirmBatch(kind, models, modelId, count) {
 // same `selected` Set and the same sticky model selects, so either entry point behaves identically.
 const runBatchPrompts = () => {
   const scenes = [...selected].sort((a, b) => a - b);
-  streamJob(
-    "/api/generate-prompts-batch",
-    { scenes },
-    `Đang viết prompt cho scene ${scenes.join(", ")}`,
-  );
+  enqueueJob({
+    lane: "media",
+    kind: "prompt",
+    scenes,
+    label: (ns) => `Đang viết prompt cho scene ${sceneList(ns)}`,
+    run: consoleJob("/api/generate-prompts-batch", (ns) => ({ scenes: ns })),
+  });
 };
+// The cost confirm counts only scenes that will actually run: enqueueJob drops the ones that
+// already have the same job pending.
 const runBatchImages = async () => {
   const scenes = [...selected].sort((a, b) => a - b);
   const model = $("batchImageModelSelect").value;
   const count = state.scenes.filter(
-    (s) => selected.has(s.scene) && s.kind === "ai",
+    (s) =>
+      selected.has(s.scene) && s.kind === "ai" && !hasPending("image", s.scene),
   ).length;
   if (!(await confirmBatch("ảnh", state.imageModels || [], model, count)))
     return;
-  streamJob(
-    "/api/generate-batch",
-    { scenes, model },
-    `Đang sinh ảnh cho scene ${scenes.join(", ")}`,
-  );
+  enqueueImages(scenes, model);
 };
-const runBatchAudio = () => {
-  const scenes = [...selected].sort((a, b) => a - b);
-  runAudioJob("/api/audio-batch", { scenes });
-};
+const runBatchAudio = () => enqueueAudio([...selected].sort((a, b) => a - b));
 const runBatchMotion = async () => {
   const scenes = [...selected].sort((a, b) => a - b);
   const model = $("batchMotionModelSelect").value;
   const count = state.scenes.filter(
-    (s) => selected.has(s.scene) && s.hasImage && s.hasAudio,
+    (s) =>
+      selected.has(s.scene) &&
+      s.hasImage &&
+      s.hasAudio &&
+      !hasPending("motion", s.scene),
   ).length;
   if (
     !(await confirmBatch(
@@ -1597,11 +2007,7 @@ const runBatchMotion = async () => {
     ))
   )
     return;
-  streamJob(
-    "/api/generate-motion-videos-batch",
-    { scenes, model },
-    `Đang sinh motion video cho scene ${scenes.join(", ")} (${model})`,
-  );
+  enqueueMotions(scenes, model);
 };
 $("batchPrompt").addEventListener("click", runBatchPrompts);
 $("batchImg").addEventListener("click", runBatchImages);
@@ -1659,6 +2065,15 @@ $("mergeOverlay").addEventListener("click", (e) => {
 $("btnMergeConfirm").addEventListener("click", async () => {
   const scenes = pendingMergeScenes;
   if (scenes.length < 2) return;
+  // A job may have been queued on one of these scenes while the dialog was open.
+  const held = scenes.filter(sceneInAnyLane);
+  if (held.length) {
+    toast(
+      `Scene ${held.join(", ")} đang có job chạy/chờ — chờ xong rồi gộp.`,
+      false,
+    );
+    return;
+  }
   const keepInput = $("mergeKeepPicker").querySelector("input:checked");
   const keep = keepInput ? Number(keepInput.value) : scenes[0];
   const narration = $("mergePreviewNarr").value;
@@ -1696,8 +2111,9 @@ $("conToggle").addEventListener("click", () =>
 );
 $("conCancel").addEventListener("click", () => {
   $("conCancel").disabled = true;
-  currentJob?.abort();
+  lanes.media.running?.controller.abort();
 });
+$("conClearQueue").addEventListener("click", clearQueues);
 
 $("btnTemplates").addEventListener("click", async () => {
   $("tplOverlay").hidden = false;
@@ -1805,6 +2221,10 @@ window.addEventListener("keydown", (e) => {
     }
     if (!$("npOverlay").hidden) {
       $("npOverlay").hidden = true;
+      return;
+    }
+    if (!$("brandOverlay").hidden) {
+      $("brandOverlay").hidden = true;
       return;
     }
     if (!$("acOverlay").hidden) {
@@ -1922,6 +2342,168 @@ $("npCreate").addEventListener("click", async () => {
   }
 });
 
+// ------------------------------------------------------------------ branding
+//
+// Corner logo + brand name and the centre watermark drawn over the final render (src/BrandOverlay.tsx),
+// saved per project to branding.json. paintBrandLayer places them with the same delivered-pixel
+// numbers as BrandOverlay.tsx (keep BRAND_GEOMETRY in sync) over a preview frame: the dialog's
+// preview and the timeline screen (review-timeline.js).
+
+const BRAND_GEOMETRY = {
+  deliveryWidth: 1080,
+  bandRatio: 3 / 2,
+  badgeGap: 4,
+  topLeftTagClearance: 60,
+  safeEdges: {
+    vertical: { top: 200 / 1920, bottom: 400 / 1920 },
+    wide: { top: 0, bottom: 0 },
+  },
+  watermark: { logoShare: 0.46, text: 110 },
+};
+
+const readBrandForm = () => ({
+  name: $("brandName").value.trim(),
+  logo: {
+    enabled: $("brandLogoOn").checked,
+    position: $("brandLogoPos").value,
+    anchor: $("brandLogoAnchor").value,
+    opacity: Number($("brandLogoOpacity").value) / 100,
+    margin: Number($("brandLogoMargin").value),
+    size: Number($("brandLogoSize").value),
+    textSize: Number($("brandLogoText").value),
+  },
+  watermark: {
+    enabled: $("brandWmOn").checked,
+    opacity: Number($("brandWmOpacity").value) / 100,
+  },
+});
+
+const fillBrandForm = ({ name, logo, watermark }) => {
+  $("brandName").value = name;
+  $("brandLogoOn").checked = logo.enabled;
+  $("brandLogoPos").value = logo.position;
+  $("brandLogoAnchor").value = logo.anchor;
+  $("brandLogoOpacity").value = Math.round(logo.opacity * 100);
+  $("brandLogoMargin").value = logo.margin;
+  $("brandLogoSize").value = logo.size;
+  $("brandLogoText").value = logo.textSize;
+  $("brandWmOn").checked = watermark.enabled;
+  $("brandWmOpacity").value = Math.round(watermark.opacity * 100);
+};
+
+const placeBrandBadge = (badge, logo, frame) => {
+  const { badgeGap, safeEdges, topLeftTagClearance } = BRAND_GEOMETRY;
+  const [vertical, horizontal] = logo.position.split("-");
+  const safe = frame.isWide ? safeEdges.wide : safeEdges.vertical;
+  const margin = logo.margin * frame.unit;
+  const clearance =
+    !frame.isWide && logo.position === "top-left" ? topLeftTagClearance : 0;
+  const inset = logo.anchor === "frame" ? 0 : frame.cropInset;
+  const side = `${inset + margin}px`;
+  Object.assign(badge.style, {
+    top: vertical === "top" ? `${frame.height * safe.top + margin + clearance * frame.unit}px` : "",
+    bottom: vertical === "bottom" ? `${frame.height * safe.bottom + margin}px` : "",
+    left: horizontal === "left" ? side : "",
+    right: horizontal === "right" ? side : "",
+    gap: `${badgeGap * frame.unit}px`,
+    opacity: logo.opacity,
+  });
+  badge.querySelector("img").style.height = `${logo.size * frame.unit}px`;
+  badge.querySelector("span").style.fontSize = `${logo.textSize * frame.unit}px`;
+};
+
+const placeBrandWatermark = (wm, watermark, frame) => {
+  const { logoShare, text } = BRAND_GEOMETRY.watermark;
+  wm.style.opacity = watermark.opacity;
+  wm.querySelector("img").style.width = `${frame.bandWidth * logoShare}px`;
+  wm.querySelector("span").style.fontSize = `${text * frame.unit}px`;
+};
+
+// `root` holds one .brand-badge and one .brand-wm; a null branding hides both.
+const paintBrandLayer = (root, branding) => {
+  const badge = root.querySelector(".brand-badge");
+  const wm = root.querySelector(".brand-wm");
+  badge.hidden = !branding?.logo.enabled;
+  wm.hidden = !branding?.watermark.enabled;
+  if (!branding) return;
+  for (const span of root.querySelectorAll(".brand-badge span, .brand-wm span")) {
+    span.textContent = branding.name;
+    span.hidden = !branding.name;
+  }
+  const { clientWidth: width, clientHeight: height } = root;
+  const bandWidth = Math.min(width, height * BRAND_GEOMETRY.bandRatio);
+  const frame = {
+    height,
+    bandWidth,
+    cropInset: (width - bandWidth) / 2,
+    unit: bandWidth / BRAND_GEOMETRY.deliveryWidth,
+    isWide: width > height,
+  };
+  placeBrandBadge(badge, branding.logo, frame);
+  placeBrandWatermark(wm, branding.watermark, frame);
+};
+
+const renderBrandPreview = () => {
+  $("brandLogoOpacityVal").textContent = `${$("brandLogoOpacity").value}%`;
+  $("brandWmOpacityVal").textContent = `${$("brandWmOpacity").value}%`;
+  $("brandLogoMarginVal").textContent = `${$("brandLogoMargin").value}px`;
+  $("brandLogoSizeVal").textContent = `${$("brandLogoSize").value}px`;
+  $("brandLogoTextVal").textContent = `${$("brandLogoText").value}px`;
+  paintBrandLayer($("brandFrame"), readBrandForm());
+};
+
+const BRAND_NOTE = "Áp dụng ở lần Render MP4 tiếp theo.";
+
+$("btnBrand").addEventListener("click", async () => {
+  const scene = findScene(currentScene);
+  $("brandScene").hidden = !scene?.hasImage;
+  if (scene?.hasImage) $("brandScene").src = scene.imageUrl;
+  $("brandFrame").classList.toggle("wide", state.project?.aspect !== "9:16");
+  $("brandAnchorField").hidden = state.project?.aspect !== "16:9";
+  $("brandNote").textContent = BRAND_NOTE;
+  try {
+    const { branding } = await api("/api/branding");
+    fillBrandForm(branding);
+    $("brandOverlay").hidden = false;
+    renderBrandPreview();
+  } catch (e) {
+    toast(e.message, false);
+  }
+});
+for (const id of [
+  "brandName",
+  "brandLogoOn",
+  "brandLogoPos",
+  "brandLogoAnchor",
+  "brandLogoOpacity",
+  "brandLogoMargin",
+  "brandLogoSize",
+  "brandLogoText",
+  "brandWmOn",
+  "brandWmOpacity",
+])
+  $(id).addEventListener("input", renderBrandPreview);
+$("brandClose").addEventListener("click", () => {
+  $("brandOverlay").hidden = true;
+});
+$("brandOverlay").addEventListener("click", (e) => {
+  if (e.target === $("brandOverlay")) $("brandOverlay").hidden = true;
+});
+$("brandSave").addEventListener("click", async () => {
+  $("brandSave").disabled = true;
+  try {
+    const { branding } = await api("/api/branding", readBrandForm());
+    state = { ...state, branding };
+    render();
+    $("brandOverlay").hidden = true;
+    toast("Đã lưu logo & watermark. Áp dụng ở lần Render MP4 tiếp theo.");
+  } catch (e) {
+    $("brandNote").textContent = e.message;
+  } finally {
+    $("brandSave").disabled = false;
+  }
+});
+
 // ------------------------------------------------------------------ full-script editor
 //
 // The whole scene plan in one editable column: per scene the narration, image prompt + its
@@ -2016,7 +2598,16 @@ function updateScriptFoot() {
   $("scriptNote").textContent = state.scenes.length
     ? `${state.scenes.length} scene · ${words} từ${dirty ? ` · ${dirty} scene đã sửa` : ""}`
     : "Chưa có scene.";
-  $("scriptSave").disabled = busy || audioBusy || dirty === 0;
+  $("scriptSave").disabled =
+    Boolean(globalOp) || dirty === 0 || dirtyScriptScenesBusy().length > 0;
+}
+
+// Edited script rows whose scene has a job running or queued: saving would rewrite the plan
+// under that job, so Save waits for them (rows of idle scenes are never held back).
+function dirtyScriptScenesBusy() {
+  return [...$("scriptList").querySelectorAll(".script-row.dirty")]
+    .map((row) => Number(row.dataset.scene))
+    .filter(sceneInAnyLane);
 }
 
 // Grow a textarea to fit its content so it never shows an inner scrollbar.
@@ -2043,12 +2634,12 @@ const scriptGroupHtml = (s, g) => {
 
 // Per-scene generate buttons for the script modal. They reuse the batch endpoints with a
 // single scene, so they behave exactly like the contact-sheet/rail batch runs (same models,
-// same busy locks) — no dependency on the stage's currently-selected scene.
+// same queue and dedupe) — no dependency on the stage's currently-selected scene.
 const scriptGenHtml = (s, isLast) =>
   `<div class="script-gen">
-    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở Lưới scene)">Ảnh</button>
-    <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-scene="${s.scene}" title="Sinh audio narration cho scene này">Audio</button>
-    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio)">Motion</button>
+    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-label="Ảnh" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở Lưới scene)">Ảnh</button>
+    <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-label="Audio" data-scene="${s.scene}" title="Sinh audio narration cho scene này">Audio</button>
+    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-label="Motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio)">Motion</button>
     ${isLast ? "" : `<button type="button" class="btn sm quiet script-gen-btn" data-merge-next="${s.scene}" title="Gộp scene này với scene kế tiếp">Gộp ↓</button>`}
   </div>`;
 
@@ -2088,31 +2679,38 @@ function renderScriptList() {
 
 // Per-scene generate buttons follow the same gates as the batch bar: image needs an AI scene,
 // audio needs narration, motion needs a rendered image + audio — and each stays locked while
-// its lane is busy. A row with unsaved edits is disabled too, since generation reads the saved
-// server state, not the edited textarea.
+// the same job is pending for that scene, when the button becomes its Cancel instead. A row with
+// unsaved edits cannot start a job, since generation reads the saved server state, not the
+// edited textarea — but it can still cancel one.
 function syncScriptGenButtons() {
   const byScene = new Map(state.scenes.map((s) => [s.scene, s]));
   for (const btn of $("scriptList").querySelectorAll("[data-gen]")) {
-    const s = byScene.get(Number(btn.dataset.scene));
+    const kind = btn.dataset.gen;
+    const n = Number(btn.dataset.scene);
+    const s = byScene.get(n);
     const dirty = btn.closest(".script-row")?.classList.contains("dirty");
     let ok = false;
-    if (s && !dirty) {
-      if (btn.dataset.gen === "image") ok = !busy && s.kind === "ai";
-      else if (btn.dataset.gen === "audio")
-        ok = !audioBusy && (s.narration || "").trim().length > 0;
-      else if (btn.dataset.gen === "motion")
-        ok = !busy && s.hasImage && s.hasAudio;
+    if (s && !dirty && !globalOp) {
+      if (kind === "image") ok = s.kind === "ai";
+      else if (kind === "audio")
+        ok = !renderActive() && (s.narration || "").trim().length > 0;
+      else if (kind === "motion") ok = s.hasImage && s.hasAudio;
     }
-    btn.disabled = !ok;
+    syncGenButton(btn, kind, n, btn.dataset.label, ok, true);
   }
   // "Merge ↓" reads both this row's and the next row's saved narration — block it while either
-  // has unsaved edits, same reasoning as the generate buttons above.
+  // has unsaved edits, same reasoning as the generate buttons above, or has a job pending.
   for (const btn of $("scriptList").querySelectorAll("[data-merge-next]")) {
     const row = btn.closest(".script-row");
     const next = row?.nextElementSibling;
     const dirty =
       row?.classList.contains("dirty") || next?.classList.contains("dirty");
-    btn.disabled = busy || audioBusy || !next || dirty;
+    btn.disabled =
+      Boolean(globalOp) ||
+      !next ||
+      dirty ||
+      sceneInAnyLane(Number(row.dataset.scene)) ||
+      sceneInAnyLane(Number(next.dataset.scene));
   }
 }
 
@@ -2125,19 +2723,10 @@ function runScriptGen(kind, sceneNo) {
     return;
   }
   const scenes = [sceneNo];
-  if (kind === "image")
-    streamJob(
-      "/api/generate-batch",
-      { scenes, model: $("batchImageModelSelect").value },
-      `Đang sinh ảnh cho scene ${sceneNo}`,
-    );
-  else if (kind === "audio") runAudioJob("/api/audio-batch", { scenes });
+  if (kind === "image") enqueueImages(scenes, $("batchImageModelSelect").value);
+  else if (kind === "audio") enqueueAudio(scenes);
   else if (kind === "motion")
-    streamJob(
-      "/api/generate-motion-videos-batch",
-      { scenes, model: $("batchMotionModelSelect").value },
-      `Đang sinh motion video cho scene ${sceneNo}`,
-    );
+    enqueueMotions(scenes, $("batchMotionModelSelect").value);
 }
 
 // Enable each header button only when it has work: Expand while a scene is still closed,
@@ -2208,7 +2797,9 @@ $("scriptList").addEventListener("input", (e) => {
 $("scriptList").addEventListener("click", (e) => {
   const gen = e.target.closest("[data-gen]");
   if (gen) {
-    runScriptGen(gen.dataset.gen, Number(gen.dataset.scene));
+    const n = Number(gen.dataset.scene);
+    if (hasPending(gen.dataset.gen, n)) cancelSceneJob(gen.dataset.gen, n);
+    else runScriptGen(gen.dataset.gen, n);
     return;
   }
   const mergeBtn = e.target.closest("[data-merge-next]");
@@ -2248,8 +2839,12 @@ $("scriptReload").addEventListener("click", async () => {
   renderScriptList();
 });
 $("scriptSave").addEventListener("click", async () => {
-  if (busy || audioBusy) {
-    toast("Đang có job chạy — chờ xong rồi lưu.", false);
+  const held = dirtyScriptScenesBusy();
+  if (globalOp || held.length) {
+    toast(
+      `Scene ${held.join(", ")} đang có job chạy/chờ — chờ xong rồi lưu.`,
+      false,
+    );
     return;
   }
   const patches = [
@@ -2504,14 +3099,13 @@ $("charFileInput").addEventListener("change", async (e) => {
   if (!file || !pendingUploadCharId) return;
   const id = pendingUploadCharId;
   pendingUploadCharId = null;
-  setBusy(true, `đang tải ảnh ${id}`);
+  // No lock: a new reference only affects image jobs that start after it lands.
+  toast(`Đang tải ảnh tham chiếu của "${id}"…`);
   try {
     await uploadCharacterFile(id, file);
     toast(`Đã cập nhật ảnh tham chiếu của "${id}".`);
   } catch (err) {
     toast(err.message, false);
-  } finally {
-    setBusy(false);
   }
 });
 // ------------------------------------------------------------------ character profile

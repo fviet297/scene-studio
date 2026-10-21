@@ -114,6 +114,7 @@ button { cursor: pointer; }
 
 .project-switch { display: flex; align-items: center; gap: 6px; }
 .project-switch .mini { max-width: 220px; }
+.project-switch .aspect-select { width: auto; }
 
 /* Local service chips: shape + word carry the state (hollow = off, pulsing ring = starting,
    filled = on, red only for a real failure). Only stopped/failed chips are clickable. */
@@ -163,6 +164,10 @@ button { cursor: pointer; }
 .btn.quiet { background: transparent; border-color: transparent; color: var(--muted); }
 .btn.quiet:hover:not(:disabled) { background: var(--surface-2); color: var(--text); }
 .btn.sm { height: 27px; padding: 0 9px; font-size: 12px; }
+/* A generate button while its scene's job is pending: it becomes that job's Cancel. Danger ink
+   on a dim fill (also over .primary), and the label says "Huỷ", so it never reads as "go". */
+.btn.is-cancel, .btn.primary.is-cancel { background: var(--danger-dim); border-color: rgba(242, 102, 110, .45); color: var(--danger); }
+.btn.is-cancel:hover:not(:disabled), .btn.primary.is-cancel:hover:not(:disabled) { background: rgba(242, 102, 110, .22); border-color: var(--danger); }
 .btn.wide { width: 100%; }
 
 /* ---------------------------------------------------------------- shell */
@@ -223,6 +228,17 @@ select.mini.wide { width: 100%; }
 .pips { display: flex; gap: 3px; }
 .pip { width: 13px; height: 3px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px #343a42; }
 .pip.on { background: var(--accent); box-shadow: none; }
+
+/* Job state on a rail row: dot shape + word, like the pips. Running = filled pulsing accent dot,
+   queued = hollow dot in faint ink, so the two read apart without relying on colour. */
+.job-mark {
+  display: inline-flex; align-items: center; gap: 4px; margin-left: 7px; vertical-align: 1px;
+  font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--faint);
+}
+.job-mark::before { content: ""; width: 6px; height: 6px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; }
+.job-mark.running { color: var(--accent); }
+.job-mark.running::before { background: currentColor; box-shadow: none; animation: pulse 1.1s ease-in-out infinite; }
 
 /* Multi-select: a pick checkbox sits beside each nav button. The button still owns the
    whole-row click for navigation; the checkbox only drives the batch selection. */
@@ -352,6 +368,17 @@ select.mini.wide { width: 100%; }
 }
 .canvas.dragging .dropveil { display: grid; }
 
+/* Queued jobs / running audio for this scene: a note in the corner, never a cover, so the image
+   stays visible and still accepts a drop. Opposite corner from the authenticity tag. */
+.canvas .job-chip {
+  position: absolute; left: 10px; top: 10px; pointer-events: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+  background: rgba(7, 8, 10, .74); border: 1px solid rgba(255, 255, 255, .13);
+  padding: 3px 8px; border-radius: var(--r-ctl);
+}
+.canvas .job-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px currentColor; }
+
 .working {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 12px;
@@ -386,21 +413,27 @@ select.mini.wide { width: 100%; }
 .narration-head .stage-state { margin-left: 0; }
 .narration-head #btnAudio { flex: none; }
 
-/* Production rows: Image and Motion each a full-width button that opens its popup editor,
-   with the done pill sitting between the label and the Edit affordance. */
+/* Production rows: Image and Motion. The wide part is a button that opens the popup editor
+   (label, done pill, Edit affordance); the generate/cancel button sits beside it as a sibling,
+   since a button cannot hold another button. */
 .prod-row {
-  width: 100%; display: flex; align-items: center; gap: 9px;
-  padding: 11px 12px; text-align: left; color: inherit;
-  background: var(--surface-2); border: 0; border-bottom: 1px solid var(--line-soft);
-  cursor: pointer; transition: background .15s ease;
+  display: flex; align-items: center; gap: 4px; padding-right: 10px;
+  background: var(--surface-2); border-bottom: 1px solid var(--line-soft);
+  transition: background .15s ease;
 }
 .prod-row:last-child { border-bottom: 0; }
 .prod-row:hover { background: var(--surface-3); }
-.prod-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.prod-open {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px;
+  padding: 11px 8px 11px 12px; text-align: left; color: inherit;
+  background: transparent; border: 0; cursor: pointer;
+}
+.prod-open:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.prod-gen { flex: none; min-width: 64px; }
 .prod-ttl { font-size: 11.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--text); }
 .prod-edit { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--faint); }
 .prod-edit svg { width: 13px; height: 13px; }
-.prod-row:hover .prod-edit { color: var(--muted); }
+.prod-open:hover .prod-edit { color: var(--muted); }
 
 /* Stage popups (Image / Motion) sit between the narrow inspector column and the wide
    template dialog: enough room for a prompt without swallowing the screen. */
@@ -531,6 +564,7 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 @keyframes pulse { 50% { opacity: .3; } }
 .console-bar .msg { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .console-bar .tail { font-family: var(--mono); font-size: 11.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.console-bar .queue { flex: none; font-size: 11.5px; color: var(--muted); padding: 1px 7px; border: 1px solid var(--line); border-radius: 999px; }
 .console-log {
   height: 0; overflow: hidden; margin: 0; padding: 0 14px;
   font-family: var(--mono); font-size: 12px; line-height: 1.65; color: #c3cbd3;
@@ -702,6 +736,19 @@ body.view-timeline .workbench, body.view-timeline .sheet { display: none; }
 }
 .tl-screen img, .tl-screen video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .tl-empty { color: var(--faint); font-size: 12.5px; }
+/* "As rendered" modes: draft media and the draft brand layer give way to the Remotion player. */
+.tl-screen.is-render > :not(.tl-player, .tl-player-status) { display: none !important; }
+.tl-screen.is-vertical { aspect-ratio: 9 / 16; }
+.tl-player { position: absolute; inset: 0; display: grid; place-items: center; background: #000; }
+.tl-band { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.tl-screen.is-vertical .tl-band { height: auto; aspect-ratio: 3 / 2; }
+.tl-player-root { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.tl-player-status {
+  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+  padding: 4px 10px; border-radius: 999px; font-size: 12px; color: var(--text);
+  background: rgba(7, 8, 10, .78); border: 1px solid var(--line);
+}
+.tl-player-status.error { color: var(--danger); }
 .tl-caption {
   flex: none; margin: 0; max-width: 72ch; min-height: 3em; text-align: center;
   font-size: 14px; line-height: 1.5; color: var(--text);
@@ -836,3 +883,39 @@ body.view-timeline .workbench, body.view-timeline .sheet { display: none; }
   border-left-color: var(--line-soft);
   color: var(--muted); font-style: italic; opacity: 0.85;
 }
+
+/* ---------------------------------------------------------------- brand dialog */
+
+/* Controls left, a scene-shaped preview right. The preview is an approximation of
+   src/BrandOverlay.tsx: review-panel.js places the badge and watermark with the same numbers. */
+.dialog.brand-dialog { width: min(760px, 100%); }
+.brand-controls { display: flex; flex-direction: column; gap: 14px; }
+.brand-group {
+  margin: 0; padding: 12px; display: flex; flex-direction: column; gap: 12px;
+  border: 1px solid var(--line-soft); border-radius: var(--r-panel); background: var(--surface-2);
+}
+.brand-group legend { padding: 0 6px; font-size: 12px; font-weight: 650; color: var(--text); }
+.brand-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); cursor: pointer; min-height: 28px; }
+.brand-controls label .note { text-transform: none; letter-spacing: 0; }
+.brand-group .field output { margin-left: 6px; color: var(--muted); letter-spacing: 0; }
+.brand-group input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.brand-group:has(input[type="checkbox"]:not(:checked)) .field { opacity: .45; }
+
+.brand-preview { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.brand-preview .note { font-size: 11.5px; color: var(--faint); }
+.brand-frame {
+  position: relative; overflow: hidden; width: 100%; max-height: 52vh; aspect-ratio: var(--scene-aspect, 9 / 16);
+  background: var(--stage); border: 1px solid var(--line); border-radius: var(--r-ctl);
+}
+/* A tall frame is bounded by height, so let the width follow the aspect instead of the column. */
+.brand-frame:not(.wide) { width: auto; height: 52vh; }
+.brand-scene { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.brand-wm, .brand-badge { position: absolute; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+.brand-wm { inset: 0; justify-content: center; }
+/* Sized inline on one axis; the other follows the logo (overrides .tl-screen img's 100%/100%). */
+.brand-badge img { width: auto; display: block; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .6)); }
+.brand-wm img { height: auto; display: block; }
+.brand-wm span, .brand-badge span { font-family: Arial, sans-serif; font-weight: 900; color: #fff; line-height: 1.15; }
+.brand-badge span { letter-spacing: .14em; padding-left: .14em; line-height: 1; text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
+.brand-wm span { letter-spacing: .2em; }
+.brand-wm[hidden], .brand-badge[hidden] { display: none; }

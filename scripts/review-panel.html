@@ -17,6 +17,11 @@
     </div>
     <div class="project-switch">
       <select class="mini" id="projectSelect" aria-label="Dự án đang mở"></select>
+      <select class="mini aspect-select" id="aspectSelect" aria-label="Tỉ lệ khung của dự án" title="Tỉ lệ khung của dự án: ảnh, motion và video render">
+        <option value="16:9">16:9</option>
+        <option value="9:16">9:16</option>
+        <option value="1:1">1:1</option>
+      </select>
       <button class="btn sm" type="button" id="btnNewProject" title="Tạo dự án mới">Dự án mới</button>
     </div>
     <span class="bar-sep"></span>
@@ -55,11 +60,13 @@
     <span class="bar-sep"></span>
     <button class="btn" type="button" id="btnTemplates">Template prompt</button>
     <button class="btn" type="button" id="btnScript" title="Đọc và sửa toàn bộ scene plan — narration, prompt, motion — mọi scene">Kịch bản</button>
+    <button class="btn" type="button" id="btnBrand" title="Logo góc, tên thương hiệu và watermark giữa khung cho MP4 render">Logo &amp; watermark</button>
 
     <span class="grow"></span>
 
     <button class="btn" type="button" id="btnApprove" disabled title="Duyệt ảnh mọi scene AI, rồi sinh audio narration cho mọi scene">Sinh audio tất cả</button>
     <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Mở MP4</a>
+    <a class="btn" id="linkMp4Vertical" href="/video?f=9x16" target="_blank" rel="noopener" hidden>Mở 9:16</a>
     <button class="btn primary" type="button" id="btnRender" disabled>Render MP4</button>
   </div>
 </header>
@@ -169,22 +176,29 @@
       </div>
 
       <!-- Production: Image and Motion each open in a focused popup so their prompts and
-           settings get room to read, while the stage image stays visible behind. -->
+           settings get room to read, while the stage image stays visible behind. The button
+           beside each row generates (or, while that job is pending, cancels) without opening it. -->
       <div class="prod-list">
-        <button type="button" class="prod-row" id="btnEditImage">
-          <span class="prod-ttl">Ảnh</span>
-          <span class="stage-state" id="stageImgState"></span>
-          <span class="prod-edit">Sửa
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </span>
-        </button>
-        <button type="button" class="prod-row" id="btnEditMotion">
-          <span class="prod-ttl">Motion video</span>
-          <span class="stage-state" id="stageMotState"></span>
-          <span class="prod-edit">Sửa
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </span>
-        </button>
+        <div class="prod-row">
+          <button type="button" class="prod-open" id="btnEditImage">
+            <span class="prod-ttl">Ảnh</span>
+            <span class="stage-state" id="stageImgState"></span>
+            <span class="prod-edit">Sửa
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </span>
+          </button>
+          <button class="btn sm prod-gen" type="button" id="btnRowGenImage" title="Sinh ảnh cho scene này từ prompt (model ở popup Sửa)">Sinh</button>
+        </div>
+        <div class="prod-row">
+          <button type="button" class="prod-open" id="btnEditMotion">
+            <span class="prod-ttl">Motion video</span>
+            <span class="stage-state" id="stageMotState"></span>
+            <span class="prod-edit">Sửa
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </span>
+          </button>
+          <button class="btn sm prod-gen" type="button" id="btnRowGenMotion" title="Sinh motion video cho scene này (model, độ dài ở popup Sửa)">Sinh</button>
+        </div>
       </div>
 
     </div>
@@ -227,6 +241,14 @@
       <img id="tlStill" alt="" hidden />
       <video id="tlVideo" muted playsinline preload="auto" hidden></video>
       <span class="tl-empty" id="tlEmpty">Chưa có ảnh cho scene này</span>
+      <div class="brand-wm" hidden><img src="/brand-logo.svg" alt="" /><span>FVIET</span></div>
+      <div class="brand-badge" hidden><img src="/brand-logo.svg" alt="" /><span>FVIET</span></div>
+      <!-- "As rendered" modes: the real Remotion composition (src/preview/preview-entry.tsx). The band
+           is the strip wrap-vertical.mjs keeps for the 9:16 export; in the master mode it is the frame. -->
+      <div class="tl-player" id="tlPlayer" hidden>
+        <div class="tl-band" id="tlBand"><div class="tl-player-root" id="tlPlayerRoot"></div></div>
+      </div>
+      <span class="tl-player-status" id="tlPlayerStatus" role="status" hidden></span>
     </div>
     <p class="tl-caption" id="tlCaption"></p>
     <audio id="tlAudio" preload="auto"></audio>
@@ -248,6 +270,14 @@
     <span class="scene-no" id="tlScene">Scene</span>
     <span class="tag" id="tlKind"></span>
     <span class="grow"></span>
+    <div class="segmented" id="tlModes" role="group" aria-label="Chế độ xem trước">
+      <button type="button" data-mode="draft" aria-pressed="true" title="Nháp: ảnh tĩnh và audio, mở nhanh, chưa có hiệu ứng render">Nháp</button>
+      <button type="button" data-mode="master" aria-pressed="false" title="Đúng bản render MP4 (chạy chính composition Remotion)">Bản render</button>
+      <button type="button" data-mode="vertical" aria-pressed="false" title="Bản 9:16 Shorts / TikTok: dải giữa của bản 16:9 trong khung 1080×1920, đúng như wrap-vertical">9:16</button>
+    </div>
+    <button class="icon-btn" type="button" id="tlPlayerRefresh" hidden aria-label="Dựng lại dữ liệu render" title="Dựng lại dữ liệu render (sau khi sửa audio, ảnh, logo…)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5"/></svg>
+    </button>
     <label class="tl-zoom">
       <span>Thu phóng</span>
       <input type="range" id="tlZoom" min="4" max="80" step="1" value="16" aria-label="Thu phóng timeline (px mỗi giây)" />
@@ -270,7 +300,9 @@
     <span class="dot" id="conDot"></span>
     <span class="msg" id="conMsg">Rảnh</span>
     <span class="tail num" id="conTail"></span>
-    <button class="btn quiet sm" type="button" id="conCancel" hidden>Huỷ</button>
+    <span class="queue num" id="conQueue" hidden></span>
+    <button class="btn quiet sm" type="button" id="conClearQueue" hidden title="Bỏ các job chưa bắt đầu (job đang chạy vẫn tiếp tục)">Xoá hàng chờ</button>
+    <button class="btn quiet sm" type="button" id="conCancel" hidden title="Huỷ job ảnh/motion đang chạy; hàng chờ chạy tiếp">Huỷ</button>
     <button class="btn quiet sm" type="button" id="conToggle" aria-expanded="false" aria-controls="conLog">Xem log</button>
   </div>
   <pre class="console-log" id="conLog" aria-live="polite"></pre>
@@ -576,6 +608,86 @@
     <div class="dialog-foot">
       <span class="note" id="npNote">Tạo projects/&lt;slug&gt;/scene-plan.md rồi chuyển sang dự án đó.</span>
       <button class="btn primary" type="button" id="npCreate">Tạo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Channel branding for the final render: corner logo + name, faint centre watermark -->
+<div class="overlay" id="brandOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="brandTitle">
+  <div class="dialog brand-dialog">
+    <div class="dialog-head">
+      <h2 id="brandTitle">Logo &amp; watermark</h2>
+      <span class="note">Riêng dự án này · lưu vào branding.json</span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="brandClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body">
+      <div class="brand-controls">
+        <div class="field">
+          <label for="brandName">Tên thương hiệu <span class="note">để trống = chỉ hiện logo</span></label>
+          <input class="text-input" id="brandName" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="vd. FVIET" />
+        </div>
+        <fieldset class="brand-group">
+          <legend>Logo góc + tên</legend>
+          <label class="brand-check"><input type="checkbox" id="brandLogoOn" /> Hiện logo góc</label>
+          <div class="field">
+            <label for="brandLogoPos">Vị trí</label>
+            <select class="mini wide" id="brandLogoPos">
+              <option value="top-left">Trên trái</option>
+              <option value="top-right">Trên phải</option>
+              <option value="bottom-left">Dưới trái</option>
+              <option value="bottom-right">Dưới phải</option>
+            </select>
+          </div>
+          <div class="field" id="brandAnchorField">
+            <label for="brandLogoAnchor">Bám theo <span class="note">video 16:9</span></label>
+            <select class="mini wide" id="brandLogoAnchor">
+              <option value="crop">Vùng crop dọc — bản 9:16 vẫn có logo</option>
+              <option value="frame">Mép khung 16:9 — bản 9:16 mất logo</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="brandLogoOpacity">Độ đậm <output class="num" id="brandLogoOpacityVal" for="brandLogoOpacity"></output></label>
+            <input type="range" id="brandLogoOpacity" min="0" max="100" step="1" />
+          </div>
+          <div class="field">
+            <label for="brandLogoMargin">Cách góc <output class="num" id="brandLogoMarginVal" for="brandLogoMargin"></output></label>
+            <input type="range" id="brandLogoMargin" min="0" max="120" step="1" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="brandLogoSize">Cỡ logo <output class="num" id="brandLogoSizeVal" for="brandLogoSize"></output></label>
+              <input type="range" id="brandLogoSize" min="32" max="160" step="1" />
+            </div>
+            <div class="field">
+              <label for="brandLogoText">Cỡ chữ <output class="num" id="brandLogoTextVal" for="brandLogoText"></output></label>
+              <input type="range" id="brandLogoText" min="10" max="48" step="1" />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="brand-group">
+          <legend>Watermark giữa khung</legend>
+          <label class="brand-check"><input type="checkbox" id="brandWmOn" /> Hiện watermark chống copy</label>
+          <div class="field">
+            <label for="brandWmOpacity">Độ đậm <output class="num" id="brandWmOpacityVal" for="brandWmOpacity"></output></label>
+            <input type="range" id="brandWmOpacity" min="0" max="40" step="1" />
+          </div>
+        </fieldset>
+      </div>
+      <figure class="brand-preview">
+        <div class="brand-frame" id="brandFrame">
+          <img class="brand-scene" id="brandScene" alt="" hidden />
+          <div class="brand-wm"><img src="/brand-logo.svg" alt="" /><span>FVIET</span></div>
+          <div class="brand-badge"><img src="/brand-logo.svg" alt="" /><span>FVIET</span></div>
+        </div>
+        <figcaption class="note">Xem trước gần đúng trên ảnh scene đang chọn</figcaption>
+      </figure>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="brandNote" role="status">Áp dụng ở lần Render MP4 tiếp theo.</span>
+      <button class="btn primary" type="button" id="brandSave">Lưu</button>
     </div>
   </div>
 </div>

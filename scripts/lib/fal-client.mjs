@@ -51,14 +51,17 @@ const requestJson = async (url, init, label) => {
 
 // Submit one job to the fal queue and block until it completes, returning the model's raw output
 // JSON. onLog receives the same style of progress lines the Replicate predict() path emits.
-export const falPredict = async (model, input, { onLog } = {}) => {
+// `signal` (optional) cancels: polling stops, the queued/running request is cancelled on fal, and
+// the call rejects with the signal's AbortError.
+export const falPredict = async (model, input, { onLog, signal } = {}) => {
+  signal?.throwIfAborted();
   const headers = { Authorization: `Key ${falKey()}` };
   const submit = await requestJson(`${QUEUE}/${model}`, {
     method: 'POST',
     headers: { ...headers, 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
   }, `fal submit ${model}`);
-  const { request_id: requestId, status_url: statusUrl, response_url: responseUrl } = submit;
+  const { request_id: requestId, status_url: statusUrl, response_url: responseUrl, cancel_url: cancelUrl } = submit;
   if (!statusUrl || !responseUrl) {
     throw new Error(`fal ${model}: submit response missing status_url/response_url — ${JSON.stringify(submit).slice(0, 300)}`);
   }
@@ -66,6 +69,11 @@ export const falPredict = async (model, input, { onLog } = {}) => {
 
   let status = submit.status;
   for (let poll = 0; poll < MAX_POLLS && status !== 'COMPLETED'; poll++) {
+    if (signal?.aborted) {
+      // Best effort: a failed cancel must not mask the abort itself.
+      if (cancelUrl) await fetch(cancelUrl, { method: 'PUT', headers }).catch(() => {});
+      signal.throwIfAborted();
+    }
     await wait(POLL_INTERVAL_MS);
     const state = await requestJson(statusUrl, { headers }, `fal status ${requestId}`);
     status = state.status;

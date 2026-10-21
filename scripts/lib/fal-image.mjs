@@ -33,11 +33,11 @@ const buildFalImageInput = (model, { prompt, refUris, aspect }) => {
 
 // Run one fal image model → returns { url, via }. `refUris` are base64 data URIs (already built by
 // the caller); an empty array routes to the text-to-image sibling endpoint.
-export const falImageUrl = async (model, { prompt, refUris = [], aspect, onLog } = {}) => {
+export const falImageUrl = async (model, { prompt, refUris = [], aspect, onLog, signal } = {}) => {
   const endpoint = refUris.length ? model : (TEXT_SIBLING[model] ?? model);
   onLog?.(`fal image model=${endpoint}, refs=${refUris.length}`);
   onLog?.(`POST https://queue.fal.run/${endpoint}`);
-  const result = await falPredict(endpoint, buildFalImageInput(endpoint, { prompt, refUris, aspect }), { onLog });
+  const result = await falPredict(endpoint, buildFalImageInput(endpoint, { prompt, refUris, aspect }), { onLog, signal });
   onLog?.('prediction succeeded; image URL received');
   return { url: falOutputUrl(result), via: endpoint };
 };

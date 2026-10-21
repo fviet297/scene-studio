@@ -16,6 +16,7 @@ import { listProjects, projectPaths, resolveSlug } from './lib/project-paths.mjs
 import { parsePlan } from './lib/parse-plan.mjs';
 import { alignCaptions } from './lib/caption-align.mjs';
 import { aspectInfo } from './lib/aspect.mjs';
+import { readBranding } from './lib/branding.mjs';
 
 const FPS = 30;
 const PLACEHOLDER_SCENE_SECONDS = 4;
@@ -109,6 +110,8 @@ for (const slug of targets) {
     hasTitleOverlay: existsSync(join(paths.publicRoot, 'overlay', 'news-title.png')),
     // Scene the headline card enters on: plan header `title-overlay-scene: N`, else the first scene.
     titleOverlayScene: titleOverlaySceneOf(paths.planMd),
+    // Corner logo + centre watermark settings (projects/<slug>/branding.json, edited in the panel).
+    branding: readBranding(slug),
   };
   writeFileSync(join(OUT_DIR, `${slug}.json`), `${JSON.stringify(data, null, 2)}\n`);
   built.push(slug);

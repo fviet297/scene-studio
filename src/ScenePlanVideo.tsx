@@ -16,6 +16,8 @@ import {
   transitionOpacity,
 } from "./animation";
 import { getSceneMotion } from "./scene-motion";
+import { deliveryBand } from "./delivery-band";
+import { BrandOverlay, type Branding } from "./BrandOverlay";
 
 // One composition per project, each fed a ProjectData bundle built by scripts/build-remotion.mjs
 // (src/projects-data/*.json) from that project's projects/<slug>/scene-plan.md + audio. Full-bleed
@@ -70,18 +72,14 @@ export type ProjectData = {
   hasTitleOverlay?: boolean;
   // Scene number the headline card enters on (plan header `title-overlay-scene:`); default first.
   titleOverlayScene?: number;
+  // Stamped by the builder from projects/<slug>/branding.json; absent in bundles built before it.
+  branding?: Branding;
 };
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
 
 // --- Overlay sizing -------------------------------------------------------------------------
-// Both aspects are delivered on the same 1080x1920 canvas the platform encodes. A 9:16 master
-// fills it 1:1. A 16:9 master is centre-cropped to 3:2 and scaled into a 1080x720 band by
-// scripts/wrap-vertical.mjs, so an overlay pixel drawn on that master lands at 0.667x on the
-// phone. Multiplying every horizontal and typographic value by `unit` cancels that out, so the
-// title reads at the same apparent size in both aspects.
-const DELIVERY_WIDTH = 1080;
-const VERTICAL_BAND_RATIO = 3 / 2; // keep in sync with BAND_RATIO in scripts/wrap-vertical.mjs
+// Horizontal and typographic values scale by deliveryBand().unit; see src/delivery-band.ts.
 
 // Scrim and vertical placement as fractions of composition height.
 //
@@ -115,11 +113,8 @@ function overlayMetrics(width: number, height: number) {
   // the 3:2 centre crop when it is wider than that. Anything drawn outside that strip is thrown
   // away by wrap-vertical.mjs, so horizontal insets are measured from the crop edge, not the
   // frame edge — otherwise a 16:9 master puts the AI tag where the crop cuts through it.
-  const bandWidth = Math.min(width, height * VERTICAL_BAND_RATIO);
-  const cropInset = Math.round((width - bandWidth) / 2);
-  const unit = bandWidth / DELIVERY_WIDTH;
-  const profile =
-    width > height ? OVERLAY_PROFILES.wide : OVERLAY_PROFILES.vertical;
+  const { cropInset, unit, isWide } = deliveryBand(width, height);
+  const profile = isWide ? OVERLAY_PROFILES.wide : OVERLAY_PROFILES.vertical;
   const px = (base: number) => Math.round(base * unit);
   return {
     topScrimHeight: Math.round(height * profile.topScrim),
@@ -357,6 +352,7 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
         />
       )}
+      {project.branding && <BrandOverlay branding={project.branding} />}
     </AbsoluteFill>
   );
 };

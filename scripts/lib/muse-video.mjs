@@ -14,7 +14,7 @@ import { aspectInfo } from './aspect.mjs';
 const POLL_INTERVAL_MS = 5000;
 const POLL_MAX_ATTEMPTS = 180; // 15 minutes
 
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog, signal }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const museModel = model.slice('muse:'.length);
   const body = {
@@ -28,8 +28,9 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   const id = await createTask('/v1/videos', body, 'muse video');
   onLog?.(`job accepted: ${id}`);
   const videoUrl = await pollTask('/v1/videos', id, {
-    intervalMs: POLL_INTERVAL_MS, maxAttempts: POLL_MAX_ATTEMPTS, label: 'muse video', onLog,
+    intervalMs: POLL_INTERVAL_MS, maxAttempts: POLL_MAX_ATTEMPTS, label: 'muse video', onLog, signal,
   });
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep the current clip
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
   mkdirSync(outputDir, { recursive: true });

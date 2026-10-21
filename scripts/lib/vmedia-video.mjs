@@ -53,9 +53,13 @@ const pickPricedCombo = (prices, target, resolutionPref) => {
 // Poll /ai/video. The status body wraps the fields in `videoInfo`; status appears both as the long
 // MEDIA_GENERATION_STATUS_* form and the short SUCCESS/ERROR form, so match on a substring. Per the
 // doc, download_url can lag a few seconds behind success, so a success without a URL keeps polling.
-const pollVideo = async (id) => {
+// `signal` (optional) stops polling; Gommo has no cancel call, so the job finishes on its side and
+// its result is simply never fetched.
+const pollVideo = async (id, signal) => {
   for (let attempt = 0; attempt < 120; attempt++) {
+    signal?.throwIfAborted();
     await wait(4000);
+    signal?.throwIfAborted();
     const state = await gommoPost('/ai/video', { videoId: id }, { label: `gommo video status ${id}` });
     const info = state?.videoInfo ?? state;
     const status = String(info?.status ?? '');
@@ -68,7 +72,7 @@ const pollVideo = async (id) => {
 
 // `targetSeconds` is the desired clip length (from narration audio or a user override); it is
 // snapped to what the chosen model accepts.
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', vmediaModel, targetSeconds, aspect, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', vmediaModel, targetSeconds, aspect, onLog, signal }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const model = vmediaModel || process.env.VMEDIA_VIDEO_MODEL;
   if (!model) throw new Error('Missing VMedia video model (pick one in the panel or set VMEDIA_VIDEO_MODEL).');
@@ -108,7 +112,8 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   const id = created?.videoInfo?.id_base;
   if (!id) throw new Error(`gommo create-video returned no id_base: ${JSON.stringify(created).slice(0, 300)}`);
   onLog?.(`job accepted: ${id}`);
-  const downloadUrl = await pollVideo(id);
+  const downloadUrl = await pollVideo(id, signal);
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep the current clip
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
   mkdirSync(outputDir, { recursive: true });

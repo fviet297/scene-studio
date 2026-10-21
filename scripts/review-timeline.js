@@ -5,8 +5,14 @@
 // than its scene is slowed (rate = clip / scene) to span it, then holds its last frame through the
 // pause. A scene without audio holds for the render's placeholder. Clips play muted.
 //
-// Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast) from
-// review-panel.js, which loads first, and redraws on its "studio:render" / "studio:view" events.
+// Two kinds of preview. "Nháp" (draft) is the quick one above: stills, clips and narration played
+// by the panel itself. "Bản render" / "9:16" play the real Remotion composition through
+// @remotion/player (/preview.js) on the data the render step builds (/api/preview-data), so what
+// plays is what the MP4 will contain; "9:16" also crops it to the strip wrap-vertical.mjs keeps.
+//
+// Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast,
+// paintBrandLayer) from review-panel.js, which loads first, and redraws on its "studio:render" /
+// "studio:view" events.
 
 // Must match PLACEHOLDER_SCENE_SECONDS and SCENE_GAP_SECONDS in scripts/build-remotion.mjs.
 const TL_PLACEHOLDER_SECONDS = 4;
@@ -36,7 +42,11 @@ const tl = {
   userZoom: false,
   scrubbing: false,
   sceneOnEnter: null,
+  mode: "draft", // "draft" | "master" | "vertical"
 };
+// The "as rendered" player: built Remotion data for the active project, and the /preview.js load.
+const tlRender = { project: null, slug: null, script: null, wired: false };
+const isRenderMode = () => tl.mode !== "draft";
 
 const tlVisible = () => view === "timeline";
 
@@ -68,7 +78,25 @@ function measureMedia(url, tag) {
   probe.src = url;
 }
 
+// In the render modes the clips come from the built data, frame-rounded the way ScenePlanVideo's
+// sceneTimeline lays the scenes out, so the playhead and the player agree to the frame.
+function renderClips(project) {
+  let start = 0;
+  return project.scenes.map((built, i) => {
+    const frames = Math.round(project.sceneDurations[i] * project.fps);
+    const seconds = frames / project.fps;
+    const scene = state.scenes.find((s) => s.scene === built.scene) ?? built;
+    // The builder bakes the pause before the next scene into the duration; labels show content.
+    const gap = i < project.scenes.length - 1 ? TL_SCENE_GAP_SECONDS : 0;
+    const content = seconds - gap;
+    const clip = { scene, start, seconds, content, audioSeconds: content, rate: 1 };
+    start += seconds;
+    return clip;
+  });
+}
+
 function timelineClips() {
+  if (isRenderMode() && tlRender.project) return renderClips(tlRender.project);
   let start = 0;
   const last = state.scenes.length - 1;
   return state.scenes.map((scene, i) => {
@@ -184,6 +212,8 @@ function renderTimeline() {
   // Mid-playback the media keeps running; a paused view reloads so a regenerated clip shows.
   if (clips.length && !tl.playing) loadClip(clips, tl.index, tl.offset);
   syncPlayhead(clips);
+  if (isRenderMode()) remountPlayer();
+  else paintBrandLayer($("tlScreen"), state.branding);
 }
 
 function syncPlayhead(clips) {
@@ -237,6 +267,10 @@ function loadClip(clips, index, offset) {
   tl.index = index;
   tl.offset = offset;
   currentScene = s.scene;
+  if (isRenderMode()) {
+    showSceneInfo(s);
+    return;
+  }
 
   const still = $("tlStill");
   const video = $("tlVideo");
@@ -314,6 +348,10 @@ function tick() {
 }
 
 function play() {
+  if (isRenderMode()) {
+    if (tlRender.project) window.scenePreview?.play();
+    return;
+  }
   const clips = timelineClips();
   if (!clips.length) return;
   const last = clips.at(-1);
@@ -327,6 +365,7 @@ function play() {
 }
 
 function pause() {
+  window.scenePreview?.pause();
   tl.playing = false;
   cancelAnimationFrame(tl.raf);
   $("tlAudio").pause();
@@ -345,7 +384,10 @@ function seekTo(seconds) {
     index,
     Math.min(t - clips[index].start, clips[index].seconds),
   );
-  if (tl.playing) startMedia(clips[index]);
+  if (isRenderMode()) {
+    if (tlRender.project)
+      window.scenePreview?.seekTo(Math.round(t * tlRender.project.fps));
+  } else if (tl.playing) startMedia(clips[index]);
   syncPlayhead(clips);
 }
 
@@ -418,11 +460,18 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("resize", () => {
-  if (tlVisible() && !tl.userZoom) renderTimeline();
+  if (!tlVisible()) return;
+  if (tl.userZoom) paintBrandLayer($("tlScreen"), state.branding);
+  else renderTimeline();
 });
 
 document.addEventListener("studio:render", () => {
-  if (tlVisible()) renderTimeline();
+  syncModeButtons();
+  if (!tlVisible()) return;
+  // A project switch (or an aspect change that drops the 9:16 export) invalidates the built data.
+  if (tl.mode === "vertical" && state.project?.aspect !== "16:9") setPreviewMode("master");
+  else if (isRenderMode() && tlRender.slug !== state.project?.slug) loadRenderData(0);
+  else renderTimeline();
 });
 
 document.addEventListener("studio:view", (e) => {
@@ -440,3 +489,142 @@ document.addEventListener("studio:view", (e) => {
   if (currentScene !== tl.sceneOnEnter && currentScene != null)
     selectScene(currentScene);
 });
+
+// ------------------------------------------------------------------ "as rendered" modes
+
+// Width of the strip wrap-vertical.mjs keeps from a 16:9 master (keep in sync with BAND_RATIO there).
+const TL_VERTICAL_BAND_RATIO = 3 / 2;
+
+function currentTime() {
+  const clip = timelineClips()[tl.index];
+  return clip ? clip.start + Math.min(tl.offset, clip.seconds) : 0;
+}
+
+function setPlayerStatus(message, isError = false) {
+  const status = $("tlPlayerStatus");
+  status.hidden = !message;
+  status.textContent = message || "";
+  status.classList.toggle("error", isError);
+}
+
+function loadPreviewScript() {
+  tlRender.script ??= new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "/preview.js";
+    script.onload = resolve;
+    script.onerror = () => {
+      tlRender.script = null;
+      reject(new Error("Không tải được /preview.js"));
+    };
+    document.head.append(script);
+  });
+  return tlRender.script;
+}
+
+// The player owns the clock in the render modes; the timeline only follows its frame.
+function onPlayerFrame(frame) {
+  if (!isRenderMode() || !tlRender.project) return;
+  const clips = timelineClips();
+  const t = frame / tlRender.project.fps;
+  const found = clips.findIndex((c) => t < c.start + c.seconds);
+  const index = found < 0 ? clips.length - 1 : found;
+  if (index !== tl.index) {
+    tl.index = index;
+    currentScene = clips[index].scene.scene;
+    showSceneInfo(clips[index].scene);
+  }
+  tl.offset = t - clips[index].start;
+  syncPlayhead(clips);
+}
+
+function wirePlayer() {
+  if (tlRender.wired) return;
+  tlRender.wired = true;
+  const setPlaying = (playing) => () => {
+    tl.playing = playing;
+    syncPlayButton();
+  };
+  window.scenePreview.on("frameupdate", onPlayerFrame);
+  window.scenePreview.on("play", setPlaying(true));
+  window.scenePreview.on("pause", setPlaying(false));
+  window.scenePreview.on("ended", setPlaying(false));
+}
+
+// 9:16 shows the master the way wrap-vertical.mjs exports it: the centred 3:2 strip, full width,
+// on a black 1080x1920 canvas. The player is widened so the band shows exactly that strip.
+function layoutBand() {
+  const root = $("tlPlayerRoot");
+  const { width = 1080, height = 1920 } = tlRender.project;
+  const widthPct =
+    tl.mode === "vertical"
+      ? ((width / height) / TL_VERTICAL_BAND_RATIO) * 100
+      : 100;
+  root.style.width = `${widthPct}%`;
+  root.style.left = `${-(widthPct - 100) / 2}%`;
+}
+
+// Branding saved in the dialog applies without a rebuild: the builder stamps the same object.
+function remountPlayer() {
+  if (!tlRender.project || !window.scenePreview) return;
+  layoutBand();
+  window.scenePreview.mount($("tlPlayerRoot"), {
+    ...tlRender.project,
+    branding: state.branding ?? tlRender.project.branding,
+  });
+}
+
+// Rebuild the render data (same builder the Render MP4 step runs first) and resume at `seconds`.
+async function loadRenderData(seconds) {
+  tlRender.project = null;
+  setPlayerStatus("Đang dựng dữ liệu render…");
+  try {
+    await loadPreviewScript();
+    wirePlayer();
+    const { project } = await api("/api/preview-data");
+    if (!isRenderMode()) return;
+    tlRender.project = project;
+    tlRender.slug = state.project?.slug ?? null;
+    setPlayerStatus("");
+    renderTimeline();
+    seekTo(seconds);
+  } catch (e) {
+    setPlayerStatus(`Không dựng được preview: ${e.message}`, true);
+  }
+}
+
+function setPreviewMode(mode) {
+  if (mode === tl.mode) return;
+  const seconds = currentTime();
+  pause();
+  tl.mode = mode;
+  for (const btn of $("tlModes").querySelectorAll("button"))
+    btn.setAttribute("aria-pressed", String(btn.dataset.mode === mode));
+  const render = isRenderMode();
+  $("tlScreen").classList.toggle("is-render", render);
+  $("tlScreen").classList.toggle("is-vertical", mode === "vertical");
+  $("tlPlayer").hidden = !render;
+  $("tlPlayerRefresh").hidden = !render;
+  if (render) {
+    loadRenderData(seconds);
+    return;
+  }
+  window.scenePreview?.unmount();
+  tlRender.project = null;
+  setPlayerStatus("");
+  renderTimeline();
+  seekTo(seconds);
+}
+
+// Only a 16:9 master has a separate 9:16 export to preview.
+function syncModeButtons() {
+  const wide = state.project?.aspect === "16:9";
+  const master = $("tlModes").querySelector('[data-mode="master"]');
+  master.textContent = wide ? "16:9" : "Bản render";
+  $("tlModes").querySelector('[data-mode="vertical"]').hidden = !wide;
+}
+
+$("tlModes").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-mode]");
+  if (btn) setPreviewMode(btn.dataset.mode);
+});
+$("tlPlayerRefresh").addEventListener("click", () => loadRenderData(currentTime()));

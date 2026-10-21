@@ -19,9 +19,13 @@ export const VMEDIA_IMAGE_MODELS = imageSlugs().map((slug) => ({ id: `vmedia:${s
 
 // Poll /ai/image. The status body wraps the fields in `imageInfo`; match status on a substring
 // (SUCCESS / ERROR appear in both the short and long forms). Seedream 2K can take several minutes.
-const pollImage = async (id) => {
+// `signal` (optional) stops polling; Gommo has no cancel call, so the job finishes on its side and
+// its result is simply never fetched.
+const pollImage = async (id, signal) => {
   for (let attempt = 0; attempt < 120; attempt++) {
+    signal?.throwIfAborted();
     await wait(3000);
+    signal?.throwIfAborted();
     const state = await gommoPost('/ai/image', { id_base: id }, { label: `gommo image status ${id}` });
     const info = state?.imageInfo ?? state;
     const status = String(info?.status ?? '');
@@ -33,7 +37,7 @@ const pollImage = async (id) => {
 
 // Run one Gommo image model → { url, via }. `refDataUri` (optional, WITH the data: prefix) switches
 // to edit mode locking to that single reference image.
-export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog } = {}) => {
+export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog, signal } = {}) => {
   const caps = await getModelCaps('image', slug); // validates the slug; throws a slug list otherwise
   // Some models require `resolution` and `mode`; snap each to a value the model declares (caps use
   // `modes` for images, `mode`/`modes` for video). Cheapest/most balanced option preferred first.
@@ -51,7 +55,7 @@ export const vmediaImageUrl = async (slug, { prompt, refDataUri, aspect, onLog }
   const id = created?.imageInfo?.id_base;
   if (!id) throw new Error(`gommo generateImage returned no id_base: ${JSON.stringify(created).slice(0, 300)}`);
   onLog?.('prediction accepted');
-  const url = await pollImage(id);
+  const url = await pollImage(id, signal);
   onLog?.('image URL received');
   return { url, via: `vmedia:${slug}` };
 };

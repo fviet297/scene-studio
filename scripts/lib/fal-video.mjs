@@ -36,7 +36,7 @@ const ASPECT_RATIO_MODELS = new Set([
 const formatDuration = (model, duration) =>
   duration ? (model.startsWith('fal-ai/veo') ? `${duration}s` : String(duration)) : undefined;
 
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog, signal }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const durationValue = formatDuration(model, duration);
   const input = {
@@ -48,8 +48,9 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   };
   onLog?.(`POST https://queue.fal.run/${model}`);
   onLog?.(`payload: model=${model}${durationValue ? `, duration=${durationValue}` : ''}`);
-  const videoUrl = falOutputUrl(await falPredict(model, input, { onLog }));
+  const videoUrl = falOutputUrl(await falPredict(model, input, { onLog, signal }));
   onLog?.('job completed; video URL received');
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep the current clip
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
   mkdirSync(outputDir, { recursive: true });

@@ -203,5 +203,74 @@
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [],
     "prompt": "Early morning at a modest Long Xuyên river landing, a small boat arrives through mist and a few wary former Nguyễn retainers wait beneath a thatched shelter."
+  },
+  {
+    "id": "scene-16",
+    "scene": 16,
+    "type": "ai_reconstruction",
+    "subject": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched rivers",
+    "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (meta:muse-image-1.0 char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched riverside roof, plain clothing, maps and travel bundles, young Nguyễn Ánh seated without a crown or imperial regalia."
+  },
+  {
+    "id": "scene-17",
+    "scene": 17,
+    "type": "ai_reconstruction",
+    "subject": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying r",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying retainers, woven cargo baskets, broad river and palm-lined banks under pale morning sun."
+  },
+  {
+    "id": "scene-18",
+    "scene": 18,
+    "type": "ai_reconstruction",
+    "subject": "A practical riverside encampment with boat crews repairing wooden hulls, messeng",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "A practical riverside encampment with boat crews repairing wooden hulls, messengers arriving, period maps spread on a low table, southern Vietnamese wetlands in the background."
+  },
+  {
+    "id": "scene-19",
+    "scene": 19,
+    "type": "ai_reconstruction",
+    "subject": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ ",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ at dusk, cautious faces and a nearly empty riverbank, showing a fragile return rather than battle."
+  },
+  {
+    "id": "scene-20",
+    "scene": 20,
+    "type": "ai_reconstruction",
+    "subject": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired war boats behind him and a small flotilla beginning to depart toward a distant fortified settlement, uncertain horizon, no crown or later imperial costume."
   }
 ]

@@ -33,8 +33,9 @@ function defaultMotion(sceneNumber: number): SceneMotion {
           yTo: 4,
         },
     atmosphere: { vignette: BASE_VIGNETTE, grain: BASE_GRAIN },
-    transitionIn: 12,
-    transitionOut: 10,
+    // Hard cuts between scenes: the channel does not use fade transitions.
+    transitionIn: 0,
+    transitionOut: 0,
   };
 }
 

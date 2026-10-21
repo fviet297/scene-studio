@@ -42,10 +42,14 @@ export const createTask = async (path, body, label) => {
 
 // Poll `${path}/${id}` until the task completes → the result media URL, made absolute (the server
 // returns a relative /v1/media/... path when MUSE2API_PUBLIC_BASE is unset on its side).
-export const pollTask = async (path, id, { intervalMs, maxAttempts, label, onLog }) => {
+// `signal` (optional) stops polling; muse2api has no cancel endpoint, so the task itself finishes
+// on its side and its result is simply never fetched.
+export const pollTask = async (path, id, { intervalMs, maxAttempts, label, onLog, signal }) => {
   let errors = 0;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    signal?.throwIfAborted();
     await wait(intervalMs);
+    signal?.throwIfAborted();
     let task;
     try {
       task = await requestJson(`${path}/${id}`, { method: 'GET' }, `${label} status ${id}`);

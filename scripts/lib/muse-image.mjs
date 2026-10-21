@@ -17,7 +17,7 @@ export const MUSE_IMAGE_MODELS = [
 
 // Run one muse2api image model → { url, via }. `refDataUri` (optional, WITH the data: prefix)
 // switches the server to reference-image (edit) mode.
-export const museImageUrl = async (model, { prompt, refDataUri, aspect, onLog } = {}) => {
+export const museImageUrl = async (model, { prompt, refDataUri, aspect, onLog, signal } = {}) => {
   const body = {
     model, prompt, aspect_ratio: aspectInfo(aspect).ratio, response_format: 'url',
     ...(refDataUri ? { reference_image: refDataUri } : {}),
@@ -26,7 +26,7 @@ export const museImageUrl = async (model, { prompt, refDataUri, aspect, onLog } 
   const id = await createTask('/v1/images/tasks', body, 'muse image');
   onLog?.(`task accepted: ${id}`);
   const url = await pollTask('/v1/images/tasks', id, {
-    intervalMs: POLL_INTERVAL_MS, maxAttempts: POLL_MAX_ATTEMPTS, label: 'muse image', onLog,
+    intervalMs: POLL_INTERVAL_MS, maxAttempts: POLL_MAX_ATTEMPTS, label: 'muse image', onLog, signal,
   });
   onLog?.('image URL received');
   return { url, via: `muse:${model}` };

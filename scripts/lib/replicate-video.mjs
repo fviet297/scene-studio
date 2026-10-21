@@ -88,7 +88,7 @@ export const buildMotionPrompt = ({ narration = '', scenePrompt = '' }) => [
   'No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.',
 ].join('\n');
 
-export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog }) => {
+export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public/scene-videos', prompt = '', model, duration, aspect, onLog, signal }) => {
   if (!existsSync(imagePath)) throw new Error(`Scene image not found: ${imagePath}`);
   const token = process.env.REPLICATE_API_TOKEN;
   if (!token) throw new Error('Missing REPLICATE_API_TOKEN in .env');
@@ -105,8 +105,9 @@ export const generateSceneVideo = async ({ scene, imagePath, outputDir = 'public
   };
   onLog?.(`POST https://api.replicate.com/v1/models/${chosenModel}/predictions`);
   onLog?.(`payload: model=${chosenModel}${duration ? `, duration=${duration}` : ''}`);
-  const videoUrl = await predict(token, chosenModel, input);
+  const videoUrl = await predict(token, chosenModel, input, { signal });
   onLog?.('job completed; video URL received');
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep the current clip
 
   const output = join(outputDir, `scene-${String(scene).padStart(2, '0')}.mp4`);
   const temporaryOutput = `${output}.tmp`;

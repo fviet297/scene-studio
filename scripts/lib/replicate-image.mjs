@@ -344,13 +344,16 @@ export const loadEnv = () => {
   }
 };
 
-export const predict = async (token, model, input) => {
+// `signal` (optional) cancels the job: polling stops, the prediction is cancelled on Replicate so
+// it stops billing, and the call rejects with the signal's AbortError.
+export const predict = async (token, model, input, { signal } = {}) => {
   let lastError;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      return await runPrediction(token, model, input);
+      return await runPrediction(token, model, input, signal);
     } catch (error) {
       lastError = error;
+      if (signal?.aborted) throw error;
       if (!/ConnectError|connection reset|upstream connect/i.test(error.message) || attempt === 2) throw error;
       await wait(2000 * 2 ** attempt);
     }
@@ -358,7 +361,15 @@ export const predict = async (token, model, input) => {
   throw lastError;
 };
 
-const runPrediction = async (token, model, input) => {
+// Best effort: a failed cancel must not mask the abort itself.
+const cancelPrediction = async (token, p) => {
+  if (!p.urls?.cancel) return;
+  await requestJson(p.urls.cancel, { method: 'POST', headers: { Authorization: `Bearer ${token}` } }, `replicate cancel ${p.id}`, false)
+    .catch(() => {});
+};
+
+const runPrediction = async (token, model, input, signal) => {
+  signal?.throwIfAborted();
   const endpoint = `https://api.replicate.com/v1/models/${model}/predictions`;
   // Do not hold POST open while model runs; long-lived connections frequently fail upstream.
   let p = await requestJson(endpoint, {
@@ -368,6 +379,10 @@ const runPrediction = async (token, model, input) => {
   }, `replicate create ${model}`, false);
   const predictionId = p.id ?? 'unknown';
   while (!['succeeded', 'failed', 'canceled'].includes(p.status)) {
+    if (signal?.aborted) {
+      await cancelPrediction(token, p);
+      signal.throwIfAborted();
+    }
     await wait(2000);
     if (!p.urls?.get) throw new Error(`replicate prediction ${predictionId}: missing polling URL`);
     p = await requestJson(p.urls.get, {
@@ -409,16 +424,16 @@ export const upsertManifest = (entry) => {
 // Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
 // anything else → Replicate. refPaths are local reference file paths; each provider builds its own
 // payload from the shared data-URI encoding. Returns the output image URL.
-const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog }) => {
+const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog, signal }) => {
   if (model.startsWith('fal-ai/')) {
-    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog });
+    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog, signal });
     return url;
   }
   if (model.startsWith('vmedia:')) {
     // Gommo generateImage locks to a single reference (edit mode); a multi-character scene keeps
     // only the first reference, so pick fal/Replicate for scenes needing every face locked.
     const { url } = await vmediaImageUrl(model.slice('vmedia:'.length), {
-      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog,
+      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog, signal,
     });
     return url;
   }
@@ -431,13 +446,13 @@ const runImageModel = async (token, model, { prompt, refPaths, aspect = currentA
   if (model.startsWith('muse:')) {
     // Single-reference like VMedia: a multi-character scene keeps only the first reference.
     const { url } = await museImageUrl(model.slice('muse:'.length), {
-      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog,
+      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog, signal,
     });
     return url;
   }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }));
+  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }), { signal });
   onLog('prediction succeeded; image URL received');
   return url;
 };
@@ -453,6 +468,8 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   const override = typeof opts.model === 'string' && opts.model.trim() ? opts.model.trim() : null;
   const aspect = opts.aspect ?? currentAspect();
   const onLog = opts.onLog ?? (() => {});
+  // Optional AbortSignal: a cancelled job stops its provider call and never writes the image.
+  const { signal } = opts;
   // Token is required only for the Replicate path; runImageModel checks it there. A fal-only user
   // (fal model chosen, FAL_KEY set) does not need REPLICATE_API_TOKEN.
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
@@ -483,16 +500,17 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     const route = multi ? `multi-char ×${refs.length}` : face ? 'face-lock' : 'char-lock';
     const prompt = buildPrompt(t, scene.image.prompt, template, aspect);
     onLog(`route: ${route}, model=${model}, aspect=${aspect}, refs=${refs.length} (${scene.image.characters.join(', ')}), prompt=${prompt.length} chars`);
-    url = await runImageModel(token, model, { prompt, refPaths: refs, aspect, onLog });
+    url = await runImageModel(token, model, { prompt, refPaths: refs, aspect, onLog, signal });
     via = `${model} ${route}`;
   } else {
     const model = override ?? text;
     const prompt = buildPrompt(t, scene.image.prompt, t.text2img, aspect);
     onLog(`route: text2img, model=${model}, aspect=${aspect}, no reference, prompt=${prompt.length} chars`);
-    url = await runImageModel(token, model, { prompt, refPaths: [], aspect, onLog });
+    url = await runImageModel(token, model, { prompt, refPaths: [], aspect, onLog, signal });
     via = `${model} text2img`;
   }
 
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep the current image
   mkdirSync(imageDir(), { recursive: true });
   onLog(`downloading result → ${join(imageDir(), file)}`);
   await download(url, join(imageDir(), file));
