@@ -1,7 +1,8 @@
 // Scene Studio - review workbench behaviour.
 //
 // Shape of this file:
-//   state + helpers → render (rail, stage, inspector, sheet) → actions → wiring.
+//   state + helpers → render (rail, stage, inspector) → actions → wiring. The timeline (default
+//   view, with the batch bar) lives in review-timeline.js.
 //
 // Two rules worth keeping:
 //   1. Inspector listeners are wired once and only their values are synced, so a
@@ -66,7 +67,7 @@ let state = {
 };
 let currentScene = null;
 let filter = "all";
-let view = "stage";
+let view = "timeline";
 // Label of a whole-panel operation (a project switch) that locks every control, or null.
 let globalOp = null;
 let templateVersions = [];
@@ -363,7 +364,7 @@ function render() {
   renderPipeline();
   renderRail();
   renderStage();
-  renderSheet();
+  renderSelection();
   syncScriptGenButtons();
   // The timeline lives in its own script (review-timeline.js) and redraws on this signal.
   document.dispatchEvent(new CustomEvent("studio:render"));
@@ -947,56 +948,6 @@ function markDirty(field, saveBtn, hint, dirty) {
   hint.classList.toggle("dirty", dirty);
 }
 
-function renderSheet() {
-  for (const n of [...selected]) if (!findScene(n)) selected.delete(n);
-
-  $("tiles").innerHTML = state.scenes
-    .map((s) => {
-      const status = sceneStatus(s);
-      const imageInner = s.hasImage
-        ? `<img src="${s.imageUrl}" alt="Scene ${s.scene}" loading="lazy" />`
-        : `<span class="empty">${s.kind === "search" ? "scene tìm ảnh" : "chưa sinh ảnh"}</span>`;
-      const videoInner = s.hasMotionVideo
-        ? `<span class="ready-mark">${ICON_OK}<span>Đã có video</span></span>`
-        : `<span class="empty">chưa có video</span>`;
-      return `<div class="tile${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
-      <div class="tile-head"><span class="tile-no">${s.scene}</span></div>
-      <div class="tile-media">
-        <button type="button" class="media-pane" data-role="open" title="Mở scene ${s.scene} trong bàn làm việc">
-          ${imageInner}${pips(s)}
-        </button>
-        <button type="button" class="media-pane video-pane${s.hasMotionVideo ? " ready" : ""}" data-role="open" title="Mở scene ${s.scene} trong bàn làm việc">
-          ${videoInner}
-        </button>
-      </div>
-      <div class="tile-foot">
-        <label>
-          <input type="checkbox" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} />
-          <span class="state">${STATE_LABEL[status]}</span>
-        </label>
-      </div>
-    </div>`;
-    })
-    .join("");
-
-  for (const tile of $("tiles").querySelectorAll(".tile")) {
-    const n = Number(tile.dataset.scene);
-    for (const btn of tile.querySelectorAll('[data-role="open"]')) {
-      btn.addEventListener("click", () => {
-        selectScene(n);
-        setView("stage");
-      });
-    }
-    tile.querySelector('[data-role="pick"]').addEventListener("change", (e) => {
-      if (e.target.checked) selected.add(n);
-      else selected.delete(n);
-      tile.classList.toggle("selected", e.target.checked);
-      renderSelection();
-    });
-  }
-  renderSelection();
-}
-
 // True when the given scene numbers, sorted, form an unbroken run in the plan's current scene
 // order — i.e. no other existing scene sits between the lowest and highest of the selection.
 // Merging across a gap would silently swallow whatever sits between them, so this gates the
@@ -1009,10 +960,11 @@ function isContiguousSelection(nums) {
   return at >= 0 && sorted.every((n, i) => all[at + i] === n);
 }
 
-// Selection is shared by the rail (workbench) and the contact sheet. This keeps every
+// Selection is shared by the rail (workbench) and the timeline clips. This keeps every
 // selection-driven control in both places in sync from the one `selected` Set, so a scene
-// ticked in the rail also reads as ticked when the sheet is opened, and vice versa.
+// ticked in the rail also reads as ticked on the timeline, and vice versa.
 function renderSelection() {
+  for (const n of [...selected]) if (!findScene(n)) selected.delete(n);
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
   const hasNarr = (s) => (s.narration || "").trim().length > 0;
   const aiCount = chosen.filter((s) => s.kind === "ai").length;
@@ -1027,11 +979,15 @@ function renderSelection() {
     (s) => s.hasImage && s.hasAudio,
   ).length;
 
+  const nums = chosen.map((s) => s.scene);
   const info = chosen.length
-    ? `Đã chọn <b>${chosen.length}</b>: scene ${chosen.map((s) => s.scene).join(", ")}`
+    ? `Đã chọn <b>${chosen.length}</b>/${state.scenes.length} · ${sceneList(nums)}`
     : "Chưa chọn scene nào";
-  $("sheetSelInfo").innerHTML = info;
-  $("railSelInfo").innerHTML = info;
+  const fullList = chosen.length ? `Scene ${nums.join(", ")}` : "";
+  for (const id of ["tlSelInfo", "railSelInfo"]) {
+    $(id).innerHTML = info;
+    $(id).title = fullList;
+  }
 
   // Batches queue behind running jobs (enqueueJob drops scenes already pending), so only a
   // project switch blocks them — plus a render for audio, which must not rewrite files it reads.
@@ -1046,7 +1002,6 @@ function renderSelection() {
     locked ||
     chosen.some((s) => sceneInAnyLane(s.scene)) ||
     !isContiguousSelection(chosen.map((s) => s.scene));
-  $("batchPrompt").disabled = disPrompt;
   $("batchImg").disabled = disImg;
   $("batchAud").disabled = disAud;
   $("batchMotion").disabled = disMotion;
@@ -1073,10 +1028,10 @@ function renderSelection() {
   selAll.checked = allShown;
   selAll.indeterminate = !allShown && shown.some((s) => selected.has(s.scene));
 
-  for (const tile of $("tiles").querySelectorAll(".tile")) {
-    const on = selected.has(Number(tile.dataset.scene));
-    tile.classList.toggle("selected", on);
-    const box = tile.querySelector('[data-role="pick"]');
+  for (const cell of $("tlClips").querySelectorAll(".tl-cell")) {
+    const on = selected.has(Number(cell.dataset.scene));
+    cell.classList.toggle("selected", on);
+    const box = cell.querySelector(".tl-pick");
     if (box) box.checked = on;
   }
 }
@@ -1108,7 +1063,6 @@ function setView(next) {
   view = next;
   document.body.className = `view-${next}`;
   $("viewStage").setAttribute("aria-pressed", String(next === "stage"));
-  $("viewSheet").setAttribute("aria-pressed", String(next === "sheet"));
   $("viewTimeline").setAttribute("aria-pressed", String(next === "timeline"));
   document.dispatchEvent(new CustomEvent("studio:view", { detail: next }));
 }
@@ -1335,7 +1289,18 @@ const quietJob = (path, bodyFor) => async (job) => {
   }
 };
 
-const sceneList = (scenes) => scenes.join(", ");
+// Scene numbers as compact runs, e.g. [1,2,3,5,7,8] → "1–3, 5, 7–8"; keeps labels one line long
+// even when every scene of a long plan is selected.
+const sceneList = (scenes) => {
+  const sorted = [...scenes].sort((a, b) => a - b);
+  const runs = [];
+  for (const n of sorted) {
+    const last = runs.at(-1);
+    if (last && n === last[1] + 1) last[1] = n;
+    else runs.push([n, n]);
+  }
+  return runs.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(", ");
+};
 const enqueueImages = (scenes, model) =>
   enqueueJob({
     lane: "media",
@@ -1629,7 +1594,7 @@ $("railFilter").addEventListener("change", (e) => {
   renderRail();
 });
 
-for (const btn of [$("viewStage"), $("viewSheet"), $("viewTimeline")])
+for (const btn of [$("viewStage"), $("viewTimeline")])
   btn.addEventListener("click", () => setView(btn.dataset.view));
 
 // Image and Motion each edit in a focused popup, opened from their inspector row, so the
@@ -1889,7 +1854,7 @@ $("aspectSelect").addEventListener("change", async () => {
 
 const pickWhere = (test) => {
   for (const s of state.scenes) if (test(s)) selected.add(s.scene);
-  renderSheet();
+  renderSelection();
 };
 $("selAll").addEventListener("click", () => pickWhere(() => true));
 $("selNeedImg").addEventListener("click", () =>
@@ -1901,7 +1866,7 @@ $("selNeedPrompt").addEventListener("click", () =>
 );
 $("selNone").addEventListener("click", () => {
   selected.clear();
-  renderSheet();
+  renderSelection();
 });
 
 // Rail select-all toggles only the currently shown (filtered) scenes, so "All" respects the
@@ -1962,10 +1927,10 @@ async function confirmBatch(kind, models, modelId, count) {
   );
 }
 
-// One batch action per stage, shared by the rail bar and the contact-sheet bar. Both read the
+// One batch action per stage, shared by the rail bar and the timeline batch bar. Both read the
 // same `selected` Set and the same sticky model selects, so either entry point behaves identically.
-const runBatchPrompts = () => {
-  const scenes = [...selected].sort((a, b) => a - b);
+// Prompt writing lives in the script modal instead of the timeline bar (see scriptGenHtml).
+const enqueuePrompts = (scenes) =>
   enqueueJob({
     lane: "media",
     kind: "prompt",
@@ -1973,7 +1938,8 @@ const runBatchPrompts = () => {
     label: (ns) => `Đang viết prompt cho scene ${sceneList(ns)}`,
     run: consoleJob("/api/generate-prompts-batch", (ns) => ({ scenes: ns })),
   });
-};
+const runBatchPrompts = () =>
+  enqueuePrompts([...selected].sort((a, b) => a - b));
 // The cost confirm counts only scenes that will actually run: enqueueJob drops the ones that
 // already have the same job pending.
 const runBatchImages = async () => {
@@ -2009,7 +1975,6 @@ const runBatchMotion = async () => {
     return;
   enqueueMotions(scenes, model);
 };
-$("batchPrompt").addEventListener("click", runBatchPrompts);
 $("batchImg").addEventListener("click", runBatchImages);
 $("batchAud").addEventListener("click", runBatchAudio);
 $("batchMotion").addEventListener("click", runBatchMotion);
@@ -2259,9 +2224,8 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key === "ArrowUp" || e.key === "k") {
     e.preventDefault();
     stepScene(-1);
-  } else if (e.key === "1") setView("stage");
-  else if (e.key === "2") setView("sheet");
-  else if (e.key === "3") setView("timeline");
+  } else if (e.key === "1") setView("timeline");
+  else if (e.key === "2") setView("stage");
 });
 
 // Cmd/Ctrl+Enter saves the field under the cursor.
@@ -2633,13 +2597,14 @@ const scriptGroupHtml = (s, g) => {
 };
 
 // Per-scene generate buttons for the script modal. They reuse the batch endpoints with a
-// single scene, so they behave exactly like the contact-sheet/rail batch runs (same models,
+// single scene, so they behave exactly like the timeline/rail batch runs (same models,
 // same queue and dedupe) — no dependency on the stage's currently-selected scene.
 const scriptGenHtml = (s, isLast) =>
   `<div class="script-gen">
-    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-label="Ảnh" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở Lưới scene)">Ảnh</button>
+    <button type="button" class="btn sm script-gen-btn gen-prompt" data-gen="prompt" data-label="Prompt" data-scene="${s.scene}" title="Viết image + motion prompt cho scene này từ narration đã lưu (OpenAI)">Prompt</button>
+    <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-label="Ảnh" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở thanh Chạy của Timeline)">Ảnh</button>
     <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-label="Audio" data-scene="${s.scene}" title="Sinh audio narration cho scene này">Audio</button>
-    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-label="Motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio)">Motion</button>
+    <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-label="Motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio, model ở thanh Chạy của Timeline)">Motion</button>
     ${isLast ? "" : `<button type="button" class="btn sm quiet script-gen-btn" data-merge-next="${s.scene}" title="Gộp scene này với scene kế tiếp">Gộp ↓</button>`}
   </div>`;
 
@@ -2691,7 +2656,9 @@ function syncScriptGenButtons() {
     const dirty = btn.closest(".script-row")?.classList.contains("dirty");
     let ok = false;
     if (s && !dirty && !globalOp) {
-      if (kind === "image") ok = s.kind === "ai";
+      if (kind === "prompt")
+        ok = s.kind === "ai" && (s.narration || "").trim().length > 0;
+      else if (kind === "image") ok = s.kind === "ai";
       else if (kind === "audio")
         ok = !renderActive() && (s.narration || "").trim().length > 0;
       else if (kind === "motion") ok = s.hasImage && s.hasAudio;
@@ -2712,7 +2679,33 @@ function syncScriptGenButtons() {
       sceneInAnyLane(Number(row.dataset.scene)) ||
       sceneInAnyLane(Number(next.dataset.scene));
   }
+  syncScriptMissingPrompts();
 }
+
+// AI scenes that have narration but no image prompt yet, and no prompt job pending.
+const scenesMissingPrompt = () =>
+  state.scenes
+    .filter(
+      (s) =>
+        s.kind === "ai" &&
+        (s.narration || "").trim() &&
+        !(s.prompt || "").trim() &&
+        !hasPending("prompt", s.scene),
+    )
+    .map((s) => s.scene);
+
+// Header batch: write every missing prompt in one job. Unsaved rows block it, since prompts are
+// written from the saved narration and would land under the edits.
+function syncScriptMissingPrompts() {
+  const count = scenesMissingPrompt().length;
+  const dirty = $("scriptList").querySelector(".script-row.dirty");
+  $("scriptGenMissing").textContent = `Viết prompt còn thiếu (${count})`;
+  $("scriptGenMissing").disabled =
+    Boolean(globalOp) || count === 0 || Boolean(dirty);
+}
+$("scriptGenMissing").addEventListener("click", () =>
+  enqueuePrompts(scenesMissingPrompt()),
+);
 
 function runScriptGen(kind, sceneNo) {
   const row = $("scriptList").querySelector(
@@ -2723,7 +2716,8 @@ function runScriptGen(kind, sceneNo) {
     return;
   }
   const scenes = [sceneNo];
-  if (kind === "image") enqueueImages(scenes, $("batchImageModelSelect").value);
+  if (kind === "prompt") enqueuePrompts(scenes);
+  else if (kind === "image") enqueueImages(scenes, $("batchImageModelSelect").value);
   else if (kind === "audio") enqueueAudio(scenes);
   else if (kind === "motion")
     enqueueMotions(scenes, $("batchMotionModelSelect").value);

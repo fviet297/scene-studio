@@ -1468,5 +1468,23 @@
       }
     ]
   ],
-  "uploadedScenes": []
+  "uploadedScenes": [],
+  "hasOverlay": false,
+  "hasTitleOverlay": false,
+  "branding": {
+    "name": "FVIET",
+    "logo": {
+      "enabled": true,
+      "position": "top-right",
+      "anchor": "crop",
+      "opacity": 0.85,
+      "margin": 24,
+      "size": 64,
+      "textSize": 18
+    },
+    "watermark": {
+      "enabled": true,
+      "opacity": 0.08
+    }
+  }
 }

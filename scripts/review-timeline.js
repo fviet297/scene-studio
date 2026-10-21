@@ -10,8 +10,11 @@
 // @remotion/player (/preview.js) on the data the render step builds (/api/preview-data), so what
 // plays is what the MP4 will contain; "9:16" also crops it to the strip wrap-vertical.mjs keeps.
 //
+// It is also where scenes are picked for a batch run: each clip carries a checkbox that feeds the
+// panel's shared `selected` Set (the batch bar above the track acts on it), plus status pips.
+//
 // Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast,
-// paintBrandLayer) from review-panel.js, which loads first, and redraws on its "studio:render" /
+// paintBrandLayer, selected, renderSelection, pips) from review-panel.js, which loads first, and redraws on its "studio:render" /
 // "studio:view" events.
 
 // Must match PLACEHOLDER_SCENE_SECONDS and SCENE_GAP_SECONDS in scripts/build-remotion.mjs.
@@ -155,15 +158,20 @@ function clipHtml(clip, i) {
   ]
     .filter(Boolean)
     .join(" ");
-  return `<button type="button" class="${classes}" data-index="${i}" style="width:${width}px"
-      aria-current="${i === tl.index}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
-      title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}">
-    ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
-    <span class="tl-clip-label">
-      <span class="num">${s.scene}</span>${icon}
-      ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
-    </span>
-  </button>`;
+  const picked = selected.has(s.scene);
+  return `<div class="tl-cell${picked ? " selected" : ""}" data-scene="${s.scene}" style="width:${width}px">
+    <button type="button" class="${classes}" data-index="${i}"
+        aria-current="${i === tl.index}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
+        title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}">
+      ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
+      <span class="tl-clip-label">
+        <span class="num">${s.scene}</span>${icon}
+        ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
+      </span>
+    </button>
+    ${showIcon ? `<input type="checkbox" class="tl-pick" aria-label="Chọn scene ${s.scene} để chạy hàng loạt"${picked ? " checked" : ""} />` : ""}
+    ${showDuration ? pips(s) : ""}
+  </div>`;
 }
 
 function renderRuler(total) {
@@ -421,7 +429,8 @@ $("tlZoom").addEventListener("input", (e) => {
 const tlTimeAtPointer = (e) =>
   (e.clientX - $("tlInner").getBoundingClientRect().left) / tl.pxPerSec;
 $("tlInner").addEventListener("pointerdown", (e) => {
-  if (e.button !== 0) return;
+  // Ticking a clip's batch checkbox must not scrub the playhead to it.
+  if (e.button !== 0 || e.target.closest(".tl-pick")) return;
   tl.scrubbing = true;
   $("tlInner").setPointerCapture(e.pointerId);
   seekTo(tlTimeAtPointer(e));
@@ -433,7 +442,17 @@ for (const ev of ["pointerup", "pointercancel"])
   $("tlInner").addEventListener(ev, () => {
     tl.scrubbing = false;
   });
-$("tlInner").addEventListener("dblclick", openInWorkbench);
+$("tlInner").addEventListener("dblclick", (e) => {
+  if (!e.target.closest(".tl-pick")) openInWorkbench();
+});
+$("tlClips").addEventListener("change", (e) => {
+  const box = e.target.closest(".tl-pick");
+  if (!box) return;
+  const n = Number(box.closest(".tl-cell").dataset.scene);
+  if (box.checked) selected.add(n);
+  else selected.delete(n);
+  renderSelection();
+});
 // Keyboard activation of a clip (Enter/Space on a focused clip) jumps to its start.
 $("tlClips").addEventListener("click", (e) => {
   const btn = e.target.closest(".tl-clip");
