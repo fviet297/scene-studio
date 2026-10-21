@@ -453,6 +453,15 @@ $("tlClips").addEventListener("change", (e) => {
   else selected.delete(n);
   renderSelection();
 });
+// A character's scene chip in the cast strip jumps the playhead to that scene.
+$("tlCharGallery").addEventListener("click", (e) => {
+  const chip = e.target.closest(".char-chip");
+  if (!chip) return;
+  const clip = timelineClips().find(
+    (c) => c.scene.scene === Number(chip.dataset.scene),
+  );
+  if (clip) seekTo(clip.start);
+});
 // Keyboard activation of a clip (Enter/Space on a focused clip) jumps to its start.
 $("tlClips").addEventListener("click", (e) => {
   const btn = e.target.closest(".tl-clip");

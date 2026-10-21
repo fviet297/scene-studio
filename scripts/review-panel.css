@@ -760,6 +760,36 @@ body.view-timeline .workbench { display: none; }
 }
 .tl-zoom input { width: 120px; accent-color: var(--accent); }
 
+/* Cast strip: the rail's character cards in one scrolling row above the preview, each card a
+   single line (thumb · name · scene chips · icon actions) so it costs the preview ~34px. */
+.tl-cast {
+  flex: none; display: flex; align-items: center; gap: 10px;
+  padding: 4px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
+}
+.tl-cast .bar-label { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); flex: none; }
+.tl-cast > .btn { flex: none; }
+.char-gallery.is-strip {
+  flex: 0 1 auto; min-width: 0; flex-direction: row; padding: 0; border: 0;
+  overflow-x: auto; scrollbar-width: thin;
+}
+.char-gallery.is-strip:empty { display: none; }
+.is-strip .char-card { flex: none; align-items: center; gap: 6px; padding: 2px 4px 2px 2px; }
+.is-strip .char-thumb { width: 16px; border-radius: 3px; }
+.is-strip .char-meta { flex-direction: row; align-items: center; gap: 8px; }
+.is-strip .char-name { max-width: 16ch; }
+.is-strip .char-id { display: none; }
+.is-strip .char-scenes { flex-wrap: nowrap; gap: 2px; margin: 0; }
+.is-strip .char-chip { padding: 2px 5px; }
+.is-strip .char-actions { gap: 2px; margin: 0; }
+.is-strip .char-action {
+  display: grid; place-items: center; width: 22px; height: 22px; padding: 0;
+  border-color: transparent; background: transparent;
+}
+.is-strip .char-action:hover { border-color: var(--line); background: var(--surface-3); }
+.is-strip .char-action-label { display: none; }
+.char-action svg { display: none; width: 12px; height: 12px; }
+.is-strip .char-action svg { display: block; }
+
 .tl-track {
   flex: none; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
   padding: 0 14px 12px; border-top: 1px solid var(--line-soft); background: var(--surface);

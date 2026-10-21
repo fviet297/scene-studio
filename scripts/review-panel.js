@@ -315,6 +315,7 @@ function syncGlobalButtons() {
   $("aspectSelect").disabled = locked;
   $("btnNewProject").disabled = locked;
   $("btnAddChar").disabled = Boolean(globalOp);
+  $("tlAddChar").disabled = Boolean(globalOp);
 }
 
 function syncConsoleQueue() {
@@ -542,9 +543,17 @@ function charById(id) {
   return (state.characterList || []).find((c) => c.id === id) ?? null;
 }
 
+// The workbench rail and the timeline cast strip show the same cards; CSS lays them out.
+const CHAR_GALLERY_IDS = ["charGallery", "tlCharGallery"];
+// The strip shows the actions as icons only; the rail shows their labels.
+const CHAR_ICON_PROFILE =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+const CHAR_ICON_UPLOAD =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>';
+
 function renderCharGallery() {
   const list = state.characterList || [];
-  $("charGallery").innerHTML = list
+  const html = list
     .map((c) => {
       const thumbs = c.refUrl
         ? `<img class="char-thumb" src="${c.refUrl}" alt="Ảnh tham chiếu của ${escapeHtml(c.name)}" loading="lazy" title="Ảnh tham chiếu" />`
@@ -562,14 +571,16 @@ function renderCharGallery() {
           <span class="char-id num">${escapeHtml(c.id)}</span>
           <div class="char-scenes">${chips}</div>
           <div class="char-actions">
-            <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}">Hồ sơ</button>
-            <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}">Tải ảnh ref</button>
+            <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}" title="Hồ sơ" aria-label="Hồ sơ ${escapeHtml(c.name)}">${CHAR_ICON_PROFILE}<span class="char-action-label">Hồ sơ</span></button>
+            <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}" title="Tải ảnh ref" aria-label="Tải ảnh ref ${escapeHtml(c.name)}">${CHAR_ICON_UPLOAD}<span class="char-action-label">Tải ảnh ref</span></button>
           </div>
         </div>
       </div>`;
     })
     .join("");
+  for (const id of CHAR_GALLERY_IDS) $(id).innerHTML = html;
 
+  // Timeline chips seek the playhead instead (review-timeline.js).
   for (const chip of $("charGallery").querySelectorAll(".char-chip")) {
     chip.addEventListener("click", () =>
       selectScene(Number(chip.dataset.scene)),
@@ -3031,14 +3042,16 @@ async function uploadCharacterFile(id, file) {
   render();
 }
 
-$("btnAddChar").addEventListener("click", () => {
+function openAddCharDialog() {
   $("acId").value = "";
   $("acName").value = "";
   $("acFile").value = "";
   $("acNote").textContent = "Thêm vào khối ## characters và tạo profile.json.";
   $("acOverlay").hidden = false;
   $("acId").focus();
-});
+}
+$("btnAddChar").addEventListener("click", openAddCharDialog);
+$("tlAddChar").addEventListener("click", openAddCharDialog);
 $("acClose").addEventListener("click", () => {
   $("acOverlay").hidden = true;
 });
@@ -3071,7 +3084,7 @@ $("acCreate").addEventListener("click", async () => {
   }
 });
 
-$("charGallery").addEventListener("click", (e) => {
+function onCharGalleryClick(e) {
   const thumb = e.target.closest("img.char-thumb");
   if (thumb) {
     openLightbox(thumb.src, thumb.title);
@@ -3086,7 +3099,9 @@ $("charGallery").addEventListener("click", (e) => {
     pendingUploadCharId = id;
     $("charFileInput").click();
   }
-});
+}
+for (const id of CHAR_GALLERY_IDS)
+  $(id).addEventListener("click", onCharGalleryClick);
 $("charFileInput").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   e.target.value = "";

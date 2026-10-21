@@ -207,6 +207,13 @@
 <!-- Timeline: plays the scenes back to back the way the render lays them out (scene length =
      narration audio length), so the whole cut can be watched before paying for a render. -->
 <section class="timeline" aria-label="Xem trước video theo timeline">
+  <!-- Cast: same cards as the workbench rail, laid out in one scrolling row; a scene chip seeks there -->
+  <div class="tl-cast">
+    <span class="bar-label">Nhân vật</span>
+    <div class="char-gallery is-strip" id="tlCharGallery"></div>
+    <button class="btn sm quiet" type="button" id="tlAddChar" title="Thêm nhân vật vào kịch bản">+ Thêm</button>
+  </div>
+
   <div class="tl-preview">
     <div class="tl-screen" id="tlScreen">
       <img id="tlStill" alt="" hidden />
