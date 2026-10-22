@@ -1,0 +1,26 @@
+{
+  "character_id": "char-a",
+  "name": "Nguyen Hue",
+  "display_name": "Nguyễn Huệ",
+  "aliases": [
+    "Quang Trung",
+    "Bắc Bình Vương"
+  ],
+  "country": "Vietnam",
+  "period": "1753-1792",
+  "dynasty": "Tây Sơn",
+  "role": "The middle Tay Son brother, the brilliant field commander who took Thang Long in 1786 and later became Emperor Quang Trung.",
+  "known_facts": [
+    "Born in 1753 in Binh Dinh, the middle of the three Tay Son brothers.",
+    "Destroyed the Siamese fleet at Rach Gam-Xoai Mut in 1785.",
+    "Took Thang Long in 1786, ending the Trinh lords' power.",
+    "Married Princess Le Ngoc Han, daughter of Emperor Le Hien Tong, in 1786.",
+    "Withdrew north when Nguyen Nhac advanced, then returned and besieged Quy Nhon.",
+    "Proclaimed himself Emperor Quang Trung in December 1788.",
+    "Defeated the Qing army at Ngoc Hoi-Dong Da at Tet 1789.",
+    "Died in 1792."
+  ],
+  "interpretation": "A lean, wiry man of about thirty-five with a broad forehead, sharp dark eyes, high cheekbones and a firm jaw. Black hair pulled into a tight topknot, a thin moustache and a short chin beard. He wears a crimson silk commander's tunic over a studded leather cuirass, a wide cloth belt, black cotton trousers tucked into leather boots, and carries a plain short sabre with a brass guard.",
+  "unknowns": [],
+  "reference": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-a.jpg"
+}

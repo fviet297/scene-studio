@@ -109,8 +109,17 @@ const JOB_KIND_LABEL = {
   render: "render",
 };
 
-const laneJobs = (name) =>
-  [lanes[name].running, ...lanes[name].queue].filter(Boolean);
+// Jobs an earlier load of this page started: a reload leaves them running on the server (see
+// readSse). watchOrphanJobs keeps them here, in the shape of a lane job, until they end, so they
+// gate and mark their unfinished scenes like this page's own running jobs.
+let orphanJobs = [];
+const ORPHAN_POLL_MS = 3000;
+const orphanLane = (kind) => (kind === "audio" ? "audio" : "media");
+
+const laneJobs = (name) => [
+  ...[lanes[name].running, ...lanes[name].queue].filter(Boolean),
+  ...orphanJobs.filter((j) => j.lane === name),
+];
 const allJobs = () => [...laneJobs("media"), ...laneJobs("audio")];
 const anyJobActive = () => allJobs().length > 0;
 const renderActive = () => laneJobs("media").some((j) => j.kind === "render");
@@ -208,6 +217,13 @@ function clearQueues() {
 // moment the server starts that scene, re-queueing the rest — so cancelling one scene never
 // kills a paid call already running for another.
 function cancelSceneJob(kind, n) {
+  // A job from before a reload can only be stopped whole: the server has no per-scene skip.
+  const orphan = orphanJobs.find((j) => j.kind === kind && jobCovers(j, n));
+  if (orphan) {
+    api("/api/cancel", { id: orphan.id }).catch((e) => toast(e.message, false));
+    toast(`Đã huỷ cả job: ${orphan.label}. ${CANCEL_PROVIDER_NOTE}`, false);
+    return;
+  }
   for (const lane of Object.values(lanes)) {
     for (const job of [...lane.queue]) {
       if (job.kind !== kind || !jobCovers(job, n)) continue;
@@ -281,11 +297,12 @@ async function withSceneOp(n, label, work) {
 //   notes — running audio and queued jobs with their lane position (a chip, never a cover);
 //   mark  — "running" | "queued" | null for the rail row.
 function sceneJobStatus(n) {
-  const media = lanes.media.running;
-  const work =
-    sceneOps.get(n) ?? (media && jobCovers(media, n) ? media.label : null);
-  const audio = lanes.audio.running;
-  const audioRunning = Boolean(audio && jobCovers(audio, n));
+  const running = (name) =>
+    [lanes[name].running, ...orphanJobs.filter((j) => j.lane === name)].find(
+      (j) => j && jobCovers(j, n),
+    );
+  const work = sceneOps.get(n) ?? running("media")?.label ?? null;
+  const audioRunning = Boolean(running("audio"));
   const notes = audioRunning ? ["đang sinh audio"] : [];
   for (const name of ["media", "audio"])
     lanes[name].queue.forEach((j, i) => {
@@ -314,6 +331,7 @@ function syncGlobalButtons() {
   $("projectSelect").disabled = locked;
   $("aspectSelect").disabled = locked;
   $("btnNewProject").disabled = locked;
+  $("voiceSelect").disabled = Boolean(globalOp);
   $("btnAddChar").disabled = Boolean(globalOp);
   $("tlAddChar").disabled = Boolean(globalOp);
 }
@@ -324,7 +342,9 @@ function syncConsoleQueue() {
   $("conQueue").textContent = `+${queued} chờ`;
   $("conClearQueue").hidden = queued === 0;
   const media = lanes.media.running;
-  $("conCancel").hidden = !media || media.cancellable === false;
+  $("conCancel").hidden = media
+    ? media.cancellable === false
+    : orphanJobs.length === 0;
   if (media) $("conCancel").disabled = media.controller.signal.aborted;
 }
 
@@ -550,6 +570,8 @@ const CHAR_ICON_PROFILE =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
 const CHAR_ICON_UPLOAD =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>';
+const CHAR_ICON_GENERATE =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M19 15v4M17 17h4"/></svg>';
 
 function renderCharGallery() {
   const list = state.characterList || [];
@@ -573,6 +595,7 @@ function renderCharGallery() {
           <div class="char-actions">
             <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}" title="Hồ sơ" aria-label="Hồ sơ ${escapeHtml(c.name)}">${CHAR_ICON_PROFILE}<span class="char-action-label">Hồ sơ</span></button>
             <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}" title="Tải ảnh ref" aria-label="Tải ảnh ref ${escapeHtml(c.name)}">${CHAR_ICON_UPLOAD}<span class="char-action-label">Tải ảnh ref</span></button>
+            <button type="button" class="char-action" data-action="generate" data-id="${escapeHtml(c.id)}" title="Tạo ảnh ref bằng AI, từ mô tả hoặc từ ảnh" aria-label="Tạo ảnh ref cho ${escapeHtml(c.name)}">${CHAR_ICON_GENERATE}<span class="char-action-label">Tạo ảnh</span></button>
           </div>
         </div>
       </div>`;
@@ -636,7 +659,7 @@ function renderPipeline() {
     anyJobActive() ||
     !(total > 0 && done.img === total && done.aud === total);
 
-  if (!lanes.media.running && !globalOp) {
+  if (!lanes.media.running && !orphanJobs.length && !globalOp) {
     if (aiDone < ai.length)
       setConsole("idle", `Còn ${ai.length - aiDone} ảnh cần sinh`);
     else if (done.aud < total)
@@ -977,23 +1000,27 @@ function isContiguousSelection(nums) {
 function renderSelection() {
   for (const n of [...selected]) if (!findScene(n)) selected.delete(n);
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
+  const targetNums = batchTargets();
+  const targets = state.scenes.filter((s) => targetNums.includes(s.scene));
   const hasNarr = (s) => (s.narration || "").trim().length > 0;
-  const aiCount = chosen.filter((s) => s.kind === "ai").length;
+  const aiCount = targets.filter((s) => s.kind === "ai").length;
   // Prompt- and audio-generation both read a scene's narration, so a scene without one
   // isn't actionable — mirror the single-scene btnGenPrompt/btnAudio gates instead of
   // gating on a bare selection count that would enable a no-op batch run.
-  const promptEligible = chosen.filter(
+  const promptEligible = targets.filter(
     (s) => s.kind === "ai" && hasNarr(s),
   ).length;
-  const audioEligible = chosen.filter(hasNarr).length;
-  const motionEligibleCount = chosen.filter(
+  const audioEligible = targets.filter(hasNarr).length;
+  const motionEligibleCount = targets.filter(
     (s) => s.hasImage && s.hasAudio,
   ).length;
 
   const nums = chosen.map((s) => s.scene);
   const info = chosen.length
     ? `Đã chọn <b>${chosen.length}</b>/${state.scenes.length} · ${sceneList(nums)}`
-    : "Chưa chọn scene nào";
+    : targets.length
+      ? `Chưa chọn · chạy cho scene <b>${targets[0].scene}</b>`
+      : "Chưa chọn scene nào";
   const fullList = chosen.length ? `Scene ${nums.join(", ")}` : "";
   for (const id of ["tlSelInfo", "railSelInfo"]) {
     $(id).innerHTML = info;
@@ -1042,8 +1069,7 @@ function renderSelection() {
   for (const cell of $("tlClips").querySelectorAll(".tl-cell")) {
     const on = selected.has(Number(cell.dataset.scene));
     cell.classList.toggle("selected", on);
-    const box = cell.querySelector(".tl-pick");
-    if (box) box.checked = on;
+    cell.querySelector(".tl-clip")?.setAttribute("aria-pressed", String(on));
   }
 }
 
@@ -1058,6 +1084,7 @@ function selectScene(n) {
   resetTranslation("promptTrans", "btnTransPrompt");
   resetTranslation("motionTrans", "btnTransMotion");
   renderStage();
+  renderSelection(); // the batch bars target this scene while nothing is selected
   $("railList")
     .querySelector(`[data-scene="${n}"]`)
     ?.scrollIntoView({ block: "nearest" });
@@ -1192,31 +1219,54 @@ function buildExportJson() {
 
 // POST an SSE endpoint and hand each event to onEvent(type, line). A request refused before the
 // stream opens (validation error) comes back as JSON, and is thrown as an Error.
-async function readSse(path, body, signal, onEvent) {
-  const res = await fetch(path, {
-    method: "POST",
-    headers: body ? { "Content-Type": "application/json" } : {},
-    body: body ? JSON.stringify(body) : undefined,
-    signal,
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || res.statusText);
-  }
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-  for (;;) {
-    const { value, done } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const chunks = buffer.split("\n\n");
-    buffer = chunks.pop();
-    for (const chunk of chunks) {
-      const type = (chunk.match(/^event: (.*)$/m) || [])[1];
-      const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
-      if (raw) onEvent(type, JSON.parse(raw));
+// The server cancels a job only on POST /api/cancel, never when its stream drops, so a page
+// reload leaves the job running (the reloaded panel finds it via /api/jobs). Aborting `signal`
+// is the panel's Cancel: it closes the stream and sends that cancel. `job` ({ label, kind,
+// scenes }) describes it in /api/jobs, so a reloaded panel can show it and lock its scenes.
+async function readSse(path, body, signal, onEvent, job = {}) {
+  const jobId = crypto.randomUUID();
+  const cancel = () =>
+    fetch("/api/cancel", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: jobId }),
+    }).catch(() => {});
+  signal?.addEventListener("abort", cancel, { once: true });
+  try {
+    const headers = {
+      "X-Job-Id": jobId,
+      "X-Job-Label": encodeURIComponent(job.label ?? ""),
+      "X-Job-Kind": job.kind ?? "",
+      "X-Job-Scenes": (job.scenes ?? []).join(","),
+    };
+    if (body) headers["Content-Type"] = "application/json";
+    const res = await fetch(path, {
+      method: "POST",
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || res.statusText);
     }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const chunks = buffer.split("\n\n");
+      buffer = chunks.pop();
+      for (const chunk of chunks) {
+        const type = (chunk.match(/^event: (.*)$/m) || [])[1];
+        const raw = (chunk.match(/^data: (.*)$/m) || [])[1];
+        if (raw) onEvent(type, JSON.parse(raw));
+      }
+    }
+  } finally {
+    signal?.removeEventListener("abort", cancel);
   }
 }
 
@@ -1226,8 +1276,7 @@ const CANCEL_PROVIDER_NOTE =
 
 // Media-lane runner: streams the job's SSE endpoint into the console. Opens the log on failure
 // only, so a successful run never covers the scene you were looking at. Cancel aborts the
-// job's controller, which closes the fetch; the server sees the connection drop and stops the
-// scene in flight too (see CANCEL_PROVIDER_NOTE for what that means at the provider).
+// job's controller, which closes the fetch and tells the server to stop the scene in flight too (see CANCEL_PROVIDER_NOTE for what that means at the provider).
 const consoleJob = (path, bodyFor, onDone) => async (job) => {
   const log = $("conLog");
   log.textContent = "";
@@ -1255,6 +1304,7 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
           toast(line, false);
         }
       },
+      job,
     );
   } catch (e) {
     if (e.name === "AbortError") {
@@ -1278,7 +1328,7 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
 // button and rail mark, the result comes via toast. An error toast carries the last log line,
 // since the exit code alone does not say what OmniVoice complained about.
 // A cancel (cancelSceneJob, which toasts itself) ends the run quietly; the server kills the
-// TTS child process when the stream drops.
+// TTS child process on the cancel readSse sends.
 const quietJob = (path, bodyFor) => async (job) => {
   let lastLog = "";
   try {
@@ -1294,6 +1344,7 @@ const quietJob = (path, bodyFor) => async (job) => {
         else if (type === "error")
           toast(lastLog ? `${line} — ${lastLog}` : line, false);
       },
+      job,
     );
   } catch (e) {
     if (e.name !== "AbortError") throw e;
@@ -1796,7 +1847,11 @@ $("btnApprove").addEventListener("click", () =>
     run: quietJob("/api/approve", () => null),
   }),
 );
-const ASPECT_SIZES = { "16:9": "1920×1080", "9:16": "1080×1920", "1:1": "1080×1080" };
+const ASPECT_SIZES = {
+  "16:9": "1920×1080",
+  "9:16": "1080×1920",
+  "1:1": "1080×1080",
+};
 
 // What Render MP4 produces follows the timeline preview: the 9:16 mode of a 16:9 project renders
 // the master and wraps it to 1080x1920 (both files); every other mode renders the master.
@@ -1863,7 +1918,10 @@ $("aspectSelect").addEventListener("change", async () => {
   }
 });
 
+// Each quick filter replaces the selection (not adds to it), so "Thiếu ảnh" after "Tất cả"
+// leaves only the scenes missing an image.
 const pickWhere = (test) => {
+  selected.clear();
   for (const s of state.scenes) if (test(s)) selected.add(s.scene);
   renderSelection();
 };
@@ -1875,10 +1933,7 @@ $("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
 $("selNeedPrompt").addEventListener("click", () =>
   pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
 );
-$("selNone").addEventListener("click", () => {
-  selected.clear();
-  renderSelection();
-});
+$("selNone").addEventListener("click", clearSelection);
 
 // Rail select-all toggles only the currently shown (filtered) scenes, so "All" respects the
 // same list the user is looking at. renderRail rebuilds the rows and re-syncs the batch bar.
@@ -1949,28 +2004,48 @@ const enqueuePrompts = (scenes) =>
     label: (ns) => `Đang viết prompt cho scene ${sceneList(ns)}`,
     run: consoleJob("/api/generate-prompts-batch", (ns) => ({ scenes: ns })),
   });
-const runBatchPrompts = () =>
-  enqueuePrompts([...selected].sort((a, b) => a - b));
+// Scenes a batch action runs on: the selection, or — with nothing selected — the scene the
+// timeline playhead (or the workbench) is on, so a single click is enough to target one scene.
+function batchTargets() {
+  if (selected.size) return [...selected].sort((a, b) => a - b);
+  return currentScene != null ? [currentScene] : [];
+}
+// A batch run uses up the selection: once its scenes are queued, the next pick starts empty.
+// A cancelled cost confirm keeps it.
+function clearSelection() {
+  selected.clear();
+  renderSelection();
+}
+const runBatchPrompts = () => {
+  enqueuePrompts(batchTargets());
+  clearSelection();
+};
 // The cost confirm counts only scenes that will actually run: enqueueJob drops the ones that
 // already have the same job pending.
 const runBatchImages = async () => {
-  const scenes = [...selected].sort((a, b) => a - b);
+  const scenes = batchTargets();
   const model = $("batchImageModelSelect").value;
   const count = state.scenes.filter(
     (s) =>
-      selected.has(s.scene) && s.kind === "ai" && !hasPending("image", s.scene),
+      scenes.includes(s.scene) &&
+      s.kind === "ai" &&
+      !hasPending("image", s.scene),
   ).length;
   if (!(await confirmBatch("ảnh", state.imageModels || [], model, count)))
     return;
   enqueueImages(scenes, model);
+  clearSelection();
 };
-const runBatchAudio = () => enqueueAudio([...selected].sort((a, b) => a - b));
+const runBatchAudio = () => {
+  enqueueAudio(batchTargets());
+  clearSelection();
+};
 const runBatchMotion = async () => {
-  const scenes = [...selected].sort((a, b) => a - b);
+  const scenes = batchTargets();
   const model = $("batchMotionModelSelect").value;
   const count = state.scenes.filter(
     (s) =>
-      selected.has(s.scene) &&
+      scenes.includes(s.scene) &&
       s.hasImage &&
       s.hasAudio &&
       !hasPending("motion", s.scene),
@@ -1985,6 +2060,7 @@ const runBatchMotion = async () => {
   )
     return;
   enqueueMotions(scenes, model);
+  clearSelection();
 };
 $("batchImg").addEventListener("click", runBatchImages);
 $("batchAud").addEventListener("click", runBatchAudio);
@@ -2087,7 +2163,10 @@ $("conToggle").addEventListener("click", () =>
 );
 $("conCancel").addEventListener("click", () => {
   $("conCancel").disabled = true;
-  lanes.media.running?.controller.abort();
+  if (lanes.media.running) lanes.media.running.controller.abort();
+  else
+    for (const job of orphanJobs)
+      api("/api/cancel", { id: job.id }).catch((e) => toast(e.message, false));
 });
 $("conClearQueue").addEventListener("click", clearQueues);
 
@@ -2196,7 +2275,11 @@ window.addEventListener("keydown", (e) => {
       return;
     }
     if (!$("npOverlay").hidden) {
-      $("npOverlay").hidden = true;
+      closeNewProjectDialog();
+      return;
+    }
+    if (!$("ciOverlay").hidden) {
+      closeCharImageDialog();
       return;
     }
     if (!$("brandOverlay").hidden) {
@@ -2251,71 +2334,11 @@ for (const box of [$("narrBox"), $("promptBox")]) {
 
 // ------------------------------------------------------------------ projects
 
+// The new-project dialog (AI script writer + manual) and the voice select live in
+// review-script-gen.js.
 $("projectSelect").addEventListener("change", (e) =>
   switchProject(e.target.value),
 );
-
-const NP_NOTE = "Tạo projects/<slug>/scene-plan.md rồi chuyển sang dự án đó.";
-
-$("btnNewProject").addEventListener("click", async () => {
-  $("npSlug").value = "";
-  $("npTitleInput").value = "";
-  $("npPlan").value = "";
-  $("npAspect").value = "16:9";
-  $("npNote").textContent = NP_NOTE;
-  $("npOverlay").hidden = false;
-  $("npSlug").focus();
-  try {
-    const { versions = ["default"], activeVersion } =
-      await api("/api/templates");
-    $("npTemplate").innerHTML = versions
-      .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
-      .join("");
-    $("npTemplate").value = activeVersion || "default";
-  } catch (e) {
-    $("npNote").textContent = e.message;
-  }
-});
-// A pasted plan that declares its own `aspect:` sets the select, so the two never disagree.
-$("npPlan").addEventListener("input", () => {
-  const header = $("npPlan").value.split(/^##\s+/m)[0];
-  const aspect = header.match(/^\s*aspect\s*:\s*(\S+)\s*$/im)?.[1];
-  if (aspect && [...$("npAspect").options].some((o) => o.value === aspect))
-    $("npAspect").value = aspect;
-});
-$("npClose").addEventListener("click", () => {
-  $("npOverlay").hidden = true;
-});
-$("npOverlay").addEventListener("click", (e) => {
-  if (e.target === $("npOverlay")) $("npOverlay").hidden = true;
-});
-$("npCreate").addEventListener("click", async () => {
-  const slug = $("npSlug").value.trim();
-  const title = $("npTitleInput").value.trim();
-  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) {
-    $("npNote").textContent =
-      "Slug chỉ gồm chữ thường, số và dấu gạch ngang, bắt đầu bằng chữ hoặc số.";
-    return;
-  }
-  $("npCreate").disabled = true;
-  try {
-    clearProjectLocalState();
-    state = await api("/api/project-create", {
-      slug,
-      title,
-      aspect: $("npAspect").value,
-      template: $("npTemplate").value || undefined,
-      plan: $("npPlan").value,
-    });
-    render();
-    $("npOverlay").hidden = true;
-    toast(`Đã tạo dự án "${state.project.title}".`);
-  } catch (e) {
-    $("npNote").textContent = e.message;
-  } finally {
-    $("npCreate").disabled = false;
-  }
-});
 
 // ------------------------------------------------------------------ branding
 //
@@ -2376,15 +2399,20 @@ const placeBrandBadge = (badge, logo, frame) => {
   const inset = logo.anchor === "frame" ? 0 : frame.cropInset;
   const side = `${inset + margin}px`;
   Object.assign(badge.style, {
-    top: vertical === "top" ? `${frame.height * safe.top + margin + clearance * frame.unit}px` : "",
-    bottom: vertical === "bottom" ? `${frame.height * safe.bottom + margin}px` : "",
+    top:
+      vertical === "top"
+        ? `${frame.height * safe.top + margin + clearance * frame.unit}px`
+        : "",
+    bottom:
+      vertical === "bottom" ? `${frame.height * safe.bottom + margin}px` : "",
     left: horizontal === "left" ? side : "",
     right: horizontal === "right" ? side : "",
     gap: `${badgeGap * frame.unit}px`,
     opacity: logo.opacity,
   });
   badge.querySelector("img").style.height = `${logo.size * frame.unit}px`;
-  badge.querySelector("span").style.fontSize = `${logo.textSize * frame.unit}px`;
+  badge.querySelector("span").style.fontSize =
+    `${logo.textSize * frame.unit}px`;
 };
 
 const placeBrandWatermark = (wm, watermark, frame) => {
@@ -2401,7 +2429,9 @@ const paintBrandLayer = (root, branding) => {
   badge.hidden = !branding?.logo.enabled;
   wm.hidden = !branding?.watermark.enabled;
   if (!branding) return;
-  for (const span of root.querySelectorAll(".brand-badge span, .brand-wm span")) {
+  for (const span of root.querySelectorAll(
+    ".brand-badge span, .brand-wm span",
+  )) {
     span.textContent = branding.name;
     span.hidden = !branding.name;
   }
@@ -2728,7 +2758,8 @@ function runScriptGen(kind, sceneNo) {
   }
   const scenes = [sceneNo];
   if (kind === "prompt") enqueuePrompts(scenes);
-  else if (kind === "image") enqueueImages(scenes, $("batchImageModelSelect").value);
+  else if (kind === "image")
+    enqueueImages(scenes, $("batchImageModelSelect").value);
   else if (kind === "audio") enqueueAudio(scenes);
   else if (kind === "motion")
     enqueueMotions(scenes, $("batchMotionModelSelect").value);
@@ -3046,7 +3077,8 @@ function openAddCharDialog() {
   $("acId").value = "";
   $("acName").value = "";
   $("acFile").value = "";
-  $("acNote").textContent = "Thêm vào khối ## characters và tạo profile.json.";
+  $("acNote").textContent =
+    "Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.";
   $("acOverlay").hidden = false;
   $("acId").focus();
 }
@@ -3077,6 +3109,8 @@ $("acCreate").addEventListener("click", async () => {
     else render();
     $("acOverlay").hidden = true;
     toast(`Đã thêm nhân vật "${name}".`);
+    // No image chosen: go straight on to drawing one from a description.
+    if (!file) openCharImageDialog(id);
   } catch (e) {
     $("acNote").textContent = e.message;
   } finally {
@@ -3098,6 +3132,8 @@ function onCharGalleryClick(e) {
   } else if (btn.dataset.action === "upload") {
     pendingUploadCharId = id;
     $("charFileInput").click();
+  } else if (btn.dataset.action === "generate") {
+    openCharImageDialog(id);
   }
 }
 for (const id of CHAR_GALLERY_IDS)
@@ -3350,8 +3386,44 @@ $("services").addEventListener("click", (event) => {
 
 refreshServices();
 
+// Polls the jobs that were already running when the page loaded until they end, then refetches
+// the state so the images/audio/clips they wrote show up.
+async function watchOrphanJobs() {
+  const ids = new Set((await api("/api/jobs")).jobs.map((j) => j.id));
+  if (!ids.size) return;
+  try {
+    for (;;) {
+      const { jobs } = await api("/api/jobs");
+      orphanJobs = jobs
+        .filter((j) => ids.has(j.id))
+        .map((j) => ({
+          ...j,
+          lane: orphanLane(j.kind),
+          done: new Set(j.done),
+          skip: new Set(),
+        }));
+      if (!orphanJobs.length) break;
+      syncJobUi();
+      if (!lanes.media.running)
+        setConsole(
+          "running",
+          `Job còn chạy trên server: ${orphanJobs.map((j) => j.label).join(" · ")}`,
+          orphanJobs.at(-1).lastLog,
+        );
+      await new Promise((r) => setTimeout(r, ORPHAN_POLL_MS));
+    }
+  } finally {
+    orphanJobs = [];
+  }
+  await refresh();
+  if (!lanes.media.running) setConsole("idle", "Job trên server đã xong.");
+  syncJobUi();
+}
+
 setConsole("idle", "Đang tải scene...");
-refresh().catch((e) => {
-  setConsole("error", `Tải thất bại: ${e.message}`);
-  toast(e.message, false);
-});
+refresh()
+  .then(watchOrphanJobs)
+  .catch((e) => {
+    setConsole("error", `Tải thất bại: ${e.message}`);
+    toast(e.message, false);
+  });

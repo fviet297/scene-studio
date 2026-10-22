@@ -1,0 +1,26 @@
+{
+  "character_id": "char-b",
+  "name": "Nguyen Nhac",
+  "display_name": "Nguyễn Nhạc",
+  "aliases": [
+    "Thái Đức",
+    "Trung Ương Hoàng Đế"
+  ],
+  "country": "Vietnam",
+  "period": "1743-1793",
+  "dynasty": "Tây Sơn",
+  "role": "The eldest Tay Son brother, founder of the uprising and self-proclaimed emperor ruling the centre from Quy Nhon.",
+  "known_facts": [
+    "Born in 1743, eldest of the three Tay Son brothers.",
+    "Led the 1771 uprising at Tay Son in Binh Dinh.",
+    "Proclaimed himself Emperor Thai Duc at Quy Nhon in 1778.",
+    "Ruled the central region from the Do Ban citadel.",
+    "Was angered by Nguyen Hue's northern campaign and marriage made without consulting him.",
+    "Marched on Phu Xuan in 1787, then was driven back and besieged at Quy Nhon.",
+    "Asked Nguyen Anh for help during the siege.",
+    "Kept Quy Nhon under the 1788 partition of the realm."
+  ],
+  "interpretation": "A heavy-set, broad-shouldered man in his mid-forties with a round face, heavy brows and a thick black beard streaked with grey. Black hair in a topknot beneath a black gauze court cap. He wears a yellow brocade imperial robe with dragon roundels and wide sleeves over a dark sash, silk slippers, and at his belt a jade-hilted sword.",
+  "unknowns": [],
+  "reference": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-b.jpg"
+}

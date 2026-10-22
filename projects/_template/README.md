@@ -1,5 +1,11 @@
 # New comparison project
 
+Fastest route: in the review panel, **Dự án mới → Từ yêu cầu (AI)** — describe the video, pick the
+scene count and the OmniVoice voice, and an LLM (`LLM_*` in `.env`) writes the narration, the cast
+(with profiles) and every scene's image + motion prompt into a new project. Then give each character
+a reference image with **Tạo ảnh** on its card (from a description or from an image). The manual
+route:
+
 1. Copy this directory: `cp -r projects/_template projects/<slug>` (slug: lowercase, `a-z0-9-`).
 2. Edit `projects/<slug>/scene-plan.md`: title, `## characters` (id = path to each reference PNG), and each `## scene N` block (`title/cue/host/narration/char/prompt`). Narration can also be pasted as JSON from the review panel once the project is active.
 3. Drop each character's reference PNG into `public/projects/<slug>/characters/` at the path named in the `## characters` block.

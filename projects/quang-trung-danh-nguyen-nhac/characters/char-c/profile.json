@@ -1,0 +1,24 @@
+{
+  "character_id": "char-c",
+  "name": "Nguyen Anh",
+  "display_name": "Nguyễn Ánh",
+  "aliases": [
+    "Gia Long"
+  ],
+  "country": "Vietnam",
+  "period": "1762-1820",
+  "dynasty": "Nguyễn",
+  "role": "The surviving Nguyen lord, who rebuilt his strength in the south while the Tay Son brothers fought each other.",
+  "known_facts": [
+    "Survived the Tay Son destruction of the Nguyen lords in 1777.",
+    "Allied with Siam, and saw his hopes broken at Rach Gam in 1785.",
+    "Was asked for help by Nguyen Nhac during the siege of Quy Nhon.",
+    "Used the brothers' quarrel to retake Gia Dinh in 1788.",
+    "Rebuilt his forces in the south for more than a decade.",
+    "Reunited Vietnam in 1802 and took the reign title Gia Long.",
+    "Kept French officers and engineers in his service."
+  ],
+  "interpretation": "A lean, sun-weathered young man of about twenty-six, long-faced with narrow watchful eyes, high cheekbones and a thin moustache. Black hair tied in a topknot. He wears a dark indigo silk coat with a high collar over a pale shirt, a leather belt with a bronze buckle, cotton trousers, leather sandals, and a long straight sword; a small bronze tiger-shaped tally hangs at his belt.",
+  "unknowns": [],
+  "reference": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-c.jpg"
+}

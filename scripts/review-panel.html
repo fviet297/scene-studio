@@ -22,7 +22,8 @@
         <option value="9:16">9:16</option>
         <option value="1:1">1:1</option>
       </select>
-      <button class="btn sm" type="button" id="btnNewProject" title="Tạo dự án mới">Dự án mới</button>
+      <select class="mini voice-select" id="voiceSelect" aria-label="Giọng đọc narration của dự án" title="Giọng OmniVoice đọc narration của dự án này"></select>
+      <button class="btn sm" type="button" id="btnNewProject" title="Tạo dự án mới — viết kịch bản bằng AI từ yêu cầu, hoặc thủ công">Dự án mới</button>
     </div>
     <span class="bar-sep"></span>
     <!-- Local servers the pipeline needs: click a stopped one to start it -->
@@ -518,10 +519,10 @@
     <div class="dialog-body single">
       <div class="field"><label for="acId">Id</label><input class="text-input" id="acId" type="text" placeholder="vd. tran-hung-dao" spellcheck="false" autocomplete="off" /></div>
       <div class="field"><label for="acName">Tên hiển thị</label><input class="text-input" id="acName" type="text" placeholder="vd. Trần Hưng Đạo" autocomplete="off" /></div>
-      <div class="field"><label for="acFile">Ảnh tham chiếu (tuỳ chọn, có thể tải sau)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
+      <div class="field"><label for="acFile">Ảnh tham chiếu (tuỳ chọn — bỏ trống để tạo bằng AI)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
     </div>
     <div class="dialog-foot">
-      <span class="note" id="acNote">Thêm vào khối ## characters và tạo profile.json.</span>
+      <span class="note" id="acNote">Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.</span>
       <button class="btn primary" type="button" id="acCreate">Thêm</button>
     </div>
   </div>
@@ -570,23 +571,44 @@
   </div>
 </div>
 
+<!-- New project: "Từ yêu cầu (AI)" has the LLM write narration, cast, image and motion prompts
+     (review-script-gen.js); "Thủ công" starts from a pasted scene-plan.md or the blank template. -->
 <div class="overlay" id="npOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="npTitle">
-  <div class="dialog narrow">
+  <div class="dialog np-dialog">
     <div class="dialog-head">
       <h2 id="npTitle">Dự án mới</h2>
+      <div class="segmented" id="npModes" role="group" aria-label="Cách tạo dự án">
+        <button type="button" data-np-mode="ai" aria-pressed="true">Từ yêu cầu (AI)</button>
+        <button type="button" data-np-mode="manual" aria-pressed="false">Thủ công</button>
+      </div>
       <span class="grow"></span>
       <button class="icon-btn" type="button" id="npClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="dialog-body single">
-      <div class="field">
-        <label for="npSlug">Slug</label>
-        <input class="text-input" id="npSlug" type="text" placeholder="vd. tran-hung-dao-vs-nhac-phi" spellcheck="false" autocomplete="off" />
+      <div class="np-ai" id="npAiFields">
+        <div class="field">
+          <label for="npRequest">Yêu cầu video</label>
+          <textarea id="npRequest" class="prose" rows="5" maxlength="4000" spellcheck="false" placeholder="Video về ai, sự kiện gì; góc kể hoặc câu hỏi muốn trả lời; điểm cần nhấn; người xem là ai…"></textarea>
+        </div>
+        <div class="field np-count">
+          <label for="npSceneCount">Số scene</label>
+          <div class="np-count-row">
+            <input class="text-input" id="npSceneCount" type="number" min="3" max="40" step="1" value="20" inputmode="numeric" aria-describedby="npLengthHint" />
+            <span class="note" id="npLengthHint"></span>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label for="npTitleInput">Tiêu đề <span class="note">tuỳ chọn</span></label>
-        <input class="text-input" id="npTitleInput" type="text" placeholder="vd. Trần Hưng Đạo vs Nhạc Phi" autocomplete="off" />
+      <div class="field-row">
+        <div class="field">
+          <label for="npSlug">Slug <span class="note" id="npSlugHint"></span></label>
+          <input class="text-input" id="npSlug" type="text" placeholder="vd. tran-hung-dao-vs-nhac-phi" spellcheck="false" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="npTitleInput">Tiêu đề <span class="note">tuỳ chọn</span></label>
+          <input class="text-input" id="npTitleInput" type="text" placeholder="vd. Trần Hưng Đạo vs Nhạc Phi" autocomplete="off" />
+        </div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -601,15 +623,101 @@
           <label for="npTemplate">Style version</label>
           <select class="mini wide" id="npTemplate"></select>
         </div>
+        <div class="field">
+          <label for="npVoice">Giọng đọc</label>
+          <select class="mini wide" id="npVoice"></select>
+        </div>
       </div>
-      <div class="field">
+      <div class="field" id="npPlanField" hidden>
         <label for="npPlan">Scene-plan.md <span class="note">tuỳ chọn — dán output skill lsvn / trangca</span></label>
         <textarea id="npPlan" rows="6" spellcheck="false" placeholder="# Tiêu đề&#10;&#10;aspect: 16:9&#10;&#10;## characters&#10;...&#10;&#10;## scene 1&#10;narration: ..."></textarea>
       </div>
+      <!-- AI run progress: three steps, elapsed time, and the server's log lines -->
+      <div class="np-run" id="npRun" hidden>
+        <div class="np-run-head">
+          <span class="spinner sm" id="npRunSpin" aria-hidden="true"></span>
+          <span class="np-run-step" id="npRunStep" role="status"></span>
+          <span class="grow"></span>
+          <span class="num np-run-time" id="npRunTime">0:00</span>
+        </div>
+        <ol class="np-steps" id="npSteps">
+          <li data-phase="story">Câu chuyện + narration</li>
+          <li data-phase="visuals">Prompt ảnh + motion</li>
+          <li data-phase="create">Tạo dự án</li>
+        </ol>
+        <pre class="np-log" id="npLog"></pre>
+      </div>
     </div>
     <div class="dialog-foot">
-      <span class="note" id="npNote">Tạo projects/&lt;slug&gt;/scene-plan.md rồi chuyển sang dự án đó.</span>
-      <button class="btn primary" type="button" id="npCreate">Tạo</button>
+      <span class="note" id="npNote"></span>
+      <button class="btn" type="button" id="npCancelRun" hidden>Huỷ</button>
+      <button class="btn primary" type="button" id="npCreate">Viết kịch bản</button>
+    </div>
+  </div>
+</div>
+
+<!-- Character image: draw a draft from a description, or redraw it from a source image, in the
+     project's style; it replaces the reference only on "Dùng làm ảnh tham chiếu" (review-char-image.js). -->
+<div class="overlay" id="ciOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="ciTitle">
+  <div class="dialog ci-dialog">
+    <div class="dialog-head">
+      <h2 id="ciTitle">Tạo ảnh nhân vật</h2>
+      <span class="note" id="ciWho"></span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="ciClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body ci-body">
+      <div class="ci-controls">
+        <div class="segmented" id="ciModes" role="group" aria-label="Tạo ảnh từ">
+          <button type="button" data-ci-mode="text" aria-pressed="true">Từ mô tả</button>
+          <button type="button" data-ci-mode="image" aria-pressed="false">Từ ảnh</button>
+        </div>
+        <div class="field" id="ciSourceField" hidden>
+          <span class="field-label" id="ciSourceLabel">Ảnh nguồn để AI vẽ lại</span>
+          <button type="button" class="ci-source" id="ciSource" aria-labelledby="ciSourceLabel ciSourceEmpty">
+            <img id="ciSourceImg" alt="Ảnh nguồn đang chọn" hidden />
+            <span class="ci-source-empty" id="ciSourceEmpty">Thả ảnh vào đây hoặc bấm để chọn</span>
+          </button>
+          <div class="btn-row">
+            <button class="btn sm quiet" type="button" id="ciUseCurrent">Dùng ảnh tham chiếu hiện tại</button>
+            <button class="btn sm" type="button" id="ciApplySource" hidden>Dùng thẳng ảnh này làm tham chiếu</button>
+          </div>
+          <input type="file" id="ciSourceFile" accept="image/png,image/jpeg,image/webp" aria-label="Chọn ảnh nguồn" hidden />
+        </div>
+        <div class="field">
+          <label for="ciDesc" id="ciDescLabel">Mô tả ngoại hình</label>
+          <textarea id="ciDesc" class="prose" rows="6" maxlength="1500" spellcheck="false" aria-describedby="ciDescHint"></textarea>
+          <span class="note" id="ciDescHint"></span>
+        </div>
+        <div class="field">
+          <label for="ciModel">Model ảnh</label>
+          <select class="mini wide" id="ciModel"></select>
+        </div>
+      </div>
+      <div class="ci-compare">
+        <figure class="ci-shot">
+          <div class="ci-frame">
+            <img id="ciCurrentImg" alt="Ảnh tham chiếu hiện tại" hidden />
+            <span class="ci-empty" id="ciCurrentEmpty">Chưa có ảnh tham chiếu</span>
+          </div>
+          <figcaption>Hiện tại</figcaption>
+        </figure>
+        <figure class="ci-shot">
+          <div class="ci-frame is-draft">
+            <img id="ciDraftImg" alt="Ảnh nháp vừa tạo" hidden />
+            <span class="ci-empty" id="ciDraftEmpty">Ảnh nháp hiện ở đây</span>
+            <div class="working" id="ciWorking" hidden><div class="spinner"></div><span id="ciWorkingText">Đang tạo…</span></div>
+          </div>
+          <figcaption>Bản nháp</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="ciNote" role="status"></span>
+      <button class="btn primary" type="button" id="ciGenerate">Tạo ảnh</button>
+      <button class="btn" type="button" id="ciApply" disabled>Dùng làm ảnh tham chiếu</button>
     </div>
   </div>
 </div>
@@ -720,5 +828,7 @@
 
 <script src="/panel.js"></script>
 <script src="/timeline.js"></script>
+<script src="/script-gen.js"></script>
+<script src="/char-image.js"></script>
 </body>
 </html>

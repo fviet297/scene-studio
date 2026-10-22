@@ -10,8 +10,10 @@
 // @remotion/player (/preview.js) on the data the render step builds (/api/preview-data), so what
 // plays is what the MP4 will contain; "9:16" also crops it to the strip wrap-vertical.mjs keeps.
 //
-// It is also where scenes are picked for a batch run: each clip carries a checkbox that feeds the
-// panel's shared `selected` Set (the batch bar above the track acts on it), plus status pips.
+// It is also where scenes are picked for a batch run: double-clicking a clip toggles it in the
+// panel's shared `selected` Set (the batch bar above the track acts on it); a single click only
+// moves the playhead;
+// each clip also carries status pips.
 //
 // Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast,
 // paintBrandLayer, selected, renderSelection, pips) from review-panel.js, which loads first, and redraws on its "studio:render" /
@@ -92,7 +94,14 @@ function renderClips(project) {
     // The builder bakes the pause before the next scene into the duration; labels show content.
     const gap = i < project.scenes.length - 1 ? TL_SCENE_GAP_SECONDS : 0;
     const content = seconds - gap;
-    const clip = { scene, start, seconds, content, audioSeconds: content, rate: 1 };
+    const clip = {
+      scene,
+      start,
+      seconds,
+      content,
+      audioSeconds: content,
+      rate: 1,
+    };
     start += seconds;
     return clip;
   });
@@ -161,7 +170,7 @@ function clipHtml(clip, i) {
   const picked = selected.has(s.scene);
   return `<div class="tl-cell${picked ? " selected" : ""}" data-scene="${s.scene}" style="width:${width}px">
     <button type="button" class="${classes}" data-index="${i}"
-        aria-current="${i === tl.index}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
+        aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
         title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}">
       ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
       <span class="tl-clip-label">
@@ -169,7 +178,6 @@ function clipHtml(clip, i) {
         ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
       </span>
     </button>
-    ${showIcon ? `<input type="checkbox" class="tl-pick" aria-label="Chọn scene ${s.scene} để chạy hàng loạt"${picked ? " checked" : ""} />` : ""}
     ${showDuration ? pips(s) : ""}
   </div>`;
 }
@@ -274,7 +282,10 @@ function loadClip(clips, index, offset) {
   const s = clip.scene;
   tl.index = index;
   tl.offset = offset;
-  currentScene = s.scene;
+  if (currentScene !== s.scene) {
+    currentScene = s.scene;
+    renderSelection(); // the batch bar targets this scene while nothing is selected
+  }
   if (isRenderMode()) {
     showSceneInfo(s);
     return;
@@ -428,9 +439,19 @@ $("tlZoom").addEventListener("input", (e) => {
 // Press and drag anywhere on the ruler or the clips to scrub.
 const tlTimeAtPointer = (e) =>
   (e.clientX - $("tlInner").getBoundingClientRect().left) / tl.pxPerSec;
+// The scene under the pointer on the clip row, or null (ruler, past the end). Found by position,
+// not e.target: pointer capture on #tlInner can retarget the dblclick that follows a press.
+function tlSceneAtPointer(e) {
+  const row = $("tlClips").getBoundingClientRect();
+  if (e.clientY < row.top || e.clientY > row.bottom) return null;
+  const t = tlTimeAtPointer(e);
+  const clip = timelineClips().find(
+    (c) => t >= c.start && t < c.start + c.seconds,
+  );
+  return clip ? clip.scene.scene : null;
+}
 $("tlInner").addEventListener("pointerdown", (e) => {
-  // Ticking a clip's batch checkbox must not scrub the playhead to it.
-  if (e.button !== 0 || e.target.closest(".tl-pick")) return;
+  if (e.button !== 0) return;
   tl.scrubbing = true;
   $("tlInner").setPointerCapture(e.pointerId);
   seekTo(tlTimeAtPointer(e));
@@ -442,15 +463,16 @@ for (const ev of ["pointerup", "pointercancel"])
   $("tlInner").addEventListener(ev, () => {
     tl.scrubbing = false;
   });
+// Double-click on a clip toggles its selection; on the ruler it still opens the scene in the
+// workbench.
 $("tlInner").addEventListener("dblclick", (e) => {
-  if (!e.target.closest(".tl-pick")) openInWorkbench();
-});
-$("tlClips").addEventListener("change", (e) => {
-  const box = e.target.closest(".tl-pick");
-  if (!box) return;
-  const n = Number(box.closest(".tl-cell").dataset.scene);
-  if (box.checked) selected.add(n);
-  else selected.delete(n);
+  const n = tlSceneAtPointer(e);
+  if (n === null) {
+    openInWorkbench();
+    return;
+  }
+  if (selected.has(n)) selected.delete(n);
+  else selected.add(n);
   renderSelection();
 });
 // A character's scene chip in the cast strip jumps the playhead to that scene.
@@ -462,11 +484,17 @@ $("tlCharGallery").addEventListener("click", (e) => {
   );
   if (clip) seekTo(clip.start);
 });
-// Keyboard activation of a clip (Enter/Space on a focused clip) jumps to its start.
+// Keyboard activation of a clip (Enter/Space on a focused clip) jumps to its start and toggles
+// its selection — the keyboard stand-in for double-click.
 $("tlClips").addEventListener("click", (e) => {
   const btn = e.target.closest(".tl-clip");
-  if (btn && e.detail === 0)
-    seekTo(timelineClips()[Number(btn.dataset.index)].start);
+  if (!btn || e.detail !== 0) return;
+  const clip = timelineClips()[Number(btn.dataset.index)];
+  seekTo(clip.start);
+  const n = clip.scene.scene;
+  if (selected.has(n)) selected.delete(n);
+  else selected.add(n);
+  renderSelection();
 });
 
 window.addEventListener("keydown", (e) => {
@@ -497,8 +525,10 @@ document.addEventListener("studio:render", () => {
   syncModeButtons();
   if (!tlVisible()) return;
   // A project switch (or an aspect change that drops the 9:16 export) invalidates the built data.
-  if (tl.mode === "vertical" && state.project?.aspect !== "16:9") setPreviewMode("master");
-  else if (isRenderMode() && tlRender.slug !== state.project?.slug) loadRenderData(0);
+  if (tl.mode === "vertical" && state.project?.aspect !== "16:9")
+    setPreviewMode("master");
+  else if (isRenderMode() && tlRender.slug !== state.project?.slug)
+    loadRenderData(0);
   else renderTimeline();
 });
 
@@ -559,6 +589,7 @@ function onPlayerFrame(frame) {
   if (index !== tl.index) {
     tl.index = index;
     currentScene = clips[index].scene.scene;
+    renderSelection();
     showSceneInfo(clips[index].scene);
   }
   tl.offset = t - clips[index].start;
@@ -585,7 +616,7 @@ function layoutBand() {
   const { width = 1080, height = 1920 } = tlRender.project;
   const widthPct =
     tl.mode === "vertical"
-      ? ((width / height) / TL_VERTICAL_BAND_RATIO) * 100
+      ? (width / height / TL_VERTICAL_BAND_RATIO) * 100
       : 100;
   root.style.width = `${widthPct}%`;
   root.style.left = `${-(widthPct - 100) / 2}%`;
@@ -655,4 +686,6 @@ $("tlModes").addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-mode]");
   if (btn) setPreviewMode(btn.dataset.mode);
 });
-$("tlPlayerRefresh").addEventListener("click", () => loadRenderData(currentTime()));
+$("tlPlayerRefresh").addEventListener("click", () =>
+  loadRenderData(currentTime()),
+);

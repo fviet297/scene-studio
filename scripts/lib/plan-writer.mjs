@@ -39,11 +39,8 @@ export const writeSceneField = (planMd, sceneNo, field, rawValue) => {
   return clean;
 };
 
-// Append a brand-new "## scene N" section at EOF (e.g. for a bulk-import row naming a scene
-// not yet in the plan). parse-scene-plan.mjs sorts by scene number, so append order doesn't matter.
-export const appendScene = (planMd, sceneNo, fields) => {
-  const lines = readFileSync(planMd, 'utf8').split('\n');
-  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+// The lines of one "## scene N" block, in the field order every writer here emits.
+const sceneBlockLines = (sceneNo, fields) => {
   const clean = (v) => v.replace(/\s*\n\s*/g, ' ').trim();
   const block = [`## scene ${sceneNo}`, ''];
   if (fields.title) block.push(`title: ${clean(fields.title)}`);
@@ -56,8 +53,29 @@ export const appendScene = (planMd, sceneNo, fields) => {
   if (fields.prompt_vi) block.push(`prompt_vi: ${clean(fields.prompt_vi)}`);
   if (fields.motion) block.push(`motion: ${clean(fields.motion)}`);
   if (fields.motion_vi) block.push(`motion_vi: ${clean(fields.motion_vi)}`);
-  writeFileSync(planMd, `${[...lines, '', ...block].join('\n')}\n`);
+  return block;
 };
+
+// Append a brand-new "## scene N" section at EOF (e.g. for a bulk-import row naming a scene
+// not yet in the plan). parse-scene-plan.mjs sorts by scene number, so append order doesn't matter.
+export const appendScene = (planMd, sceneNo, fields) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+  writeFileSync(planMd, `${[...lines, '', ...sceneBlockLines(sceneNo, fields)].join('\n')}\n`);
+};
+
+// A whole scene-plan.md as text: `# title`, the "## characters" block ({ id: reference path },
+// kept even when empty so characters can be added later), then one block per scene
+// ({ scene, ...fields } as appendScene takes them). Header lines (aspect, template, voice) are
+// stamped afterwards with writePlanHeader.
+export const renderScenePlan = ({ title, characters, scenes }) => `${[
+  `# ${title}`,
+  '',
+  '## characters',
+  '',
+  ...Object.entries(characters).map(([id, path]) => `${id} = ${path}`),
+  ...scenes.flatMap(({ scene, ...fields }) => ['', ...sceneBlockLines(scene, fields)]),
+].join('\n')}\n`;
 
 // Add one `id = path` line to the "## characters" block. Returns the repo-relative reference
 // path the caller should then write an image to.

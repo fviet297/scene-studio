@@ -1,304 +1,334 @@
 {
-  "project": "gia-long",
-  "title": "Nguyễn Ánh — Phần 1: Người sống sót",
+  "project": "quang-trung-danh-nguyen-nhac",
+  "title": "Quang Trung quay gươm đánh anh ruột: vì sao?",
   "aspect": "16:9",
   "characters": {
-    "char-a": "public/projects/gia-long/characters/char-a.jpg"
+    "char-a": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-a.jpg",
+    "char-b": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-b.jpg",
+    "char-c": "public/projects/quang-trung-danh-nguyen-nhac/characters/char-c.jpg"
   },
   "scenes": [
     {
       "scene": 1,
-      "narration": "Cuối thế kỷ mười tám, ở Gia Định, tin vui thường không sống quá một buổi. Quyền lực đổi chủ liên tục, thuyền bè xuôi ngược trên sông, và ai cũng phải tự hỏi: ngày mai, mình còn ở đúng chỗ hôm nay không? Người phải hỏi câu ấy nhiều nhất, lại chính là dòng họ đang cai trị nơi này: họ Nguyễn.",
+      "narration": "Năm 1787, người vây thành Quy Nhơn là em ruột của người ngồi trong thành. Hai anh em từng sát cánh mười sáu năm, giờ chỉ cách nhau một bức tường đá.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-b"
+        ],
         "identity": "full",
-        "prompt": "At dusk on the Saigon River, a dispatch sampan cuts in to a small riverside stockade as the garrison hauls down a plain cloth banner and hoists another; Nguyen officials on a timber stilt-house veranda unseal a bamboo message tube and scan the traffic flowing both ways. Late-18th-century southern Vietnam, Gia Định. Background soldiers with East-Asian faces wear late-18th-century Đàng Trong dress—short quilted tunics, headscarves or khăn đóng, rattan shields, spears and some matchlocks; boatmen in conical hats pole sampans and a laden ghe bầu. Bamboo palisade, diagonal wooden jetty, signal drum on a post, nipa palms, humid haze, oars churning. No Qing costume, no 19th-century Nguyễn court uniforms, no European stone forts or square-rigged ships.",
-        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Track low alongside the dispatch boat toward the stockade. The messenger jumps onto the jetty and thrusts the bamboo tube to waiting Nguyen officials as garrison soldiers yank one banner down and heave another up. Oars bite and boats pass both ways, the signal drum thunders, river ripples and humid haze drift past nipa palms. Keep faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion clear, environmental motion strong across the frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
-        "promptVi": "Lúc hoàng hôn trên sông Sài Gòn, một ghe thư áp nhanh vào đồn bót ven sông khi quân thủ hạ một lá hiệu kỳ trơn và kéo lá khác lên; các quan thuộc phe Nguyễn đứng trên hàng hiên nhà sàn gỗ khui ống thư tre, dõi mắt nhìn dòng thuyền xuôi ngược. Bối cảnh Đàng Trong cuối thế kỷ XVIII, Gia Định. Binh lính nền với gương mặt Á Đông mặc trang phục Đàng Trong cuối thế kỷ XVIII — áo chẽn chần bông, khăn vấn hoặc khăn đóng, khiên mây, giáo và một số súng hỏa mai; lái đò đội nón lá chèo sampan và một ghe bầu chở nặng. Lũy tre nứa, cầu gỗ chéo, cột trống lệnh, bụi dừa nước, hơi ẩm mù, mái chèo quẫy nước. Không y phục nhà Thanh, không triều phục Nguyễn thế kỷ XIX, không thành đá kiểu Âu hay tàu buồm buồm vuông châu Âu.",
-        "motionVi": "Chuyển cảnh minh họa lịch sử này thành một cú máy điện ảnh sinh động với chuyển động rõ rệt ngay từ giây đầu. Máy bám thấp chạy dọc theo ghe thư tiến về đồn bót. Sứ giả nhảy lên cầu ván và trao ống tre cho các quan Nguyễn đang chờ, trong khi lính đồn giật hạ một lá cờ và kéo lá khác lên. Mái chèo phập nước, thuyền xuôi ngược, trống lệnh dội vang, gợn sông và hơi ẩm trôi qua bụi dừa nước. Giữ khuôn mặt, y phục và phong cách mỹ thuật nhất quán; không thêm nhân vật mới, không chữ hay watermark. Cường độ chuyển động trung bình, động tác nhân vật rõ, chuyển động môi trường mạnh trên toàn khung. Không méo mặt, cong vẹo tay chân, thừa ngón, trùng lặp người, vật thể biến dạng."
+        "prompt": "Dawn on the stone-faced ramparts of Do Ban citadel at Quy Nhon, 1787: the commander stands at the battlements, hands on the parapet, looking down at the watchfires of the besieging camps. Setting: late-18th-century Đại Việt, thick brick-and-stone walls, a gate tower with a curved dark-tiled roof, a corner bastion. Behind him weary Tây Sơn guards in quilted tunics crouch low against the wall with spears and rattan shields, all with East-Asian faces. Foreground parapet and a smoking brazier, middle ground the crouching guards, background a dark plain dotted with enemy campfires and drifting smoke under a cold sunrise. Wide low-angle shot, diagonal composition. No Qing costume, no Nguyễn-dynasty court dress, no European castle or Japanese architecture.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow push-in along the rampart toward the commander. He lifts his head and slowly sweeps his gaze over the valley, then sets both hands on the parapet; the crouching guards shift and one rises to raise his spear. Smoke from the enemy campfires billows and drifts across the plain, then a gust snaps the wall banners and scatters embers past the parapet. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Bình minh trên tường thành đá của thành Đồ Bàn ở Quy Nhơn, 1787: vị chủ tướng đứng trên mặt thành, hai tay đặt lên lan can, nhìn xuống những đống lửa trại của các doanh trại đang vây thành. Bối cảnh: Đại Việt cuối thế kỷ 18, tường gạch và đá dày, một tháp cổng với mái ngói cong sẫm màu, một pháo đài góc. Phía sau ông, lính Tây Sơn mệt mỏi trong áo bông cúi thấp sát tường với giáo và khiên mây, tất cả đều mang gương mặt Đông Á. Tiền cảnh là mặt thành và một lò than đang khói, trung cảnh là toán lính đang cúi, hậu cảnh là cánh đồng tối lấm tấm lửa trại địch và khói bay dưới ánh bình minh lạnh. Góc máy rộng thấp, bố cục chéo. Không áo quần triều Thanh, không triều phục Nguyễn, không lâu đài châu Âu hay kiến trúc Nhật.",
+        "motionVi": "Hãy làm sinh động bức minh họa lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ ràng ngay từ giây đầu tiên. Máy đẩy chậm dọc mặt thành về phía vị chủ tướng. Ông ngẩng đầu và chậm rãi đưa mắt quét khắp thung lũng, rồi đặt hai tay lên lan can; toán lính đang cúi nhổm dậy và một người đứng lên giơ giáo. Khói từ các đống lửa trại địch cuộn lên và trôi ngang cánh đồng, rồi một cơn gió giật làm cờ trên thành phần phật và thổi tàn lửa bay qua mặt thành. Giữ gương mặt, y phục của nhân vật và phong cách hình ảnh nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, chi thể méo, thừa ngón tay, nhân bản người, vật thể biến dạng."
+      },
+      "cue": "dramatic"
+    },
+    {
+      "scene": 2,
+      "narration": "Mọi chuyện khởi từ làng Tây Sơn, năm 1771. Ba anh em họ Nguyễn dựng cờ chống chúa Nguyễn, và người cầm đầu là anh cả Nguyễn Nhạc.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b",
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "1771, dusty village ground at Tay Son, Binh Dinh: the first character on the left drives a bamboo pole into the earth, a torn red banner snapping above it; the second character on the right, sword in hand, waves farmers and woodcutters into a ragged line behind him. Late-18th-century Đại Việt: trampled clay yard, bamboo hedges, thatched timber cottages on low stilts. Recruits in plain brown hempen tunics carry billhooks, carrying poles and a few spears, all with East-Asian faces. Foreground dust and fallen banner cloth, middle ground the forming line, background village roofs and blue hills. No Qing costume, no Chinese imperial banners, no European clothing or architecture.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Sideways tracking move along the forming line. The first figure drives the pole down and the torn red banner unfurls and whips; the second figure swings his sword forward and the recruits jog into place behind him. Dust rolls across the clay yard, the bamboo hedge sways, then the banner cloth snaps hard in the wind. Keep both characters' faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "1771, bãi đất làng bụi bặm ở Tây Sơn, Bình Định: nhân vật thứ nhất bên trái cắm một cây sào tre xuống đất, lá cờ đỏ rách phần phật trên đó; nhân vật thứ hai bên phải, tay cầm gươm, vẫy nông dân và tiều phu xếp thành hàng ngũ lộn xộn phía sau. Đại Việt cuối thế kỷ 18: sân đất bị giẫm nát, hàng rào tre, nhà tranh vách gỗ sàn thấp. Những người mới nhập ngũ mặc áo gai nâu đơn giản, mang rựa, đòn gánh và vài cây giáo, tất cả đều mang gương mặt Đông Á. Tiền cảnh bụi và mảnh vải cờ rơi, trung cảnh hàng ngũ đang thành hình, hậu cảnh mái nhà làng và đồi xanh. Không áo quần triều Thanh, không cờ hiệu đế chế Trung Hoa, không y phục hay kiến trúc châu Âu.",
+        "motionVi": "Hãy làm sinh động bức minh họa lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ ràng ngay từ giây đầu tiên. Máy lia ngang theo hàng ngũ đang thành hình. Nhân vật thứ nhất cắm mạnh cây sào xuống và lá cờ đỏ rách bung ra phần phật; nhân vật thứ hai vung gươm tới trước và những người mới nhập ngũ chạy vào vị trí phía sau. Bụi cuộn qua sân đất, hàng rào tre đung đưa, rồi vải cờ đập mạnh trong gió. Giữ gương mặt, y phục của cả hai nhân vật và phong cách hình ảnh nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, chi thể méo, thừa ngón tay, nhân bản người, vật thể biến dạng."
       },
       "cue": "neutral"
     },
     {
-      "scene": 2,
-      "narration": "Lý do nằm ở phía Bắc. Quân Tây Sơn đang tiến xuống, và phe Nguyễn bắt đầu nếm cái giá của việc mất thế chủ động. Trên giấy tờ, họ vẫn có người, có thành, có thuyền. Ngoài thực tế, tuần nào cũng có thêm một nơi phải bỏ lại.",
+      "scene": 3,
+      "narration": "Anh cả lo việc dựng nghiệp. Năm 1778, Nguyễn Nhạc xưng đế ở Quy Nhơn, hiệu Thái Đức, còn việc đánh trận thì giao cho người em giữa.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-b"
+        ],
         "identity": "full",
-        "prompt": "Late-18th-century Nguyễn retainers watching distant movement on the river from a shaded riverside house, packed travel bundles ready, an uncertain and tense atmosphere, no active combat.",
-        "motion": "The camera stays with Nguyễn retainers watching the river; one quietly lifts a travel bundle as distant sails emerge through the haze, no battle shown. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "1778, the audience hall of Do Ban citadel: the ruler lowers himself onto a newly built throne of dark lacquered wood while rows of officials in dark robes bow, one stepping forward to hold out a lacquered box of seals. Setting: late-18th-century Đại Việt, a plain timber hall with stout round columns, a low dark-tiled roof and a brick floor, side doors open to a sunlit courtyard. Vietnamese officials wear dark robes and simple black caps, all with East-Asian faces; guards with spears stand along the walls. Foreground bowed backs, middle ground the seal box, background the throne dais and columns. Medium-wide diagonal framing. No Qing queue or Qing costume, no Nguyễn-dynasty dress, no European or Japanese architecture.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Slow push-in up the hall toward the throne. The ruler settles onto the throne and lifts his chin; the rows of officials bow deeper and the foremost raises the lacquered seal box with both hands. Torch flames flutter along the columns and dust motes drift through the shafts of light, then the side-door curtains stir. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "1778, chính điện thành Đồ Bàn: vị chúa ngồi xuống ngai vàng mới đóng bằng gỗ sơn then, trong khi các hàng quan lại áo thẫm cúi lạy, một người bước lên dâng hộp sơn son đựng ấn. Bối cảnh: Đại Việt cuối thế kỷ 18, chính điện gỗ đơn giản với cột tròn chắc khỏe, mái ngói sẫm thấp và nền gạch, cửa bên mở ra sân nắng. Quan lại Việt Nam mặc áo thẫm và đội mũ đen giản dị, tất cả mang gương mặt Đông Á; lính cầm giáo đứng dọc tường. Tiền cảnh là những tấm lưng đang cúi, trung cảnh hộp ấn, hậu cảnh bệ ngai và các cột. Góc máy trung rộng, bố cục chéo. Không bím tóc hay áo quần triều Thanh, không triều phục Nguyễn, không kiến trúc châu Âu hay Nhật Bản.",
+        "motionVi": "Hãy làm sinh động bức minh họa lịch sử này thành một cảnh quay điện ảnh tĩnh lặng nhưng vẫn chuyển động rõ ràng. Máy đẩy chậm vào trong điện về phía ngai vàng. Vị chúa ngồi xuống ngai và ngẩng cao đầu; các hàng quan lại cúi sâu hơn và người đứng đầu nâng hộp ấn sơn son bằng hai tay. Ngọn lửa đuốc lay động dọc các cột và bụi mịn trôi trong những luồng sáng, rồi rèm cửa bên khẽ động. Giữ gương mặt, y phục của nhân vật và phong cách hình ảnh nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhàng nhưng thấy rõ, chuyển động môi trường vừa phải. Không biến dạng mặt, chi thể méo, thừa ngón tay, nhân bản người, vật thể biến dạng."
       },
-      "cue": "tense"
+      "cue": "neutral"
     },
     {
-      "scene": 3,
-      "narration": "Giữa dòng người ấy có một cậu thiếu niên tên Nguyễn Ánh. Sinh năm 1762, đến năm 1777 cậu mới khoảng mười lăm tuổi. Tuổi người khác còn lo chuyện học hành, còn cậu sắp phải học một môn chẳng ai đăng ký: làm sao biến mất trước khi người truy tìm tới nơi.",
+      "scene": 4,
+      "narration": "Nguyễn Huệ đánh đâu thắng đó. Năm 1785, ở Rạch Gầm, ông thiêu rụi hạm đội Xiêm trong một buổi sáng. Ngai vàng thì anh giữ, chiến công thì em mang.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Character introduction of Nguyễn Ánh at age 15, a slender Vietnamese teenager with an oval face, dark eyes and black hair tied in a simple topknot, wearing a dark indigo cross-collar robe and plain sash, standing in a wooden riverside residence.",
-        "motion": "The camera slowly pushes in as the teenage Nguyễn Ánh turns toward the river; a loose sleeve stirs in the breeze, his expression guarded and uncertain. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Morning on the Rach Gam river, 1785: the commander stands at the bow of a war galley, one arm thrust forward, as fire and smoke roll across a cluster of Siamese ships trapped against the far bank. Setting: a broad Mekong delta river with nipa palms and a low muddy bank. Tây Sơn oarsmen in quilted tunics pull long oars, rattan shields along the gunwale, all with East-Asian faces; distant Siamese war boats with carved prows and dark red sails burn at the bank. Foreground churning water and the galley prow, middle ground the rowers, background burning ships and black smoke. Low diagonal framing. No Qing costume, no Chinese junk sails, no European galleons.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Tracking shot alongside the galley, moving with the bow. The commander thrusts his arm forward and shouts; the oarsmen heave their long oars in rhythm. Fire surges up the trapped Siamese ships in a burst, black smoke rolls low across the water, then the galley prow slams through a wave and spray flies. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Buổi sáng trên sông Rạch Gầm, 1785: vị chủ tướng đứng ở mũi chiến thuyền, một tay chỉ tới trước, lửa và khói cuộn qua một cụm thuyền Xiêm bị kẹt vào bờ bên kia. Bối cảnh: một con sông rộng ở đồng bằng sông Cửu Long với dừa nước và bờ bùn thấp. Các tay chèo Tây Sơn trong áo bông kéo những mái chèo dài, khiên mây dọc mạn thuyền, tất cả mang gương mặt Đông Á; xa xa những chiến thuyền Xiêm với mũi thuyền chạm khắc và buồm đỏ sẫm đang cháy bên bờ. Tiền cảnh nước cuộn và mũi thuyền, trung cảnh các tay chèo, hậu cảnh thuyền cháy và khói đen. Góc máy thấp, bố cục chéo. Không áo quần triều Thanh, không buồm thuyền Trung Hoa, không thuyền chiến châu Âu.",
+        "motionVi": "Hãy làm sinh động bức minh họa lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ ràng ngay từ giây đầu tiên. Máy theo dõi dọc theo chiến thuyền, di chuyển cùng mũi thuyền. Vị chủ tướng đưa tay chỉ tới trước và hô lớn; các tay chèo rướn những mái chèo dài theo nhịp. Lửa bùng lên trên những chiếc thuyền Xiêm bị kẹt, khói đen cuộn thấp ngang mặt nước, rồi mũi thuyền lao qua một con sóng và nước bắn tung. Giữ gương mặt, y phục của nhân vật và phong cách hình ảnh nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, chi thể méo, thừa ngón tay, nhân bản người, vật thể biến dạng."
       },
-      "cue": "curious"
-    },
-    {
-      "scene": 4,
-      "narration": "Bài học đầu tiên đến rất nhanh. Tin dữ chạy dọc các bến sông, nhanh hơn bất kỳ đoàn người nào. Các quan phe Nguyễn trải bản đồ ra bàn, nhưng câu hỏi lúc này không còn là giữ chỗ nào, mà là bỏ chỗ nào trước. Khi phải lo gói ghém trước cả bữa ăn kế tiếp, thể diện triều đình bỗng thành thứ xa xỉ.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Inside a modest 18th-century wooden hall, southern Vietnamese officials examine a hand-drawn river map by oil lamp, anxious faces, simple lacquered furnishings, no readable text.",
-        "motion": "A slow overhead tilt moves from the map to the worried faces; lamp flame flickers and one official carefully rolls the map closed. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "tense"
+      "cue": "dramatic"
     },
     {
       "scene": 5,
-      "narration": "Và rồi, những đoàn thuyền lạ xuất hiện ngoài sông. Con đường từng chở lúa gạo cho họ, giờ cũng là con đường đối phương dùng để tiến vào. Nước vẫn chảy đều, chỉ có kế hoạch của phe Nguyễn là liên tục mắc cạn.",
+      "narration": "Rồi năm 1786, Nguyễn Huệ kéo quân ra bắc. Chưa đầy hai tháng, ông đã vào Thăng Long, chấm dứt hơn hai trăm năm quyền lực của chúa Trịnh.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "Distant wooden vessels appearing through humid river haze while a few small family boats quietly pull away from the bank, the feeling of a route closing, no active combat.",
-        "motion": "Distant vessels advance through river mist while small boats slip quietly away from the bank; the camera remains with the people preparing to leave, not the fighting. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Midday, July 1786, at the arched gate of the Thang Long citadel: the commander rides in on horseback between lines of spearmen while townspeople kneel along the street and a plain Trinh banner falls from the wall. Setting: late-18th-century northern Đại Việt, a brick citadel gate with a vaulted arch and a watchtower of curved dark tiles, rammed-earth walls. Tây Sơn spearmen in quilted tunics line the street; townspeople in loose tunics and conical hats kneel with heads lowered, all with East-Asian faces. Foreground hoof dust and kneeling backs, middle ground the spearmen, background the gate tower and the falling banner. Wide diagonal composition. No Qing queue or Qing costume, no Nguyễn-dynasty dress, no European architecture.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Pull-back and rise from the street up to the gate tower. The commander's horse steps forward and he raises one arm; the spearmen stamp their spears and the kneeling townspeople bow lower. The plain Trinh banner tears loose and tumbles down the wall, hoof dust swirls across the paving, then the gate doors swing open. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Giữa trưa tháng 7 năm 1786, tại cổng vòm thành Thăng Long: vị chủ tướng cưỡi ngựa tiến vào giữa hai hàng lính giáo, dân chúng quỳ dọc phố và một lá cờ trơn của chúa Trịnh rơi từ trên tường thành. Bối cảnh: Bắc Đại Việt cuối thế kỷ 18, cổng thành gạch với vòm cuốn và vọng lâu ngói sẫm cong, tường đất đắp. Lính giáo Tây Sơn trong áo bông đứng dọc phố; dân chúng mặc áo rộng và đội nón lá quỳ cúi đầu, tất cả mang gương mặt Đông Á. Tiền cảnh bụi móng ngựa và những tấm lưng quỳ, trung cảnh hàng lính giáo, hậu cảnh tháp cổng và lá cờ đang rơi. Bố cục rộng, chéo. Không bím tóc hay áo quần triều Thanh, không triều phục Nguyễn, không kiến trúc châu Âu.",
+        "motionVi": "Hãy làm sinh động bức minh họa lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ ràng ngay từ giây đầu tiên. Máy lùi và nâng từ mặt phố lên tới tháp cổng. Ngựa của vị chủ tướng bước tới và ông giơ một tay; hàng lính giáo dậm giáo xuống đất và dân chúng đang quỳ cúi thấp hơn. Lá cờ trơn của chúa Trịnh bị giật rách và lăn xuống theo tường, bụi móng ngựa xoáy trên nền đá, rồi hai cánh cổng thành mở ra. Giữ gương mặt, y phục của nhân vật và phong cách hình ảnh nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, chi thể méo, thừa ngón tay, nhân bản người, vật thể biến dạng."
       },
-      "cue": "tense"
+      "cue": "dramatic"
     },
     {
       "scene": 6,
-      "narration": "Từng điểm phòng thủ cứ thế lung lay. Mất một bến sông là thêm một lối đi bị khóa, bỏ một kho lương là thêm vài ngày đói hơn. Bản đồ vẫn còn nguyên trên bàn, nhưng những chỗ có thể dừng chân thì ít dần.",
+      "narration": "Ở Thăng Long, vua Lê gả con gái cho ông, công chúa Lê Ngọc Hân. Nguyễn Huệ nhận lời, mà không hỏi ý anh mình một câu.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "A quiet late-18th-century river post after its defenders have begun to leave, abandoned baskets and rolled mats beside a wooden watch platform, distant smoke only, no active combat.",
-        "motion": "A slow pan crosses the nearly abandoned river post, pausing on a packed basket and empty watch platform as distant smoke drifts past, no active combat. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Inside a lamp-lit timber hall of the Thang Long palace, 1786: Nguyen Hue stands beside a veiled bride in layered red silk, one hand at the edge of a long silk scroll that an elderly Le court official unrolls and reads aloud, the official's other hand lifted. Setting: late-18th-century Đại Việt — red-lacquered columns, carved lattice shutters, dark tiled eaves, brass oil lamps. Behind, rows of Le officials bow slightly, Vietnamese with East-Asian faces in dark late-18th-century court robes and plain caps, one holding a lacquered box. Foreground lamp flame, mid-ground scroll, background ranked silhouettes. No Qing costume, no Nguyễn-dynasty dress, no European architecture.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Slow push-in past the near lamp toward the two standing figures. The elderly official unrolls the scroll further and lifts his head to read, the bride's veil and red sleeve stir, and Nguyen Hue turns his head slightly toward the scroll and steps closer to it. Then the lamp flames stretch and gutter, incense smoke curls up across the beams, and the rows of officials settle with a slow ripple of dark robes. Keep the faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion clear and natural, environmental motion moderate across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Trong một gian điện gỗ lung linh đèn dầu của cung điện Thăng Long, năm 1786: Nguyễn Huệ đứng bên một cô dâu phủ khăn trong lớp áo lụa đỏ, một tay đặt lên mép cuộn thư lụa dài mà một vị quan già triều Lê đang mở ra đọc to, tay kia của ông giơ lên. Bối cảnh: Đại Việt cuối thế kỷ 18 — cột sơn đỏ, cửa chấn song chạm trổ, mái ngói sẫm, đèn dầu bằng đồng. Phía sau, các hàng quan triều Lê cúi nhẹ, người Việt gương mặt Đông Á, triều phục sẫm cuối thế kỷ 18 và mũ đơn giản, một người bưng hộp sơn son. Ngọn đèn nơi tiền cảnh, cuộn thư ở trung cảnh, hàng quan mờ ở hậu cảnh. Không có y phục nhà Thanh, không có áo nhà Nguyễn, không có kiến trúc châu Âu.",
+        "motionVi": "Hãy làm sống động bức tranh lịch sử này thành một cảnh quay điện ảnh êm nhưng chuyển động rõ rệt. Máy quay đẩy chậm qua ngọn đèn gần nhất về phía hai người đang đứng. Vị quan già mở cuộn thư thêm ra và ngẩng đầu đọc, khăn the và tay áo đỏ của cô dâu khẽ lay, Nguyễn Huệ hơi quay đầu về phía cuộn thư và bước lại gần hơn. Rồi ngọn lửa đèn vươn dài và chập chờn, khói hương cuộn lên qua các xà nhà, và các hàng quan khẽ nhích người theo một làn sóng áo sẫm. Giữ gương mặt, y phục và phong cách nghệ thuật nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường vừa phải trên toàn khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, người trùng lặp, vật thể biến dạng."
+      },
+      "cue": "neutral"
+    },
+    {
+      "scene": 7,
+      "narration": "Tin bay về Quy Nhơn, Nguyễn Nhạc nổi giận. Em mình giờ làm chủ cả miền bắc, lại thành con rể nhà Lê, mà không buồn hỏi ý anh.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "In the council hall of the Do Ban citadel at Quy Nhon, dusk 1787: Nguyen Nhac stands over the mat floor and hurls a folded paper report down, arm flung out, shouting at his seated generals, and one of them leans forward to pick it up. Setting: late-18th-century Đại Việt citadel — brick walls, stout timber posts, dark tiled eaves, woven rattan mats, iron oil lamps, dusk light through lattice windows. Seated Tay Son commanders with East-Asian faces in late-18th-century Vietnamese tunics and simple iron helmets, two half-risen from the mat. Foreground fallen report, mid-ground shouting figure, background lamp-lit brick wall. No Qing costume, no Nguyễn-dynasty dress, no European furniture.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow sideways truck across the council hall. Nguyen Nhac swings his arm down and hurls the folded report, then wheels and shouts at the seated generals, and one general leans forward and bends to snatch the paper from the mat. Then the oil lamp flames flare and stretch, the paper skids and settles, and the seated officers shift and turn their heads toward him. Keep the faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Trong chính điện thành Đồ Bàn ở Quy Nhơn, hoàng hôn năm 1787: Nguyễn Nhạc đứng trên sàn chiếu và ném mạnh một tờ báo gấp xuống, tay vung ra, quát các tướng đang ngồi, một người trong số đó cúi tới nhặt tờ giấy. Bối cảnh: thành Đại Việt cuối thế kỷ 18 — tường gạch, cột gỗ lớn, mái ngói sẫm, chiếu lát mây, đèn dầu bằng sắt, ánh hoàng hôn qua cửa lưới. Các tướng Tây Sơn ngồi, gương mặt Đông Á, áo vải cuối thế kỷ 18 kiểu Việt và mũ sắt đơn giản, hai người đã nhổm dậy khỏi chiếu. Tờ báo rơi ở tiền cảnh, người đang quát ở trung cảnh, tường gạch dưới đèn ở hậu cảnh. Không có y phục nhà Thanh, không có áo nhà Nguyễn, không có đồ nội thất châu Âu.",
+        "motionVi": "Hãy làm sống động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu. Máy quay trượt ngang chậm khắp chính điện. Nguyễn Nhạc vung tay xuống ném tờ báo gấp, rồi xoay người quát các tướng đang ngồi, một tướng cúi tới chụp tờ giấy trên chiếu. Rồi ngọn lửa đèn dầu bùng lên và vươn dài, tờ giấy trượt đi rồi dừng lại, các tướng đang ngồi nhích người và quay đầu về phía ông. Giữ gương mặt, y phục và phong cách nghệ thuật nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh trên toàn khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, người trùng lặp, vật thể biến dạng."
       },
       "cue": "tense"
     },
     {
-      "scene": 7,
-      "narration": "Đến lúc này, rút lui là chuyện không thể tránh. Và nó bắt đầu bằng những việc rất đời thường: gói đồ, tìm thuyền, gọi người còn ở lại, quyết định thứ gì phải bỏ. Không ai có thời gian cho những cuộc chia tay dài. Khi đối thủ đang tới, hành lý nhẹ có khi quý hơn cả đồ quý.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Small wooden transport boats leaving a riverside settlement at dusk, household bundles and a few attendants aboard, distant smoke and silhouettes on the horizon, understated historical realism.",
-        "motion": "A low tracking shot follows the boats as they push away from the muddy bank; paddles disturb the water and the settlement recedes into dusk. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "somber"
-    },
-    {
       "scene": 8,
-      "narration": "Đoàn người tản ra nhiều hướng. Định Vương Nguyễn Phúc Thuần, chú của Nguyễn Ánh, tìm đường về miền Tây, qua Long Hưng rồi xuống Long Xuyên. Càng đi sâu vào vùng sông nước, họ càng có nhiều lối nhỏ để trốn, nhưng cũng càng dễ lạc mất nhau.",
+      "narration": "Năm 1787, Nguyễn Nhạc đích thân dẫn quân ra bắc, hướng về Phú Xuân. Hai anh em Tây Sơn lần đầu đứng hai bên chiến tuyến.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-b"
+        ],
         "identity": "full",
-        "prompt": "A quiet late-18th-century Mekong Delta waterways scene near Long Xuyên, a few exhausted boats moving between reeds and low riverbanks, overcast tropical light, historically inspired.",
-        "motion": "The camera glides just above the water beside the boats; reeds bend in a light wind and ripples spread behind each hull. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Noon on a narrow pass in the Truong Son foothills, 1787: Nguyen Nhac rides at the head of a long column of Tay Son infantry winding north on the road to Phu Xuan, two war elephants with timber howdahs behind him, dust rising. Setting: late-18th-century Đại Việt — steep fern-covered slopes, red earth track, bamboo groves, dry grass. The infantry have East-Asian faces and wear late-18th-century Vietnamese quilted tunics with spears, rattan shields and crossbows, under dull cloth banners. Foreground dust and lowered pike points, mid-ground rider, background column shrinking into haze. No Qing armour, no Nguyễn-dynasty dress, no Chinese fortress gate.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow tracking shot alongside the climbing column. Nguyen Nhac raises his arm and points up the pass, his horse steps forward and tosses its head, and the war elephants rock and swing their trunks. Then dust rolls up across the road in thick waves, the cloth banners snap and lift, and the line of spearmen trudges forward past the camera. Keep the faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Giữa trưa trên một con đèo hẹp ở chân núi Trường Sơn, năm 1787: Nguyễn Nhạc cưỡi ngựa đi đầu một đoàn bộ binh Tây Sơn dài uốn theo con đường bắc lên Phú Xuân, hai con voi chiến có tháp gỗ phía sau, bụi tung lên. Bối cảnh: Đại Việt cuối thế kỷ 18 — sườn núi dốc phủ dương xỉ, đường đất đỏ, bụi tre, cỏ khô. Bộ binh gương mặt Đông Á, mặc áo vải chần cuối thế kỷ 18 kiểu Việt, giáo, mộc mây và nỏ, dưới những lá cờ vải xỉn màu. Bụi và mũi giáo hạ thấp ở tiền cảnh, người cưỡi ngựa ở trung cảnh, đoàn quân nhỏ dần trong mờ ở hậu cảnh. Không có giáp nhà Thanh, không có áo nhà Nguyễn, không có cổng thành Trung Hoa.",
+        "motionVi": "Hãy làm sống động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu. Máy quay theo chậm dọc đoàn quân đang leo đèo. Nguyễn Nhạc giơ tay chỉ lên đỉnh đèo, ngựa của ông bước tới và lắc đầu, đàn voi chiến đung đưa và vung vòi. Rồi bụi cuộn lên từng đợt dày trên mặt đường, các lá cờ vải phần phật căng ra, hàng lính giáo lầm lũi bước qua trước ống kính. Giữ gương mặt, y phục và phong cách nghệ thuật nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh trên toàn khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, người trùng lặp, vật thể biến dạng."
       },
-      "cue": "somber"
+      "cue": "tense"
     },
     {
       "scene": 9,
-      "narration": "Trong khi đó, tin xấu nhất đã tới. Tháng chín năm 1777, Tân Chính Vương Nguyễn Phúc Dương bị bắt và bị giết cùng những người theo hầu. Với phe Nguyễn, đó là lời nhắc lạnh lùng: danh phận cao đến đâu cũng không giữ được ai an toàn, một khi đã mất chỗ dựa.",
+      "narration": "Nguyễn Huệ không đánh trả, rút quân ra bắc, và Phú Xuân rơi vào tay anh cả. Các sử cũ kể khác nhau về lý do, nhưng kết quả thì chỉ có một.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "An emptied late-18th-century temporary court encampment, an abandoned wooden seat and ceremonial cloth left behind, a few distant figures leaving the grounds, no bodies or graphic detail.",
-        "motion": "The camera slowly passes the abandoned temporary court and settles on the empty seat while a few figures disappear beyond the trees, no graphic detail. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Dawn on the road north of Phu Xuan, 1787: Nguyen Hue rides at the rear of his column over a plank timber bridge across a muddy stream, reins loose in one hand, head turned back toward the mist-covered brick citadel walls behind him. Setting: late-18th-century Đại Việt — paddy fields, bamboo clumps, white river fog, low dark-tiled roofs. Ahead of him Tay Son infantry with East-Asian faces in late-18th-century Vietnamese tunics file away with spears and rattan shields, cloth banners hanging limp in the damp. Foreground wet bridge planks, mid-ground rider, background misted ramparts. No Qing costume, no Nguyễn-dynasty dress, no European iron bridge.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Slow pull-back and rise away from the rider on the bridge. Nguyen Hue turns his head and looks back over his shoulder at the distant citadel, his horse shifts its weight and the loose reins sway, and the column ahead keeps walking off into the fog. Then white mist drifts steadily across the ramparts and thins, the stream ripples and swirls under the planks, and the hanging banners stir and lift at their corners. Keep the face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Rạng sáng trên con đường phía bắc Phú Xuân, năm 1787: Nguyễn Huệ cưỡi ngựa đi cuối đoàn quân qua một cây cầu ván gỗ bắc trên con suối đục, dây cương lỏng trong một tay, đầu quay lại nhìn bức tường thành gạch chìm trong sương phía sau. Bối cảnh: Đại Việt cuối thế kỷ 18 — ruộng lúa, khóm tre, sương trắng mặt sông, mái ngói sẫm thấp. Phía trước ông, bộ binh Tây Sơn gương mặt Đông Á, áo vải cuối thế kỷ 18 kiểu Việt, nối nhau đi khuất với giáo và mộc mây, cờ vải rủ xuống trong hơi ẩm. Ván cầu ướt ở tiền cảnh, người cưỡi ngựa ở trung cảnh, tường thành mờ sương ở hậu cảnh. Không có y phục nhà Thanh, không có áo nhà Nguyễn, không có cầu sắt châu Âu.",
+        "motionVi": "Hãy làm sống động bức tranh lịch sử này thành một cảnh quay điện ảnh êm nhưng chuyển động rõ rệt. Máy quay lùi và nâng chậm ra khỏi người cưỡi ngựa trên cầu. Nguyễn Huệ quay đầu nhìn lại bức tường thành xa, ngựa của ông chuyển trọng lượng và dây cương lỏng đung đưa, đoàn quân phía trước vẫn bước khuất vào sương. Rồi làn sương trắng trôi đều qua các bức tường thành rồi mỏng dần, dòng suối gợn sóng và xoáy dưới ván cầu, những lá cờ rủ khẽ động và nhấc mép lên. Giữ gương mặt, y phục và phong cách nghệ thuật nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa phải trên toàn khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, người trùng lặp, vật thể biến dạng."
       },
       "cue": "somber"
     },
     {
       "scene": 10,
-      "narration": "Một tháng sau, đến lượt Long Xuyên. Quân Tây Sơn truy kích tới nơi Định Vương đang trú, và những người quanh ông chẳng còn mấy lựa chọn. Còn Nguyễn Ánh, cậu thiếu niên giữa cơn rối ren, phải tự trả lời câu hỏi đơn giản nhất: chạy đường nào để còn sống?",
+      "narration": "Nhưng rút lui không phải là bỏ cuộc. Ít lâu sau, Nguyễn Huệ quay lại với đạo quân lớn hơn, và lần này Nguyễn Nhạc phải lùi về Quy Nhơn.",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "A small riverside refuge near Long Xuyên, attendants hurriedly tying bundles to a modest wooden boat while looking back toward the tree line, no active combat.",
-        "motion": "Attendants hurry to secure bundles in a wooden boat; the camera glances back toward the treeline, then follows the boat as it leaves the bank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Dusk over flooded rice fields outside Quy Nhon, 1787: Nguyen Hue sits his horse on a paddy bund watching his infantry advance in a loose line with levelled spears, while the last enemy rearguard splashes across a shallow river and scrambles up the far bank. Setting: late-18th-century Đại Việt — flooded terraces, banana clumps, timber water gates, red sunset haze. Both forces are Tay Son Vietnamese with East-Asian faces in late-18th-century quilted tunics with rattan shields and cloth banners; the retreating men are seen only from behind at distance, faces not readable. Foreground paddy water, mid-ground rider, background far bank. No Qing armour, no Nguyễn-dynasty dress, no European uniforms.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow push-in past the rider's shoulder toward the river. Nguyen Hue lifts an arm and points across the water, his horse stamps and tosses its head, and the infantry line strides forward with spears swinging down to the level. Then the retreating rearguard bursts through the shallows in sheets of spray, cloth banners snap and lean in the dusk wind, and the flooded paddies ripple and flash with red light. Keep the face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Hoàng hôn trên đồng lúa ngập nước ngoài Quy Nhơn, năm 1787: Nguyễn Huệ ngồi trên ngựa ở bờ ruộng nhìn bộ binh của mình tiến lên thành hàng lỏng với giáo ngang tầm, trong khi toán hậu vệ cuối cùng của đối phương lội qua con sông cạn và leo lên bờ bên kia. Bối cảnh: Đại Việt cuối thế kỷ 18 — ruộng bậc thang ngập nước, khóm chuối, cống nước gỗ, mờ đỏ ráng chiều. Cả hai phía đều là người Việt Tây Sơn gương mặt Đông Á, áo vải chần cuối thế kỷ 18, mộc mây và cờ vải; lính rút chạy chỉ thấy từ phía sau ở khoảng xa, không đọc được mặt. Nước ruộng ở tiền cảnh, người cưỡi ngựa ở trung cảnh, bờ xa ở hậu cảnh. Không có giáp nhà Thanh, không có áo nhà Nguyễn, không có quân phục châu Âu.",
+        "motionVi": "Hãy làm sống động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu. Máy quay đẩy chậm qua vai người cưỡi ngựa về phía dòng sông. Nguyễn Huệ giơ tay chỉ qua mặt nước, ngựa của ông giậm chân và lắc đầu, hàng bộ binh sải bước tới với giáo hạ xuống ngang tầm. Rồi toán hậu vệ rút chạy lao qua chỗ cạn trong những vạt nước bắn tung, cờ vải phần phật nghiêng trong gió chiều, đồng lúa ngập nước gợn sóng và lấp lánh ánh đỏ. Giữ gương mặt, y phục và phong cách nghệ thuật nhất quán; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh trên toàn khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, người trùng lặp, vật thể biến dạng."
       },
-      "cue": "tense"
+      "cue": "dramatic"
     },
     {
       "scene": 11,
-      "narration": "Và cậu đã tìm ra câu trả lời. Theo các ghi chép được dẫn lại, Định Vương cùng nhiều thân thuộc và tướng lĩnh bị bắt, chỉ riêng Nguyễn Ánh chạy thoát. Gọi là may mắn cũng được, nhưng là thứ may mắn chẳng có gì để ăn mừng: cậu còn sống, còn gần như mọi chỗ dựa quen thuộc đều đã biến mất.",
+      "narration": "Quân Nguyễn Huệ vây Quy Nhơn hàng tháng trời. Trong thành, gạo cạn dần; ngoài thành, từng vòng lũy cứ cao thêm mỗi đêm.",
       "image": {
         "kind": "ai",
         "characters": [
-          "char-a"
+          "char-b"
         ],
         "identity": "full",
-        "prompt": "A teenage Nguyễn Ánh seen from behind at the edge of a reed-filled river channel, isolated against the vast wetland, distant search boats blurred by mist, tense but non-violent cinematic composition.",
-        "motion": "The camera holds behind Nguyễn Ánh as he steps into the tall reeds; grasses close around him and the silhouettes of boats pass far in the background. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "dramatic"
-    },
-    {
-      "scene": 12,
-      "narration": "Những đêm sau đó, sử sách không ghi cậu ngủ ở đâu. Nhưng có thể hình dung, điều quan trọng lúc ấy không phải một chỗ nằm dễ chịu, mà là một chỗ đủ kín, để sáng hôm sau còn có cơ hội đi tiếp.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "char-a"
-        ],
-        "identity": "full",
-        "prompt": "A small concealed shelter among mangrove roots at night, a young Vietnamese noble crouched in shadow, moonlight on water, no dramatic fantasy elements, quiet historical realism.",
-        "motion": "A very slow push toward the concealed shelter; water glimmers, fireflies drift softly and distant lantern light passes through leaves. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "somber"
-    },
-    {
-      "scene": 13,
-      "narration": "Và miền Tây có sẵn những chỗ như thế: vô số con rạch nhỏ, bờ lau rậm và lối nước quanh co. Với người bị truy tìm, chúng vừa là tấm màn che, vừa là cái bẫy. Rẽ đúng thì thoát, rẽ nhầm thì tự đưa mình vào ngõ cụt.",
-      "image": {
-        "kind": "ai",
-        "characters": [
-          "char-a"
-        ],
-        "identity": "full",
-        "prompt": "Narrow Mekong Delta creek at blue hour, a small period wooden skiff moving between nipa palms and mangrove roots, one young passenger kept mostly in silhouette.",
-        "motion": "The skiff moves slowly around a bend; the camera follows from behind as palm leaves brush across the foreground. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "By lamplight in a storeroom of the besieged Do Ban citadel, Nguyen Nhac crouches over nearly empty rice baskets, holding a small oil lamp low over them, while a quartermaster kneels beside him lifting a wooden tally board of rations. Late-18th-century Đại Việt under the Tây Sơn: thick laterite-and-brick walls, dark timber rafters, spilled husks, empty sacks and a few clay jars in the foreground, a low doorway onto a torch-lit stone corridor behind. The quartermaster wears a plain indigo short jacket and cloth head-wrap with a Tây Sơn belt, East-Asian face. Warm lamp glow, deep shadows, tense medium framing. No Nguyễn-dynasty court robes, no Qing costume, no European architecture or furniture.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow push-in over the empty baskets toward the two figures. Nguyen Nhac lifts the oil lamp and lowers it into the nearest basket, then turns his head toward the kneeling quartermaster, who raises the tally board higher. The lamp flame gutters and stretches tall, shadows swing across the brick wall, and husks drift on the floor. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Dưới ánh đèn dầu trong một kho của thành Đồ Bàn đang bị vây, Nguyễn Nhạc cúi xuống trên những thúng gạo gần như trống rỗng, tay cầm ngọn đèn dầu nhỏ soi thấp xuống, bên cạnh một viên quản lương quỳ gối giơ tấm thẻ tre ghi khẩu phần. Đại Việt cuối thế kỷ 18 dưới thời Tây Sơn: tường đá ong và gạch dày, rui gỗ sẫm màu, trấu vương vãi, bao tải trống và vài hũ đất nung ở tiền cảnh, phía sau là cửa thấp mở ra hành lang đá có đuốc. Viên quản lương mặc áo ngắn chàm giản dị, khăn vấn trên đầu, thắt lưng Tây Sơn, gương mặt Đông Á. Ánh đèn ấm, bóng tối sâu, khung hình trung, căng thẳng. Không có triều phục nhà Nguyễn, không có y phục Thanh, không có kiến trúc hay đồ nội thất châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay đẩy chậm qua những thúng trống về phía hai nhân vật. Nguyễn Nhạc nâng ngọn đèn dầu và soi thấp xuống thúng gần nhất, rồi quay đầu về phía viên quản lương đang quỳ, người này giơ cao tấm thẻ tre. Ngọn lửa đèn chập chờn và vươn dài, bóng đổ lay trên tường gạch, trấu bay lả tả trên nền. Giữ nguyên gương mặt và y phục nhân vật cùng phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa phải. Không biến dạng mặt, không chi méo, không thừa ngón tay, không nhân bản người, không vật thể biến dạng."
       },
       "cue": "tense"
     },
     {
+      "scene": 12,
+      "narration": "Không phá nổi vòng vây, Nguyễn Nhạc làm một việc khó tin: viết thư cầu cứu Nguyễn Ánh, người họ Nguyễn mà Tây Sơn từng truy sát.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "Late at night in a small stone room, Nguyen Nhac presses his seal into a pool of hot wax on a folded letter and holds it out to a cloaked messenger waiting at the doorway. Late-18th-century Đại Việt, the Tây Sơn-held Do Ban citadel: rough laterite block walls, a narrow arrow slit, a low brick vault, an iron lamp stand and a writing tray with brush and ink slab on a plank table. The messenger is a lean figure in a dark hooded cloak over a plain brown tunic, Tây Sơn sandals and belt, face shadowed but East-Asian, one hand reaching for the letter. Candle glow, long shadows, medium-close framing with the dark doorway behind. No Nguyễn-dynasty dress, no Qing costume, no European interior.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow sideways truck from the table toward the doorway. Nguyen Nhac drives the seal down into the wax, lifts the folded letter and extends it; the cloaked messenger steps in from the doorway and closes a hand around it. The candle flame flares and bends, a thin thread of wax smoke curls upward, and the messenger's cloak swings as he turns to go. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Đêm khuya trong một căn phòng đá nhỏ, Nguyễn Nhạc ấn con dấu vào vũng sáp nóng trên một lá thư gấp rồi đưa ra cho một người đưa tin trùm áo choàng đang chờ ở ngưỡng cửa. Đại Việt cuối thế kỷ 18, thành Đồ Bàn do Tây Sơn giữ: tường đá ong thô ráp, một lỗ châu mai hẹp, vòm gạch thấp, giá đèn sắt và khay nghiên bút mực trên bàn ván. Người đưa tin gầy, khoác áo choàng trùm đầu sẫm màu bên ngoài áo nâu giản dị, guốc và thắt lưng Tây Sơn, mặt khuất trong bóng nhưng là gương mặt Đông Á, một tay đưa ra nhận lá thư. Ánh nến, bóng dài, khung hình trung cận với ô cửa tối phía sau. Không có y phục nhà Nguyễn, không có y phục Thanh, không có nội thất châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay lia ngang chậm từ bàn về phía cửa. Nguyễn Nhạc ấn con dấu xuống sáp, nâng lá thư gấp lên và đưa ra; người đưa tin trùm áo choàng bước vào từ ngưỡng cửa và nắm lấy lá thư. Ngọn nến bùng lên và nghiêng đi, một làn khói sáp mảnh cuộn lên, và áo choàng của người đưa tin tung ra khi anh ta quay đi. Giữ nguyên gương mặt và y phục nhân vật cùng phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, không chi méo, không thừa ngón tay, không nhân bản người, không vật thể biến dạng."
+      },
+      "cue": "dramatic"
+    },
+    {
+      "scene": 13,
+      "narration": "Nguyễn Ánh nhận lời, và tranh thủ luôn. Quân ông tiến vào Gia Định, căn cứ phía nam của Tây Sơn, trong khi hai anh em còn mải nhìn nhau.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-c"
+        ],
+        "identity": "full",
+        "prompt": "At dawn on the Saigon river, Nguyen Anh stands in the bow of a war junk, one hand on the rail, as his paddlers drive the boat toward a fortified riverbank where smoke curls from Tây Sơn watchtowers. Southern Việt Nam, 1788: a wide brown river, mangrove and nipa-palm banks, a bamboo-and-earth stockade with a wooden watchtower ahead, more war junks and small rowing boats behind. The rowers wear plain brown short tunics and woven hats, southern Nguyễn soldiers on the bank carry spears and rattan shields, all with East-Asian faces. Bow spray in the foreground, churning paddles in the middle ground, the burning tower beyond. No Qing costume, no Siamese dress, no European ships or uniforms.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Tracking shot gliding alongside the junk toward the fortified bank. Nguyen Anh leans forward at the bow and thrusts one arm toward the stockade. The paddles bite and rip through the water in a fast rhythm, spray bursts up over the bow and falls away, then the smoke from the watchtower thickens and bends across the river while palm fronds whip on the bank. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Lúc rạng đông trên sông Sài Gòn, Nguyễn Ánh đứng ở mũi chiến thuyền, một tay đặt trên lan can, trong khi các tay chèo đưa thuyền lao về phía bờ sông có đồn lũy, nơi khói cuộn lên từ các vọng lâu Tây Sơn. Nam Bộ Việt Nam, 1788: dòng sông rộng nước đục, bờ đước và dừa nước, phía trước là đồn lũy đất tre với vọng lâu gỗ, phía sau là thêm chiến thuyền và xuồng nhỏ. Các tay chèo mặc áo ngắn nâu giản dị và đội nón lá đan, lính Nguyễn ở bờ cầm giáo và khiên mây, tất cả đều có gương mặt Đông Á. Nước bắn ở mũi thuyền tiền cảnh, mái chèo quẫy nước ở trung cảnh, vọng lâu cháy phía xa. Không có y phục Thanh, không có y phục Xiêm, không có tàu hay quân phục châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay theo dõi trượt dọc theo chiến thuyền về phía bờ có đồn lũy. Nguyễn Ánh nghiêng người về phía trước ở mũi thuyền và giơ một tay chỉ về phía đồn lũy. Những mái chèo cắm xuống và rạch nước theo nhịp nhanh, nước bắn tung qua mũi thuyền rồi đổ xuống, sau đó khói từ vọng lâu dày lên và uốn ngang mặt sông trong khi tàu lá dừa quất mạnh trên bờ. Giữ nguyên gương mặt và y phục nhân vật cùng phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, không chi méo, không thừa ngón tay, không nhân bản người, không vật thể biến dạng."
+      },
+      "cue": "dramatic"
+    },
+    {
       "scene": 14,
-      "narration": "Cũng đừng tưởng tượng ra một lời thề hùng hồn nào trong những ngày ấy, vì sử sách không ghi lại câu nào như thế. Điều chắc chắn hơn nhiều: Nguyễn Ánh vẫn lẩn tránh, vẫn giữ được mạng sống, và vẫn chờ một ngày có thể quay lại.",
+      "narration": "Nguyễn Huệ đứng giữa hai mặt trận: phía nam mất dần, phía bắc chưa yên, còn anh trai vẫn ngồi trong thành Quy Nhơn.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Close portrait of teenage Nguyễn Ánh in dim natural light, tired eyes, damp indigo robe, restrained emotion, historically inspired rather than an exact authenticated portrait.",
-        "motion": "A subtle close-up as Nguyễn Ánh lifts his gaze; shallow breathing, a small movement of the candle flame and soft light across his face. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "On a hilltop outside Quy Nhon at night, Nguyen Hue stands at the flap of his command tent watching two lines of messenger torches wind toward the camp from opposite directions along the ridges, while two officers wait behind him. Late-18th-century Đại Việt, Tây Sơn army: a mat-and-canvas command tent on bamboo poles, campfires, tethered horses and stacked spears in the middle ground, the dark plain and the faint watchfires of the besieged citadel far off. The two officers wear Tây Sơn dark tunics, cloth head-wraps and sword belts, East-Asian faces. Cold moonlight against warm torchlight, wide diagonal composition. No Nguyễn-dynasty court dress, no Qing armour, no European tents or firearms.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow push-in past the tent flap toward the figure on the hill. Nguyen Hue turns his head from the left torch line to the right one, then steps forward once; the two officers behind him shift and glance at each other. The tent flap snaps and billows, both chains of torches crawl along the ridges, and sparks from the campfire stream upward. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Trên một đỉnh đồi ngoài Quy Nhơn về đêm, Nguyễn Huệ đứng ở vạt lều chỉ huy nhìn hai hàng đuốc của người đưa tin uốn lượn về phía trại từ hai hướng ngược nhau men theo các sống núi, trong khi hai viên tướng chờ phía sau. Đại Việt cuối thế kỷ 18, quân Tây Sơn: lều chỉ huy bằng chiếu và vải căng trên cọc tre, lửa trại, ngựa buộc và giáo xếp ở trung cảnh, cánh đồng tối và những đốm lửa canh mờ của thành bị vây ở phía xa. Hai viên tướng mặc áo sẫm Tây Sơn, khăn vấn đầu và thắt lưng đeo gươm, gương mặt Đông Á. Ánh trăng lạnh tương phản ánh đuốc ấm, bố cục rộng theo đường chéo. Không có triều phục nhà Nguyễn, không có giáp Thanh, không có lều hay súng châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức tranh lịch sử này thành một cảnh quay điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay đẩy chậm qua vạt lều về phía nhân vật trên đồi. Nguyễn Huệ quay đầu từ hàng đuốc bên trái sang hàng bên phải, rồi bước lên một bước; hai viên tướng phía sau ông nhích người và nhìn nhau. Vạt lều rung và phồng lên, cả hai dãy đuốc bò dọc theo các sống núi, và tàn lửa từ lửa trại bay vút lên. Giữ nguyên gương mặt và y phục nhân vật cùng phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, không chi méo, không thừa ngón tay, không nhân bản người, không vật thể biến dạng."
+      },
+      "cue": "tense"
+    },
+    {
+      "scene": 15,
+      "narration": "Ông chọn con đường khó nhất: ngừng bắn và xin gặp anh. Hai người đàn ông gặp nhau, và lần này không ai rút gươm.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a",
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "At dawn on a narrow bamboo bridge outside Quy Nhon, the first character, Nguyen Hue, walks forward from the left and grips the arm of the second character, Nguyen Nhac, who has come from the right; both are unarmed. Their guards halt far back on either bank, Tây Sơn soldiers of 1788 in dark tunics and cloth head-wraps with spears and rattan shields, all with East-Asian faces. Behind them: two palisaded camps, mist over flooded rice fields, a wooden gate tower. Soft grey dawn light, wide low angle, the bridge crossing the frame diagonally. No Nguyễn-dynasty court robes, no Qing costume, no European bridge or architecture.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Slow push-in along the bamboo bridge toward the two brothers. Nguyen Hue strides forward and grips the other man's arm, and Nguyen Nhac grips back and lowers his head. Mist drifts in slow sheets across the river, the bridge planks flex and the water ripples beneath, then the banners on both banks stir and lift. Keep both characters' faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Lúc rạng đông trên một cây cầu tre hẹp ngoài Quy Nhơn, nhân vật thứ nhất, Nguyễn Huệ, bước tới từ bên trái và nắm lấy cánh tay nhân vật thứ hai, Nguyễn Nhạc, người đi tới từ bên phải; cả hai đều không mang vũ khí. Lính hộ vệ của hai bên dừng lại rất xa trên mỗi bờ, lính Tây Sơn năm 1788 mặc áo sẫm và khăn vấn đầu, cầm giáo và khiên mây, tất cả đều có gương mặt Đông Á. Phía sau: hai doanh trại có hàng rào cọc, sương phủ trên ruộng lúa ngập nước, một tháp cổng gỗ. Ánh rạng đông xám dịu, góc nhìn rộng thấp, cây cầu bắc chéo khung hình. Không có triều phục nhà Nguyễn, không có y phục Thanh, không có cầu hay kiến trúc châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức tranh lịch sử này thành một cảnh quay điện ảnh lặng lẽ nhưng chuyển động rõ rệt. Máy quay đẩy chậm dọc cây cầu tre về phía hai anh em. Nguyễn Huệ sải bước tới và nắm lấy cánh tay người kia, còn Nguyễn Nhạc nắm lại và cúi đầu. Sương trôi thành từng mảng chậm trên mặt sông, ván cầu oằn xuống và nước gợn sóng bên dưới, rồi những lá cờ trên hai bờ khẽ lay và bay lên. Giữ nguyên gương mặt và y phục của cả hai nhân vật cùng phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa phải. Không biến dạng mặt, không chi méo, không thừa ngón tay, không nhân bản người, không vật thể biến dạng."
       },
       "cue": "somber"
     },
     {
-      "scene": 15,
-      "narration": "Ngày ấy đến sớm hơn tưởng tượng. Khoảng một tháng sau, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Không có trống giong cờ mở. Chỉ là một người vừa qua cơn nguy, nhìn quanh và nhận ra mình vẫn còn vài người để gọi tên.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Early morning at a modest Long Xuyên river landing, a small boat arrives through mist and a few wary former Nguyễn retainers wait beneath a thatched shelter.",
-        "motion": "The boat slides against the muddy bank; two attendants step forward cautiously and the camera slowly widens to reveal the empty river behind them. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "hopeful"
-    },
-    {
       "scene": 16,
-      "narration": "Và những người ấy bắt đầu tìm về. Một số tướng lĩnh cũ của phe Nguyễn lần lượt quay lại bên cậu. Họ chưa dựng nổi một chính quyền, nhưng ít ra không ai phải xoay xở một mình nữa. Thời buổi ấy, có người chịu ở lại đã là tài sản quý.",
+      "narration": "Họ chia lại đất nước: Nguyễn Nhạc giữ Quy Nhơn, Nguyễn Huệ giữ từ Phú Xuân trở ra bắc. Hòa rồi, nhưng không còn là một nhà.",
       "image": {
         "kind": "ai",
         "characters": [
+          "char-b",
           "char-a"
         ],
         "identity": "full",
-        "prompt": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched riverside roof, plain clothing, maps and travel bundles, young Nguyễn Ánh seated without a crown or imperial regalia.",
-        "motion": "A slow lateral move passes the gathered retainers before settling on Nguyễn Ánh; lamplight flickers across the map and everyone remains focused. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Midday at the arched stone gate of Do Ban citadel, 1788 Đại Việt: the first character stands left of a carved granite boundary stone, the second character stands right of it, each with one hand on the stone, an official in a dark robe between them reading aloud from an unrolled sheet. Behind each man, Tây Sơn spearmen in quilted tunics with rattan shields and East-Asian faces look on; a brick rampart and low dark-tiled gatehouse rise behind. Wide diagonal framing, hard noon light, dust in the air. No Qing armour or queues, no 19th-century Nguyễn dress, no European stonework, no Siamese troops.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow sideways truck from the first character's side of the boundary stone to the second's. The first character lifts his hand off the stone and folds his arms while the second steps closer and jabs a finger at the carved face; the official between them raises the unrolled sheet higher. Then the banners of both armies snap in the wind, dust drifts across the gate and spearmen shift their shields. Keep both characters' faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Giữa trưa tại cổng vòm đá của thành Đồ Bàn, Đại Việt 1788: nhân vật thứ nhất đứng bên trái một tảng đá ranh giới bằng đá hoa cương có chạm khắc, nhân vật thứ hai đứng bên phải, mỗi người đặt một tay lên tảng đá, một viên quan áo thâm đứng giữa đọc to từ tờ giấy mở. Sau lưng mỗi người, lính Tây Sơn mặc áo bông chần, cầm khiên mây, gương mặt Đông Á, đang nhìn; phía sau là tường gạch và cổng gác mái ngói thấp. Bố cục rộng, chéo, ánh sáng trưa gắt, bụi trong không khí. Không giáp hay đuôi tóc Thanh, không y phục Nguyễn thế kỷ 19, không đá kiểu châu Âu, không lính Xiêm.",
+        "motionVi": "Hãy làm chuyển động bức minh họa lịch sử này thành một cú máy điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay lia ngang chậm từ phía nhân vật thứ nhất sang phía nhân vật thứ hai bên tảng đá ranh giới. Nhân vật thứ nhất nhấc tay khỏi tảng đá và khoanh tay, trong khi nhân vật thứ hai bước tới gần và chỉ tay dứt khoát vào mặt đá chạm khắc; viên quan ở giữa nâng cao tờ giấy. Rồi cờ của cả hai đạo quân phần phật trong gió, bụi bay ngang qua cổng và lính giáo sắp lại khiên. Giữ nguyên gương mặt, y phục của cả hai nhân vật và phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, nhân vật trùng lặp, vật thể biến dạng."
       },
-      "cue": "hopeful"
+      "cue": "neutral"
     },
     {
       "scene": 17,
-      "narration": "Có người rồi, giờ phải có chỗ đứng. Tháng mười một năm 1777, Nguyễn Ánh cùng các tướng cũ tiến về Sa Đéc. Đây chưa phải cuộc hành quân của kẻ thắng trận, mà là hành trình nối lại từng mối liên lạc đã đứt, từ bến này sang bến khác.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying retainers, woven cargo baskets, broad river and palm-lined banks under pale morning sun.",
-        "motion": "The camera tracks parallel to the convoy; reflections shimmer on the river and distant birds lift from the bank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "neutral"
-    },
-    {
-      "scene": 18,
-      "narration": "Ở miền Tây, phe Nguyễn bắt đầu gom lại người, thuyền và lương thực. Nghe thì đơn giản, nhưng thử làm việc đó khi ai cũng có lý do để bỏ đi mới thấy khó. Gom người bằng lời hứa thì được, giữ người ở lại với nhau mới là chuyện khó.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A practical riverside encampment with boat crews repairing wooden hulls, messengers arriving, period maps spread on a low table, southern Vietnamese wetlands in the background.",
-        "motion": "A documentary-style moving shot passes boat repairers, a messenger dismounting from a small boat, and the map table where retainers confer quietly. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "hopeful"
-    },
-    {
-      "scene": 19,
-      "narration": "Rồi họ làm một việc đã lâu không làm: chủ động ra tay. Cuối năm 1777, lực lượng của Nguyễn Ánh bất ngờ đánh úp Long Hồ. Sau bao tháng chỉ lo thoát thân, lần đầu tiên phe Nguyễn được ngẩng đầu, thay vì cúi đầu mà chạy.",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ at dusk, cautious faces and a nearly empty riverbank, showing a fragile return rather than battle.",
-        "motion": "A restrained tracking shot follows a small group loading supplies and pushing away from the Long Hồ riverbank at dusk, emphasizing caution and a fragile comeback. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
-      },
-      "cue": "neutral"
-    },
-    {
-      "scene": 20,
-      "narration": "Đà ấy kéo sang năm sau. Đầu năm 1778, phe Nguyễn lấy lại được một phần Gia Định, và Nguyễn Ánh, mới khoảng mười sáu tuổi, được các tướng tôn lên vị trí chỉ huy cao hơn. Nhưng đừng vội gọi đó là kết thúc có hậu. Cậu vừa quay lại bàn cờ, và bàn cờ này còn rất nhiều nước buộc cậu phải chạy tiếp.",
+      "narration": "Cuối năm 1788, Nguyễn Huệ xưng đế, hiệu Quang Trung, rồi kéo quân ra bắc. Tết Kỷ Dậu, ông đánh tan đạo quân Thanh đông gấp nhiều lần ở Ngọc Hồi và Đống Đa.",
       "image": {
         "kind": "ai",
         "characters": [
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired war boats behind him and a small flotilla beginning to depart toward a distant fortified settlement, uncertain horizon, no crown or later imperial costume.",
-        "motion": "The camera rises from the river surface to Nguyễn Ánh and the boats behind him, then follows the flotilla into the mist as banners move gently and the horizon fades. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": ""
+        "prompt": "Dawn at the Dong Da mound, January 1789: the character rises in a war elephant's howdah, sabre lifted, as Tây Sơn infantry in quilted tunics and rattan shields swarm up the burning earthworks of the Qing camp; Qing defenders in blue lamellar and queue caps scatter behind broken palisades, dragon banners tilting into drifting smoke. Dry winter fields, straw and ash on the wind, the elephant's tusks and trunk in the foreground, tents blazing in the background. Wide low diagonal shot from below. No European troops, no musketry lines, no Japanese armour, no 19th-century Nguyễn court dress.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Push-in and rise from below the elephant's tusks toward the howdah. The character swings the sabre high and shouts, the elephant lifts its trunk and stamps forward through the ash. Then Tây Sơn infantry surge over the burning earthworks, Qing dragon banners topple into the rolling smoke and a tent collapses in a burst of sparks. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Rạng sáng tại gò Đống Đa, tháng 1 năm 1789: nhân vật đứng trên lưng voi chiến, vung gươm, trong khi bộ binh Tây Sơn mặc áo bông chần, cầm khiên mây tràn lên chiến lũy đang cháy của trại quân Thanh; quân Thanh giáp phiến xanh, đội mũ có đuôi tóc, tản ra sau những hàng rào gãy, cờ rồng nghiêng trong khói cuộn. Đồng khô mùa đông, rơm và tro bay theo gió, ngà và vòi voi ở tiền cảnh, lều trại rực lửa ở hậu cảnh. Cú máy rộng, chéo, từ dưới lên. Không lính châu Âu, không hàng súng hỏa mai, không giáp Nhật, không y phục triều Nguyễn thế kỷ 19.",
+        "motionVi": "Hãy làm chuyển động bức minh họa lịch sử này thành một cú máy điện ảnh năng động với chuyển động rõ rệt ngay từ giây đầu tiên. Máy quay đẩy vào và nâng lên từ dưới ngà voi hướng tới bành voi. Nhân vật vung gươm lên cao và hô lớn, voi nâng vòi và giậm bước tới trong tro bụi. Rồi bộ binh Tây Sơn tràn qua chiến lũy đang cháy, cờ rồng của quân Thanh đổ xuống trong làn khói cuộn và một lều trại sụp trong chớp lửa. Giữ nguyên gương mặt, y phục của nhân vật và phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình đến cao, chuyển động nhân vật rõ và tự nhiên, chuyển động môi trường mạnh khắp khung hình. Không biến dạng mặt, tay chân méo, thừa ngón, nhân vật trùng lặp, vật thể biến dạng."
       },
       "cue": "dramatic"
+    },
+    {
+      "scene": 18,
+      "narration": "Nhưng ở Quy Nhơn, người anh cả giờ chỉ còn một góc trời nhỏ. Còn ở phía nam, Nguyễn Ánh vẫn lặng lẽ lớn lên từng ngày.",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b"
+        ],
+        "identity": "full",
+        "prompt": "A quiet morning in the smaller audience hall at Quy Nhon: the character sits alone on a plain dark-wood throne, chin propped on one hand, while two officials in dark robes wait at a distance with folded hands and a servant pushes open the tall shutter panels. Late-18th-century Đại Việt hall: stout round timber columns, carved rafter ends, low dark-tiled eaves, faded crimson hangings. Light from the opening shutters falls across a nearly empty brick courtyard beyond, one bare tree, swept leaves. Wide shot, soft grey morning light. No Qing dress or queues, no 19th-century Nguyễn court costume, no European architecture, no Chinese palace ornament.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Slow push-in across the empty hall toward the throne. The character lets his hand slide from his chin to the armrest and turns his head toward the opening shutters, while the servant pushes the panels wider. Then grey morning light sweeps across the brick floor, dust motes drift through it, the faded crimson hangings sway and a gust scatters swept leaves across the empty courtyard. Keep the character's face and costume and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Một buổi sáng yên ắng trong gian điện nhỏ hơn ở Quy Nhơn: nhân vật ngồi một mình trên ngai gỗ sẫm màu giản dị, chống cằm bằng một tay, trong khi hai viên quan áo thâm đứng chờ từ xa, chắp tay, và một người hầu đẩy mở những cánh cửa chớp cao. Gian điện Đại Việt cuối thế kỷ 18: cột gỗ tròn chắc khỏe, đầu rui chạm khắc, mái ngói thấp sẫm màu, rèm đỏ sờn màu. Ánh sáng từ cửa chớp mở tràn qua khoảng sân gạch gần như trống vắng phía ngoài, một cây khô, lá đã quét gọn. Cú máy rộng, ánh sáng ban mai dịu xám. Không y phục hay đuôi tóc Thanh, không triều phục Nguyễn thế kỷ 19, không kiến trúc châu Âu, không hoa văn cung điện Trung Hoa.",
+        "motionVi": "Hãy làm chuyển động bức minh họa lịch sử này thành một cú máy điện ảnh tĩnh lặng nhưng vẫn chuyển động rõ rệt. Máy quay đẩy vào chậm qua gian điện trống vắng về phía ngai. Nhân vật để bàn tay trượt từ cằm xuống tay vịn và quay đầu nhìn về phía cửa chớp đang mở, trong khi người hầu đẩy cánh cửa rộng thêm. Rồi ánh sáng ban mai xám tràn qua nền gạch, bụi lơ lửng trong ánh sáng, rèm đỏ sờn khẽ đung đưa và một cơn gió cuốn lá đã quét bay ngang khoảng sân trống. Giữ nguyên gương mặt, y phục của nhân vật và phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa phải. Không biến dạng mặt, tay chân méo, thừa ngón, nhân vật trùng lặp, vật thể biến dạng."
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 19,
+      "narration": "Tây Sơn không sụp vì quân Thanh, cũng không sụp vì một trận thua. Họ mất dần từ ngày hai anh em thôi nhìn về một hướng.",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "A muddy road south of Hue in the rain, 1801: a column of exhausted Tây Sơn soldiers in soaked quilted tunics and worn conical hats trudges past an overturned wooden cart, one man dragging a limping comrade, spears drooping, a torn banner wrapped round its pole; on the ridge behind, horsemen emerge through the downpour with banners hanging heavy and faces unreadable at distance. Late-18th-century Đại Việt: drowned rice paddies, bamboo hedges, a low brick gatehouse. All figures East-Asian. Wide diagonal framing, flat grey light. No Qing armour or queues, no French colonial troops, no 19th-century Nguyễn court dress, no European buildings.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Tracking sideways alongside the trudging column. The lead soldier stumbles and pulls the limping comrade upright while another heaves the overturned cart aside into the mud. Then rain slants harder across the frame, the torn banner drags and flaps, puddles shiver under the boots, and the horsemen on the ridge advance two paces through the downpour. Keep the faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate to strong. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Một con đường lầy lội phía nam Huế trong mưa, năm 1801: đoàn lính Tây Sơn kiệt sức trong áo bông chần ướt sũng và nón lá sờn cũ lê bước qua một cỗ xe gỗ bị lật, một người dìu đồng đội đang tập tễnh, giáo cắm cúi, một lá cờ rách quấn quanh cán; trên sống núi phía sau, kỵ binh hiện ra qua màn mưa xối xả, cờ rủ nặng và gương mặt không rõ ở khoảng cách xa. Đại Việt cuối thế kỷ 18: ruộng lúa ngập nước, hàng rào tre, một cổng gác gạch thấp. Tất cả nhân vật gương mặt Đông Á. Bố cục rộng, chéo, ánh sáng xám phẳng. Không giáp hay đuôi tóc Thanh, không lính thuộc địa Pháp, không triều phục Nguyễn thế kỷ 19, không công trình châu Âu.",
+        "motionVi": "Hãy làm chuyển động bức minh họa lịch sử này thành một cú máy điện ảnh tĩnh lặng nhưng vẫn chuyển động rõ rệt. Máy quay lia ngang, song hành cùng đoàn quân lê bước. Người lính dẫn đầu loạng choạng và đỡ đồng đội tập tễnh đứng lên, trong khi một người khác hất cỗ xe lật sang bên vũng bùn. Rồi mưa xiên chéo mạnh hơn khắp khung hình, lá cờ rách lê và phần phật, vũng nước rung lên dưới gót giày, và kỵ binh trên sống núi tiến thêm hai bước trong mưa xối. Giữ nguyên gương mặt, y phục và phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa đến mạnh. Không biến dạng mặt, tay chân méo, thừa ngón, nhân vật trùng lặp, vật thể biến dạng."
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 20,
+      "narration": "Nguyễn Huệ buộc anh mình phải giảng hòa, nhưng niềm tin giữa hai người không bao giờ hàn lại được. Nếu năm 1787 họ chịu nói chuyện trước khi rút gươm, lịch sử có khác đi?",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-b",
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Dusk on the road outside Do Ban citadel, 1788: the first character stands by the arched brick gate on the left, one hand flat on the wall, watching; the second character rides at the head of a long column of Tây Sơn infantry filing north past him on the right, dust gilded by the low sun. Late-18th-century Đại Việt: brick citadel wall with a low dark-tiled gatehouse, bamboo hedges, stubble fields. Gate guards and marching troops with East-Asian faces, spears, rattan shields, faded cloth banners. Wide diagonal composition. No Qing armour or queues, no 19th-century Nguyễn dress, no European architecture, no Siamese troops.",
+        "motion": "Animate this historical illustration into a calm but clearly moving cinematic shot. Pull-back and rise from the gate out over the road. The first character lifts his hand from the wall, turns his back on the column and walks alone through the archway, while the second character rides on and the marching ranks tramp past. Then dust rolls golden across the road, the faded banners swing and dip with the marching rhythm, and the column's last spears slide out of the fading light. Keep both characters' faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion gentle but visible, environmental motion moderate. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Chạng vạng trên con đường ngoài thành Đồ Bàn, 1788: nhân vật thứ nhất đứng bên cổng vòm gạch phía trái, một tay đặt phẳng lên tường, dõi nhìn; nhân vật thứ hai cưỡi ngựa đi đầu một đoàn dài bộ binh Tây Sơn nối nhau đi lên phía bắc ngang qua ông ở phía phải, bụi nhuốm vàng dưới nắng chiều thấp. Đại Việt cuối thế kỷ 18: tường thành gạch với cổng gác mái ngói thấp, hàng rào tre, ruộng rạ. Lính gác cổng và quân hành quân gương mặt Đông Á, giáo, khiên mây, cờ vải bạc màu. Bố cục rộng, chéo. Không giáp hay đuôi tóc Thanh, không y phục Nguyễn thế kỷ 19, không kiến trúc châu Âu, không lính Xiêm.",
+        "motionVi": "Hãy làm chuyển động bức minh họa lịch sử này thành một cú máy điện ảnh tĩnh lặng nhưng vẫn chuyển động rõ rệt. Máy quay lùi lại và nâng lên từ cổng thành ra phía con đường. Nhân vật thứ nhất nhấc tay khỏi tường, quay lưng lại với đoàn quân và bước một mình qua vòm cổng, trong khi nhân vật thứ hai tiếp tục cưỡi đi và các hàng quân bước đều qua. Rồi bụi cuộn lên vàng óng ngang mặt đường, những lá cờ bạc màu đung đưa nhịp theo bước chân, và những ngọn giáo cuối của đoàn quân trượt dần vào ánh sáng tàn. Giữ nguyên gương mặt, y phục của cả hai nhân vật và phong cách nghệ thuật; không thêm nhân vật mới, không chữ hay hình mờ. Cường độ chuyển động trung bình, chuyển động nhân vật nhẹ nhưng thấy rõ, chuyển động môi trường vừa phải. Không biến dạng mặt, tay chân méo, thừa ngón, nhân vật trùng lặp, vật thể biến dạng."
+      },
+      "cue": "curious"
     }
   ]
 }

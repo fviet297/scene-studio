@@ -7,15 +7,15 @@
 // Regenerate only scenes 5,7: node scripts/generate-narration.mjs 5 7
 
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
-import { connectOmniVoice } from './lib/omnivoice-client.mjs';
+import { connectOmniVoice, DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
+import { readPlanHeader } from './lib/plan-writer.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
-const VOICE = 'history-v2';
 const TEMP_DIR = 'tmp/narration';
 const MAX_CHUNK = 500;
 // Iterative unmasking steps. Cost is linear in this number; quality saturates around the
@@ -44,6 +44,8 @@ if (paths.slug !== PROJECT) {
   process.exit(1);
 }
 const AUDIO_DIR = paths.audioDir;
+// The project's OmniVoice profile, picked in the review panel (`voice:` in the plan header).
+const VOICE = readPlanHeader(readFileSync(paths.planMd, 'utf8'), 'voice') ?? DEFAULT_VOICE;
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;

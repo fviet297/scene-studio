@@ -10,7 +10,10 @@
 // Requires REPLICATE_API_TOKEN. Only kind === 'ai' scenes are generated here;
 // search scenes are handled by source-assets.mjs.
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { activePaths } from './project-paths.mjs';
 import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
@@ -232,9 +235,9 @@ export const assemblePrompt = (scene, templates = getTemplates(), aspect = curre
 
 // Default image model for every scene regardless of reference count (single-character,
 // two-character, or no reference at all) is Grok Imagine. Note: Grok Imagine only accepts one
-// `image` reference (see buildInput below), so on a two-character scene it locks the first-named
-// character and drops the second reference — pick Seedream 4.5 from the dropdown for scenes that
-// need both faces locked.
+// `image` reference (see buildInput below), so on a two-character scene the references go as one
+// tiled sheet (singleReference) — Seedream 4.5, which takes each reference separately, still locks
+// both faces most reliably.
 // Override via REPLICATE_SINGLE_MODEL / REPLICATE_MULTI_MODEL / REPLICATE_TEXT_MODEL.
 const DEFAULT_SINGLE = 'xai/grok-imagine-image';
 const DEFAULT_MULTI = 'xai/grok-imagine-image';
@@ -264,6 +267,30 @@ const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'i
 export const dataUri = (path) => `data:${MIME[path.split('.').pop().toLowerCase()] ?? 'image/png'};base64,${readFileSync(path).toString('base64')}`;
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const REQUEST_TIMEOUT_MS = 30_000;
+
+// VMedia and muse2api take a single reference image. With several references (a multi-character
+// scene) they are tiled left→right, in plan order, into one sheet, and the prompt says which
+// panel is which — otherwise only the first character would keep its face. Returns the prompt
+// and the data URI to send.
+const SHEET_HEIGHT = 1024;
+const referenceSheetNote = (count) => `REFERENCE SHEET: the one reference image shows ${count} different people side by side, left to right — leftmost = reference 1 (the first named character)${count > 2 ? ', then reference 2, 3… in order' : ''}, rightmost = reference ${count}. It is a cast sheet, not a layout: draw each person once, inside the SCENE, never the sheet itself.`;
+const singleReference = (prompt, refPaths, onLog = () => {}) => {
+  if (refPaths.length <= 1) return { prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined };
+  const sheet = join(tmpdir(), `ref-sheet-${randomUUID()}.jpg`);
+  const scaled = refPaths.map((_, i) => `[${i}]scale=-2:${SHEET_HEIGHT}[r${i}]`).join(';');
+  const stacked = `${refPaths.map((_, i) => `[r${i}]`).join('')}hstack=inputs=${refPaths.length}`;
+  execFileSync('ffmpeg', [
+    '-y', ...refPaths.flatMap((path) => ['-i', path]),
+    '-filter_complex', `${scaled};${stacked}`,
+    '-frames:v', '1', '-q:v', '3', sheet,
+  ], { stdio: 'pipe' });
+  try {
+    onLog(`${refPaths.length} references tiled into one sheet (this provider takes a single image)`);
+    return { prompt: `${referenceSheetNote(refPaths.length)}\n\n${prompt}`, refDataUri: dataUri(sheet) };
+  } finally {
+    unlinkSync(sheet);
+  }
+};
 
 const requestJson = async (url, init, label, retryNetwork = true) => {
   let lastError;
@@ -320,8 +347,8 @@ export const buildInput = (model, { prompt, refUris = [], aspect = currentAspect
   }
   if (model.startsWith('xai/grok-imagine')) {
     // Grok Imagine takes a single `image` for editing (not FLUX's `input_image`, and no
-    // output_format/num_outputs); aspect_ratio is ignored while editing. Single reference only,
-    // so a two-character scene forced onto this model keeps only the first reference.
+    // output_format/num_outputs); aspect_ratio is ignored while editing. Single reference only:
+    // runImageModel tiles a multi-character scene's references into one sheet before this.
     return refUris.length ? { prompt, image: refUris[0] } : { prompt, aspect_ratio: ratio };
   }
   // Fallback for any other model — FLUX Kontext/dev via REPLICATE_*_MODEL, and any custom model id
@@ -423,17 +450,17 @@ export const upsertManifest = (entry) => {
 
 // Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
 // anything else → Replicate. refPaths are local reference file paths; each provider builds its own
-// payload from the shared data-URI encoding. Returns the output image URL.
-const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog, signal }) => {
+// payload from the shared data-URI encoding. Returns the output image URL. Also used for character
+// reference images (character-image.mjs).
+export const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog, signal }) => {
   if (model.startsWith('fal-ai/')) {
     const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog, signal });
     return url;
   }
   if (model.startsWith('vmedia:')) {
-    // Gommo generateImage locks to a single reference (edit mode); a multi-character scene keeps
-    // only the first reference, so pick fal/Replicate for scenes needing every face locked.
+    // Gommo generateImage takes a single reference (edit mode): several are sent as one sheet.
     const { url } = await vmediaImageUrl(model.slice('vmedia:'.length), {
-      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog, signal,
+      ...singleReference(prompt, refPaths, onLog), aspect, onLog, signal,
     });
     return url;
   }
@@ -444,15 +471,20 @@ const runImageModel = async (token, model, { prompt, refPaths, aspect = currentA
     return url;
   }
   if (model.startsWith('muse:')) {
-    // Single-reference like VMedia: a multi-character scene keeps only the first reference.
+    // Single-reference like VMedia: several are sent as one sheet.
     const { url } = await museImageUrl(model.slice('muse:'.length), {
-      prompt, refDataUri: refPaths.length ? dataUri(refPaths[0]) : undefined, aspect, onLog, signal,
+      ...singleReference(prompt, refPaths, onLog), aspect, onLog, signal,
     });
     return url;
   }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-  const url = await predict(token, model, buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect }), { signal });
+  // Grok Imagine edits from one image, like VMedia/muse2api: several references go as one sheet.
+  const single = model.startsWith('xai/grok-imagine') ? singleReference(prompt, refPaths, onLog) : null;
+  const input = single
+    ? buildInput(model, { prompt: single.prompt, refUris: single.refDataUri ? [single.refDataUri] : [], aspect })
+    : buildInput(model, { prompt, refUris: refPaths.map(dataUri), aspect });
+  const url = await predict(token, model, input, { signal });
   onLog('prediction succeeded; image URL received');
   return url;
 };

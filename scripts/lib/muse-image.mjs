@@ -2,7 +2,8 @@
 //   POST /v1/images/tasks — prompt + aspect_ratio (+ reference_image to lock a reference)
 //   GET  /v1/images/tasks/{id} — poll until completed, then read the media url
 // replicate-image.mjs routes any `muse:<model>` image id here. Like VMedia, the server takes a
-// single reference image, so a multi-character scene keeps only its first reference.
+// single reference image, so replicate-image.mjs tiles a multi-character scene's references into
+// one sheet first.
 import { createTask, pollTask } from './muse-client.mjs';
 import { aspectInfo } from './aspect.mjs';
 

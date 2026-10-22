@@ -1,17 +1,34 @@
 {
-  "project": "gia-long",
+  "project": "quang-trung-danh-nguyen-nhac",
   "characters": [
     {
       "id": "char-a",
+      "name": "Nguyễn Huệ",
+      "aliases": [
+        "Quang Trung",
+        "Bắc Bình Vương"
+      ],
+      "image": "projects/quang-trung-danh-nguyen-nhac/characters/char-a.jpg",
+      "imageV2": "projects/quang-trung-danh-nguyen-nhac/characters/char-a.jpg"
+    },
+    {
+      "id": "char-b",
+      "name": "Nguyễn Nhạc",
+      "aliases": [
+        "Thái Đức",
+        "Trung Ương Hoàng Đế"
+      ],
+      "image": "projects/quang-trung-danh-nguyen-nhac/characters/char-b.jpg",
+      "imageV2": "projects/quang-trung-danh-nguyen-nhac/characters/char-b.jpg"
+    },
+    {
+      "id": "char-c",
       "name": "Nguyễn Ánh",
       "aliases": [
-        "Nguyễn Phúc Ánh",
-        "Nguyễn Phúc Chủng",
-        "Gia Long",
-        "Nguyen Phuc Anh"
+        "Gia Long"
       ],
-      "image": "projects/gia-long/characters/char-a.jpg",
-      "imageV2": "projects/gia-long/characters/char-a.jpg"
+      "image": "projects/quang-trung-danh-nguyen-nhac/characters/char-c.jpg",
+      "imageV2": "projects/quang-trung-danh-nguyen-nhac/characters/char-c.jpg"
     }
   ]
 }

@@ -23,7 +23,9 @@ const EXAMPLE_SINGLE = 'Standing before assembled officials at his accession, re
 const EXAMPLE_MOTION = 'Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Slow push-in between the two hosts. Both commanders raise their weapons and turn toward each other as their horses rear and stamp. Storm clouds roll fast overhead, then a lightning bolt flashes above the gap between the hosts, and the ranks behind each figure surge forward with banners whipping. Keep both characters\' faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame. No face deformation, warped limbs, extra fingers, duplicated or merged characters, morphing objects.';
 const EXAMPLE_SPLIT = 'The first character sits on the left half on a plain dark timber throne in an early-11th-century Đại Việt court of low heavy dark-tiled roofs, stout round timber posts and a compact brick citadel courtyard. The second character sits on the right half on a broader lacquered throne in a 7th-century Tang Chinese palace court of long rammed-earth walls and wide timber halls. One rising dawn sun sits on the horizon between the two halves. Vietnamese courtiers stay left, Tang officials right, all small background figures with East-Asian faces in plain period-correct dress. Balanced vertical split, solemn beginning.';
 
-const SYSTEM_PROMPT = `You write ONE scene-specific image-generation prompt for a historical illustration, from a short narration line. This prompt is spliced into a larger template that already covers art style, proportions, frame shape and caption safe zones, anatomy, the no-text rule, "ordinary soldiers wear plainer gear than the commander", and the generic negatives — never restate any of that, and never name an art style, medium or rendering look: the same prompt must work under any style template.
+// The house rules for one scene's image prompt and motion prompt. Shared with the whole-video
+// script writer (script-writer.mjs), which writes several scenes per call in its own JSON format.
+export const SCENE_PROMPT_RULES = `This prompt is spliced into a larger template that already covers art style, proportions, frame shape and caption safe zones, anatomy, the no-text rule, "ordinary soldiers wear plainer gear than the commander", and the generic negatives — never restate any of that, and never name an art style, medium or rendering look: the same prompt must work under any style template.
 
 CORE
 1. NEVER describe a main character's appearance: no face, hair, costume, build, age, or colours. Identity comes from a pasted reference image via image-to-image generation; restating looks fights the reference and drifts identity.
@@ -61,7 +63,14 @@ M3. Main action: one visible action per main character, taken from the beat, wit
 M4. Two or three strong environmental motions named from THIS scene's own image prompt — fewer things, bigger moves, chained with "then" when order matters ("the bow lifts over a wave and slams down, spray bursting across the boat"). A long list of micro-motions gets averaged into almost nothing. On a split-screen describe the left and right halves separately.
 M5. Light lock, identity and style only: "Keep <the character's / both characters'> faces and costumes and the art style consistent; no new characters, no text or watermark." Never write "preserve the composition/lighting" or "do not add, remove or redesign anything". Only a split-screen adds "keep the centre divider, each figure stays on their own side."
 M6. State intensity: "Motion intensity medium to high, character motion clear and natural, environmental motion strong across the whole frame." Quiet beats: "Motion intensity medium, character motion gentle but visible, environmental motion moderate."
-M7. End with a short artifact ban: "No face deformation, warped limbs, extra fingers, duplicated people, morphing objects." Never ban "sudden movements" or "flicker" — they suppress motion and contradict flames and torches.
+M7. End with a short artifact ban: "No face deformation, warped limbs, extra fingers, duplicated people, morphing objects." Never ban "sudden movements" or "flicker" — they suppress motion and contradict flames and torches.`;
+
+export const PROMPT_EXAMPLES = `EXAMPLES OF GOOD OUTPUT (English parts only — match the discipline: named culture, pinned extras, scene-specific negatives, motion named from the scene's own elements; never copy the content):
+[scene prompt, one character] ${EXAMPLE_SINGLE}
+[scene prompt, two characters, split-screen] ${EXAMPLE_SPLIT}
+[motion prompt] ${EXAMPLE_MOTION}`;
+
+const SYSTEM_PROMPT = `You write ONE scene-specific image-generation prompt for a historical illustration, from a short narration line. ${SCENE_PROMPT_RULES}
 
 OUTPUT FORMAT — output exactly four parts and nothing else:
 - First, the English scene prompt as plain prose (this is what counts against the character budget).
@@ -72,10 +81,7 @@ OUTPUT FORMAT — output exactly four parts and nothing else:
 - Then, on its own line, the delimiter ===MOTION_VI===
 - Then a close Vietnamese translation of the motion prompt, on one single line.
 
-EXAMPLES OF GOOD OUTPUT (English parts only — match the discipline: named culture, pinned extras, scene-specific negatives, motion named from the scene's own elements; never copy the content):
-[scene prompt, one character] ${EXAMPLE_SINGLE}
-[scene prompt, two characters, split-screen] ${EXAMPLE_SPLIT}
-[motion prompt] ${EXAMPLE_MOTION}`;
+${PROMPT_EXAMPLES}`;
 
 // Enrich each character id with the historical context (country/period/dynasty/role) from its
 // profile.json, so the model can pin the scene's culture/century instead of guessing.
@@ -102,6 +108,28 @@ const describeCharacter = (c) => {
   const detail = [c.country, c.period, c.dynasty].filter(Boolean).join(', ');
   const facts = (c.knownFacts ?? []).length ? ` — known for: ${c.knownFacts.join('; ')}` : '';
   return `${c.name}${detail ? ` (${detail})` : ''}${c.role ? ` — ${c.role}` : ''}${facts}`;
+};
+
+// What a writer is told about one scene's references: the ordered list (`characters` from
+// buildCharacterContext; order must match the scene's `char:`, since the image template maps
+// reference N to the Nth character named here), the face-lock and single-reference guards, and
+// the English prompt's character budget. Shared with script-writer.mjs.
+export const sceneCharacterBrief = (characters, identity = 'full') => {
+  const charLines = characters.length
+    ? characters.map((c, i) => `${ORDINALS[i] ?? `Character ${i + 1}`} character: ${describeCharacter(c)}`).join('\n')
+    : 'No character reference for this scene (plain text-to-image, no identity to preserve).';
+
+  // The trimmed templates leave ~1000 of Seedream's 4000 characters for the scene prompt even
+  // under the longest style version; stay under that with room for a hand edit.
+  const budget = characters.length >= 2 ? 700 : 800;
+  const identityNote = characters.length === 1 && identity === 'face'
+    ? '\n\nThis scene is face-locked: keep the face/hair/age from the reference, but you may dress the character differently than the reference if the narration calls for it (e.g. shown poor before their rise).'
+    : '';
+
+  const characterCountRule = characters.length === 1
+    ? '\n\nIMPORTANT: exactly one referenced character is available. Do not include any second character, counterpart, emperor, split-screen half or named person.'
+    : '';
+  return { charLines, notes: `${identityNote}${characterCountRule}`, budget };
 };
 
 // One reply carries all four fields, separated by delimiter lines (no second OpenAI call):
@@ -140,24 +168,11 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
   if (!key) throw new Error('OPENAI_API_KEY not set (put it in .env).');
   const useModel = model ?? process.env.OPENAI_PROMPT_MODEL ?? DEFAULT_MODEL;
 
-  const charLines = characters.length
-    ? characters.map((c, i) => `${ORDINALS[i] ?? `Character ${i + 1}`} character: ${describeCharacter(c)}`).join('\n')
-    : 'No character reference for this scene (plain text-to-image, no identity to preserve).';
-
-  // The trimmed templates leave ~1000 of Seedream's 4000 characters for the scene prompt even
-  // under the longest style version; stay under that with room for a hand edit.
-  const budget = characters.length >= 2 ? 700 : 800;
-  const identityNote = characters.length === 1 && identity === 'face'
-    ? '\n\nThis scene is face-locked: keep the face/hair/age from the reference, but you may dress the character differently than the reference if the narration calls for it (e.g. shown poor before their rise).'
-    : '';
-
-  const characterCountRule = characters.length === 1
-    ? '\n\nIMPORTANT: exactly one referenced character is available. Do not include any second character, counterpart, emperor, split-screen half or named person.'
-    : '';
+  const { charLines, notes, budget } = sceneCharacterBrief(characters, identity);
   const contextNote = context && (context.prev || context.next)
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them, and do NOT reuse an adjacent beat's setting plus activity: change the terrain, time of day or action so this reads as a new shot):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
-  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${identityNote}${characterCountRule}${contextNote}\n\nWrite the scene prompt now, then its motion prompt. Keep the English scene prompt under ${budget} characters. Output the four parts in order, separated by the ===VI===, ===MOTION=== and ===MOTION_VI=== delimiter lines.`;
+  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now, then its motion prompt. Keep the English scene prompt under ${budget} characters. Output the four parts in order, separated by the ===VI===, ===MOTION=== and ===MOTION_VI=== delimiter lines.`;
 
   // Newer reasoning-class models reject a custom temperature; only send it for the gpt-4 family.
   const supportsTemperature = /^gpt-4/.test(useModel);

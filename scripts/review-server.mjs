@@ -9,14 +9,25 @@
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
 //   GET  /api/projects        → list every projects/<slug> + which one is active
 //   POST /api/project         → { slug } → switch the active project, reparse
-//   POST /api/project-create  → { slug, title, aspect?, template?, plan? } → new project from a
-//                               pasted scene-plan.md, or scaffolded from projects/_template
+//   POST /api/project-create  → { slug, title, aspect?, template?, voice?, plan? } → new project from
+//                               a pasted scene-plan.md, or scaffolded from projects/_template
+//   POST /api/script-generate → { request, sceneCount, voice?, slug?, title?, aspect?, template? } →
+//                               LLM writes the whole video (narration, cast, image + motion prompts),
+//                               then it becomes a new active project; progress streamed over SSE
+//   GET  /api/voices          → OmniVoice voice profiles (the running server, else its voice folder)
+//   POST /api/project-voice   → { voice } → the active project's narration voice (`voice:` header)
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md, reparse
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md, reparse
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,prompt?,prompt_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
 //   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char back into the plan .md
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
+//   POST /api/character-source?id=<id> → raw image body → source image to redraw that character from
+//   POST /api/character-generate → { id, model, description?, source?: 'upload'|'current' } → draw a
+//                               draft reference (from the description, or redrawn from a source
+//                               image) in the active style; streamed over SSE
+//   POST /api/character-apply → { id, from?: 'draft'|'source' } → the draft (default) or the uploaded
+//                               source image, as it is, becomes that character's reference image
 //   POST /api/generate-puppets → { id? } → spawn generate-puppet-references.mjs, stream its log over SSE
 //   POST /api/generate-prompt → { scene } → write that scene's image + motion prompt from narration via OpenAI
 //   POST /api/generate-prompts-batch → { scenes:[...] } → same, sequential, streamed over SSE
@@ -41,6 +52,9 @@
 //   POST /api/services/start  → { id } → start that local server as a child of this one
 //   POST /api/services/stop   → { id } → stop a server this one started
 //   POST /api/services/restart → { id } → stop a server this one started, wait for exit, start it
+//   GET  /api/jobs            → generation jobs still running here (they outlive a page reload),
+//                               with their kind, scenes and the scenes already finished
+//   POST /api/cancel          → { id } → cancel the streamed job the panel tagged with X-Job-Id
 //
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
@@ -48,19 +62,23 @@
 import { execFile, execFileSync, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createServer } from 'node:http';
+import { randomUUID } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { basename, dirname, join } from 'node:path';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
-import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlanHeader, writeCharacterPath, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlanHeader, renderScenePlan, writeCharacterPath, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
+import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
+import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
+import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
 
 loadEnv();
 
@@ -81,6 +99,8 @@ const PANEL_ASSETS = {
   '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
+  '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
+  '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
   '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
@@ -167,10 +187,45 @@ const normalizeProfilePatch = (patch) => {
 // Vietnamese prompt/template translations are authored up front (by the lsvn/trangca/history-video
 // skills and the OpenAI prompt writer) and stored alongside each prompt, so the panel reads them
 // straight from state — no runtime translation service.
-const optimizeCharacterImage = (source, target) => {
+// `fit`: 'crop' takes the centre square (uploads); 'pad' letterboxes the whole picture onto a
+// light-grey square — AI drafts, which the dialog previews uncropped and a crop would behead.
+const optimizeCharacterImage = (source, target, fit = 'crop') => {
+  const square = fit === 'pad'
+    ? 'scale=1024:1024:force_original_aspect_ratio=decrease:flags=lanczos,pad=1024:1024:(ow-iw)/2:(oh-ih)/2:color=0xD8D8D8'
+    : "crop='min(iw,ih)':'min(iw,ih)',scale=1024:1024:flags=lanczos";
   execFileSync('ffmpeg', [
     '-y', '-i', source,
-    '-vf', "crop='min(iw,ih)':'min(iw,ih)',scale=1024:1024:flags=lanczos",
+    '-vf', square,
+    '-frames:v', '1', '-q:v', '3', target,
+  ], { stdio: 'pipe' });
+};
+// Make `sourceFile` character `id`'s reference: squared (see optimizeCharacterImage) and
+// re-encoded to the plan's reference path as .jpg, repointing the plan when the old reference had
+// another extension.
+const setCharacterReference = (id, relPath, sourceFile, fit) => {
+  const targetPath = relPath.replace(/\.[^.]+$/, '.jpg');
+  mkdirSync(dirname(targetPath), { recursive: true });
+  optimizeCharacterImage(sourceFile, targetPath, fit);
+  if (targetPath !== relPath) writeCharacterPath(P.planMd, id, targetPath);
+};
+// The plan's reference path for character `id`, or null. Own keys only, so an id such as
+// "constructor" never resolves to an Object.prototype member.
+const planCharacterPath = (id) => {
+  const { characters } = readPlan();
+  return typeof id === 'string' && Object.hasOwn(characters, id) ? characters[id] : null;
+};
+// A generated character image waits here as a draft until applied, beside the source image a
+// redraw starts from. Served through /characters/_drafts/.
+const charDraftDir = () => join(P.charDir, '_drafts');
+const charDraftPath = (id) => join(charDraftDir(), `${id}.jpg`);
+const charSourcePath = (id) => join(charDraftDir(), `${id}-source.jpg`);
+const charDraftUrl = (path) => `/characters/_drafts/${basename(path)}?v=${statSync(path).mtimeMs}`;
+// A redraw's source image, shrunk to at most 1536 px on its long edge as JPEG: providers take it
+// inline as base64, and a 15 MB phone photo would stall the upload or exceed their body limits.
+const optimizeSourceImage = (source, target) => {
+  execFileSync('ffmpeg', [
+    '-y', '-i', source,
+    '-vf', "scale='min(1536,iw)':'min(1536,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2:flags=lanczos",
     '-frames:v', '1', '-q:v', '3', target,
   ], { stdio: 'pipe' });
 };
@@ -216,13 +271,38 @@ const rebuildBundles = (send = () => {}) => {
   return rebuildChain;
 };
 
-// Generation jobs still running server-side. A job outlives its browser connection (the scene
-// already in flight finishes after a cancel), and every job writes through the active project's
+// Generation jobs still running server-side. A job outlives its browser connection (a reload
+// does not cancel it), and every job writes through the active project's
 // paths — so a project switch while this is non-zero would land its files in the wrong project.
 let activeJobs = 0;
-const trackJob = async (work) => {
+// Running jobs by id: the panel tags each streamed request with X-Job-Id (plus X-Job-Label,
+// X-Job-Kind and X-Job-Scenes), so it can cancel the job through /api/cancel and, after a reload,
+// find it again via /api/jobs and keep its unfinished scenes locked.
+const jobs = new Map();
+const jobByRes = new WeakMap();
+// A cancel can reach the server before the request it targets; remembered until that job starts.
+const earlyCancels = new Set();
+const jobFor = (res) => {
+  let job = jobByRes.get(res);
+  if (job) return job;
+  const header = (name) => (typeof res.req.headers[name] === 'string' ? res.req.headers[name] : '');
+  const id = header('x-job-id') || randomUUID();
+  let label = res.req.url;
+  try { label = decodeURIComponent(header('x-job-label')) || label; } catch { /* keep the url */ }
+  const scenes = header('x-job-scenes').split(',').filter(Boolean).map(Number).filter(Number.isFinite);
+  job = {
+    id, label, kind: header('x-job-kind'), scenes, done: new Set(), lastLog: '',
+    startedAt: Date.now(), controller: new AbortController(),
+  };
+  if (earlyCancels.delete(id)) job.controller.abort();
+  jobs.set(id, job);
+  jobByRes.set(res, job);
+  return job;
+};
+const trackJob = async (res, work) => {
   activeJobs++;
-  try { await work(); } finally { activeJobs--; }
+  const job = jobFor(res);
+  try { await work(); } finally { activeJobs--; jobs.delete(job.id); }
 };
 const JOBS_RUNNING_ERROR = 'Đang có job chạy trên server — chờ xong rồi đổi project.';
 
@@ -250,7 +330,8 @@ const normalizeImportChar = (value, charIds) => {
 const buildState = () => {
   const { characters, scenes } = readPlan();
   const authenticity = readAuthenticity();
-  const title = existsSync(P.planMd) ? (readFileSync(P.planMd, 'utf8').match(/^#\s+(.+)$/m)?.[1]?.trim() ?? 'Scenes') : 'Scenes';
+  const planRaw = existsSync(P.planMd) ? readFileSync(P.planMd, 'utf8') : '';
+  const title = planRaw.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? 'Scenes';
 
   const sceneCharMap = new Map();
   for (const s of scenes) for (const id of s.image.characters ?? []) {
@@ -275,7 +356,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion },
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, voice: readPlanHeader(planRaw, 'voice') ?? DEFAULT_VOICE },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
     imageModels: withAvailability(IMAGE_MODELS),
@@ -421,21 +502,16 @@ const probeSceneVideo = (path) => {
   return { width, height };
 };
 
-// Aborts when the browser drops the stream before it is finished — the panel's Cancel, or a closed
-// tab. Watches `res`, not `req`: once the request body has been read, req never emits 'close'
-// again, so a req listener attached after readBody() would never fire.
-const disconnectSignal = (res) => {
-  const controller = new AbortController();
-  res.on('close', () => { if (!res.writableEnded) controller.abort(); });
-  return controller.signal;
-};
+// Aborts only on an explicit POST /api/cancel for this response's job — never when the browser
+// drops the stream, so a page reload leaves the job running to finish and write its result.
+const cancelSignal = (res) => jobFor(res).controller.signal;
 
 // Run generate-narration.mjs (optionally for specific scene numbers) and stream its log to the
 // browser as SSE. Shared by "generate one scene" and "approve → all scenes". Resolves once the
 // child has exited (and the bundle is rebuilt), so trackJob counts the whole run.
 const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
-  res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
-  const send = (event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+  sseHead(res);
+  const send = (event, data) => sseSend(res, event, data);
   send('log', startMsg);
   const child = spawn('node', [join(HERE, 'generate-narration.mjs'), ...args], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
@@ -448,12 +524,25 @@ const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
     res.end();
     resolve();
   });
-  disconnectSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
+  cancelSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
 });
 
 // --- shared SSE helpers --------------------------------------------------------------------
 const sseHead = (res) => res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
-const sseSend = (res, event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+// A scene's end line in a job log ("✓/✗/• scene N", "✓ scene-NN.mp3") — the same lines the
+// panel's trackSceneProgress reads; kept per job so /api/jobs reports which scenes are finished.
+const SCENE_END_LINE = /^[✓✗•] scene[- ](\d+)/;
+// A job outlives a dropped stream, so writes after the browser left are skipped, not errors.
+const sseSend = (res, event, data) => {
+  const job = event === 'log' ? jobByRes.get(res) : null;
+  if (job) {
+    job.lastLog = String(data);
+    const end = SCENE_END_LINE.exec(job.lastLog);
+    if (end) job.done.add(Number(end[1]));
+  }
+  if (res.destroyed || res.writableEnded) return;
+  res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+};
 
 // Run generate-puppet-references.mjs (optionally for one character id) and stream its log.
 // Resolves once the child has exited.
@@ -465,7 +554,7 @@ const streamPuppets = (res, args, startMsg) => new Promise((resolve) => {
   pipe(child.stdout);
   pipe(child.stderr);
   child.on('close', (code) => { sseSend(res, code === 0 ? 'done' : 'error', code === 0 ? 'Puppet reference(s) generated.' : `Exited with code ${code}`); res.end(); resolve(); });
-  disconnectSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
+  cancelSignal(res).addEventListener('abort', () => { if (!child.killed) child.kill(); });
 });
 
 // Run shell steps in order, streaming each step's log; stop at the first non-zero exit.
@@ -473,7 +562,7 @@ const streamPuppets = (res, args, startMsg) => new Promise((resolve) => {
 const runSteps = (res, steps, doneMsg) => {
   sseHead(res);
   let current = null;
-  const signal = disconnectSignal(res);
+  const signal = cancelSignal(res);
   signal.addEventListener('abort', () => { if (current && !current.killed) current.kill(); });
   return (async () => {
     for (const step of steps) {
@@ -499,7 +588,7 @@ const runSteps = (res, steps, doneMsg) => {
 // stops the scene in flight too (its provider call is cancelled and its image never written).
 const generateImagesBatch = async (res, sceneNos, model) => {
   sseHead(res);
-  const signal = disconnectSignal(res);
+  const signal = cancelSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
@@ -530,7 +619,7 @@ const generateImagesBatch = async (res, sceneNos, model) => {
 // provider call is cancelled and its clip never written); clips finished before it are kept.
 const generateMotionVideosBatch = async (res, sceneNos, model) => {
   sseHead(res);
-  const signal = disconnectSignal(res);
+  const signal = cancelSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
@@ -585,7 +674,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
 // end so every written prompt shows up together.
 const generatePromptsBatch = async (res, sceneNos) => {
   sseHead(res);
-  const signal = disconnectSignal(res);
+  const signal = cancelSignal(res);
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
@@ -641,6 +730,126 @@ const buildNewPlan = ({ slug, title, plan }) => {
   return { text: heading || !pasted ? base.replace(/^#\s+.*$/m, `# ${heading || slug}`) : base };
 };
 
+// Checks shared by both ways to start a project (blank/pasted plan, AI writer), run before any
+// work so a bad slug never costs an LLM run. `slug` may be absent: the AI writer derives one.
+// Returns an error message or null.
+const newProjectError = ({ slug, aspect, template, voice }) => {
+  if (slug !== undefined && !isValidSlug(slug)) return 'slug must be lowercase letters, numbers and hyphens';
+  if (slug !== undefined && existsSync(projectPaths(slug).planMd)) return `project "${slug}" already exists`;
+  if (aspect !== undefined && !Object.hasOwn(ASPECTS, aspect)) return `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}`;
+  if (template !== undefined && !listTemplateVersions().includes(template)) return `không có style version "${template}"`;
+  if (voice !== undefined && !isValidVoiceName(voice)) return `tên giọng đọc không hợp lệ: "${voice}"`;
+  return null;
+};
+
+// Write a checked new project: its folders, then its scene-plan.md (see buildNewPlan) with the
+// header lines. The plan is written last and lands in one rename: listProjects() keys on
+// scene-plan.md, so a project only appears once it is complete. Throws when the plan is unusable.
+const writeNewProject = ({ slug, title, aspect, template, voice, plan }) => {
+  const target = projectPaths(slug);
+  const content = buildNewPlan({ slug, title, plan });
+  if (content.error) throw new Error(content.error);
+  ensureProjectDirs(target);
+  const draft = `${target.planMd}.tmp`;
+  writeFileSync(draft, content.text);
+  if (aspect) writePlanHeader(draft, 'aspect', aspect);
+  if (template) writePlanHeader(draft, 'template', template);
+  if (voice) writePlanHeader(draft, 'voice', voice);
+  renameSync(draft, target.planMd);
+  return target;
+};
+
+// ---- AI script writer (POST /api/script-generate) ----------------------------------------
+const MAX_SCRIPT_REQUEST = 4000;
+
+// A /api/script-generate body → the checked input, or { error }.
+const scriptRequestInput = (body) => {
+  const request = typeof body.request === 'string' ? body.request.trim() : '';
+  if (!request) return { error: 'Nhập yêu cầu video.' };
+  if (request.length > MAX_SCRIPT_REQUEST) return { error: `Yêu cầu dài quá ${MAX_SCRIPT_REQUEST} ký tự.` };
+  const sceneCount = Number(body.sceneCount);
+  if (!Number.isInteger(sceneCount) || sceneCount < SCENE_COUNT_MIN || sceneCount > SCENE_COUNT_MAX) {
+    return { error: `Số scene phải từ ${SCENE_COUNT_MIN} đến ${SCENE_COUNT_MAX}.` };
+  }
+  // One line each: the title becomes the plan's `# heading`, where a newline would start a block.
+  const optional = (value) => (typeof value === 'string' && value.trim() ? value.replace(/\s+/g, ' ').trim() : undefined);
+  const input = {
+    request, sceneCount,
+    slug: optional(body.slug), title: optional(body.title),
+    aspect: optional(body.aspect), template: optional(body.template), voice: optional(body.voice),
+  };
+  const error = newProjectError(input);
+  return error ? { error } : input;
+};
+
+// The writer's slug, made free of existing projects: "x", then "x-2", "x-3"…
+const freeSlug = (base) => {
+  for (let n = 1; ; n++) {
+    const slug = n === 1 ? base : `${base}-${n}`;
+    if (!existsSync(projectPaths(slug).planMd)) return slug;
+  }
+};
+
+// profile.json for a character the writer cast, in the hand-written profiles' shape. The drawing
+// description goes to `interpretation`, which the character-image dialog starts from.
+const castProfile = (c, reference) => ({
+  character_id: c.id, name: c.name, display_name: c.display_name, aliases: c.aliases,
+  country: c.country, period: c.period, dynasty: c.dynasty, role: c.role,
+  known_facts: c.known_facts, interpretation: c.appearance, unknowns: [], reference,
+});
+
+// Write the whole video with the LLM, then make it a new active project. Nothing touches disk
+// until the script is complete, and the profiles go in before the plan that makes the project
+// exist (writeNewProject), so a cancel or a failure leaves no half-made project in the list. The
+// write itself is not cancelled — the panel resyncs from /api/state after any unfinished run.
+// Runs as a tracked job, so `activeJobs` is at least 1 here; any more means another client
+// started a job meanwhile, and switching projects under it would land its files in this one.
+const generateScriptProject = async (res, input) => {
+  sseHead(res);
+  const signal = cancelSignal(res);
+  const log = (line) => sseSend(res, 'log', line);
+  try {
+    const { story, visuals } = await writeVideo({
+      request: input.request, sceneCount: input.sceneCount, signal, onLog: log,
+      onProgress: (progress) => sseSend(res, 'progress', progress),
+    });
+    // Checked again now: the minutes the LLM took are long enough for the slug to be taken.
+    const slug = freeSlug(input.slug ?? story.slug);
+    if (input.slug && slug !== input.slug) log(`• Slug "${input.slug}" vừa có dự án khác dùng — đặt là "${slug}"`);
+    const target = projectPaths(slug);
+    const refPath = (id) => join(target.charDir, `${id}.jpg`);
+    const plan = renderScenePlan({
+      title: story.title,
+      characters: Object.fromEntries(story.characters.map((c) => [c.id, refPath(c.id)])),
+      scenes: story.scenes.map((s) => ({
+        scene: s.scene, cue: s.cue, char: s.chars.join(', '), narration: s.narration,
+        ...visuals.get(s.scene), // prompt, prompt_vi, motion, motion_vi — absent when its batch failed
+      })),
+    });
+    signal.throwIfAborted();
+    sseSend(res, 'progress', { phase: 'create' });
+    log(`▶ Tạo dự án ${slug}…`);
+    for (const c of story.characters) {
+      mkdirSync(join(target.profilesDir, c.id), { recursive: true });
+      writeFileSync(join(target.profilesDir, c.id, 'profile.json'), `${JSON.stringify(castProfile(c, refPath(c.id)), null, 2)}\n`);
+    }
+    writeNewProject({ ...input, slug, plan });
+    const activated = activeJobs === 1;
+    if (activated) await activateProject(slug);
+    else log(`• Đang có job khác chạy — chưa mở "${slug}"; chọn nó ở danh sách dự án khi job xong`);
+    sseSend(res, 'done', {
+      slug,
+      activated,
+      scenes: story.scenes.length,
+      characters: story.characters.length,
+      missingPrompts: story.scenes.filter((s) => !visuals.has(s.scene)).map((s) => s.scene),
+    });
+  } catch (error) {
+    if (!signal.aborted) sseSend(res, 'error', error.message);
+  }
+  res.end();
+};
+
 // The prompt-template version is one global setting, but projects use different styles (chibi,
 // pixar, flat…). A project records its style as a `template:` header line, and becoming active
 // re-activates that version so its images keep their look. A project without the line (or naming
@@ -681,6 +890,24 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'GET' && pathname === '/api/state') {
       sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/jobs') {
+      const list = [...jobs.values()].map(({ id, label, kind, scenes, done, lastLog, startedAt }) => ({
+        id, label, kind, scenes, done: [...done], lastLog, startedAt,
+      }));
+      sendJson(res, 200, { jobs: list });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/cancel') {
+      const { id } = await readBody(req);
+      if (typeof id !== 'string' || !id) { sendJson(res, 400, { error: 'id required' }); return; }
+      const job = jobs.get(id);
+      if (job) job.controller.abort();
+      else earlyCancels.add(id);
+      sendJson(res, 200, { ok: true, found: Boolean(job) });
       return;
     }
 
@@ -726,21 +953,40 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/project-create') {
-      const { slug, title, aspect, template, plan } = await readBody(req);
+      const { slug, title, aspect, template, voice, plan } = await readBody(req);
       if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
-      if (!isValidSlug(slug)) { sendJson(res, 400, { error: 'slug must be lowercase letters, numbers and hyphens' }); return; }
-      const target = projectPaths(slug);
-      if (existsSync(target.planMd)) { sendJson(res, 400, { error: `project "${slug}" already exists` }); return; }
-      if (aspect !== undefined && !ASPECTS[aspect]) { sendJson(res, 400, { error: `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}` }); return; }
-      if (template !== undefined && !listTemplateVersions().includes(template)) { sendJson(res, 400, { error: `không có style version "${template}"` }); return; }
-      const content = buildNewPlan({ slug, title, plan });
-      if (content.error) { sendJson(res, 400, { error: content.error }); return; }
-      mkdirSync(dirname(target.planMd), { recursive: true });
-      writeFileSync(target.planMd, content.text);
-      if (aspect) writePlanHeader(target.planMd, 'aspect', aspect);
-      if (template) writePlanHeader(target.planMd, 'template', template);
-      ensureProjectDirs(target);
+      const error = isValidSlug(slug)
+        ? newProjectError({ slug, aspect, template, voice })
+        : 'slug must be lowercase letters, numbers and hyphens';
+      if (error) { sendJson(res, 400, { error }); return; }
+      try {
+        writeNewProject({ slug, title, aspect, template, voice, plan });
+      } catch (e) {
+        sendJson(res, 400, { error: e.message });
+        return;
+      }
       await activateProject(slug);
+      sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/script-generate') {
+      const input = scriptRequestInput(await readBody(req));
+      if (input.error) { sendJson(res, 400, { error: input.error }); return; }
+      if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
+      trackJob(res, () => generateScriptProject(res, input));
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/voices') {
+      sendJson(res, 200, { ...(await listVoices()), defaultVoice: DEFAULT_VOICE });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/project-voice') {
+      const { voice } = await readBody(req);
+      if (!isValidVoiceName(voice)) { sendJson(res, 400, { error: `tên giọng đọc không hợp lệ: "${voice}"` }); return; }
+      writePlanHeader(P.planMd, 'voice', voice);
       sendJson(res, 200, buildState());
       return;
     }
@@ -1012,18 +1258,90 @@ const server = createServer(async (req, res) => {
       if (!relPath) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
       const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
       if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG or WebP image.' }); return; }
-      const targetPath = relPath.replace(/\.[^.]+$/, '.jpg');
-      const uploadPath = `${targetPath}.upload`;
-      mkdirSync(dirname(targetPath), { recursive: true });
+      const uploadPath = `${relPath}.upload`;
+      mkdirSync(dirname(uploadPath), { recursive: true });
       writeFileSync(uploadPath, buf);
       try {
-        optimizeCharacterImage(uploadPath, targetPath);
+        setCharacterReference(id, relPath, uploadPath);
       } finally {
         if (existsSync(uploadPath)) unlinkSync(uploadPath);
       }
-      if (targetPath !== relPath) {
-        writeCharacterPath(P.planMd, id, targetPath);
+      reparse();
+      sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/character-source') {
+      const id = url.searchParams.get('id');
+      if (!planCharacterPath(id)) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
+      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG or WebP image.' }); return; }
+      mkdirSync(charDraftDir(), { recursive: true });
+      const path = charSourcePath(id);
+      const uploadPath = `${path}.upload`;
+      writeFileSync(uploadPath, buf);
+      try {
+        optimizeSourceImage(uploadPath, path);
+      } catch {
+        sendJson(res, 400, { error: 'Không đọc được ảnh này — thử file JPEG/PNG khác.' });
+        return;
+      } finally {
+        unlinkSync(uploadPath);
       }
+      sendJson(res, 200, { ok: true, sourceUrl: charDraftUrl(path) });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/character-generate') {
+      // Draws a draft only; /api/character-apply makes it the reference, so a bad result never
+      // replaces a good reference.
+      const { id, model, description = '', source } = await readBody(req);
+      const relPath = planCharacterPath(id);
+      if (!relPath) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      if (typeof model !== 'string' || !model.trim()) { sendJson(res, 400, { error: 'Chọn model ảnh.' }); return; }
+      if (typeof description !== 'string' || description.length > MAX_CHARACTER_DESCRIPTION) {
+        sendJson(res, 400, { error: `Mô tả tối đa ${MAX_CHARACTER_DESCRIPTION} ký tự.` });
+        return;
+      }
+      if (source && !['upload', 'current'].includes(source)) { sendJson(res, 400, { error: "source must be 'upload' or 'current'" }); return; }
+      const sourcePath = { upload: charSourcePath(id), current: relPath }[source];
+      if (source && !existsSync(sourcePath)) { sendJson(res, 400, { error: source === 'upload' ? 'Chưa có ảnh nguồn — chọn ảnh trước.' : 'Nhân vật chưa có ảnh tham chiếu.' }); return; }
+      if (!sourcePath && !description.trim()) { sendJson(res, 400, { error: 'Nhập mô tả nhân vật.' }); return; }
+      sseHead(res);
+      const signal = cancelSignal(res);
+      const outPath = charDraftPath(id);
+      await trackJob(res, async () => {
+        try {
+          mkdirSync(charDraftDir(), { recursive: true });
+          await generateCharacterImage({
+            description: description.trim(), sourcePath, model: model.trim(), outPath, signal,
+            onLog: (line) => sseSend(res, 'log', line),
+          });
+          sseSend(res, 'done', { message: `Đã tạo ảnh nháp cho "${id}".`, draftUrl: charDraftUrl(outPath) });
+        } catch (e) {
+          if (signal.aborted) { console.log(`[character ${id}] cancelled`); return; }
+          sseSend(res, 'error', e.message);
+        }
+      });
+      res.end();
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/character-apply') {
+      const { id, from = 'draft' } = await readBody(req);
+      const relPath = planCharacterPath(id);
+      if (!relPath) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      if (!['draft', 'source'].includes(from)) { sendJson(res, 400, { error: "from must be 'draft' or 'source'" }); return; }
+      const image = from === 'source' ? charSourcePath(id) : charDraftPath(id);
+      if (!existsSync(image)) {
+        sendJson(res, 400, { error: from === 'source' ? 'Chưa có ảnh nguồn để áp dụng.' : 'Chưa có ảnh nháp để áp dụng.' });
+        return;
+      }
+      // The reference it replaces may be the user's own upload: keep it beside it as <file>.bak.
+      if (existsSync(relPath)) copyFileSync(relPath, `${relPath}.bak`);
+      setCharacterReference(id, relPath, image, 'pad');
+      // Either way the dialog's work is done: neither a leftover draft nor source is reused later.
+      for (const leftover of [charDraftPath(id), charSourcePath(id)]) if (existsSync(leftover)) unlinkSync(leftover);
       reparse();
       sendJson(res, 200, buildState());
       return;
@@ -1054,7 +1372,7 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/generate-puppets') {
       const { id } = await readBody(req);
       const args = id ? [String(id)] : [];
-      trackJob(() => streamPuppets(res, args, id ? `Generating puppet for ${id}...` : 'Generating puppet references for every character...'));
+      trackJob(res, () => streamPuppets(res, args, id ? `Generating puppet for ${id}...` : 'Generating puppet references for every character...'));
       return;
     }
 
@@ -1069,7 +1387,7 @@ const server = createServer(async (req, res) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      await trackJob(async () => {
+      await trackJob(res, async () => {
         const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
         writeSceneField(P.planMd, scene, 'prompt', text);
         writeSceneField(P.planMd, scene, 'prompt_vi', vi);
@@ -1086,7 +1404,7 @@ const server = createServer(async (req, res) => {
       const { scenes } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      trackJob(() => generatePromptsBatch(res, list));
+      trackJob(res, () => generatePromptsBatch(res, list));
       return;
     }
 
@@ -1101,8 +1419,8 @@ const server = createServer(async (req, res) => {
       if (!target.image.prompt) { sendJson(res, 400, { error: `scene ${scene} has no prompt yet` }); return; }
       sseHead(res);
       const log = (line) => { console.log(`[image scene ${scene}] ${line}`); sseSend(res, 'log', line); };
-      const signal = disconnectSignal(res);
-      await trackJob(async () => {
+      const signal = cancelSignal(res);
+      await trackJob(res, async () => {
         try {
           log(`▶ generating scene ${scene}${model ? ` (model=${model})` : ' (auto route by reference count)'}`);
           backupImage(scene); // snapshot the current image so /api/undo can restore it
@@ -1180,7 +1498,7 @@ const server = createServer(async (req, res) => {
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
       if (!target.narration) { sendJson(res, 400, { error: `scene ${scene} has no narration` }); return; }
-      trackJob(() => streamNarration(res, [String(scene)], `Generating audio for scene ${scene}...`));
+      trackJob(res, () => streamNarration(res, [String(scene)], `Generating audio for scene ${scene}...`));
       return;
     }
 
@@ -1189,7 +1507,7 @@ const server = createServer(async (req, res) => {
       const { scenes } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      trackJob(() => streamNarration(res, list.map(String), `Generating audio for scenes ${list.join(', ')}...`));
+      trackJob(res, () => streamNarration(res, list.map(String), `Generating audio for scenes ${list.join(', ')}...`));
       return;
     }
 
@@ -1198,7 +1516,7 @@ const server = createServer(async (req, res) => {
       const { scenes, model } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      trackJob(() => generateImagesBatch(res, list, model));
+      trackJob(res, () => generateImagesBatch(res, list, model));
       return;
     }
 
@@ -1206,13 +1524,13 @@ const server = createServer(async (req, res) => {
       const { scenes, model } = await readBody(req);
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
-      trackJob(() => generateMotionVideosBatch(res, list, model));
+      trackJob(res, () => generateMotionVideosBatch(res, list, model));
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/approve') {
       // Stream generate-narration.mjs (all scenes) to the browser as it runs (SSE).
-      trackJob(() => streamNarration(res, [], 'Approved. Generating narration audio (all scenes)...'));
+      trackJob(res, () => streamNarration(res, [], 'Approved. Generating narration audio (all scenes)...'));
       return;
     }
 
@@ -1233,7 +1551,7 @@ const server = createServer(async (req, res) => {
         return;
       }
       mkdirSync(P.outDir, { recursive: true });
-      trackJob(() => runSteps(res, [
+      trackJob(res, () => runSteps(res, [
         { label: 'Audit assets', cmd: 'node', args: [join(HERE, 'check-assets.mjs')] },
         // Rebuild this project's Remotion bundle (measures audio + aligns captions into
         // src/projects-data/<slug>.json). The composition id is the active project's slug.
@@ -1309,8 +1627,8 @@ const server = createServer(async (req, res) => {
       } catch (e) { sendJson(res, 500, { error: `ffprobe failed: ${e.message}` }); return; }
       sseHead(res);
       const log = (line) => { console.log(`[motion-video scene ${scene}] ${line}`); sseSend(res, 'log', line); };
-      const signal = disconnectSignal(res);
-      await trackJob(async () => {
+      const signal = cancelSignal(res);
+      await trackJob(res, async () => {
         try {
           const motionPrompt = prompt || sceneMotionPrompt(target);
           log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);

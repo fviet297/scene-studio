@@ -9,6 +9,8 @@ import { spawn } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { baseUrl as museBaseUrl } from './muse-client.mjs';
+// generate-narration.mjs connects to ws://127.0.0.1:8765/ws, so OmniVoice must listen there.
+import { OMNIVOICE_PORT, omnivoiceDir } from './omnivoice-client.mjs';
 
 const LOG_DIR = 'tmp/services';
 const HEALTH_TIMEOUT_MS = 1500;
@@ -16,13 +18,11 @@ const HEALTH_TIMEOUT_MS = 1500;
 const STOP_GRACE_MS = 20000;
 const KILL_GRACE_MS = 5000;
 const LOG_TAIL_CHARS = 1200;
-// generate-narration.mjs connects to ws://127.0.0.1:8765/ws, so OmniVoice must listen there.
-const OMNIVOICE_PORT = 8765;
 
 const SERVICES = {
   omnivoice: {
     label: 'OmniVoice',
-    dir: () => resolve(process.env.OMNIVOICE_DIR ?? '../omnivoice-tool'),
+    dir: omnivoiceDir,
     python: (dir) => join(dir, '.venv/bin/python'),
     // Same as tool/start_omnivoice_server.sh menu option 1 (GPU + Whisper), offline model cache.
     args: () => ['tool/ws_omnivoice_server.py', '--port', String(OMNIVOICE_PORT)],

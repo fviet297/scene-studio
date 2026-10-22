@@ -3,212 +3,98 @@
     "id": "scene-01",
     "scene": 1,
     "type": "ai_reconstruction",
-    "subject": "A sweeping aerial establishing shot of late-18th-century Gia Định: winding brown",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "subject": "Dawn on the stone-faced ramparts of Do Ban citadel at Quy Nhon, 1787: the comman",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A sweeping aerial establishing shot of late-18th-century Gia Định: winding brown rivers, nipa palms, wooden river settlements, distant smoke above a fortified town, humid dawn haze."
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Dawn on the stone-faced ramparts of Do Ban citadel at Quy Nhon, 1787: the commander stands at the battlements, hands on the parapet, looking down at the watchfires of the besieging camps. Setting: late-18th-century Đại Việt, thick brick-and-stone walls, a gate tower with a curved dark-tiled roof, a corner bastion. Behind him weary Tây Sơn guards in quilted tunics crouch low against the wall with spears and rattan shields, all with East-Asian faces. Foreground parapet and a smoking brazier, middle ground the crouching guards, background a dark plain dotted with enemy campfires and drifting smoke under a cold sunrise. Wide low-angle shot, diagonal composition. No Qing costume, no Nguyễn-dynasty court dress, no European castle or Japanese architecture."
   },
   {
     "id": "scene-02",
     "scene": 2,
     "type": "ai_reconstruction",
-    "subject": "Late-18th-century Nguyễn retainers watching distant movement on the river from a",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "subject": "1771, dusty village ground at Tay Son, Binh Dinh: the first character on the lef",
+    "source": "AI generated (muse2api, muse:muse-image multi-char ×2)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "credit": "AI reconstruction (muse:muse-image multi-char ×2)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Late-18th-century Nguyễn retainers watching distant movement on the river from a shaded riverside house, packed travel bundles ready, an uncertain and tense atmosphere, no active combat."
+    "characters": [
+      "char-b",
+      "char-a"
+    ],
+    "prompt": "1771, dusty village ground at Tay Son, Binh Dinh: the first character on the left drives a bamboo pole into the earth, a torn red banner snapping above it; the second character on the right, sword in hand, waves farmers and woodcutters into a ragged line behind him. Late-18th-century Đại Việt: trampled clay yard, bamboo hedges, thatched timber cottages on low stilts. Recruits in plain brown hempen tunics carry billhooks, carrying poles and a few spears, all with East-Asian faces. Foreground dust and fallen banner cloth, middle ground the forming line, background village roofs and blue hills. No Qing costume, no Chinese imperial banners, no European clothing or architecture."
   },
   {
     "id": "scene-03",
     "scene": 3,
     "type": "ai_reconstruction",
-    "subject": "Character introduction of Nguyễn Ánh at age 15, a slender Vietnamese teenager wi",
+    "subject": "1778, the audience hall of Do Ban citadel: the ruler lowers himself onto a newly",
     "source": "AI generated (muse2api, muse:muse-image char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
     "credit": "AI reconstruction (muse:muse-image char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
     "characters": [
-      "char-a"
+      "char-b"
     ],
-    "prompt": "Character introduction of Nguyễn Ánh at age 15, a slender Vietnamese teenager with an oval face, dark eyes and black hair tied in a simple topknot, wearing a dark indigo cross-collar robe and plain sash, standing in a wooden riverside residence."
-  },
-  {
-    "id": "scene-04",
-    "scene": 4,
-    "type": "ai_reconstruction",
-    "subject": "Inside a modest 18th-century wooden hall, southern Vietnamese officials examine ",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Inside a modest 18th-century wooden hall, southern Vietnamese officials examine a hand-drawn river map by oil lamp, anxious faces, simple lacquered furnishings, no readable text."
-  },
-  {
-    "id": "scene-05",
-    "scene": 5,
-    "type": "ai_reconstruction",
-    "subject": "Distant wooden vessels appearing through humid river haze while a few small fami",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Distant wooden vessels appearing through humid river haze while a few small family boats quietly pull away from the bank, the feeling of a route closing, no active combat."
+    "prompt": "1778, the audience hall of Do Ban citadel: the ruler lowers himself onto a newly built throne of dark lacquered wood while rows of officials in dark robes bow, one stepping forward to hold out a lacquered box of seals. Setting: late-18th-century Đại Việt, a plain timber hall with stout round columns, a low dark-tiled roof and a brick floor, side doors open to a sunlit courtyard. Vietnamese officials wear dark robes and simple black caps, all with East-Asian faces; guards with spears stand along the walls. Foreground bowed backs, middle ground the seal box, background the throne dais and columns. Medium-wide diagonal framing. No Qing queue or Qing costume, no Nguyễn-dynasty dress, no European or Japanese architecture."
   },
   {
     "id": "scene-06",
     "scene": 6,
     "type": "ai_reconstruction",
-    "subject": "A quiet late-18th-century river post after its defenders have begun to leave, ab",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "subject": "Inside a lamp-lit timber hall of the Thang Long palace, 1786: Nguyen Hue stands ",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A quiet late-18th-century river post after its defenders have begun to leave, abandoned baskets and rolled mats beside a wooden watch platform, distant smoke only, no active combat."
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "Inside a lamp-lit timber hall of the Thang Long palace, 1786: Nguyen Hue stands beside a veiled bride in layered red silk, one hand at the edge of a long silk scroll that an elderly Le court official unrolls and reads aloud, the official's other hand lifted. Setting: late-18th-century Đại Việt — red-lacquered columns, carved lattice shutters, dark tiled eaves, brass oil lamps. Behind, rows of Le officials bow slightly, Vietnamese with East-Asian faces in dark late-18th-century court robes and plain caps, one holding a lacquered box. Foreground lamp flame, mid-ground scroll, background ranked silhouettes. No Qing costume, no Nguyễn-dynasty dress, no European architecture."
   },
   {
     "id": "scene-07",
     "scene": 7,
     "type": "ai_reconstruction",
-    "subject": "Small wooden transport boats leaving a riverside settlement at dusk, household b",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "subject": "In the council hall of the Do Ban citadel at Quy Nhon, dusk 1787: Nguyen Nhac st",
+    "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "credit": "AI reconstruction (meta:muse-image-1.0 char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Small wooden transport boats leaving a riverside settlement at dusk, household bundles and a few attendants aboard, distant smoke and silhouettes on the horizon, understated historical realism."
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "In the council hall of the Do Ban citadel at Quy Nhon, dusk 1787: Nguyen Nhac stands over the mat floor and hurls a folded paper report down, arm flung out, shouting at his seated generals, and one of them leans forward to pick it up. Setting: late-18th-century Đại Việt citadel — brick walls, stout timber posts, dark tiled eaves, woven rattan mats, iron oil lamps, dusk light through lattice windows. Seated Tay Son commanders with East-Asian faces in late-18th-century Vietnamese tunics and simple iron helmets, two half-risen from the mat. Foreground fallen report, mid-ground shouting figure, background lamp-lit brick wall. No Qing costume, no Nguyễn-dynasty dress, no European furniture."
   },
   {
     "id": "scene-08",
     "scene": 8,
     "type": "ai_reconstruction",
-    "subject": "A quiet late-18th-century Mekong Delta waterways scene near Long Xuyên, a few ex",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "subject": "Noon on a narrow pass in the Truong Son foothills, 1787: Nguyen Nhac rides at th",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
     "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A quiet late-18th-century Mekong Delta waterways scene near Long Xuyên, a few exhausted boats moving between reeds and low riverbanks, overcast tropical light, historically inspired."
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Noon on a narrow pass in the Truong Son foothills, 1787: Nguyen Nhac rides at the head of a long column of Tay Son infantry winding north on the road to Phu Xuan, two war elephants with timber howdahs behind him, dust rising. Setting: late-18th-century Đại Việt — steep fern-covered slopes, red earth track, bamboo groves, dry grass. The infantry have East-Asian faces and wear late-18th-century Vietnamese quilted tunics with spears, rattan shields and crossbows, under dull cloth banners. Foreground dust and lowered pike points, mid-ground rider, background column shrinking into haze. No Qing armour, no Nguyễn-dynasty dress, no Chinese fortress gate."
   },
   {
     "id": "scene-09",
     "scene": 9,
     "type": "ai_reconstruction",
-    "subject": "An emptied late-18th-century temporary court encampment, an abandoned wooden sea",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "An emptied late-18th-century temporary court encampment, an abandoned wooden seat and ceremonial cloth left behind, a few distant figures leaving the grounds, no bodies or graphic detail."
-  },
-  {
-    "id": "scene-10",
-    "scene": 10,
-    "type": "ai_reconstruction",
-    "subject": "A small riverside refuge near Long Xuyên, attendants hurriedly tying bundles to ",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A small riverside refuge near Long Xuyên, attendants hurriedly tying bundles to a modest wooden boat while looking back toward the tree line, no active combat."
-  },
-  {
-    "id": "scene-11",
-    "scene": 11,
-    "type": "ai_reconstruction",
-    "subject": "A teenage Nguyễn Ánh seen from behind at the edge of a reed-filled river channel",
-    "source": "AI generated (muse2api, muse:muse-image char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "A teenage Nguyễn Ánh seen from behind at the edge of a reed-filled river channel, isolated against the vast wetland, distant search boats blurred by mist, tense but non-violent cinematic composition."
-  },
-  {
-    "id": "scene-12",
-    "scene": 12,
-    "type": "ai_reconstruction",
-    "subject": "A small concealed shelter among mangrove roots at night, a young Vietnamese nobl",
-    "source": "AI generated (muse2api, muse:muse-image char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "A small concealed shelter among mangrove roots at night, a young Vietnamese noble crouched in shadow, moonlight on water, no dramatic fantasy elements, quiet historical realism."
-  },
-  {
-    "id": "scene-13",
-    "scene": 13,
-    "type": "ai_reconstruction",
-    "subject": "Narrow Mekong Delta creek at blue hour, a small period wooden skiff moving betwe",
-    "source": "AI generated (muse2api, muse:muse-image char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Narrow Mekong Delta creek at blue hour, a small period wooden skiff moving between nipa palms and mangrove roots, one young passenger kept mostly in silhouette."
-  },
-  {
-    "id": "scene-14",
-    "scene": 14,
-    "type": "ai_reconstruction",
-    "subject": "Close portrait of teenage Nguyễn Ánh in dim natural light, tired eyes, damp indi",
-    "source": "AI generated (muse2api, muse:muse-image char-lock)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image char-lock)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [
-      "char-a"
-    ],
-    "prompt": "Close portrait of teenage Nguyễn Ánh in dim natural light, tired eyes, damp indigo robe, restrained emotion, historically inspired rather than an exact authenticated portrait."
-  },
-  {
-    "id": "scene-15",
-    "scene": 15,
-    "type": "ai_reconstruction",
-    "subject": "Early morning at a modest Long Xuyên river landing, a small boat arrives through",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Early morning at a modest Long Xuyên river landing, a small boat arrives through mist and a few wary former Nguyễn retainers wait beneath a thatched shelter."
-  },
-  {
-    "id": "scene-16",
-    "scene": 16,
-    "type": "ai_reconstruction",
-    "subject": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched rivers",
+    "subject": "Dawn on the road north of Phu Xuan, 1787: Nguyen Hue rides at the rear of his co",
     "source": "AI generated (Meta, meta:muse-image-1.0 char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -217,52 +103,13 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched riverside roof, plain clothing, maps and travel bundles, young Nguyễn Ánh seated without a crown or imperial regalia."
+    "prompt": "Dawn on the road north of Phu Xuan, 1787: Nguyen Hue rides at the rear of his column over a plank timber bridge across a muddy stream, reins loose in one hand, head turned back toward the mist-covered brick citadel walls behind him. Setting: late-18th-century Đại Việt — paddy fields, bamboo clumps, white river fog, low dark-tiled roofs. Ahead of him Tay Son infantry with East-Asian faces in late-18th-century Vietnamese tunics file away with spears and rattan shields, cloth banners hanging limp in the damp. Foreground wet bridge planks, mid-ground rider, background misted ramparts. No Qing costume, no Nguyễn-dynasty dress, no European iron bridge."
   },
   {
-    "id": "scene-17",
-    "scene": 17,
+    "id": "scene-10",
+    "scene": 10,
     "type": "ai_reconstruction",
-    "subject": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying r",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying retainers, woven cargo baskets, broad river and palm-lined banks under pale morning sun."
-  },
-  {
-    "id": "scene-18",
-    "scene": 18,
-    "type": "ai_reconstruction",
-    "subject": "A practical riverside encampment with boat crews repairing wooden hulls, messeng",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A practical riverside encampment with boat crews repairing wooden hulls, messengers arriving, period maps spread on a low table, southern Vietnamese wetlands in the background."
-  },
-  {
-    "id": "scene-19",
-    "scene": 19,
-    "type": "ai_reconstruction",
-    "subject": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ ",
-    "source": "AI generated (muse2api, muse:muse-image text2img)",
-    "sourceUrl": null,
-    "license": "AI-generated — no third-party rights; labelled on screen",
-    "credit": "AI reconstruction (muse:muse-image text2img)",
-    "authenticity": "AI_RECONSTRUCTION",
-    "characters": [],
-    "prompt": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ at dusk, cautious faces and a nearly empty riverbank, showing a fragile return rather than battle."
-  },
-  {
-    "id": "scene-20",
-    "scene": 20,
-    "type": "ai_reconstruction",
-    "subject": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired ",
+    "subject": "Dusk over flooded rice fields outside Quy Nhon, 1787: Nguyen Hue sits his horse ",
     "source": "AI generated (muse2api, muse:muse-image char-lock)",
     "sourceUrl": null,
     "license": "AI-generated — no third-party rights; labelled on screen",
@@ -271,6 +118,142 @@
     "characters": [
       "char-a"
     ],
-    "prompt": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired war boats behind him and a small flotilla beginning to depart toward a distant fortified settlement, uncertain horizon, no crown or later imperial costume."
+    "prompt": "Dusk over flooded rice fields outside Quy Nhon, 1787: Nguyen Hue sits his horse on a paddy bund watching his infantry advance in a loose line with levelled spears, while the last enemy rearguard splashes across a shallow river and scrambles up the far bank. Setting: late-18th-century Đại Việt — flooded terraces, banana clumps, timber water gates, red sunset haze. Both forces are Tay Son Vietnamese with East-Asian faces in late-18th-century quilted tunics with rattan shields and cloth banners; the retreating men are seen only from behind at distance, faces not readable. Foreground paddy water, mid-ground rider, background far bank. No Qing armour, no Nguyễn-dynasty dress, no European uniforms."
+  },
+  {
+    "id": "scene-11",
+    "scene": 11,
+    "type": "ai_reconstruction",
+    "subject": "By lamplight in a storeroom of the besieged Do Ban citadel, Nguyen Nhac crouches",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "By lamplight in a storeroom of the besieged Do Ban citadel, Nguyen Nhac crouches over nearly empty rice baskets, holding a small oil lamp low over them, while a quartermaster kneels beside him lifting a wooden tally board of rations. Late-18th-century Đại Việt under the Tây Sơn: thick laterite-and-brick walls, dark timber rafters, spilled husks, empty sacks and a few clay jars in the foreground, a low doorway onto a torch-lit stone corridor behind. The quartermaster wears a plain indigo short jacket and cloth head-wrap with a Tây Sơn belt, East-Asian face. Warm lamp glow, deep shadows, tense medium framing. No Nguyễn-dynasty court robes, no Qing costume, no European architecture or furniture."
+  },
+  {
+    "id": "scene-12",
+    "scene": 12,
+    "type": "ai_reconstruction",
+    "subject": "Late at night in a small stone room, Nguyen Nhac presses his seal into a pool of",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "Late at night in a small stone room, Nguyen Nhac presses his seal into a pool of hot wax on a folded letter and holds it out to a cloaked messenger waiting at the doorway. Late-18th-century Đại Việt, the Tây Sơn-held Do Ban citadel: rough laterite block walls, a narrow arrow slit, a low brick vault, an iron lamp stand and a writing tray with brush and ink slab on a plank table. The messenger is a lean figure in a dark hooded cloak over a plain brown tunic, Tây Sơn sandals and belt, face shadowed but East-Asian, one hand reaching for the letter. Candle glow, long shadows, medium-close framing with the dark doorway behind. No Nguyễn-dynasty dress, no Qing costume, no European interior."
+  },
+  {
+    "id": "scene-13",
+    "scene": 13,
+    "type": "ai_reconstruction",
+    "subject": "At dawn on the Saigon river, Nguyen Anh stands in the bow of a war junk, one han",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-c"
+    ],
+    "prompt": "At dawn on the Saigon river, Nguyen Anh stands in the bow of a war junk, one hand on the rail, as his paddlers drive the boat toward a fortified riverbank where smoke curls from Tây Sơn watchtowers. Southern Việt Nam, 1788: a wide brown river, mangrove and nipa-palm banks, a bamboo-and-earth stockade with a wooden watchtower ahead, more war junks and small rowing boats behind. The rowers wear plain brown short tunics and woven hats, southern Nguyễn soldiers on the bank carry spears and rattan shields, all with East-Asian faces. Bow spray in the foreground, churning paddles in the middle ground, the burning tower beyond. No Qing costume, no Siamese dress, no European ships or uniforms."
+  },
+  {
+    "id": "scene-14",
+    "scene": 14,
+    "type": "ai_reconstruction",
+    "subject": "On a hilltop outside Quy Nhon at night, Nguyen Hue stands at the flap of his com",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a"
+    ],
+    "prompt": "On a hilltop outside Quy Nhon at night, Nguyen Hue stands at the flap of his command tent watching two lines of messenger torches wind toward the camp from opposite directions along the ridges, while two officers wait behind him. Late-18th-century Đại Việt, Tây Sơn army: a mat-and-canvas command tent on bamboo poles, campfires, tethered horses and stacked spears in the middle ground, the dark plain and the faint watchfires of the besieged citadel far off. The two officers wear Tây Sơn dark tunics, cloth head-wraps and sword belts, East-Asian faces. Cold moonlight against warm torchlight, wide diagonal composition. No Nguyễn-dynasty court dress, no Qing armour, no European tents or firearms."
+  },
+  {
+    "id": "scene-15",
+    "scene": 15,
+    "type": "ai_reconstruction",
+    "subject": "At dawn on a narrow bamboo bridge outside Quy Nhon, the first character, Nguyen ",
+    "source": "AI generated (muse2api, muse:muse-image multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-a",
+      "char-b"
+    ],
+    "prompt": "At dawn on a narrow bamboo bridge outside Quy Nhon, the first character, Nguyen Hue, walks forward from the left and grips the arm of the second character, Nguyen Nhac, who has come from the right; both are unarmed. Their guards halt far back on either bank, Tây Sơn soldiers of 1788 in dark tunics and cloth head-wraps with spears and rattan shields, all with East-Asian faces. Behind them: two palisaded camps, mist over flooded rice fields, a wooden gate tower. Soft grey dawn light, wide low angle, the bridge crossing the frame diagonally. No Nguyễn-dynasty court robes, no Qing costume, no European bridge or architecture."
+  },
+  {
+    "id": "scene-16",
+    "scene": 16,
+    "type": "ai_reconstruction",
+    "subject": "Midday at the arched stone gate of Do Ban citadel, 1788 Đại Việt: the first char",
+    "source": "AI generated (muse2api, muse:muse-image multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b",
+      "char-a"
+    ],
+    "prompt": "Midday at the arched stone gate of Do Ban citadel, 1788 Đại Việt: the first character stands left of a carved granite boundary stone, the second character stands right of it, each with one hand on the stone, an official in a dark robe between them reading aloud from an unrolled sheet. Behind each man, Tây Sơn spearmen in quilted tunics with rattan shields and East-Asian faces look on; a brick rampart and low dark-tiled gatehouse rise behind. Wide diagonal framing, hard noon light, dust in the air. No Qing armour or queues, no 19th-century Nguyễn dress, no European stonework, no Siamese troops."
+  },
+  {
+    "id": "scene-18",
+    "scene": 18,
+    "type": "ai_reconstruction",
+    "subject": "A quiet morning in the smaller audience hall at Quy Nhon: the character sits alo",
+    "source": "AI generated (muse2api, muse:muse-image char-lock)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image char-lock)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b"
+    ],
+    "prompt": "A quiet morning in the smaller audience hall at Quy Nhon: the character sits alone on a plain dark-wood throne, chin propped on one hand, while two officials in dark robes wait at a distance with folded hands and a servant pushes open the tall shutter panels. Late-18th-century Đại Việt hall: stout round timber columns, carved rafter ends, low dark-tiled eaves, faded crimson hangings. Light from the opening shutters falls across a nearly empty brick courtyard beyond, one bare tree, swept leaves. Wide shot, soft grey morning light. No Qing dress or queues, no 19th-century Nguyễn court costume, no European architecture, no Chinese palace ornament."
+  },
+  {
+    "id": "scene-19",
+    "scene": 19,
+    "type": "ai_reconstruction",
+    "subject": "A muddy road south of Hue in the rain, 1801: a column of exhausted Tây Sơn soldi",
+    "source": "AI generated (muse2api, muse:muse-image text2img)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image text2img)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [],
+    "prompt": "A muddy road south of Hue in the rain, 1801: a column of exhausted Tây Sơn soldiers in soaked quilted tunics and worn conical hats trudges past an overturned wooden cart, one man dragging a limping comrade, spears drooping, a torn banner wrapped round its pole; on the ridge behind, horsemen emerge through the downpour with banners hanging heavy and faces unreadable at distance. Late-18th-century Đại Việt: drowned rice paddies, bamboo hedges, a low brick gatehouse. All figures East-Asian. Wide diagonal framing, flat grey light. No Qing armour or queues, no French colonial troops, no 19th-century Nguyễn court dress, no European buildings."
+  },
+  {
+    "id": "scene-20",
+    "scene": 20,
+    "type": "ai_reconstruction",
+    "subject": "Dusk on the road outside Do Ban citadel, 1788: the first character stands by the",
+    "source": "AI generated (muse2api, muse:muse-image multi-char ×2)",
+    "sourceUrl": null,
+    "license": "AI-generated — no third-party rights; labelled on screen",
+    "credit": "AI reconstruction (muse:muse-image multi-char ×2)",
+    "authenticity": "AI_RECONSTRUCTION",
+    "characters": [
+      "char-b",
+      "char-a"
+    ],
+    "prompt": "Dusk on the road outside Do Ban citadel, 1788: the first character stands by the arched brick gate on the left, one hand flat on the wall, watching; the second character rides at the head of a long column of Tây Sơn infantry filing north past him on the right, dust gilded by the low sun. Late-18th-century Đại Việt: brick citadel wall with a low dark-tiled gatehouse, bamboo hedges, stubble fields. Gate guards and marching troops with East-Asian faces, spears, rattan shields, faded cloth banners. Wide diagonal composition. No Qing armour or queues, no 19th-century Nguyễn dress, no European architecture, no Siamese troops."
   }
 ]

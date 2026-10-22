@@ -115,6 +115,7 @@ button { cursor: pointer; }
 .project-switch { display: flex; align-items: center; gap: 6px; }
 .project-switch .mini { max-width: 220px; }
 .project-switch .aspect-select { width: auto; }
+.project-switch .voice-select { max-width: 180px; text-overflow: ellipsis; }
 
 /* Local service chips: shape + word carry the state (hollow = off, pulsing ring = starting,
    filled = on, red only for a real failure). Only stopped/failed chips are clickable. */
@@ -279,7 +280,7 @@ select.mini.wide { width: 100%; }
   transition: color .15s ease, border-color .15s ease;
 }
 .char-chip:hover { color: var(--text); border-color: #3d454e; }
-.char-actions { display: flex; gap: 4px; margin-top: 3px; }
+.char-actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
 .char-action {
   font-family: var(--sans); font-size: 10px; font-weight: 600; line-height: 1; padding: 4px 7px;
   border-radius: var(--r-ctl); border: 1px solid var(--line); background: var(--surface-3); color: var(--muted);
@@ -780,7 +781,7 @@ body.view-timeline .workbench { display: none; }
 .is-strip .char-id { display: none; }
 .is-strip .char-scenes { flex-wrap: nowrap; gap: 2px; margin: 0; }
 .is-strip .char-chip { padding: 2px 5px; }
-.is-strip .char-actions { gap: 2px; margin: 0; }
+.is-strip .char-actions { flex-wrap: nowrap; gap: 2px; margin: 0; }
 .is-strip .char-action {
   display: grid; place-items: center; width: 22px; height: 22px; padding: 0;
   border-color: transparent; background: transparent;
@@ -803,8 +804,7 @@ body.view-timeline .workbench { display: none; }
 .tl-clips { display: flex; height: 78px; }
 .tl-none { padding: 28px 0; font-size: 12.5px; color: var(--faint); }
 /* Clip width is its duration, so clips sit flush: borders are inside the width, no gaps. The cell
-   carries the width and holds the clip button plus its batch-selection checkbox (an input can't
-   sit inside a button). */
+   carries the width and holds the clip button plus its status pips. */
 .tl-cell { position: relative; flex: none; height: 100%; }
 .tl-clip {
   position: relative; width: 100%; height: 100%; padding: 0; overflow: hidden;
@@ -829,9 +829,9 @@ body.view-timeline .workbench { display: none; }
 .tl-clip.no-image .tl-clip-label { background: none; }
 .tl-clip-label svg { width: 12px; height: 12px; flex: none; color: var(--muted); }
 .tl-clip-dur { margin-left: auto; color: var(--muted); }
-/* Batch selection: checkbox top-left, status pips top-right, an accent wash on the picked clip so
-   selection reads apart from "the clip you are on" (solid accent border). */
-.tl-pick { position: absolute; top: 5px; left: 5px; z-index: 1; margin: 0; }
+/* Batch selection (double-click a clip to pick or drop it): a check badge top-left plus
+   an accent wash, so selection reads apart from "the clip you are on" (solid accent border) and
+   never by colour alone; status pips sit top-right. */
 .tl-cell .pips {
   position: absolute; top: 5px; right: 5px; padding: 3px 4px; pointer-events: none;
   border-radius: var(--r-ctl); background: rgba(7, 8, 10, .76);
@@ -840,6 +840,11 @@ body.view-timeline .workbench { display: none; }
 .tl-cell.selected .tl-clip::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: var(--accent-dim); border-radius: inherit;
+}
+.tl-cell.selected .tl-clip::before {
+  content: "✓"; position: absolute; top: 5px; left: 5px; z-index: 1; display: grid; place-items: center;
+  width: 16px; height: 16px; border-radius: 999px; pointer-events: none;
+  background: var(--accent); color: var(--accent-ink); font: 700 10px/1 var(--mono);
 }
 .tl-playhead {
   position: absolute; top: 0; bottom: 0; left: 0; width: 2px; margin-left: -1px;
@@ -945,3 +950,101 @@ body.view-timeline .workbench { display: none; }
 .brand-badge span { letter-spacing: .14em; padding-left: .14em; line-height: 1; text-shadow: 0 1px 3px rgba(0, 0, 0, .65); }
 .brand-wm span { letter-spacing: .2em; }
 .brand-wm[hidden], .brand-badge[hidden] { display: none; }
+
+/* ---------------------------------------------------------------- shared by the dialogs below */
+
+.np-dialog .field label .note,
+.ci-dialog .field label .note { text-transform: none; letter-spacing: 0; }
+.np-dialog .note, .ci-dialog .note { font-size: 11.5px; color: var(--faint); }
+/* These dialogs change height when their mode changes; anchoring them near the top keeps the head
+   and the mode switch still instead of re-centring the whole box under the cursor. */
+.overlay:has(> .np-dialog), .overlay:has(> .ci-dialog) { align-items: start; padding-top: 8vh; }
+/* On a narrow screen the mode switch drops under the title instead of squeezing its labels. */
+.np-dialog .dialog-head, .ci-dialog .dialog-head { flex-wrap: wrap; }
+#npModes button, #ciModes button { white-space: nowrap; }
+/* A field whose control is a button (no <label for>), styled like the labels around it. */
+.field .field-label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+.dialog-foot .note.is-error { color: var(--danger); }
+.spinner.sm { width: 14px; height: 14px; border-width: 2px; flex: none; }
+
+/* ---------------------------------------------------------------- new project dialog */
+
+/* "Từ yêu cầu (AI)" writes the whole script; the brief gets the room, the run shows its three
+   steps (shape + word per step, never colour alone), elapsed time and the server log. */
+.dialog.np-dialog { width: min(680px, 100%); }
+.np-dialog .field-row { flex-wrap: wrap; }
+.np-dialog .field-row .field { min-width: 150px; }
+.np-ai { display: flex; flex-direction: column; gap: 12px; }
+.np-count-row { display: flex; align-items: center; gap: 10px; }
+.np-count-row .text-input { width: 88px; font-variant-numeric: tabular-nums; }
+
+.np-run {
+  display: flex; flex-direction: column; gap: 10px; padding: 12px;
+  border: 1px solid var(--line-soft); border-radius: var(--r-panel); background: var(--surface-2);
+}
+.np-run-head { display: flex; align-items: center; gap: 9px; min-height: 20px; }
+.np-run-step { font-size: 12.5px; font-weight: 600; color: var(--text); }
+.np-run-time { font-size: 12px; color: var(--muted); }
+.np-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.np-steps li {
+  display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  font-size: 11px; color: var(--faint);
+}
+.np-steps li::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+.np-steps li[data-state="active"] { color: var(--accent); border-color: rgba(72, 183, 166, .4); background: var(--accent-dim); }
+.np-steps li[data-state="active"]::before { background: currentColor; box-shadow: none; animation: pulse 1.1s ease-in-out infinite; }
+.np-steps li[data-state="done"] { color: var(--muted); }
+.np-steps li[data-state="done"]::before { background: var(--accent); box-shadow: none; }
+.np-steps li[data-state="done"]::after {
+  content: "xong"; font-size: 9.5px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
+}
+.np-log {
+  margin: 0; max-height: 168px; overflow-y: auto; padding: 8px 10px;
+  border: 1px solid var(--line-soft); border-radius: var(--r-ctl); background: var(--bg);
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.6; color: #c3cbd3;
+  white-space: pre-wrap; word-break: break-word;
+}
+.np-log:empty { display: none; }
+
+/* ---------------------------------------------------------------- character image dialog */
+
+/* Controls left; the current reference and the new draft side by side on the right, both square
+   like the stored reference, so the face is judged before it replaces anything. */
+.dialog.ci-dialog { width: min(860px, 100%); }
+.ci-body { align-items: start; }
+.ci-controls { display: flex; flex-direction: column; gap: 12px; }
+.ci-controls .segmented { align-self: flex-start; }
+.ci-controls .field textarea { min-height: 112px; }
+
+.ci-source {
+  position: relative; width: 100%; height: 132px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px dashed var(--line); border-radius: var(--r-panel); background: var(--stage);
+  color: var(--faint); font-size: 12px; text-align: center;
+  transition: border-color .15s ease, background .15s ease;
+}
+.ci-source:hover:not(:disabled), .ci-source.dragging { border-color: var(--accent); background: var(--accent-dim); color: var(--text); }
+.ci-source:disabled { cursor: not-allowed; opacity: .6; }
+.ci-source img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; }
+.ci-source-empty { padding: 0 16px; }
+
+.ci-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ci-shot { margin: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ci-shot figcaption {
+  font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); text-align: center;
+}
+.ci-frame {
+  position: relative; aspect-ratio: 1 / 1; overflow: hidden;
+  display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--stage);
+}
+/* The draft slot is dashed until a draft lands, then takes the accent edge. */
+.ci-frame.is-draft { border-style: dashed; }
+.ci-frame.is-draft:has(img:not([hidden])) { border-style: solid; border-color: rgba(72, 183, 166, .55); }
+.ci-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
+.ci-empty { padding: 12px; font-size: 12px; color: var(--faint); text-align: center; }
+.ci-frame .working { padding: 14px; font-size: 11.5px; text-align: center; word-break: break-word; }

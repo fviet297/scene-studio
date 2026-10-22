@@ -20,11 +20,18 @@ const authHeader = () => {
 };
 
 const requestJson = async (path, init, label) => {
-  const response = await fetch(`${baseUrl()}${path}`, {
-    ...init,
-    headers: { ...authHeader(), 'Content-Type': 'application/json', ...init?.headers },
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-  });
+  let response;
+  try {
+    response = await fetch(`${baseUrl()}${path}`, {
+      ...init,
+      headers: { ...authHeader(), 'Content-Type': 'application/json', ...init?.headers },
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+  } catch (error) {
+    if (error.name === 'TimeoutError') throw new Error(`${label}: muse2api không trả lời sau ${REQUEST_TIMEOUT_MS / 1000}s`);
+    // Node reports a refused connection as a bare "fetch failed"; the cause says why.
+    throw new Error(`${label}: không kết nối được muse2api ở ${baseUrl()} (${error.cause?.code ?? error.message}) — bật nó bằng chip "muse2api" trên thanh trên của panel, hoặc chọn model ảnh khác.`);
+  }
   const text = await response.text();
   let json;
   try { json = JSON.parse(text); } catch { throw new Error(`${label}: non-JSON response (HTTP ${response.status}): ${text.slice(0, 300)}`); }
