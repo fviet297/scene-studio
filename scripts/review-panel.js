@@ -2169,6 +2169,19 @@ $("conCancel").addEventListener("click", () => {
       api("/api/cancel", { id: job.id }).catch((e) => toast(e.message, false));
 });
 $("conClearQueue").addEventListener("click", clearQueues);
+$("conCopy").addEventListener("click", async () => {
+  const log = $("conLog").textContent;
+  if (!log.trim()) {
+    toast("Log trống.", false);
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(log);
+    toast("Đã copy log.");
+  } catch {
+    toast("Clipboard không dùng được.", false);
+  }
+});
 
 $("btnTemplates").addEventListener("click", async () => {
   $("tplOverlay").hidden = false;
