@@ -178,9 +178,17 @@ function clipHtml(clip, i) {
         ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
       </span>
     </button>
+    ${showIcon ? editButtonHtml(s) : ""}
     ${showDuration ? pips(s) : ""}
   </div>`;
 }
+
+// Opens this scene in the workbench. A sibling of the clip button (buttons cannot nest), shown on
+// the current clip and on hover/focus so twenty pencils never crowd the strip.
+const TL_ICON_EDIT =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+const editButtonHtml = (s) =>
+  `<button type="button" class="tl-edit" data-scene="${s.scene}" aria-label="Sửa scene ${s.scene}" title="Sửa scene ${s.scene} trong bàn làm việc">${TL_ICON_EDIT}</button>`;
 
 function renderRuler(total) {
   const step =
@@ -223,7 +231,7 @@ function renderTimeline() {
   $("tlClips").innerHTML = clips.length
     ? clips.map(clipHtml).join("")
     : '<span class="tl-none">Chưa có scene nào.</span>';
-  for (const id of ["tlPlay", "tlPrev", "tlNext", "tlOpen"])
+  for (const id of ["tlPlay", "tlPrev", "tlNext"])
     $(id).disabled = !clips.length;
   // Mid-playback the media keeps running; a paused view reloads so a regenerated clip shows.
   if (clips.length && !tl.playing) loadClip(clips, tl.index, tl.offset);
@@ -428,7 +436,15 @@ const openInWorkbench = () => setView("stage");
 $("tlPlay").addEventListener("click", () => (tl.playing ? pause() : play()));
 $("tlPrev").addEventListener("click", () => stepClip(-1));
 $("tlNext").addEventListener("click", () => stepClip(1));
-$("tlOpen").addEventListener("click", openInWorkbench);
+$("tlClips").addEventListener("click", (e) => {
+  const edit = e.target.closest(".tl-edit");
+  if (!edit) return;
+  const clip = timelineClips().find(
+    (c) => c.scene.scene === Number(edit.dataset.scene),
+  );
+  if (clip) seekTo(clip.start);
+  openInWorkbench();
+});
 
 $("tlZoom").addEventListener("input", (e) => {
   tl.userZoom = true;
@@ -451,7 +467,7 @@ function tlSceneAtPointer(e) {
   return clip ? clip.scene.scene : null;
 }
 $("tlInner").addEventListener("pointerdown", (e) => {
-  if (e.button !== 0) return;
+  if (e.button !== 0 || e.target.closest(".tl-edit")) return;
   tl.scrubbing = true;
   $("tlInner").setPointerCapture(e.pointerId);
   seekTo(tlTimeAtPointer(e));
@@ -466,6 +482,7 @@ for (const ev of ["pointerup", "pointercancel"])
 // Double-click on a clip toggles its selection; on the ruler it still opens the scene in the
 // workbench.
 $("tlInner").addEventListener("dblclick", (e) => {
+  if (e.target.closest(".tl-edit")) return;
   const n = tlSceneAtPointer(e);
   if (n === null) {
     openInWorkbench();

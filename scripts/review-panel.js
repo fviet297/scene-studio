@@ -672,13 +672,8 @@ function renderPipeline() {
 
   const ai = state.scenes.filter((s) => s.kind === "ai");
   const aiDone = ai.filter((s) => s.hasImage).length;
-  // Approve re-voices every scene, so it waits for the audio lane to drain; render reads every
-  // image and audio file, so it waits for both lanes (and blocks new audio while it runs).
-  $("btnApprove").disabled =
-    Boolean(globalOp) ||
-    laneJobs("audio").length > 0 ||
-    renderActive() ||
-    !(ai.length > 0 && aiDone === ai.length);
+  // Render reads every image and audio file, so it waits for both lanes (and blocks new audio
+  // while it runs).
   $("btnRender").disabled =
     Boolean(globalOp) ||
     anyJobActive() ||
@@ -1962,16 +1957,6 @@ for (const { kind, id } of HISTORY_KINDS)
       stepHistory(direction, kind),
     );
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
-// Approve voices every scene in one OmniVoice run, so it is an audio-lane job covering them all.
-$("btnApprove").addEventListener("click", () =>
-  enqueueJob({
-    lane: "audio",
-    kind: "audio",
-    scenes: state.scenes.map((s) => s.scene),
-    label: () => "Đang sinh audio narration cho mọi scene",
-    run: quietJob("/api/approve", () => null),
-  }),
-);
 const ASPECT_SIZES = {
   "16:9": "1920×1080",
   "9:16": "1080×1920",

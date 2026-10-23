@@ -41,7 +41,6 @@
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
 //   POST /api/remove-motion-video → { scene } → remove clip and use the source image instead
-//   POST /api/approve         → spawn generate-narration.mjs, stream its log over SSE
 //   GET  /api/branding        → the active project's corner logo + watermark settings
 //   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
 //   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
@@ -1650,12 +1649,6 @@ const server = createServer(async (req, res) => {
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
       trackJob(res, () => generateMotionVideosBatch(res, list, model));
-      return;
-    }
-
-    if (req.method === 'POST' && pathname === '/api/approve') {
-      // Stream generate-narration.mjs (all scenes) to the browser as it runs (SSE).
-      trackJob(res, () => streamNarration(res, [], 'Approved. Generating narration audio (all scenes)...'));
       return;
     }
 
