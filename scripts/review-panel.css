@@ -116,6 +116,7 @@ button { cursor: pointer; }
 .project-switch .mini { max-width: 220px; }
 .project-switch .aspect-select { width: auto; }
 .project-switch .voice-select { max-width: 180px; text-overflow: ellipsis; }
+.project-switch .style-select { max-width: 200px; text-overflow: ellipsis; }
 
 /* Local service chips: shape + word carry the state (hollow = off, pulsing ring = starting,
    filled = on, red only for a real failure). Only stopped/failed chips are clickable. */
@@ -393,6 +394,12 @@ select.mini.wide { width: 100%; }
 .transport audio { height: 30px; flex: 1; min-width: 0; }
 .transport .missing { flex: 1; font-size: 12px; color: var(--faint); }
 
+/* Undo / redo pair for a scene's image, audio and motion video; each shows how many steps remain. */
+.history-btn { display: inline-flex; align-items: center; gap: 5px; flex: none; }
+.history-btn[hidden] { display: none; }
+.history-btn svg { width: 13px; height: 13px; }
+.history-btn .count { color: var(--faint); font-size: 11px; }
+
 /* ---------------------------------------------------------------- inspector */
 
 .inspector { background: var(--surface); }
@@ -578,9 +585,42 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
 .field textarea { min-height: 128px; }
+/* Motion popup: three short direction fields (camera / action / env) instead of one long prompt. */
+.field textarea.motion-part { min-height: 56px; }
+.motion-legacy { margin: 0; font-size: 11.5px; color: var(--muted); }
 
 /* Full-script overlay: the whole scene plan (narration + prompts + motion), editable inline. */
 .dialog.script-dialog { width: min(900px, 100%); }
+/* Title + one-line note + close share the head; the action buttons get their own wrapping row. */
+.script-dialog .dialog-head .note,
+.merge-dialog .dialog-head .note { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.script-toolbar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  padding: 10px 14px; border-bottom: 1px solid var(--line-soft);
+}
+.script-toolbar-sep { width: 1px; height: 18px; background: var(--line); }
+
+/* Merge dialog: one card per scene with its image; the checked card is the scene that is kept. */
+.dialog.merge-dialog { width: min(640px, 100%); }
+.merge-keep { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.merge-keep-card {
+  position: relative; display: flex; flex-direction: column; gap: 6px; padding: 6px;
+  border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--surface-2);
+  cursor: pointer; transition: border-color .15s ease, background .15s ease;
+}
+.merge-keep-card:hover { border-color: var(--muted); }
+.merge-keep-card input { position: absolute; opacity: 0; pointer-events: none; }
+.merge-keep-card.checked { border-color: var(--accent); background: var(--accent-dim); }
+.merge-keep-card:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.merge-keep-thumb {
+  aspect-ratio: var(--merge-aspect, 16 / 9); display: grid; place-items: center;
+  border-radius: 4px; overflow: hidden; background: var(--surface-3);
+}
+.merge-keep-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.merge-keep-empty { font-size: 11px; color: var(--faint); }
+.merge-keep-no { font-size: 12px; color: var(--muted); }
+.merge-keep-card.checked .merge-keep-no { color: var(--text); }
+.merge-keep-card.checked .merge-keep-no::after { content: " · giữ ảnh này"; color: var(--accent); }
 .script-import {
   display: flex; flex-direction: column; gap: 8px;
   padding-bottom: 12px; margin-bottom: 2px; border-bottom: 1px solid var(--line-soft);
@@ -600,11 +640,10 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 /* Dirty state is border + text label, never colour alone. */
 .script-edited { display: none; font-size: 10px; color: var(--accent); }
 .script-row.dirty .script-edited { display: inline; }
-.script-head-field { display: flex; align-items: center; gap: 5px; }
-.script-head-field label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
-.script-head-field .text-input { height: 28px; }
-.script-cue-input { width: 104px; }
-.script-char-input { width: 160px; }
+/* Cast chips: one toggle per character; the hidden `char` input they edit feeds the save patch. */
+.script-chars { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+.char-check.sm { padding: 3px 8px 3px 6px; font-size: 11px; }
+.script-char-off { font-size: 11px; color: var(--faint); }
 /* Per-scene generate buttons, tinted to match the image/narration/motion group colours so the
    lane each one drives is obvious at a glance. */
 .script-gen { display: flex; align-items: center; gap: 6px; }
@@ -670,6 +709,8 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 }
 .advanced summary:hover { color: var(--text); }
 
+.dialog.style-dialog { width: min(720px, 100%); }
+.style-dialog .field textarea { min-height: 220px; }
 .template-version-row { display: flex; flex-direction: column; gap: 6px; }
 .template-version-row .btn { align-self: flex-start; }
 

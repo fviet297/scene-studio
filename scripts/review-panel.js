@@ -42,14 +42,17 @@ const ICON_OK =
 const ICON_BAD =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
 
-const TEMPLATE_FIELDS = [
-  "styleDna",
+// Style DNA lives in the Style dialog, the rest in the Template prompt dialog; each saves only its
+// own fields (the server keeps every blank/missing field at its current value).
+const STYLE_FIELDS = ["styleDna"];
+const PROMPT_FIELDS = [
   "masterPrompt",
   "faceLockPrompt",
   "multiCharPrompt",
   "text2img",
   "guard",
 ];
+const TEMPLATE_FIELDS = [...STYLE_FIELDS, ...PROMPT_FIELDS];
 const STATE_LABEL = {
   "need-image": "thiếu ảnh",
   "need-audio": "thiếu audio",
@@ -104,6 +107,7 @@ const sceneOps = new Map();
 const JOB_KIND_LABEL = {
   image: "ảnh",
   prompt: "prompt",
+  motionPrompt: "motion prompt",
   motion: "motion",
   audio: "audio",
   render: "render",
@@ -330,6 +334,9 @@ function syncGlobalButtons() {
   const locked = Boolean(globalOp) || anyJobActive();
   $("projectSelect").disabled = locked;
   $("aspectSelect").disabled = locked;
+  // A style switch changes what queued image jobs are built from, so it waits like a project switch.
+  $("styleSelect").disabled = locked;
+  $("t_version").disabled = locked;
   $("btnNewProject").disabled = locked;
   $("voiceSelect").disabled = Boolean(globalOp);
   $("btnAddChar").disabled = Boolean(globalOp);
@@ -400,6 +407,25 @@ function renderProjectSwitch() {
     .join("");
   $("projectSelect").innerHTML = options;
   $("aspectSelect").value = state.project?.aspect || "9:16";
+  syncStyleSelects(state.project?.templateVersions, state.project?.template);
+}
+
+// The style version picker exists twice — the top bar (quick switch) and the Style dialog — and both
+// always show the same list and active version. The closed top-bar select reads "Style · name" so
+// it is not mistaken for the voice select beside it.
+function syncStyleSelects(versions = [], active = "default") {
+  templateVersions = versions;
+  const options = (label) =>
+    versions
+      .map(
+        (v) =>
+          `<option value="${escapeHtml(v)}">${label}${escapeHtml(v)}</option>`,
+      )
+      .join("");
+  $("styleSelect").innerHTML = options("Style · ");
+  $("t_version").innerHTML = options("");
+  $("styleSelect").value = active;
+  $("t_version").value = active;
 }
 
 // Model options grouped by provider. A model whose provider key is missing from .env stays
@@ -614,7 +640,6 @@ function renderCharGallery() {
 function syncSetupBlock(s) {
   if (document.activeElement !== $("titleBox"))
     $("titleBox").value = s.title || "";
-  if (document.activeElement !== $("cueBox")) $("cueBox").value = s.cue || "";
   const list = state.characterList || [];
   $("charPicker").innerHTML = list
     .map((c) => {
@@ -804,17 +829,7 @@ function renderStage() {
     ? "Thay motion video"
     : "Tải video thay thế";
   $("btnUploadMotionVideo").disabled = mediaLocked;
-  // The box shows the effective motion prompt (authored `motion:` or the auto-built one); saving
-  // writes it as the scene's `motion:` so an edit survives a refresh.
-  const motionPrompt = $("motionPromptBox");
-  if (document.activeElement !== motionPrompt)
-    motionPrompt.value = drafts.motion.get(s.scene) ?? s.motionPrompt ?? "";
-  markDirty(
-    motionPrompt,
-    $("motionSave"),
-    $("motionHint"),
-    motionPrompt.value.trim() !== (s.motionPrompt ?? "").trim(),
-  );
+  renderMotionParts(s);
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
   if (s.hasMotionVideo) {
     const v = $("motionVideo");
@@ -825,10 +840,7 @@ function renderStage() {
   }
   $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
   $("btnRemoveMotionVideo").disabled = mediaLocked;
-  $("btnUndoImage").hidden = !s.hasImageBackup;
-  $("btnUndoImage").disabled = mediaLocked;
-  $("btnUndoMotion").hidden = !s.hasMotionBackup;
-  $("btnUndoMotion").disabled = mediaLocked;
+  syncHistoryButtons(s, mediaLocked);
 
   setStageState("stageImgState", s.hasImage);
   setStageState("stageAudState", s.hasAudio);
@@ -1209,8 +1221,12 @@ function buildExportJson() {
       narration: s.narration ?? "",
       prompt: s.prompt ?? "",
       prompt_vi: s.promptVi ?? "",
-      motion: s.motion ?? "",
-      motion_vi: s.motionVi ?? "",
+      camera: s.camera ?? "",
+      action: s.action ?? "",
+      env: s.env ?? "",
+      camera_vi: s.cameraVi ?? "",
+      action_vi: s.actionVi ?? "",
+      env_vi: s.envVi ?? "",
     })),
     null,
     2,
@@ -1428,8 +1444,60 @@ async function saveField(kind, value) {
   }
 }
 
-// Motion prompt goes through the bulk scene patch, the same writer the script editor uses.
-async function saveMotionPrompt() {
+// ------------------------------------------------------------------ motion (camera / action / env)
+//
+// The motion popup edits the scene's three motion fields; the server wraps them into the full
+// prompt (see the preview). Unsaved edits live in drafts.motion as { camera, action, env }.
+const MOTION_PART_BOXES = {
+  camera: "motionCameraBox",
+  action: "motionActionBox",
+  env: "motionEnvBox",
+};
+const motionPartsOf = (s) => ({
+  camera: s.camera ?? "",
+  action: s.action ?? "",
+  env: s.env ?? "",
+});
+const motionBoxValues = () =>
+  Object.fromEntries(
+    Object.entries(MOTION_PART_BOXES).map(([part, id]) => [
+      part,
+      $(id).value.trim(),
+    ]),
+  );
+const motionPartsDirty = (s) => {
+  const saved = motionPartsOf(s);
+  const now = motionBoxValues();
+  return Object.keys(saved).some((k) => now[k] !== saved[k].trim());
+};
+// Mark each edited box, and the shared save button + hint once for all three.
+function syncMotionDirty(s) {
+  const saved = motionPartsOf(s);
+  for (const [part, id] of Object.entries(MOTION_PART_BOXES))
+    $(id).classList.toggle("dirty", $(id).value.trim() !== saved[part].trim());
+  const dirty = motionPartsDirty(s);
+  $("motionSave").disabled = !dirty;
+  $("motionHint").textContent = dirty ? "chưa lưu" : "";
+  $("motionHint").classList.toggle("dirty", dirty);
+}
+
+function renderMotionParts(s) {
+  const draft = drafts.motion.get(s.scene);
+  const saved = motionPartsOf(s);
+  for (const [part, id] of Object.entries(MOTION_PART_BOXES)) {
+    if (document.activeElement !== $(id))
+      $(id).value = draft ? draft[part] : saved[part];
+  }
+  const hasParts = Object.values(saved).some((v) => v.trim());
+  $("motionLegacyNote").hidden = hasParts || !(s.motion || "").trim();
+  $("motionPreview").textContent = s.motionPrompt ?? "";
+  $("motionWrite").disabled =
+    Boolean(globalOp) || s.kind !== "ai" || hasPending("motionPrompt", s.scene);
+  syncMotionDirty(s);
+}
+
+// Saved through the bulk scene patch, the same writer the script editor uses.
+async function saveMotionParts() {
   const s = current();
   if (!s) return;
   const btn = $("motionSave");
@@ -1437,17 +1505,29 @@ async function saveMotionPrompt() {
   btn.textContent = "Đang lưu...";
   try {
     await api("/api/scenes-update", {
-      scenes: [{ scene: s.scene, motion: $("motionPromptBox").value.trim() }],
+      scenes: [{ scene: s.scene, ...motionBoxValues() }],
     });
     drafts.motion.delete(s.scene);
     await refresh();
-    toast(`Scene ${s.scene}: đã lưu motion prompt.`);
+    toast(`Scene ${s.scene}: đã lưu motion.`);
   } catch (e) {
     toast(e.message, false);
   } finally {
-    btn.textContent = "Lưu motion prompt";
+    btn.textContent = "Lưu motion";
   }
 }
+
+// LLM motion writing reads the plan, not the popup, so it overwrites the three saved fields.
+const enqueueMotionPrompts = (scenes) =>
+  enqueueJob({
+    lane: "media",
+    kind: "motionPrompt",
+    scenes,
+    label: (ns) => `Đang viết motion cho scene ${sceneList(ns)}`,
+    run: consoleJob("/api/generate-motion-prompts-batch", (ns) => ({
+      scenes: ns,
+    })),
+  });
 
 async function generateImage() {
   const s = current();
@@ -1490,11 +1570,9 @@ function generatePromptFromNarration() {
     run: async (job) => {
       setConsole("running", job.label);
       try {
-        const res = await api("/api/generate-prompt", { scene: n });
+        await api("/api/generate-prompt", { scene: n });
         setConsole("idle", `Scene ${n}: đã viết prompt.`);
-        toast(
-          `Scene ${n}: đã viết ${res.motion ? "prompt ảnh + motion prompt" : "prompt"} từ narration.`,
-        );
+        toast(`Scene ${n}: đã viết prompt từ narration.`);
       } catch (e) {
         setConsole("error", e.message);
         toast(e.message, false);
@@ -1556,19 +1634,52 @@ async function uploadMotionVideo(file) {
   });
 }
 
-// Restore the previous scene image or motion video from its one-level `.bak` snapshot.
-async function undo(kind) {
+// Undo / redo of a scene's image, audio or motion video (server keeps the last steps of each).
+const HISTORY_KINDS = [
+  { kind: "image", id: "Image", label: "ảnh" },
+  { kind: "audio", id: "Audio", label: "audio" },
+  { kind: "motion", id: "Motion", label: "motion video" },
+];
+const HISTORY_DIRECTIONS = [
+  { direction: "undo", id: "Undo", verb: "hoàn tác" },
+  { direction: "redo", id: "Redo", verb: "làm lại" },
+];
+
+// A button shows only while its direction has steps; its count is how many. Audio is not covered
+// by sceneMediaBusy, but a step rewrites the file a pending audio job would write, so it waits too.
+function syncHistoryButtons(s, mediaLocked) {
+  for (const { kind, id } of HISTORY_KINDS) {
+    const steps = s.history?.[kind] ?? { undo: 0, redo: 0 };
+    const locked =
+      kind === "audio"
+        ? Boolean(globalOp) || sceneInAnyLane(s.scene)
+        : mediaLocked;
+    for (const { direction, id: directionId } of HISTORY_DIRECTIONS) {
+      const btn = $(`btn${directionId}${id}`);
+      btn.hidden = steps[direction] === 0;
+      btn.disabled = locked;
+      btn.querySelector(".count").textContent = `(${steps[direction]})`;
+    }
+  }
+}
+
+async function stepHistory(direction, kind) {
   const s = current();
   if (!s) return;
-  const what = kind === "image" ? "ảnh" : "motion video";
+  const { label } = HISTORY_KINDS.find((k) => k.kind === kind);
+  const { verb } = HISTORY_DIRECTIONS.find((d) => d.direction === direction);
+  if (kind === "audio" && sceneInAnyLane(s.scene)) {
+    toast(`Scene ${s.scene} đang có job — chờ xong rồi ${verb} audio.`, false);
+    return;
+  }
   await withSceneOp(
     s.scene,
-    `đang hoàn tác ${what} của scene ${s.scene}`,
+    `đang ${verb} ${label} của scene ${s.scene}`,
     async () => {
       try {
-        state = await api("/api/undo", { scene: s.scene, kind });
+        state = await api(`/api/${direction}`, { scene: s.scene, kind });
         render();
-        toast(`Scene ${s.scene}: đã hoàn tác ${what}.`);
+        toast(`Scene ${s.scene}: đã ${verb} ${label}.`);
       } catch (e) {
         toast(e.message, false);
       }
@@ -1599,7 +1710,18 @@ async function removeMotionVideo() {
 // state, so no translation service is ever called.
 function resolveVi(key) {
   if (key === "scenePrompt") return current()?.promptVi || "";
-  if (key === "sceneMotion") return current()?.motionVi || "";
+  if (key === "sceneMotion") {
+    const s = current();
+    if (!s) return "";
+    const parts = [
+      ["Camera", s.cameraVi],
+      ["Nhân vật", s.actionVi],
+      ["Môi trường", s.envVi],
+    ].filter(([, vi]) => (vi || "").trim());
+    return parts.length
+      ? parts.map(([label, vi]) => `${label}: ${vi}`).join("\n")
+      : s.motionVi || "";
+  }
   return currentTemplates[`${key}_vi`] || "";
 }
 
@@ -1639,12 +1761,10 @@ function resetTranslation(outId, btnId) {
 async function loadTemplates() {
   const response = await api("/api/templates");
   const t = response.templates || response;
-  templateVersions = response.versions || ["default"];
-  const versionSelect = $("t_version");
-  versionSelect.innerHTML = templateVersions
-    .map((v) => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`)
-    .join("");
-  versionSelect.value = response.activeVersion || t.activeVersion || "default";
+  syncStyleSelects(
+    response.versions || ["default"],
+    response.activeVersion || t.activeVersion || "default",
+  );
   currentTemplates = t;
   for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
 }
@@ -1738,18 +1858,24 @@ $("imageModelCustom").addEventListener("input", () => {
 $("narrSave").addEventListener("click", () =>
   saveField("narration", $("narrBox").value),
 );
-$("motionPromptBox").addEventListener("input", (e) => {
+for (const id of Object.values(MOTION_PART_BOXES)) {
+  $(id).addEventListener("input", () => {
+    const s = current();
+    if (!s) return;
+    drafts.motion.set(s.scene, motionBoxValues());
+    syncMotionDirty(s);
+  });
+}
+$("motionSave").addEventListener("click", saveMotionParts);
+$("motionWrite").addEventListener("click", () => {
   const s = current();
   if (!s) return;
-  drafts.motion.set(s.scene, e.target.value);
-  markDirty(
-    e.target,
-    $("motionSave"),
-    $("motionHint"),
-    e.target.value.trim() !== (s.motionPrompt ?? "").trim(),
-  );
+  if (motionPartsDirty(s)) {
+    toast("Lưu hoặc huỷ sửa motion trước khi viết bằng AI.", false);
+    return;
+  }
+  enqueueMotionPrompts([s.scene]);
 });
-$("motionSave").addEventListener("click", saveMotionPrompt);
 $("promptSave").addEventListener("click", () =>
   saveField("prompt", $("promptBox").value),
 );
@@ -1804,12 +1930,9 @@ function generateMotionVideo(s) {
   const model = effectiveMotionModel();
   // Empty duration box = auto (server matches the narration audio); a number overrides it.
   const durVal = Number($("motionDurationBox").value);
-  // Send the edited motion prompt; empty falls back to the server's narration-built prompt.
-  const body = {
-    scene: s.scene,
-    model,
-    prompt: $("motionPromptBox").value.trim(),
-  };
+  // Send the popup's camera / action / env (saved or not); all empty falls back to the scene's
+  // older single-line motion, then to the server's auto-built prompt.
+  const body = { scene: s.scene, model, ...motionBoxValues() };
   if (Number.isFinite(durVal) && durVal > 0) body.duration = durVal;
   enqueueJob({
     lane: "media",
@@ -1834,8 +1957,11 @@ $("motionModelCustom").addEventListener("input", () => {
   lsSet(MODEL_STORE.motionCustom, $("motionModelCustom").value.trim());
   updateDurationHint();
 });
-$("btnUndoImage").addEventListener("click", () => undo("image"));
-$("btnUndoMotion").addEventListener("click", () => undo("motion"));
+for (const { kind, id } of HISTORY_KINDS)
+  for (const { direction, id: directionId } of HISTORY_DIRECTIONS)
+    $(`btn${directionId}${id}`).addEventListener("click", () =>
+      stepHistory(direction, kind),
+    );
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
 // Approve voices every scene in one OmniVoice run, so it is an audio-lane job covering them all.
 $("btnApprove").addEventListener("click", () =>
@@ -2071,41 +2197,49 @@ $("railBatchAud").addEventListener("click", runBatchAudio);
 $("railBatchMotion").addEventListener("click", runBatchMotion);
 
 // ---- Merge scenes: combine the given adjacent scenes' narration into one, dropping the
-// rest of the selection's fields entirely. The dialog's radio picks which scene's image/prompt/
-// motion survives; its narration textarea previews the auto-join and can be hand-edited before
-// confirming (a further pass stays open in the inspector's narration box after merging).
-// Two entry points feed it a scene list: the sheet/rail batch bar (the `selected` Set) and, per
-// row, the Full script modal's "Merge ↓" button (just that row + the next one).
+// rest of the selection's fields entirely. The dialog shows each scene's image and lets one be
+// picked: that scene's image/prompt/motion/char survive, the others are removed. Its narration
+// textarea previews the auto-join and can be hand-edited before confirming (a further pass stays
+// open in the inspector's narration box after merging).
+// Two entry points: the sheet/rail batch bar (the shared `selected` set) and the Full script
+// modal's "Gộp đã chọn" button (the modal's own ticked rows, passed in).
 let pendingMergeScenes = [];
 function openMergeDialog(scenesArg) {
   const nums = Array.isArray(scenesArg) ? scenesArg : [...selected];
-  const chosen = [...state.scenes]
+  const chosen = state.scenes
     .filter((s) => nums.includes(s.scene))
     .sort((a, b) => a.scene - b.scene);
   if (chosen.length < 2) return;
   pendingMergeScenes = chosen.map((s) => s.scene);
   $("mergeDlgInfo").textContent =
-    `Scene ${chosen.map((s) => s.scene).join(", ")}`;
+    `Gộp ${chosen.length} scene: ${chosen.map((s) => s.scene).join(", ")}`;
+  // Default to the first scene that already has an image, so a merge does not drop a real one.
+  const keepDefault = (chosen.find((s) => s.hasImage) ?? chosen[0]).scene;
+  const aspect = (state.project?.aspect || "16:9").replace(":", " / ");
+  $("mergeKeepPicker").style.setProperty("--merge-aspect", aspect);
   $("mergeKeepPicker").innerHTML = chosen
-    .map(
-      (s, i) => `<label class="char-check${i === 0 ? " checked" : ""}">
-        <input type="radio" name="mergeKeep" value="${s.scene}" ${i === 0 ? "checked" : ""} />
-        Scene ${s.scene}
-      </label>`,
-    )
+    .map((s) => {
+      const on = s.scene === keepDefault;
+      const thumb = s.imageUrl
+        ? `<img src="${s.imageUrl}" alt="Ảnh scene ${s.scene}" loading="lazy" />`
+        : `<span class="merge-keep-empty">Chưa có ảnh</span>`;
+      return `<label class="merge-keep-card${on ? " checked" : ""}">
+        <input type="radio" name="mergeKeep" value="${s.scene}" ${on ? "checked" : ""} />
+        <span class="merge-keep-thumb">${thumb}</span>
+        <span class="merge-keep-no num">Scene ${s.scene}</span>
+      </label>`;
+    })
     .join("");
-  for (const label of $("mergeKeepPicker").querySelectorAll(".char-check")) {
-    label.querySelector("input").addEventListener("change", () => {
-      for (const l of $("mergeKeepPicker").querySelectorAll(".char-check"))
-        l.classList.toggle("checked", l.querySelector("input").checked);
-    });
-  }
   $("mergePreviewNarr").value = chosen
     .map((s) => (s.narration || "").trim())
     .filter(Boolean)
     .join(" ");
   $("mergeOverlay").hidden = false;
 }
+$("mergeKeepPicker").addEventListener("change", () => {
+  for (const card of $("mergeKeepPicker").querySelectorAll(".merge-keep-card"))
+    card.classList.toggle("checked", card.querySelector("input").checked);
+});
 $("batchMerge").addEventListener("click", () => openMergeDialog());
 $("railBatchMerge").addEventListener("click", () => openMergeDialog());
 $("mergeClose").addEventListener("click", () => {
@@ -2138,7 +2272,10 @@ $("btnMergeConfirm").addEventListener("click", async () => {
       drafts.narr.delete(n);
       drafts.prompt.delete(n);
     }
-    for (const n of scenes) selected.delete(n);
+    for (const n of scenes) {
+      selected.delete(n);
+      scriptPicked.delete(n);
+    }
     $("mergeOverlay").hidden = true;
     render();
     selectScene(keep);
@@ -2147,9 +2284,12 @@ $("btnMergeConfirm").addEventListener("click", async () => {
     // without the user having to close and reopen it.
     if (!$("scriptOverlay").hidden) renderScriptList();
     toast(`Đã gộp scene ${scenes.join(", ")} vào scene ${keep}.`);
-    // Leave the merged narration selected in the inspector for one more hand pass.
-    $("narrBox").focus();
-    $("narrBox").select();
+    // Leave the merged narration selected in the inspector for one more hand pass — unless the
+    // script modal is open, where focus stays on the list the user is working in.
+    if ($("scriptOverlay").hidden) {
+      $("narrBox").focus();
+      $("narrBox").select();
+    }
   } catch (e) {
     toast(e.message, false);
   } finally {
@@ -2183,18 +2323,33 @@ $("conCopy").addEventListener("click", async () => {
   }
 });
 
-$("btnTemplates").addEventListener("click", async () => {
-  $("tplOverlay").hidden = false;
+async function openTemplateDialog(overlayId, firstFieldId) {
+  $(overlayId).hidden = false;
   try {
     await loadTemplates();
   } catch (e) {
     toast(e.message, false);
   }
-  const first = $("t_styleDna");
+  const first = $(firstFieldId);
   first.focus();
   first.setSelectionRange(0, 0);
   first.scrollTop = 0;
+}
+$("btnTemplates").addEventListener("click", () =>
+  openTemplateDialog("tplOverlay", "t_masterPrompt"),
+);
+$("btnStyle").addEventListener("click", () =>
+  openTemplateDialog("styleOverlay", "t_styleDna"),
+);
+$("styleClose").addEventListener("click", () => {
+  $("styleOverlay").hidden = true;
 });
+$("styleOverlay").addEventListener("click", (e) => {
+  if (e.target === $("styleOverlay")) $("styleOverlay").hidden = true;
+});
+$("styleReload").addEventListener("click", () =>
+  loadTemplates().catch((e) => toast(e.message, false)),
+);
 $("tplClose").addEventListener("click", () => {
   $("tplOverlay").hidden = true;
 });
@@ -2204,19 +2359,24 @@ $("tplOverlay").addEventListener("click", (e) => {
 $("tplReload").addEventListener("click", () =>
   loadTemplates().catch((e) => toast(e.message, false)),
 );
-$("t_version").addEventListener("change", async (e) => {
+async function activateStyle(version) {
   try {
-    const response = await api("/api/templates/activate", {
-      version: e.target.value,
-    });
-    const t = response.templates;
-    currentTemplates = t;
-    for (const key of TEMPLATE_FIELDS) $(`t_${key}`).value = t[key] || "";
-    toast(`Đã chuyển style sang ${e.target.value} — lưu vào dự án này.`);
+    const response = await api("/api/templates/activate", { version });
+    currentTemplates = response.templates;
+    for (const key of TEMPLATE_FIELDS)
+      $(`t_${key}`).value = currentTemplates[key] || "";
+    state.project = { ...state.project, template: version };
+    syncStyleSelects(response.versions, version);
+    toast(`Đã chuyển style sang ${version} — lưu vào dự án này.`);
   } catch (err) {
+    syncStyleSelects(templateVersions, state.project?.template);
     toast(err.message, false);
   }
-});
+}
+$("t_version").addEventListener("change", (e) => activateStyle(e.target.value));
+$("styleSelect").addEventListener("change", (e) =>
+  activateStyle(e.target.value),
+);
 $("t_activate").addEventListener("click", async () => {
   const version = $("t_newVersion").value.trim();
   if (!version) return toast("Nhập tên version.", false);
@@ -2224,7 +2384,7 @@ $("t_activate").addEventListener("click", async () => {
     const body = { version };
     for (const key of TEMPLATE_FIELDS) body[key] = $(`t_${key}`).value;
     const response = await api("/api/templates", body);
-    templateVersions = response.versions;
+    state.project = { ...state.project, template: response.activeVersion };
     await loadTemplates();
     $("t_newVersion").value = "";
     toast(`Đã tạo version ${version} và dùng cho dự án này.`);
@@ -2232,21 +2392,27 @@ $("t_activate").addEventListener("click", async () => {
     toast(err.message, false);
   }
 });
-$("tplSave").addEventListener("click", async () => {
+async function saveTemplateFields(fields, button, doneMessage) {
   const body = Object.fromEntries(
-    TEMPLATE_FIELDS.map((key) => [key, $(`t_${key}`).value]),
+    fields.map((key) => [key, $(`t_${key}`).value]),
   );
   body.version = $("t_version").value || "default";
-  $("tplSave").disabled = true;
+  button.disabled = true;
   try {
     await api("/api/templates", body);
-    toast("Đã lưu template.");
+    toast(doneMessage);
   } catch (e) {
     toast(e.message, false);
   } finally {
-    $("tplSave").disabled = false;
+    button.disabled = false;
   }
-});
+}
+$("tplSave").addEventListener("click", () =>
+  saveTemplateFields(PROMPT_FIELDS, $("tplSave"), "Đã lưu template."),
+);
+$("styleSave").addEventListener("click", () =>
+  saveTemplateFields(STYLE_FIELDS, $("styleSave"), "Đã lưu style."),
+);
 
 // Keyboard: scene paging and view switching, ignored while typing.
 $("lightbox").addEventListener("click", closeLightbox);
@@ -2281,6 +2447,10 @@ window.addEventListener("keydown", (e) => {
     }
     if (!$("tplOverlay").hidden) {
       $("tplOverlay").hidden = true;
+      return;
+    }
+    if (!$("styleOverlay").hidden) {
+      $("styleOverlay").hidden = true;
       return;
     }
     if (!$("scriptOverlay").hidden) {
@@ -2525,7 +2695,7 @@ $("brandSave").addEventListener("click", async () => {
 // ------------------------------------------------------------------ full-script editor
 //
 // The whole scene plan in one editable column: per scene the narration, image prompt + its
-// Vietnamese translation, and the motion prompt + its translation, plus cue and char. Saving
+// Vietnamese translation, and the motion prompt + its translation, plus char. Saving
 // sends only the changed fields to /api/scenes-update, which writes them verbatim (no derived-
 // field clearing). Copy JSON exports the same shape for an external tool; Import JSON pastes it
 // back. The surface is self-contained: it reads committed values from `state`, not inspector drafts.
@@ -2569,36 +2739,68 @@ const SCRIPT_GROUPS = [
     ],
   },
   {
-    title: "Motion prompt",
+    title: "Motion",
     tone: "motion",
     fields: [
       {
-        key: "motion",
-        sub: "EN",
-        rows: 3,
-        ph: "Prompt image-to-video; trống = tự sinh khi sinh video",
-        get: (s) => s.motion ?? "",
+        key: "camera",
+        sub: "Camera",
+        rows: 2,
+        ph: "Một chuyển động máy; trống cả 3 ô = dùng motion cũ / tự sinh",
+        get: (s) => s.camera ?? "",
       },
       {
-        key: "motion_vi",
-        sub: "Dịch",
-        rows: 3,
-        ph: "Bản dịch motion",
-        get: (s) => s.motionVi ?? "",
+        key: "camera_vi",
+        sub: "Camera · Dịch",
+        rows: 2,
+        ph: "Bản dịch camera",
+        get: (s) => s.cameraVi ?? "",
+      },
+      {
+        key: "action",
+        sub: "Nhân vật",
+        rows: 2,
+        ph: "Hành động rõ của từng nhân vật",
+        get: (s) => s.action ?? "",
+      },
+      {
+        key: "action_vi",
+        sub: "Nhân vật · Dịch",
+        rows: 2,
+        ph: "Bản dịch hành động",
+        get: (s) => s.actionVi ?? "",
+      },
+      {
+        key: "env",
+        sub: "Môi trường",
+        rows: 2,
+        ph: "2–3 chuyển động lớn của cảnh",
+        get: (s) => s.env ?? "",
+      },
+      {
+        key: "env_vi",
+        sub: "Môi trường · Dịch",
+        rows: 2,
+        ph: "Bản dịch môi trường",
+        get: (s) => s.envVi ?? "",
       },
     ],
   },
 ];
 const SCRIPT_FIELDS = SCRIPT_GROUPS.flatMap((g) => g.fields);
-const scriptCue = (s) => s.cue ?? "";
-const scriptChar = (s) => (s.characters ?? []).join(", ");
+// Cast ids in the gallery's order, so the saved plan order and the chip order never read as an edit.
+const charRank = (id) => {
+  const i = (state.characterList ?? []).findIndex((c) => c.id === id);
+  return i < 0 ? Number.MAX_SAFE_INTEGER : i;
+};
+const scriptChar = (s) =>
+  [...(s.characters ?? [])].sort((a, b) => charRank(a) - charRank(b)).join(", ");
 
 const scriptControls = (row) => [...row.querySelectorAll("[data-field]")];
 
 function scriptCommitted(scene, field) {
   const s = findScene(scene);
   if (!s) return "";
-  if (field === "cue") return scriptCue(s);
   if (field === "char") return scriptChar(s);
   return SCRIPT_FIELDS.find((f) => f.key === field)?.get(s) ?? "";
 }
@@ -2653,27 +2855,46 @@ const scriptGroupHtml = (s, g) => {
 // Per-scene generate buttons for the script modal. They reuse the batch endpoints with a
 // single scene, so they behave exactly like the timeline/rail batch runs (same models,
 // same queue and dedupe) — no dependency on the stage's currently-selected scene.
-const scriptGenHtml = (s, isLast) =>
+const scriptGenHtml = (s) =>
   `<div class="script-gen">
-    <button type="button" class="btn sm script-gen-btn gen-prompt" data-gen="prompt" data-label="Prompt" data-scene="${s.scene}" title="Viết image + motion prompt cho scene này từ narration đã lưu (OpenAI)">Prompt</button>
+    <button type="button" class="btn sm script-gen-btn gen-prompt" data-gen="prompt" data-label="Prompt" data-scene="${s.scene}" title="Viết prompt ảnh cho scene này từ narration đã lưu (OpenAI)">Prompt</button>
     <button type="button" class="btn sm script-gen-btn gen-image" data-gen="image" data-label="Ảnh" data-scene="${s.scene}" title="Sinh ảnh cho scene này (dùng model ảnh ở thanh Chạy của Timeline)">Ảnh</button>
     <button type="button" class="btn sm script-gen-btn gen-audio" data-gen="audio" data-label="Audio" data-scene="${s.scene}" title="Sinh audio narration cho scene này">Audio</button>
     <button type="button" class="btn sm script-gen-btn gen-motion" data-gen="motion" data-label="Motion" data-scene="${s.scene}" title="Sinh motion video cho scene này (cần có ảnh + audio, model ở thanh Chạy của Timeline)">Motion</button>
-    ${isLast ? "" : `<button type="button" class="btn sm quiet script-gen-btn" data-merge-next="${s.scene}" title="Gộp scene này với scene kế tiếp">Gộp ↓</button>`}
   </div>`;
+
+// Cast chips for one scene. The hidden `char` input carries the comma id string the dirty/patch
+// helpers already read; the chips only edit it. Search-image scenes have no cast: the plan parser
+// ignores `char` on them, so a chip there would save and silently do nothing.
+const scriptCharHtml = (s) => {
+  const cast = state.characterList ?? [];
+  if (s.kind !== "ai")
+    return `<span class="script-char-off" title="Scene ảnh tìm kiếm không dùng nhân vật">Ảnh search · không nhân vật</span>`;
+  if (!cast.length) return "";
+  const chips = cast
+    .map((c) => {
+      const on = (s.characters ?? []).includes(c.id);
+      return `<label class="char-check sm${on ? " checked" : ""}">
+        <input type="checkbox" data-char-id="${escapeHtml(c.id)}" ${on ? "checked" : ""} />
+        ${escapeHtml(c.name)}
+      </label>`;
+    })
+    .join("");
+  return `<div class="script-chars" role="group" aria-label="Nhân vật scene ${s.scene}">${chips}<input type="hidden" data-scene="${s.scene}" data-field="char" value="${escapeHtml(scriptChar(s))}" /></div>`;
+};
 
 function renderScriptList() {
   // Narration shows first; the image + motion prompts stay collapsed so the list reads as a pure
   // script until a scene's toggle opens them.
   $("scriptList").innerHTML = state.scenes
-    .map((s, i) => {
+    .map((s) => {
       const narration = scriptGroupHtml(s, SCRIPT_GROUPS[0]);
       const details = SCRIPT_GROUPS.slice(1)
         .map((g) => scriptGroupHtml(s, g))
         .join("");
-      const isLast = i === state.scenes.length - 1;
       return `<div class="script-row" data-scene="${s.scene}">
         <div class="script-row-head">
+          <input type="checkbox" class="rail-check" data-pick="${s.scene}" ${scriptPicked.has(s.scene) ? "checked" : ""} title="Chọn scene ${s.scene} để gộp" aria-label="Chọn scene ${s.scene} để gộp" />
           <span class="script-no num">#${s.scene}</span>
           <span class="script-edited">đã sửa</span>
           <button type="button" class="script-toggle" aria-expanded="false" title="Hiện / ẩn image prompt và motion prompt">
@@ -2681,9 +2902,8 @@ function renderScriptList() {
             Prompt &amp; motion
           </button>
           <span class="grow"></span>
-          <div class="script-head-field"><label>cue</label><input class="text-input script-cue-input" data-scene="${s.scene}" data-field="cue" value="${escapeHtml(scriptCue(s))}" placeholder="neutral" spellcheck="false" /></div>
-          <div class="script-head-field"><label>char</label><input class="text-input script-char-input" data-scene="${s.scene}" data-field="char" value="${escapeHtml(scriptChar(s))}" placeholder="char-a, char-b / none" spellcheck="false" /></div>
-          ${scriptGenHtml(s, isLast)}
+          ${scriptCharHtml(s)}
+          ${scriptGenHtml(s)}
         </div>
         ${narration}
         <div class="script-details" hidden>${details}</div>
@@ -2719,22 +2939,41 @@ function syncScriptGenButtons() {
     }
     syncGenButton(btn, kind, n, btn.dataset.label, ok, true);
   }
-  // "Merge ↓" reads both this row's and the next row's saved narration — block it while either
-  // has unsaved edits, same reasoning as the generate buttons above, or has a job pending.
-  for (const btn of $("scriptList").querySelectorAll("[data-merge-next]")) {
-    const row = btn.closest(".script-row");
-    const next = row?.nextElementSibling;
-    const dirty =
-      row?.classList.contains("dirty") || next?.classList.contains("dirty");
-    btn.disabled =
-      Boolean(globalOp) ||
-      !next ||
-      dirty ||
-      sceneInAnyLane(Number(row.dataset.scene)) ||
-      sceneInAnyLane(Number(next.dataset.scene));
-  }
+  syncScriptSelection();
   syncScriptMissingPrompts();
+  syncScriptMissingMotion();
 }
+
+// Row ticks are the modal's own picks for the header Merge button, kept apart from the timeline /
+// rail `selected` set: that one decides what a batch run (Sinh ảnh…) acts on, so a tick left behind
+// here must never turn into a queued job. Like the batch bar's merge, it needs an unbroken run with
+// no job pending, and waits for unsaved edits in a picked row, because merge joins the saved
+// narration, not the textarea.
+const scriptPicked = new Set();
+function syncScriptSelection() {
+  const picked = state.scenes
+    .filter((s) => scriptPicked.has(s.scene))
+    .map((s) => s.scene);
+  for (const box of $("scriptList").querySelectorAll("[data-pick]"))
+    box.checked = scriptPicked.has(Number(box.dataset.pick));
+  const dirty = picked.some((n) =>
+    $("scriptList").querySelector(`.script-row.dirty[data-scene="${n}"]`),
+  );
+  $("scriptMerge").textContent = picked.length
+    ? `Gộp đã chọn (${picked.length})`
+    : "Gộp đã chọn";
+  $("scriptMerge").disabled =
+    Boolean(globalOp) ||
+    dirty ||
+    picked.some(sceneInAnyLane) ||
+    !isContiguousSelection(picked);
+  $("scriptMerge").title = dirty
+    ? "Lưu thay đổi của scene đã chọn trước khi gộp"
+    : "Tick các scene liền kề ở đầu mỗi scene rồi gộp thành một";
+}
+$("scriptMerge").addEventListener("click", () =>
+  openMergeDialog([...scriptPicked]),
+);
 
 // AI scenes that have narration but no image prompt yet, and no prompt job pending.
 const scenesMissingPrompt = () =>
@@ -2753,12 +2992,35 @@ const scenesMissingPrompt = () =>
 function syncScriptMissingPrompts() {
   const count = scenesMissingPrompt().length;
   const dirty = $("scriptList").querySelector(".script-row.dirty");
-  $("scriptGenMissing").textContent = `Viết prompt còn thiếu (${count})`;
+  $("scriptGenMissing").textContent = `Viết prompt thiếu (${count})`;
   $("scriptGenMissing").disabled =
     Boolean(globalOp) || count === 0 || Boolean(dirty);
 }
 $("scriptGenMissing").addEventListener("click", () =>
   enqueuePrompts(scenesMissingPrompt()),
+);
+
+// AI scenes with something to direct from (beat or image prompt) but no camera / action / env,
+// and no motion-writing job pending. An older single-line `motion:` counts as missing.
+const scenesMissingMotion = () =>
+  state.scenes
+    .filter(
+      (s) =>
+        s.kind === "ai" &&
+        ((s.beat || "").trim() || (s.prompt || "").trim()) &&
+        ![s.camera, s.action, s.env].some((v) => (v || "").trim()) &&
+        !hasPending("motionPrompt", s.scene),
+    )
+    .map((s) => s.scene);
+function syncScriptMissingMotion() {
+  const count = scenesMissingMotion().length;
+  const dirty = $("scriptList").querySelector(".script-row.dirty");
+  $("scriptGenMissingMotion").textContent = `Viết motion thiếu (${count})`;
+  $("scriptGenMissingMotion").disabled =
+    Boolean(globalOp) || count === 0 || Boolean(dirty);
+}
+$("scriptGenMissingMotion").addEventListener("click", () =>
+  enqueueMotionPrompts(scenesMissingMotion()),
 );
 
 function runScriptGen(kind, sceneNo) {
@@ -2822,6 +3084,7 @@ function openScriptImport(open) {
 }
 
 $("btnScript").addEventListener("click", () => {
+  scriptPicked.clear();
   openScriptImport(false);
   // Show first: auto-grow reads scrollHeight, which is 0 while the dialog is display:none.
   $("scriptOverlay").hidden = false;
@@ -2841,6 +3104,26 @@ $("scriptList").addEventListener("input", (e) => {
   syncScriptGenButtons();
   updateScriptFoot();
 });
+$("scriptList").addEventListener("change", (e) => {
+  const pick = e.target.closest("[data-pick]");
+  if (pick) {
+    const n = Number(pick.dataset.pick);
+    if (pick.checked) scriptPicked.add(n);
+    else scriptPicked.delete(n);
+    syncScriptSelection();
+    return;
+  }
+  const chip = e.target.closest("[data-char-id]");
+  if (!chip) return;
+  chip.closest(".char-check").classList.toggle("checked", chip.checked);
+  const group = chip.closest(".script-chars");
+  const ids = [...group.querySelectorAll("[data-char-id]:checked")].map(
+    (c) => c.dataset.charId,
+  );
+  const hidden = group.querySelector('[data-field="char"]');
+  hidden.value = ids.join(", ");
+  hidden.dispatchEvent(new Event("input", { bubbles: true }));
+});
 // Reveal a scene's image + motion prompts on demand. Auto-grow runs on expand — a hidden
 // textarea measures 0 tall, so its height must be recomputed once it is visible.
 $("scriptList").addEventListener("click", (e) => {
@@ -2849,14 +3132,6 @@ $("scriptList").addEventListener("click", (e) => {
     const n = Number(gen.dataset.scene);
     if (hasPending(gen.dataset.gen, n)) cancelSceneJob(gen.dataset.gen, n);
     else runScriptGen(gen.dataset.gen, n);
-    return;
-  }
-  const mergeBtn = e.target.closest("[data-merge-next]");
-  if (mergeBtn) {
-    const scene = Number(mergeBtn.dataset.mergeNext);
-    const i = state.scenes.findIndex((s) => s.scene === scene);
-    const next = state.scenes[i + 1];
-    if (next) openMergeDialog([scene, next.scene]);
     return;
   }
   const btn = e.target.closest(".script-toggle");
@@ -3034,7 +3309,7 @@ $("scriptImportApply").addEventListener("click", async () => {
   }
 });
 
-// ------------------------------------------------------------------ scene setup (title/cue/char)
+// ------------------------------------------------------------------ scene setup (title/char)
 
 async function saveSceneField(field, value) {
   const s = current();
@@ -3060,11 +3335,6 @@ $("titleBox").addEventListener("blur", (e) => {
   const s = current();
   if (s && e.target.value.trim() !== (s.title || ""))
     saveSceneField("title", e.target.value.trim());
-});
-$("cueBox").addEventListener("blur", (e) => {
-  const s = current();
-  if (s && e.target.value.trim() !== (s.cue || ""))
-    saveSceneField("cue", e.target.value.trim());
 });
 
 // ------------------------------------------------------------------ characters

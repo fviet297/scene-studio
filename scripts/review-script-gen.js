@@ -1,7 +1,7 @@
 // Scene Studio - new project dialog and the project's narration voice.
 //
 // "Dự án mới" has two modes. "Từ yêu cầu (AI)" posts the video request to /api/script-generate:
-// the server's LLM writes the story (narration, cast, cues), then the image + motion prompts, and
+// the server's LLM writes the story (narration, cast, cues), then the image prompts, then the motion, and
 // streams its progress over SSE; the finished script becomes the new active project and opens in
 // the script editor for review. Nothing is written before the last step, so Huỷ leaves nothing
 // behind. "Thủ công" creates a project from a pasted scene-plan.md or the blank template.
@@ -23,11 +23,12 @@ const NP_NOTE = {
   ai: "LLM viết narration, nhân vật, prompt ảnh và motion — khoảng vài phút cho 20 scene. Xong sẽ mở Kịch bản để duyệt.",
   manual: "Tạo projects/<slug>/scene-plan.md rồi chuyển sang dự án đó.",
 };
-const NP_PHASES = ["story", "visuals", "create"];
+const NP_PHASES = ["story", "visuals", "motion", "create"];
 const NP_PHASE_LABEL = {
-  story: "Bước 1/3 · Viết câu chuyện và narration",
-  visuals: "Bước 2/3 · Viết prompt ảnh + motion",
-  create: "Bước 3/3 · Tạo dự án",
+  story: "Bước 1/4 · Viết câu chuyện và narration",
+  visuals: "Bước 2/4 · Viết prompt ảnh",
+  motion: "Bước 3/4 · Viết motion (camera, nhân vật, môi trường)",
+  create: "Bước 4/4 · Tạo dự án",
 };
 // Narration is Vietnamese, so Vietnamese voices lead the list.
 const VOICE_LANGUAGE_ORDER = ["Vietnamese", "English", "Chinese"];
@@ -255,7 +256,9 @@ async function createManualProject() {
 function showNpPhase({ phase, done, total }) {
   const label = NP_PHASE_LABEL[phase] ?? "";
   $("npRunStep").textContent =
-    phase === "visuals" && total ? `${label} · ${done}/${total} scene` : label;
+    (phase === "visuals" || phase === "motion") && total
+      ? `${label} · ${done}/${total} scene`
+      : label;
   const at = NP_PHASES.indexOf(phase);
   for (const step of $("npSteps").children) {
     const i = NP_PHASES.indexOf(step.dataset.phase);

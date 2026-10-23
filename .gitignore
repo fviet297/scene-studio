@@ -12,6 +12,9 @@ public/projects/
 
 # Logs of the OmniVoice / muse2api servers started from the review panel
 tmp/services/
+
+# Undo/redo snapshots of scene images, audio and motion videos
+tmp/media-history/
 tmp/logs/gia-long-p1-audio-v2.log
 tmp/logs/gia-long-p1-audio.log
 tmp/logs/gia-long-p1-images.log

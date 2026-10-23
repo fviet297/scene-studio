@@ -23,6 +23,7 @@
         <option value="1:1">1:1</option>
       </select>
       <select class="mini voice-select" id="voiceSelect" aria-label="Giọng đọc narration của dự án" title="Giọng OmniVoice đọc narration của dự án này"></select>
+      <select class="mini style-select" id="styleSelect" aria-label="Style ảnh của dự án" title="Style version dùng khi sinh ảnh của dự án này"></select>
       <button class="btn sm" type="button" id="btnNewProject" title="Tạo dự án mới — viết kịch bản bằng AI từ yêu cầu, hoặc thủ công">Dự án mới</button>
     </div>
     <span class="bar-sep"></span>
@@ -58,6 +59,7 @@
       <button type="button" id="viewStage" data-view="stage" aria-pressed="false" title="Bàn làm việc (phím 2)">Bàn làm việc</button>
     </div>
     <span class="bar-sep"></span>
+    <button class="btn" type="button" id="btnStyle" title="Sửa Style DNA, tạo hoặc đổi style version của dự án">Style</button>
     <button class="btn" type="button" id="btnTemplates">Template prompt</button>
     <button class="btn" type="button" id="btnScript" title="Đọc và sửa toàn bộ scene plan — narration, prompt, motion — mọi scene">Kịch bản</button>
     <button class="btn" type="button" id="btnBrand" title="Logo góc, tên thương hiệu và watermark giữa khung cho MP4 render">Logo &amp; watermark</button>
@@ -137,6 +139,8 @@
     <div class="transport">
       <span class="missing" id="audioMissing">Chưa có audio narration.</span>
       <audio id="audioPlayer" controls preload="none" hidden></audio>
+      <button class="btn quiet sm history-btn" type="button" id="btnUndoAudio" hidden title="Hoàn tác audio của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Hoàn tác audio <span class="count num"></span></button>
+      <button class="btn quiet sm history-btn" type="button" id="btnRedoAudio" hidden title="Làm lại audio của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại audio <span class="count num"></span></button>
     </div>
   </section>
 
@@ -154,7 +158,6 @@
         <div class="block-head"><span class="ttl">Thông tin</span></div>
         <div class="field-row">
           <div class="field"><label for="titleBox">Tiêu đề</label><input class="text-input" id="titleBox" type="text" /></div>
-          <div class="field"><label for="cueBox">Cue (cảm xúc giọng đọc)</label><input class="text-input" id="cueBox" type="text" placeholder="dramatic, tense, somber, hopeful, curious (trống = neutral)" /></div>
         </div>
         <div class="field">
           <label>Nhân vật trong scene</label>
@@ -311,19 +314,39 @@
   <pre class="console-log" id="conLog" aria-live="polite"></pre>
 </section>
 
+<div class="overlay" id="styleOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="styleTitle">
+  <div class="dialog style-dialog">
+    <div class="dialog-head">
+      <h2 id="styleTitle">Style</h2>
+      <span class="note">Style version và Style DNA <code>[STYLE]</code> chèn vào mọi template khi sinh ảnh. Version đang chọn được lưu vào dự án hiện tại.</span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="styleClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field template-version-row"><label for="t_version">Style version</label><select class="mini wide" id="t_version"></select><input class="text-input" id="t_newVersion" type="text" placeholder="tên version mới (lưu nội dung đang sửa)" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Tạo version</button></div>
+      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note">Đổi version ở đây hoặc ở thanh trên đều áp dụng ngay cho dự án. Ảnh đã sinh giữ style cũ.</span>
+      <button class="btn" type="button" id="styleReload">Tải lại</button>
+      <button class="btn primary" type="button" id="styleSave">Lưu style</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="tplOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="tplTitle">
   <div class="dialog">
     <div class="dialog-head">
       <h2 id="tplTitle">Template prompt</h2>
-      <span class="note">Ghép với prompt của mọi scene khi sinh ảnh. Style version đang chọn được lưu vào dự án hiện tại.</span>
+      <span class="note">Ghép với prompt của mọi scene khi sinh ảnh. Lưu vào style version đang chọn (đổi ở thanh trên hoặc nút Style).</span>
       <span class="grow"></span>
       <button class="icon-btn" type="button" id="tplClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="dialog-body">
-      <div class="field template-version-row"><label for="t_version">Style version</label><select class="mini wide" id="t_version"></select><input class="text-input" id="t_newVersion" type="text" placeholder="tên version mới (lưu nội dung đang sửa)" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Tạo version</button></div>
-      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
       <div class="field"><label for="t_masterPrompt">Prompt khoá nhân vật (1 người)</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
       <div class="field"><label for="t_faceLockPrompt">Prompt khoá khuôn mặt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
       <div class="field"><label for="t_multiCharPrompt">Prompt nhiều nhân vật, từ 2 <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
@@ -342,20 +365,26 @@
   <div class="dialog script-dialog">
     <div class="dialog-head">
       <h2 id="scriptTitle">Kịch bản</h2>
-      <span class="note">Toàn bộ scene plan — narration, prompt, bản dịch, motion — sửa trực tiếp.</span>
-      <span class="grow"></span>
-      <button class="btn sm" type="button" id="scriptExpandAll" title="Mở image + motion prompt của mọi scene">Mở tất cả</button>
-      <button class="btn sm" type="button" id="scriptCollapseAll" title="Đóng image + motion prompt của mọi scene">Đóng tất cả</button>
-      <button class="btn sm script-gen-btn gen-prompt" type="button" id="scriptGenMissing" disabled title="Viết image + motion prompt cho mọi scene AI có narration nhưng chưa có prompt">Viết prompt còn thiếu</button>
-      <button class="btn sm" type="button" id="scriptCopy" title="Copy toàn bộ scene plan dạng JSON để sửa ở tool ngoài">Copy JSON</button>
-      <button class="btn sm" type="button" id="scriptImportToggle" aria-expanded="false" title="Dán JSON (cùng cấu trúc) để cập nhật hàng loạt">Nhập JSON</button>
+      <span class="note" title="Toàn bộ scene plan: narration, prompt, bản dịch, motion (camera / nhân vật / môi trường). Sửa trực tiếp.">Toàn bộ scene plan: narration, prompt, bản dịch, motion — sửa trực tiếp.</span>
       <button class="icon-btn" type="button" id="scriptClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
+    <div class="script-toolbar">
+      <button class="btn sm" type="button" id="scriptExpandAll" title="Mở image + motion prompt của mọi scene">Mở tất cả</button>
+      <button class="btn sm" type="button" id="scriptCollapseAll" title="Đóng image + motion prompt của mọi scene">Đóng tất cả</button>
+      <span class="script-toolbar-sep"></span>
+      <button class="btn sm script-gen-btn gen-prompt" type="button" id="scriptGenMissing" disabled title="Viết prompt ảnh cho mọi scene AI có narration nhưng chưa có prompt">Viết prompt thiếu</button>
+      <button class="btn sm script-gen-btn gen-motion" type="button" id="scriptGenMissingMotion" disabled title="Viết camera / nhân vật / môi trường cho mọi scene AI chưa có motion">Viết motion thiếu</button>
+      <span class="script-toolbar-sep"></span>
+      <button class="btn sm" type="button" id="scriptMerge" disabled title="Tick các scene liền kề ở đầu mỗi scene rồi gộp thành một">Gộp đã chọn</button>
+      <span class="grow"></span>
+      <button class="btn sm" type="button" id="scriptCopy" title="Copy toàn bộ scene plan dạng JSON để sửa ở tool ngoài">Copy JSON</button>
+      <button class="btn sm" type="button" id="scriptImportToggle" aria-expanded="false" title="Dán JSON (cùng cấu trúc) để cập nhật hàng loạt">Nhập JSON</button>
+    </div>
     <div class="dialog-body single">
       <div class="script-import" id="scriptImport" hidden>
-        <label for="scriptImportBox">Nhập JSON <span class="note">mảng <code>{scene, narration, cue?, char?, prompt?, prompt_vi?, motion?, motion_vi?}</code>. Field có mặt sẽ ghi đè; scene mới được thêm.</span></label>
+        <label for="scriptImportBox">Nhập JSON <span class="note">mảng <code>{scene, narration, char?, beat?, prompt?, prompt_vi?, camera?, action?, env?, camera_vi?, action_vi?, env_vi?}</code>. Field có mặt sẽ ghi đè; scene mới được thêm.</span></label>
         <textarea id="scriptImportBox" rows="6" spellcheck="false" placeholder='[{"scene":1,"narration":"...","prompt":"...","prompt_vi":"..."}]'></textarea>
         <div class="readonly-field" id="scriptImportPreview" hidden></div>
         <div class="btn-row">
@@ -423,7 +452,8 @@
         </details>
         <div class="subactions">
           <button class="btn quiet sm" type="button" id="btnUpload">Tải ảnh của bạn lên</button>
-          <button class="btn quiet sm" type="button" id="btnUndoImage" hidden>Hoàn tác ảnh</button>
+          <button class="btn quiet sm history-btn" type="button" id="btnUndoImage" hidden title="Hoàn tác ảnh của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Hoàn tác ảnh <span class="count num"></span></button>
+          <button class="btn quiet sm history-btn" type="button" id="btnRedoImage" hidden title="Làm lại ảnh của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại ảnh <span class="count num"></span></button>
         </div>
         <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Chọn file ảnh cho scene này" hidden />
       </div>
@@ -454,15 +484,32 @@
           <span class="note" id="motionDurationHint"></span>
         </div>
         <div class="block-head">
-          <span class="ttl">Motion prompt</span>
+          <span class="ttl">Motion</span>
           <span class="hint" id="motionHint"></span>
         </div>
-        <textarea id="motionPromptBox" rows="7" spellcheck="false" aria-label="Motion prompt của scene đang chọn" placeholder="Motion prompt gửi cho model (trống = tự sinh từ narration)"></textarea>
+        <p class="motion-legacy" id="motionLegacyNote" hidden>Scene đang dùng motion prompt cũ (một dòng). Bấm “Viết bằng AI” hoặc điền 3 ô dưới để thay.</p>
+        <div class="field">
+          <label for="motionCameraBox">Camera <span class="note">một chuyển động máy: từ đâu tới đâu, nhanh hay chậm</span></label>
+          <textarea class="motion-part" id="motionCameraBox" data-part="camera" rows="2" spellcheck="false" placeholder="Slow push-in from the prow toward the character"></textarea>
+        </div>
+        <div class="field">
+          <label for="motionActionBox">Nhân vật <span class="note">hành động rõ của từng nhân vật, theo thứ tự</span></label>
+          <textarea class="motion-part" id="motionActionBox" data-part="action" rows="2" spellcheck="false" placeholder="The character turns his head to the river bend, then raises his right arm"></textarea>
+        </div>
+        <div class="field">
+          <label for="motionEnvBox">Môi trường <span class="note">2–3 chuyển động lớn: nước, sương, gió, ánh sáng…</span></label>
+          <textarea class="motion-part" id="motionEnvBox" data-part="env" rows="2" spellcheck="false" placeholder="Mist lifts off the water, then sunlight sweeps across the river"></textarea>
+        </div>
         <div class="btn-row">
-          <button class="btn sm" type="button" id="motionSave" disabled>Lưu motion prompt</button>
+          <button class="btn sm" type="button" id="motionSave" disabled>Lưu motion</button>
+          <button class="btn sm" type="button" id="motionWrite" title="LLM viết camera / nhân vật / môi trường từ beat của scene (không dựa vào prompt ảnh)">Viết bằng AI</button>
           <button class="btn sm btn-translate" type="button" id="btnTransMotion" data-vi="sceneMotion" data-out="motionTrans" data-label="Dịch">Dịch</button>
         </div>
         <div class="translation" id="motionTrans" hidden></div>
+        <details class="advanced" id="motionPreviewWrap">
+          <summary>Prompt gửi cho model (đã lưu)</summary>
+          <div class="readonly-field" id="motionPreview"></div>
+        </details>
       </div>
 
       <div class="block stage-action">
@@ -470,7 +517,8 @@
         <div class="subactions">
           <button class="btn quiet sm" type="button" id="btnUploadMotionVideo">Tải video thay thế</button>
           <button class="btn quiet sm" type="button" id="btnRemoveMotionVideo" hidden>Dùng ảnh thay video</button>
-          <button class="btn quiet sm" type="button" id="btnUndoMotion" hidden>Hoàn tác motion</button>
+          <button class="btn quiet sm history-btn" type="button" id="btnUndoMotion" hidden title="Hoàn tác motion của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Hoàn tác motion <span class="count num"></span></button>
+          <button class="btn quiet sm history-btn" type="button" id="btnRedoMotion" hidden title="Làm lại motion của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại motion <span class="count num"></span></button>
         </div>
         <input type="file" id="motionVideoInput" accept="video/mp4,video/quicktime" aria-label="Chọn file MP4 hoặc MOV cho scene này" hidden />
       </div>
@@ -479,11 +527,10 @@
 </div>
 
 <div class="overlay" id="mergeOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="mergeDlgTitle">
-  <div class="dialog">
+  <div class="dialog merge-dialog">
     <div class="dialog-head">
       <h2 id="mergeDlgTitle">Gộp scene</h2>
       <span class="note" id="mergeDlgInfo"></span>
-      <span class="grow"></span>
       <button class="icon-btn" type="button" id="mergeClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
@@ -491,8 +538,8 @@
     <div class="dialog-body single">
       <div class="block">
         <div class="field">
-          <label>Giữ ảnh / prompt / motion của</label>
-          <div class="char-picker" id="mergeKeepPicker"></div>
+          <label>Ảnh / prompt / motion giữ lại từ scene (chọn một)</label>
+          <div class="merge-keep" id="mergeKeepPicker" role="radiogroup" aria-label="Scene giữ lại"></div>
         </div>
         <div class="field">
           <label for="mergePreviewNarr">Narration sau khi gộp (sửa ở đây hoặc sau khi gộp)</label>
@@ -643,7 +690,8 @@
         </div>
         <ol class="np-steps" id="npSteps">
           <li data-phase="story">Câu chuyện + narration</li>
-          <li data-phase="visuals">Prompt ảnh + motion</li>
+          <li data-phase="visuals">Prompt ảnh</li>
+          <li data-phase="motion">Motion</li>
           <li data-phase="create">Tạo dự án</li>
         </ol>
         <pre class="np-log" id="npLog"></pre>

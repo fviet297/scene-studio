@@ -91,6 +91,8 @@ export const projectPaths = (slug) => {
     sceneVideoDir: join(publicRoot, 'scene-videos'),
     reviewDir: join(publicRoot, 'review'),
     manifest: join(publicRoot, 'images', 'asset-manifest.json'),
+    // Undo/redo snapshots of scene media. Outside public/ so they never ship in the Remotion bundle.
+    historyDir: join('tmp', 'media-history', slug),
     outDir: OUTPUT_DIR,
     // staticFile()-relative prefix (no leading "public/") for Remotion components.
     staticPrefix: `projects/${slug}`,

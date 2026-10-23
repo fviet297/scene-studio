@@ -18,7 +18,7 @@
 //   POST /api/project-voice   → { voice } → the active project's narration voice (`voice:` header)
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md, reparse
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md, reparse
-//   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,prompt?,prompt_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
+//   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,beat?,prompt?,prompt_vi?,camera?,action?,env?,…_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
 //   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char back into the plan .md
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
@@ -29,8 +29,10 @@
 //   POST /api/character-apply → { id, from?: 'draft'|'source' } → the draft (default) or the uploaded
 //                               source image, as it is, becomes that character's reference image
 //   POST /api/generate-puppets → { id? } → spawn generate-puppet-references.mjs, stream its log over SSE
-//   POST /api/generate-prompt → { scene } → write that scene's image + motion prompt from narration via OpenAI
+//   POST /api/generate-prompt → { scene } → write that scene's image prompt from narration via OpenAI
 //   POST /api/generate-prompts-batch → { scenes:[...] } → same, sequential, streamed over SSE
+//   POST /api/generate-motion-prompts-batch → { scenes:[...] } → write camera / action / env for
+//                               those scenes via the LLM (motion-writer.mjs), streamed over SSE
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
@@ -66,11 +68,13 @@ import { randomUUID } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { basename, dirname, join } from 'node:path';
+import { beginChange, historyCounts, redoChange, settleChange, undoChange } from './lib/media-history.mjs';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
-import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, readPlanHeader, renderScenePlan, writeCharacterPath, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, MOTION_PART_KEYS, readPlanHeader, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
@@ -82,11 +86,14 @@ import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/charact
 
 loadEnv();
 
-// Motion prompt priority: a per-scene `motion:` authored in the scene plan wins over the
-// auto-built one (narration + image prompt). Lets lsvn ship hand-tuned image-to-video prompts.
-const sceneMotionPrompt = (scene) =>
-  scene.image?.motion?.trim() ||
-  buildMotionPrompt({ narration: scene.narration ?? '', scenePrompt: scene.image?.prompt ?? '' });
+// Motion prompt priority: the scene's camera / action / env (motion-writer.mjs) wrapped in the
+// fixed lines; else an older single-line `motion:` (lsvn/trangca skills) verbatim; else one
+// auto-built from the image prompt. `parts` lets a caller send unsaved camera/action/env edits.
+const sceneMotionPrompt = (scene, parts = scene.image?.motionParts) =>
+  hasMotionParts(parts)
+    ? composeMotionPrompt(parts, { cue: scene.cue ?? '', charCount: scene.image?.characters?.length ?? 0 })
+    : scene.image?.motion?.trim() ||
+      buildMotionPrompt({ narration: scene.narration ?? '', scenePrompt: scene.image?.prompt ?? '' });
 
 const PORT = Number(process.env.REVIEW_PORT ?? 9000);
 // Fixed mirrors Remotion statically imports — regenerated by reparse() on every project switch.
@@ -124,42 +131,42 @@ const RENDER_FORMATS = ['wide', 'vertical'];
 const imagePathFor = (n) => join(P.imageDir, sceneFile(n));
 const motionPathFor = (n) => join(P.sceneVideoDir, sceneVideoFile(n));
 
-// One-level undo for scene media: before an overwrite (generate/upload/motion) we snapshot the
-// current file to a sibling `.bak`; /api/undo restores it. A second overwrite replaces the
-// snapshot, so only the most recent change is reversible.
+// Undo/redo for scene media (lib/media-history.mjs): every write to a scene's image, audio or
+// motion video goes through trackMediaChange, which snapshots the file first and keeps the step
+// only if the file really changed. /api/undo and /api/redo walk those snapshots.
 //
-// The scene image also carries a manifest entry (authenticity: AI vs USER_UPLOAD, characters),
-// so its snapshot includes a `.bak.json` sidecar to keep the tag correct after an undo.
-const backupImage = (n) => {
-  const img = imagePathFor(n);
-  if (!existsSync(img)) return; // first generation — nothing to revert to
-  copyFileSync(img, `${img}.bak`);
+// The scene image also carries a manifest entry (authenticity: AI vs USER_UPLOAD, characters), so
+// each image step carries that entry as its meta to keep the tag correct after an undo/redo.
+const MEDIA_KINDS = {
+  image: { path: (n) => imagePathFor(n) },
+  audio: { path: (n) => join(P.audioDir, audioFile(n)) },
+  motion: { path: (n) => motionPathFor(n) },
+};
+const mediaPath = (kind, n) => MEDIA_KINDS[kind].path(n);
+const mediaHistoryDir = (kind, n) => join(P.historyDir, kind, sceneBase(n));
+const imageManifestEntry = (n) => {
   const manifest = existsSync(manifestPath()) ? JSON.parse(readFileSync(manifestPath(), 'utf8')) : [];
-  const entry = manifest.find((m) => m.id === sceneBase(n)) ?? null;
-  writeFileSync(`${img}.bak.json`, JSON.stringify(entry));
+  return manifest.find((m) => m.id === sceneBase(n)) ?? null;
 };
-const backupMotion = (n) => {
-  const v = motionPathFor(n);
-  if (existsSync(v)) copyFileSync(v, `${v}.bak`);
-};
-const undoImage = (n) => {
-  const img = imagePathFor(n);
-  if (!existsSync(`${img}.bak`)) return false;
-  renameSync(`${img}.bak`, img);
-  const sidecar = `${img}.bak.json`;
-  if (existsSync(sidecar)) {
-    const entry = JSON.parse(readFileSync(sidecar, 'utf8'));
-    if (entry) upsertManifest(entry); // restore authenticity + characters for the prior image
-    unlinkSync(sidecar);
+const mediaMeta = (kind, n) => (kind === 'image' ? imageManifestEntry(n) : null);
+const trackMediaChange = async (kind, n, write) => {
+  const file = mediaPath(kind, n);
+  const dir = mediaHistoryDir(kind, n);
+  const pending = beginChange(dir, file, mediaMeta(kind, n));
+  try {
+    return await write();
+  } finally {
+    settleChange(dir, file, pending);
   }
-  return true;
 };
-const undoMotion = (n) => {
-  const v = motionPathFor(n);
-  if (!existsSync(`${v}.bak`)) return false;
-  renameSync(`${v}.bak`, v);
-  return true;
+const stepMedia = (step, kind, n) => {
+  const restored = step(mediaHistoryDir(kind, n), mediaPath(kind, n), mediaMeta(kind, n));
+  if (restored?.meta) upsertManifest(restored.meta); // image only: restore authenticity + characters
+  return Boolean(restored);
 };
+const mediaHistory = (n) => Object.fromEntries(
+  Object.keys(MEDIA_KINDS).map((kind) => [kind, historyCounts(mediaHistoryDir(kind, n), mediaPath(kind, n))]),
+);
 
 // Character profile.json (projects/<slug>/characters/<id>/profile.json). The context fields
 // (country/period/dynasty/role) feed prompt-writer.mjs's culture/century pinning; display_name
@@ -356,7 +363,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, voice: readPlanHeader(planRaw, 'voice') ?? DEFAULT_VOICE },
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), voice: readPlanHeader(planRaw, 'voice') ?? DEFAULT_VOICE },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
     imageModels: withAvailability(IMAGE_MODELS),
@@ -388,9 +395,17 @@ const buildState = () => {
         source,
         prompt: s.image.prompt ?? '',
         promptVi: s.image.promptVi ?? '',
+        beat: s.beat ?? '',
+        // The full prompt a motion video would be sent with (see sceneMotionPrompt).
         motionPrompt: sceneMotionPrompt(s),
-        // Raw authored `motion:` (empty when the scene has none) — the full-script editor writes
-        // this field verbatim, unlike motionPrompt which falls back to an auto-built prompt.
+        camera: s.image.motionParts?.camera ?? '',
+        action: s.image.motionParts?.action ?? '',
+        env: s.image.motionParts?.env ?? '',
+        cameraVi: s.image.motionParts?.cameraVi ?? '',
+        actionVi: s.image.motionParts?.actionVi ?? '',
+        envVi: s.image.motionParts?.envVi ?? '',
+        // Older single-line `motion:` (empty when the scene has none), still sent when the three
+        // parts above are empty.
         motion: s.image.motion ?? '',
         motionVi: s.image.motionVi ?? '',
         query: s.image.query ?? '',
@@ -401,8 +416,7 @@ const buildState = () => {
         audioUrl: hasAudio ? `/audio/${audioFile(s.scene)}?v=${statSync(apath).mtimeMs}` : null,
         hasMotionVideo,
         motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
-        hasImageBackup: existsSync(`${path}.bak`),
-        hasMotionBackup: existsSync(`${motionPath}.bak`),
+        history: mediaHistory(s.scene),
         promptFullChars,
         promptOverhead,
       };
@@ -513,11 +527,16 @@ const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
   sseHead(res);
   const send = (event, data) => sseSend(res, event, data);
   send('log', startMsg);
+  // The script rewrites scene audio in place, so snapshot the scenes it may touch first (no args =
+  // every scene) and keep only the steps whose file actually changed.
+  const scenes = args.length ? args.map(Number) : readPlan().scenes.map((s) => s.scene);
+  const pendingChanges = scenes.map((n) => [n, beginChange(mediaHistoryDir('audio', n), mediaPath('audio', n))]);
   const child = spawn('node', [join(HERE, 'generate-narration.mjs'), ...args], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
   pipe(child.stdout);
   pipe(child.stderr);
   child.on('close', async (code) => {
+    for (const [n, pending] of pendingChanges) settleChange(mediaHistoryDir('audio', n), mediaPath('audio', n), pending);
     if (code !== 0) { send('error', `Exited with code ${code}`); res.end(); resolve(); return; }
     await rebuildBundles(send); // new audio → refresh hasAudio/durations/captions in the bundle
     send('done', 'Audio generation finished.');
@@ -601,8 +620,7 @@ const generateImagesBatch = async (res, sceneNos, model) => {
     attempted++;
     sseSend(res, 'log', `▶ generating scene ${n}...`);
     try {
-      backupImage(n); // snapshot the current image so /api/undo can restore it
-      const { via } = await generateSceneImage(target, plan.characters, { model, signal, onLog: (line) => sseSend(res, 'log', `  ${line}`) });
+      const { via } = await trackMediaChange('image', n, () => generateSceneImage(target, plan.characters, { model, signal, onLog: (line) => sseSend(res, 'log', `  ${line}`) }));
       ok++;
       sseSend(res, 'log', `✓ scene ${n} (${via}) — ${ok}/${sceneNos.length} ảnh thành công`);
     } catch (e) {
@@ -642,8 +660,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
       ).trim());
       if (!Number.isFinite(audioSeconds)) throw new Error('could not read audio duration');
       sseSend(res, 'log', `▶ generating motion video for scene ${n} (${model})...`);
-      backupMotion(n);
-      await generateSceneVideo({
+      await trackMediaChange('motion', n, () => generateSceneVideo({
         scene: n,
         imagePath,
         outputDir: P.sceneVideoDir,
@@ -653,7 +670,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
         aspect: activeAspect(),
         signal,
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
-      });
+      }));
       ok++;
       sseSend(res, 'log', `✓ scene ${n} motion video ready — ${ok}/${sceneNos.length} video thành công`);
     } catch (e) {
@@ -690,17 +707,56 @@ const generatePromptsBatch = async (res, sceneNos) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const gi = plan.scenes.findIndex((s) => s.scene === n);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
       writeSceneField(P.planMd, n, 'prompt', text);
       writeSceneField(P.planMd, n, 'prompt_vi', vi);
-      if (motion) writeSceneField(P.planMd, n, 'motion', motion);
-      if (motionVi) writeSceneField(P.planMd, n, 'motion_vi', motionVi);
       ok++;
       sseSend(res, 'log', `✓ scene ${n}: ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
   }
   if (ok) reparse();
   sseSend(res, ok === attempted ? 'done' : 'error', `Wrote ${ok}/${attempted} prompt(s).`);
+  res.end();
+};
+
+// The motion writer's view of one scene: its English beat — or, for plans written before beats
+// were stored, its image prompt — plus mood and on-screen cast names (left to right).
+const motionBeat = (s) => s.beat || s.image?.prompt || '';
+const motionInput = (s) => ({
+  scene: s.scene,
+  beat: motionBeat(s),
+  cue: s.cue ?? '',
+  names: buildCharacterContext(s.image.characters, P.profilesDir).map((c) => c.name),
+});
+
+// Write camera / action / env for several scenes (scripts/lib/motion-writer.mjs), in batches.
+// Every other scene's beat goes along for continuity, cut short when it is a stand-in image prompt.
+const generateMotionPromptsBatch = async (res, sceneNos) => {
+  sseHead(res);
+  const signal = cancelSignal(res);
+  const log = (line) => sseSend(res, 'log', line);
+  const plan = readPlan();
+  const targets = [];
+  for (const n of sceneNos) {
+    const s = plan.scenes.find((x) => x.scene === n);
+    if (!s) log(`✗ scene ${n} not found`);
+    else if (s.image.kind !== 'ai') log(`• scene ${n} is a search scene — skipped`);
+    else if (!motionBeat(s)) log(`✗ scene ${n}: chưa có beat hay prompt ảnh — skipped`);
+    else targets.push(motionInput(s));
+  }
+  const withoutBeat = targets.filter((t) => !plan.scenes.find((x) => x.scene === t.scene).beat).map((t) => t.scene);
+  if (withoutBeat.length) log(`• scene ${withoutBeat.join(', ')} chưa có beat → dùng prompt ảnh làm mô tả cảnh`);
+  try {
+    const outline = plan.scenes
+      .filter((s) => motionBeat(s))
+      .map((s) => ({ scene: s.scene, beat: s.beat || s.image.prompt.slice(0, 200) }));
+    const rows = targets.length ? await writeMotionsBatched({ context: { outline }, scenes: targets, signal, onLog: log }) : new Map();
+    for (const [n, row] of rows) writeMotionParts(P.planMd, n, row);
+    if (rows.size) reparse();
+    sseSend(res, rows.size && rows.size === targets.length ? 'done' : 'error', `Đã viết motion ${rows.size}/${targets.length} scene.`);
+  } catch (e) {
+    sseSend(res, 'error', e.message);
+  }
   res.end();
 };
 
@@ -809,7 +865,7 @@ const generateScriptProject = async (res, input) => {
   const signal = cancelSignal(res);
   const log = (line) => sseSend(res, 'log', line);
   try {
-    const { story, visuals } = await writeVideo({
+    const { story, visuals, motions } = await writeVideo({
       request: input.request, sceneCount: input.sceneCount, signal, onLog: log,
       onProgress: (progress) => sseSend(res, 'progress', progress),
     });
@@ -822,8 +878,9 @@ const generateScriptProject = async (res, input) => {
       title: story.title,
       characters: Object.fromEntries(story.characters.map((c) => [c.id, refPath(c.id)])),
       scenes: story.scenes.map((s) => ({
-        scene: s.scene, cue: s.cue, char: s.chars.join(', '), narration: s.narration,
-        ...visuals.get(s.scene), // prompt, prompt_vi, motion, motion_vi — absent when its batch failed
+        scene: s.scene, cue: s.cue, char: s.chars.join(', '), narration: s.narration, beat: s.visual,
+        ...visuals.get(s.scene), // prompt, prompt_vi — absent when its batch failed
+        ...motions.get(s.scene), // camera, action, env + their _vi — absent when its batch failed
       })),
     });
     signal.throwIfAborted();
@@ -1139,7 +1196,7 @@ const server = createServer(async (req, res) => {
       // patch keyed by scene: only the fields present are written, verbatim, with no derived-field
       // clearing (a prompt edit keeps prompt_vi, a narration edit keeps the prompt, etc.). New
       // scene numbers are appended. `char` accepts an id/comma-string/array/"both"/"none".
-      const STRING_FIELDS = ['narration', 'cue', 'prompt', 'prompt_vi', 'motion', 'motion_vi'];
+      const STRING_FIELDS = ['narration', 'cue', 'beat', 'prompt', 'prompt_vi', 'motion', 'motion_vi', ...MOTION_PART_KEYS];
       const body = await readBody(req);
       const rows = Array.isArray(body) ? body : Array.isArray(body?.scenes) ? body.scenes : null;
       if (!rows || !rows.length) { sendJson(res, 400, { error: 'expected an array of {scene, ...fields} or {scenes:[...]}' }); return; }
@@ -1169,7 +1226,8 @@ const server = createServer(async (req, res) => {
       for (const row of rows) {
         const char = charByScene.get(row.scene); // undefined when the row omitted char
         if (hasSceneHeading(P.planMd, row.scene)) {
-          for (const f of STRING_FIELDS) if (f in row) writeSceneField(P.planMd, row.scene, f, row[f]);
+          for (const f of STRING_FIELDS) if (f in row && !MOTION_PART_KEYS.includes(f)) writeSceneField(P.planMd, row.scene, f, row[f]);
+          writeMotionParts(P.planMd, row.scene, row); // after motion/motion_vi, which it may retire
           if (char !== undefined) writeSceneField(P.planMd, row.scene, 'char', char);
           updated.push(row.scene);
         } else {
@@ -1388,14 +1446,11 @@ const server = createServer(async (req, res) => {
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
       await trackJob(res, async () => {
-        const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+        const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
         writeSceneField(P.planMd, scene, 'prompt', text);
         writeSceneField(P.planMd, scene, 'prompt_vi', vi);
-        // Skipped when the reply had no motion sections, so a hand-authored `motion:` is not lost.
-        if (motion) writeSceneField(P.planMd, scene, 'motion', motion);
-        if (motionVi) writeSceneField(P.planMd, scene, 'motion_vi', motionVi);
         reparse();
-        sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi, motion, motionVi });
+        sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
       });
       return;
     }
@@ -1405,6 +1460,14 @@ const server = createServer(async (req, res) => {
       const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
       if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
       trackJob(res, () => generatePromptsBatch(res, list));
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/generate-motion-prompts-batch') {
+      const { scenes } = await readBody(req);
+      const list = Array.isArray(scenes) ? scenes.filter((n) => Number.isFinite(n)) : [];
+      if (!list.length) { sendJson(res, 400, { error: 'scenes[] required' }); return; }
+      trackJob(res, () => generateMotionPromptsBatch(res, list));
       return;
     }
 
@@ -1423,8 +1486,7 @@ const server = createServer(async (req, res) => {
       await trackJob(res, async () => {
         try {
           log(`▶ generating scene ${scene}${model ? ` (model=${model})` : ' (auto route by reference count)'}`);
-          backupImage(scene); // snapshot the current image so /api/undo can restore it
-          const { via } = await generateSceneImage(target, plan.characters, { model, signal, onLog: log });
+          const { via } = await trackMediaChange('image', scene, () => generateSceneImage(target, plan.characters, { model, signal, onLog: log }));
           sseSend(res, 'done', `Scene ${scene} image generated (${via})`);
         } catch (e) {
           if (signal.aborted) { console.log(`[image scene ${scene}] cancelled`); return; }
@@ -1446,15 +1508,16 @@ const server = createServer(async (req, res) => {
       const file = sceneFile(scene);
       mkdirSync(P.imageDir, { recursive: true });
       const path = join(P.imageDir, file);
-      backupImage(scene); // snapshot the current image so /api/undo can restore it
-      writeFileSync(path, buf);
-      // Record the user's photo as the scene asset so it is never mislabelled as AI.
-      upsertManifest({
-        id: file.replace(/\.[^.]+$/, ''), scene, type: 'user_upload',
-        subject: `User-uploaded image for scene ${scene}`, source: 'User upload (review UI)', sourceUrl: null,
-        license: 'Provided by the user; ensure you hold the rights to use it.',
-        credit: 'User-provided image', authenticity: 'USER_UPLOAD',
-        characters: target.image.characters ?? [],
+      await trackMediaChange('image', scene, () => {
+        writeFileSync(path, buf);
+        // Record the user's photo as the scene asset so it is never mislabelled as AI.
+        upsertManifest({
+          id: file.replace(/\.[^.]+$/, ''), scene, type: 'user_upload',
+          subject: `User-uploaded image for scene ${scene}`, source: 'User upload (review UI)', sourceUrl: null,
+          license: 'Provided by the user; ensure you hold the rights to use it.',
+          credit: 'User-provided image', authenticity: 'USER_UPLOAD',
+          characters: target.image.characters ?? [],
+        });
       });
       sendJson(res, 200, { ok: true, scene, source: 'upload', imageUrl: `/images/${file}?v=${statSync(path).mtimeMs}` });
       return;
@@ -1474,8 +1537,7 @@ const server = createServer(async (req, res) => {
       writeFileSync(uploadPath, buf);
       try {
         probeSceneVideo(uploadPath);
-        backupMotion(scene);
-        renameSync(uploadPath, path);
+        await trackMediaChange('motion', scene, () => renameSync(uploadPath, path));
       } catch (error) {
         if (existsSync(uploadPath)) unlinkSync(uploadPath);
         sendJson(res, 400, { error: error.message });
@@ -1578,17 +1640,21 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === 'POST' && pathname === '/api/undo') {
-      // Restore the previous scene image or motion video from its `.bak` snapshot (see backupImage/
-      // backupMotion). One level deep; 400 when there is nothing to revert.
+    if (req.method === 'POST' && (pathname === '/api/undo' || pathname === '/api/redo')) {
+      // Step one scene's image, audio or motion video back (undo) or forward (redo) through its
+      // snapshots (see trackMediaChange). 400 when that direction has nothing left.
       const { scene, kind } = await readBody(req);
-      if (!Number.isFinite(scene) || !['image', 'motion'].includes(kind)) {
-        sendJson(res, 400, { error: "scene + kind ('image'|'motion') required" });
+      if (!Number.isFinite(scene) || !Object.hasOwn(MEDIA_KINDS, kind)) {
+        sendJson(res, 400, { error: `scene + kind (${Object.keys(MEDIA_KINDS).join('|')}) required` });
         return;
       }
-      const restored = kind === 'image' ? undoImage(scene) : undoMotion(scene);
-      if (!restored) { sendJson(res, 400, { error: `nothing to undo for scene ${scene} ${kind}` }); return; }
-      if (kind === 'motion') { reparse(); await rebuildBundles(); }
+      const action = pathname === '/api/undo' ? 'undo' : 'redo';
+      if (!stepMedia(action === 'undo' ? undoChange : redoChange, kind, scene)) {
+        sendJson(res, 400, { error: `nothing to ${action} for scene ${scene} ${kind}` });
+        return;
+      }
+      // Durations, captions and the motion flag live in the Remotion bundle.
+      if (kind !== 'image') { reparse(); await rebuildBundles(); }
       sendJson(res, 200, buildState());
       return;
     }
@@ -1604,8 +1670,7 @@ const server = createServer(async (req, res) => {
         sendJson(res, 404, { error: `scene ${scene} has no motion video` });
         return;
       }
-      backupMotion(scene);
-      unlinkSync(videoPath);
+      await trackMediaChange('motion', scene, () => unlinkSync(videoPath));
       reparse();
       await rebuildBundles();
       sendJson(res, 200, buildState());
@@ -1613,10 +1678,13 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/generate-motion-video') {
-      const { scene, prompt, model, duration } = await readBody(req);
+      // camera / action / env, when sent, are the panel's current (possibly unsaved) edits.
+      const body = await readBody(req);
+      const { scene, model, duration } = body;
       const plan = readPlan();
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
+      const editedParts = MOTION_FIELDS.some((f) => typeof body[f] === 'string') ? body : undefined;
       const imagePath = join(P.imageDir, sceneFile(scene));
       if (!existsSync(imagePath)) { sendJson(res, 400, { error: `scene ${scene} has no image yet` }); return; }
       const audioPath = join(P.audioDir, audioFile(scene));
@@ -1630,12 +1698,11 @@ const server = createServer(async (req, res) => {
       const signal = cancelSignal(res);
       await trackJob(res, async () => {
         try {
-          const motionPrompt = prompt || sceneMotionPrompt(target);
+          const motionPrompt = sceneMotionPrompt(target, editedParts);
           log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
           log(`audio duration: ${audioSeconds.toFixed(1)}s`);
           if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
-          backupMotion(scene); // snapshot the current motion video so /api/undo can restore it
-          const result = await generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), signal, onLog: log });
+          const result = await trackMediaChange('motion', scene, () => generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), signal, onLog: log }));
           // The final Remotion render plays this clip in place of the scene image — reparse +
           // rebuild so the bundle's motionVideo flag flips on without a separate manual step.
           reparse();

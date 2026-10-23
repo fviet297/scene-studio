@@ -484,8 +484,8 @@ $("tlCharGallery").addEventListener("click", (e) => {
   );
   if (clip) seekTo(clip.start);
 });
-// Keyboard activation of a clip (Enter/Space on a focused clip) jumps to its start and toggles
-// its selection — the keyboard stand-in for double-click.
+// Keyboard activation of a clip (Enter on a focused clip) jumps to its start and toggles its
+// selection — the keyboard stand-in for double-click.
 $("tlClips").addEventListener("click", (e) => {
   const btn = e.target.closest(".tl-clip");
   if (!btn || e.detail !== 0) return;
@@ -497,12 +497,18 @@ $("tlClips").addEventListener("click", (e) => {
   renderSelection();
 });
 
+// The click a button fires on Space comes from keyup; cancel it for clips (see the keydown below).
+$("tlClips").addEventListener("keyup", (e) => {
+  if (e.key === " " && e.target.closest(".tl-clip")) e.preventDefault();
+});
+
 window.addEventListener("keydown", (e) => {
   if (!tlVisible() || e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.target.closest?.("input, select, textarea, [contenteditable]")) return;
   if (e.key === " ") {
-    // A focused button already toggles itself on Space.
-    if (e.target.closest?.("button")) return;
+    // A focused button already toggles itself on Space — except a clip, which a mouse click leaves
+    // focused: there Space must play, not silently add the clip to the batch selection (Enter does that).
+    if (e.target.closest?.("button:not(.tl-clip)")) return;
     e.preventDefault();
     if (tl.playing) pause();
     else play();
