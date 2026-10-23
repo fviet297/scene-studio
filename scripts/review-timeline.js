@@ -30,6 +30,10 @@ const TL_RULER_STEPS = [1, 2, 5, 10, 15, 30, 60, 120];
 // Clip widths below which the label drops its duration, then its icon.
 const TL_CLIP_DURATION_MIN_PX = 76;
 const TL_CLIP_ICON_MIN_PX = 40;
+// Room one character dot takes in the label (6px dot + 2px gap); the duration needs that much more.
+const TL_CLIP_DOT_PX = 8;
+// Below this a clip with characters drops its still/film icon: the dots carry more information.
+const TL_CLIP_ICON_WITH_CAST_MIN_PX = 64;
 // The playhead is kept this far inside the visible track while playing.
 const TL_FOLLOW_MARGIN_PX = 40;
 // "Previous" past this point rewinds the current scene instead of jumping back one.
@@ -146,9 +150,14 @@ const TL_ICON_STILL =
 function clipHtml(clip, i) {
   const s = clip.scene;
   const width = clip.seconds * tl.pxPerSec;
-  // Narrow clips drop the duration, then the icon, rather than show cut-off text.
-  const showDuration = width >= TL_CLIP_DURATION_MIN_PX;
-  const showIcon = width >= TL_CLIP_ICON_MIN_PX;
+  // Narrow clips drop the duration, then the icon, rather than show cut-off text. Character dots
+  // outrank the duration (it stays in the tooltip), so each dot raises the duration's threshold.
+  const cast = s.characters || [];
+  const showPips = width >= TL_CLIP_DURATION_MIN_PX;
+  const showDuration = width >= TL_CLIP_DURATION_MIN_PX + cast.length * TL_CLIP_DOT_PX;
+  const showCast = width >= TL_CLIP_ICON_MIN_PX;
+  const showIcon =
+    showCast && (!cast.length || width >= TL_CLIP_ICON_WITH_CAST_MIN_PX);
   const duration = s.hasAudio
     ? `${clip.content.toFixed(1)}s`
     : `~${clip.content}s`;
@@ -160,6 +169,12 @@ function clipHtml(clip, i) {
         ? TL_ICON_STILL
         : "";
   const audioNote = s.hasAudio ? "" : ", chưa có audio";
+  const castNote = cast.length
+    ? `, nhân vật: ${cast.map((id) => charById(id)?.name ?? id).join(", ")}`
+    : "";
+  const castDots = showCast && cast.length
+    ? `<span class="tl-clip-chars">${cast.map(charDotHtml).join("")}</span>`
+    : "";
   const classes = [
     "tl-clip",
     s.hasAudio ? "" : "no-audio",
@@ -170,16 +185,16 @@ function clipHtml(clip, i) {
   const picked = selected.has(s.scene);
   return `<div class="tl-cell${picked ? " selected" : ""}" data-scene="${s.scene}" style="width:${width}px">
     <button type="button" class="${classes}" data-index="${i}"
-        aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}"
-        title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}">
+        aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${castNote}"
+        title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${castNote}">
       ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
       <span class="tl-clip-label">
-        <span class="num">${s.scene}</span>${icon}
+        <span class="num">${s.scene}</span>${icon}${castDots}
         ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
       </span>
     </button>
     ${showIcon ? editButtonHtml(s) : ""}
-    ${showDuration ? pips(s) : ""}
+    ${showPips ? pips(s) : ""}
   </div>`;
 }
 
@@ -491,15 +506,6 @@ $("tlInner").addEventListener("dblclick", (e) => {
   if (selected.has(n)) selected.delete(n);
   else selected.add(n);
   renderSelection();
-});
-// A character's scene chip in the cast strip jumps the playhead to that scene.
-$("tlCharGallery").addEventListener("click", (e) => {
-  const chip = e.target.closest(".char-chip");
-  if (!chip) return;
-  const clip = timelineClips().find(
-    (c) => c.scene.scene === Number(chip.dataset.scene),
-  );
-  if (clip) seekTo(clip.start);
 });
 // Keyboard activation of a clip (Enter on a focused clip) jumps to its start and toggles its
 // selection — the keyboard stand-in for double-click.

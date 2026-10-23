@@ -273,13 +273,13 @@ select.mini.wide { width: 100%; }
 .char-meta { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; justify-content: center; }
 .char-name { font-size: 12px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .char-id { font-family: var(--mono); font-size: 10px; color: var(--faint); }
-.char-scenes { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 1px; }
-.char-chip {
-  font-family: var(--mono); font-size: 10px; line-height: 1; padding: 3px 6px; border-radius: 999px;
-  border: 1px solid var(--line); background: var(--surface-3); color: var(--muted);
-  transition: color .15s ease, border-color .15s ease;
+/* A character's colour (charColor in review-panel.js), echoed by the dots on timeline clips. The
+   dark ring keeps it readable on any thumbnail. */
+.char-dot {
+  display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 999px;
+  background: var(--char-color); box-shadow: 0 0 0 1.5px rgba(7, 8, 10, .85);
 }
-.char-chip:hover { color: var(--text); border-color: #3d454e; }
+.char-name .char-dot { margin-right: 6px; vertical-align: 1px; }
 .char-actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
 .char-action {
   font-family: var(--sans); font-size: 10px; font-weight: 600; line-height: 1; padding: 4px 7px;
@@ -852,8 +852,6 @@ body.view-timeline .workbench { display: none; }
 .is-strip .char-meta { flex-direction: row; align-items: center; gap: 8px; }
 .is-strip .char-name { max-width: 16ch; }
 .is-strip .char-id { display: none; }
-.is-strip .char-scenes { flex-wrap: nowrap; gap: 2px; margin: 0; }
-.is-strip .char-chip { padding: 2px 5px; }
 .is-strip .char-actions { flex-wrap: nowrap; gap: 2px; margin: 0; }
 .is-strip .char-action {
   display: grid; place-items: center; width: 22px; height: 22px; padding: 0;
@@ -902,6 +900,18 @@ body.view-timeline .workbench { display: none; }
 .tl-clip.no-image .tl-clip-label { background: none; }
 .tl-clip-label svg { width: 12px; height: 12px; flex: none; color: var(--muted); }
 .tl-clip-dur { margin-left: auto; color: var(--muted); }
+/* Up to five character dots after the scene number; on a narrow clip they overlap like an avatar
+   stack (each keeps its dark ring) so the label never overflows. */
+.tl-clip { container-type: inline-size; }
+.tl-clip-chars { display: inline-flex; align-items: center; gap: 2px; flex: none; }
+.tl-clip-chars .char-dot { width: 6px; height: 6px; }
+@container (max-width: 110px) {
+  .tl-clip-chars { gap: 0; }
+  .tl-clip-chars .char-dot + .char-dot { margin-left: -2px; }
+}
+@container (max-width: 60px) {
+  .tl-clip-chars .char-dot { width: 5px; height: 5px; }
+}
 /* Batch selection (double-click a clip to pick or drop it): a check badge top-left plus
    an accent wash, so selection reads apart from "the clip you are on" (solid accent border) and
    never by colour alone; status pips sit top-right. */

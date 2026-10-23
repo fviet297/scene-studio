@@ -23,8 +23,9 @@
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   GET  /api/character-library → every other project's characters, most recently updated first
 //   GET  /library-characters/<slug>/<file> → another project's character reference image
-//   POST /api/character-import → { project, sourceId, id, name } → copy another project's character
-//                               (reference image + profile.json) into the active project as `id`
+//   POST /api/character-import → { project, sourceId, id, name, replace? } → copy another project's
+//                               character (reference image + profile.json) into the active project
+//                               as `id`; replace overwrites the existing character `id`
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
 //   POST /api/character-source?id=<id> → raw image body → source image to redraw that character from
 //   POST /api/character-generate → { id, model, description?, source?: 'upload'|'current' } → draw a
@@ -248,19 +249,37 @@ const characterLibrary = () => listProjects()
   })
   .sort((a, b) => b.updatedAt - a.updatedAt);
 
-// Copy another project's character into the active one under `id`: reference image (re-encoded
-// to the plan's .jpg path) first, then the plan line and profile.json — so a failed image copy
-// never leaves a plan entry pointing at nothing. The profile keeps every authored field
-// (appearance, facts, …); only its identity fields are rewritten for the new id/name.
-const importCharacter = ({ project, sourceId, id, name }) => {
+// Put `sourceFile` in place as character `id`'s reference and return its plan path. A new
+// character gets its image first and its plan line second, so a failed copy never leaves a plan
+// entry pointing at nothing. Replacing keeps the id (every scene's `char:` still points at it) and
+// drops the old puppet v2 render, which shows the previous person.
+const placeImportedReference = (id, sourceFile, replace) => {
+  if (!replace) {
+    const relPath = characterRefPath(P.staticPrefix, id);
+    mkdirSync(dirname(relPath), { recursive: true });
+    optimizeCharacterImage(sourceFile, relPath);
+    addCharacterToPlan(P.planMd, P.staticPrefix, id);
+    return relPath;
+  }
+  const oldPath = planCharacterPath(id);
+  setCharacterReference(id, oldPath, sourceFile);
+  const relPath = oldPath.replace(/\.[^.]+$/, '.jpg');
+  for (const base of new Set([basename(oldPath), basename(relPath)])) {
+    const puppet = join(P.charV2Dir, base);
+    if (existsSync(puppet)) unlinkSync(puppet);
+  }
+  return relPath;
+};
+
+// Copy another project's character into the active one as `id` — a new character, or (replace)
+// an existing one. The profile keeps every authored field (appearance, facts, …); only its
+// identity fields are rewritten for the id/name.
+const importCharacter = ({ project, sourceId, id, name, replace }) => {
   const source = parsePlan(project).characters;
   if (!Object.hasOwn(source, sourceId) || !existsSync(source[sourceId])) {
     throw new Error(`character "${sourceId}" has no reference image in project "${project}"`);
   }
-  const relPath = characterRefPath(P.staticPrefix, id);
-  mkdirSync(dirname(relPath), { recursive: true });
-  optimizeCharacterImage(source[sourceId], relPath);
-  addCharacterToPlan(P.planMd, P.staticPrefix, id);
+  const relPath = placeImportedReference(id, source[sourceId], replace);
   const sourceProfile = join(projectPaths(project).profilesDir, sourceId, 'profile.json');
   let profile = {};
   if (existsSync(sourceProfile)) {
@@ -1335,16 +1354,18 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/character-import') {
-      const { project, sourceId, id, name } = await readBody(req);
+      const { project, sourceId, id, name, replace = false } = await readBody(req);
       if (!isValidSlug(project) || project === P.slug || !existsSync(projectPaths(project).planMd)) {
         sendJson(res, 400, { error: `invalid source project "${project}"` });
         return;
       }
       if (!isValidSlug(id)) { sendJson(res, 400, { error: 'id must be lowercase letters, numbers and hyphens' }); return; }
       if (typeof name !== 'string' || !name.trim()) { sendJson(res, 400, { error: 'name is required' }); return; }
-      if (Object.hasOwn(readPlan().characters, id)) { sendJson(res, 400, { error: `character "${id}" already exists` }); return; }
+      const exists = Object.hasOwn(readPlan().characters, id);
+      if (replace && !exists) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      if (!replace && exists) { sendJson(res, 400, { error: `character "${id}" already exists` }); return; }
       try {
-        importCharacter({ project, sourceId, id, name: name.trim() });
+        importCharacter({ project, sourceId, id, name: name.trim(), replace: Boolean(replace) });
       } catch (e) {
         sendJson(res, 400, { error: e.message });
         return;

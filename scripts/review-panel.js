@@ -589,6 +589,18 @@ function charById(id) {
   return (state.characterList || []).find((c) => c.id === id) ?? null;
 }
 
+// One colour per character, by its order in the plan's ## characters block (a project has at most
+// five). Chosen to stay apart from the accent teal, the image blue, the motion amber and the
+// danger red, so a character dot never reads as a status. The name always travels with the dot
+// (label in the strip, title/aria-label on clips): colour is never the only cue.
+const CHAR_COLORS = ["#a78bfa", "#f472b6", "#a3c45a", "#f08c4a", "#d8dde3"];
+function charColor(id) {
+  const i = (state.characterList || []).findIndex((c) => c.id === id);
+  return CHAR_COLORS[Math.max(i, 0) % CHAR_COLORS.length];
+}
+const charDotHtml = (id) =>
+  `<span class="char-dot" style="--char-color:${charColor(id)}" aria-hidden="true"></span>`;
+
 // The workbench rail and the timeline cast strip show the same cards; CSS lays them out.
 const CHAR_GALLERY_IDS = ["charGallery", "tlCharGallery"];
 // The strip shows the actions as icons only; the rail shows their labels.
@@ -596,6 +608,8 @@ const CHAR_ICON_PROFILE =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
 const CHAR_ICON_UPLOAD =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>';
+const CHAR_ICON_REPLACE =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>';
 const CHAR_ICON_GENERATE =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M19 15v4M17 17h4"/></svg>';
 
@@ -606,35 +620,22 @@ function renderCharGallery() {
       const thumbs = c.refUrl
         ? `<img class="char-thumb" src="${c.refUrl}" alt="Ảnh tham chiếu của ${escapeHtml(c.name)}" loading="lazy" title="Ảnh tham chiếu" />`
         : '<span class="char-thumb blank">?</span>';
-      const chips = (c.scenes || [])
-        .map(
-          (n) =>
-            `<button type="button" class="char-chip" data-scene="${n}">#${n}</button>`,
-        )
-        .join("");
       return `<div class="char-card">
         <div class="char-thumbs">${thumbs}</div>
         <div class="char-meta">
-          <span class="char-name">${escapeHtml(c.name)}</span>
+          <span class="char-name">${charDotHtml(c.id)}${escapeHtml(c.name)}</span>
           <span class="char-id num">${escapeHtml(c.id)}</span>
-          <div class="char-scenes">${chips}</div>
           <div class="char-actions">
             <button type="button" class="char-action" data-action="profile" data-id="${escapeHtml(c.id)}" title="Hồ sơ" aria-label="Hồ sơ ${escapeHtml(c.name)}">${CHAR_ICON_PROFILE}<span class="char-action-label">Hồ sơ</span></button>
             <button type="button" class="char-action" data-action="upload" data-id="${escapeHtml(c.id)}" title="Tải ảnh ref" aria-label="Tải ảnh ref ${escapeHtml(c.name)}">${CHAR_ICON_UPLOAD}<span class="char-action-label">Tải ảnh ref</span></button>
             <button type="button" class="char-action" data-action="generate" data-id="${escapeHtml(c.id)}" title="Tạo ảnh ref bằng AI, từ mô tả hoặc từ ảnh" aria-label="Tạo ảnh ref cho ${escapeHtml(c.name)}">${CHAR_ICON_GENERATE}<span class="char-action-label">Tạo ảnh</span></button>
+            <button type="button" class="char-action" data-action="replace" data-id="${escapeHtml(c.id)}" title="Thay bằng nhân vật từ project khác (giữ id và các scene)" aria-label="Thay ${escapeHtml(c.name)} bằng nhân vật từ project khác">${CHAR_ICON_REPLACE}<span class="char-action-label">Thay</span></button>
           </div>
         </div>
       </div>`;
     })
     .join("");
   for (const id of CHAR_GALLERY_IDS) $(id).innerHTML = html;
-
-  // Timeline chips seek the playhead instead (review-timeline.js).
-  for (const chip of $("charGallery").querySelectorAll(".char-chip")) {
-    chip.addEventListener("click", () =>
-      selectScene(Number(chip.dataset.scene)),
-    );
-  }
 }
 
 function syncSetupBlock(s) {
@@ -3349,6 +3350,8 @@ const AC_NOTE_NEW =
 const AC_NOTE_LIB =
   "Chép ảnh tham chiếu và profile.json sang project này. Đổi id nếu muốn.";
 let acMode = "new";
+// Set while the dialog replaces an existing character (library only, id locked).
+let acReplaceId = null;
 // null while loading; { error } when the request failed; otherwise the newest-first list.
 let acLibrary = null;
 let acPicked = null;
@@ -3393,8 +3396,16 @@ function setAcMode(mode) {
   $("acModeLib").setAttribute("aria-pressed", String(lib));
   $("acLibrary").hidden = !lib;
   $("acFileField").hidden = lib;
-  $("acCreate").textContent = lib ? "Dùng nhân vật này" : "Thêm";
-  $("acNote").textContent = lib ? AC_NOTE_LIB : AC_NOTE_NEW;
+  $("acCreate").textContent = acReplaceId
+    ? "Thay bằng nhân vật này"
+    : lib
+      ? "Dùng nhân vật này"
+      : "Thêm";
+  $("acNote").textContent = acReplaceId
+    ? `Thay ảnh tham chiếu và profile.json của "${charById(acReplaceId)?.name ?? acReplaceId}". Id ${acReplaceId} và các scene đang dùng giữ nguyên.`
+    : lib
+      ? AC_NOTE_LIB
+      : AC_NOTE_NEW;
   if (lib) $("acLibSearch").focus();
   else $("acId").focus();
 }
@@ -3455,14 +3466,22 @@ async function loadCharacterLibrary() {
   renderCharacterLibrary();
 }
 
-function openAddCharDialog() {
-  $("acId").value = "";
+// `replaceId` opens the dialog to swap that existing character for one from another project.
+function openAddCharDialog(replaceId = null) {
+  acReplaceId = typeof replaceId === "string" ? replaceId : null;
+  const replaced = acReplaceId ? charById(acReplaceId) : null;
+  $("acTitle").textContent = replaced
+    ? `Thay nhân vật "${replaced.name}"`
+    : "Thêm nhân vật";
+  $("acModeLib").parentElement.hidden = Boolean(acReplaceId);
+  $("acIdField").hidden = Boolean(acReplaceId);
+  $("acId").value = acReplaceId ?? "";
   $("acName").value = "";
   $("acFile").value = "";
   $("acLibSearch").value = "";
   acPicked = null;
   $("acOverlay").hidden = false;
-  setAcMode("new");
+  setAcMode(acReplaceId ? "lib" : "new");
   loadCharacterLibrary();
 }
 $("acModeNew").addEventListener("click", () => setAcMode("new"));
@@ -3476,6 +3495,7 @@ $("acLibList").addEventListener("change", (e) => {
     item.classList.toggle("checked", item.querySelector("input").checked);
   if (!acPicked) return;
   $("acName").value = acPicked.name;
+  if (acReplaceId) return;
   $("acId").value = freeCharacterId(toSlug(acPicked.name) || acPicked.id);
   $("acNote").textContent =
     `Chép "${acPicked.name}" từ project "${acPicked.projectTitle}"`;
@@ -3488,6 +3508,36 @@ $("acClose").addEventListener("click", () => {
 $("acOverlay").addEventListener("click", (e) => {
   if (e.target === $("acOverlay")) $("acOverlay").hidden = true;
 });
+// Library mode of the add-character dialog: copy the picked character in as `id`, or — replacing —
+// overwrite character `id` after a confirm, since its old reference and profile are lost.
+async function importPickedCharacter(id, name) {
+  const from = `"${acPicked.name}" từ project "${acPicked.projectTitle}"`;
+  if (acReplaceId) {
+    const ok = await confirmRun(
+      `Thay "${charById(id)?.name ?? id}" bằng ${from}? Ảnh tham chiếu và hồ sơ hiện tại bị ghi đè; id ${id} và các scene đang dùng giữ nguyên.`,
+      "Thay",
+    );
+    if (!ok) return;
+  }
+  $("acCreate").disabled = true;
+  try {
+    state = await api("/api/character-import", {
+      project: acPicked.project,
+      sourceId: acPicked.id,
+      id,
+      name,
+      replace: Boolean(acReplaceId),
+    });
+    render();
+    $("acOverlay").hidden = true;
+    toast(acReplaceId ? `Đã thay bằng ${from}` : `Đã thêm ${from}`);
+  } catch (e) {
+    $("acNote").textContent = e.message;
+  } finally {
+    $("acCreate").disabled = false;
+  }
+}
+
 $("acCreate").addEventListener("click", async () => {
   const id = $("acId").value.trim();
   const name = $("acName").value.trim();
@@ -3504,20 +3554,12 @@ $("acCreate").addEventListener("click", async () => {
     $("acNote").textContent = "Chọn một nhân vật trong danh sách.";
     return;
   }
+  if (acMode === "lib") {
+    await importPickedCharacter(id, name);
+    return;
+  }
   $("acCreate").disabled = true;
   try {
-    if (acMode === "lib") {
-      state = await api("/api/character-import", {
-        project: acPicked.project,
-        sourceId: acPicked.id,
-        id,
-        name,
-      });
-      render();
-      $("acOverlay").hidden = true;
-      toast(`Đã thêm "${name}" từ project "${acPicked.projectTitle}"`);
-      return;
-    }
     state = await api("/api/character-create", { id, name });
     if (file) await uploadCharacterFile(id, file);
     else render();
@@ -3548,6 +3590,8 @@ function onCharGalleryClick(e) {
     $("charFileInput").click();
   } else if (btn.dataset.action === "generate") {
     openCharImageDialog(id);
+  } else if (btn.dataset.action === "replace") {
+    openAddCharDialog(id);
   }
 }
 for (const id of CHAR_GALLERY_IDS)
