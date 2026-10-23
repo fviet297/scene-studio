@@ -26,10 +26,19 @@ Do **not** do: transcript → search a name → download a random image → drop
    side instead of one (see the `compare-image` reference implementation). Detect this by a
    `projects/` directory at the repo root. When present: `scene-plan.md` lives at
    `projects/<slug>/scene-plan.md`, character references and generated assets sit under
-   `public/projects/<slug>/` instead of `public/`, the active project is read from
-   `projects/active.json` (or `--project <slug>` / a `PROJECT` env var passed to each
-   script), and `parse-scene-plan.mjs` also emits `src/characters-data.json` (character
-   gallery data for the review panel). A new project scaffolds from `projects/_template/`.
+   `public/projects/<slug>/` instead of `public/`, and the active project is read from
+   `projects/active.json` (local, gitignored) or `--project <slug>` / a `PROJECT` env var
+   passed to each script. A new project scaffolds from `projects/_template/`.
+   In that layout **`scene-plan.md` is the only data file** — there are no generated mirrors
+   (`src/scene-plan.json`, `src/characters-data.json`, `src/asset-manifest.json`,
+   `scripts/narration-segments.mjs` do not exist). Every script and the review server parse
+   the plan on demand (`scripts/lib/parse-plan.mjs`: `parsePlan(slug)`, `narrationSegments`),
+   and `parse-scene-plan.mjs` only validates (prints warnings, writes nothing). Remotion reads
+   one bundle per project, `src/projects-data/<slug>.json` (gitignored), built by
+   `build-remotion.mjs`: `--project <slug>`, `--all`, or `--stale` (only bundles older than
+   their plan/audio/clips — `npm run dev` runs it). The review server watches every
+   `projects/*/scene-plan.md` and rebuilds that project's bundle on save, so editing a plan in
+   the IDE or from another skill needs no manual step.
    Everything else in this skill is unchanged; without a `projects/` directory, use the
    root-level paths described below.
 
@@ -77,7 +86,10 @@ rules:
   Resolve contradictory cues instead of leaving them for the image model to interpret.
 
 Write the generated `prompt:` back into the scene plan so it is visible, hand-editable, and
-stable across re-runs. `search:` scenes get no prompt. Details and an example:
+stable across re-runs. The prompt writer returns a close **Vietnamese translation** of the
+prompt in the same call, written to a `prompt_vi:` line beside it (and, for hand-authored motion
+prompts, a `motion_vi:` line) — a read-only reading aid the review UI shows; it is never sent to
+any image/video model. `search:` scenes get no prompt. Details and an example:
 [references/scene-plan.md](references/scene-plan.md).
 
 ## Characters and style
@@ -118,6 +130,15 @@ One canonical file per scene in `public/images/`, written by whichever step prod
 ```text
 scene-01.jpg   scene-02.jpg   scene-03.jpg
 ```
+
+Scenes play in **scene-number order**, not file order, and every per-scene file is keyed by
+that number (`images/scene-NN.jpg` + `.bak`/`.bak.json`, `audio/scene-NN.mp3`,
+`scene-videos/scene-NN.mp4`, manifest `id`/`scene`). Inserting a scene before existing ones
+(e.g. a new cold-open hook before scene 1) means renumbering: back up `projects/<slug>` and
+`public/projects/<slug>` first, rename files two-phase (via a temp suffix, so `4→6` never
+overwrites a not-yet-moved `6`), rewrite manifest + `.bak.json` `id`/`scene`, rewrite the
+`## scene N` headers, then validate with `node scripts/parse-scene-plan.mjs` and rebuild with
+`node scripts/build-remotion.mjs --project <slug>` (automatic while the review server runs).
 
 ## Visual selection
 
@@ -193,11 +214,12 @@ The panel also exposes, all still user-driven (no paid call happens without a bu
 
 ## Optional image-to-video motion previews
 
-After a scene image is approved, expose an editable motion prompt in the review UI. Keep motion
-restrained and preserve source identity, costume, architecture, props, period, and composition;
-allow only subtle camera push-in/parallax and natural cloth, water, or background movement. No
-redesign, new people or objects, anachronism, text, watermark, or cuts. Never start paid video
-generation automatically.
+After a scene image is approved, expose an editable motion prompt in the review UI. Aim for
+clearly visible motion: a motivated camera move, the main figure acting out the beat, and 2–3
+strong environmental motions (the lsvn/trangca motion template). Lock only identity, costume,
+period and art style — never the composition, since "preserve the composition / do not add or
+remove anything" makes image-to-video models return a near-still frame. No new characters,
+anachronism, text, watermark, or cuts. Never start paid video generation automatically.
 
 For VMedia, upload the local image first and send the returned public `image_url` to the video job;
 never send a filesystem path or data URI. Read API key, model, mode, domain, project, ratio,
@@ -211,7 +233,7 @@ result in the review panel. Missing public URL, job id, status, or video URL is 
 Approving in the review UI runs this step; only regenerate scenes by hand afterwards. With
 OmniVoice at `ws://127.0.0.1:8765/ws`, copy
 [scripts/generate-narration.mjs](scripts/generate-narration.mjs) and adapt constants only.
-Use `{ "lang": "Vietnamese", "mode": "clone", "voice": "history" }`. Keep narration split
+Use `{ "lang": "Vietnamese", "mode": "clone", "voice": "remotion" }`. Keep narration split
 **per scene** (`public/audio/scene-NN.mp3`) so a mispronounced part regenerates in isolation
 (`node scripts/generate-narration.mjs <sceneN>`). Apply conservative silence removal to cap
 long internal pauses at about 0.18s retained silence without making speech rushed. Measure
@@ -237,7 +259,10 @@ so the user never touches the CLI:
   [check-assets.mjs](scripts/check-assets.mjs) (a hard gate — a missing file stops the run),
   then `remotion render ScenePlanVideo out/ScenePlanVideo.mp4`. It is disabled, and its guard
   reports the missing scenes, until every image + audio exists. A play/download link to
-  `/video` appears when the render finishes.
+  `/video` appears when the render finishes. In the multi-project layout the steps are
+  `check-assets.mjs` → `build-remotion.mjs --project <slug>` (measures audio + aligns captions
+  into the bundle) → `remotion render <slug>`; `measure-audio.mjs` / `align-captions.mjs`
+  are not used there.
 - **Per-scene MP4 preview** — each card's Render button renders a single-scene composition
   `SceneOne` (that scene's cinematic image + title/cue overlay + its own audio) to
   `out/scene-NN.mp4` and shows it inline. Duration comes from the scene's measured audio, passed
@@ -249,6 +274,26 @@ This assumes the project's `src/Root.tsx` registers both the full `ScenePlanVide
 and a single-scene `SceneOne` composition (props `{ scene, durationInFrames }`, duration set via
 `calculateMetadata`). The skill ships the review tooling, not those Remotion components — they
 live in the project.
+
+## Broadcast news overlay (optional, per project)
+
+A "tin nóng" look is a transparent PNG drawn over the composition, authored as HTML so
+Vietnamese diacritics render exactly (never ask an image model for on-screen text):
+
+- Source: `projects/<slug>/overlay/news-overlay.html`, sized to the composition (1920×1080 for
+  `16:9`). Its URL hash picks the layer: `#chrome` = channel bug + ticker (whole video),
+  `#title` = headline lower-third only, `#preview` = everything over a dark stand-in.
+- Render each layer with headless Chrome, transparent background:
+  `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1920,1080 --default-background-color=00000000 --virtual-time-budget=8000 --screenshot=<out.png> "file://<abs html>#chrome"`
+  → `public/projects/<slug>/overlay/news-overlay.png` (`#chrome`) and `news-title.png` (`#title`).
+- `build-remotion.mjs` stamps `hasOverlay` / `hasTitleOverlay` when those files exist;
+  `ScenePlanVideo` draws the chrome over every scene and slides the headline card in for
+  `TITLE_ON_SCREEN_SECONDS` (3s) then out, starting at the scene named by the plan header
+  `title-overlay-scene: N` (default: first scene). Put that scene **after** the cold-open beats,
+  so the card never covers the hook images.
+- Keep-outs: the AI tag (top-left) and auto scene title (top-centre) from the wide overlay
+  profile; on `9:16`, also TikTok's top bar, right action rail and the bottom caption band.
+  A large headline card covers the main figure — that is why it is time-limited, not permanent.
 
 ## Host behavior
 

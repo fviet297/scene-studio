@@ -17,7 +17,10 @@ transcript → historical analysis → character detection → profiles → char
 - If the repo has a `projects/` directory, it hosts multiple comparison videos side by side
   (see `compare-image`): `scene-plan.md` is `projects/<slug>/scene-plan.md`, assets live
   under `public/projects/<slug>/`, and the active project comes from `projects/active.json`
-  (or `--project <slug>` / `PROJECT` env). Otherwise use the root-level paths below.
+  (or `--project <slug>` / `PROJECT` env). There the plan is parsed on demand and never
+  mirrored into `src/`; `parse-scene-plan.mjs` only validates, and Remotion reads
+  `src/projects-data/<slug>.json` built by `build-remotion.mjs` (see SKILL.md → Start).
+  Otherwise use the root-level paths below.
 
 ## 2. Parse the scene plan
 

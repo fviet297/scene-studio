@@ -23,7 +23,7 @@ import { generateSceneImage, loadEnv, upsertManifest, MANIFEST, getTemplates, sa
 
 loadEnv();
 
-const PORT = Number(process.env.REVIEW_PORT ?? 9090);
+const PORT = Number(process.env.REVIEW_PORT ?? 8080);
 const PLAN_MD = 'scene-plan.md';
 const PLAN_JSON = 'src/scene-plan.json';
 const IMAGE_DIR = 'public/images';

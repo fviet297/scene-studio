@@ -111,8 +111,28 @@ works as a fallback if `REPLICATE_KONTEXT_MODEL` points at it.
 ## Narration → prompt (never copy the line)
 
 ```
-Narration → meaning → visual concept → prompt
+Narration → event → visual concept → prompt
 ```
+
+**Find the event first.** Before writing anything, say in one clause who does what to whom,
+where, in THIS line — that clause is the frame's main action, and the prompt exists to stage
+it. "Kiều Công Tiễn giết Dương Đình Nghệ" is a killing inside a citadel courtyard: draw the
+attack and the guards breaking, not a quiet gate. "Đại quân Tống áp sát biên giới" is an army
+on the move: draw that army massing on a frontier road, not a beacon fire seen from the
+capital.
+
+**An abstract line still points at a concrete moment — draw the moment.** A verdict, a lesson
+or a metaphor ("nền tự chủ coi như gãy", "biến thế yếu thành một cái bẫy") refers to something
+happening in the world: the trap being built, stakes driven into the riverbed at night, the
+ambush party settling into the reeds. Draw that. A map on a table, an empty throne or an object
+still life turns a story beat into a pause.
+
+**Actors without a `char:` reference are still drawn.** The reference rule limits
+identity-locked figures only. A rival, an assassin, an enemy general, a killed predecessor —
+anyone the narration names who has no reference — appears as an anonymous figure: at distance,
+from behind, or inside a crowd, face not readable, their own culture and era pinned like any
+other extra. Never empty the frame ("no person in focus", "no faces") to avoid them; an empty
+room reads as a missing scene.
 
 Do not visualise words literally: "tài quân sự xuất chúng" → a commander directing troops,
 not the text on screen. One narration with several events may need several images (map, then
@@ -138,7 +158,8 @@ background instructions rather than erroring.
 
 Therefore **never repeat in a scene prompt what the template already states.** The template
 owns art style, supporting-cast stylisation, "ordinary soldiers wear plainer gear than the
-commander", composition/framing/negative-space, and the generic negatives. The scene prompt
+commander", composition/framing/negative-space, figure anatomy and prop coherence (the
+COHERENT ANATOMY & PROPS block), and the generic negatives. The scene prompt
 owns only what changes per scene:
 
 ```
@@ -283,10 +304,16 @@ script)`; the render came back with three multi-tier pagoda roofs, flying eaves,
   nothing).
 
   Drop the loaded noun and describe the cloth: _"tall plain crimson cloth banners on bare wooden
-  poles"_, never _"tall red Tây Sơn command banners"_. Back it with a positive BARE SURFACES
-  block in the template ("one uninterrupted field of a single flat colour, edge to edge, showing
-  only folds and hem"), and keep only the bare token `text` in the negative list — `watermark`
-  and `text` behave as style-class tokens and do get suppressed; `lettering on banners` does not.
+  poles"_, never _"tall red Tây Sơn command banners"_. A bare **shape word summons an emblem
+  just as a role word does** — `swallowtail banner`, `pennant`, `war flag` all leave the field
+  open, so pin the cloth every time ("swallowtail-cut plain crimson cloth, no emblem or
+  lettering"). On a Chinese scene the default fill is an **imperial dragon** (hoàng long): it is
+  the single strongest Chinese banner attractor and is tied to no one dynasty, so `no Qing` /
+  `no Ming` never removes it — only a positive "plain solid-color cloth, no emblem or lettering"
+  does. Back it with a positive BARE SURFACES block in the template ("one uninterrupted field of
+  a single flat colour, edge to edge, showing only folds and hem"), and keep only the bare token
+  `text` in the negative list — `watermark` and `text` behave as style-class tokens and do get
+  suppressed; `lettering on banners` does not.
 
   For Đại Việt against Chinese, the discriminating forms are:
 
@@ -356,6 +383,14 @@ On failure, name the fault and add a targeted clause — do not reroll blindly:
   different from and simpler than the commander's armour"
 - hero fills the whole frame, no scene → "medium-wide shot, the main figure fills only one
   third to one half of the frame height, soldiers and environment visible around and behind"
+- extra/third hand, fused figures, twisted pose, a weapon warped or passing through the hand →
+  the template's COHERENT ANATOMY & PROPS block owns this; if one still slips, add a _positive_
+  per-scene clause ("he grips the spear in two hands, the shaft straight and unbroken"), never a
+  "no extra hand" negative — a hand named in a negative gets rendered (see the negative table above)
+- rider's head and horse face opposite ways → "the rider and his mount both face and gallop the
+  same way, toward <the target>", stated positively; never "not looking backward"
+- shading looks 3D / gradient / glossy against the flat 2D style → keep it in the negative as a
+  style quality ("no 3D gradient, cast shadow or gloss") and positively "flat even cel shading"
 
 ### Failure modes that come from the prompt's own wording
 

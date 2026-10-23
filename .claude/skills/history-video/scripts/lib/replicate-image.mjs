@@ -56,6 +56,8 @@ MAIN CHARACTER — locked to the reference: same face, hair, skin tone, proporti
 
 BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. A period banner is a plain coloured cloth, never a signboard.
 
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face and move the same way. Shading stays flat and even — no realistic 3D gradient, cast shadow or gloss.
+
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
@@ -81,6 +83,8 @@ CLOTHING AND POSE FOLLOW THE SCENE, NOT THE REFERENCE: costume, armour, props an
 
 BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. A period banner is a plain coloured cloth, never a signboard.
 
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face and move the same way. Shading stays flat and even — no realistic 3D gradient, cast shadow or gloss.
+
 SCENE:
 [SCENE-SPECIFIC PROMPT]
 
@@ -104,6 +108,8 @@ ONE REFERENCE PER CHARACTER: the references are DIFFERENT PEOPLE, in the order t
 EACH CHARACTER KEEPS THEIR OWN CULTURE: follow each character's own country and century for architecture, roof and eave shapes, costume, armour, banners and weapons, on that character's own side of the composition. Never mix or swap them, in either direction, and never a later dynasty of the same country.
 
 BARE SURFACES: every banner, flag, shield and wall is one uninterrupted field of a single flat colour, edge to edge — dyed cloth showing only folds and hem, plain painted wood, bare stone. A period banner is a plain coloured cloth, never a signboard.
+
+COHERENT ANATOMY & PROPS: each figure is one whole separate body with space around it — exactly two arms and two hands, a balanced natural pose, never an extra, merged, shared or twisted limb, and no two figures fused. A held object (sword, bow, book, cup) stays whole, gripped by the handle beside the body, never bent through the hand. A rider and mount face and move the same way. Shading stays flat and even — no realistic 3D gradient, cast shadow or gloss.
 
 SCENE:
 [SCENE-SPECIFIC PROMPT]
@@ -187,7 +193,7 @@ export const buildInput = (model, { prompt, refUris = [] }) => {
     if (prompt.length > SEEDREAM_PROMPT_LIMIT) {
       throw new Error(`prompt is ${prompt.length} chars, over Seedream's ${SEEDREAM_PROMPT_LIMIT} limit — shorten the scene prompt or the template in this file`);
     }
-    return { prompt, aspect_ratio: '9:16', size: '4k', ...(refUris.length ? { image_input: refUris } : {}) };
+    return { prompt, aspect_ratio: '9:16', size: '2K', ...(refUris.length ? { image_input: refUris } : {}) };
   }
   // FLUX Kontext / FLUX dev fallback (kept so REPLICATE_*_MODEL can still point at them).
   return refUris.length
