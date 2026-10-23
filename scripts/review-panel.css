@@ -167,6 +167,7 @@ button { cursor: pointer; }
 .btn.sm { height: 27px; padding: 0 9px; font-size: 12px; }
 /* A generate button while its scene's job is pending: it becomes that job's Cancel. Danger ink
    on a dim fill (also over .primary), and the label says "Huỷ", so it never reads as "go". */
+.rail .pane-head select { min-width: 0; flex: 0 1 108px; }
 .rail-tools { display: flex; gap: 6px; padding: 6px 10px; border-bottom: 1px solid var(--line-soft); }
 .btn.quiet.danger:hover:not(:disabled) { color: var(--danger); background: var(--danger-dim); }
 .btn.is-cancel, .btn.primary.is-cancel { background: var(--danger-dim); border-color: rgba(242, 102, 110, .45); color: var(--danger); }

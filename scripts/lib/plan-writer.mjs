@@ -134,6 +134,17 @@ export const removeScene = (planMd, sceneNo) => {
   writeFileSync(planMd, renumbered.join('\n'));
 };
 
+// Renumber the scenes that follow `removedScenes` (whose blocks are already out of the plan) so
+// the numbering has no gap. The caller moves the matching media (scene-shift.mjs).
+export const closeSceneGap = (planMd, removedScenes) => {
+  const headRe = /^(\s*##\s+scene\s+)(\d+)\b/i;
+  const lines = readFileSync(planMd, 'utf8').split('\n').map((line) => line.replace(headRe, (_, prefix, num) => {
+    const below = removedScenes.filter((removed) => removed < Number(num)).length;
+    return `${prefix}${Number(num) - below}`;
+  }));
+  writeFileSync(planMd, lines.join('\n'));
+};
+
 // A whole scene-plan.md as text: `# title`, the "## characters" block ({ id: reference path },
 // kept even when empty so characters can be added later), then one block per scene
 // ({ scene, ...fields } as appendScene takes them). Header lines (aspect, template, voice) are

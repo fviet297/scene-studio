@@ -78,7 +78,7 @@ import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './li
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug, setOutputDir } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
-import { addCharacterToPlan, appendScene, characterRefPath, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
 import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
@@ -1307,7 +1307,9 @@ const server = createServer(async (req, res) => {
       const body = await readBody(req);
       const rows = Array.isArray(body) ? body : Array.isArray(body?.scenes) ? body.scenes : null;
       if (!rows || !rows.length) { sendJson(res, 400, { error: 'expected an array of {scene, ...fields} or {scenes:[...]}' }); return; }
-      const charIds = Object.keys(readPlan().characters ?? {});
+      const currentPlan = readPlan();
+      const charIds = Object.keys(currentPlan.characters ?? {});
+      const currentNarration = new Map(currentPlan.scenes.map((s) => [s.scene, s.narration]));
       const errors = [];
       const charByScene = new Map(); // scene → normalized comma id string (only when char provided)
       rows.forEach((row, i) => {
@@ -1315,9 +1317,11 @@ const server = createServer(async (req, res) => {
         for (const f of STRING_FIELDS) {
           if (f in row && typeof row[f] !== 'string') errors.push(`row ${i} (scene ${row.scene}): ${f} must be a string`);
         }
-        // narration may not be blanked; new scenes must carry one.
+        // A filled narration may not be blanked and new scenes must carry one; a scene that is
+        // already blank (just inserted) may stay blank, so an exported plan re-imports as it was.
         const isNew = !hasSceneHeading(P.planMd, row.scene);
-        if (('narration' in row && typeof row.narration === 'string' && !row.narration.trim()) || (isNew && !(typeof row.narration === 'string' && row.narration.trim()))) {
+        const blanksNarration = 'narration' in row && typeof row.narration === 'string' && !row.narration.trim() && (currentNarration.get(row.scene) ?? '').trim();
+        if (blanksNarration || (isNew && !(typeof row.narration === 'string' && row.narration.trim()))) {
           errors.push(`row ${i} (scene ${row.scene}): narration is required and cannot be empty`);
         }
         const norm = normalizeImportChar(row.char, charIds);
@@ -1362,10 +1366,11 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/merge-scenes') {
       // Merge two or more adjacent scenes into one: narration is concatenated into `keep`
       // (or the lowest scene number when omitted), every other scene's block — prompt, char,
-      // motion, cue, its generated image/audio/video files stay on disk but drop out of the
-      // plan — is deleted outright. Scenes must be contiguous in the current plan; merging
-      // across a gap would silently swallow whatever sits between them.
+      // motion, cue — is deleted, and later scenes move down to close the gap. The merged-away
+      // scenes' media goes to tmp/deleted-scenes like a delete. Scenes must be contiguous in the
+      // current plan; merging across a gap would silently swallow whatever sits between them.
       const { scenes, keep, narration } = await readBody(req);
+      if (activeJobs > 0) { sendJson(res, 409, { error: 'Đang có job chạy trên server — chờ xong rồi gộp scene.' }); return; }
       const nums = Array.isArray(scenes)
         ? [...new Set(scenes.map(Number))].filter(Number.isFinite).sort((a, b) => a - b)
         : [];
@@ -1379,6 +1384,7 @@ const server = createServer(async (req, res) => {
       if (!contiguous) { sendJson(res, 400, { error: 'selected scenes must be adjacent, with no other scene between them' }); return; }
 
       writeFileSync(`${P.planMd}.bak`, readFileSync(P.planMd, 'utf8'));
+      const removed = nums.filter((n) => n !== keepScene);
       let mergedNarration;
       try {
         // mergeScenes always writes its own auto-joined narration first; an edited preview from
@@ -1387,12 +1393,18 @@ const server = createServer(async (req, res) => {
         if (typeof narration === 'string' && narration.trim() && narration.trim() !== mergedNarration) {
           mergedNarration = writeSceneField(P.planMd, keepScene, 'narration', narration);
         }
+        // Highest first, so the numbers of the scenes still to move stay valid.
+        for (const n of [...removed].reverse()) {
+          removeSceneMedia(P, n, join(DELETED_SCENES_DIR, P.slug, `${Date.now()}-merged-${sceneBase(n)}`));
+        }
+        closeSceneGap(P.planMd, removed);
       } catch (e) {
         sendJson(res, 400, { error: e.message });
         return;
       }
       await rebuildBundles();
-      sendJson(res, 200, { ...buildState(), mergedScene: keepScene, mergedNarration });
+      const mergedScene = keepScene - removed.filter((n) => n < keepScene).length;
+      sendJson(res, 200, { ...buildState(), mergedScene, mergedNarration });
       return;
     }
 

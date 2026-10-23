@@ -2376,13 +2376,10 @@ $("mergeOverlay").addEventListener("click", (e) => {
 $("btnMergeConfirm").addEventListener("click", async () => {
   const scenes = pendingMergeScenes;
   if (scenes.length < 2) return;
-  // A job may have been queued on one of these scenes while the dialog was open.
-  const held = scenes.filter(sceneInAnyLane);
-  if (held.length) {
-    toast(
-      `Scene ${held.join(", ")} đang có job chạy/chờ — chờ xong rồi gộp.`,
-      false,
-    );
+  // Merging closes the numbering gap, so every later scene moves: nothing may be running or unsaved.
+  const blocker = renumberBlocker("gộp scene");
+  if (blocker) {
+    toast(blocker, false);
     return;
   }
   const keepInput = $("mergeKeepPicker").querySelector("input:checked");
@@ -2392,23 +2389,19 @@ $("btnMergeConfirm").addEventListener("click", async () => {
   btn.disabled = true;
   btn.textContent = "Đang gộp...";
   try {
-    state = await api("/api/merge-scenes", { scenes, keep, narration });
-    for (const n of scenes) {
-      drafts.narr.delete(n);
-      drafts.prompt.delete(n);
-    }
-    for (const n of scenes) {
-      selected.delete(n);
-      scriptPicked.delete(n);
-    }
+    const merged = await api("/api/merge-scenes", { scenes, keep, narration });
+    state = merged;
+    // Scene numbers moved: picks keyed by the old numbers would point at other scenes.
+    selected.clear();
+    scriptPicked.clear();
     $("mergeOverlay").hidden = true;
     render();
-    selectScene(keep);
+    selectScene(merged.mergedScene);
     // Full script modal renders its own snapshot on open — refresh it in place too, so a merge
     // triggered from a script row (or from the sheet/rail while it happens to be open) shows up
     // without the user having to close and reopen it.
     if (!$("scriptOverlay").hidden) renderScriptList();
-    toast(`Đã gộp scene ${scenes.join(", ")} vào scene ${keep}.`);
+    toast(`Đã gộp scene ${scenes.join(", ")} — còn lại scene ${merged.mergedScene}.`);
     // Leave the merged narration selected in the inspector for one more hand pass — unless the
     // script modal is open, where focus stays on the list the user is working in.
     if ($("scriptOverlay").hidden) {
@@ -3488,8 +3481,10 @@ $("scriptImportValidate").addEventListener("click", () => {
     else if (
       "narration" in row &&
       typeof row.narration === "string" &&
-      !row.narration.trim()
+      !row.narration.trim() &&
+      (findScene(row.scene)?.narration ?? "").trim()
     )
+      // A scene that is already blank (just inserted) may stay blank, e.g. on re-import.
       errors.push(`row ${i} (scene ${row.scene}): narration không được rỗng`);
     const unknown = unknownCharIds(row.char, charIds);
     if (unknown === null)
