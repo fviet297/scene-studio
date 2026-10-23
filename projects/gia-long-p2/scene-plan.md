@@ -1,12 +1,12 @@
 # Nguyễn Ánh — Phần 2: Gia Định thất thủ, lối thoát ra biển
 
-template: 16x9-historical-cinematic-v2
+template: 16x9-flat-cartoon-history-v2
 
 aspect: 16:9
 
 ## characters
 
-char-a = public/projects/gia-long-p2/characters/char-a.png
+char-a = public/projects/gia-long-p2/characters/char-a.jpg
 
 ## scene 1
 
