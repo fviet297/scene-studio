@@ -2275,15 +2275,21 @@ function renumberBlocker(action) {
   return null;
 }
 
+// True while an insert/delete request is in flight; a second click then would act on scene
+// numbers that are about to change.
+let sceneRenumberBusy = false;
+
 // Insert a blank scene directly below `anchor` (the selected scene by default) and leave the
 // cursor in its narration, which the prompt/motion writers then work from.
 async function insertSceneBelow(anchor = currentScene) {
+  if (sceneRenumberBusy) return;
   const blocker = renumberBlocker("chèn scene");
   if (blocker) {
     toast(blocker, false);
     return;
   }
   const at = anchor === null ? lastSceneNumber() + 1 : anchor + 1;
+  sceneRenumberBusy = true;
   try {
     state = await api("/api/insert-scene", { at, narration: "" });
     // Scene numbers just moved: picks keyed by the old numbers would point at other scenes.
@@ -2299,9 +2305,15 @@ async function insertSceneBelow(anchor = currentScene) {
       row?.scrollIntoView({ block: "center" });
       row?.querySelector('textarea[data-field="narration"]')?.focus();
     }
-    toast(`Đã chèn scene ${at} — nhập narration.`);
+    toast(
+      document.body.classList.contains("view-timeline") && $("scriptOverlay").hidden
+        ? `Đã chèn scene ${at} — bấm ✎ trên scene để nhập narration.`
+        : `Đã chèn scene ${at} — nhập narration.`,
+    );
   } catch (e) {
     toast(e.message, false);
+  } finally {
+    sceneRenumberBusy = false;
   }
 }
 $("btnInsertScene").addEventListener("click", () => insertSceneBelow());
@@ -2311,6 +2323,7 @@ $("batchInsert").addEventListener("click", () => insertSceneBelow());
 const NARRATION_EXCERPT_CHARS = 80;
 
 async function deleteScene(n = currentScene) {
+  if (sceneRenumberBusy) return;
   const scene = n === null ? null : findScene(n);
   if (!scene) {
     toast("Chọn một scene để xoá.", false);
@@ -2335,6 +2348,7 @@ async function deleteScene(n = currentScene) {
     true,
   );
   if (!confirmed) return;
+  sceneRenumberBusy = true;
   try {
     state = await api("/api/delete-scene", { scene: n });
     // Scene numbers just moved: picks keyed by the old numbers would point at other scenes.
@@ -2346,6 +2360,8 @@ async function deleteScene(n = currentScene) {
     toast(`Đã xoá scene ${n}.`);
   } catch (e) {
     toast(e.message, false);
+  } finally {
+    sceneRenumberBusy = false;
   }
 }
 $("btnDeleteScene").addEventListener("click", () => deleteScene());

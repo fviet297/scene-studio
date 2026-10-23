@@ -79,8 +79,6 @@
       <input type="checkbox" id="railSelectAll" class="rail-check" title="Chọn mọi scene đang hiện" aria-label="Chọn mọi scene đang hiện" />
       <span class="ttl">Scene</span>
       <span class="grow"></span>
-      <button class="btn quiet sm" type="button" id="btnInsertScene" title="Chèn một scene trống ngay dưới scene đang chọn">Chèn</button>
-      <button class="btn quiet danger sm" type="button" id="btnDeleteScene" title="Xoá scene đang chọn">Xoá</button>
       <label class="ttl" for="railFilter">Lọc</label>
       <select class="mini" id="railFilter">
         <option value="all">Tất cả</option>
@@ -89,6 +87,10 @@
         <option value="need-render">Thiếu motion</option>
         <option value="done">Xong</option>
       </select>
+    </div>
+    <div class="rail-tools">
+      <button class="btn quiet sm" type="button" id="btnInsertScene" title="Chèn một scene trống ngay dưới scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn scene</button>
+      <button class="btn quiet danger sm" type="button" id="btnDeleteScene" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá scene</button>
     </div>
     <div class="pane-scroll">
       <div class="char-gallery-head">
@@ -252,6 +254,8 @@
     <span class="bar-sep"></span>
     <span class="scene-no" id="tlScene">Scene</span>
     <span class="tag" id="tlKind"></span>
+    <button class="btn sm quiet" type="button" id="batchInsert" title="Chèn một scene trống ngay dưới scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn</button>
+    <button class="btn sm quiet danger" type="button" id="batchDelete" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá</button>
     <span class="grow"></span>
     <div class="segmented" id="tlModes" role="group" aria-label="Chế độ xem trước">
       <button type="button" data-mode="draft" aria-pressed="true" title="Nháp: ảnh tĩnh và audio, mở nhanh, chưa có hiệu ứng render">Nháp</button>
@@ -291,8 +295,6 @@
       <button class="btn sm batch-act" data-tone="motion" type="button" id="batchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>Motion</button>
     </span>
     <span class="sep"></span>
-    <button class="btn sm quiet" type="button" id="batchInsert" title="Chèn một scene trống ngay dưới scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn</button>
-    <button class="btn sm quiet danger" type="button" id="batchDelete" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá</button>
     <button class="btn sm quiet batch-act" data-tone="merge" type="button" id="batchMerge" disabled title="Gộp các scene liền kề đã chọn thành một (sửa kịch bản, không sinh gì)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.17 2.83L4 22"/><path d="m20 22-5-5"/></svg>Gộp</button>
   </div>
   <div class="tl-track" id="tlTrack">
