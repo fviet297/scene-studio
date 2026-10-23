@@ -1,5 +1,5 @@
 {
-  "project": "gia-long-p2",
+  "project": "gia-long",
   "characters": [
     {
       "id": "char-a",
@@ -10,8 +10,8 @@
         "Gia Long",
         "Nguyen Phuc Anh"
       ],
-      "image": "projects/gia-long-p2/characters/char-a.jpg",
-      "imageV2": "projects/gia-long-p2/characters/char-a.jpg"
+      "image": "projects/gia-long/characters/char-a.jpg",
+      "imageV2": "projects/gia-long/characters/char-a.jpg"
     }
   ]
 }

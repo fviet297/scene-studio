@@ -1,23 +1,23 @@
 {
-  "project": "gia-long-p2",
-  "title": "Nguyễn Ánh — Phần 2: Gia Định thất thủ, lối thoát ra biển",
+  "project": "gia-long",
+  "title": "Nguyễn Ánh — Phần 1: Người sống sót",
   "aspect": "16:9",
   "characters": {
-    "char-a": "public/projects/gia-long-p2/characters/char-a.jpg"
+    "char-a": "public/projects/gia-long/characters/char-a.jpg"
   },
   "scenes": [
     {
       "scene": 1,
-      "narration": "Chỉ trong khoảng một năm, từ 1782 đến 1783, Nguyễn Ánh mất Gia Định hai lần. Sau mỗi lần thua, đường chạy lại dài thêm: từ thành ra rạch, từ rạch ra đảo. Vậy mà khởi đầu chẳng hề tệ. Sau năm 1778, ông trở lại Gia Định, mộ quân, đóng thuyền, dựng lại bộ máy như cũ. Tây Sơn đưa quân vào đánh, không những không thắng, mà còn mất thêm Bình Thuận.",
+      "narration": "Cuối thế kỷ mười tám, ở Gia Định, tin vui thường không sống quá một buổi. Quyền lực đổi chủ liên tục, thuyền bè xuôi ngược trên sông, và ai cũng phải tự hỏi: ngày mai, mình còn ở đúng chỗ hôm nay không? Người phải hỏi câu ấy nhiều nhất, lại chính là dòng họ đang cai trị nơi này: họ Nguyễn.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A late-18th-century riverfront in Gia Định during rebuilding, carpenters repairing wooden boats, retainers checking supplies, low timber buildings and palm-lined waterways.",
-        "motion": "A smooth tracking shot passes boat builders and supply carriers before revealing several finished wooden vessels tied along the riverbank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
+        "prompt": "At dusk on the Saigon River, a dispatch sampan cuts in to a small riverside stockade as the garrison hauls down a plain cloth banner and hoists another; Nguyen officials on a timber stilt-house veranda unseal a bamboo message tube and scan the traffic flowing both ways. Late-18th-century southern Vietnam, Gia Định. Background soldiers with East-Asian faces wear late-18th-century Đàng Trong dress—short quilted tunics, headscarves or khăn đóng, rattan shields, spears and some matchlocks; boatmen in conical hats pole sampans and a laden ghe bầu. Bamboo palisade, diagonal wooden jetty, signal drum on a post, nipa palms, humid haze, oars churning. No Qing costume, no 19th-century Nguyễn court uniforms, no European stone forts or square-rigged ships.",
+        "motion": "Animate this historical illustration into a dynamic cinematic shot with clearly visible motion from the first second. Track low alongside the dispatch boat toward the stockade. The messenger jumps onto the jetty and thrusts the bamboo tube to waiting Nguyen officials as garrison soldiers yank one banner down and heave another up. Oars bite and boats pass both ways, the signal drum thunders, river ripples and humid haze drift past nipa palms. Keep faces and costumes and the art style consistent; no new characters, no text or watermark. Motion intensity medium, character motion clear, environmental motion strong across the frame. No face deformation, warped limbs, extra fingers, duplicated people, morphing objects.",
+        "promptVi": "Lúc hoàng hôn trên sông Sài Gòn, một ghe thư áp nhanh vào đồn bót ven sông khi quân thủ hạ một lá hiệu kỳ trơn và kéo lá khác lên; các quan thuộc phe Nguyễn đứng trên hàng hiên nhà sàn gỗ khui ống thư tre, dõi mắt nhìn dòng thuyền xuôi ngược. Bối cảnh Đàng Trong cuối thế kỷ XVIII, Gia Định. Binh lính nền với gương mặt Á Đông mặc trang phục Đàng Trong cuối thế kỷ XVIII — áo chẽn chần bông, khăn vấn hoặc khăn đóng, khiên mây, giáo và một số súng hỏa mai; lái đò đội nón lá chèo sampan và một ghe bầu chở nặng. Lũy tre nứa, cầu gỗ chéo, cột trống lệnh, bụi dừa nước, hơi ẩm mù, mái chèo quẫy nước. Không y phục nhà Thanh, không triều phục Nguyễn thế kỷ XIX, không thành đá kiểu Âu hay tàu buồm buồm vuông châu Âu.",
+        "motionVi": "Chuyển cảnh minh họa lịch sử này thành một cú máy điện ảnh sinh động với chuyển động rõ rệt ngay từ giây đầu. Máy bám thấp chạy dọc theo ghe thư tiến về đồn bót. Sứ giả nhảy lên cầu ván và trao ống tre cho các quan Nguyễn đang chờ, trong khi lính đồn giật hạ một lá cờ và kéo lá khác lên. Mái chèo phập nước, thuyền xuôi ngược, trống lệnh dội vang, gợn sông và hơi ẩm trôi qua bụi dừa nước. Giữ khuôn mặt, y phục và phong cách mỹ thuật nhất quán; không thêm nhân vật mới, không chữ hay watermark. Cường độ chuyển động trung bình, động tác nhân vật rõ, chuyển động môi trường mạnh trên toàn khung. Không méo mặt, cong vẹo tay chân, thừa ngón, trùng lặp người, vật thể biến dạng.",
         "motionParts": {
           "camera": "",
           "action": "",
@@ -31,14 +31,14 @@
     },
     {
       "scene": 2,
-      "narration": "Lực lượng ấy được ghép từ nhiều mảnh. Có các tướng cũ cùng quân riêng của họ. Có thêm một số tàu buôn phương Tây, với lính Pháp, lính Bồ Đào Nha và hỏa lực trên biển, nhờ mối quan hệ của Nguyễn Ánh với giám mục Bá Đa Lộc. Một liên minh chắp vá, nhưng đủ sức đánh bật các cánh quân Tây Sơn đồn trú. Còn chủ lực Tây Sơn, thì lại là chuyện khác.",
+      "narration": "Lý do nằm ở phía Bắc. Quân Tây Sơn đang tiến xuống, và phe Nguyễn bắt đầu nếm cái giá của việc mất thế chủ động. Trên giấy tờ, họ vẫn có người, có thành, có thuyền. Ngoài thực tế, tuần nào cũng có thêm một nơi phải bỏ lại.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A quiet council scene in a timber hall, late-18th-century southern Vietnamese commanders listening around a low table, restrained tension and practical clothing, no readable writing.",
-        "motion": "The camera slowly circles the table; one commander folds his arms while another points to a river route on the map. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Late-18th-century Nguyễn retainers watching distant movement on the river from a shaded riverside house, packed travel bundles ready, an uncertain and tense atmosphere, no active combat.",
+        "motion": "The camera stays with Nguyễn retainers watching the river; one quietly lifts a travel bundle as distant sails emerge through the haze, no battle shown. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -54,14 +54,16 @@
     },
     {
       "scene": 3,
-      "narration": "Và chủ lực ấy đã tới. Mùa xuân năm 1782, Nguyễn Huệ cùng anh là Nguyễn Nhạc đưa hàng trăm chiến thuyền xuôi Nam, tiến vào cửa Cần Giờ. Lần này, thứ đứng trước mặt phe Nguyễn không còn là một đạo quân đồn trú, mà là người cầm quân giỏi nhất của Tây Sơn.",
+      "narration": "Giữa dòng người ấy có một cậu thiếu niên tên Nguyễn Ánh. Sinh năm 1762, đến năm 1777 cậu mới khoảng mười lăm tuổi. Tuổi người khác còn lo chuyện học hành, còn cậu sắp phải học một môn chẳng ai đăng ký: làm sao biến mất trước khi người truy tìm tới nơi.",
       "beat": "",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "From the bank, a broad line of late-18th-century wooden vessels appears on the far horizon near Cần Giờ, seen through humid haze by anxious lookouts, no battle in frame.",
-        "motion": "From behind the lookout, the camera slowly reveals distant sails near Cần Giờ; cloth flutters in the breeze as attendants exchange worried glances, no battle shown. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Character introduction of Nguyễn Ánh at age 15, a slender Vietnamese teenager with an oval face, dark eyes and black hair tied in a simple topknot, wearing a dark indigo cross-collar robe and plain sash, standing in a wooden riverside residence.",
+        "motion": "The camera slowly pushes in as the teenage Nguyễn Ánh turns toward the river; a loose sleeve stirs in the breeze, his expression guarded and uncertain. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -73,18 +75,18 @@
           "envVi": ""
         }
       },
-      "cue": "tense"
+      "cue": "curious"
     },
     {
       "scene": 4,
-      "narration": "Phe Nguyễn chọn đón đánh trên sông. Họ có tàu Tây, có súng, và thông thuộc từng khúc rạch quanh Gia Định. Trên lý thuyết, đó là trận đánh trên sân nhà. Có điều, sân nhà chỉ là lợi thế khi đối thủ chịu đánh theo cách mình muốn.",
+      "narration": "Bài học đầu tiên đến rất nhanh. Tin dữ chạy dọc các bến sông, nhanh hơn bất kỳ đoàn người nào. Các quan phe Nguyễn trải bản đồ ra bàn, nhưng câu hỏi lúc này không còn là giữ chỗ nào, mà là bỏ chỗ nào trước. Khi phải lo gói ghém trước cả bữa ăn kế tiếp, thể diện triều đình bỗng thành thứ xa xỉ.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A few late-18th-century wooden boats moving cautiously through a branching river channel, watchmen scanning both banks, heavy overcast light and a feeling of uncertainty, no active combat.",
-        "motion": "The camera glides beside a wooden boat through a branching channel; lookouts scan each bank while the boat advances slowly, no combat. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Inside a modest 18th-century wooden hall, southern Vietnamese officials examine a hand-drawn river map by oil lamp, anxious faces, simple lacquered furnishings, no readable text.",
+        "motion": "A slow overhead tilt moves from the map to the worried faces; lamp flame flickers and one official carefully rolls the map closed. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -100,106 +102,14 @@
     },
     {
       "scene": 5,
-      "narration": "Hai bên chạm trán ở Ngã Bảy. Thủy quân Tây Sơn, với súng và hỏa hổ, áp đảo cả những con tàu phương Tây. Cai tàu người Pháp là Mạn Hòe tử trận. Phe Nguyễn vỡ trận, Gia Định lại tuột khỏi tay họ. Và câu hỏi lại quay về chỗ cũ: không phải giữ đất thế nào, mà là chạy đi đâu.",
+      "narration": "Và rồi, những đoàn thuyền lạ xuất hiện ngoài sông. Con đường từng chở lúa gạo cho họ, giờ cũng là con đường đối phương dùng để tiến vào. Nước vẫn chảy đều, chỉ có kế hoạch của phe Nguyễn là liên tục mắc cạn.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "The quiet aftermath of a setback in the late-18th-century Mekong Delta: tired Nguyễn retainers collecting scattered bundles beside a muddy landing, a few damaged boats in the distance, no bodies or combat.",
-        "motion": "Tired retainers gather a few bundles from a muddy landing and help one another board a boat; distant haze suggests danger without depicting fighting. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "somber"
-    },
-    {
-      "scene": 6,
-      "narration": "Câu trả lời đầu tiên là Ba Giồng, một vùng đất giồng xen kênh rạch ở phía tây Gia Định. Đủ xa để thở, đủ kín để giấu một đoàn người thua trận. Nhưng đó chỉ là chặng dừng chân. Quân Tây Sơn vẫn còn ở quá gần.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A small group of period boats reaching the wooded waterways around Ba Giồng, passengers exhausted, thick tropical vegetation and uneven muddy banks, subdued historical realism.",
-        "motion": "The camera follows a boat around a densely vegetated bend and settles as the passengers step onto the muddy bank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "somber"
-    },
-    {
-      "scene": 7,
-      "narration": "Chặng tiếp theo là Phú Quốc. Lần này, Nguyễn Ánh rời hẳn đất liền. Lên đảo, ông thoát được những cuộc truy đuổi trên bộ. Đổi lại, từ hạt gạo đến mẩu tin, thứ gì cũng phải trông vào thuyền.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A wide view of Phú Quốc in the late 18th century, forested green island rising above the sea, a small wooden sailing boat approaching a quiet cove, natural haze.",
-        "motion": "The camera glides over gentle waves toward the island; the boat moves steadily and the tree-covered coastline grows larger. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "curious"
-    },
-    {
-      "scene": 8,
-      "narration": "Mà thuyền thì không phải lúc nào cũng tới. Sách chép rằng những ngày ở Phú Quốc, Nguyễn Ánh phải ăn cỏ, nuốt lõi chuối để cầm hơi. Người từng được các tướng tôn làm chủ, giờ phải lo từng bữa ăn.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Small temporary encampment near a secluded Phú Quốc cove, woven mats, earthen water jars, a few attendants watching the sea, modest 18th-century clothing.",
-        "motion": "A slow handheld-style move passes the camp toward the shoreline, where waves lap softly and a lookout scans the horizon. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "neutral"
-    },
-    {
-      "scene": 9,
-      "narration": "Trong lúc ông cầm hơi ngoài đảo, ở đất liền xảy ra một chuyện làm đổi chiều lòng người. Vì mối hận bị phục kích, Nguyễn Nhạc sai giết hàng ngàn thương nhân người Hoa, rồi phá tan Cù Lao Phố, một trung tâm buôn bán sầm uất của miền Nam. Tây Sơn thắng trận, nhưng tự tay đẩy cả một cộng đồng sang phía đối thủ.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A messenger arriving by small wooden boat at an island landing, damp travel bundle in hand, Nguyễn retainers waiting beneath palms, late-afternoon cloud cover.",
-        "motion": "The boat scrapes gently onto the shore; the messenger steps out and hands over a sealed-looking packet with no legible writing. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Distant wooden vessels appearing through humid river haze while a few small family boats quietly pull away from the bank, the feeling of a route closing, no active combat.",
+        "motion": "Distant vessels advance through river mist while small boats slip quietly away from the bank; the camera remains with the people preparing to leave, not the fighting. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -214,15 +124,15 @@
       "cue": "tense"
     },
     {
-      "scene": 10,
-      "narration": "Những người ấy chẳng mấy chốc đã quay sang ủng hộ Nguyễn Ánh. Cuối năm 1782, khi chủ lực Tây Sơn rút về, Châu Văn Tiếp đánh chiếm lại Gia Định, rồi đón Nguyễn Ánh từ đảo trở về. Sau mấy tháng ăn lõi chuối, ông lại có thành, có quân, có người theo. Vòng lặp cũ lại quay: Nguyễn Huệ rút đi, Nguyễn Ánh trở lại.",
+      "scene": 6,
+      "narration": "Từng điểm phòng thủ cứ thế lung lay. Mất một bến sông là thêm một lối đi bị khóa, bỏ một kho lương là thêm vài ngày đói hơn. Bản đồ vẫn còn nguyên trên bàn, nhưng những chỗ có thể dừng chân thì ít dần.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A late-18th-century wooden fleet returning from the island toward Gia Định, commander Châu Văn Tiếp represented as a period-dressed Vietnamese officer without modern insignia, city riverfront in the distance.",
-        "motion": "The camera tracks the lead vessel toward the riverfront; sails slacken as the boats enter calmer water and waiting figures gather at the landing. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A quiet late-18th-century river post after its defenders have begun to leave, abandoned baskets and rolled mats beside a wooden watch platform, distant smoke only, no active combat.",
+        "motion": "A slow pan crosses the nearly abandoned river post, pausing on a packed basket and empty watch platform as distant smoke drifts past, no active combat. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -234,11 +144,103 @@
           "envVi": ""
         }
       },
-      "cue": "hopeful"
+      "cue": "tense"
+    },
+    {
+      "scene": 7,
+      "narration": "Đến lúc này, rút lui là chuyện không thể tránh. Và nó bắt đầu bằng những việc rất đời thường: gói đồ, tìm thuyền, gọi người còn ở lại, quyết định thứ gì phải bỏ. Không ai có thời gian cho những cuộc chia tay dài. Khi đối thủ đang tới, hành lý nhẹ có khi quý hơn cả đồ quý.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Small wooden transport boats leaving a riverside settlement at dusk, household bundles and a few attendants aboard, distant smoke and silhouettes on the horizon, understated historical realism.",
+        "motion": "A low tracking shot follows the boats as they push away from the muddy bank; paddles disturb the water and the settlement recedes into dusk. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 8,
+      "narration": "Đoàn người tản ra nhiều hướng. Định Vương Nguyễn Phúc Thuần, chú của Nguyễn Ánh, tìm đường về miền Tây, qua Long Hưng rồi xuống Long Xuyên. Càng đi sâu vào vùng sông nước, họ càng có nhiều lối nhỏ để trốn, nhưng cũng càng dễ lạc mất nhau.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "A quiet late-18th-century Mekong Delta waterways scene near Long Xuyên, a few exhausted boats moving between reeds and low riverbanks, overcast tropical light, historically inspired.",
+        "motion": "The camera glides just above the water beside the boats; reeds bend in a light wind and ripples spread behind each hull. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 9,
+      "narration": "Trong khi đó, tin xấu nhất đã tới. Tháng chín năm 1777, Tân Chính Vương Nguyễn Phúc Dương bị bắt và bị giết cùng những người theo hầu. Với phe Nguyễn, đó là lời nhắc lạnh lùng: danh phận cao đến đâu cũng không giữ được ai an toàn, một khi đã mất chỗ dựa.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "An emptied late-18th-century temporary court encampment, an abandoned wooden seat and ceremonial cloth left behind, a few distant figures leaving the grounds, no bodies or graphic detail.",
+        "motion": "The camera slowly passes the abandoned temporary court and settles on the empty seat while a few figures disappear beyond the trees, no graphic detail. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 10,
+      "narration": "Một tháng sau, đến lượt Long Xuyên. Quân Tây Sơn truy kích tới nơi Định Vương đang trú, và những người quanh ông chẳng còn mấy lựa chọn. Còn Nguyễn Ánh, cậu thiếu niên giữa cơn rối ren, phải tự trả lời câu hỏi đơn giản nhất: chạy đường nào để còn sống?",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "A small riverside refuge near Long Xuyên, attendants hurriedly tying bundles to a modest wooden boat while looking back toward the tree line, no active combat.",
+        "motion": "Attendants hurry to secure bundles in a wooden boat; the camera glances back toward the treeline, then follows the boat as it leaves the bank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "tense"
     },
     {
       "scene": 11,
-      "narration": "Về lại Gia Định, Nguyễn Ánh cho sửa đồn, đóng thêm thuyền, củng cố các tuyến sông. Những năm qua đã cho thấy một điều: Nguyễn Huệ rút đi, không có nghĩa là Nguyễn Huệ sẽ không quay lại.",
+      "narration": "Và cậu đã tìm ra câu trả lời. Theo các ghi chép được dẫn lại, Định Vương cùng nhiều thân thuộc và tướng lĩnh bị bắt, chỉ riêng Nguyễn Ánh chạy thoát. Gọi là may mắn cũng được, nhưng là thứ may mắn chẳng có gì để ăn mừng: cậu còn sống, còn gần như mọi chỗ dựa quen thuộc đều đã biến mất.",
       "beat": "",
       "image": {
         "kind": "ai",
@@ -246,54 +248,8 @@
           "char-a"
         ],
         "identity": "full",
-        "prompt": "Late-18th-century Gia Định riverside defenses being repaired, workers stacking timber, crews checking moorings, Nguyễn Ánh observing from a shaded wooden veranda.",
-        "motion": "A steady pan moves from carpenters repairing defenses to Nguyễn Ánh looking across the river; clouds gather in the background. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "neutral"
-    },
-    {
-      "scene": 12,
-      "narration": "Và Nguyễn Huệ quay lại thật. Đầu năm 1783, chỉ vài tháng sau ngày Nguyễn Ánh trở về, quân Tây Sơn lại tràn vào Gia Định. Thành vừa lấy lại, chưa kịp vững, đã phải đem ra đánh cược thêm một lần nữa.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "Messengers arrive at a late-18th-century riverside camp with urgent news; exhausted men pause over travel bundles and a rough river map, no battle shown.",
-        "motion": "A messenger arrives at the camp and hands over a folded note; the group studies a rough river map, then begins quietly packing. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "tense"
-    },
-    {
-      "scene": 13,
-      "narration": "Phe Nguyễn đặt cược vào một kế táo bạo: thả bè lửa xuôi dòng để đốt thuyền Tây Sơn. Nhưng sử liệu chép rằng gió đổi chiều, đẩy lửa quay ngược vào chính thủy quân nhà Nguyễn. Còn Nguyễn Huệ thì tận dụng đúng sức gió và thủy triều ấy, đánh tan hạm đội đối phương.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A late-18th-century river landing after a failed fire-raft plan, driftwood and smoke near the water, anxious attendants preparing to leave, no close-up fighting or casualties.",
-        "motion": "Smoke drifts across a deserted river landing; attendants collect what remains and push a small boat into the water, no combat or casualties shown. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A teenage Nguyễn Ánh seen from behind at the edge of a reed-filled river channel, isolated against the vast wetland, distant search boats blurred by mist, tense but non-violent cinematic composition.",
+        "motion": "The camera holds behind Nguyễn Ánh as he steps into the tall reeds; grasses close around him and the silhouettes of boats pass far in the background. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -308,15 +264,67 @@
       "cue": "dramatic"
     },
     {
-      "scene": 14,
-      "narration": "Lực lượng gây dựng từ cuối năm trước tan đi chỉ sau một trận. Nguyễn Ánh lại chạy về Ba Giồng, đúng chặng dừng chân của năm ngoái. Con đường ấy giờ quen đến mức gần như thành lộ trình, chỉ có người đi theo là mỗi lúc một ít.",
+      "scene": 12,
+      "narration": "Những đêm sau đó, sử sách không ghi cậu ngủ ở đâu. Nhưng có thể hình dung, điều quan trọng lúc ấy không phải một chỗ nằm dễ chịu, mà là một chỗ đủ kín, để sáng hôm sau còn có cơ hội đi tiếp.",
       "beat": "",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "A handful of exhausted Nguyễn retainers reaching a secluded rural landing near Ba Giồng at twilight, sparse bundles and a nearly empty boat, wetland landscape.",
-        "motion": "The camera slowly widens from the small group to the broad empty marsh, emphasizing their isolation. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A small concealed shelter among mangrove roots at night, a young Vietnamese noble crouched in shadow, moonlight on water, no dramatic fantasy elements, quiet historical realism.",
+        "motion": "A very slow push toward the concealed shelter; water glimmers, fireflies drift softly and distant lantern light passes through leaves. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "somber"
+    },
+    {
+      "scene": 13,
+      "narration": "Và miền Tây có sẵn những chỗ như thế: vô số con rạch nhỏ, bờ lau rậm và lối nước quanh co. Với người bị truy tìm, chúng vừa là tấm màn che, vừa là cái bẫy. Rẽ đúng thì thoát, rẽ nhầm thì tự đưa mình vào ngõ cụt.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Narrow Mekong Delta creek at blue hour, a small period wooden skiff moving between nipa palms and mangrove roots, one young passenger kept mostly in silhouette.",
+        "motion": "The skiff moves slowly around a bend; the camera follows from behind as palm leaves brush across the foreground. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "tense"
+    },
+    {
+      "scene": 14,
+      "narration": "Cũng đừng tưởng tượng ra một lời thề hùng hồn nào trong những ngày ấy, vì sử sách không ghi lại câu nào như thế. Điều chắc chắn hơn nhiều: Nguyễn Ánh vẫn lẩn tránh, vẫn giữ được mạng sống, và vẫn chờ một ngày có thể quay lại.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [
+          "char-a"
+        ],
+        "identity": "full",
+        "prompt": "Close portrait of teenage Nguyễn Ánh in dim natural light, tired eyes, damp indigo robe, restrained emotion, historically inspired rather than an exact authenticated portrait.",
+        "motion": "A subtle close-up as Nguyễn Ánh lifts his gaze; shallow breathing, a small movement of the candle flame and soft light across his face. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -332,7 +340,30 @@
     },
     {
       "scene": 15,
-      "narration": "Lần này, ngay cả Ba Giồng cũng không giữ được ông. Bị truy đuổi tới Lật Giang, phía trước là sông, phía sau là quân Tây Sơn. Ghi chép kể rằng Nguyễn Ánh vượt được dòng sông ấy trong gang tấc. Có những lúc, vận mệnh của cả một phe chỉ còn được tính bằng chiều ngang một khúc sông.",
+      "narration": "Ngày ấy đến sớm hơn tưởng tượng. Khoảng một tháng sau, Nguyễn Ánh xuất hiện trở lại ở Long Xuyên. Không có trống giong cờ mở. Chỉ là một người vừa qua cơn nguy, nhìn quanh và nhận ra mình vẫn còn vài người để gọi tên.",
+      "beat": "",
+      "image": {
+        "kind": "ai",
+        "characters": [],
+        "identity": "full",
+        "prompt": "Early morning at a modest Long Xuyên river landing, a small boat arrives through mist and a few wary former Nguyễn retainers wait beneath a thatched shelter.",
+        "motion": "The boat slides against the muddy bank; two attendants step forward cautiously and the camera slowly widens to reveal the empty river behind them. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "promptVi": "",
+        "motionVi": "",
+        "motionParts": {
+          "camera": "",
+          "action": "",
+          "env": "",
+          "cameraVi": "",
+          "actionVi": "",
+          "envVi": ""
+        }
+      },
+      "cue": "hopeful"
+    },
+    {
+      "scene": 16,
+      "narration": "Và những người ấy bắt đầu tìm về. Một số tướng lĩnh cũ của phe Nguyễn lần lượt quay lại bên cậu. Họ chưa dựng nổi một chính quyền, nhưng ít ra không ai phải xoay xở một mình nữa. Thời buổi ấy, có người chịu ở lại đã là tài sản quý.",
       "beat": "",
       "image": {
         "kind": "ai",
@@ -340,8 +371,8 @@
           "char-a"
         ],
         "identity": "full",
-        "prompt": "A lone young Vietnamese noble struggling across a broad, fast-moving river near Lật Giang, turbulent brown water and distant bank, no visible injury, non-graphic historical cinema.",
-        "motion": "The camera remains at water level as Nguyễn Ánh moves toward the opposite bank; currents sweep past the lens and the far shore slowly comes closer. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A discreet meeting of late-18th-century Nguyễn retainers under a thatched riverside roof, plain clothing, maps and travel bundles, young Nguyễn Ánh seated without a crown or imperial regalia.",
+        "motion": "A slow lateral move passes the gathered retainers before settling on Nguyễn Ánh; lamplight flickers across the map and everyone remains focused. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -353,41 +384,18 @@
           "envVi": ""
         }
       },
-      "cue": "dramatic"
-    },
-    {
-      "scene": 16,
-      "narration": "Sang được bờ bên kia, Nguyễn Ánh tìm đường về Mỹ Tho. Tại đây, ông cho đưa gia quyến ra Phú Quốc trước, còn mình ở lại xoay xở. Giữ cả đoàn ở một chỗ, thì một lần bị phát hiện là mất hết. Tách ra, mỗi bên lại phải tự gánh phần nguy hiểm của mình.",
-      "beat": "",
-      "image": {
-        "kind": "ai",
-        "characters": [],
-        "identity": "full",
-        "prompt": "A modest late-18th-century river landing near Mỹ Tho, family members boarding a wooden transport boat with attendants and woven travel bundles, anxious but restrained expressions.",
-        "motion": "The camera follows the family boarding carefully; the boat rocks gently and pushes away from the bank as attendants guide it into the river. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
-        "promptVi": "",
-        "motionVi": "",
-        "motionParts": {
-          "camera": "",
-          "action": "",
-          "env": "",
-          "cameraVi": "",
-          "actionVi": "",
-          "envVi": ""
-        }
-      },
-      "cue": "somber"
+      "cue": "hopeful"
     },
     {
       "scene": 17,
-      "narration": "Muốn rời đất liền, ông cần biết đường biển còn mở hay đã bị chặn. Nguyễn Ánh sai người ra dò xét cửa Cần Giờ và các luồng nước. Chính cửa biển mà một năm trước hạm đội Tây Sơn đã tràn vào, giờ ông phải dò xem còn khe hở nào để đi ra.",
+      "narration": "Có người rồi, giờ phải có chỗ đứng. Tháng mười một năm 1777, Nguyễn Ánh cùng các tướng cũ tiến về Sa Đéc. Đây chưa phải cuộc hành quân của kẻ thắng trận, mà là hành trình nối lại từng mối liên lạc đã đứt, từ bến này sang bến khác.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A small period scouting boat moving along the Cần Giờ mangrove channel, two lookouts watching distant waterways, dawn mist and reeds, discreet historical framing.",
-        "motion": "A low camera follows the scouting boat around mangrove roots; one lookout raises a hand to signal the others to slow down. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Late-18th-century river convoy approaching Sa Đéc, a few wooden boats carrying retainers, woven cargo baskets, broad river and palm-lined banks under pale morning sun.",
+        "motion": "The camera tracks parallel to the convoy; reflections shimmer on the river and distant birds lift from the bank. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -399,18 +407,18 @@
           "envVi": ""
         }
       },
-      "cue": "tense"
+      "cue": "neutral"
     },
     {
       "scene": 18,
-      "narration": "Tin mang về chẳng sáng sủa gì. Trên đất liền, không còn chỗ nào đủ an toàn để trụ lại. Lối thoát còn lại chỉ là ra khơi, nơi phe Nguyễn không có thành, không có đồn, chỉ có những hòn đảo và mấy con thuyền.",
+      "narration": "Ở miền Tây, phe Nguyễn bắt đầu gom lại người, thuyền và lương thực. Nghe thì đơn giản, nhưng thử làm việc đó khi ai cũng có lý do để bỏ đi mới thấy khó. Gom người bằng lời hứa thì được, giữ người ở lại với nhau mới là chuyện khó.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "A wide sea view with a small wooden vessel between the coast and a forested island, distant storm clouds, sparse horizon, late-18th-century Gulf of Thailand atmosphere.",
-        "motion": "The camera slowly pulls upward from the boat to reveal the broad sea and the island ahead, while clouds move across the sky. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A practical riverside encampment with boat crews repairing wooden hulls, messengers arriving, period maps spread on a low table, southern Vietnamese wetlands in the background.",
+        "motion": "A documentary-style moving shot passes boat repairers, a messenger dismounting from a small boat, and the map table where retainers confer quietly. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -422,18 +430,18 @@
           "envVi": ""
         }
       },
-      "cue": "tense"
+      "cue": "hopeful"
     },
     {
       "scene": 19,
-      "narration": "Ở một vịnh đảo kín đáo, thuyền chở gia quyến đã neo trước. Nước ngọt, lương thực, một chỗ neo an toàn, những thứ ngày thường chẳng ai bận tâm, giờ quyết định cả đoàn trụ được bao lâu. Và những ngày ăn lõi chuối năm trước, vẫn còn rất gần.",
+      "narration": "Rồi họ làm một việc đã lâu không làm: chủ động ra tay. Cuối năm 1777, lực lượng của Nguyễn Ánh bất ngờ đánh úp Long Hồ. Sau bao tháng chỉ lo thoát thân, lần đầu tiên phe Nguyễn được ngẩng đầu, thay vì cúi đầu mà chạy.",
       "beat": "",
       "image": {
         "kind": "ai",
         "characters": [],
         "identity": "full",
-        "prompt": "Wooden family transport boat anchored in a secluded island cove, attendants unloading water jars and baskets beneath dense tropical trees, no modern objects.",
-        "motion": "A slow shore-level shot shows baskets being carried from boat to land as small waves roll into the cove. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "A small Nguyễn retinue quietly loading supplies into a wooden boat near Long Hồ at dusk, cautious faces and a nearly empty riverbank, showing a fragile return rather than battle.",
+        "motion": "A restrained tracking shot follows a small group loading supplies and pushing away from the Long Hồ riverbank at dusk, emphasizing caution and a fragile comeback. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {
@@ -445,18 +453,20 @@
           "envVi": ""
         }
       },
-      "cue": "somber"
+      "cue": "neutral"
     },
     {
       "scene": 20,
-      "narration": "Đến giữa năm 1783, Nguyễn Ánh đã mất hết căn cứ trên đất liền, chỉ còn các đảo ngoài khơi để cầm cự. Một năm trước, Phú Quốc là chỗ trốn tạm. Giờ, nó là nơi cuối cùng còn lại. Biển che được ông khỏi quân truy đuổi trên bộ. Câu hỏi là che được bao lâu, khi Tây Sơn cũng có thuyền.",
+      "narration": "Đà ấy kéo sang năm sau. Đầu năm 1778, phe Nguyễn lấy lại được một phần Gia Định, và Nguyễn Ánh, mới khoảng mười sáu tuổi, được các tướng tôn lên vị trí chỉ huy cao hơn. Nhưng đừng vội gọi đó là kết thúc có hậu. Cậu vừa quay lại bàn cờ, và bàn cờ này còn rất nhiều nước buộc cậu phải chạy tiếp.",
       "beat": "",
       "image": {
         "kind": "ai",
-        "characters": [],
+        "characters": [
+          "char-a"
+        ],
         "identity": "full",
-        "prompt": "A lone wooden boat leaving Phú Quốc into an immense blue-gray sea at dusk, wooded coastline fading behind it, cinematic sense of uncertainty.",
-        "motion": "The boat moves away from the island as the camera slowly rises; the coastline becomes a thin dark line and the horizon darkens. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
+        "prompt": "Young Nguyễn Ánh standing on a wooden river platform at sunrise, a few repaired war boats behind him and a small flotilla beginning to depart toward a distant fortified settlement, uncertain horizon, no crown or later imperial costume.",
+        "motion": "The camera rises from the river surface to Nguyễn Ánh and the boats behind him, then follows the flotilla into the mist as banners move gently and the horizon fades. Motion direction: 6–10 seconds, 16:9 cinematic historical realism, smooth deliberate camera movement, natural water/wind/cloth motion, stable faces and anatomy, no morphing, no sudden new objects, no text, no watermark, no modern objects, non-graphic. Preserve late-18th-century southern Vietnamese visual continuity and the same Nguyễn Ánh character reference.",
         "promptVi": "",
         "motionVi": "",
         "motionParts": {

@@ -1,6 +1,8 @@
 # Nguyễn Ánh — Phần 1: Người sống sót
 
-template: 16x9-3d-pixar-history-v2
+voice: NuBac
+
+template: 16x9-flat-cartoon-history-v2
 
 aspect: 16:9
 
