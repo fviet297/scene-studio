@@ -23,6 +23,7 @@ import { MUSE_IMAGE_MODELS, museImageUrl } from './muse-image.mjs';
 import { providerOf } from './providers.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
+import { readPlanHeader, writePlanHeader } from './plan-writer.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
 // writes. CLI scripts (generate-visuals.mjs, restyle-characters.mjs) get the active project once
@@ -146,19 +147,30 @@ const TEMPLATE_DEFAULTS = {
   text2img: TEXT2IMG_TEMPLATE,
 };
 export const TEMPLATE_KEYS = Object.keys(TEMPLATE_DEFAULTS);
-// User edits are persisted here (project-root relative) and override the defaults above.
+// User edits are persisted here (project-root relative) and override the defaults above. The file
+// holds template *content* only (top-level fields = the "default" version, plus named `versions`);
+// which version a project uses is its own scene-plan `template:` header, so switching projects
+// never rewrites this tracked file. Its `activeVersion` key is legacy and read-only: the fallback
+// for projects whose plan has no `template:` line yet.
 export const TEMPLATE_OVERRIDE_FILE = 'scripts/prompt-templates.json';
 const TEMPLATE_META_KEYS = new Set(['activeVersion', 'versions']);
 
+const readTemplateFile = () => {
+  if (!existsSync(TEMPLATE_OVERRIDE_FILE)) return {};
+  try { return JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { return {}; }
+};
+const projectTemplateVersion = () => (existsSync(paths.planMd)
+  ? readPlanHeader(readFileSync(paths.planMd, 'utf8'), 'template')
+  : null);
+
 // Effective templates = defaults merged with any saved override (a blank field falls back).
 export const getTemplates = () => {
-  let over = {};
-  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
-    try { over = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { over = {}; }
-  }
-  const selected = typeof over.activeVersion === 'string' ? over.activeVersion : 'default';
+  const over = readTemplateFile();
+  const versions = over.versions ?? {};
+  const isKnown = (v) => typeof v === 'string' && (v === 'default' || Object.hasOwn(versions, v));
+  const selected = [projectTemplateVersion(), over.activeVersion].find(isKnown) ?? 'default';
   const source = over.versions?.[selected] ?? over;
-  const out = { ...TEMPLATE_DEFAULTS, activeVersion: selected, versions: over.versions ?? {} };
+  const out = { ...TEMPLATE_DEFAULTS, activeVersion: selected, versions };
   for (const k of TEMPLATE_KEYS) if (typeof source[k] === 'string' && source[k].trim()) out[k] = source[k];
   // Read-only Vietnamese reading aids (styleDna_vi, guard_vi, …) for the panel's "Dịch" toggle.
   // They translate the shipped defaults only; a custom template version keeps the default's VI,
@@ -168,15 +180,18 @@ export const getTemplates = () => {
 };
 
 export const listTemplateVersions = () => {
-  let over = {};
-  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
-    try { over = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { over = {}; }
-  }
+  const over = readTemplateFile();
   const versions = over.versions && typeof over.versions === 'object' ? over.versions : {};
   return ['default', ...Object.keys(versions).filter((name) => name !== 'default')];
 };
 
-// Persist edited templates. Blank/missing fields keep their current effective value.
+// Point the active project at `version` (its scene-plan `template:` header).
+const useTemplateVersion = (version) => {
+  if (existsSync(paths.planMd)) writePlanHeader(paths.planMd, 'template', version);
+};
+
+// Persist edited templates under `version` and make it the active project's version. Blank/missing
+// fields keep their current effective value.
 export const saveTemplates = (partial, version = getTemplates().activeVersion || 'default') => {
   const current = getTemplates();
   const next = {};
@@ -184,27 +199,18 @@ export const saveTemplates = (partial, version = getTemplates().activeVersion ||
     const v = partial?.[k];
     next[k] = typeof v === 'string' && v.trim() ? v : current[k];
   }
-  let raw = {};
-  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
-    try { raw = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { raw = {}; }
-  }
+  const raw = readTemplateFile();
   const versions = { ...(raw.versions || {}) };
   if (version !== 'default') versions[version] = next;
-  const payload = version === 'default'
-    ? { ...next, activeVersion: version, versions }
-    : { activeVersion: version, versions };
+  const payload = version === 'default' ? { ...raw, ...next, versions } : { ...raw, versions };
   writeFileSync(TEMPLATE_OVERRIDE_FILE, `${JSON.stringify(payload, null, 2)}\n`);
+  useTemplateVersion(version);
   return getTemplates();
 };
 
 export const activateTemplateVersion = (version) => {
   if (!listTemplateVersions().includes(version)) throw new Error(`Unknown template version: ${version}`);
-  let raw = {};
-  if (existsSync(TEMPLATE_OVERRIDE_FILE)) {
-    try { raw = JSON.parse(readFileSync(TEMPLATE_OVERRIDE_FILE, 'utf8')); } catch { raw = {}; }
-  }
-  raw.activeVersion = version;
-  writeFileSync(TEMPLATE_OVERRIDE_FILE, `${JSON.stringify(raw, null, 2)}\n`);
+  useTemplateVersion(version);
   return getTemplates();
 };
 

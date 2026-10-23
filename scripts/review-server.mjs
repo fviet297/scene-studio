@@ -802,7 +802,6 @@ const activateProject = async (slug) => {
   setActiveSlug(slug);
   P = projectPaths(slug);
   setImageProjectPaths(P);
-  syncProjectTemplate();
   await rebuildBundles();
 };
 
@@ -939,26 +938,6 @@ const generateScriptProject = async (res, input) => {
     if (!signal.aborted) sseSend(res, 'error', error.message);
   }
   res.end();
-};
-
-// The prompt-template version is one global setting, but projects use different styles (chibi,
-// pixar, flat…). A project records its style as a `template:` header line, and becoming active
-// re-activates that version so its images keep their look. A project without the line (or naming
-// a version that no longer exists) keeps whatever version is active.
-const syncProjectTemplate = () => {
-  if (!existsSync(P.planMd)) return;
-  const version = readPlanHeader(readFileSync(P.planMd, 'utf8'), 'template');
-  if (!version || version === getTemplates().activeVersion) return;
-  if (!listTemplateVersions().includes(version)) {
-    process.stdout.write(`⚠ ${P.slug}: template "${version}" not found, keeping "${getTemplates().activeVersion}"\n`);
-    return;
-  }
-  activateTemplateVersion(version);
-};
-
-// Remember the active template version on the active project (see syncProjectTemplate).
-const recordProjectTemplate = (version) => {
-  if (existsSync(P.planMd)) writePlanHeader(P.planMd, 'template', version);
 };
 
 const server = createServer(async (req, res) => {
@@ -1201,7 +1180,6 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/templates') {
       const body = await readBody(req);
       const templates = saveTemplates(body, body.version || 'default');
-      recordProjectTemplate(templates.activeVersion);
       sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
       return;
     }
@@ -1211,7 +1189,6 @@ const server = createServer(async (req, res) => {
       if (typeof body.version !== 'string') { sendJson(res, 400, { error: 'version required' }); return; }
       if (!listTemplateVersions().includes(body.version)) { sendJson(res, 400, { error: `Unknown template version: ${body.version}` }); return; }
       const templates = activateTemplateVersion(body.version);
-      recordProjectTemplate(templates.activeVersion);
       sendJson(res, 200, { ok: true, templates, activeVersion: templates.activeVersion, versions: listTemplateVersions() });
       return;
     }
@@ -1778,7 +1755,6 @@ const server = createServer(async (req, res) => {
   }
 });
 
-syncProjectTemplate();
 // Rebuild a project's bundle whenever one of its plan inputs changes on disk — including edits
 // made outside the panel (IDE, a skill, a CLI script) and to projects that are not active, which
 // no API call would otherwise notice. Debounced per project: one save often lands as several
