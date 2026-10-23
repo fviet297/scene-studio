@@ -1,4 +1,4 @@
-// Generate one AI image per scene from src/scene-plan.json (see references/scene-plan.md).
+// Generate one AI image per scene of the active project's scene-plan.md (see references/scene-plan.md).
 // Model is routed by reference count in scripts/lib/replicate-image.mjs:
 // - one char reference   → FLUX Kontext dev (cheap, keeps the character's identity)
 // - two+ char references → Seedream 4.5 (keeps a distinct face per person)
@@ -14,20 +14,16 @@
 // All scenes:  node scripts/generate-visuals.mjs
 // Some scenes: node scripts/generate-visuals.mjs 2 6 7
 
-import { existsSync, readFileSync } from 'node:fs';
 import { generateSceneImage, loadEnv } from './lib/replicate-image.mjs';
 import { parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 loadEnv();
 
-const PLAN = 'src/scene-plan.json';
 if (!process.env.REPLICATE_API_TOKEN) { process.stderr.write('REPLICATE_API_TOKEN not set (put it in .env).\n'); process.exit(1); }
-if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 
 const argv = process.argv.slice(2);
-const slug = resolveSlug(argv);
-const { characters, scenes, project } = JSON.parse(readFileSync(PLAN, 'utf8'));
-if (project !== slug) { process.stderr.write(`src/scene-plan.json was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { characters, scenes } = parsePlan(resolveSlug(argv));
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter(Number.isFinite);
 

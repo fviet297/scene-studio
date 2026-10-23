@@ -1,32 +1,26 @@
 // Write each AI scene's image prompt from its narration via OpenAI (scripts/lib/prompt-writer.mjs),
 // following the house rules: action/setting only, never appearance; physical + cultural
 // continuity; every named character placed in `char:` order. Writes `prompt:`/`prompt_vi:`
-// into scene-plan.md and reparses (motion is written separately, from the review panel). Skips scenes that already have a prompt unless --force is given.
+// into scene-plan.md (motion is written separately, from the review panel). Skips scenes that already have a prompt unless --force is given.
 //
 // Every scene missing a prompt:  node scripts/generate-prompts.mjs
 // Some scenes:                   node scripts/generate-prompts.mjs 2 6 7
 // Force overwrite:               node scripts/generate-prompts.mjs --force 3
 // Other project:                 node scripts/generate-prompts.mjs --project other-slug
 
-import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { loadEnv } from './lib/replicate-image.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { writeSceneField } from './lib/plan-writer.mjs';
-import { activePaths, parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
+import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 loadEnv();
 
-const PLAN = 'src/scene-plan.json';
 if (!process.env.OPENAI_API_KEY) { process.stderr.write('OPENAI_API_KEY not set (put it in .env).\n'); process.exit(1); }
-if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 
 const argv = process.argv.slice(2);
-const slug = resolveSlug(argv);
 const paths = activePaths(argv);
-const { project, scenes } = JSON.parse(readFileSync(PLAN, 'utf8'));
-if (project !== slug) { process.stderr.write(`${PLAN} was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { scenes } = parsePlan(paths.slug);
 
 const { rest } = parseProjectArg(argv);
 const force = rest.includes('--force');
@@ -55,5 +49,4 @@ for (const s of targets) {
   process.stdout.write(`✓ scene ${s.scene}: ${text.slice(0, 80)}${text.length > 80 ? '…' : ''}\n`);
 }
 
-if (count) execFileSync('node', [join('scripts', 'parse-scene-plan.mjs'), paths.planMd], { stdio: 'ignore' });
 process.stdout.write(`Wrote ${count}/${targets.length} prompt(s).\n`);

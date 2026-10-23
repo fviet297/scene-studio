@@ -14,11 +14,11 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { activePaths, sceneBase } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 const paths = activePaths();
 const IMAGE_DIR = paths.imageDir;
 const MANIFEST = paths.manifest;
-const PLAN = 'src/scene-plan.json';
 const SINGLE_SOURCE_LIMIT = 0.6;
 const SUBJECT_REPEAT_LIMIT = 2;
 
@@ -27,15 +27,7 @@ if (!existsSync(MANIFEST)) {
   process.exit(1);
 }
 
-if (!existsSync(PLAN)) {
-  process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`);
-  process.exit(1);
-}
-const plan = JSON.parse(readFileSync(PLAN, 'utf8'));
-if (plan.project !== paths.slug) {
-  process.stderr.write(`${PLAN} is for "${plan.project}" but "${paths.slug}" is active. Run parse-scene-plan.mjs\n`);
-  process.exit(1);
-}
+const plan = parsePlan(paths.slug);
 
 const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
 const onDisk = new Set(readdirSync(IMAGE_DIR).filter((f) => /\.(jpe?g|png|svg|webp)$/i.test(f)));

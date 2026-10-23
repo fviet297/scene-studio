@@ -5,15 +5,16 @@
 //
 // Only the active project is rebuilt by default: measuring audio (ffprobe per scene) and aligning
 // captions costs minutes per project, and the other projects' bundles on disk are still valid
-// until their own assets change. Pass --all to rebuild every project.
+// until their own assets change. Pass --all to rebuild every project, or --stale to rebuild only
+// the projects whose bundle is missing or older than one of its inputs (what `npm run dev` does).
 //
-// Run: node scripts/build-remotion.mjs [--project <slug>] [--all]
+// Run: node scripts/build-remotion.mjs [--project <slug>] [--all | --stale]
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { listProjects, projectPaths, resolveSlug } from './lib/project-paths.mjs';
-import { parsePlan } from './lib/parse-plan.mjs';
+import { listProjects, PROJECTS_DIR, projectPaths, readActiveSlug, resolveSlug } from './lib/project-paths.mjs';
+import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { alignCaptions } from './lib/caption-align.mjs';
 import { aspectInfo } from './lib/aspect.mjs';
 import { readBranding } from './lib/branding.mjs';
@@ -29,9 +30,41 @@ const OUT_DIR = 'src/projects-data';
 const probeDuration = (file) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', file], { encoding: 'utf8' }).trim());
 
+const bundlePath = (slug) => join(OUT_DIR, `${slug}.json`);
+
+const mtimeOf = (path) => (existsSync(path) ? statSync(path).mtimeMs : 0);
+const newestIn = (dir) => (existsSync(dir)
+  ? Math.max(0, ...readdirSync(dir).map((name) => mtimeOf(join(dir, name))))
+  : 0);
+
+// Every file the bundle is derived from. Files inside audio/ and scene-videos/ are checked one by
+// one: regenerating a clip overwrites it in place, which leaves the directory's own mtime unchanged.
+const newestInput = (slug) => {
+  const paths = projectPaths(slug);
+  const profiles = existsSync(paths.profilesDir)
+    ? readdirSync(paths.profilesDir).map((id) => mtimeOf(join(paths.profilesDir, id, 'profile.json')))
+    : [];
+  return Math.max(
+    mtimeOf(paths.planMd),
+    mtimeOf(paths.manifest),
+    mtimeOf(join(PROJECTS_DIR, slug, 'branding.json')),
+    ...profiles,
+    newestIn(paths.audioDir),
+    newestIn(paths.sceneVideoDir),
+    newestIn(paths.charV2Dir),
+    newestIn(join(paths.publicRoot, 'overlay')),
+  );
+};
+const isStale = (slug) => !existsSync(bundlePath(slug)) || newestInput(slug) > mtimeOf(bundlePath(slug));
+
 const argv = process.argv.slice(2);
 const allProjects = listProjects();
-const targets = argv.includes('--all') ? allProjects : [resolveSlug(argv)];
+const pickTargets = () => {
+  if (argv.includes('--all')) return allProjects;
+  if (argv.includes('--stale')) return allProjects.filter(isStale);
+  return [resolveSlug(argv)];
+};
+const targets = pickTargets();
 for (const slug of targets) {
   if (!allProjects.includes(slug)) throw new Error(`project "${slug}" has no projects/${slug}/scene-plan.md`);
 }
@@ -46,7 +79,7 @@ const titleOverlaySceneOf = (planMd) => {
 const built = [];
 for (const slug of targets) {
   const paths = projectPaths(slug);
-  const { title, aspect, scenes, assetManifest, warnings } = parsePlan(slug);
+  const { title, aspect, scenes, characterRows, assetManifest, warnings } = parsePlan(slug);
   for (const w of warnings) process.stderr.write(`WARN [${slug}] ${w}\n`);
   const { width, height } = aspectInfo(aspect);
 
@@ -81,7 +114,7 @@ for (const slug of targets) {
 
   // Captions need every scene's real audio to keep absolute timings correct; skip until then.
   // Offsets advance by sceneSeconds so a clip-extended scene doesn't desync later captions.
-  const segments = scenes.filter((s) => s.narration).map((s) => ({ scene: s.scene, text: s.narration }));
+  const segments = narrationSegments(scenes);
   const captionGroups = allAudioReady ? alignCaptions(segments, paths.audioDir, sceneSeconds).groups : [];
 
   const durationInFrames = sceneDurations.reduce((sum, sec) => sum + Math.round(sec * FPS), 0) || FPS;
@@ -99,6 +132,8 @@ for (const slug of targets) {
     fps: FPS,
     durationInFrames,
     scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s.scene) })),
+    // Character gallery rows (id, name, aliases, image, imageV2) for the puppet preview.
+    characters: characterRows,
     sceneDurations,
     motionPlaybackRates,
     captionGroups,
@@ -113,14 +148,14 @@ for (const slug of targets) {
     // Corner logo + centre watermark settings (projects/<slug>/branding.json, edited in the panel).
     branding: readBranding(slug),
   };
-  writeFileSync(join(OUT_DIR, `${slug}.json`), `${JSON.stringify(data, null, 2)}\n`);
+  writeFileSync(bundlePath(slug), `${JSON.stringify(data, null, 2)}\n`);
   built.push(slug);
   process.stdout.write(`Built ${slug}: ${scenes.length} scenes, ${captionGroups.length} caption groups, ${(durationInFrames / FPS).toFixed(1)}s${allAudioReady ? '' : ' (audio incomplete — no captions)'}\n`);
 }
 
 // Every project whose bundle exists on disk stays in the index, so rebuilding one project keeps
 // the other compositions in the Studio instead of dropping them until their next build.
-const bundled = allProjects.filter((slug) => built.includes(slug) || existsSync(join(OUT_DIR, `${slug}.json`)));
+const bundled = allProjects.filter((slug) => built.includes(slug) || existsSync(bundlePath(slug)));
 
 const varName = (slug) => `p_${slug.replace(/[^a-z0-9]/gi, '_')}`;
 // JSON is inferred with widened field types (e.g. image.kind: string), so cast through unknown
@@ -129,7 +164,11 @@ const index =
   `// Generated by scripts/build-remotion.mjs. Do not edit by hand.\n`
   + bundled.map((s) => `import ${varName(s)} from "./${s}.json";`).join('\n')
   + `\nimport type { ProjectData } from "../ScenePlanVideo";\n\n`
-  + `export const PROJECTS = [${bundled.map(varName).join(', ')}] as unknown as ProjectData[];\n`;
-writeFileSync(join(OUT_DIR, 'index.ts'), index);
+  + `export const PROJECTS = [${bundled.map(varName).join(', ')}] as unknown as ProjectData[];\n`
+  // Default project for the single-scene and puppet previews: the active one at build time.
+  + `export const ACTIVE_SLUG = ${JSON.stringify(readActiveSlug() ?? bundled[0] ?? '')};\n`;
+const indexPath = join(OUT_DIR, 'index.ts');
+// Unchanged index is left alone so a no-op --stale run doesn't trigger a Studio reload.
+if (!existsSync(indexPath) || readFileSync(indexPath, 'utf8') !== index) writeFileSync(indexPath, index);
 
 process.stdout.write(`\nBuilt ${built.length} project bundle(s); indexed ${bundled.length} → ${OUT_DIR}/index.ts\n`);

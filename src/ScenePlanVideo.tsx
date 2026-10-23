@@ -50,6 +50,15 @@ export type Scene = {
   };
 };
 
+export type ProjectCharacter = {
+  id: string;
+  name: string;
+  aliases: readonly string[];
+  // staticFile()-relative reference image, and its puppet-ready v2 (falls back to `image`).
+  image: string;
+  imageV2: string;
+};
+
 export type ProjectData = {
   slug: string;
   title: string;
@@ -66,6 +75,8 @@ export type ProjectData = {
   // the clip stretches to fill the whole scene instead of leaving a frozen tail. 1 = play as-is.
   motionPlaybackRates?: number[];
   uploadedScenes: number[];
+  // The plan's `## characters` block, enriched from each profile.json; absent in older bundles.
+  characters?: ProjectCharacter[];
   // Stamped by the builder: public/projects/<slug>/overlay/news-overlay.png exists.
   hasOverlay?: boolean;
   // Stamped by the builder: public/projects/<slug>/overlay/news-title.png exists.
@@ -241,7 +252,9 @@ export function SceneView({
             fontSize: overlay.tagFontSize,
             borderRadius: overlay.tagRadius,
           }}
-        >        </div>
+        >
+          {" "}
+        </div>
       )}
 
       {/* bottom scrim — omitted entirely on the wide profile, which sets its height to 0 */}
@@ -268,7 +281,13 @@ const TITLE_OFFSCREEN_X = -1000;
 
 // Headline card over the opening seconds: slides in from the left, holds, slides back out so it
 // stops covering the artwork after the hook.
-function TitleOverlay({ src, durationInFrames }: { src: string; durationInFrames: number }) {
+function TitleOverlay({
+  src,
+  durationInFrames,
+}: {
+  src: string;
+  durationInFrames: number;
+}) {
   const frame = useCurrentFrame();
   const slide = Math.min(TITLE_SLIDE_FRAMES, Math.floor(durationInFrames / 3));
   const x = interpolate(
@@ -349,7 +368,12 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
       {project.hasOverlay && (
         <Img
           src={staticFile(`${project.publicPrefix}/overlay/news-overlay.png`)}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+          }}
         />
       )}
       {project.branding && <BrandOverlay branding={project.branding} />}

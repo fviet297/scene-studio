@@ -1,4 +1,4 @@
-// Redraw every character reference (from the active project's src/characters-data.json) into a
+// Redraw every character reference (from the active project's scene-plan.md) into a
 // puppet-ready v2 pose: front-facing, arms/legs separated, pure white background — the shape a
 // 2D animation rig can be cut from. Reads the v1 reference the plan points at, writes to
 // public/projects/<slug>/characters/v2/<same basename>.
@@ -7,22 +7,19 @@
 // One character:    node scripts/generate-puppet-references.mjs ly-thai-to
 // Other project:     node scripts/generate-puppet-references.mjs --project other-slug
 
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { dataUri, download, loadEnv, predict } from './lib/replicate-image.mjs';
-import { activePaths, parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
+import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 loadEnv();
 
 const MODEL = 'bytedance/seedream-4.5';
-const CHAR_DATA = 'src/characters-data.json';
 
 const argv = process.argv.slice(2);
-const slug = resolveSlug(argv);
 const paths = activePaths(argv);
-if (!existsSync(CHAR_DATA)) { process.stderr.write(`No ${CHAR_DATA}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
-const { project, characters } = JSON.parse(readFileSync(CHAR_DATA, 'utf8'));
-if (project !== slug) { process.stderr.write(`${CHAR_DATA} was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { characterRows: characters } = parsePlan(paths.slug);
 
 const { rest: only } = parseProjectArg(argv);
 
@@ -54,7 +51,7 @@ const targets = characters.filter((c) => !only.length || only.includes(c.id));
 if (!targets.length) { process.stderr.write(`No matching character(s) in ${CHAR_DATA}.\n`); process.exit(1); }
 
 for (const character of targets) {
-  const source = join('public', character.image); // characters-data.json paths are staticFile-relative
+  const source = join('public', character.image); // characterRows paths are staticFile-relative
   if (!existsSync(source)) { process.stderr.write(`✗ ${character.id}: no reference at ${source}\n`); continue; }
   const output = join(paths.charV2Dir, basename(source));
   const url = await predict(process.env.REPLICATE_API_TOKEN, MODEL, {

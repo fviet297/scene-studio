@@ -1,13 +1,18 @@
 import React from "react";
 import { AbsoluteFill, Sequence, useVideoConfig } from "remotion";
 import { HistoricalCharacter } from "./characters/HistoricalCharacter";
-import { characterList } from "./characters/HistoricalCharacter/characterRegistry";
+import { charactersOf } from "./characters/HistoricalCharacter/characterRegistry";
 
 export const CHARACTER_PREVIEW_FPS = 30;
 export const CHARACTER_PREVIEW_DURATION = CHARACTER_PREVIEW_FPS * 8;
 
-export const CharacterPuppetPreview: React.FC = () => {
+export type CharacterPuppetPreviewProps = { project: string };
+
+export const CharacterPuppetPreview: React.FC<CharacterPuppetPreviewProps> = ({
+  project,
+}) => {
   const { width, height } = useVideoConfig();
+  const characterList = charactersOf(project);
   const characterWidth = Math.round(width * 0.34);
   const characterHeight = Math.round(height * 0.34);
 
@@ -39,6 +44,7 @@ export const CharacterPuppetPreview: React.FC = () => {
           <Sequence key={c.id} from={i * CHARACTER_PREVIEW_FPS} layout="none">
             <div style={{ textAlign: "center" }}>
               <HistoricalCharacter
+                project={project}
                 character={c.id}
                 referenceVersion="v2"
                 animation={i === 0 ? "idle" : "enter-right"}

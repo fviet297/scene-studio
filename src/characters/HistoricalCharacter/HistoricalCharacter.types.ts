@@ -1,8 +1,7 @@
 import type React from "react";
 
-// Any id present in the active project's src/characters-data.json (generated from that
-// project's scene-plan.md `## characters` block) — not a fixed union, since the character set
-// changes per project.
+// Any id in a project's scene-plan.md `## characters` block — not a fixed union, since the
+// character set changes per project.
 export type HistoricalCharacterId = string;
 
 export type HistoricalCharacterAnimation =
@@ -17,6 +16,8 @@ export type HistoricalCharacterAnimation =
 export type HistoricalCharacterReferenceVersion = "current" | "v2";
 
 export interface HistoricalCharacterProps {
+  // Project slug the character id belongs to (ids repeat across projects, e.g. char-a).
+  project: string;
   character: HistoricalCharacterId;
   animation?: HistoricalCharacterAnimation;
   referenceVersion?: HistoricalCharacterReferenceVersion;

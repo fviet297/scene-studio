@@ -1,8 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, staticFile } from "remotion";
-import scenePlan from "./scene-plan.json";
-import assetManifest from "./asset-manifest.json";
-import { SceneView, FPS, type Scene } from "./ScenePlanVideo";
+import { PROJECTS } from "./projects-data";
+import { SceneView, FPS } from "./ScenePlanVideo";
 
 // Single-scene preview composition: one scene's cinematic image + overlay (title/cue/AI tag)
 // plus its own narration audio, at local time 0. Duration comes from props (the review server
@@ -12,30 +11,28 @@ import { SceneView, FPS, type Scene } from "./ScenePlanVideo";
 
 export const SCENE_ONE_FPS = FPS;
 
-export type SceneOneProps = { scene: number; durationInFrames: number };
-
-const scenes = scenePlan.scenes as unknown as Scene[];
-const publicPrefix = `projects/${scenePlan.project}`;
-const uploadedScenes = (
-  assetManifest as { scene: number; authenticity: string }[]
-)
-  .filter((m) => m.authenticity === "USER_UPLOAD")
-  .map((m) => m.scene);
+export type SceneOneProps = {
+  project: string;
+  scene: number;
+  durationInFrames: number;
+};
 
 export const SceneOneVideo: React.FC<SceneOneProps> = ({
+  project,
   scene,
   durationInFrames,
 }) => {
-  const s = scenes.find((x) => x.scene === scene);
-  if (!s) return <AbsoluteFill style={{ background: "#191716" }} />;
-  const audio = `${publicPrefix}/audio/scene-${String(scene).padStart(2, "0")}.mp3`;
+  const data = PROJECTS.find((p) => p.slug === project);
+  const s = data?.scenes.find((x) => x.scene === scene);
+  if (!data || !s) return <AbsoluteFill style={{ background: "#191716" }} />;
+  const audio = `${data.publicPrefix}/audio/scene-${String(scene).padStart(2, "0")}.mp3`;
   return (
     <AbsoluteFill style={{ background: "#191716" }}>
       <SceneView
         scene={s}
         durationInFrames={durationInFrames}
-        publicPrefix={publicPrefix}
-        uploadedScenes={uploadedScenes}
+        publicPrefix={data.publicPrefix}
+        uploadedScenes={data.uploadedScenes}
       />
       <Audio src={staticFile(audio)} />
     </AbsoluteFill>

@@ -10,9 +10,10 @@
 // a missing/short/empty transcript). Exit 0 if all pass, 1 if any fail. Requires OPENAI_API_KEY
 // (loaded from ./.env). Threshold overridable via QA_THRESHOLD (default 0.80).
 
-import { existsSync, openAsBlob, readFileSync, statSync } from 'node:fs';
+import { existsSync, openAsBlob, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { activePaths, parseProjectArg, sceneBase } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 import { loadEnv } from './lib/replicate-image.mjs';
 
 loadEnv();
@@ -25,11 +26,7 @@ const paths = activePaths(argv);
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter(Number.isFinite);
 
-const plan = JSON.parse(readFileSync('src/scene-plan.json', 'utf8'));
-if (plan.project !== paths.slug) {
-  process.stderr.write(`src/scene-plan.json is for "${plan.project}" but "${paths.slug}" is active. Run parse-scene-plan.mjs\n`);
-  process.exit(2);
-}
+const plan = parsePlan(paths.slug);
 
 // Normalise for comparison: lowercase, drop punctuation/digits-as-words differences, collapse
 // spaces. Keeps Vietnamese letters (incl. diacritics) so a dropped/garbled word still shows.

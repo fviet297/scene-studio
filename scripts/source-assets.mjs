@@ -1,4 +1,4 @@
-// Source a real image for every `kind: "search"` scene in src/scene-plan.json across
+// Source a real image for every `kind: "search"` scene in the active project's scene-plan.md across
 // multiple public-domain repositories, with URL de-duplication so no image repeats.
 // Downloads to the canonical file public/images/scene-NN.jpg and records provenance in
 // the manifest. AI scenes are handled by generate-visuals.mjs, not here.
@@ -7,21 +7,18 @@
 // Some scenes:        node scripts/source-assets.mjs 3 9
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { activePaths, parseProjectArg, resolveSlug } from './lib/project-paths.mjs';
+import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 const UA = 'HistoryVideoBot/1.0 ()';
-const PLAN = 'src/scene-plan.json';
 const ORDER = ['wikimedia', 'met', 'artic', 'loc'];
 const REJECT = /\.pdf|barcode|logo/i;
 
-if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
 const argv = process.argv.slice(2);
-const slug = resolveSlug(argv);
 const paths = activePaths(argv);
 const IMAGE_DIR = paths.imageDir;
 const MANIFEST = paths.manifest;
-const { scenes, project } = JSON.parse(readFileSync(PLAN, 'utf8'));
-if (project !== slug) { process.stderr.write(`src/scene-plan.json was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { scenes } = parsePlan(paths.slug);
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter(Number.isFinite);
 const targets = scenes.filter((s) => s.image.kind === 'search' && (!only.length || only.includes(s.scene)));

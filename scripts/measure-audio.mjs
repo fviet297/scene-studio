@@ -5,14 +5,11 @@
 
 import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';
-import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths } from './lib/project-paths.mjs';
+import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 
 const paths = activePaths();
-if (paths.slug !== PROJECT) {
-  process.stderr.write(`narration-segments.mjs was built for project "${PROJECT}" but "${paths.slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`);
-  process.exit(1);
-}
+const SEGMENTS = narrationSegments(parsePlan(paths.slug).scenes);
 const AUDIO_DIR = paths.audioDir;
 const OUTPUT = 'src/audio-durations.ts';
 

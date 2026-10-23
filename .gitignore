@@ -146,3 +146,14 @@ archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-07.mp4.bak
 archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-08.mp4.bak
 archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-09.mp4.bak
 archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-10.mp4.bak
+
+# Generated from projects/<slug>/scene-plan.md + assets by scripts/build-remotion.mjs
+# (npm run dev / build rebuild stale bundles; the review server rebuilds on every plan edit).
+src/projects-data/
+# Outputs of the legacy measure-audio.mjs / align-captions.mjs (nothing imports them).
+src/audio-durations.ts
+src/caption-data.ts
+# Per-machine state: which project the review server and CLI scripts act on.
+projects/active.json
+# Manual scene-plan backups — git history already keeps every committed version.
+projects/**/scene-plan.md.*

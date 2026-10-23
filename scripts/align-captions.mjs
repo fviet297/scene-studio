@@ -3,15 +3,12 @@
 // Run: node scripts/align-captions.mjs
 
 import { writeFileSync } from 'node:fs';
-import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths } from './lib/project-paths.mjs';
+import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { alignCaptions } from './lib/caption-align.mjs';
 
 const paths = activePaths();
-if (paths.slug !== PROJECT) {
-  process.stderr.write(`narration-segments.mjs was built for project "${PROJECT}" but "${paths.slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`);
-  process.exit(1);
-}
+const SEGMENTS = narrationSegments(parsePlan(paths.slug).scenes);
 
 const { groups, totalSeconds } = alignCaptions(SEGMENTS, paths.audioDir);
 writeFileSync('src/caption-data.ts', `export const captionGroups = ${JSON.stringify(groups, null, 2)} as const;\n`);

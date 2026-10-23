@@ -1,21 +1,21 @@
 # Reusable historical characters
 
-Character data (id, display name, aliases, reference image, puppet v2 image) is generated per
-project into `src/characters-data.json` by `node scripts/parse-scene-plan.mjs`, from the active
-project's `## characters` block in `scene-plan.md` plus each `projects/<slug>/characters/<id>/profile.json`.
-`characterRegistry.ts` reads that file — there is no hardcoded character list in this component.
-
-Use the shared Remotion component with whatever character ids the active project defines:
+Character data (id, display name, aliases, reference image, puppet v2 image) comes from each
+project's `## characters` block in `scene-plan.md` plus each `projects/<slug>/characters/<id>/profile.json`,
+stamped into that project's Remotion bundle (`src/projects-data/<slug>.json`) by
+`node scripts/build-remotion.mjs`. `characterRegistry.ts` reads the bundles — there is no
+hardcoded character list in this component. Ids are per project, so every lookup names the project:
 
 ```tsx
 import { HistoricalCharacter } from './characters/HistoricalCharacter';
-import { characterList } from './characters/HistoricalCharacter/characterRegistry';
+import { charactersOf } from './characters/HistoricalCharacter/characterRegistry';
 
-<HistoricalCharacter character={characterList[0].id} animation="idle" />
-<HistoricalCharacter character={characterList[1].id} animation="enter-right" />
+const cast = charactersOf('gia-long');
+<HistoricalCharacter project="gia-long" character={cast[0].id} animation="idle" />
+<HistoricalCharacter project="gia-long" character={cast[1].id} animation="enter-right" />
 
 <!-- Puppet-ready v2 reference, when public/projects/<slug>/characters/v2/<file> exists. -->
-<HistoricalCharacter character={characterList[0].id} referenceVersion="v2" animation="idle" />
+<HistoricalCharacter project="gia-long" character={cast[0].id} referenceVersion="v2" animation="idle" />
 ```
 
 Supported raster-safe animations: `still`, `idle`, `enter-left`, `enter-right`,

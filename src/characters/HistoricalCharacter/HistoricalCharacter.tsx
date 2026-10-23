@@ -23,6 +23,7 @@ interface MotionState {
 const STILL: MotionState = { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 };
 
 export function HistoricalCharacter({
+  project,
   character,
   animation = "idle",
   referenceVersion = "current",
@@ -33,7 +34,7 @@ export function HistoricalCharacter({
 }: HistoricalCharacterProps) {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-  const definition = getCharacter(character);
+  const definition = getCharacter(project, character);
   const motion = resolveMotion(animation, frame, fps, durationInFrames);
 
   return (

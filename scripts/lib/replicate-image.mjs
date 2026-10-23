@@ -3,7 +3,7 @@
 // so the FLUX Kontext / text-to-image logic and the manifest record live in one place.
 //
 //   generateSceneImage(scene, characters, { token, kontextModel, textModel })
-//     scene      — one entry from src/scene-plan.json ({ scene, image: { kind, characters, prompt } })
+//     scene      — one parsed scene from parsePlan() ({ scene, image: { kind, characters, prompt } })
 //     characters — the plan's { id: referencePath } map
 //   → { file, via, manifestEntry }, and writes public/images/scene-NN.jpg
 //
@@ -435,17 +435,14 @@ export const download = async (url, path) => {
   writeFileSync(path, buf);
 };
 
-// Upsert one manifest entry into the active project's asset-manifest.json (kept sorted), and
-// mirror it to src/asset-manifest.json — the fixed path Remotion statically imports.
+// Upsert one manifest entry into the active project's asset-manifest.json (kept sorted).
 export const upsertManifest = (entry) => {
   const manifest = existsSync(manifestPath()) ? JSON.parse(readFileSync(manifestPath(), 'utf8')) : [];
   const i = manifest.findIndex((m) => m.id === entry.id);
   if (i >= 0) manifest[i] = entry; else manifest.push(entry);
   manifest.sort((a, b) => a.scene - b.scene || a.id.localeCompare(b.id));
   mkdirSync(paths.imageDir, { recursive: true });
-  const text = `${JSON.stringify(manifest, null, 2)}\n`;
-  writeFileSync(manifestPath(), text);
-  writeFileSync('src/asset-manifest.json', text);
+  writeFileSync(manifestPath(), `${JSON.stringify(manifest, null, 2)}\n`);
 };
 
 // Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),

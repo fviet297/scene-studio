@@ -12,14 +12,14 @@
 // All characters: node scripts/restyle-characters.mjs
 // Some:          node scripts/restyle-characters.mjs quang-trung
 
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { basename } from 'node:path';
 import { getTemplates, buildInput, dataUri, download, loadEnv, predict } from './lib/replicate-image.mjs';
 import { activePaths, resolveSlug } from './lib/project-paths.mjs';
+import { parsePlan } from './lib/parse-plan.mjs';
 
 loadEnv();
 
-const PLAN = 'src/scene-plan.json';
 const slug = resolveSlug();
 const ORIGINAL_DIR = activePaths().charOriginalDir;
 const MODEL = process.env.REPLICATE_KONTEXT_MODEL ?? 'bytedance/seedream-4.5';
@@ -58,10 +58,7 @@ hyperreal skin, texture noise, soft blur, pixel art, jagged aliased outlines, an
 background scenery, cropped head or feet, multiple characters, text, logo, watermark.`;
 
 if (!process.env.REPLICATE_API_TOKEN) { process.stderr.write('REPLICATE_API_TOKEN not set (put it in .env).\n'); process.exit(1); }
-if (!existsSync(PLAN)) { process.stderr.write(`No ${PLAN}. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
-
-const { characters, project } = JSON.parse(readFileSync(PLAN, 'utf8'));
-if (project !== slug) { process.stderr.write(`src/scene-plan.json was parsed for project "${project}" but "${slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`); process.exit(1); }
+const { characters } = parsePlan(slug);
 const only = process.argv.slice(2);
 
 for (const [id, path] of Object.entries(characters)) {

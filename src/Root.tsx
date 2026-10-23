@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition } from "remotion";
 import { ScenePlanVideo, FPS } from "./ScenePlanVideo";
-import { PROJECTS } from "./projects-data";
+import { ACTIVE_SLUG, PROJECTS } from "./projects-data";
 import { SceneOneVideo } from "./SceneOneVideo";
 import {
   CharacterPuppetPreview,
@@ -35,7 +35,7 @@ export const RemotionRoot: React.FC = () => (
       fps={FPS}
       width={1080}
       height={1920}
-      defaultProps={{ scene: 1, durationInFrames: 300 }}
+      defaultProps={{ project: ACTIVE_SLUG, scene: 1, durationInFrames: 300 }}
       calculateMetadata={({ props }) => ({
         durationInFrames: Math.max(1, Math.round(props.durationInFrames)),
       })}
@@ -47,6 +47,7 @@ export const RemotionRoot: React.FC = () => (
       fps={CHARACTER_PREVIEW_FPS}
       width={1080}
       height={1920}
+      defaultProps={{ project: ACTIVE_SLUG }}
     />
   </>
 );

@@ -1,8 +1,8 @@
-export { HistoricalCharacter } from './HistoricalCharacter';
-export { HISTORICAL_CHARACTERS } from './characterRegistry';
+export { HistoricalCharacter } from "./HistoricalCharacter";
+export { charactersOf } from "./characterRegistry";
 export type {
   HistoricalCharacterAnimation,
   HistoricalCharacterId,
   HistoricalCharacterProps,
   HistoricalCharacterReferenceVersion,
-} from './HistoricalCharacter.types';
+} from "./HistoricalCharacter.types";

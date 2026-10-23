@@ -6,8 +6,7 @@
 // Precedence for which project a script acts on: --project <slug> in argv > PROJECT env var
 // > projects/active.json. Resolution throws instead of silently defaulting, because writing
 // generated audio/images into the wrong project is the one mistake this module exists to
-// prevent (see scripts/narration-segments.mjs's PROJECT export + the assertions in
-// generate-narration.mjs / measure-audio.mjs / align-captions.mjs).
+// prevent.
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';

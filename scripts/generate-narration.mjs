@@ -1,5 +1,5 @@
 // Per-scene narration generator (OmniVoice clone voice).
-// Each segment in narration-segments.mjs becomes one file: public/audio/scene-NN.mp3.
+// Each scene's narration in scene-plan.md becomes one file: public/audio/scene-NN.mp3.
 // Keeping scenes separate means a mispronounced part is fixed by regenerating one scene,
 // not the whole track.
 //
@@ -9,8 +9,8 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { PROJECT, SEGMENTS } from './narration-segments.mjs';
 import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
+import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { connectOmniVoice, DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
 import { readPlanHeader } from './lib/plan-writer.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
@@ -39,10 +39,7 @@ const RETRIES = [{ speed: 0.92 }, { speed: 0.85 }];
 
 const argv = process.argv.slice(2);
 const paths = activePaths(argv);
-if (paths.slug !== PROJECT) {
-  process.stderr.write(`narration-segments.mjs was built for project "${PROJECT}" but "${paths.slug}" is active. Run: node scripts/parse-scene-plan.mjs\n`);
-  process.exit(1);
-}
+const SEGMENTS = narrationSegments(parsePlan(paths.slug).scenes);
 const AUDIO_DIR = paths.audioDir;
 // The project's OmniVoice profile, picked in the review panel (`voice:` in the plan header).
 const VOICE = readPlanHeader(readFileSync(paths.planMd, 'utf8'), 'voice') ?? DEFAULT_VOICE;

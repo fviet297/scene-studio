@@ -745,7 +745,7 @@ function renderStage() {
   if (!s) {
     $("canvasEmpty").hidden = false;
     $("canvasEmptyText").textContent =
-      "Chưa có scene nào. Chạy parse-scene-plan.mjs trước.";
+      "Chưa có scene nào trong scene-plan.md.";
     $("stScene").textContent = "Scene";
     for (const id of ["stKind", "stSource", "stState"]) $(id).hidden = true;
     $("inspector").style.opacity = ".4";

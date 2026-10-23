@@ -1,7 +1,7 @@
 // Shared scene-plan parser. Turns a project's projects/<slug>/scene-plan.md into machine data
-// without writing any files or printing anything — so both the active-project pipeline
-// (parse-scene-plan.mjs) and the all-projects Remotion builder (build-remotion.mjs) can reuse
-// exactly one implementation. Format: see projects/_template/scene-plan.md.
+// without writing any files or printing anything. scene-plan.md is the only source of truth:
+// every script, the review server and the Remotion builder parse it on demand instead of reading
+// a generated mirror, so no copy can go stale. Format: see projects/_template/scene-plan.md.
 
 import { basename, join } from 'node:path';
 import { closeSync, existsSync, openSync, readFileSync, readSync } from 'node:fs';
@@ -133,3 +133,8 @@ export const parsePlan = (slug, inputPath) => {
 
   return { slug, input, title, aspect, characters, scenes, characterRows, assetManifest, warnings };
 };
+
+// The TTS / caption input: one { scene, text, cue? } per scene that has narration.
+export const narrationSegments = (scenes) => scenes
+  .filter((s) => s.narration)
+  .map((s) => ({ scene: s.scene, text: s.narration, ...(s.cue ? { cue: s.cue } : {}) }));
