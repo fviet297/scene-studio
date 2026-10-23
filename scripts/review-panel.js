@@ -1579,7 +1579,10 @@ function generatePromptFromNarration() {
     showError("Narration đang trống — viết narration trước.");
     return;
   }
-  const n = s.scene;
+  enqueueScenePrompt(s.scene);
+}
+
+function enqueueScenePrompt(n) {
   enqueueJob({
     lane: "media",
     kind: "prompt",
@@ -2088,9 +2091,10 @@ $("railSelClear").addEventListener("click", () => {
 // Resolves true on the OK button ("Chạy" unless `okLabel` names the action), false on "Huỷ",
 // Escape or a backdrop click.
 let confirmResolve = null;
-function confirmRun(message, okLabel = "Chạy") {
+function confirmRun(message, okLabel = "Chạy", danger = false) {
   $("confirmBody").textContent = message;
   $("confirmOk").textContent = okLabel;
+  $("confirmOk").classList.toggle("is-cancel", danger);
   $("confirmOverlay").hidden = false;
   $("confirmOk").focus();
   return new Promise((resolve) => {
@@ -2251,6 +2255,102 @@ $("mergeKeepPicker").addEventListener("change", () => {
 });
 $("batchMerge").addEventListener("click", () => openMergeDialog());
 $("railBatchMerge").addEventListener("click", () => openMergeDialog());
+// ---- insert scene: one blank scene below another; later scenes (and their media) renumber.
+const hasUnsavedDrafts = () =>
+  Object.values(drafts).some((pending) => pending.size > 0);
+const lastSceneNumber = () =>
+  Math.max(0, ...state.scenes.map((s) => s.scene));
+
+// Why scenes cannot be renumbered right now (insert and delete both shift every later scene), or null.
+function renumberBlocker(action) {
+  if (anyJobActive())
+    return `Đang có job chạy hoặc chờ — chờ xong rồi ${action}.`;
+  if (hasUnsavedDrafts())
+    return `Còn chỉnh sửa chưa lưu — lưu hoặc bỏ chúng trước khi ${action}.`;
+  if (
+    !$("scriptOverlay").hidden &&
+    $("scriptList").querySelector(".script-row.dirty")
+  )
+    return `Kịch bản còn chỉnh sửa chưa lưu — lưu hoặc tải lại trước khi ${action}.`;
+  return null;
+}
+
+// Insert a blank scene directly below `anchor` (the selected scene by default) and leave the
+// cursor in its narration, which the prompt/motion writers then work from.
+async function insertSceneBelow(anchor = currentScene) {
+  const blocker = renumberBlocker("chèn scene");
+  if (blocker) {
+    toast(blocker, false);
+    return;
+  }
+  const at = anchor === null ? lastSceneNumber() + 1 : anchor + 1;
+  try {
+    state = await api("/api/insert-scene", { at, narration: "" });
+    // Scene numbers just moved: picks keyed by the old numbers would point at other scenes.
+    selected.clear();
+    scriptPicked.clear();
+    render();
+    selectScene(at);
+    if ($("scriptOverlay").hidden) {
+      $("narrBox").focus();
+    } else {
+      renderScriptList();
+      const row = $("scriptList").querySelector(`.script-row[data-scene="${at}"]`);
+      row?.scrollIntoView({ block: "center" });
+      row?.querySelector('textarea[data-field="narration"]')?.focus();
+    }
+    toast(`Đã chèn scene ${at} — nhập narration.`);
+  } catch (e) {
+    toast(e.message, false);
+  }
+}
+$("btnInsertScene").addEventListener("click", () => insertSceneBelow());
+$("batchInsert").addEventListener("click", () => insertSceneBelow());
+// ---- delete scene: confirm, then the server removes it, closes the numbering gap and keeps its
+// media in tmp/deleted-scenes.
+const NARRATION_EXCERPT_CHARS = 80;
+
+async function deleteScene(n = currentScene) {
+  const scene = n === null ? null : findScene(n);
+  if (!scene) {
+    toast("Chọn một scene để xoá.", false);
+    return;
+  }
+  const blocker = renumberBlocker("xoá scene");
+  if (blocker) {
+    toast(blocker, false);
+    return;
+  }
+  if (state.scenes.length < 2) {
+    toast("Kịch bản phải còn ít nhất 1 scene.", false);
+    return;
+  }
+  const narration = (scene.narration || "").trim();
+  const excerpt = narration
+    ? `\n"${narration.slice(0, NARRATION_EXCERPT_CHARS)}${narration.length > NARRATION_EXCERPT_CHARS ? "…" : ""}"`
+    : "";
+  const confirmed = await confirmRun(
+    `Xoá scene ${n}?${excerpt}\n\nCác scene sau đổi số lùi 1. Ảnh, audio và motion của scene này được chuyển vào tmp/deleted-scenes (khôi phục thủ công).`,
+    "Xoá scene",
+    true,
+  );
+  if (!confirmed) return;
+  try {
+    state = await api("/api/delete-scene", { scene: n });
+    // Scene numbers just moved: picks keyed by the old numbers would point at other scenes.
+    selected.clear();
+    scriptPicked.clear();
+    render();
+    selectScene(findScene(n) ? n : lastSceneNumber());
+    if (!$("scriptOverlay").hidden) renderScriptList();
+    toast(`Đã xoá scene ${n}.`);
+  } catch (e) {
+    toast(e.message, false);
+  }
+}
+$("btnDeleteScene").addEventListener("click", () => deleteScene());
+$("batchDelete").addEventListener("click", () => deleteScene());
+
 $("mergeClose").addEventListener("click", () => {
   $("mergeOverlay").hidden = true;
 });
@@ -2999,6 +3099,8 @@ function renderScriptList() {
             <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
             Prompt &amp; motion
           </button>
+          <button type="button" class="btn quiet sm" data-insert-after="${s.scene}" title="Chèn một scene trống ngay dưới scene ${s.scene}">Chèn</button>
+          <button type="button" class="btn quiet danger sm" data-delete-scene="${s.scene}" title="Xoá scene ${s.scene}">Xoá</button>
           <span class="grow"></span>
           ${scriptCharHtml(s)}
           ${scriptGenHtml(s)}
@@ -3225,6 +3327,16 @@ $("scriptList").addEventListener("change", (e) => {
 // Reveal a scene's image + motion prompts on demand. Auto-grow runs on expand — a hidden
 // textarea measures 0 tall, so its height must be recomputed once it is visible.
 $("scriptList").addEventListener("click", (e) => {
+  const del = e.target.closest("[data-delete-scene]");
+  if (del) {
+    deleteScene(Number(del.dataset.deleteScene));
+    return;
+  }
+  const insert = e.target.closest("[data-insert-after]");
+  if (insert) {
+    insertSceneBelow(Number(insert.dataset.insertAfter));
+    return;
+  }
   const gen = e.target.closest("[data-gen]");
   if (gen) {
     const n = Number(gen.dataset.scene);

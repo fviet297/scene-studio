@@ -78,9 +78,10 @@ import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './li
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug, setOutputDir } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
-import { addCharacterToPlan, appendScene, characterRefPath, hasSceneHeading, mergeScenes, MOTION_PART_KEYS, readPlanHeader, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, characterRefPath, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
+import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
@@ -121,6 +122,9 @@ setImageProjectPaths(P);
 // The active project's aspect ('9:16' default, '16:9', …), read fresh from its plan so image/video
 // generation and the upload check match the composition ratio even right after a project switch.
 const activeAspect = () => (existsSync(P.planMd) ? parsePlanAspect(readFileSync(P.planMd, 'utf8')) : '9:16');
+
+// Media of deleted scenes waits here, per project, for a manual restore.
+const DELETED_SCENES_DIR = join('tmp', 'deleted-scenes');
 
 const sceneFile = (n) => `${sceneBase(n)}.jpg`;
 const audioFile = (n) => `${sceneBase(n)}.mp3`;
@@ -1389,6 +1393,51 @@ const server = createServer(async (req, res) => {
       }
       await rebuildBundles();
       sendJson(res, 200, { ...buildState(), mergedScene: keepScene, mergedNarration });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/insert-scene') {
+      // Add one new scene numbered `at`; the scene that held `at` and every later one move down by
+      // one, media files included. Refused while a job runs: it would write to the old numbers.
+      const { at, narration = '' } = await readBody(req);
+      if (activeJobs > 0) { sendJson(res, 409, { error: 'Đang có job chạy trên server — chờ xong rồi chèn scene.' }); return; }
+      const lastScene = Math.max(0, ...readPlan().scenes.map((s) => s.scene));
+      if (!Number.isInteger(at) || at < 1 || at > lastScene + 1) { sendJson(res, 400, { error: `vị trí chèn phải từ 1 đến ${lastScene + 1}` }); return; }
+      if (typeof narration !== 'string') { sendJson(res, 400, { error: 'narration phải là chuỗi' }); return; }
+
+      writeFileSync(`${P.planMd}.bak`, readFileSync(P.planMd, 'utf8'));
+      try {
+        shiftSceneMedia(P, at);
+        insertScene(P.planMd, at, { narration });
+      } catch (e) {
+        sendJson(res, 500, { error: `chèn scene thất bại (bản sao plan: ${basename(P.planMd)}.bak): ${e.message}` });
+        return;
+      }
+      await rebuildBundles();
+      sendJson(res, 200, { ...buildState(), insertedScene: at });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/delete-scene') {
+      // Remove one scene and close the gap: later scenes move down by one, media included. The
+      // scene's own files go to tmp/deleted-scenes/<slug>/ instead of being erased.
+      const { scene } = await readBody(req);
+      if (activeJobs > 0) { sendJson(res, 409, { error: 'Đang có job chạy trên server — chờ xong rồi xoá scene.' }); return; }
+      const sceneNos = readPlan().scenes.map((s) => s.scene);
+      if (!sceneNos.includes(scene)) { sendJson(res, 404, { error: `không tìm thấy scene ${scene}` }); return; }
+      if (sceneNos.length < 2) { sendJson(res, 400, { error: 'kịch bản phải còn ít nhất 1 scene' }); return; }
+
+      writeFileSync(`${P.planMd}.bak`, readFileSync(P.planMd, 'utf8'));
+      const trashDir = join(DELETED_SCENES_DIR, P.slug, `${Date.now()}-${sceneBase(scene)}`);
+      try {
+        removeSceneMedia(P, scene, trashDir);
+        removeScene(P.planMd, scene);
+      } catch (e) {
+        sendJson(res, 500, { error: `xoá scene thất bại (bản sao plan: ${basename(P.planMd)}.bak): ${e.message}` });
+        return;
+      }
+      await rebuildBundles();
+      sendJson(res, 200, { ...buildState(), deletedScene: scene, trashDir });
       return;
     }
 

@@ -95,6 +95,45 @@ export const appendScene = (planMd, sceneNo, fields) => {
   writeFileSync(planMd, `${[...lines, '', ...sceneBlockLines(sceneNo, fields)].join('\n')}\n`);
 };
 
+// Insert one new "## scene <at>" block (fields as appendScene takes them) ahead of the first scene
+// numbered >= at, and renumber that scene and every later one by +1. The caller moves the matching
+// media files (scene-shift.mjs); this only edits the markdown.
+export const insertScene = (planMd, at, fields) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const headRe = /^(\s*##\s+scene\s+)(\d+)\b/i;
+  let insertAt = -1;
+  let firstShifted = Infinity;
+  lines.forEach((line, i) => {
+    const match = headRe.exec(line);
+    if (!match || Number(match[2]) < at) return;
+    lines[i] = line.replace(headRe, (_, prefix, num) => `${prefix}${Number(num) + 1}`);
+    if (Number(match[2]) < firstShifted) { firstShifted = Number(match[2]); insertAt = i; }
+  });
+  const block = sceneBlockLines(at, fields);
+  if (insertAt >= 0) {
+    lines.splice(insertAt, 0, ...block, '');
+  } else {
+    while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+    lines.push('', ...block, '');
+  }
+  writeFileSync(planMd, lines.join('\n'));
+};
+
+// Remove the "## scene <n>" block and renumber every later scene down by one. The caller moves
+// the matching media (scene-shift.mjs).
+export const removeScene = (planMd, sceneNo) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const headRe = /^(\s*##\s+scene\s+)(\d+)\b/i;
+  const start = lines.findIndex((l) => Number(headRe.exec(l)?.[2]) === sceneNo);
+  if (start < 0) throw new Error(`scene ${sceneNo} not found in ${planMd}`);
+  const next = lines.findIndex((l, i) => i > start && /^##\s+/.test(l.trim()));
+  const kept = [...lines.slice(0, start), ...(next < 0 ? [] : lines.slice(next))];
+  const renumbered = kept.map((line) => line.replace(headRe, (_, prefix, num) => (
+    Number(num) > sceneNo ? `${prefix}${Number(num) - 1}` : `${prefix}${num}`
+  )));
+  writeFileSync(planMd, renumbered.join('\n'));
+};
+
 // A whole scene-plan.md as text: `# title`, the "## characters" block ({ id: reference path },
 // kept even when empty so characters can be added later), then one block per scene
 // ({ scene, ...fields } as appendScene takes them). Header lines (aspect, template, voice) are

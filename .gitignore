@@ -15,6 +15,9 @@ tmp/services/
 
 # Undo/redo snapshots of scene images, audio and motion videos
 tmp/media-history/
+
+# Media of scenes deleted from the review panel (kept for a manual restore)
+tmp/deleted-scenes/
 tmp/logs/gia-long-p1-audio-v2.log
 tmp/logs/gia-long-p1-audio.log
 tmp/logs/gia-long-p1-images.log
