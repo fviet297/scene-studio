@@ -744,8 +744,7 @@ function renderStage() {
 
   if (!s) {
     $("canvasEmpty").hidden = false;
-    $("canvasEmptyText").textContent =
-      "Chưa có scene nào trong scene-plan.md.";
+    $("canvasEmptyText").textContent = "Chưa có scene nào trong scene-plan.md.";
     $("stScene").textContent = "Scene";
     for (const id of ["stKind", "stSource", "stState"]) $(id).hidden = true;
     $("inspector").style.opacity = ".4";
@@ -2794,7 +2793,9 @@ const charRank = (id) => {
   return i < 0 ? Number.MAX_SAFE_INTEGER : i;
 };
 const scriptChar = (s) =>
-  [...(s.characters ?? [])].sort((a, b) => charRank(a) - charRank(b)).join(", ");
+  [...(s.characters ?? [])]
+    .sort((a, b) => charRank(a) - charRank(b))
+    .join(", ");
 
 const scriptControls = (row) => [...row.querySelectorAll("[data-field]")];
 
@@ -3356,15 +3357,144 @@ async function uploadCharacterFile(id, file) {
   render();
 }
 
+// Add-character dialog. "Tạo mới" creates an empty character; "Từ project khác" copies one that
+// already exists in another project (reference image + profile.json) under a new id.
+const AC_NOTE_NEW =
+  "Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.";
+const AC_NOTE_LIB =
+  "Chép ảnh tham chiếu và profile.json sang project này. Đổi id nếu muốn.";
+let acMode = "new";
+// null while loading; { error } when the request failed; otherwise the newest-first list.
+let acLibrary = null;
+let acPicked = null;
+
+const toSlug = (text) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[đĐ]/g, "d")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+// First free id in the active project: `base`, then base-2, base-3, …
+function freeCharacterId(base) {
+  const taken = new Set((state.characterList || []).map((c) => c.id));
+  if (!taken.has(base)) return base;
+  let n = 2;
+  while (taken.has(`${base}-${n}`)) n += 1;
+  return `${base}-${n}`;
+}
+
+const relativeTime = new Intl.RelativeTimeFormat("vi", { numeric: "auto" });
+const TIME_UNITS = [
+  ["year", 365 * 864e5],
+  ["month", 30 * 864e5],
+  ["day", 864e5],
+  ["hour", 36e5],
+  ["minute", 6e4],
+];
+function timeAgo(ms) {
+  const diff = ms - Date.now();
+  const [unit, size] =
+    TIME_UNITS.find(([, size]) => Math.abs(diff) >= size) ?? TIME_UNITS.at(-1);
+  return relativeTime.format(Math.round(diff / size), unit);
+}
+
+function setAcMode(mode) {
+  acMode = mode;
+  const lib = mode === "lib";
+  $("acModeNew").setAttribute("aria-pressed", String(!lib));
+  $("acModeLib").setAttribute("aria-pressed", String(lib));
+  $("acLibrary").hidden = !lib;
+  $("acFileField").hidden = lib;
+  $("acCreate").textContent = lib ? "Dùng nhân vật này" : "Thêm";
+  $("acNote").textContent = lib ? AC_NOTE_LIB : AC_NOTE_NEW;
+  if (lib) $("acLibSearch").focus();
+  else $("acId").focus();
+}
+
+function renderCharacterLibrary() {
+  const list = $("acLibList");
+  const count = Array.isArray(acLibrary) ? acLibrary.length : 0;
+  $("acLibCount").textContent = count ? String(count) : "";
+  if (acLibrary === null) {
+    list.innerHTML = `<p class="ac-lib-state">Đang tải nhân vật…</p>`;
+    return;
+  }
+  if (acLibrary.error) {
+    list.innerHTML = `<p class="ac-lib-state">Không tải được: ${escapeHtml(acLibrary.error)}</p>`;
+    return;
+  }
+  const query = toSlug($("acLibSearch").value);
+  const shown = acLibrary.filter(
+    (c) =>
+      !query ||
+      toSlug(
+        `${c.name} ${c.aliases.join(" ")} ${c.projectTitle} ${c.project}`,
+      ).includes(query),
+  );
+  if (!shown.length) {
+    list.innerHTML = `<p class="ac-lib-state">${
+      count
+        ? "Không có nhân vật nào khớp."
+        : "Chưa có nhân vật nào ở project khác."
+    }</p>`;
+    return;
+  }
+  list.innerHTML = shown
+    .map((c) => {
+      const key = `${c.project}/${c.id}`;
+      const on = acPicked && `${acPicked.project}/${acPicked.id}` === key;
+      return `<label class="ac-lib-item${on ? " checked" : ""}">
+        <input type="radio" name="acLibPick" value="${escapeHtml(key)}" ${on ? "checked" : ""} />
+        <img class="ac-lib-thumb" src="${escapeHtml(c.imageUrl)}" alt="" loading="lazy" width="44" height="44" />
+        <span class="ac-lib-text">
+          <span class="ac-lib-name">${escapeHtml(c.name)}</span>
+          <span class="ac-lib-meta">${escapeHtml(c.id)} · ${escapeHtml(c.projectTitle)}</span>
+        </span>
+        <span class="ac-lib-time">${escapeHtml(timeAgo(c.updatedAt))}</span>
+      </label>`;
+    })
+    .join("");
+}
+
+async function loadCharacterLibrary() {
+  acLibrary = null;
+  renderCharacterLibrary();
+  try {
+    acLibrary = (await api("/api/character-library")).characters;
+  } catch (e) {
+    acLibrary = { error: e.message };
+  }
+  renderCharacterLibrary();
+}
+
 function openAddCharDialog() {
   $("acId").value = "";
   $("acName").value = "";
   $("acFile").value = "";
-  $("acNote").textContent =
-    "Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.";
+  $("acLibSearch").value = "";
+  acPicked = null;
   $("acOverlay").hidden = false;
-  $("acId").focus();
+  setAcMode("new");
+  loadCharacterLibrary();
 }
+$("acModeNew").addEventListener("click", () => setAcMode("new"));
+$("acModeLib").addEventListener("click", () => setAcMode("lib"));
+$("acLibSearch").addEventListener("input", renderCharacterLibrary);
+$("acLibList").addEventListener("change", (e) => {
+  const [project, id] = e.target.value.split("/");
+  acPicked =
+    acLibrary.find((c) => c.project === project && c.id === id) ?? null;
+  for (const item of $("acLibList").querySelectorAll(".ac-lib-item"))
+    item.classList.toggle("checked", item.querySelector("input").checked);
+  if (!acPicked) return;
+  $("acName").value = acPicked.name;
+  $("acId").value = freeCharacterId(toSlug(acPicked.name) || acPicked.id);
+  $("acNote").textContent =
+    `Chép "${acPicked.name}" từ project "${acPicked.projectTitle}"`;
+});
 $("btnAddChar").addEventListener("click", openAddCharDialog);
 $("tlAddChar").addEventListener("click", openAddCharDialog);
 $("acClose").addEventListener("click", () => {
@@ -3385,8 +3515,24 @@ $("acCreate").addEventListener("click", async () => {
     $("acNote").textContent = "Cần nhập tên hiển thị.";
     return;
   }
+  if (acMode === "lib" && !acPicked) {
+    $("acNote").textContent = "Chọn một nhân vật trong danh sách.";
+    return;
+  }
   $("acCreate").disabled = true;
   try {
+    if (acMode === "lib") {
+      state = await api("/api/character-import", {
+        project: acPicked.project,
+        sourceId: acPicked.id,
+        id,
+        name,
+      });
+      render();
+      $("acOverlay").hidden = true;
+      toast(`Đã thêm "${name}" từ project "${acPicked.projectTitle}"`);
+      return;
+    }
     state = await api("/api/character-create", { id, name });
     if (file) await uploadCharacterFile(id, file);
     else render();

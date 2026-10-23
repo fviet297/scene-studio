@@ -110,6 +110,9 @@ export const renderScenePlan = ({ title, characters, scenes }) => `${[
 
 // Add one `id = path` line to the "## characters" block. Returns the repo-relative reference
 // path the caller should then write an image to.
+// Where a character's reference image lives: one .jpg per id under the project's characters dir.
+export const characterRefPath = (staticPrefix, id) => `public/${staticPrefix}/characters/${id}.jpg`;
+
 export const addCharacterToPlan = (planMd, staticPrefix, id) => {
   const lines = readFileSync(planMd, 'utf8').split('\n');
   const headIdx = lines.findIndex((l) => /^##\s+characters\s*$/i.test(l.trim()));
@@ -118,7 +121,7 @@ export const addCharacterToPlan = (planMd, staticPrefix, id) => {
   if (end < 0) end = lines.length;
   let insertAt = end;
   while (insertAt > headIdx + 1 && lines[insertAt - 1].trim() === '') insertAt--;
-  const relPath = `public/${staticPrefix}/characters/${id}.jpg`;
+  const relPath = characterRefPath(staticPrefix, id);
   lines.splice(insertAt, 0, `${id} = ${relPath}`);
   writeFileSync(planMd, lines.join('\n'));
   return relPath;

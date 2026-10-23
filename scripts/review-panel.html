@@ -556,7 +556,7 @@
 <input type="file" id="charFileInput" accept="image/png,image/jpeg,image/webp" aria-label="Chọn ảnh tham chiếu cho nhân vật này" hidden />
 
 <div class="overlay" id="acOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="acTitle">
-  <div class="dialog narrow">
+  <div class="dialog narrow ac-dialog">
     <div class="dialog-head">
       <h2 id="acTitle">Thêm nhân vật</h2>
       <span class="grow"></span>
@@ -565,12 +565,20 @@
       </button>
     </div>
     <div class="dialog-body single">
+      <div class="segmented ac-mode" role="group" aria-label="Nguồn nhân vật">
+        <button type="button" id="acModeNew" aria-pressed="true">Tạo mới</button>
+        <button type="button" id="acModeLib" aria-pressed="false">Từ project khác<span class="ac-count num" id="acLibCount"></span></button>
+      </div>
+      <div class="ac-library" id="acLibrary" hidden>
+        <input class="text-input" id="acLibSearch" type="search" placeholder="Lọc theo tên hoặc project" aria-label="Lọc nhân vật" autocomplete="off" spellcheck="false" />
+        <div class="ac-lib-list" id="acLibList" role="radiogroup" aria-label="Nhân vật của các project khác, mới nhất trước"></div>
+      </div>
       <div class="field"><label for="acId">Id</label><input class="text-input" id="acId" type="text" placeholder="vd. tran-hung-dao" spellcheck="false" autocomplete="off" /></div>
       <div class="field"><label for="acName">Tên hiển thị</label><input class="text-input" id="acName" type="text" placeholder="vd. Trần Hưng Đạo" autocomplete="off" /></div>
-      <div class="field"><label for="acFile">Ảnh tham chiếu (tuỳ chọn — bỏ trống để tạo bằng AI)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
+      <div class="field" id="acFileField"><label for="acFile">Ảnh tham chiếu (tuỳ chọn — bỏ trống để tạo bằng AI)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
     </div>
     <div class="dialog-foot">
-      <span class="note" id="acNote">Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.</span>
+      <span class="note" id="acNote" aria-live="polite">Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.</span>
       <button class="btn primary" type="button" id="acCreate">Thêm</button>
     </div>
   </div>

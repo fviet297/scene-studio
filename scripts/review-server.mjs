@@ -21,6 +21,10 @@
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,beat?,prompt?,prompt_vi?,camera?,action?,env?,…_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
 //   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char back into the plan .md
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
+//   GET  /api/character-library → every other project's characters, most recently updated first
+//   GET  /library-characters/<slug>/<file> → another project's character reference image
+//   POST /api/character-import → { project, sourceId, id, name } → copy another project's character
+//                               (reference image + profile.json) into the active project as `id`
 //   POST /api/character-upload?id=<id> → raw image body → set/replace that character's reference image
 //   POST /api/character-source?id=<id> → raw image body → source image to redraw that character from
 //   POST /api/character-generate → { id, model, description?, source?: 'upload'|'current' } → draw a
@@ -74,7 +78,7 @@ import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './li
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
-import { addCharacterToPlan, appendScene, hasSceneHeading, mergeScenes, MOTION_PART_KEYS, readPlanHeader, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, characterRefPath, hasSceneHeading, mergeScenes, MOTION_PART_KEYS, readPlanHeader, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { withAvailability } from './lib/providers.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
@@ -220,6 +224,55 @@ const planCharacterPath = (id) => {
   const { characters } = readPlan();
   return typeof id === 'string' && Object.hasOwn(characters, id) ? characters[id] : null;
 };
+// Characters of every project except the active one, newest first — "updated" is the later of
+// the reference image and profile.json, so a freshly drawn or re-described character rises to the
+// top. Rows whose reference file is missing are skipped (nothing to copy).
+const characterLibrary = () => listProjects()
+  .filter((slug) => slug !== P.slug)
+  .flatMap((slug) => {
+    const { title, characters, characterRows } = parsePlan(slug);
+    const { profilesDir } = projectPaths(slug);
+    return characterRows
+      .filter((row) => existsSync(characters[row.id]))
+      .map((row) => {
+        const profile = join(profilesDir, row.id, 'profile.json');
+        const updatedAt = Math.max(
+          statSync(characters[row.id]).mtimeMs,
+          existsSync(profile) ? statSync(profile).mtimeMs : 0,
+        );
+        return {
+          project: slug, projectTitle: title, id: row.id, name: row.name, aliases: row.aliases,
+          imageUrl: `/library-characters/${slug}/${encodeURIComponent(basename(characters[row.id]))}`,
+          updatedAt,
+        };
+      });
+  })
+  .sort((a, b) => b.updatedAt - a.updatedAt);
+
+// Copy another project's character into the active one under `id`: reference image (re-encoded
+// to the plan's .jpg path) first, then the plan line and profile.json — so a failed image copy
+// never leaves a plan entry pointing at nothing. The profile keeps every authored field
+// (appearance, facts, …); only its identity fields are rewritten for the new id/name.
+const importCharacter = ({ project, sourceId, id, name }) => {
+  const source = parsePlan(project).characters;
+  if (!Object.hasOwn(source, sourceId) || !existsSync(source[sourceId])) {
+    throw new Error(`character "${sourceId}" has no reference image in project "${project}"`);
+  }
+  const relPath = characterRefPath(P.staticPrefix, id);
+  mkdirSync(dirname(relPath), { recursive: true });
+  optimizeCharacterImage(source[sourceId], relPath);
+  addCharacterToPlan(P.planMd, P.staticPrefix, id);
+  const sourceProfile = join(projectPaths(project).profilesDir, sourceId, 'profile.json');
+  let profile = {};
+  if (existsSync(sourceProfile)) {
+    try { profile = JSON.parse(readFileSync(sourceProfile, 'utf8')); } catch { profile = {}; }
+  }
+  mkdirSync(join(P.profilesDir, id), { recursive: true });
+  writeFileSync(profileJsonPath(id), `${JSON.stringify({
+    ...profile, character_id: id, name, display_name: name, reference: relPath,
+  }, null, 2)}\n`);
+};
+
 // A generated character image waits here as a draft until applied, beside the source image a
 // redraw starts from. Served through /characters/_drafts/.
 const charDraftDir = () => join(P.charDir, '_drafts');
@@ -1067,6 +1120,21 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    // Another project's character reference, for the "pick from another project" library.
+    if (req.method === 'GET' && pathname.startsWith('/library-characters/')) {
+      const [slug, name, ...extra] = pathname.slice('/library-characters/'.length).split('/').map(decodeURIComponent);
+      const path = isValidSlug(slug) && name && !extra.length && !name.includes('..')
+        ? join(projectPaths(slug).charDir, name)
+        : null;
+      if (path && existsSync(path)) {
+        res.writeHead(200, { 'Content-Type': MIME[name.split('.').pop().toLowerCase()] ?? 'application/octet-stream', 'Cache-Control': 'no-cache' });
+        res.end(readFileSync(path));
+      } else {
+        res.writeHead(404).end('not found');
+      }
+      return;
+    }
+
     // The finished render, so the panel can offer a play/download link after finalize.
     if (req.method === 'GET' && pathname === '/preview.js') {
       res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -1281,6 +1349,30 @@ const server = createServer(async (req, res) => {
       writeFileSync(join(profileDir, 'profile.json'), `${JSON.stringify({
         character_id: id, name: name.trim(), display_name: name.trim(), aliases: [], reference: relPath,
       }, null, 2)}\n`);
+      sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/character-library') {
+      sendJson(res, 200, { characters: characterLibrary() });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/character-import') {
+      const { project, sourceId, id, name } = await readBody(req);
+      if (!isValidSlug(project) || project === P.slug || !existsSync(projectPaths(project).planMd)) {
+        sendJson(res, 400, { error: `invalid source project "${project}"` });
+        return;
+      }
+      if (!isValidSlug(id)) { sendJson(res, 400, { error: 'id must be lowercase letters, numbers and hyphens' }); return; }
+      if (typeof name !== 'string' || !name.trim()) { sendJson(res, 400, { error: 'name is required' }); return; }
+      if (Object.hasOwn(readPlan().characters, id)) { sendJson(res, 400, { error: `character "${id}" already exists` }); return; }
+      try {
+        importCharacter({ project, sourceId, id, name: name.trim() });
+      } catch (e) {
+        sendJson(res, 400, { error: e.message });
+        return;
+      }
       sendJson(res, 200, buildState());
       return;
     }
