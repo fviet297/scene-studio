@@ -1144,3 +1144,25 @@ body.view-timeline .workbench { display: none; }
 .ci-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
 .ci-empty { padding: 12px; font-size: 12px; color: var(--faint); text-align: center; }
 .ci-frame .working { padding: 14px; font-size: 11.5px; text-align: center; word-break: break-word; }
+
+/* ---------------------------------------------------------------- video library dialog */
+.dialog.lib-dialog { width: 100%; }
+.lib-dialog .dialog-head .note { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-dir { display: flex; align-items: center; gap: 8px; padding: 10px 14px 0; }
+.lib-dir label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+.lib-dir .text-input { flex: 1; min-width: 0; font-family: var(--mono); font-size: 12px; }
+.lib-dir-note { margin: 0; padding: 6px 14px 10px; font-size: 11.5px; color: var(--faint); border-bottom: 1px solid var(--line-soft); }
+.lib-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.lib-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 8px; min-width: 0;
+  border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--surface-2);
+}
+.lib-card.active { border-color: var(--accent); }
+/* One 16:9 stage for every file so the grid keeps its rhythm; a 9:16 video letterboxes inside. */
+.lib-player { aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; background: var(--stage); }
+.lib-player video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.lib-title { margin: 0; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 11.5px; color: var(--muted); }
+.lib-actions { display: flex; gap: 6px; margin-top: auto; }
+.lib-actions .btn { text-decoration: none; }
+.lib-empty { margin: 0; padding: 32px 0; text-align: center; color: var(--muted); }

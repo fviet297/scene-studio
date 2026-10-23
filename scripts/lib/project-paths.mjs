@@ -8,16 +8,39 @@
 // generated audio/images into the wrong project is the one mistake this module exists to
 // prevent.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { isAbsolute, join } from 'node:path';
 
 export const PROJECTS_DIR = 'projects';
 export const ACTIVE_FILE = join(PROJECTS_DIR, 'active.json');
 
 // Rendered master + vertical MP4s land here (flat, named <slug>.mp4 / <slug>-9x16.mp4) instead of
 // the repo's out/ so finished videos sync via iCloud. Single source for both the review-server
-// render step and wrap-vertical.mjs.
+// render step and wrap-vertical.mjs. This is only the default: the panel can point renders
+// elsewhere (see readOutputDir), a per-machine choice kept out of git.
 export const OUTPUT_DIR = '/Users/fviet/Library/Mobile Documents/com~apple~CloudDocs/Video';
+export const OUTPUT_DIR_FILE = join(PROJECTS_DIR, 'output-dir.json');
+
+export const readOutputDir = () => {
+  try { return JSON.parse(readFileSync(OUTPUT_DIR_FILE, 'utf8')).dir || OUTPUT_DIR; } catch { return OUTPUT_DIR; }
+};
+
+// Persist a new render folder ('~/' expands to home) and return it. Empty/null restores the
+// default. The folder is created now so a bad path (relative, a file, no permission) fails here
+// rather than at the end of a long render.
+export const setOutputDir = (input) => {
+  if (input == null || String(input).trim() === '') {
+    rmSync(OUTPUT_DIR_FILE, { force: true });
+    return OUTPUT_DIR;
+  }
+  const raw = String(input).trim();
+  const dir = raw.startsWith('~/') ? join(homedir(), raw.slice(2)) : raw;
+  if (!isAbsolute(dir)) throw new Error('đường dẫn phải là đường dẫn tuyệt đối (bắt đầu bằng / hoặc ~/)');
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(OUTPUT_DIR_FILE, `${JSON.stringify({ dir }, null, 2)}\n`);
+  return dir;
+};
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 export const isValidSlug = (s) => typeof s === 'string' && SLUG_RE.test(s);
@@ -92,7 +115,7 @@ export const projectPaths = (slug) => {
     manifest: join(publicRoot, 'images', 'asset-manifest.json'),
     // Undo/redo snapshots of scene media. Outside public/ so they never ship in the Remotion bundle.
     historyDir: join('tmp', 'media-history', slug),
-    outDir: OUTPUT_DIR,
+    outDir: readOutputDir(),
     // staticFile()-relative prefix (no leading "public/") for Remotion components.
     staticPrefix: `projects/${slug}`,
   };

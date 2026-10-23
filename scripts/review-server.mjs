@@ -69,13 +69,13 @@ import { execFile, execFileSync, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createServer } from 'node:http';
 import { randomUUID } from 'node:crypto';
-import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, watch, writeFileSync, statSync } from 'node:fs';
+import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, unlinkSync, watch, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { basename, dirname, join } from 'node:path';
 import { beginChange, historyCounts, redoChange, settleChange, undoChange } from './lib/media-history.mjs';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
-import { activePaths, ensureProjectDirs, isValidSlug, listProjects, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug } from './lib/project-paths.mjs';
+import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug, setOutputDir } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { addCharacterToPlan, appendScene, characterRefPath, hasSceneHeading, mergeScenes, MOTION_PART_KEYS, readPlanHeader, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
@@ -128,6 +128,32 @@ const sceneVideoFile = (n) => `${sceneBase(n)}.mp4`;
 const outMp4 = () => join(P.outDir, `${P.slug}.mp4`);
 // Written by wrap-vertical.mjs from a 16:9 master (same name it uses).
 const outMp4Vertical = () => join(P.outDir, `${P.slug}-9x16.mp4`);
+// Every render in P.outDir across all projects: <slug>.mp4 is the master, <slug>-9x16.mp4 the
+// vertical wrap. The pattern doubles as the path-traversal guard for GET /output/<name>.
+const OUTPUT_VIDEO_RE = /^[a-z0-9][a-z0-9-]*\.mp4$/;
+const VERTICAL_SUFFIX = '-9x16';
+const outputLibrary = () => ({ dir: P.outDir, defaultDir: OUTPUT_DIR, videos: listOutputVideos() });
+const listOutputVideos = () => {
+  if (!existsSync(P.outDir)) return [];
+  const slugs = new Set(listProjects());
+  return readdirSync(P.outDir)
+    .filter((name) => OUTPUT_VIDEO_RE.test(name))
+    .map((name) => {
+      const base = name.slice(0, -'.mp4'.length);
+      const vertical = base.endsWith(VERTICAL_SUFFIX);
+      const slug = vertical ? base.slice(0, -VERTICAL_SUFFIX.length) : base;
+      const known = slugs.has(slug);
+      const { size, mtimeMs } = statSync(join(P.outDir, name));
+      const aspect = vertical ? '9:16' : known ? parsePlanAspect(readFileSync(projectPaths(slug).planMd, 'utf8')) : '16:9';
+      return {
+        name, slug, vertical, aspect, size, mtimeMs,
+        title: known ? projectTitle(slug) : slug,
+        active: slug === P.slug,
+        url: `/output/${name}?v=${mtimeMs}`,
+      };
+    })
+    .sort((a, b) => b.mtimeMs - a.mtimeMs);
+};
 // Export formats a 16:9 project can render: the YouTube master alone, or the master plus its
 // Shorts/TikTok wrap (the panel picks it from the timeline's preview mode).
 const RENDER_FORMATS = ['wide', 'vertical'];
@@ -1152,6 +1178,40 @@ const server = createServer(async (req, res) => {
       const type = PUBLIC_MIME[name.split('.').pop().toLowerCase()];
       if (name.includes('..') || !type || !existsSync(path)) { res.writeHead(404).end('not found'); return; }
       sendMedia(req, res, path, type);
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/outputs') {
+      sendJson(res, 200, outputLibrary());
+      return;
+    }
+
+    // Takes effect on the next render; videos already rendered stay where they are.
+    if (req.method === 'POST' && pathname === '/api/output-dir') {
+      const { dir } = await readBody(req);
+      try { setOutputDir(dir); } catch (e) { sendJson(res, 400, { error: `không dùng được thư mục này: ${e.message}` }); return; }
+      P = projectPaths(P.slug);
+      sendJson(res, 200, outputLibrary());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname.startsWith('/output/')) {
+      const name = decodeURIComponent(pathname.slice('/output/'.length));
+      const path = join(P.outDir, name);
+      if (!OUTPUT_VIDEO_RE.test(name) || !existsSync(path)) { res.writeHead(404).end('not found'); return; }
+      sendMedia(req, res, path, 'video/mp4');
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/output-reveal') {
+      // Show the file selected in Finder. The server runs on the user's own Mac, so this opens there.
+      const { name } = await readBody(req);
+      const path = join(P.outDir, String(name ?? ''));
+      if (!OUTPUT_VIDEO_RE.test(name) || !existsSync(path)) { sendJson(res, 404, { error: 'không tìm thấy video' }); return; }
+      execFile('open', ['-R', path], (err) => {
+        if (err) sendJson(res, 500, { error: `không mở được thư mục: ${err.message}` });
+        else sendJson(res, 200, { ok: true });
+      });
       return;
     }
 

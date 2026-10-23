@@ -153,7 +153,8 @@ src/projects-data/
 # Outputs of the legacy measure-audio.mjs / align-captions.mjs (nothing imports them).
 src/audio-durations.ts
 src/caption-data.ts
-# Per-machine state: which project the review server and CLI scripts act on.
+# Per-machine state: which project the review server and CLI scripts act on, and where renders go.
 projects/active.json
+projects/output-dir.json
 # Manual scene-plan backups — git history already keeps every committed version.
 projects/**/scene-plan.md.*

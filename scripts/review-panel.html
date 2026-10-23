@@ -65,6 +65,7 @@
 
     <span class="grow"></span>
 
+    <button class="btn" type="button" id="btnLibrary" title="Mọi video đã render của các dự án">Thư viện video</button>
     <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Mở MP4</a>
     <a class="btn" id="linkMp4Vertical" href="/video?f=9x16" target="_blank" rel="noopener" hidden>Mở 9:16</a>
     <button class="btn primary" type="button" id="btnRender" disabled>Render MP4</button>
@@ -549,6 +550,29 @@
       <div class="block stage-action">
         <button class="btn primary wide" type="button" id="btnMergeConfirm">Gộp scene</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="libOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="libDlgTitle">
+  <div class="dialog lib-dialog">
+    <div class="dialog-head">
+      <h2 id="libDlgTitle">Thư viện video</h2>
+      <span class="note" id="libInfo"></span>
+      <button class="icon-btn" type="button" id="libClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <form class="lib-dir" id="libDirForm">
+      <label for="libDirInput">Thư mục lưu</label>
+      <input class="text-input" id="libDirInput" type="text" spellcheck="false" placeholder="/Users/…/Video hoặc ~/Videos" />
+      <button class="btn sm primary" type="submit">Lưu</button>
+      <button class="btn sm" type="button" id="libDirReset" title="Quay về thư mục mặc định">Mặc định</button>
+    </form>
+    <p class="lib-dir-note">Áp dụng từ lần Render MP4 tiếp theo. Video đã render không tự chuyển sang thư mục mới.</p>
+    <div class="dialog-body single">
+      <ul class="lib-grid" id="libGrid"></ul>
+      <p class="lib-empty" id="libEmpty" hidden></p>
     </div>
   </div>
 </div>

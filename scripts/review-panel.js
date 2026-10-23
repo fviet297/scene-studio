@@ -278,6 +278,7 @@ function trackSceneProgress(job, line) {
   job.current = null;
   if (job.skip.size && !unfinishedScenes(job).length) abortForSkip(job);
   syncJobUi();
+  refreshSoon();
 }
 
 // Run a direct (unqueued) action on one scene, refused while that scene has media work pending.
@@ -1151,6 +1152,29 @@ function setConsole(kind, message, tail = "") {
 async function refresh() {
   state = await api("/api/state");
   render();
+}
+
+// Re-read the state when a scene of a running batch finishes, so its new image/audio/clip shows
+// at once instead of after the whole job. Calls landing during a refresh collapse into one more.
+let refreshInFlight = false;
+let refreshQueued = false;
+async function refreshSoon() {
+  if (refreshInFlight) {
+    refreshQueued = true;
+    return;
+  }
+  refreshInFlight = true;
+  try {
+    await refresh();
+  } catch {
+    // the next scene or the job's final refresh retries
+  } finally {
+    refreshInFlight = false;
+    if (refreshQueued) {
+      refreshQueued = false;
+      refreshSoon();
+    }
+  }
 }
 
 // Unsaved edits and selection are per-project; carrying them across a switch would silently
@@ -2408,8 +2432,95 @@ document.addEventListener("click", (e) => {
   if (btn) runTranslate(btn);
 });
 
+// ---- video library: every rendered MP4 of every project, newest first.
+const closeLibrary = () => {
+  $("libOverlay").hidden = true;
+  $("libGrid").innerHTML = ""; // drops the <video> elements so nothing keeps playing or buffering
+};
+
+const formatFileSize = (bytes) =>
+  bytes >= 1e9
+    ? `${(bytes / 1e9).toFixed(1)} GB`
+    : `${Math.max(1, Math.round(bytes / 1e6))} MB`;
+
+const libraryCard = (v) => `<li class="lib-card${v.active ? " active" : ""}">
+  <div class="lib-player">
+    <video controls preload="metadata" playsinline src="${escapeHtml(v.url)}#t=0.1" aria-label="${escapeHtml(v.title)}"></video>
+  </div>
+  <h3 class="lib-title" title="${escapeHtml(v.name)}">${escapeHtml(v.title)}</h3>
+  <div class="lib-meta">
+    <span class="tag">${v.vertical ? "Bản dọc" : "Bản gốc"} ${escapeHtml(v.aspect)}</span>
+    ${v.active ? '<span class="tag on">Đang mở</span>' : ""}
+    <span class="num">${formatFileSize(v.size)}</span>
+    <span class="num">${new Date(v.mtimeMs).toLocaleString("vi-VN")}</span>
+  </div>
+  <div class="lib-actions">
+    <a class="btn sm" href="${escapeHtml(v.url)}" target="_blank" rel="noopener">Mở tab mới</a>
+    <a class="btn sm" href="${escapeHtml(v.url)}" download="${escapeHtml(v.name)}">Tải về</a>
+    <button class="btn sm" type="button" data-reveal="${escapeHtml(v.name)}" title="Hiện file trong Finder">Mở trong thư mục</button>
+  </div>
+</li>`;
+
+const showLibraryEmpty = (message) => {
+  $("libEmpty").textContent = message;
+  $("libEmpty").hidden = !message;
+};
+
+const renderLibrary = ({ dir, videos }) => {
+  $("libDirInput").value = dir;
+  $("libGrid").innerHTML = videos.map(libraryCard).join("");
+  $("libInfo").textContent = videos.length ? `${videos.length} video` : "";
+  showLibraryEmpty(
+    videos.length ? "" : "Chưa có video nào trong thư mục này. Bấm Render MP4 để tạo video đầu tiên.",
+  );
+};
+
+$("btnLibrary").addEventListener("click", async () => {
+  $("libOverlay").hidden = false;
+  $("libGrid").innerHTML = "";
+  $("libInfo").textContent = "";
+  showLibraryEmpty("Đang tải…");
+  try {
+    renderLibrary(await api("/api/outputs"));
+  } catch (e) {
+    showLibraryEmpty(`Không đọc được thư viện: ${e.message}`);
+  }
+});
+
+// `dir` null restores the default folder.
+const saveOutputDir = async (dir) => {
+  try {
+    renderLibrary(await api("/api/output-dir", { dir }));
+    toast("Đã đổi thư mục lưu video");
+  } catch (e) {
+    toast(e.message, false);
+  }
+};
+$("libDirForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  saveOutputDir($("libDirInput").value);
+});
+$("libDirReset").addEventListener("click", () => saveOutputDir(null));
+$("libGrid").addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-reveal]");
+  if (!btn) return;
+  try {
+    await api("/api/output-reveal", { name: btn.dataset.reveal });
+  } catch (err) {
+    toast(err.message, false);
+  }
+});
+$("libClose").addEventListener("click", closeLibrary);
+$("libOverlay").addEventListener("click", (e) => {
+  if (e.target === $("libOverlay")) closeLibrary();
+});
+
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    if (!$("libOverlay").hidden) {
+      closeLibrary();
+      return;
+    }
     if (!$("confirmOverlay").hidden) {
       closeConfirm(false);
       return;
@@ -3849,6 +3960,7 @@ refreshServices();
 async function watchOrphanJobs() {
   const ids = new Set((await api("/api/jobs")).jobs.map((j) => j.id));
   if (!ids.size) return;
+  let lastDoneCount;
   try {
     for (;;) {
       const { jobs } = await api("/api/jobs");
@@ -3861,6 +3973,10 @@ async function watchOrphanJobs() {
           skip: new Set(),
         }));
       if (!orphanJobs.length) break;
+      const doneCount = orphanJobs.reduce((n, j) => n + j.done.size, 0);
+      if (lastDoneCount !== undefined && doneCount > lastDoneCount)
+        refreshSoon();
+      lastDoneCount = doneCount;
       syncJobUi();
       if (!lanes.media.running)
         setConsole(
