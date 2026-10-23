@@ -65,23 +65,30 @@ export const parsePlan = (slug, inputPath) => {
 
     const fields = {};
     for (const line of lines) {
-      const kv = /^(time|char|identity|narration|prompt_vi|prompt|motion_vi|motion|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
+      const kv = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
       if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
     }
 
     const ids = (fields.char ?? '').split(',').map((s) => s.trim()).filter(Boolean);
     // identity: 'full' (default) locks costume/armor too; 'face' locks only face/hair/age/style.
     const identity = /^face$/i.test(fields.identity ?? '') ? 'face' : 'full';
-    // motion: optional per-scene image-to-video prompt. When set, the review server uses it
-    // verbatim instead of auto-building one from narration + image prompt.
-    // prompt_vi / motion_vi: close Vietnamese translations authored alongside the English prompt /
-    // motion (by the lsvn/trangca/history-video skills or the OpenAI prompt writer). Read-only
-    // reading aids surfaced in the review panel; never sent to any image/video model.
+    // camera / action / env: the scene's image-to-video direction, written independently of the
+    // image prompt (scripts/lib/motion-writer.mjs); the review server wraps them into the full
+    // motion prompt. motion: the older single-line motion prompt (lsvn/trangca skills), used
+    // verbatim only when the three fields are absent.
+    // prompt_vi / motion_vi / *_vi: close Vietnamese translations authored alongside the English
+    // fields. Read-only reading aids surfaced in the review panel; never sent to any model.
+    const motionParts = {
+      camera: fields.camera ?? '', action: fields.action ?? '', env: fields.env ?? '',
+      cameraVi: fields.camera_vi ?? '', actionVi: fields.action_vi ?? '', envVi: fields.env_vi ?? '',
+    };
     const image = fields.search
       ? { kind: 'search', characters: [], query: fields.search }
-      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '', promptVi: fields.prompt_vi ?? '', motionVi: fields.motion_vi ?? '' };
+      : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '', promptVi: fields.prompt_vi ?? '', motionVi: fields.motion_vi ?? '', motionParts };
 
-    const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', image };
+    // beat: the English drawable moment of the narration line (AI script writer), the motion
+    // writer's input — so it never has to send the Vietnamese narration to the LLM.
+    const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', beat: fields.beat ?? '', image };
     for (const k of ['title', 'cue', 'host']) if (fields[k]) scene[k] = fields[k];
     if (fields.time) { const [a, b] = fields.time.split('-'); scene.from = toSeconds(a); scene.to = toSeconds(b); }
 

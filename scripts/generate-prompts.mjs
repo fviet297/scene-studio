@@ -1,8 +1,7 @@
 // Write each AI scene's image prompt from its narration via OpenAI (scripts/lib/prompt-writer.mjs),
 // following the house rules: action/setting only, never appearance; physical + cultural
-// continuity; every named character placed in `char:` order. The same call also writes the
-// scene's image-to-video `motion:` prompt. Writes `prompt:`/`prompt_vi:`/`motion:`/`motion_vi:`
-// into scene-plan.md and reparses. Skips scenes that already have a prompt unless --force is given.
+// continuity; every named character placed in `char:` order. Writes `prompt:`/`prompt_vi:`
+// into scene-plan.md and reparses (motion is written separately, from the review panel). Skips scenes that already have a prompt unless --force is given.
 //
 // Every scene missing a prompt:  node scripts/generate-prompts.mjs
 // Some scenes:                   node scripts/generate-prompts.mjs 2 6 7
@@ -49,13 +48,9 @@ let count = 0;
 for (const s of targets) {
   if (!s.narration) { process.stdout.write(`✗ scene ${s.scene}: no narration, skipped\n`); continue; }
   const characters = buildCharacterContext(s.image.characters, paths.profilesDir);
-  const { text, vi, motion, motionVi } = await generateScenePrompt({ narration: s.narration, characters, identity: s.image.identity });
+  const { text, vi } = await generateScenePrompt({ narration: s.narration, characters, identity: s.image.identity });
   writeSceneField(paths.planMd, s.scene, 'prompt', text);
   writeSceneField(paths.planMd, s.scene, 'prompt_vi', vi);
-  // Only overwrite motion when the model actually returned one, so a hand-authored `motion:`
-  // survives a reply that came back without the motion sections.
-  if (motion) writeSceneField(paths.planMd, s.scene, 'motion', motion);
-  if (motionVi) writeSceneField(paths.planMd, s.scene, 'motion_vi', motionVi);
   count += 1;
   process.stdout.write(`✓ scene ${s.scene}: ${text.slice(0, 80)}${text.length > 80 ? '…' : ''}\n`);
 }

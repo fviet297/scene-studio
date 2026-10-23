@@ -1,15 +1,18 @@
-// Writes a whole video from a free-text request, in two LLM phases (scripts/lib/llm-client.mjs):
+// Writes a whole video from a free-text request, in three LLM phases (scripts/lib/llm-client.mjs):
 //   1. writeStory   — one call: title, slug, through-line, setting, the cast, and per scene the
 //                     Vietnamese narration, delivery cue, cast ids and an English visual beat. One
 //                     call for the whole narration is what keeps it a single connected voice-over.
-//   2. writeVisuals — the image prompt + motion prompt (each with its Vietnamese translation) for a
-//                     batch of scenes, under the same house rules as prompt-writer.mjs.
-// Phase 2 is fed the English beats, not the narration: the beat already names the drawable event,
-// and an English-only request also passes LLM routers that refuse Vietnamese input.
+//   2. writeVisuals — the image prompt (with its Vietnamese translation) for a batch of scenes,
+//                     under the same house rules as prompt-writer.mjs.
+//   3. motion       — camera / action / env per scene, written independently of the image prompt
+//                     (scripts/lib/motion-writer.mjs).
+// Phases 2 and 3 are fed the English beats, not the narration: the beat already names the
+// drawable event, and an English-only request also passes LLM routers that refuse Vietnamese input.
 // The narration rules follow the trangca skill's story arc and the tony skill's narrator voice.
 
 import { chatJson } from './llm-client.mjs';
 import { PROMPT_EXAMPLES, SCENE_PROMPT_RULES, sceneCharacterBrief } from './prompt-writer.mjs';
+import { writeMotionsBatched } from './motion-writer.mjs';
 
 export const SCENE_COUNT_MIN = 3;
 export const SCENE_COUNT_MAX = 40;
@@ -70,15 +73,13 @@ OUTPUT — one JSON object and nothing else. Inside string values quote with typ
 - slug: lowercase ASCII words joined by hyphens, under 40 characters.
 - setting: English — the country or region, era and culture every image must stay inside, e.g. "Dai Viet (northern Vietnam), 1390s-1407: the late Tran court, the Ho dynasty and the Ming invasion army".`;
 
-const VISUALS_SYSTEM = `You write the image-generation prompt and the image-to-video motion prompt for several scenes of one narrated historical video. Each scene arrives as an English visual beat — the drawable moment of its narration line — plus the characters available in it; read "narration line" in the rules below as that beat. ${SCENE_PROMPT_RULES}
+const VISUALS_SYSTEM = `You write the image-generation prompt for several scenes of one narrated historical video. Each scene arrives as an English visual beat — the drawable moment of its narration line — plus the characters available in it; read "narration line" in the rules below as that beat. ${SCENE_PROMPT_RULES}
 
 OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"scenes": [{"scene": 1, "prompt": "...", "prompt_vi": "...", "motion": "...", "motion_vi": "..."}]}
+{"scenes": [{"scene": 1, "prompt": "...", "prompt_vi": "..."}]}
 - One entry per requested scene, in the order given.
 - prompt: the English scene prompt as plain prose, under that scene's character budget.
 - prompt_vi: a close, natural Vietnamese translation of prompt (keep proper, dynasty and place names as they are).
-- motion: the English motion prompt on one line.
-- motion_vi: a close Vietnamese translation of motion, on one line.
 
 ${PROMPT_EXAMPLES}`;
 
@@ -202,7 +203,7 @@ ${blocks.join('\n\n')}
 Write the JSON object now.`;
 };
 
-// Phase 2 for one batch of scenes → [{ scene, prompt, prompt_vi, motion, motion_vi }], only for
+// Phase 2 for one batch of scenes → [{ scene, prompt, prompt_vi }], only for
 // the scenes the reply actually covered with a prompt.
 export const writeVisuals = async ({ story, batch, signal, onLog }) => {
   const reply = await chatJson({ system: VISUALS_SYSTEM, user: visualsRequest(story, batch), signal, onLog, label: 'Viết prompt' });
@@ -213,8 +214,6 @@ export const writeVisuals = async ({ story, batch, signal, onLog }) => {
       scene: Number(r?.scene),
       prompt: oneLine(r?.prompt),
       prompt_vi: oneLine(r?.prompt_vi),
-      motion: oneLine(r?.motion),
-      motion_vi: oneLine(r?.motion_vi),
     }))
     .filter((r) => wanted.has(r.scene) && r.prompt);
 };
@@ -225,10 +224,11 @@ export const visualBatches = (scenes) => {
   return batches;
 };
 
-// Both phases → { story, visuals: Map(scene → prompt row) }. A failed visuals batch is logged and
-// its scenes keep their narration only — the panel's "Viết prompt còn thiếu" fills them later — so
-// one bad reply never throws away the whole story. A cancel (`signal`) aborts everything.
-// onProgress gets { phase: 'story' }, then { phase: 'visuals', done, total } as batches finish.
+// All phases → { story, visuals: Map(scene → prompt row), motions: Map(scene → motion row) }. A
+// failed batch is logged and its scenes go without that field — the panel's "Viết prompt / motion
+// còn thiếu" fills them later — so one bad reply never throws away the whole story. A cancel
+// (`signal`) aborts everything. onProgress gets { phase: 'story' }, then { phase: 'visuals' |
+// 'motion', done, total } as batches finish.
 export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}, onProgress = () => {} }) => {
   onProgress({ phase: 'story' });
   onLog(`▶ Viết câu chuyện và narration (${sceneCount} scene)…`);
@@ -244,7 +244,7 @@ export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}
     while (queue.length) {
       const batch = queue.shift();
       const label = batch.length > 1 ? `scene ${batch[0].scene}–${batch.at(-1).scene}` : `scene ${batch[0].scene}`;
-      onLog(`▶ Viết prompt ảnh + motion ${label}…`);
+      onLog(`▶ Viết prompt ảnh ${label}…`);
       try {
         const rows = await writeVisuals({ story, batch, signal, onLog });
         for (const row of rows) visuals.set(row.scene, row);
@@ -258,5 +258,15 @@ export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}
     }
   };
   await Promise.all(Array.from({ length: VISUAL_CONCURRENCY }, worker));
-  return { story, visuals };
+
+  const byId = new Map(story.characters.map((c) => [c.id, c]));
+  onProgress({ phase: 'motion', done: 0, total: story.scenes.length });
+  const motions = await writeMotionsBatched({
+    context: { setting: story.setting, throughLine: story.throughLine, outline: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual })) },
+    scenes: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual, cue: s.cue, names: s.chars.map((id) => byId.get(id)?.name ?? id) })),
+    signal,
+    onLog,
+    onBatch: (done, total) => onProgress({ phase: 'motion', done, total }),
+  });
+  return { story, visuals, motions };
 };

@@ -4,7 +4,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const FIELD_RE = /^(time|char|identity|narration|prompt_vi|prompt|motion_vi|motion|search|title|cue|host)\s*:/i;
+const FIELD_RE = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host)\s*:/i;
 
 // Write one scene field, replacing an existing `field:` line or inserting one after
 // `narration:`. Leaves every other line intact.
@@ -39,6 +39,35 @@ export const writeSceneField = (planMd, sceneNo, field, rawValue) => {
   return clean;
 };
 
+// The motion-direction lines of a scene (see motion-writer.mjs), in write order.
+export const MOTION_PART_KEYS = ['camera', 'camera_vi', 'action', 'action_vi', 'env', 'env_vi'];
+
+// Drop one scene field line, if present. Leaves every other line intact.
+export const removeSceneField = (planMd, sceneNo, field) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const headRe = new RegExp(`^##\\s+scene\\s+${sceneNo}\\b`, 'i');
+  const start = lines.findIndex((l) => headRe.test(l.trim()));
+  if (start < 0) return;
+  let end = lines.findIndex((l, i) => i > start && /^##\s+/.test(l));
+  if (end < 0) end = lines.length;
+  const fieldRe = new RegExp(`^${field}\\s*:`, 'i');
+  const fi = lines.findIndex((l, i) => i > start && i < end && fieldRe.test(l));
+  if (fi < 0) return;
+  lines.splice(fi, 1);
+  writeFileSync(planMd, lines.join('\n'));
+};
+
+// Write the motion-direction fields present in `parts` ({ camera, camera_vi, … }). Writing any
+// English part retires the scene's older single-line `motion:` / `motion_vi:`, which would
+// otherwise sit in the file looking authoritative while the three parts are what gets sent.
+export const writeMotionParts = (planMd, sceneNo, parts) => {
+  for (const f of MOTION_PART_KEYS) if (typeof parts[f] === 'string') writeSceneField(planMd, sceneNo, f, parts[f]);
+  if (['camera', 'action', 'env'].some((f) => (parts[f] ?? '').trim())) {
+    removeSceneField(planMd, sceneNo, 'motion');
+    removeSceneField(planMd, sceneNo, 'motion_vi');
+  }
+};
+
 // The lines of one "## scene N" block, in the field order every writer here emits.
 const sceneBlockLines = (sceneNo, fields) => {
   const clean = (v) => v.replace(/\s*\n\s*/g, ' ').trim();
@@ -49,10 +78,12 @@ const sceneBlockLines = (sceneNo, fields) => {
   // Passed pre-normalized to a comma id string ('' = no character → text-to-image).
   if (typeof fields.char === 'string') block.push(`char: ${clean(fields.char)}`);
   block.push(`narration: ${clean(fields.narration)}`);
+  if (fields.beat) block.push(`beat: ${clean(fields.beat)}`);
   if (fields.prompt) block.push(`prompt: ${clean(fields.prompt)}`);
   if (fields.prompt_vi) block.push(`prompt_vi: ${clean(fields.prompt_vi)}`);
   if (fields.motion) block.push(`motion: ${clean(fields.motion)}`);
   if (fields.motion_vi) block.push(`motion_vi: ${clean(fields.motion_vi)}`);
+  for (const f of MOTION_PART_KEYS) if (fields[f]) block.push(`${f}: ${clean(fields[f])}`);
   return block;
 };
 
