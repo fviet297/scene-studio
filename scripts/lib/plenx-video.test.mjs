@@ -28,8 +28,10 @@ const handle = (req, res, body) => {
   const { url, method } = req;
   if (url === '/out.mp4') { res.writeHead(200); res.end(VIDEO_BYTES); return; }
   if (url === '/api/v1/developer/media-upload/direct') {
+    if (calls.alwaysBadGateway) { res.writeHead(502, { 'Content-Type': 'text/html' }); res.end('<!DOCTYPE html><html><body>Bad gateway</body></html>'); return; }
     calls.uploads += 1;
-    if (calls.uploads === 1) return send(res, 429, { detail: 'slow down' }, { 'Retry-After': '0' });
+    if (calls.uploads === 1) { res.writeHead(502, { 'Content-Type': 'text/html' }); res.end('<!DOCTYPE html><html><body>Bad gateway</body></html>'); return; }
+    if (calls.uploads === 2) return send(res, 429, { detail: 'slow down' }, { 'Retry-After': '0' });
     return send(res, 200, { success: true, url: `${origin}/uploaded.jpg` });
   }
   if (url === '/api/v1/developer/generate/video-omni') {
@@ -68,7 +70,7 @@ writeFileSync(imagePath, Buffer.from('fake-image'));
 
 const run = (overrides = {}) => generateSceneVideo({
   scene: 3, imagePath, outputDir: join(workDir, 'videos'), prompt: 'slow push-in', model: 'plenx:omni-flash-video',
-  duration: 6, aspect: '9:16', pollIntervalMs: 5, ...overrides,
+  duration: 6, aspect: '9:16', pollIntervalMs: 5, uploadBackoffMs: 1, ...overrides,
 });
 
 test('uploads the image, creates the task, polls to completion and saves the mp4', async () => {
@@ -76,16 +78,17 @@ test('uploads the image, creates the task, polls to completion and saves the mp4
   const result = await run({ onLog: (line) => logs.push(line) });
   assert.equal(result.output, join(workDir, 'videos', 'scene-03.mp4'));
   assert.deepEqual(readFileSync(result.output), VIDEO_BYTES);
-  assert.equal(calls.uploads, 2, 'first upload was rate-limited (429) and retried');
-  assert.ok(logs.some((line) => /rate-limited/.test(line)));
+  assert.equal(calls.uploads, 3, 'a 502 and then a 429 were retried');
+  assert.ok(logs.some((line) => /upload failed \(HTTP 502\), retry 1\/3/.test(line)));
+  assert.ok(logs.some((line) => /upload failed \(HTTP 429\), retry 2\/3/.test(line)));
 });
 
-test('the request carries the key, the uploaded image URL, the unprefixed model and aspect/duration/resolution', () => {
+test('the request carries the key, the uploaded image URL, the unprefixed model, its server and aspect/duration/resolution', () => {
   const { headers, body } = calls.generate[0];
   assert.equal(headers['x-api-key'], 'pk_test_key');
   assert.deepEqual(body, {
     model: 'omni-flash-video', prompt: 'slow push-in', input_image_url: `${origin}/uploaded.jpg`,
-    aspect_ratio: '9:16', resolution: '1080p', duration: 6,
+    server: 'flow', aspect_ratio: '9:16', resolution: '1080p', duration: 6,
   });
 });
 
@@ -97,6 +100,13 @@ test('generate_audio is switched off only for models that accept it', async () =
     { model: 'flux-3', generate_audio: false, aspect_ratio: '16:9', hasDuration: false },
   );
   assert.equal('generate_audio' in calls.generate[0].body, false, 'omni-flash-video takes no such field');
+});
+
+test('omni-flash-video runs on the flow server; other models keep their default server', async () => {
+  await run({ model: 'plenx:omni-flash-video' });
+  assert.equal(calls.generate.at(-1).body.server, 'flow');
+  await run({ model: 'plenx:flux-3' });
+  assert.equal('server' in calls.generate.at(-1).body, false);
 });
 
 test('resolution defaults per model (flux-3 has no 1080p on its default server) and PLENX_VIDEO_RESOLUTION overrides all', async () => {
@@ -120,6 +130,15 @@ test('a failed task surfaces its error_message and writes no file', async () => 
 
 test('a rejection answered with HTTP 200 and success:false is an error naming the reason', async () => {
   await assert.rejects(run({ prompt: 'no credits' }), /Không đủ credits/);
+});
+
+test('a gateway that keeps failing gives up after the retries with a one-line error, not an HTML page', async () => {
+  calls.alwaysBadGateway = true;
+  try {
+    await assert.rejects(run(), (error) => /gateway answered HTTP 502/.test(error.message) && !/<\w/.test(error.message));
+  } finally {
+    calls.alwaysBadGateway = false;
+  }
 });
 
 test('a missing API key fails before any request', async () => {

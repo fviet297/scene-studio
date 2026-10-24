@@ -10,6 +10,8 @@ import { builtinDefault } from './model-config.mjs';
 
 const REQUEST_TIMEOUT_MS = 120_000;
 const UPLOAD_ATTEMPTS = 4; // media-upload/direct allows 10 requests/minute
+const UPLOAD_BACKOFF_MS = 3000; // grows with each attempt when Plenx answers 5xx or not at all
+const RETRYABLE_UPLOAD_STATUS = [429, 502, 503, 504];
 const MAX_POLL_ERRORS = 5; // a failed status query is retried as a query, never by re-POSTing
 const DEFAULT_RETRY_AFTER_S = 7;
 
@@ -25,6 +27,12 @@ const apiKey = () => {
 
 const describeFailure = (json, text) => json?.message ?? json?.error ?? json?.detail ?? text.slice(0, 300);
 
+// A gateway (Cloudflare) answers an HTML error page when the Plenx backend is down or overloaded;
+// say that in a line instead of dumping the page.
+const describeNonJson = (status, text) => (/^\s*<(!doctype|html)/i.test(text)
+  ? `Plenx's gateway answered HTTP ${status} (the service is not responding)`
+  : `non-JSON response (HTTP ${status}): ${text.slice(0, 300)}`);
+
 // One JSON request. Returns { json, response } so a caller can read headers (Retry-After); throws
 // on a network error, a non-JSON body, an HTTP error or `success: false`.
 const request = async (path, init, label) => {
@@ -35,7 +43,7 @@ const request = async (path, init, label) => {
   });
   const text = await response.text();
   let json;
-  try { json = JSON.parse(text); } catch { throw new Error(`${label}: non-JSON response (HTTP ${response.status}): ${text.slice(0, 300)}`); }
+  try { json = JSON.parse(text); } catch { throw Object.assign(new Error(`${label}: ${describeNonJson(response.status, text)}`), { status: response.status, response }); }
   if (!response.ok || json?.success === false) {
     throw Object.assign(new Error(`${label} failed (HTTP ${response.status}): ${describeFailure(json, text)}`), { status: response.status, response });
   }
@@ -49,18 +57,29 @@ const retryAfterSeconds = (response) => {
   return header !== null && Number.isFinite(Number(header)) ? Number(header) : DEFAULT_RETRY_AFTER_S;
 };
 
-// Public URL of the image on Plenx's CDN. Rate-limited uploads (429) wait the advertised time.
-export const uploadImage = async (dataUri, filename, onLog) => {
-  for (let attempt = 1; attempt <= UPLOAD_ATTEMPTS; attempt++) {
+// An upload is retried when Plenx rate-limits it (429, waiting the advertised time), answers 5xx
+// or does not answer: re-uploading an image costs nothing, unlike re-creating a task.
+const uploadRetryDelayMs = (error, attempt, backoffMs) =>
+  (error.status === 429 ? retryAfterSeconds(error.response) * 1000 : backoffMs * attempt);
+
+const isRetryableUpload = (error) => error.status === undefined || RETRYABLE_UPLOAD_STATUS.includes(error.status);
+
+const postImage = async (dataUri, filename) => {
+  const { json } = await postJson('/developer/media-upload/direct', { image_data: dataUri, filename, media_type: 'image' }, 'plenx upload');
+  if (!json.url) throw new Error(`plenx upload returned no url: ${JSON.stringify(json).slice(0, 200)}`);
+  return json.url;
+};
+
+// Public URL of the image on Plenx's CDN.
+export const uploadImage = async (dataUri, filename, onLog, { backoffMs = UPLOAD_BACKOFF_MS } = {}) => {
+  for (let attempt = 1; ; attempt++) {
     try {
-      const { json } = await postJson('/developer/media-upload/direct', { image_data: dataUri, filename, media_type: 'image' }, 'plenx upload');
-      if (!json.url) throw new Error(`plenx upload returned no url: ${JSON.stringify(json).slice(0, 200)}`);
-      return json.url;
+      return await postImage(dataUri, filename);
     } catch (error) {
-      if (error.status !== 429 || attempt === UPLOAD_ATTEMPTS) throw error;
-      const seconds = retryAfterSeconds(error.response);
-      onLog?.(`plenx upload rate-limited, retry ${attempt}/${UPLOAD_ATTEMPTS - 1} in ${seconds}s`);
-      await wait(seconds * 1000);
+      if (attempt === UPLOAD_ATTEMPTS || !isRetryableUpload(error)) throw error;
+      const delayMs = uploadRetryDelayMs(error, attempt, backoffMs);
+      onLog?.(`plenx upload failed (${error.status ? `HTTP ${error.status}` : error.message}), retry ${attempt}/${UPLOAD_ATTEMPTS - 1} in ${Math.round(delayMs / 1000)}s`);
+      await wait(delayMs);
     }
   }
 };
