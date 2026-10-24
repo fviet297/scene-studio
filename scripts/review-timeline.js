@@ -2,8 +2,9 @@
 //
 // Plays the scenes back to back with the timing build-remotion.mjs gives the render: a scene
 // lasts max(narration audio, motion clip) plus a short pause before the next one; a clip shorter
-// than its scene is slowed (rate = clip / scene) to span it, then holds its last frame through the
-// pause. A scene without audio holds for the render's placeholder. Clips play muted.
+// than its scene (narration plus the pause before the next scene) is slowed (rate = clip / scene)
+// to span all of it, so it never holds a frozen frame. A scene without audio holds for the
+// render's placeholder. Clips play muted.
 //
 // Two kinds of preview. "Nháp" (draft) is the quick one above: stills, clips and narration played
 // by the panel itself. "Bản render" / "9:16" play the real Remotion composition through
@@ -127,9 +128,9 @@ function timelineClips() {
       audioSeconds ?? TL_PLACEHOLDER_SECONDS,
       videoSeconds,
     );
-    const rate =
-      videoSeconds > 0 && videoSeconds < content ? videoSeconds / content : 1;
     const seconds = content + (i < last ? TL_SCENE_GAP_SECONDS : 0);
+    const rate =
+      videoSeconds > 0 && videoSeconds < seconds ? videoSeconds / seconds : 1;
     const clip = { scene, start, seconds, content, audioSeconds, rate };
     start += seconds;
     return clip;

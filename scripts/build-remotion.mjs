@@ -88,27 +88,23 @@ for (const slug of targets) {
   const hasAudio = (n) => existsSync(audioFile(n));
   const allAudioReady = scenes.length > 0 && scenes.every((s) => hasAudio(s.scene));
 
-  // Scene length in the final video = max(audio, clip). When the clip is LONGER than the
-  // narration (the model padded up to its next allowed length) the scene runs the full clip and
-  // the audio's remainder is silent. When the clip is SHORTER (narration outruns the model's max
-  // clip length), the scene runs the full audio and the clip is slowed just enough to span it, so
-  // motion never freezes into a dead/black tail while the voice keeps going. `motionPlaybackRate`
-  // = clip/scene (≤ 1) is applied to OffthreadVideo; a non-motion or clip≥audio scene gets 1.
-  const sceneTiming = scenes.map((s) => {
+  // Scene length in the final video = max(audio, clip), plus a short silent gap before the next
+  // scene (none after the last). When the clip is LONGER than the narration (the model padded up
+  // to its next allowed length) the scene runs the full clip and the audio's remainder is silent.
+  // When the clip is SHORTER than the whole scene (narration outruns the model's max clip length),
+  // the clip is slowed just enough to span the narration AND the gap, so motion never freezes into
+  // a dead tail. `motionPlaybackRate` = clip/duration (≤ 1) is applied to OffthreadVideo; a
+  // non-motion scene gets 1.
+  const lastIndex = scenes.length - 1;
+  const sceneTiming = scenes.map((s, i) => {
     const audio = hasAudio(s.scene) ? probeDuration(audioFile(s.scene)) : PLACEHOLDER_SCENE_SECONDS;
     const clip = s.motionVideo ? probeDuration(clipFile(s.scene)) : 0;
     const content = Number(Math.max(audio, clip).toFixed(3));
-    const playbackRate = clip > 0 && clip < content ? Number((clip / content).toFixed(4)) : 1;
-    return { content, playbackRate };
+    const duration = i < lastIndex ? Number((content + SCENE_GAP_SECONDS).toFixed(3)) : content;
+    const playbackRate = clip > 0 && clip < duration ? Number((clip / duration).toFixed(4)) : 1;
+    return { duration, playbackRate };
   });
-  // The gap extends the scene's own visuals (image pan / held last video frame) while the audio,
-  // which starts at the scene's first frame, has already finished — a silent tail before the next
-  // scene's narration. playbackRate stays keyed to content length so a motion clip freezes on its
-  // last frame through the pause instead of stretching over it.
-  const lastIndex = sceneTiming.length - 1;
-  const sceneDurations = sceneTiming.map((t, i) =>
-    i < lastIndex ? Number((t.content + SCENE_GAP_SECONDS).toFixed(3)) : t.content,
-  );
+  const sceneDurations = sceneTiming.map((t) => t.duration);
   const motionPlaybackRates = sceneTiming.map((t) => t.playbackRate);
   const sceneSeconds = Object.fromEntries(scenes.map((s, i) => [s.scene, sceneDurations[i]]));
 
