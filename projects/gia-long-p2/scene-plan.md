@@ -94,7 +94,7 @@ env_vi: Mây thấp lao qua trên đầu, đổ bóng di chuyển; màn sương 
 title:
 cue: somber
 host:
-narration: Hai bên chạm trán ở Ngã Bảy. Thủy quân Tây Sơn, với súng và hỏa hổ, áp đảo cả những con tàu phương Tây. Cai tàu người Pháp là Mạn Hòe tử trận. Phe Nguyễn vỡ trận, Gia Định lại tuột khỏi tay họ. Và câu hỏi lại quay về chỗ cũ: không phải giữ đất thế nào, mà là chạy đi đâu.
+narration: Hai bên chạm trán ở Ngã Bảy. Thủy quân Tây Sơn, với súng và hỏa hổ, áp đảo cả những con tàu phương Tây.
 prompt: The quiet aftermath of a setback in the late-18th-century Mekong Delta: tired Nguyễn retainers collecting scattered bundles beside a muddy landing, a few damaged boats in the distance, no bodies or combat.
 camera: “Pull-back and rise from the scattered bundles at the muddy edge to reveal the distant damaged boats, moving slow and gentle.”
 camera_vi: “Kéo lùi và nâng cao từ các bọc rải rác ở mép bùn để lộ những thuyền hư hại xa xa, nhịp chậm và êm.”
@@ -104,6 +104,17 @@ env: “Brown water laps against the shore, then the damaged boats roll gently o
 env_vi: “Nước nâu vỗ nhẹ vào mép bờ, rồi các thuyền hư hại lắc êm theo con sóng và làn gió nhẹ đẩy gợn qua các vũng nước.”
 
 ## scene 8
+
+narration: Cai tàu người Pháp là Mạn Hòe tử trận. Phe Nguyễn vỡ trận, Gia Định lại tuột khỏi tay họ. Và câu hỏi lại quay về chỗ cũ: không phải giữ đất thế nào, mà là chạy đi đâu.
+prompt: On the Saigon River at Gia Định, the French ship’s captain Mạn Hòe with a European face collapses mortally wounded on the deck of a small European-style sloop fighting for the Nguyễn, while the Nguyễn flotilla scatters and flees along the channel. Late-18th-century southern Đại Việt riverside: wooden wharves, thatched stilt houses on pilings, coconut and nipa palms, a low earthen rampart with timber palisade under dusk smoke. Nguyễn river troops with East-Asian faces in late-18th-century southern Vietnamese dress—turbans, short tunics, trousers—grab matchlocks, spears and rattan shields and jump into sampans; Tây Sơn long war boats close from the bend with East-Asian crews, plain red cloth banners and small swivel guns. Wide diagonal view, oars churn, a drum beats, families on the bank load bundles. No Qing costume, no European Napoleonic uniforms, no 19th-century Huế citadel forms, no French colonial buildings.
+prompt_vi: Trên sông Sài Gòn ở Gia Định, cai tàu người Pháp Mạn Hòe, gương mặt châu Âu, gục xuống vì trúng thương chí mạng trên boong một thuyền buồm nhỏ kiểu châu Âu phục vụ phe Nguyễn, trong khi đội thuyền Nguyễn vỡ đội hình tản chạy theo dòng kênh. Bối cảnh Nam Đại Việt cuối thế kỷ 18: bến gỗ, nhà sàn mái tranh, dừa cao và dừa nước, lũy đất thấp với hàng rào cọc gỗ dưới khói hoàng hôn. Quân thủy Nguyễn mặt Á Đông, y phục Nam Bộ cuối thế kỷ 18—khăn vấn, áo ngắn, quần—vớ lấy hỏa mai, giáo và mộc đan rồi nhảy xuống tam bản; thuyền chiến dài Tây Sơn ập đến từ khúc quanh, thủy thủ mặt Á Đông, cờ vải đỏ trơn và pháo xoay nhỏ. Góc rộng chéo, mái chèo quẫy nước, trống thúc, dân trên bờ chất đồ lên thuyền. Không y phục nhà Thanh, không quân phục Napoléon châu Âu, không kiểu thành Huế thế kỷ 19, không kiến trúc thuộc địa Pháp.
+camera: Steady sideways truck from the smoking riverside wharf across the sloop’s crowded deck and scattering sampans, ending on the river bend as red‑bannered Tây Sơn long boats close in.
+camera_vi: Lia ngang ổn định từ bến gỗ mờ khói qua boong con thuyền kiểu Âu và những sampan đang tản ra, kết thúc ở khúc sông khi thuyền chiến dài Tây Sơn treo cờ đỏ áp lại.
+action: Nguyễn river troops seize matchlocks with both hands, swing rattan shields onto the left shoulder, then vault down into sampans and heave their oars in hard strokes; on the bank, families lift bundles to chest height and shove boats off with poles.
+action_vi: Quân sông Nguyễn chộp súng hỏa mai bằng cả hai tay, vung khiên mây lên vai trái rồi phóng người xuống sampan và kéo mái chèo những nhát mạnh; trên bờ, các gia đình nhấc bọc đồ ngang ngực và chống sào đẩy thuyền rời bến.
+env: Oars churn up bright spray that streaks downstream; dusk smoke drifts low along the earthen rampart and timber palisade, then thins; plain red banners snap and whip in the river breeze.
+env_vi: Mái chèo khuấy tung tia nước sáng loang theo dòng; khói hoàng hôn trườn dọc lũy đất cọc gỗ rồi loãng dần; cờ đỏ trơn trên thuyền dài giật mạnh, quất phần phật theo gió sông.
+## scene 9
 
 title:
 cue: somber
@@ -117,7 +128,7 @@ action_vi: “Hành khách rã rời co cụm, cúi thấp đầu, rồi dồn n
 env: “Overhanging leaves stir and brush the gunwales, then ripples spread from the bows as a clump of wet mud sloughs into the channel.”
 env_vi: “Tán lá sà xuống lay động quệt vào mạn thuyền, rồi gợn nước loang từ mũi khi một mảng bùn ướt sụt xuống kênh.”
 
-## scene 9
+## scene 10
 
 title:
 cue: curious
@@ -131,7 +142,7 @@ action_vi: “Chiếc thuyền gỗ nhỏ nghiêng mình lướt vào vũng, r�
 env: “High haze thins to reveal forested ridges, and low swells roll across the blue-green water toward the shore.”
 env_vi: “Lớp sương mỏng trên cao loãng dần để lộ các sườn núi phủ rừng, và những con sóng thấp lăn qua mặt nước xanh ngả lục hướng vào bờ.”
 
-## scene 10
+## scene 11
 
 title:
 cue: neutral
@@ -145,7 +156,7 @@ action_vi: “Đám hầu cận cùng quay ra biển, rồi dịch người đ�
 env: “Sea breeze ruffles the edges of the mats and flutters loose sleeves, then cloud shadows drift across the camp.”
 env_vi: “Gió biển làm mép chiếu phấp phới và tay áo rộng lay động, rồi bóng mây trôi phủ qua khoảng trại.”
 
-## scene 11
+## scene 12
 
 title:
 cue: tense
@@ -159,7 +170,7 @@ action_vi: “Người đưa tin hất bọc ướt lên vai trái và bước l
 env: “Palm fronds whip and clatter, choppy water slaps the landing, then low clouds scud fast across the late-afternoon light.”
 env_vi: “Tán dừa quật mạnh va xào xạc, nước lăn tăn đập vào mép bến, rồi mây thấp lao nhanh qua ánh chiều muộn.”
 
-## scene 12
+## scene 13
 
 title:
 cue: hopeful
@@ -173,7 +184,7 @@ action_vi: Thủy thủ trên chiếc thuyền gần nhất ghì dây kéo căng
 env: Wind fills the tan sails and snaps lines, then sunlight flashes across wet hulls as wakes braid behind.
 env_vi: Gió căng những cánh buồm màu vàng đất và làm dây buồm giật phành phạch, rồi nắng lóe trên thân gỗ ướt khi làn sóng đuôi đan vào nhau.
 
-## scene 13
+## scene 14
 
 title:
 cue: neutral
@@ -188,7 +199,7 @@ action_vi: Nhân vật quay đầu nhìn xuôi dòng, rồi hơi nâng tay phả
 env: River current slides past the pilings, then sawdust drifts through the light and settles over the planks.
 env_vi: Dòng sông lướt qua các cọc bờ, rồi bụi cưa bay trong vệt nắng và rơi phủ lên những tấm ván.
 
-## scene 14
+## scene 15
 
 title:
 cue: tense
@@ -202,7 +213,7 @@ action_vi: Người đi đầu lảo đảo vào và thả phịch bó đồ ư�
 env: Cookfire smoke gusts low across the camp, then moored boats thud and creak against the bank.
 env_vi: Khói bếp hắt ngang thấp qua khu trại, rồi thuyền neo va uỵch và kẽo kẹt vào bờ.
 
-## scene 15
+## scene 16
 
 title:
 cue: dramatic
@@ -216,7 +227,7 @@ action_vi: Người hầu dùng sào đẩy mũi thuyền rời bãi bùn, rồi
 env: Smoke rolls in sheets over the river, then small waves slap the timbers and drive floating debris against the shore.
 env_vi: Khói trườn thành từng lớp trên mặt sông, rồi những con sóng nhỏ tát vào ván bến và dồn rác trôi ép vào mép bờ.
 
-## scene 16
+## scene 17
 
 title:
 cue: somber
@@ -230,7 +241,7 @@ action_vi: Hai người theo hầu bước xuống cứng người và đặt h�
 env: Pale evening light ripples across the water, then a thin mist drifts over the reed beds and oar-drops ring out in widening circles.
 env_vi: Ánh chiều nhạt gợn lăn tăn trên mặt nước, rồi màn sương mỏng trôi qua bãi sậy và giọt nước từ mái chèo rơi tạo vòng tròn loang dần.
 
-## scene 17
+## scene 18
 
 title:
 cue: dramatic
@@ -245,7 +256,7 @@ action_vi: Nhân vật đạp chân mạnh và quạt cánh tay phải chéo dò
 env: Turbulent brown water heaves in cross-currents around his chest, then gusts rake spray across the surface toward the far shore.
 env_vi: Nước nâu cuộn xoáy dồn dập quanh ngực anh, rồi những cơn gió quật kéo theo màn tia nước quét ngang mặt sông về phía bờ xa.
 
-## scene 18
+## scene 19
 
 title:
 cue: somber
@@ -259,7 +270,7 @@ action_vi: Đám người hầu nâng các gói đan đưa lên thuyền, rồi 
 env: Muddy water laps and rocks the hull, then the boat settles a little lower as the weight shifts.
 env_vi: Nước đục vỗ làm thân thuyền lắc nhẹ, rồi thuyền hạ thấp thêm đôi chút khi sức nặng dồn xuống.
 
-## scene 19
+## scene 20
 
 title:
 cue: tense
@@ -273,7 +284,7 @@ action_vi: Một người quan sát đưa tay phải che mắt; rồi người c
 env: Dawn mist drifts low across the channel then parts around the bow, and ripples fan out from the hull along the mangrove roots.
 env_vi: Sương sớm trôi thấp qua lòng kênh rồi tách ra quanh mũi thuyền, và gợn nước loang ra từ thân thuyền dọc các rễ đước.
 
-## scene 20
+## scene 21
 
 title:
 cue: tense
@@ -287,7 +298,7 @@ action_vi: Chiếc thuyền nhỏ nghiêng mình leo lên một con sóng thấp
 env: Long gray swells roll under the frame, then the distant storm clouds billow and darken along the horizon.
 env_vi: Những con sóng dài màu xám lăn dưới khung hình, rồi khối mây giông xa cuộn lên và sầm lại dọc chân trời.
 
-## scene 21
+## scene 22
 
 title:
 cue: somber
@@ -301,7 +312,7 @@ action_vi: Gia nhân nhấc một vò nước đưa lên bờ, rồi truyền ha
 env: Cove water laps softly against the hull, and dappled light shifts under the dense leaves.
 env_vi: Nước vịnh lăn tăn vỗ vào thân thuyền, và ánh sáng loang lổ dịch chuyển dưới tán lá rậm.
 
-## scene 22
+## scene 23
 
 title:
 cue: dramatic
