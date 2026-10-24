@@ -1249,3 +1249,29 @@ body.view-timeline .workbench { display: none; }
   .model-row, .model-row.is-editing { grid-template-columns: 52px minmax(0, 1fr) auto; }
   .model-price { grid-column: 2; text-align: left; }
 }
+
+/* ---------------------------------------------------------------- timeline job lane
+   One cell per scene under the clips, as wide as the clip. A chip is a task pending on the scene:
+   filled + pulsing = the server is on it now, dashed + quiet = it waits its turn (shape and label
+   carry the state, the tone only says which task). The lane keeps its height when empty, so a job
+   starting never shifts the track. Tones follow the batch buttons: image, audio, motion. */
+.tl-jobs { display: flex; height: 22px; margin-top: 4px; }
+.tl-job-cell { flex: none; display: flex; align-items: center; min-width: 0; overflow: hidden; }
+.tl-job {
+  --tone: var(--muted);
+  flex: 1 1 0; min-width: 0; height: 18px; margin: 0 1px; padding: 0 4px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  border: 1px solid var(--line); border-radius: var(--r-ctl);
+  font-size: 10.5px; font-weight: 600; white-space: nowrap; overflow: hidden;
+}
+.tl-job[data-kind="image"] { --tone: var(--tone-image); }
+.tl-job[data-kind="audio"] { --tone: var(--accent); }
+.tl-job[data-kind="motion"] { --tone: var(--tone-motion); }
+.tl-job svg { width: 12px; height: 12px; flex: none; }
+.tl-job-label { overflow: hidden; text-overflow: ellipsis; }
+.tl-job.running {
+  color: var(--tone); border-color: color-mix(in oklab, var(--tone) 55%, var(--line));
+  background: color-mix(in oklab, var(--tone) 16%, var(--surface));
+}
+.tl-job.running svg { animation: pulse 1.1s ease-in-out infinite; }
+.tl-job.waiting { color: var(--faint); border-style: dashed; background: transparent; }

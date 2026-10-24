@@ -283,6 +283,7 @@
     <button class="btn quiet sm" type="button" id="selNeedAud">Thiếu audio</button>
     <button class="btn quiet sm" type="button" id="selStaleAud" title="Scene có narration đã sửa sau khi sinh audio">Audio cũ</button>
     <button class="btn quiet sm" type="button" id="selNeedPrompt">Thiếu prompt</button>
+    <button class="btn quiet sm" type="button" id="selNeedMotion" title="Scene đã có ảnh và audio mới nhưng chưa có motion video">Thiếu motion</button>
     <button class="btn quiet sm" type="button" id="selNone">Bỏ chọn</button>
     <span class="grow"></span>
     <span class="bar-label">Chạy</span>
@@ -305,6 +306,7 @@
     <div class="tl-inner" id="tlInner">
       <div class="tl-ruler" id="tlRuler" aria-hidden="true"></div>
       <div class="tl-clips" id="tlClips"></div>
+      <div class="tl-jobs" id="tlJobs" aria-label="Tác vụ đang chạy hoặc đang chờ của từng scene"></div>
       <div class="tl-playhead" id="tlPlayhead" aria-hidden="true"></div>
     </div>
   </div>

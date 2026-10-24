@@ -322,6 +322,37 @@ function sceneJobStatus(n) {
   return { work, notes, mark };
 }
 
+// Tasks pending on scene n, in pipeline order, for the timeline's job lane. `running`: the server is
+// on this scene right now; otherwise it waits — `position` is its place in the lane's queue, null
+// when it is later in a batch that is already running. A direct edit (upload, undo…) comes first.
+const JOB_LANE_ORDER = ["prompt", "motionPrompt", "image", "audio", "motion"];
+function sceneJobList(n) {
+  const active = [
+    ...Object.values(lanes).map((lane) => lane.running),
+    ...orphanJobs,
+  ].filter(Boolean);
+  const isRunning = (kind) =>
+    active.some(
+      (j) =>
+        j.kind === kind &&
+        jobCovers(j, n) &&
+        (j.current === n || j.scenes.length === 1),
+    );
+  const queuePosition = (kind) => {
+    for (const { queue } of Object.values(lanes)) {
+      const index = queue.findIndex((j) => j.kind === kind && jobCovers(j, n));
+      if (index >= 0) return index + 1;
+    }
+    return null;
+  };
+  const tasks = JOB_LANE_ORDER.filter((kind) => hasPending(kind, n)).map(
+    (kind) => ({ kind, running: isRunning(kind), position: queuePosition(kind) }),
+  );
+  return sceneOps.has(n)
+    ? [{ kind: "edit", running: true, label: sceneOps.get(n) }, ...tasks]
+    : tasks;
+}
+
 // Re-run every job-dependent gate and marker without refetching state.
 function syncJobUi() {
   renderPipeline();
@@ -331,6 +362,7 @@ function syncJobUi() {
   updateScriptFoot();
   syncGlobalButtons();
   syncConsoleQueue();
+  document.dispatchEvent(new CustomEvent("studio:jobs"));
 }
 
 // Project switch/create rewrite the server's active paths, so they wait for every lane to drain.
@@ -1023,6 +1055,25 @@ function isContiguousSelection(nums) {
 // Selection is shared by the rail (workbench) and the timeline clips. This keeps every
 // selection-driven control in both places in sync from the one `selected` Set, so a scene
 // ticked in the rail also reads as ticked on the timeline, and vice versa.
+// Motion length follows the scene's audio, so a scene needs both image and audio. When none of the
+// target scenes qualifies the button is off — say which scene lacks what, instead of a bare grey.
+const MOTION_BATCH_TITLE =
+  "Sinh motion video cho các scene đã chọn (cần có ảnh + audio)";
+function motionBatchTitle(targets, eligibleCount) {
+  if (eligibleCount > 0 || !targets.length) return MOTION_BATCH_TITLE;
+  const noImage = targets.filter((s) => !s.hasImage).map((s) => s.scene);
+  const noAudio = targets
+    .filter((s) => s.hasImage && !s.hasAudio)
+    .map((s) => s.scene);
+  const reasons = [];
+  if (noImage.length) reasons.push(`scene ${sceneList(noImage)} chưa có ảnh`);
+  if (noAudio.length)
+    reasons.push(
+      `scene ${sceneList(noAudio)} chưa có audio — sinh audio trước, vì độ dài motion video khớp audio`,
+    );
+  return `Chưa chạy được: ${reasons.join("; ")}.`;
+}
+
 function renderSelection() {
   for (const n of [...selected]) if (!findScene(n)) selected.delete(n);
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
@@ -1069,6 +1120,10 @@ function renderSelection() {
   $("batchImg").disabled = disImg;
   $("batchAud").disabled = disAud;
   $("batchMotion").disabled = disMotion;
+  $("batchMotion").title = $("railBatchMotion").title = motionBatchTitle(
+    targets,
+    motionEligibleCount,
+  );
   $("batchMerge").disabled = disMerge;
   $("railBatchPrompt").disabled = disPrompt;
   $("railBatchImg").disabled = disImg;
@@ -2090,6 +2145,10 @@ $("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
 $("selStaleAud").addEventListener("click", () => pickWhere((s) => s.audioStale));
 $("selNeedPrompt").addEventListener("click", () =>
   pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
+);
+// Same meaning as the rail's "Thiếu motion" filter: ready for a motion video, none yet.
+$("selNeedMotion").addEventListener("click", () =>
+  pickWhere((s) => sceneStatus(s) === "need-render"),
 );
 $("selNone").addEventListener("click", clearSelection);
 

@@ -13,7 +13,8 @@
 // It is also where scenes are picked for a batch run: double-clicking a clip toggles it in the
 // panel's shared `selected` Set (the batch bar above the track acts on it); a single click only
 // moves the playhead;
-// each clip also carries status pips.
+// each clip also carries status pips, and a lane under the clips shows which task is running on,
+// or waiting for, each scene (see "job lane" below).
 //
 // Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast,
 // paintBrandLayer, selected, renderSelection, pips) from review-panel.js, which loads first, and redraws on its "studio:render" /
@@ -255,10 +256,78 @@ function renderTimeline() {
     $(id).disabled = !clips.length;
   // Mid-playback the media keeps running; a paused view reloads so a regenerated clip shows.
   if (clips.length && !tl.playing) loadClip(clips, tl.index, tl.offset);
+  renderJobLane(clips);
   syncPlayhead(clips);
   if (isRenderMode()) remountPlayer();
   else paintBrandLayer($("tlScreen"), state.branding);
 }
+
+// ------------------------------------------------------------------ job lane
+//
+// Under the clips, one cell per scene as wide as its clip, holding a chip for each task pending on
+// the scene (sceneJobList): filled and pulsing while the server works on it, dashed while it waits.
+// A chip drops its label when the clip is too narrow for it, then chips beyond the first, then its
+// icon; the cell's title always spells out every task and its state.
+const TL_ICON_PROMPT =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>';
+const TL_ICON_AUDIO =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>';
+const TL_JOB_ICON = {
+  prompt: TL_ICON_PROMPT,
+  motionPrompt: TL_ICON_PROMPT,
+  image: TL_ICON_STILL,
+  audio: TL_ICON_AUDIO,
+  motion: TL_ICON_FILM,
+  edit: TL_ICON_EDIT,
+};
+const TL_JOB_VERB = {
+  prompt: "viết",
+  motionPrompt: "viết",
+  image: "sinh",
+  audio: "sinh",
+  motion: "sinh",
+};
+// A chip with just its icon, and one with icon + label, need this much room.
+const TL_JOB_ICON_MIN_PX = 22;
+const TL_JOB_LABEL_MIN_PX = 84;
+
+const jobLabel = (task) => task.label ?? JOB_KIND_LABEL[task.kind];
+function jobTitle(task) {
+  if (task.kind === "edit") return task.label;
+  const what = `${TL_JOB_VERB[task.kind]} ${JOB_KIND_LABEL[task.kind]}`;
+  if (task.running) return `Đang ${what}`;
+  return `Chờ ${what}${task.position ? ` · #${task.position}` : ""}`;
+}
+
+function jobChipHtml(task, { icon, label }) {
+  const state = task.running ? "running" : "waiting";
+  return `<span class="tl-job ${state}" data-kind="${task.kind}">${icon ? TL_JOB_ICON[task.kind] : ""}${label ? `<span class="tl-job-label">${escapeHtml(jobLabel(task))}</span>` : ""}</span>`;
+}
+
+function jobCellHtml(clip) {
+  const width = clip.seconds * tl.pxPerSec;
+  const tasks = sceneJobList(clip.scene.scene).sort(
+    (a, b) => Number(b.running) - Number(a.running),
+  );
+  if (!tasks.length) return `<div class="tl-job-cell" style="width:${width}px"></div>`;
+  const fits = Math.max(1, Math.floor(width / TL_JOB_ICON_MIN_PX));
+  const shown = tasks.slice(0, fits);
+  const look = {
+    icon: width >= TL_JOB_ICON_MIN_PX,
+    label: width / shown.length >= TL_JOB_LABEL_MIN_PX,
+  };
+  const title = `Scene ${clip.scene.scene}: ${tasks.map(jobTitle).join(" · ")}`;
+  return `<div class="tl-job-cell" style="width:${width}px" role="img" aria-label="${escapeHtml(title)}" title="${escapeHtml(title)}">${shown.map((t) => jobChipHtml(t, look)).join("")}</div>`;
+}
+
+function renderJobLane(clips = timelineClips()) {
+  $("tlJobs").innerHTML = clips.map(jobCellHtml).join("");
+}
+
+// Jobs start, advance and end without a state refetch, so the lane redraws on its own signal.
+document.addEventListener("studio:jobs", () => {
+  if (tlVisible()) renderJobLane();
+});
 
 function syncPlayhead(clips) {
   const clip = clips[tl.index];
@@ -478,8 +547,10 @@ const tlTimeAtPointer = (e) =>
 // The scene under the pointer on the clip row, or null (ruler, past the end). Found by position,
 // not e.target: pointer capture on #tlInner can retarget the dblclick that follows a press.
 function tlSceneAtPointer(e) {
+  // The job lane belongs to the clip above it, so a double-click there picks the scene too.
   const row = $("tlClips").getBoundingClientRect();
-  if (e.clientY < row.top || e.clientY > row.bottom) return null;
+  const laneBottom = $("tlJobs").getBoundingClientRect().bottom;
+  if (e.clientY < row.top || e.clientY > laneBottom) return null;
   const t = tlTimeAtPointer(e);
   const clip = timelineClips().find(
     (c) => t >= c.start && t < c.start + c.seconds,
