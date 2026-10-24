@@ -1169,3 +1169,75 @@ body.view-timeline .workbench { display: none; }
 .lib-actions { display: flex; gap: 6px; margin-top: auto; }
 .lib-actions .btn { text-decoration: none; }
 .lib-empty { margin: 0; padding: 32px 0; text-align: center; color: var(--muted); }
+
+/* ---------------------------------------------------------------- model manager
+   Master-detail: providers on the left (key status as a filled/hollow dot + text, never colour
+   alone), the selected provider's connection form and model rows on the right. */
+
+.dialog.models-dialog { width: min(980px, 100%); }
+.models-body { display: grid; grid-template-columns: 236px minmax(0, 1fr); height: min(620px, 70vh); min-height: 0; }
+
+.models-rail { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-right: 1px solid var(--line-soft); min-height: 0; }
+.models-rail-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.models-rail-group { margin: 12px 8px 4px; font-size: 11.5px; color: var(--faint); }
+.models-rail-group:first-child { margin-top: 0; }
+.models-rail-item {
+  display: grid; gap: 3px; width: 100%; text-align: left; padding: 8px 10px;
+  background: transparent; border: 1px solid transparent; border-radius: var(--r-ctl);
+  color: var(--text); font: inherit; cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.models-rail-item:hover { background: var(--surface-2); }
+.models-rail-item[aria-current="true"] { background: var(--accent-dim); border-color: rgba(72, 183, 166, .4); }
+.models-rail-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.models-rail-name { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.models-rail-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11.5px; color: var(--muted); }
+.key-state { display: inline-flex; align-items: center; gap: 6px; }
+.key-state::before { content: ""; width: 7px; height: 7px; border-radius: 999px; border: 1.5px solid var(--faint); }
+.key-state.on::before { background: var(--accent); border-color: var(--accent); }
+
+.models-pane { overflow-y: auto; padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.models-pane-head { display: flex; align-items: center; gap: 10px; }
+.models-pane-head h3 { margin: 0; font-size: 15px; font-weight: 650; }
+.models-conn { display: grid; gap: 12px; max-width: 560px; }
+.models-conn .field-hint, .models-add .field-hint { font-size: 11.5px; color: var(--faint); }
+.models-conn .actions, .models-add .actions { display: flex; align-items: center; gap: 8px; }
+.models-conn .text-input, .models-add .text-input { width: 100%; }
+.models-conn .field label .note, .models-add .field label .note { text-transform: none; letter-spacing: 0; }
+
+.models-section-head { display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line-soft); }
+.models-section-head h4 { margin: 0; font-size: 13px; font-weight: 650; }
+.models-section-head .count { font-size: 11.5px; color: var(--faint); }
+.models-add { display: grid; gap: 12px; padding: 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-panel); }
+.models-add .segmented { align-self: start; width: fit-content; }
+.models-add .segmented button { padding: 0 12px; height: 28px; font-size: 12px; }
+
+.models-list { list-style: none; margin: 0; padding: 0; }
+.model-row {
+  display: grid; grid-template-columns: 58px minmax(0, 1fr) 84px auto; align-items: center; gap: 12px;
+  padding: 9px 4px; border-bottom: 1px solid var(--line-soft);
+}
+.model-row.is-hidden .model-name, .model-row.is-hidden .model-price, .model-row.is-hidden .model-kind { opacity: .5; }
+.model-row.is-editing { grid-template-columns: 58px minmax(0, 1fr) 110px auto; }
+.model-kind { font-size: 11.5px; font-weight: 600; color: var(--tone, var(--muted)); }
+.model-kind.image { --tone: var(--tone-image); }
+.model-kind.motion { --tone: var(--tone-motion); }
+.model-name { display: flex; flex-direction: column; min-width: 0; }
+.model-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.model-id { font-size: 11.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.model-price { text-align: right; font-size: 12px; color: var(--muted); }
+.model-actions { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
+.model-tag { font-size: 11px; color: var(--faint); margin-right: 4px; }
+.models-empty { padding: 20px 4px; color: var(--muted); font-size: 12.5px; }
+
+@media (max-width: 760px) {
+  .models-body { grid-template-columns: 1fr; height: auto; max-height: 72vh; overflow-y: auto; }
+  .models-rail { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+  .models-rail-list { flex: none; overflow: visible; flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .models-pane-head { flex-wrap: wrap; }
+  .models-rail-group { width: 100%; margin: 6px 4px 0; }
+  .models-rail-item { width: auto; }
+  .models-pane { overflow: visible; }
+  .model-row, .model-row.is-editing { grid-template-columns: 52px minmax(0, 1fr) auto; }
+  .model-price { grid-column: 2; text-align: left; }
+}

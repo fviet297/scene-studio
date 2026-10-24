@@ -1,7 +1,7 @@
 // Scene-image generation via a muse2api server (scripts/lib/muse-client.mjs). Flow:
 //   POST /v1/images/tasks — prompt + aspect_ratio (+ reference_image to lock a reference)
 //   GET  /v1/images/tasks/{id} — poll until completed, then read the media url
-// replicate-image.mjs routes any `muse:<model>` image id here. Like VMedia, the server takes a
+// replicate-image.mjs routes any `muse:<model>` image id here. The server takes a
 // single reference image, so replicate-image.mjs tiles a multi-character scene's references into
 // one sheet first.
 import { createTask, pollTask } from './muse-client.mjs';

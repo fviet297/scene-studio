@@ -42,6 +42,9 @@
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
 //   POST /api/remove-motion-video → { scene } → remove clip and use the source image instead
+//   GET  /api/model-config    → providers (endpoint, masked key) and image/motion models, grouped for the manager
+//   POST /api/model-config/<provider-add|provider-update|provider-delete|model-add|model-update|model-delete|model-hidden>
+//                             → edit data/models.json (keys never returned in full), answers with the refreshed list
 //   GET  /api/branding        → the active project's corner logo + watermark settings
 //   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
 //   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
@@ -80,7 +83,9 @@ import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
-import { withAvailability } from './lib/providers.mjs';
+import { pickerModels } from './lib/providers.mjs';
+import { ConfigError, initModelConfig } from './lib/model-config.mjs';
+import { applyModelConfigAction, describeModelConfig, isModelConfigAction } from './lib/model-manager.mjs';
 import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
@@ -92,6 +97,7 @@ import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/charact
 
 loadEnv();
 
+initModelConfig();
 // Motion prompt priority: the scene's camera / action / env (motion-writer.mjs) wrapped in the
 // fixed lines; else an older single-line `motion:` (lsvn/trangca skills) verbatim; else one
 // auto-built from the image prompt. `parts` lets a caller send unsaved camera/action/env edits.
@@ -113,6 +119,7 @@ const PANEL_ASSETS = {
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
   '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
+  '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -456,8 +463,8 @@ const buildState = () => {
     project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), voice: readPlanHeader(planRaw, 'voice') ?? DEFAULT_VOICE },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
-    imageModels: withAvailability(IMAGE_MODELS),
-    motionVideoModels: withAvailability(MOTION_VIDEO_MODELS),
+    imageModels: pickerModels('image', IMAGE_MODELS),
+    motionVideoModels: pickerModels('motion', MOTION_VIDEO_MODELS),
     seedreamPromptLimit: SEEDREAM_PROMPT_LIMIT,
     projects: listProjects().map((slug) => ({ slug, title: projectTitle(slug) })),
     scenes: scenes.map((s) => {
@@ -1258,6 +1265,23 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && pathname === '/api/templates') {
       sendJson(res, 200, { templates: getTemplates(), activeVersion: getTemplates().activeVersion, versions: listTemplateVersions() });
       return;
+    // Model manager: provider endpoints / keys and the models offered in the pickers
+    // (data/models.json). Keys are only ever returned masked.
+    if (req.method === 'GET' && pathname === '/api/model-config') {
+      sendJson(res, 200, describeModelConfig());
+      return;
+    }
+    const modelConfigAction = pathname.match(/^\/api\/model-config\/([a-z-]+)$/)?.[1];
+    if (req.method === 'POST' && modelConfigAction && isModelConfigAction(modelConfigAction)) {
+      try {
+        sendJson(res, 200, applyModelConfigAction(modelConfigAction, await readBody(req)));
+      } catch (error) {
+        if (!(error instanceof ConfigError)) throw error;
+        sendJson(res, 400, { error: error.message });
+      }
+      return;
+    }
+
     }
 
     if (req.method === 'POST' && pathname === '/api/templates') {

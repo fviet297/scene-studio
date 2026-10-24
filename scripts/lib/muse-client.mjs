@@ -4,6 +4,8 @@
 //
 // Env: MUSE2API_BASE_URL (default http://localhost:18610), MUSE2API_KEY (the server's m2a_ key).
 
+import { builtinDefault } from './model-config.mjs';
+
 const REQUEST_TIMEOUT_MS = 60_000;
 // Per the server README, a failed status query is retried as a query — never by re-POSTing,
 // which would start (and bill) a second generation.
@@ -11,7 +13,7 @@ const MAX_POLL_ERRORS = 5;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const baseUrl = () => (process.env.MUSE2API_BASE_URL ?? 'http://localhost:18610').replace(/\/+$/, '');
+export const baseUrl = () => (process.env.MUSE2API_BASE_URL ?? builtinDefault('muse', 'baseUrl')).replace(/\/+$/, '');
 
 const authHeader = () => {
   const key = process.env.MUSE2API_KEY;

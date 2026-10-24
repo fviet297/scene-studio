@@ -451,17 +451,24 @@ function modelOptionsHtml(models) {
     .join("");
 }
 
-// Built once: the model list is static for the session, and rebuilding on every refresh() would
-// reset whatever model the user picked mid-workflow. Two selects share each list: the per-scene
-// one drives single-scene generate, the contact-sheet one drives the batch run. When the first
-// option is disabled (its provider has no key), the first usable model is selected instead.
+// Rebuilt only when the list changed (a model added, hidden or newly keyed in the model manager):
+// rebuilding on every refresh() would reset whatever model the user picked mid-workflow, so the
+// pick survives a rebuild while it is still listed and usable. Two selects share each list: the
+// per-scene one drives single-scene generate, the contact-sheet one drives the batch run. When the
+// selected option is disabled (its provider has no key), the first usable model is selected.
 function fillModelSelects(models, ids) {
   const options = modelOptionsHtml(models || []);
   for (const id of ids) {
     const select = $(id);
-    if (select.options.length) continue;
+    if (select.dataset.options === options) continue;
+    const previous = select.value;
     select.innerHTML = options;
-    if (select.selectedOptions[0]?.disabled) {
+    select.dataset.options = options;
+    const kept = [...select.options].find(
+      (o) => o.value === previous && !o.disabled,
+    );
+    if (kept) select.value = previous;
+    else if (select.selectedOptions[0]?.disabled) {
       const usable = [...select.options].find((o) => !o.disabled);
       if (usable) select.value = usable.value;
     }
@@ -512,7 +519,7 @@ const lsSet = (key, value) => {
 };
 
 // Set a select's value only when that option exists and is usable, so a remembered model that has
-// left the list (e.g. an env-driven vmedia slug removed) or lost its key leaves the dropdown on its
+// left the list (e.g. a model hidden in the model manager) or lost its key leaves the dropdown on its
 // default instead of blanking.
 const setModelSelect = (id, value) => {
   const select = $(id);
@@ -1307,7 +1314,7 @@ async function readSse(path, body, signal, onEvent, job = {}) {
 
 // Which providers stop a generation when it is cancelled (scripts/lib/*-image|video.mjs).
 const CANCEL_PROVIDER_NOTE =
-  "Replicate/fal huỷ luôn prediction; muse2api/VMedia không có API huỷ nên job vẫn chạy xong bên đó (có thể vẫn tính phí), kết quả bị bỏ.";
+  "Replicate huỷ luôn prediction; muse2api/Plenx không có API huỷ nên job vẫn chạy xong bên đó (có thể vẫn tính phí), kết quả bị bỏ.";
 
 // Media-lane runner: streams the job's SSE endpoint into the console. Opens the log on failure
 // only, so a successful run never covers the scene you were looking at. Cancel aborts the
@@ -2683,6 +2690,10 @@ window.addEventListener("keydown", (e) => {
       return;
     }
     if ($("console").classList.contains("open")) {
+    if (!$("modelsOverlay").hidden) {
+      closeModels();
+      return;
+    }
       openLog(false);
       return;
     }

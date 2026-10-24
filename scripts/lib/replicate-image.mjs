@@ -16,10 +16,10 @@ import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from '
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { activePaths } from './project-paths.mjs';
-import { FAL_IMAGE_MODELS, falImageUrl } from './fal-image.mjs';
-import { VMEDIA_IMAGE_MODELS, vmediaImageUrl } from './vmedia-image.mjs';
 import { META_IMAGE_MODELS, metaImageUrl } from './meta-image.mjs';
 import { MUSE_IMAGE_MODELS, museImageUrl } from './muse-image.mjs';
+import { openaiImageUrl } from './openai-image.mjs';
+import { customProviderOf, getConfig } from './model-config.mjs';
 import { providerOf } from './providers.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
@@ -257,14 +257,12 @@ const DEFAULT_TEXT = 'xai/grok-imagine-image';
 // `price` is USD per output image (null = unknown), used by the panel's batch cost estimate.
 // Replicate prices are from replicate.com/pricing (Aug 2026); they can change and higher
 // resolutions can cost more — treat them as guidance, not a billing guarantee.
-// The picker posts a model id and generateSceneImage dispatches on its prefix: `fal-ai/...` → fal
-// (fal-image.mjs), `vmedia:...` → Gommo/VMedia (vmedia-image.mjs), `meta:...` → Meta Model API
-// (meta-image.mjs), `muse:...` → muse2api (muse-image.mjs), everything else → Replicate.
+// The picker posts a model id and generateSceneImage dispatches on its prefix: `meta:...` → Meta
+// Model API (meta-image.mjs), `muse:...` → muse2api (muse-image.mjs), `<provider>:...` → a provider
+// added in the model manager (openai-image.mjs), everything else → Replicate.
 export const IMAGE_MODELS = [
   { id: 'bytedance/seedream-4.5', label: 'Seedream 4.5 — nhiều tham chiếu, giữ mặt từng người tốt nhất (~$0.03/ảnh)', price: 0.03 },
   { id: 'xai/grok-imagine-image', label: 'Grok Imagine — 1 tham chiếu hoặc không tham chiếu (~$0.04/ảnh, +$0.01 khi sửa)', price: 0.04 },
-  ...FAL_IMAGE_MODELS,
-  ...VMEDIA_IMAGE_MODELS,
   ...META_IMAGE_MODELS,
   ...MUSE_IMAGE_MODELS,
 ];
@@ -274,7 +272,7 @@ export const dataUri = (path) => `data:${MIME[path.split('.').pop().toLowerCase(
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const REQUEST_TIMEOUT_MS = 30_000;
 
-// VMedia and muse2api take a single reference image. With several references (a multi-character
+// muse2api and Grok Imagine take a single reference image. With several references (a multi-character
 // scene) they are tiled left→right, in plan order, into one sheet, and the prompt says which
 // panel is which — otherwise only the first character would keep its face. Returns the prompt
 // and the data URI to send.
@@ -451,22 +449,11 @@ export const upsertManifest = (entry) => {
   writeFileSync(manifestPath(), `${JSON.stringify(manifest, null, 2)}\n`);
 };
 
-// Route one image model to its provider by id prefix: a `fal-ai/...` id → fal (fal-image.mjs),
-// anything else → Replicate. refPaths are local reference file paths; each provider builds its own
+// Route one image model to its provider by id prefix (see IMAGE_MODELS); anything unrecognised →
+// Replicate. refPaths are local reference file paths; each provider builds its own
 // payload from the shared data-URI encoding. Returns the output image URL. Also used for character
 // reference images (character-image.mjs).
 export const runImageModel = async (token, model, { prompt, refPaths, aspect = currentAspect(), onLog, signal }) => {
-  if (model.startsWith('fal-ai/')) {
-    const { url } = await falImageUrl(model, { prompt, refUris: refPaths.map(dataUri), aspect, onLog, signal });
-    return url;
-  }
-  if (model.startsWith('vmedia:')) {
-    // Gommo generateImage takes a single reference (edit mode): several are sent as one sheet.
-    const { url } = await vmediaImageUrl(model.slice('vmedia:'.length), {
-      ...singleReference(prompt, refPaths, onLog), aspect, onLog, signal,
-    });
-    return url;
-  }
   if (model.startsWith('meta:')) {
     const { url } = await metaImageUrl(model.slice('meta:'.length), {
       prompt, refUris: refPaths.map(dataUri), size: aspectInfo(aspect).metaImageSize, onLog,
@@ -474,15 +461,23 @@ export const runImageModel = async (token, model, { prompt, refPaths, aspect = c
     return url;
   }
   if (model.startsWith('muse:')) {
-    // Single-reference like VMedia: several are sent as one sheet.
+    // Takes a single reference image: several are sent as one sheet.
     const { url } = await museImageUrl(model.slice('muse:'.length), {
       ...singleReference(prompt, refPaths, onLog), aspect, onLog, signal,
     });
     return url;
   }
+  const custom = customProviderOf(getConfig(), model);
+  if (custom) {
+    const { url } = await openaiImageUrl({
+      label: custom.provider.id, baseUrl: custom.provider.baseUrl, apiKey: custom.provider.apiKey, model: custom.name,
+      prompt, refUris: refPaths.map(dataUri), size: aspectInfo(aspect).openaiImageSize, onLog,
+    });
+    return url;
+  }
   if (!token) throw new Error('REPLICATE_API_TOKEN not set (put it in .env).');
   onLog(`POST https://api.replicate.com/v1/models/${model}/predictions`);
-  // Grok Imagine edits from one image, like VMedia/muse2api: several references go as one sheet.
+  // Grok Imagine edits from one image, like muse2api: several references go as one sheet.
   const single = model.startsWith('xai/grok-imagine') ? singleReference(prompt, refPaths, onLog) : null;
   const input = single
     ? buildInput(model, { prompt: single.prompt, refUris: single.refDataUri ? [single.refDataUri] : [], aspect })
@@ -505,8 +500,8 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
   const onLog = opts.onLog ?? (() => {});
   // Optional AbortSignal: a cancelled job stops its provider call and never writes the image.
   const { signal } = opts;
-  // Token is required only for the Replicate path; runImageModel checks it there. A fal-only user
-  // (fal model chosen, FAL_KEY set) does not need REPLICATE_API_TOKEN.
+  // Token is required only for the Replicate path; runImageModel checks it there. A user of another
+  // provider (muse, meta, …) does not need REPLICATE_API_TOKEN.
   if (scene.image.kind !== 'ai') throw new Error(`scene ${scene.scene} is not an AI scene`);
 
   const file = `scene-${String(scene.scene).padStart(2, '0')}.jpg`;

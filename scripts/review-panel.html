@@ -62,6 +62,7 @@
     <button class="btn" type="button" id="btnTemplates">Template prompt</button>
     <button class="btn" type="button" id="btnScript" title="Đọc và sửa toàn bộ scene plan — narration, prompt, motion — mọi scene">Kịch bản</button>
     <button class="btn" type="button" id="btnBrand" title="Logo góc, tên thương hiệu và watermark giữa khung cho MP4 render">Logo &amp; watermark</button>
+    <button class="btn" type="button" id="btnModels" title="Provider, endpoint, API key và danh sách model sinh ảnh / motion">Model</button>
 
     <span class="grow"></span>
 
@@ -892,6 +893,31 @@
 <!-- Confirm before a paid batch run: shows the scene count and the cost estimate -->
 <div class="overlay" id="confirmOverlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmBody">
   <div class="dialog narrow">
+<!-- Model manager: providers (endpoint, API key) with their image / motion models; review-models.js -->
+<div class="overlay" id="modelsOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="modelsTitle">
+  <div class="dialog models-dialog">
+    <div class="dialog-head">
+      <h2 id="modelsTitle">Model &amp; provider</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="modelsClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="models-body">
+      <nav class="models-rail" aria-label="Provider">
+        <div class="models-rail-list" id="modelsRail"></div>
+        <button class="btn sm wide" type="button" id="modelsAddProvider">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Thêm provider
+        </button>
+      </nav>
+      <section class="models-pane" id="modelsPane" aria-live="polite"></section>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="modelsNote" role="status">Đổi ở đây có hiệu lực ngay cho lần sinh tiếp theo.</span>
+    </div>
+  </div>
+</div>
+
     <div class="dialog-head">
       <h2 id="confirmTitle">Xác nhận</h2>
     </div>
@@ -919,3 +945,4 @@
 <script src="/char-image.js"></script>
 </body>
 </html>
+<script src="/models.js"></script>
