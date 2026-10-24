@@ -87,6 +87,7 @@ import { pickerModels } from './lib/providers.mjs';
 import { ConfigError, initModelConfig } from './lib/model-config.mjs';
 import { applyModelConfigAction, describeModelConfig, isModelConfigAction } from './lib/model-manager.mjs';
 import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
+import { clearAudioNarration, isAudioStale, readAudioNarration, writeAudioNarration } from './lib/audio-narration.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
@@ -96,8 +97,8 @@ import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-write
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
 
 loadEnv();
-
 initModelConfig();
+
 // Motion prompt priority: the scene's camera / action / env (motion-writer.mjs) wrapped in the
 // fixed lines; else an older single-line `motion:` (lsvn/trangca skills) verbatim; else one
 // auto-built from the image prompt. `parts` lets a caller send unsaved camera/action/env edits.
@@ -118,8 +119,8 @@ const PANEL_ASSETS = {
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
-  '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
+  '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -188,7 +189,15 @@ const imageManifestEntry = (n) => {
   const manifest = existsSync(manifestPath()) ? JSON.parse(readFileSync(manifestPath(), 'utf8')) : [];
   return manifest.find((m) => m.id === sceneBase(n)) ?? null;
 };
-const mediaMeta = (kind, n) => (kind === 'image' ? imageManifestEntry(n) : null);
+// An audio step carries the narration its mp3 was generated from, so undo/redo keeps the
+// out-of-date check (audio-narration.mjs) matching the file that comes back.
+const audioMeta = (n) => {
+  const narration = readAudioNarration(P.audioDir, n);
+  return narration === null ? null : { narration };
+};
+// The narration was edited (or merged) after this scene's audio was generated.
+const sceneAudioStale = (n, narration) => existsSync(join(P.audioDir, audioFile(n))) && isAudioStale(P.audioDir, n, narration);
+const mediaMeta = (kind, n) => (kind === 'image' ? imageManifestEntry(n) : kind === 'audio' ? audioMeta(n) : null);
 const trackMediaChange = async (kind, n, write) => {
   const file = mediaPath(kind, n);
   const dir = mediaHistoryDir(kind, n);
@@ -201,7 +210,11 @@ const trackMediaChange = async (kind, n, write) => {
 };
 const stepMedia = (step, kind, n) => {
   const restored = step(mediaHistoryDir(kind, n), mediaPath(kind, n), mediaMeta(kind, n));
-  if (restored?.meta) upsertManifest(restored.meta); // image only: restore authenticity + characters
+  if (restored && kind === 'audio') {
+    if (restored.meta) writeAudioNarration(P.audioDir, n, restored.meta.narration);
+    else clearAudioNarration(P.audioDir, n);
+  }
+  if (restored?.meta && kind === 'image') upsertManifest(restored.meta); // restore authenticity + characters
   return Boolean(restored);
 };
 const mediaHistory = (n) => Object.fromEntries(
@@ -510,6 +523,7 @@ const buildState = () => {
         hasImage: has,
         imageUrl: has ? `/images/${file}?v=${statSync(path).mtimeMs}` : null,
         hasAudio,
+        audioStale: sceneAudioStale(s.scene, s.narration ?? ''),
         audioUrl: hasAudio ? `/audio/${audioFile(s.scene)}?v=${statSync(apath).mtimeMs}` : null,
         hasMotionVideo,
         motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
@@ -627,7 +641,7 @@ const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
   // The script rewrites scene audio in place, so snapshot the scenes it may touch first (no args =
   // every scene) and keep only the steps whose file actually changed.
   const scenes = args.length ? args.map(Number) : readPlan().scenes.map((s) => s.scene);
-  const pendingChanges = scenes.map((n) => [n, beginChange(mediaHistoryDir('audio', n), mediaPath('audio', n))]);
+  const pendingChanges = scenes.map((n) => [n, beginChange(mediaHistoryDir('audio', n), mediaPath('audio', n), audioMeta(n))]);
   const child = spawn('node', [join(HERE, 'generate-narration.mjs'), ...args], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
   pipe(child.stdout);
@@ -1251,20 +1265,6 @@ const server = createServer(async (req, res) => {
       return;
     }
 
-    // Corner logo + centre watermark for the final render; applied at the next Render MP4, whose
-    // build step stamps branding.json into the Remotion bundle.
-    if (req.method === 'GET' && pathname === '/api/branding') {
-      sendJson(res, 200, { branding: readBranding(P.slug) });
-      return;
-    }
-    if (req.method === 'POST' && pathname === '/api/branding') {
-      sendJson(res, 200, { branding: writeBranding(P.slug, await readBody(req)) });
-      return;
-    }
-
-    if (req.method === 'GET' && pathname === '/api/templates') {
-      sendJson(res, 200, { templates: getTemplates(), activeVersion: getTemplates().activeVersion, versions: listTemplateVersions() });
-      return;
     // Model manager: provider endpoints / keys and the models offered in the pickers
     // (data/models.json). Keys are only ever returned masked.
     if (req.method === 'GET' && pathname === '/api/model-config') {
@@ -1282,6 +1282,20 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    // Corner logo + centre watermark for the final render; applied at the next Render MP4, whose
+    // build step stamps branding.json into the Remotion bundle.
+    if (req.method === 'GET' && pathname === '/api/branding') {
+      sendJson(res, 200, { branding: readBranding(P.slug) });
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/api/branding') {
+      sendJson(res, 200, { branding: writeBranding(P.slug, await readBody(req)) });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/templates') {
+      sendJson(res, 200, { templates: getTemplates(), activeVersion: getTemplates().activeVersion, versions: listTemplateVersions() });
+      return;
     }
 
     if (req.method === 'POST' && pathname === '/api/templates') {
@@ -1308,7 +1322,7 @@ const server = createServer(async (req, res) => {
       // Prompt/motion (and their translations) are left untouched on a narration edit: the
       // author updates them deliberately — re-running the lsvn/trangca skill, or "Write from
       // narration" per scene — so a small narration fix never discards a hand-tuned prompt.
-      sendJson(res, 200, { ok: true, scene, narration: clean });
+      sendJson(res, 200, { ok: true, scene, narration: clean, audioStale: sceneAudioStale(scene, clean) });
       return;
     }
 

@@ -168,7 +168,11 @@ function clipHtml(clip, i) {
       : s.hasImage
         ? TL_ICON_STILL
         : "";
-  const audioNote = s.hasAudio ? "" : ", chưa có audio";
+  const audioNote = !s.hasAudio
+    ? ", chưa có audio"
+    : s.audioStale
+      ? ", audio cũ (narration đã sửa)"
+      : "";
   const castNote = cast.length
     ? `, nhân vật: ${cast.map((id) => charById(id)?.name ?? id).join(", ")}`
     : "";
@@ -178,6 +182,7 @@ function clipHtml(clip, i) {
   const classes = [
     "tl-clip",
     s.hasAudio ? "" : "no-audio",
+    s.audioStale ? "stale-audio" : "",
     s.hasImage ? "" : "no-image",
   ]
     .filter(Boolean)

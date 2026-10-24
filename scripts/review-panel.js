@@ -56,6 +56,7 @@ const TEMPLATE_FIELDS = [...STYLE_FIELDS, ...PROMPT_FIELDS];
 const STATE_LABEL = {
   "need-image": "thiếu ảnh",
   "need-audio": "thiếu audio",
+  "stale-audio": "audio cũ",
   "need-render": "thiếu motion",
   done: "xong",
 };
@@ -85,7 +86,9 @@ const sceneStatus = (s) =>
     ? "need-image"
     : !s.hasAudio
       ? "need-audio"
-      : !s.hasMotionVideo
+      : s.audioStale
+        ? "stale-audio"
+        : !s.hasMotionVideo
         ? "need-render"
         : "done";
 // ------------------------------------------------------------------ job lanes
@@ -365,8 +368,10 @@ const shownScenes = () =>
 const pips = (s) => {
   const on = [s.hasImage, s.hasAudio, s.hasMotionVideo];
   const mark = (ok) => (ok ? "xong" : "thiếu");
-  const label = `ảnh ${mark(s.hasImage)}, audio ${mark(s.hasAudio)}, motion ${mark(s.hasMotionVideo)}`;
-  return `<span class="pips" role="img" aria-label="${label}" title="${label}">${on.map((v) => `<span class="pip${v ? " on" : ""}"></span>`).join("")}</span>`;
+  const audioMark = s.audioStale ? "cũ (narration đã sửa)" : mark(s.hasAudio);
+  const label = `ảnh ${mark(s.hasImage)}, audio ${audioMark}, motion ${mark(s.hasMotionVideo)}`;
+  const pip = (v, i) => `<span class="pip${v ? " on" : ""}${i === 1 && s.audioStale ? " stale" : ""}"></span>`;
+  return `<span class="pips" role="img" aria-label="${label}" title="${label}">${on.map(pip).join("")}</span>`;
 };
 
 // ------------------------------------------------------------------ render
@@ -799,6 +804,7 @@ function renderStage() {
   const audio = $("audioPlayer");
   audio.hidden = !s.hasAudio;
   $("audioMissing").hidden = s.hasAudio;
+  $("audioStale").hidden = !s.audioStale;
   if (s.hasAudio && audio.getAttribute("src") !== s.audioUrl)
     audio.src = s.audioUrl;
   // Scene-scoped locks: a pending job turns only this scene's button of its kind into Cancel,
@@ -847,6 +853,11 @@ function renderStage() {
 
   setStageState("stageImgState", s.hasImage);
   setStageState("stageAudState", s.hasAudio);
+  if (s.audioStale) {
+    $("stageAudState").textContent = "audio cũ";
+    $("stageAudState").classList.remove("on");
+  }
+  $("stageAudState").classList.toggle("stale", Boolean(s.audioStale));
   setStageState("stageMotState", s.hasMotionVideo);
 
   syncSetupBlock(s);
@@ -1457,6 +1468,7 @@ async function saveField(kind, value) {
       drafts.prompt.delete(s.scene);
     } else {
       s.narration = res.narration;
+      s.audioStale = res.audioStale;
       drafts.narr.delete(s.scene);
     }
     showError("");
@@ -2075,6 +2087,7 @@ $("selNeedImg").addEventListener("click", () =>
   pickWhere((s) => !s.hasImage && s.kind === "ai"),
 );
 $("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
+$("selStaleAud").addEventListener("click", () => pickWhere((s) => s.audioStale));
 $("selNeedPrompt").addEventListener("click", () =>
   pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
 );
@@ -2677,6 +2690,10 @@ window.addEventListener("keydown", (e) => {
       closeCharImageDialog();
       return;
     }
+    if (!$("modelsOverlay").hidden) {
+      closeModels();
+      return;
+    }
     if (!$("brandOverlay").hidden) {
       $("brandOverlay").hidden = true;
       return;
@@ -2690,10 +2707,6 @@ window.addEventListener("keydown", (e) => {
       return;
     }
     if ($("console").classList.contains("open")) {
-    if (!$("modelsOverlay").hidden) {
-      closeModels();
-      return;
-    }
       openLog(false);
       return;
     }

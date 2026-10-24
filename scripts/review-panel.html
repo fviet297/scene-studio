@@ -85,6 +85,7 @@
         <option value="all">Tất cả</option>
         <option value="need-image">Thiếu ảnh</option>
         <option value="need-audio">Thiếu audio</option>
+        <option value="stale-audio">Audio cũ</option>
         <option value="need-render">Thiếu motion</option>
         <option value="done">Xong</option>
       </select>
@@ -142,6 +143,7 @@
 
     <div class="transport">
       <span class="missing" id="audioMissing">Chưa có audio narration.</span>
+      <span class="stale-note" id="audioStale" hidden role="status">Narration đã sửa sau khi sinh audio. Sinh lại audio để khớp.</span>
       <audio id="audioPlayer" controls preload="none" hidden></audio>
       <button class="btn quiet sm history-btn" type="button" id="btnUndoAudio" hidden title="Hoàn tác audio của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Hoàn tác audio <span class="count num"></span></button>
       <button class="btn quiet sm history-btn" type="button" id="btnRedoAudio" hidden title="Làm lại audio của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại audio <span class="count num"></span></button>
@@ -279,6 +281,7 @@
     <button class="btn quiet sm" type="button" id="selAll">Tất cả</button>
     <button class="btn quiet sm" type="button" id="selNeedImg">Thiếu ảnh</button>
     <button class="btn quiet sm" type="button" id="selNeedAud">Thiếu audio</button>
+    <button class="btn quiet sm" type="button" id="selStaleAud" title="Scene có narration đã sửa sau khi sinh audio">Audio cũ</button>
     <button class="btn quiet sm" type="button" id="selNeedPrompt">Thiếu prompt</button>
     <button class="btn quiet sm" type="button" id="selNone">Bỏ chọn</button>
     <span class="grow"></span>
@@ -890,9 +893,6 @@
   </div>
 </div>
 
-<!-- Confirm before a paid batch run: shows the scene count and the cost estimate -->
-<div class="overlay" id="confirmOverlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmBody">
-  <div class="dialog narrow">
 <!-- Model manager: providers (endpoint, API key) with their image / motion models; review-models.js -->
 <div class="overlay" id="modelsOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="modelsTitle">
   <div class="dialog models-dialog">
@@ -918,6 +918,9 @@
   </div>
 </div>
 
+<!-- Confirm before a paid batch run: shows the scene count and the cost estimate -->
+<div class="overlay" id="confirmOverlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmBody">
+  <div class="dialog narrow">
     <div class="dialog-head">
       <h2 id="confirmTitle">Xác nhận</h2>
     </div>
@@ -943,6 +946,6 @@
 <script src="/timeline.js"></script>
 <script src="/script-gen.js"></script>
 <script src="/char-image.js"></script>
+<script src="/models.js"></script>
 </body>
 </html>
-<script src="/models.js"></script>

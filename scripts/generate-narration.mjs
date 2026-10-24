@@ -14,6 +14,7 @@ import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { connectOmniVoice, DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
 import { readPlanHeader } from './lib/plan-writer.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
+import { writeAudioNarration } from './lib/audio-narration.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
 const TEMP_DIR = 'tmp/narration';
@@ -127,6 +128,7 @@ for (const segment of targets) {
     writeFileSync(concatList, files.map((file) => `file '${join(process.cwd(), file)}'`).join('\n'));
     execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
   }
+  writeAudioNarration(AUDIO_DIR, segment.scene, segment.text);
   process.stdout.write(`✓ scene-${String(segment.scene).padStart(2, '0')}.mp3 (${chunks.length} chunk${chunks.length > 1 ? 's' : ''})\n`);
 }
 
