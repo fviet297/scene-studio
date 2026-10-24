@@ -83,7 +83,7 @@ import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
-import { pickerModels } from './lib/providers.mjs';
+import { pickerModels, providerOf } from './lib/providers.mjs';
 import { ConfigError, initModelConfig } from './lib/model-config.mjs';
 import { applyModelConfigAction, describeModelConfig, isModelConfigAction } from './lib/model-manager.mjs';
 import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
@@ -102,9 +102,11 @@ initModelConfig();
 // Motion prompt priority: the scene's camera / action / env (motion-writer.mjs) wrapped in the
 // fixed lines; else an older single-line `motion:` (lsvn/trangca skills) verbatim; else one
 // auto-built from the image prompt. `parts` lets a caller send unsaved camera/action/env edits.
-const sceneMotionPrompt = (scene, parts = scene.image?.motionParts) =>
+// Plenx models get the positive-only wrapper (see composeMotionPrompt); the panel's preview, which
+// does not know the model, shows the default one.
+const sceneMotionPrompt = (scene, parts = scene.image?.motionParts, model = '') =>
   hasMotionParts(parts)
-    ? composeMotionPrompt(parts, { cue: scene.cue ?? '', charCount: scene.image?.characters?.length ?? 0 })
+    ? composeMotionPrompt(parts, { cue: scene.cue ?? '', charCount: scene.image?.characters?.length ?? 0, plain: providerOf(model).id === 'plenx' })
     : scene.image?.motion?.trim() ||
       buildMotionPrompt({ narration: scene.narration ?? '', scenePrompt: scene.image?.prompt ?? '' });
 
@@ -775,7 +777,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
         scene: n,
         imagePath,
         outputDir: P.sceneVideoDir,
-        prompt: sceneMotionPrompt(target),
+        prompt: sceneMotionPrompt(target, undefined, model),
         model,
         audioSeconds,
         aspect: activeAspect(),
@@ -1910,7 +1912,7 @@ const server = createServer(async (req, res) => {
       const signal = cancelSignal(res);
       await trackJob(res, async () => {
         try {
-          const motionPrompt = sceneMotionPrompt(target, editedParts);
+          const motionPrompt = sceneMotionPrompt(target, editedParts, model);
           log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
           log(`audio duration: ${audioSeconds.toFixed(1)}s`);
           if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);

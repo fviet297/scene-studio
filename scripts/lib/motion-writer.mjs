@@ -30,10 +30,23 @@ const asSentence = (text) => {
   return !t || /[.!?]$/.test(t) ? t : `${t}.`;
 };
 
+// Positive-only wrapper for video models behind a content filter (Plenx's omni-flash-video is
+// Google's: it refused a harmless scene whose prompt carried "no text or watermark" and a list of
+// body-part negatives, and its error asks to avoid text and people requests). Nothing is asked to be
+// absent, so there is nothing for the filter to read as a request for text or for bodies.
+const composePlainMotionPrompt = ({ camera, action, env }, calm) => [
+  calm ? 'Animate this illustrated scene into a calm cinematic shot with gentle visible motion.' : 'Animate this illustrated scene into a smooth cinematic shot with clearly visible motion.',
+  asSentence(camera), asSentence(action), asSentence(env),
+  'Keep the original art style and composition.',
+  calm ? 'Gentle, natural motion across the frame.' : 'Natural, steady motion across the whole frame.',
+].filter(Boolean).join(' ');
+
 // The prompt a video model receives for one scene: fixed opening, the scene's camera → action →
-// env, then the fixed identity lock, intensity and artifact ban.
-export const composeMotionPrompt = ({ camera, action, env }, { cue = '', charCount = 0 } = {}) => {
+// env, then the fixed identity lock, intensity and artifact ban (or `plain`, the positive-only
+// wrapper above, for filtered models).
+export const composeMotionPrompt = ({ camera, action, env }, { cue = '', charCount = 0, plain = false } = {}) => {
   const calm = CALM_CUES.has(cue.toLowerCase());
+  if (plain) return composePlainMotionPrompt({ camera, action, env }, calm);
   return [
     calm ? OPEN_CALM : OPEN_DYNAMIC,
     asSentence(camera), asSentence(action), asSentence(env),

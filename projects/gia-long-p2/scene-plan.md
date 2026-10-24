@@ -19,8 +19,8 @@ narration: Chỉ trong khoảng một năm, từ 1782 đến 1783, Nguyễn Ánh
 prompt: A late-18th-century riverfront in Gia Định during rebuilding, carpenters repairing wooden boats, retainers checking supplies, low timber buildings and palm-lined waterways.
 camera: Tracking alongside from the half-repaired bow along the quay to stacked timber and supply baskets, steady pace.
 camera_vi: Trượt ngang từ mũi thuyền đang sửa dọc bến đến đống gỗ và thúng tiếp tế, nhịp đều.
-action: Carpenters drive wooden pegs with mallets, then run a long plane down the hull; retainers tip open baskets, then shoulder a bundle and walk past.
-action_vi: Thợ mộc đóng chốt gỗ bằng búa rồi kéo chiếc bào dài dọc theo mạn thuyền; gia nhân mở nắp thúng rồi vác một bọc đi ngang qua.
+action: Carpenters tap wooden pegs into the hull with mallets, then glide a long plane along the planks; porters open supply baskets, then lift a bundle and walk along the quay.
+action_vi: Thợ mộc gõ chốt gỗ vào thân thuyền bằng búa rồi lướt chiếc bào dài dọc theo ván; phu mở thúng tiếp tế rồi nhấc một bọc đi dọc bến.
 env: River water slaps the hulls in slow rhythm; palm fronds sway and flash light; curls of wood shavings tumble to the planks.
 env_vi: Nước sông vỗ mạn thuyền nhịp chậm; lá dừa nước đung đưa loé sáng; những dải mạt bào cuộn rơi xuống sàn ván.
 
