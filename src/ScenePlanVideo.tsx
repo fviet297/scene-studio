@@ -88,6 +88,9 @@ export type ProjectData = {
 };
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
+// Length of the dissolve between consecutive scenes; the incoming scene starts this many frames
+// early so it fades in on top of the outgoing one.
+const CROSSFADE_FRAMES = 8;
 
 // --- Overlay sizing -------------------------------------------------------------------------
 // Horizontal and typographic values scale by deliveryBand().unit; see src/delivery-band.ts.
@@ -160,29 +163,29 @@ function sceneTimeline(scenes: Scene[], sceneDurations: number[]) {
 
 export function SceneView({
   scene,
+  projectSlug,
   durationInFrames,
   publicPrefix,
   uploadedScenes = [],
   motionPlaybackRate = 1,
+  fadeInFrames = 0,
 }: {
   scene: Scene;
+  projectSlug: string;
   durationInFrames: number;
   publicPrefix: string;
   uploadedScenes?: number[];
   motionPlaybackRate?: number;
+  fadeInFrames?: number;
 }) {
   const local = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const overlay = overlayMetrics(width, height);
-  const motion = getSceneMotion(scene.scene);
-  // Fade the whole scene (image + overlays together) for a clean cross-dissolve; the
-  // CinematicScene's own transition is disabled here to avoid double-fading the image.
-  const opacity = transitionOpacity(
-    local,
-    durationInFrames,
-    motion.transitionIn ?? 12,
-    motion.transitionOut ?? 10,
-  );
+  const motion = getSceneMotion(projectSlug, scene.scene);
+  // Fade the whole scene (image + overlays together) in over the previous scene, which is still
+  // on screen underneath (see CROSSFADE_FRAMES) — a true cross-dissolve, never a dip to black.
+  // The CinematicScene's own transition is disabled here to avoid double-fading the image.
+  const opacity = transitionOpacity(local, durationInFrames, fadeInFrames, 0);
   const sceneNo = String(scene.scene).padStart(2, "0");
   const src = `${publicPrefix}/images/scene-${sceneNo}.jpg`;
   const videoSrc = `${publicPrefix}/scene-videos/scene-${sceneNo}.mp4`;
@@ -335,28 +338,38 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
         background: COLORS.ink,
       }}
     >
-      {project.scenes.map((scene, i) => (
-        <Sequence
-          key={scene.scene}
-          from={starts[i]}
-          durationInFrames={frames[i]}
-        >
-          <SceneView
-            scene={scene}
-            durationInFrames={frames[i]}
-            publicPrefix={project.publicPrefix}
-            uploadedScenes={project.uploadedScenes}
-            motionPlaybackRate={project.motionPlaybackRates?.[i] ?? 1}
-          />
-          {scene.hasAudio && (
-            <Audio
-              src={staticFile(
-                `${project.publicPrefix}/audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
-              )}
-            />
-          )}
-        </Sequence>
-      ))}
+      {project.scenes.map((scene, i) => {
+        // Each scene starts early by `overlap` frames and fades in over its predecessor's tail;
+        // narration stays on the scene's true start, so captions and audio are not shifted.
+        const overlap = i === 0 ? 0 : Math.min(CROSSFADE_FRAMES, frames[i - 1]);
+        return (
+          <React.Fragment key={scene.scene}>
+            <Sequence
+              from={starts[i] - overlap}
+              durationInFrames={frames[i] + overlap}
+            >
+              <SceneView
+                scene={scene}
+                projectSlug={project.slug}
+                durationInFrames={frames[i] + overlap}
+                publicPrefix={project.publicPrefix}
+                uploadedScenes={project.uploadedScenes}
+                motionPlaybackRate={project.motionPlaybackRates?.[i] ?? 1}
+                fadeInFrames={overlap}
+              />
+            </Sequence>
+            {scene.hasAudio && (
+              <Sequence from={starts[i]} durationInFrames={frames[i]}>
+                <Audio
+                  src={staticFile(
+                    `${project.publicPrefix}/audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
+                  )}
+                />
+              </Sequence>
+            )}
+          </React.Fragment>
+        );
+      })}
       {project.hasTitleOverlay && titleFrames > 0 && (
         <Sequence from={starts[titleIndex]} durationInFrames={titleFrames}>
           <TitleOverlay

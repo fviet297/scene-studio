@@ -30,6 +30,7 @@ export const SceneOneVideo: React.FC<SceneOneProps> = ({
     <AbsoluteFill style={{ background: "#191716" }}>
       <SceneView
         scene={s}
+        projectSlug={data.slug}
         durationInFrames={durationInFrames}
         publicPrefix={data.publicPrefix}
         uploadedScenes={data.uploadedScenes}
