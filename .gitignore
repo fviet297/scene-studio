@@ -10,145 +10,13 @@ out
 # Generated media resources (audio, images, videos, backups, manifests) — not code
 public/projects/
 
-# Logs of the OmniVoice / muse2api servers started from the review panel
-tmp/services/
+# Scratch state: service logs, undo/redo media snapshots, deleted-scene media, narration drafts.
+# tmp/pdfs holds the tracked reference pages.
+tmp/*
+!tmp/pdfs/
 
-# Undo/redo snapshots of scene images, audio and motion videos
-tmp/media-history/
-
-# Media of scenes deleted from the review panel (kept for a manual restore)
-tmp/deleted-scenes/
-tmp/logs/gia-long-p1-audio-v2.log
-tmp/logs/gia-long-p1-audio.log
-tmp/logs/gia-long-p1-images.log
-tmp/logs/omnivoice.log
-tmp/logs/p1-audio-10.log
-tmp/logs/p1-audio-11.log
-tmp/logs/p1-audio-12.log
-tmp/logs/p1-audio-13.log
-tmp/logs/p1-audio-14.log
-tmp/logs/p1-audio-15.log
-tmp/logs/p1-audio-16.log
-tmp/logs/p1-audio-17.log
-tmp/logs/p1-audio-18.log
-tmp/logs/p1-audio-19.log
-tmp/logs/p1-audio-20.log
-tmp/logs/p1-img-5.log
-tmp/logs/p1-img-6.log
-tmp/logs/p1-img-7.log
-tmp/logs/p1-img-8.log
-tmp/logs/p1-img-9.log
-tmp/logs/p1-img-10.log
-tmp/logs/p1-img-11.log
-tmp/logs/p1-img-12.log
-tmp/logs/p1-img-13.log
-tmp/logs/p1-img-14.log
-tmp/logs/p1-img-15.log
-tmp/logs/p1-img-16.log
-tmp/logs/p1-img-17.log
-tmp/logs/p1-img-18.log
-tmp/logs/p1-img-19.log
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-02.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-03.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-04.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-05.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-06.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-07.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-08.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-09.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-10.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-11.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-12.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-13.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-14.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-15.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-16.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-17.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-18.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-19.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-20.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-21.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-22.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-23.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/audio/scene-24.mp3
-archive/gia-long-p1-before-kichban-20261019-1749/images/asset-manifest.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-02.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-02.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-02.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-03.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-03.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-03.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-04.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-04.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-04.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-05.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-05.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-05.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-06.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-06.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-06.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-07.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-07.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-07.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-08.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-08.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-08.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-09.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-09.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-09.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-10.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-10.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-10.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-11.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-11.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-11.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-12.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-12.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-12.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-13.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-13.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-13.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-14.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-14.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-14.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-15.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-15.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-15.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-16.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-16.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-16.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-17.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-17.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-17.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-18.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-18.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-18.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-19.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-19.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-19.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-20.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-20.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-20.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-21.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-21.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-21.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-22.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-22.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-22.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-23.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-24.jpg
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-24.jpg.bak
-archive/gia-long-p1-before-kichban-20261019-1749/images/scene-24.jpg.bak.json
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-02.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-03.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-04.mp4
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-04.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-05.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-06.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-07.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-08.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-09.mp4.bak
-archive/gia-long-p1-before-kichban-20261019-1749/scene-videos/scene-10.mp4.bak
+# Local snapshot of gia-long p1 before the kịch bản rewrite (never committed)
+archive/gia-long-p1-before-kichban-20261019-1749/
 
 # Generated from projects/<slug>/scene-plan.md + assets by scripts/build-remotion.mjs
 # (npm run dev / build rebuild stale bundles; the review server rebuilds on every plan edit).
@@ -161,4 +29,3 @@ projects/active.json
 projects/output-dir.json
 # Manual scene-plan backups — git history already keeps every committed version.
 projects/**/scene-plan.md.*
-tmp/narration/*
