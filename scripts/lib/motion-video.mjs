@@ -27,11 +27,12 @@ const DURATION_RULES = {
 const describeDurationRule = (rule) =>
   !rule ? 'độ dài bất kỳ' : rule.discrete ? `chỉ ${rule.discrete.join(' / ')}s` : `${rule.min}–${rule.max}s`;
 
-// muse2api video is not listed: muse.ai currently refuses video generation by region. Its
-// dispatch branch below stays, reachable by typing `muse:muse-video` into the custom-model field.
+const MUSE_VIDEO_MODEL = 'muse:muse-video';
+
 export const MOTION_VIDEO_MODELS = [
   ...REPLICATE_MODELS.map((id) => ({ id, label: id, durations: describeDurationRule(DURATION_RULES[id]) })),
   ...PLENX_VIDEO_MODELS.map((id) => ({ id, label: id.slice('plenx:'.length), durations: describeDurationRule(DURATION_RULES[id]) })),
+  { id: MUSE_VIDEO_MODEL, label: 'Muse Video — quota web miễn phí', durations: describeDurationRule(DURATION_RULES[MUSE_VIDEO_MODEL]) },
 ];
 
 export { buildMotionPrompt };
