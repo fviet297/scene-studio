@@ -40,7 +40,7 @@ const field = (state, id, name) => provider(state, id).fields.find((f) => f.name
 
 test('describe lists the built-in providers and every built-in model', () => {
   const state = describeModelConfig();
-  assert.deepEqual(state.providers.map((p) => p.id), ['replicate', 'plenx', 'meta', 'muse']);
+  assert.deepEqual(state.providers.map((p) => p.id), ['replicate', 'plenx', 'meta', 'muse', 'llm']);
   assert.equal(state.models.filter((m) => m.kind === 'image').length, IMAGE_MODELS.length);
   assert.equal(state.models.filter((m) => m.kind === 'motion').length, MOTION_VIDEO_MODELS.length);
   assert.ok(state.models.every((m) => m.builtin && !m.hidden));

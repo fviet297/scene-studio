@@ -1,6 +1,6 @@
-// Image / motion model configuration edited from the review panel and kept in data/models.json
+// Image / motion model and LLM configuration edited from the review panel and kept in data/models.json
 // (gitignored; API keys live there in plain text, like .env). It layers on top of .env:
-//   overrides — endpoint / key / domain of the five built-in providers, applied to process.env so
+//   overrides — endpoint / key / model of the built-in providers, applied to process.env so
 //               the existing clients keep reading the env vars they always read
 //   providers — extra OpenAI Images-compatible providers (image only), called by openai-image.mjs
 //   models    — models the user added (built-in picker entries live in code, not here)
@@ -18,12 +18,16 @@ const BOTH = KINDS;
 // route on (an id with none goes to Replicate); `kinds` is what the provider can generate;
 // `defaults` are the values a client falls back to when nothing is set (one source for the client
 // and for what the manager shows); `placeholders` hint at a field that has no single default.
+// The LLM provider generates no images or motion (kinds []): it is the chat model llm-client.mjs
+// calls for the script, motion and upload-copy writers.
 export const BUILTIN_PROVIDERS = [
   { id: 'replicate', label: 'Replicate', prefix: '', kinds: BOTH, fields: { apiKey: 'REPLICATE_API_TOKEN' } },
   { id: 'plenx', label: 'Plenx AI', prefix: 'plenx:', kinds: ['motion'], fields: { apiKey: 'PLENX_API_KEY', baseUrl: 'PLENX_BASE_URL', resolution: 'PLENX_VIDEO_RESOLUTION' },
     defaults: { baseUrl: 'https://plenxai.com' }, placeholders: { resolution: 'Tự động theo model (omni-flash 1080p, flux-3 720p)' } },
   { id: 'meta', label: 'Meta', prefix: 'meta:', kinds: ['image'], fields: { apiKey: 'MODEL_API_KEY', baseUrl: 'META_BASE_URL' }, defaults: { baseUrl: 'https://api.meta.ai/v1' } },
   { id: 'muse', label: 'muse2api', prefix: 'muse:', kinds: BOTH, fields: { apiKey: 'MUSE2API_KEY', baseUrl: 'MUSE2API_BASE_URL' }, defaults: { baseUrl: 'http://localhost:18610' } },
+  { id: 'llm', label: 'LLM', kinds: [], fields: { apiKey: 'LLM_API_KEY', baseUrl: 'LLM_BASE_URL', model: 'LLM_MODEL', userAgent: 'LLM_USER_AGENT' },
+    placeholders: { baseUrl: 'API chuẩn OpenAI Chat, vd. https://api.openai.com/v1', model: 'vd. gpt-5', userAgent: 'tuỳ chọn — chỉ khi router đòi' } },
 ];
 export const CUSTOM_KINDS = ['image'];
 

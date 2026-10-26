@@ -1,5 +1,6 @@
-// OpenAI-compatible chat client for the script generator (scripts/lib/script-writer.mjs).
-// Configured only from .env, so the provider can be swapped without touching code:
+// OpenAI-compatible chat client for the script, motion and upload-copy writers.
+// Configured from .env, or from the panel's model manager (its "LLM" provider overrides these env
+// vars, model-config.mjs), so the provider can be swapped without touching code:
 //   LLM_BASE_URL (e.g. https://api.openai.com/v1) · LLM_API_KEY · LLM_MODEL
 //   LLM_USER_AGENT — optional; some routers only serve requests from known client user agents.
 // Every call asks for one JSON object back. A reply wrapped in a markdown fence or a sentence is
@@ -23,7 +24,7 @@ export const llmConfig = () => {
   const missing = ['baseUrl', 'apiKey', 'model'].filter((key) => !config[key]);
   if (missing.length) {
     const names = { baseUrl: 'LLM_BASE_URL', apiKey: 'LLM_API_KEY', model: 'LLM_MODEL' };
-    throw new Error(`Thiếu ${missing.map((key) => names[key]).join(', ')} trong .env`);
+    throw new Error(`Thiếu ${missing.map((key) => names[key]).join(', ')} trong .env hoặc Model › LLM`);
   }
   return config;
 };

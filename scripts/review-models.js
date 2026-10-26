@@ -2,7 +2,7 @@
 //
 // Opened from the topbar "Model" button. Providers sit on the left, grouped as built-in and added;
 // the right pane edits the selected provider's connection (endpoint, API key, …) and its image /
-// motion models. Everything is stored server-side in data/models.json (/api/model-config/*), and
+// motion models. The LLM provider (no kinds) has a connection only: its chat model is a field. Everything is stored server-side in data/models.json (/api/model-config/*), and
 // the server never sends a key back in full — only a mask — so a key field starts empty and an
 // empty submit keeps the stored key. Each change re-reads the panel state so the model pickers
 // pick it up at once.
@@ -23,6 +23,8 @@ const MM_FIELD_LABEL = {
   apiKey: "API key",
   baseUrl: "Endpoint",
   resolution: "Độ phân giải video",
+  model: "Model",
+  userAgent: "User-Agent",
 };
 const MM_SOURCE_NOTE = {
   panel: "Đang dùng giá trị lưu ở đây.",
@@ -41,6 +43,10 @@ const mmProvider = (id) => mm.data.providers.find((p) => p.id === id);
 const mmModelsOf = (id) => mm.data.models.filter((m) => m.provider === id);
 const mmKeyField = (provider) =>
   provider.fields.find((f) => f.name === "apiKey");
+// A provider with no image / motion kinds is the LLM: what it writes, not what it draws.
+const mmIsLlm = (provider) => !provider.kinds.length;
+const mmLlmModel = (provider) =>
+  provider.fields.find((f) => f.name === "model")?.value || "chưa chọn model";
 
 const mmPrice = (price) =>
   price === null || price === undefined
@@ -54,11 +60,12 @@ const mmPrice = (price) =>
 const mmRailItemHtml = (p) => {
   const key = mmKeyField(p);
   const models = mmModelsOf(p.id).filter((m) => !m.hidden).length;
+  const meta = mmIsLlm(p) ? mmLlmModel(p) : `${models} model`;
   return `<button type="button" class="models-rail-item" data-provider="${escapeHtml(p.id)}" aria-current="${p.id === mm.selected && mm.mode !== "add-provider"}">
     <span class="models-rail-name">${escapeHtml(p.label)}</span>
     <span class="models-rail-meta">
       <span class="key-state${key?.set ? " on" : ""}">${key?.set ? "Có key" : "Thiếu key"}</span>
-      <span class="num">${models} model</span>
+      <span class="num" title="${escapeHtml(meta)}">${escapeHtml(meta)}</span>
     </span>
   </button>`;
 };
@@ -90,9 +97,10 @@ const mmFieldHtml = (provider, field) => {
       ? `${field.masked} — để trống để giữ nguyên`
       : "Chưa có key"
     : (field.placeholder ?? (provider.builtin ? "để trống = mặc định" : ""));
-  const hint =
-    MM_SOURCE_NOTE[field.source] ??
-    (secret ? "Chưa có key — model của provider này bị khoá." : "");
+  const missingKey = mmIsLlm(provider)
+    ? "Chưa có key — không viết được kịch bản, motion và bài đăng bằng AI."
+    : "Chưa có key — model của provider này bị khoá.";
+  const hint = MM_SOURCE_NOTE[field.source] ?? (secret ? missingKey : "");
   return `<div class="field">
     <label for="${id}">${MM_FIELD_LABEL[field.name]}</label>
     <input class="text-input" id="${id}" name="${field.name}" type="${secret ? "password" : "text"}"
@@ -227,7 +235,7 @@ const mmModelsSectionHtml = (provider) => {
 
 const mmPaneHeadHtml = (provider) => `<div class="models-pane-head">
   <h3>${escapeHtml(provider.label)}</h3>
-  <span class="tag">${provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
+  <span class="tag">${mmIsLlm(provider) ? "Viết kịch bản, motion, bài đăng" : provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
   <span class="grow"></span>
   ${provider.builtin ? "" : '<button class="btn quiet danger sm" type="button" data-action="delete-provider">Xoá provider</button>'}
 </div>`;
@@ -269,7 +277,7 @@ function mmRenderPane() {
     pane.innerHTML =
       mmPaneHeadHtml(provider) +
       mmConnectionHtml(provider) +
-      mmModelsSectionHtml(provider);
+      (mmIsLlm(provider) ? "" : mmModelsSectionHtml(provider));
   }
   pane.querySelector("[data-autofocus]")?.focus();
 }

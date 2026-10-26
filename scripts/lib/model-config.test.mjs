@@ -100,6 +100,13 @@ test('built-in settings: set, keep, clear, and reject unknown fields or bad endp
   rejects(() => setBuiltinSettings(emptyConfig(), 'ghost', {}), /không có sẵn/);
 });
 
+test('LLM provider takes endpoint, key, model and user agent but no image / motion models', () => {
+  const config = setBuiltinSettings(emptyConfig(), 'llm', { baseUrl: 'https://api.openai.com/v1/', apiKey: 'sk-x', model: ' gpt-5 ', userAgent: '' });
+  assert.deepEqual(config.overrides.llm, { baseUrl: 'https://api.openai.com/v1', apiKey: 'sk-x', model: 'gpt-5' });
+  rejects(() => setBuiltinSettings(emptyConfig(), 'llm', { baseUrl: 'nope' }), /URL/);
+  rejects(() => addModel(emptyConfig(), { provider: 'llm', kind: 'image', id: 'gpt-5', label: 'x' }), /không hỗ trợ/);
+});
+
 test('customProviderOf matches the provider prefix and returns the model name', () => {
   const config = withProvider();
   assert.deepEqual(customProviderOf(config, 'myhost:gpt-image-1').name, 'gpt-image-1');
