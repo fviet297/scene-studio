@@ -38,6 +38,8 @@
 //   POST /api/generate-prompts-batch → { scenes:[...] } → same, sequential, streamed over SSE
 //   POST /api/generate-motion-prompts-batch → { scenes:[...] } → write camera / action / env for
 //                               those scenes via the LLM (motion-writer.mjs), streamed over SSE
+//   POST /api/social-generate → { note? } → title, description and hashtags for YouTube, TikTok and
+//                               Facebook from the active project's narration (social-writer.mjs)
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
@@ -95,6 +97,7 @@ import { readBranding, writeBranding } from './lib/branding.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
 import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
+import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
 
 loadEnv();
@@ -123,6 +126,7 @@ const PANEL_ASSETS = {
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
+  '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
   '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
@@ -1695,6 +1699,18 @@ const server = createServer(async (req, res) => {
         writeSceneField(P.planMd, scene, 'prompt', text);
         writeSceneField(P.planMd, scene, 'prompt_vi', vi);
         sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
+      });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/social-generate') {
+      const { note } = await readBody(req);
+      const text = typeof note === 'string' ? note.trim() : '';
+      if (text.length > MAX_SOCIAL_NOTE) { sendJson(res, 400, { error: `Ghi chú dài quá ${MAX_SOCIAL_NOTE} ký tự.` }); return; }
+      const plan = readPlan();
+      await trackJob(res, async () => {
+        const posts = await writeSocialPosts({ title: plan.title, scenes: plan.scenes, note: text });
+        sendJson(res, 200, { slug: plan.slug, posts });
       });
       return;
     }

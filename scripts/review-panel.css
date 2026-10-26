@@ -1283,3 +1283,20 @@ body.view-timeline .workbench { display: none; }
 }
 .tl-job.running svg { animation: pulse 1.1s ease-in-out infinite; }
 .tl-job.waiting { color: var(--faint); border-style: dashed; background: transparent; }
+
+/* ---------------------------------------------------------------- upload copy (review-social.js) */
+
+.dialog.social-dialog { width: min(640px, 100%); }
+/* Platform tabs drop under the title on a narrow screen; anchored near the top so switching to a
+   shorter post never re-centres the box under the cursor. */
+.overlay:has(> .social-dialog) { align-items: start; padding-top: 8vh; }
+.social-dialog .dialog-head { flex-wrap: wrap; }
+#socialTabs button { white-space: nowrap; }
+.social-dialog .field label .note { text-transform: none; letter-spacing: 0; font-size: 11.5px; color: var(--faint); }
+.social-post { display: flex; flex-direction: column; gap: 12px; }
+/* The label takes the row so the count and the copy button sit together on the right. */
+.social-post .block-head label { flex: 1; }
+.social-post .block-head .hint { margin-left: 0; font-variant-numeric: tabular-nums; }
+.social-post .block-head .hint.over { color: var(--danger); }
+.social-post textarea { min-height: 200px; resize: vertical; }
+.social-empty { margin: 0; padding: 22px 12px; text-align: center; font-size: 12.5px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--r-ctl); }

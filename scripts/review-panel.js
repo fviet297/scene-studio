@@ -2808,6 +2808,10 @@ window.addEventListener("keydown", (e) => {
       $("brandOverlay").hidden = true;
       return;
     }
+    if (!$("socialOverlay").hidden) {
+      closeSocialDialog();
+      return;
+    }
     if (!$("acOverlay").hidden) {
       $("acOverlay").hidden = true;
       return;

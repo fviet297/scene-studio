@@ -66,6 +66,7 @@
 
     <span class="grow"></span>
 
+    <button class="btn" type="button" id="btnSocial" title="Viết tiêu đề, mô tả và hashtag để đăng YouTube, TikTok, Facebook">Bài đăng</button>
     <button class="btn" type="button" id="btnLibrary" title="Mọi video đã render của các dự án">Thư viện video</button>
     <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Mở MP4</a>
     <a class="btn" id="linkMp4Vertical" href="/video?f=9x16" target="_blank" rel="noopener" hidden>Mở 9:16</a>
@@ -929,6 +930,68 @@
   </div>
 </div>
 
+<!-- Upload copy (title, description, hashtags) for YouTube / TikTok / Facebook, written from the
+     project's narration by the LLM; review-social.js -->
+<div class="overlay" id="socialOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="socialTitle">
+  <div class="dialog social-dialog">
+    <div class="dialog-head">
+      <h2 id="socialTitle">Bài đăng</h2>
+      <div class="segmented" id="socialTabs" role="group" aria-label="Nền tảng">
+        <button type="button" data-platform="youtube" aria-pressed="true">YouTube</button>
+        <button type="button" data-platform="tiktok" aria-pressed="false">TikTok</button>
+        <button type="button" data-platform="facebook" aria-pressed="false">Facebook</button>
+      </div>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="socialClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="field">
+        <label for="socialNote">Ghi chú cho AI <span class="note">tuỳ chọn</span></label>
+        <input class="text-input" id="socialNote" type="text" maxlength="1000" autocomplete="off" placeholder="vd. nhấn vào trận Bạch Đằng, hẹn người xem phần 2" />
+      </div>
+      <div class="social-post" id="socialPost" hidden>
+        <div class="field">
+          <div class="block-head">
+            <label for="socialPostTitle">Tiêu đề</label>
+            <span class="hint num" id="socialTitleCount"></span>
+            <button class="icon-btn" type="button" data-copy="title" aria-label="Copy tiêu đề" title="Copy tiêu đề">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+          <input class="text-input" id="socialPostTitle" type="text" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="block-head">
+            <label for="socialPostDescription">Mô tả</label>
+            <button class="icon-btn" type="button" data-copy="description" aria-label="Copy mô tả" title="Copy mô tả">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+          <textarea id="socialPostDescription" class="prose" rows="10" spellcheck="false"></textarea>
+        </div>
+        <div class="field">
+          <div class="block-head">
+            <label for="socialPostHashtags">Hashtag</label>
+            <button class="icon-btn" type="button" data-copy="hashtags" aria-label="Copy hashtag" title="Copy hashtag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+          <input class="text-input" id="socialPostHashtags" type="text" autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+      <p class="social-empty" id="socialEmpty">Bấm “Viết bằng AI” để viết tiêu đề, mô tả và hashtag cho cả ba nền tảng từ narration của dự án.</p>
+    </div>
+    <div class="dialog-foot">
+      <span class="spinner sm" id="socialSpin" hidden aria-hidden="true"></span>
+      <span class="note" id="socialStatus" role="status"></span>
+      <button class="btn" type="button" id="socialCopyAll" disabled>Copy tất cả</button>
+      <button class="btn primary" type="button" id="socialGenerate">Viết bằng AI</button>
+    </div>
+  </div>
+</div>
+
 <!-- Confirm before a paid batch run: shows the scene count and the cost estimate -->
 <div class="overlay" id="confirmOverlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmBody">
   <div class="dialog narrow">
@@ -958,5 +1021,6 @@
 <script src="/script-gen.js"></script>
 <script src="/char-image.js"></script>
 <script src="/models.js"></script>
+<script src="/social.js"></script>
 </body>
 </html>
