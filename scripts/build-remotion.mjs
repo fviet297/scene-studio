@@ -37,8 +37,9 @@ const newestIn = (dir) => (existsSync(dir)
   ? Math.max(0, ...readdirSync(dir).map((name) => mtimeOf(join(dir, name))))
   : 0);
 
-// Every file the bundle is derived from. Files inside audio/ and scene-videos/ are checked one by
-// one: regenerating a clip overwrites it in place, which leaves the directory's own mtime unchanged.
+// Every file the bundle is derived from. Files inside audio/, images/ and scene-videos/ are checked
+// one by one: regenerating a clip overwrites it in place, which leaves the directory's own mtime
+// unchanged. Images count because a replaced image retires the scene's motion clip (parse-plan.mjs).
 const newestInput = (slug) => {
   const paths = projectPaths(slug);
   const profiles = existsSync(paths.profilesDir)
@@ -50,6 +51,7 @@ const newestInput = (slug) => {
     mtimeOf(join(PROJECTS_DIR, slug, 'branding.json')),
     ...profiles,
     newestIn(paths.audioDir),
+    newestIn(paths.imageDir),
     newestIn(paths.sceneVideoDir),
     newestIn(paths.charV2Dir),
     newestIn(join(paths.publicRoot, 'overlay')),

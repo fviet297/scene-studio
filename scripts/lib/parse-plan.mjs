@@ -6,6 +6,7 @@
 import { basename, join } from 'node:path';
 import { closeSync, existsSync, openSync, readFileSync, readSync } from 'node:fs';
 import { projectPaths } from './project-paths.mjs';
+import { isMotionStale } from './motion-source.mjs';
 import { parsePlanAspect } from './aspect.mjs';
 
 // A motion video only gets used when the file is actually a playable MP4 — a failed or
@@ -94,8 +95,10 @@ export const parsePlan = (slug, inputPath) => {
 
     const motionVideoPath = join(paths.sceneVideoDir, `scene-${String(scene.scene).padStart(2, '0')}.mp4`);
     if (existsSync(motionVideoPath)) {
-      if (isPlayableMp4(motionVideoPath)) scene.motionVideo = true;
-      else warnings.push(`scene ${scene.scene}: ${motionVideoPath} exists but is not a valid MP4 — falling back to the scene image`);
+      const imagePath = join(paths.imageDir, `scene-${String(scene.scene).padStart(2, '0')}.jpg`);
+      if (!isPlayableMp4(motionVideoPath)) warnings.push(`scene ${scene.scene}: ${motionVideoPath} exists but is not a valid MP4 — falling back to the scene image`);
+      else if (isMotionStale(paths.sceneVideoDir, scene.scene, imagePath)) warnings.push(`scene ${scene.scene}: motion clip was made from an older image — using the current image until the motion is regenerated`);
+      else scene.motionVideo = true;
     }
     scenes.push(scene);
   }

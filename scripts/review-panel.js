@@ -81,6 +81,10 @@ let currentTemplates = {};
 const selected = new Set();
 const drafts = { prompt: new Map(), narr: new Map(), motion: new Map() };
 
+// A clip animated from an image that has since been replaced is kept on disk but never played:
+// the preview and the render show the current image until the motion is regenerated.
+const playsMotion = (s) => s.hasMotionVideo && !s.motionStale;
+
 const sceneStatus = (s) =>
   !s.hasImage
     ? "need-image"
@@ -88,9 +92,9 @@ const sceneStatus = (s) =>
       ? "need-audio"
       : s.audioStale
         ? "stale-audio"
-        : !s.hasMotionVideo
-        ? "need-render"
-        : "done";
+        : !playsMotion(s)
+          ? "need-render"
+          : "done";
 // ------------------------------------------------------------------ job lanes
 //
 // Two FIFO lanes, each running one job at a time:
@@ -188,6 +192,7 @@ function enqueueJob(spec) {
     );
   syncJobUi();
   pumpLane(spec.lane);
+  return job;
 }
 
 async function pumpLane(name) {
@@ -346,7 +351,11 @@ function sceneJobList(n) {
     return null;
   };
   const tasks = JOB_LANE_ORDER.filter((kind) => hasPending(kind, n)).map(
-    (kind) => ({ kind, running: isRunning(kind), position: queuePosition(kind) }),
+    (kind) => ({
+      kind,
+      running: isRunning(kind),
+      position: queuePosition(kind),
+    }),
   );
   return sceneOps.has(n)
     ? [{ kind: "edit", running: true, label: sceneOps.get(n) }, ...tasks]
@@ -398,11 +407,14 @@ const shownScenes = () =>
 
 // Filled pip = stage finished. Shape, not colour, carries the meaning.
 const pips = (s) => {
-  const on = [s.hasImage, s.hasAudio, s.hasMotionVideo];
+  const on = [s.hasImage, s.hasAudio, playsMotion(s)];
+  const stale = [false, s.audioStale, s.motionStale];
   const mark = (ok) => (ok ? "xong" : "thiếu");
   const audioMark = s.audioStale ? "cũ (narration đã sửa)" : mark(s.hasAudio);
-  const label = `ảnh ${mark(s.hasImage)}, audio ${audioMark}, motion ${mark(s.hasMotionVideo)}`;
-  const pip = (v, i) => `<span class="pip${v ? " on" : ""}${i === 1 && s.audioStale ? " stale" : ""}"></span>`;
+  const motionMark = s.motionStale ? "cũ (ảnh đã đổi)" : mark(s.hasMotionVideo);
+  const label = `ảnh ${mark(s.hasImage)}, audio ${audioMark}, motion ${motionMark}`;
+  const pip = (v, i) =>
+    `<span class="pip${v ? " on" : ""}${stale[i] ? " stale" : ""}"></span>`;
   return `<span class="pips" role="img" aria-label="${label}" title="${label}">${on.map(pip).join("")}</span>`;
 };
 
@@ -706,7 +718,7 @@ function renderPipeline() {
   const done = {
     img: state.scenes.filter((s) => s.hasImage).length,
     aud: state.scenes.filter((s) => s.hasAudio).length,
-    vid: state.scenes.filter((s) => s.hasMotionVideo).length,
+    vid: state.scenes.filter(playsMotion).length,
   };
   const set = (bar, val, n) => {
     $(bar).style.width = total ? `${Math.round((n / total) * 100)}%` : "0%";
@@ -872,6 +884,7 @@ function renderStage() {
   $("btnUploadMotionVideo").disabled = mediaLocked;
   renderMotionParts(s);
   $("motionVideoWrap").hidden = !s.hasMotionVideo;
+  $("motionStale").hidden = !s.motionStale;
   if (s.hasMotionVideo) {
     const v = $("motionVideo");
     // Poster = the scene still, so the player takes the clip's 9:16 aspect and fills the pane
@@ -881,7 +894,7 @@ function renderStage() {
   }
   $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
   $("btnRemoveMotionVideo").disabled = mediaLocked;
-  syncHistoryButtons(s, mediaLocked);
+  syncHistoryButtons(s);
 
   setStageState("stageImgState", s.hasImage);
   setStageState("stageAudState", s.hasAudio);
@@ -890,7 +903,9 @@ function renderStage() {
     $("stageAudState").classList.remove("on");
   }
   $("stageAudState").classList.toggle("stale", Boolean(s.audioStale));
-  setStageState("stageMotState", s.hasMotionVideo);
+  setStageState("stageMotState", playsMotion(s));
+  if (s.motionStale) $("stageMotState").textContent = "motion cũ";
+  $("stageMotState").classList.toggle("stale", Boolean(s.motionStale));
 
   syncSetupBlock(s);
   syncInspector(s);
@@ -1358,6 +1373,7 @@ async function readSse(path, body, signal, onEvent, job = {}) {
       const data = await res.json().catch(() => ({}));
       throw new Error(data.error || res.statusText);
     }
+    job.onAccepted?.(job);
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
@@ -1741,20 +1757,37 @@ const HISTORY_DIRECTIONS = [
   { direction: "redo", id: "Redo", verb: "làm lại" },
 ];
 
-// A button shows only while its direction has steps; its count is how many. Audio is not covered
-// by sceneMediaBusy, but a step rewrites the file a pending audio job would write, so it waits too.
-function syncHistoryButtons(s, mediaLocked) {
+// Audio is not covered by sceneMediaBusy, but a step rewrites the file a pending audio job would
+// write, so it waits too.
+const historyLocked = (s, kind) =>
+  Boolean(globalOp) ||
+  (kind === "audio" ? sceneInAnyLane(s.scene) : sceneMediaBusy(s.scene));
+
+// A button shows only while its direction has steps; its count is how many.
+function syncHistoryButtons(s) {
   for (const { kind, id } of HISTORY_KINDS) {
     const steps = s.history?.[kind] ?? { undo: 0, redo: 0 };
-    const locked =
-      kind === "audio"
-        ? Boolean(globalOp) || sceneInAnyLane(s.scene)
-        : mediaLocked;
     for (const { direction, id: directionId } of HISTORY_DIRECTIONS) {
       const btn = $(`btn${directionId}${id}`);
       btn.hidden = steps[direction] === 0;
-      btn.disabled = locked;
+      btn.disabled = historyLocked(s, kind);
       btn.querySelector(".count").textContent = `(${steps[direction]})`;
+    }
+  }
+}
+
+// The timeline toolbar's icon-only undo / redo: one button per media kind and direction that
+// has steps left for the scene on screen; the step count lives in its name.
+function syncTimelineHistory(s) {
+  for (const { kind, id, label } of HISTORY_KINDS) {
+    for (const { direction, id: directionId, verb } of HISTORY_DIRECTIONS) {
+      const steps = s.history?.[kind]?.[direction] ?? 0;
+      const btn = $(`tl${directionId}${id}`);
+      const name = `${verb[0].toUpperCase()}${verb.slice(1)} ${label} của scene ${s.scene} (còn ${steps} bước)`;
+      btn.hidden = steps === 0;
+      btn.disabled = historyLocked(s, kind);
+      btn.title = name;
+      btn.setAttribute("aria-label", name);
     }
   }
 }
@@ -2058,6 +2091,11 @@ for (const { kind, id } of HISTORY_KINDS)
     $(`btn${directionId}${id}`).addEventListener("click", () =>
       stepHistory(direction, kind),
     );
+for (const { kind, id } of HISTORY_KINDS)
+  for (const { direction, id: directionId } of HISTORY_DIRECTIONS)
+    $(`tl${directionId}${id}`).addEventListener("click", () =>
+      stepHistory(direction, kind),
+    );
 $("btnRemoveMotionVideo").addEventListener("click", removeMotionVideo);
 const ASPECT_SIZES = {
   "16:9": "1920×1080",
@@ -2142,7 +2180,9 @@ $("selNeedImg").addEventListener("click", () =>
   pickWhere((s) => !s.hasImage && s.kind === "ai"),
 );
 $("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
-$("selStaleAud").addEventListener("click", () => pickWhere((s) => s.audioStale));
+$("selStaleAud").addEventListener("click", () =>
+  pickWhere((s) => s.audioStale),
+);
 $("selNeedPrompt").addEventListener("click", () =>
   pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
 );
@@ -2228,15 +2268,23 @@ function batchTargets() {
   if (selected.size) return [...selected].sort((a, b) => a - b);
   return currentScene != null ? [currentScene] : [];
 }
-// A batch run uses up the selection: once its scenes are queued, the next pick starts empty.
-// A cancelled cost confirm keeps it.
 function clearSelection() {
   selected.clear();
   renderSelection();
 }
+// A batch run keeps the selection until the server accepts the job (readSse calls onAccepted
+// once the response is OK), then its scenes leave it. When the server cannot be reached or
+// refuses the request, the selection stays, so a retry needs no re-picking.
+const fromSelection = (job) => {
+  if (job) job.onAccepted = releaseSelection;
+};
+function releaseSelection(job) {
+  let changed = false;
+  for (const n of job.scenes) changed = selected.delete(n) || changed;
+  if (changed) renderSelection();
+}
 const runBatchPrompts = () => {
-  enqueuePrompts(batchTargets());
-  clearSelection();
+  fromSelection(enqueuePrompts(batchTargets()));
 };
 // The cost confirm counts only scenes that will actually run: enqueueJob drops the ones that
 // already have the same job pending.
@@ -2251,12 +2299,10 @@ const runBatchImages = async () => {
   ).length;
   if (!(await confirmBatch("ảnh", state.imageModels || [], model, count)))
     return;
-  enqueueImages(scenes, model);
-  clearSelection();
+  fromSelection(enqueueImages(scenes, model));
 };
 const runBatchAudio = () => {
-  enqueueAudio(batchTargets());
-  clearSelection();
+  fromSelection(enqueueAudio(batchTargets()));
 };
 const runBatchMotion = async () => {
   const scenes = batchTargets();
@@ -2277,8 +2323,7 @@ const runBatchMotion = async () => {
     ))
   )
     return;
-  enqueueMotions(scenes, model);
-  clearSelection();
+  fromSelection(enqueueMotions(scenes, model));
 };
 $("batchImg").addEventListener("click", runBatchImages);
 $("batchAud").addEventListener("click", runBatchAudio);
@@ -2337,8 +2382,7 @@ $("railBatchMerge").addEventListener("click", () => openMergeDialog());
 // ---- insert scene: one blank scene below another; later scenes (and their media) renumber.
 const hasUnsavedDrafts = () =>
   Object.values(drafts).some((pending) => pending.size > 0);
-const lastSceneNumber = () =>
-  Math.max(0, ...state.scenes.map((s) => s.scene));
+const lastSceneNumber = () => Math.max(0, ...state.scenes.map((s) => s.scene));
 
 // Why scenes cannot be renumbered right now (insert and delete both shift every later scene), or null.
 function renumberBlocker(action) {
@@ -2380,12 +2424,15 @@ async function insertSceneBelow(anchor = currentScene) {
       $("narrBox").focus();
     } else {
       renderScriptList();
-      const row = $("scriptList").querySelector(`.script-row[data-scene="${at}"]`);
+      const row = $("scriptList").querySelector(
+        `.script-row[data-scene="${at}"]`,
+      );
       row?.scrollIntoView({ block: "center" });
       row?.querySelector('textarea[data-field="narration"]')?.focus();
     }
     toast(
-      document.body.classList.contains("view-timeline") && $("scriptOverlay").hidden
+      document.body.classList.contains("view-timeline") &&
+        $("scriptOverlay").hidden
         ? `Đã chèn scene ${at} — bấm ✎ trên scene để nhập narration.`
         : `Đã chèn scene ${at} — nhập narration.`,
     );
@@ -2480,7 +2527,9 @@ $("btnMergeConfirm").addEventListener("click", async () => {
     // triggered from a script row (or from the sheet/rail while it happens to be open) shows up
     // without the user having to close and reopen it.
     if (!$("scriptOverlay").hidden) renderScriptList();
-    toast(`Đã gộp scene ${scenes.join(", ")} — còn lại scene ${merged.mergedScene}.`);
+    toast(
+      `Đã gộp scene ${scenes.join(", ")} — còn lại scene ${merged.mergedScene}.`,
+    );
     // Leave the merged narration selected in the inspector for one more hand pass — unless the
     // script modal is open, where focus stays on the list the user is working in.
     if ($("scriptOverlay").hidden) {
@@ -2659,7 +2708,9 @@ const renderLibrary = ({ dir, videos }) => {
   $("libGrid").innerHTML = videos.map(libraryCard).join("");
   $("libInfo").textContent = videos.length ? `${videos.length} video` : "";
   showLibraryEmpty(
-    videos.length ? "" : "Chưa có video nào trong thư mục này. Bấm Render MP4 để tạo video đầu tiên.",
+    videos.length
+      ? ""
+      : "Chưa có video nào trong thư mục này. Bấm Render MP4 để tạo video đầu tiên.",
   );
 };
 

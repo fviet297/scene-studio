@@ -17,8 +17,8 @@
 // each clip also carries status pips, and a lane under the clips shows which task is running on,
 // or waiting for, each scene (see "job lane" below).
 //
-// Uses the panel globals ($, state, view, currentScene, selectScene, setView, toast,
-// paintBrandLayer, selected, renderSelection, pips) from review-panel.js, which loads first, and redraws on its "studio:render" /
+// Uses the panel globals ($, state, view, currentScene, current, selectScene, setView, toast,
+// paintBrandLayer, selected, renderSelection, pips, playsMotion, syncTimelineHistory) from review-panel.js, which loads first, and redraws on its "studio:render" /
 // "studio:view" events.
 
 // Must match PLACEHOLDER_SCENE_SECONDS and SCENE_GAP_SECONDS in scripts/build-remotion.mjs.
@@ -121,7 +121,7 @@ function timelineClips() {
     const audioSeconds = scene.hasAudio
       ? (tlMediaSeconds.get(scene.audioUrl) ?? null)
       : null;
-    const videoSeconds = scene.hasMotionVideo
+    const videoSeconds = playsMotion(scene)
       ? (tlMediaSeconds.get(scene.motionVideoUrl) ?? 0)
       : 0;
     const content = Math.max(
@@ -140,7 +140,7 @@ function timelineClips() {
 const clipsTotal = (clips) => clips.reduce((sum, c) => sum + c.seconds, 0);
 
 const clipKind = (s) =>
-  s.hasMotionVideo ? "motion video" : s.hasImage ? "ảnh tĩnh" : "chưa có ảnh";
+  playsMotion(s) ? "motion video" : s.hasImage ? "ảnh tĩnh" : "chưa có ảnh";
 
 // ------------------------------------------------------------------ render
 
@@ -156,7 +156,8 @@ function clipHtml(clip, i) {
   // outrank the duration (it stays in the tooltip), so each dot raises the duration's threshold.
   const cast = s.characters || [];
   const showPips = width >= TL_CLIP_DURATION_MIN_PX;
-  const showDuration = width >= TL_CLIP_DURATION_MIN_PX + cast.length * TL_CLIP_DOT_PX;
+  const showDuration =
+    width >= TL_CLIP_DURATION_MIN_PX + cast.length * TL_CLIP_DOT_PX;
   const showCast = width >= TL_CLIP_ICON_MIN_PX;
   const showIcon =
     showCast && (!cast.length || width >= TL_CLIP_ICON_WITH_CAST_MIN_PX);
@@ -165,7 +166,7 @@ function clipHtml(clip, i) {
     : `~${clip.content}s`;
   const icon = !showIcon
     ? ""
-    : s.hasMotionVideo
+    : playsMotion(s)
       ? TL_ICON_FILM
       : s.hasImage
         ? TL_ICON_STILL
@@ -175,12 +176,14 @@ function clipHtml(clip, i) {
     : s.audioStale
       ? ", audio cũ (narration đã sửa)"
       : "";
+  const motionNote = s.motionStale ? ", motion cũ (ảnh đã đổi)" : "";
   const castNote = cast.length
     ? `, nhân vật: ${cast.map((id) => charById(id)?.name ?? id).join(", ")}`
     : "";
-  const castDots = showCast && cast.length
-    ? `<span class="tl-clip-chars">${cast.map(charDotHtml).join("")}</span>`
-    : "";
+  const castDots =
+    showCast && cast.length
+      ? `<span class="tl-clip-chars">${cast.map(charDotHtml).join("")}</span>`
+      : "";
   const classes = [
     "tl-clip",
     s.hasAudio ? "" : "no-audio",
@@ -192,7 +195,7 @@ function clipHtml(clip, i) {
   const picked = selected.has(s.scene);
   return `<div class="tl-cell${picked ? " selected" : ""}" data-scene="${s.scene}" style="width:${width}px">
     <button type="button" class="${classes}" data-index="${i}"
-        aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${castNote}"
+        aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${motionNote}${castNote}"
         title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${castNote}">
       ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
       <span class="tl-clip-label">
@@ -237,7 +240,7 @@ function fitZoom(total) {
 function renderTimeline() {
   for (const s of state.scenes) {
     if (s.hasAudio) measureMedia(s.audioUrl, "audio");
-    if (s.hasMotionVideo) measureMedia(s.motionVideoUrl, "video");
+    if (playsMotion(s)) measureMedia(s.motionVideoUrl, "video");
   }
   const clips = timelineClips();
   const total = clipsTotal(clips);
@@ -310,7 +313,8 @@ function jobCellHtml(clip) {
   const tasks = sceneJobList(clip.scene.scene).sort(
     (a, b) => Number(b.running) - Number(a.running),
   );
-  if (!tasks.length) return `<div class="tl-job-cell" style="width:${width}px"></div>`;
+  if (!tasks.length)
+    return `<div class="tl-job-cell" style="width:${width}px"></div>`;
   const fits = Math.max(1, Math.floor(width / TL_JOB_ICON_MIN_PX));
   const shown = tasks.slice(0, fits);
   const look = {
@@ -326,8 +330,12 @@ function renderJobLane(clips = timelineClips()) {
 }
 
 // Jobs start, advance and end without a state refetch, so the lane redraws on its own signal.
+// The undo/redo buttons lock while a job or direct edit holds the scene, so they follow too.
 document.addEventListener("studio:jobs", () => {
-  if (tlVisible()) renderJobLane();
+  if (!tlVisible()) return;
+  renderJobLane();
+  const s = current();
+  if (s) syncTimelineHistory(s);
 });
 
 function syncPlayhead(clips) {
@@ -364,9 +372,13 @@ function setMediaSrc(el, url) {
 
 function showSceneInfo(s) {
   $("tlScene").textContent = `Scene ${s.scene}`;
-  $("tlKind").textContent = s.hasAudio
-    ? clipKind(s)
-    : `${clipKind(s)} · chưa có audio`;
+  const notes = [
+    s.motionStale ? "motion cũ" : "",
+    s.hasAudio ? "" : "chưa có audio",
+  ].filter(Boolean);
+  $("tlKind").textContent = [clipKind(s), ...notes].join(" · ");
+  $("tlKind").classList.toggle("stale", Boolean(s.motionStale));
+  syncTimelineHistory(s);
   $("tlCaption").textContent = s.narration || "";
   for (const btn of $("tlClips").querySelectorAll(".tl-clip"))
     btn.setAttribute(
@@ -393,15 +405,16 @@ function loadClip(clips, index, offset) {
   const video = $("tlVideo");
   if (s.hasImage && still.getAttribute("src") !== s.imageUrl)
     still.src = s.imageUrl;
-  still.hidden = !s.hasImage || s.hasMotionVideo;
-  video.hidden = !s.hasMotionVideo;
+  const motion = playsMotion(s);
+  still.hidden = !s.hasImage || motion;
+  video.hidden = !motion;
   video.poster = s.hasImage ? s.imageUrl : "";
-  $("tlEmpty").hidden = s.hasImage || s.hasMotionVideo;
+  $("tlEmpty").hidden = s.hasImage || motion;
 
   setMediaSrc($("tlAudio"), s.hasAudio ? s.audioUrl : null);
-  setMediaSrc(video, s.hasMotionVideo ? s.motionVideoUrl : null);
+  setMediaSrc(video, motion ? s.motionVideoUrl : null);
   if (s.hasAudio) $("tlAudio").currentTime = offset;
-  if (s.hasMotionVideo) {
+  if (motion) {
     // A new src resets playbackRate to the default, so set both.
     video.defaultPlaybackRate = clip.rate;
     video.playbackRate = clip.rate;
@@ -415,7 +428,7 @@ const isAbort = (error) => error?.name === "AbortError";
 function startMedia(clip) {
   const s = clip.scene;
   tl.clockStart = performance.now() - tl.offset * 1000;
-  if (s.hasMotionVideo)
+  if (playsMotion(s))
     $("tlVideo")
       .play()
       .catch((error) => {

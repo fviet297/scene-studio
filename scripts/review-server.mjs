@@ -88,6 +88,7 @@ import { ConfigError, initModelConfig } from './lib/model-config.mjs';
 import { applyModelConfigAction, describeModelConfig, isModelConfigAction } from './lib/model-manager.mjs';
 import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { clearAudioNarration, isAudioStale, readAudioNarration, writeAudioNarration } from './lib/audio-narration.mjs';
+import { adoptMotionSource, clearMotionSource, imageFingerprint, isMotionStale, readMotionSource, writeMotionSource } from './lib/motion-source.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
@@ -199,16 +200,35 @@ const audioMeta = (n) => {
 };
 // The narration was edited (or merged) after this scene's audio was generated.
 const sceneAudioStale = (n, narration) => existsSync(join(P.audioDir, audioFile(n))) && isAudioStale(P.audioDir, n, narration);
-const mediaMeta = (kind, n) => (kind === 'image' ? imageManifestEntry(n) : kind === 'audio' ? audioMeta(n) : null);
+// A motion step carries the fingerprint of the image its clip was animated from (motion-source.mjs),
+// so undo/redo keeps the out-of-date check matching the clip that comes back.
+const motionMeta = (n) => {
+  const source = readMotionSource(P.sceneVideoDir, n);
+  return source === null ? null : { source };
+};
+// The scene's image was regenerated or replaced after its motion clip was made.
+const sceneMotionStale = (n) => isMotionStale(P.sceneVideoDir, n, imagePathFor(n));
+const mediaMeta = (kind, n) => (kind === 'image' ? imageManifestEntry(n) : kind === 'audio' ? audioMeta(n) : motionMeta(n));
 const trackMediaChange = async (kind, n, write) => {
   const file = mediaPath(kind, n);
   const dir = mediaHistoryDir(kind, n);
+  if (kind === 'image') adoptMotionSource(P.sceneVideoDir, n, imagePathFor(n));
+  // A clip written now is animated from the image as it is now.
+  const source = kind === 'motion' ? imageFingerprint(imagePathFor(n)) : null;
   const pending = beginChange(dir, file, mediaMeta(kind, n));
   try {
     return await write();
   } finally {
-    settleChange(dir, file, pending);
+    if (settleChange(dir, file, pending)) afterMediaChange(kind, n, source);
   }
+};
+const afterMediaChange = (kind, n, source) => {
+  if (kind === 'motion') {
+    if (existsSync(motionPathFor(n))) writeMotionSource(P.sceneVideoDir, n, source);
+    else clearMotionSource(P.sceneVideoDir, n);
+  }
+  // A new image retires the scene's clip from the render (parse-plan.mjs drops its motionVideo flag).
+  if (kind === 'image' && existsSync(motionPathFor(n))) rebuildBundles();
 };
 const stepMedia = (step, kind, n) => {
   const restored = step(mediaHistoryDir(kind, n), mediaPath(kind, n), mediaMeta(kind, n));
@@ -216,6 +236,7 @@ const stepMedia = (step, kind, n) => {
     if (restored.meta) writeAudioNarration(P.audioDir, n, restored.meta.narration);
     else clearAudioNarration(P.audioDir, n);
   }
+  if (restored && kind === 'motion') writeMotionSource(P.sceneVideoDir, n, restored.meta?.source ?? null);
   if (restored?.meta && kind === 'image') upsertManifest(restored.meta); // restore authenticity + characters
   return Boolean(restored);
 };
@@ -528,6 +549,7 @@ const buildState = () => {
         audioStale: sceneAudioStale(s.scene, s.narration ?? ''),
         audioUrl: hasAudio ? `/audio/${audioFile(s.scene)}?v=${statSync(apath).mtimeMs}` : null,
         hasMotionVideo,
+        motionStale: hasMotionVideo && sceneMotionStale(s.scene),
         motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
         history: mediaHistory(s.scene),
         promptFullChars,
@@ -1868,8 +1890,9 @@ const server = createServer(async (req, res) => {
         sendJson(res, 400, { error: `nothing to ${action} for scene ${scene} ${kind}` });
         return;
       }
-      // Durations, captions and the motion flag live in the Remotion bundle.
-      if (kind !== 'image') await rebuildBundles();
+      // Durations, captions and the motion flag live in the Remotion bundle; an image step can flip
+      // the motion flag too when the scene has a clip.
+      if (kind !== 'image' || existsSync(motionPathFor(scene))) await rebuildBundles();
       sendJson(res, 200, buildState());
       return;
     }
