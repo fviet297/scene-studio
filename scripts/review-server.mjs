@@ -40,6 +40,9 @@
 //                               those scenes via the LLM (motion-writer.mjs), streamed over SSE
 //   POST /api/social-generate → { note? } → title, description and hashtags for YouTube, TikTok and
 //                               Facebook from the active project's narration (social-writer.mjs)
+//   POST /api/thumbnail-ideas → headline options, cast and an English background prompt (thumbnail.mjs)
+//   GET  /api/thumbnail-backgrounds → the active project's AI thumbnail backgrounds, newest first
+//   POST /api/thumbnail-generate → { model, prompt, chars, side } → one 16:9 AI background, SSE
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
@@ -98,6 +101,7 @@ import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
 import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
+import { generateThumbnailBackground, MAX_THUMB_PROMPT, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
 
 loadEnv();
@@ -127,6 +131,7 @@ const PANEL_ASSETS = {
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
+  '/thumbnail.js': ['review-thumbnail.js', 'text/javascript; charset=utf-8'],
   '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
@@ -946,6 +951,42 @@ const writeNewProject = ({ slug, title, aspect, template, voice, plan }) => {
   return target;
 };
 
+// ---- YouTube thumbnail (review-thumbnail.js) ---------------------------------------------
+const THUMB_BACKGROUND_RE = /^ai-\d+\.jpg$/;
+
+const thumbnailBackgrounds = () => (existsSync(P.thumbnailDir) ? readdirSync(P.thumbnailDir) : [])
+  .filter((file) => THUMB_BACKGROUND_RE.test(file))
+  .sort()
+  .reverse()
+  .map((file) => ({ file, url: `/public/${P.staticPrefix}/thumbnail/${file}` }));
+
+// The cast ids the panel sent → { name, refPath } for each that has a reference image.
+const thumbnailCast = (ids) => {
+  const rows = readPlan().characterRows;
+  return (Array.isArray(ids) ? ids : [])
+    .map((id) => rows.find((c) => c.id === id))
+    .filter(Boolean)
+    .map((c) => ({ name: c.name, refPath: join(P.charDir, basename(c.image)) }))
+    .filter((c) => existsSync(c.refPath));
+};
+
+const generateThumbnail = async (res, { model, prompt, chars, side }) => {
+  sseHead(res);
+  const signal = cancelSignal(res);
+  const file = `ai-${Date.now()}.jpg`;
+  try {
+    mkdirSync(P.thumbnailDir, { recursive: true });
+    await generateThumbnailBackground({
+      prompt, cast: thumbnailCast(chars), side, model, outPath: join(P.thumbnailDir, file), signal,
+      onLog: (line) => sseSend(res, 'log', line),
+    });
+    sseSend(res, 'done', { file, url: `/public/${P.staticPrefix}/thumbnail/${file}` });
+  } catch (error) {
+    if (!signal.aborted) sseSend(res, 'error', error.message);
+  }
+  res.end();
+};
+
 // ---- AI script writer (POST /api/script-generate) ----------------------------------------
 const MAX_SCRIPT_REQUEST = 4000;
 
@@ -1712,6 +1753,33 @@ const server = createServer(async (req, res) => {
         const posts = await writeSocialPosts({ title: plan.title, scenes: plan.scenes, note: text });
         sendJson(res, 200, { slug: plan.slug, posts });
       });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/thumbnail-ideas') {
+      const plan = readPlan();
+      await trackJob(res, async () => {
+        const ideas = await writeThumbnailIdeas({
+          title: plan.title, scenes: plan.scenes, cast: plan.characterRows.map(({ id, name }) => ({ id, name })),
+        });
+        sendJson(res, 200, ideas);
+      });
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/thumbnail-backgrounds') {
+      sendJson(res, 200, { items: thumbnailBackgrounds() });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/thumbnail-generate') {
+      const { model, prompt, chars, side } = await readBody(req);
+      if (typeof model !== 'string' || !model.trim()) { sendJson(res, 400, { error: 'Chọn model ảnh.' }); return; }
+      const text = typeof prompt === 'string' ? prompt.trim() : '';
+      if (!text) { sendJson(res, 400, { error: 'Nhập prompt nền — hoặc bấm Gợi ý bằng AI.' }); return; }
+      if (text.length > MAX_THUMB_PROMPT) { sendJson(res, 400, { error: `Prompt tối đa ${MAX_THUMB_PROMPT} ký tự.` }); return; }
+      if (!THUMB_SIDES.includes(side)) { sendJson(res, 400, { error: `side must be ${THUMB_SIDES.join(' | ')}` }); return; }
+      trackJob(res, () => generateThumbnail(res, { model: model.trim(), prompt: text, chars, side }));
       return;
     }
 

@@ -9,9 +9,8 @@
 // the draft for comparison. An uploaded source can also become the reference as it is, undrawn
 // ("Dùng thẳng ảnh này làm tham chiếu", /api/character-apply with from: 'source').
 //
-// Uses the panel globals ($, api, toast, readSse, state, render, charById, modelOptionsHtml,
-// effectiveImageModel, setModelSelect, openLightbox, CANCEL_PROVIDER_NOTE) from review-panel.js,
-// which loads first.
+// Uses the panel globals ($, api, toast, readSse, state, render, charById, fillImageModelSelect,
+// openLightbox, CANCEL_PROVIDER_NOTE) from review-panel.js, which loads first.
 
 const CI_MODE_COPY = {
   text: {
@@ -108,16 +107,6 @@ function setCiWorking(text) {
   if (text !== null) $("ciWorkingText").textContent = text;
 }
 
-// The image model the scenes use, or else the first one whose provider key is set.
-function fillCiModels() {
-  $("ciModel").innerHTML = modelOptionsHtml(state.imageModels || []);
-  setModelSelect("ciModel", effectiveImageModel());
-  if ($("ciModel").selectedOptions[0]?.disabled) {
-    const usable = [...$("ciModel").options].find((o) => !o.disabled);
-    if (usable) $("ciModel").value = usable.value;
-  }
-}
-
 async function openCharImageDialog(id) {
   const c = charById(id);
   if (!c) return;
@@ -134,7 +123,7 @@ async function openCharImageDialog(id) {
   showImage($("ciCurrentImg"), $("ciCurrentEmpty"), c.refUrl);
   showDraft(null);
   setCiWorking(null);
-  fillCiModels();
+  fillImageModelSelect("ciModel");
   setCiMode("text");
   setCiNote(
     "Ảnh tham chiếu chỉ đổi khi bấm Dùng làm ảnh tham chiếu; ảnh cũ được giữ lại thành file .bak.",

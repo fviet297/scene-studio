@@ -6,6 +6,10 @@
 <title>Scene Studio</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%2316181b'/%3E%3Crect x='4.5' y='2.5' width='7' height='11' rx='1.5' fill='none' stroke='%2348b7a6' stroke-width='1.6'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="/panel.css" />
+<!-- Faces for the YouTube thumbnail canvas (review-thumbnail.js), both with the full Vietnamese set. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800&family=Noto+Serif+Display:wght@900&display=swap" />
 </head>
 <body class="view-timeline">
 
@@ -66,6 +70,7 @@
 
     <span class="grow"></span>
 
+    <button class="btn" type="button" id="btnThumb" title="Thiết kế thumbnail YouTube 1280×720 từ ảnh scene hoặc nền AI">Thumbnail</button>
     <button class="btn" type="button" id="btnSocial" title="Viết tiêu đề, mô tả và hashtag để đăng YouTube, TikTok, Facebook">Bài đăng</button>
     <button class="btn" type="button" id="btnLibrary" title="Mọi video đã render của các dự án">Thư viện video</button>
     <a class="btn" id="linkMp4" href="/video" target="_blank" rel="noopener" hidden>Mở MP4</a>
@@ -930,6 +935,89 @@
   </div>
 </div>
 
+<!-- YouTube thumbnail: a scene image or an AI background, with a headline drawn on a 1280x720
+     canvas and downloaded as PNG; review-thumbnail.js -->
+<div class="overlay" id="thumbOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="thumbTitle">
+  <div class="dialog thumb-dialog">
+    <div class="dialog-head">
+      <h2 id="thumbTitle">Thumbnail YouTube</h2>
+      <span class="note">1280 × 720 · PNG</span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="thumbClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="thumb-body">
+      <figure class="thumb-preview">
+        <canvas id="thumbCanvas" width="1280" height="720" aria-label="Xem trước thumbnail"></canvas>
+        <figcaption class="note">Kéo ảnh để căn khung. Ô góc dưới phải là chỗ YouTube hiện thời lượng.</figcaption>
+      </figure>
+      <div class="thumb-controls">
+        <fieldset class="brand-group">
+          <legend>Chữ</legend>
+          <div class="field">
+            <label for="thumbText">Nội dung <span class="note">dòng đầu là dòng phụ nhỏ, các dòng sau là tiêu đề — hoặc tách bằng “ - ”</span></label>
+            <textarea id="thumbText" class="prose" rows="3" spellcheck="false" placeholder="vd. Nguyễn Ánh&#10;Tuổi 16 trở lại bàn cờ"></textarea>
+          </div>
+          <div class="thumb-ideas" id="thumbIdeas" aria-label="Gợi ý chữ"></div>
+          <button class="btn sm" type="button" id="thumbSuggest" title="LLM đọc narration rồi gợi ý chữ, nhân vật và prompt nền">Gợi ý bằng AI</button>
+          <div class="field-row">
+            <div class="field">
+              <span class="field-label">Vị trí chữ</span>
+              <div class="segmented" id="thumbSide" role="group" aria-label="Vị trí chữ">
+                <button type="button" data-side="left" aria-pressed="true">Trái</button>
+                <button type="button" data-side="right" aria-pressed="false">Phải</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="thumbColor">Dòng phụ</label>
+              <input class="thumb-color" id="thumbColor" type="color" value="#f6eedc" />
+            </div>
+            <div class="field">
+              <label for="thumbAccent">Tiêu đề</label>
+              <input class="thumb-color" id="thumbAccent" type="color" value="#e3b04b" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="thumbSize">Cỡ chữ <output class="num" id="thumbSizeVal" for="thumbSize"></output></label>
+            <input type="range" id="thumbSize" min="60" max="200" step="2" value="128" />
+          </div>
+          <label class="brand-check"><input type="checkbox" id="thumbLogo" checked /> Logo kênh</label>
+        </fieldset>
+        <fieldset class="brand-group">
+          <legend>Nền</legend>
+          <ul class="thumb-bgs" id="thumbBgs" aria-label="Ảnh nền"></ul>
+          <div class="field">
+            <label for="thumbZoom">Phóng to <output class="num" id="thumbZoomVal" for="thumbZoom"></output></label>
+            <input type="range" id="thumbZoom" min="100" max="250" step="1" value="100" />
+          </div>
+        </fieldset>
+        <fieldset class="brand-group">
+          <legend>Sinh nền AI</legend>
+          <div class="field">
+            <label for="thumbPrompt">Prompt <span class="note">tiếng Anh · không cần tả mặt nhân vật</span></label>
+            <textarea id="thumbPrompt" class="prose" rows="4" maxlength="1500" spellcheck="false" placeholder="Bấm Gợi ý bằng AI, hoặc tự viết: khoảnh khắc, cảm xúc, bối cảnh…"></textarea>
+          </div>
+          <span class="note" id="thumbCast"></span>
+          <div class="field">
+            <label for="thumbModel">Model ảnh</label>
+            <select class="mini wide" id="thumbModel"></select>
+          </div>
+          <div class="thumb-working" id="thumbWorking" hidden>
+            <span class="spinner sm" aria-hidden="true"></span>
+            <span id="thumbWorkingText" role="status"></span>
+          </div>
+          <button class="btn" type="button" id="thumbGenerate">Sinh nền</button>
+        </fieldset>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" id="thumbNote" role="status"></span>
+      <button class="btn primary" type="button" id="thumbDownload">Tải PNG</button>
+    </div>
+  </div>
+</div>
+
 <!-- Upload copy (title, description, hashtags) for YouTube / TikTok / Facebook, written from the
      project's narration by the LLM; review-social.js -->
 <div class="overlay" id="socialOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="socialTitle">
@@ -1022,5 +1110,6 @@
 <script src="/char-image.js"></script>
 <script src="/models.js"></script>
 <script src="/social.js"></script>
+<script src="/thumbnail.js"></script>
 </body>
 </html>

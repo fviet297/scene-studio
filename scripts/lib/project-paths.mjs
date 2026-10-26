@@ -112,6 +112,8 @@ export const projectPaths = (slug) => {
     charOriginalDir: join(publicRoot, 'characters', '_original'),
     sceneVideoDir: join(publicRoot, 'scene-videos'),
     reviewDir: join(publicRoot, 'review'),
+    // AI thumbnail backgrounds (review-thumbnail.js); the finished thumbnail is a browser download.
+    thumbnailDir: join(publicRoot, 'thumbnail'),
     manifest: join(publicRoot, 'images', 'asset-manifest.json'),
     // Undo/redo snapshots of scene media. Outside public/ so they never ship in the Remotion bundle.
     historyDir: join('tmp', 'media-history', slug),

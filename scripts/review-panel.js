@@ -579,6 +579,17 @@ const setModelSelect = (id, value) => {
     select.value = value;
 };
 
+// An image-model select of a dialog (character image, thumbnail): the model the scenes use, or else
+// the first one whose provider key is set.
+function fillImageModelSelect(id) {
+  $(id).innerHTML = modelOptionsHtml(state.imageModels || []);
+  setModelSelect(id, effectiveImageModel());
+  if ($(id).selectedOptions[0]?.disabled) {
+    const usable = [...$(id).options].find((o) => !o.disabled);
+    if (usable) $(id).value = usable.value;
+  }
+}
+
 // Restore the saved model into both the per-scene and batch selects (+ custom fields). Runs once,
 // after render() has populated the option lists.
 let modelSelectionRestored = false;
@@ -2810,6 +2821,10 @@ window.addEventListener("keydown", (e) => {
     }
     if (!$("socialOverlay").hidden) {
       closeSocialDialog();
+      return;
+    }
+    if (!$("thumbOverlay").hidden) {
+      closeThumbDialog();
       return;
     }
     if (!$("acOverlay").hidden) {
