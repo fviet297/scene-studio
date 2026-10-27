@@ -29,6 +29,15 @@ export const llmConfig = () => {
   return config;
 };
 
+// "model @ host" for log lines, so a run shows which provider it hit. Never throws on missing config.
+export const describeLlm = () => {
+  const model = process.env.LLM_MODEL?.trim() || '?';
+  const baseUrl = process.env.LLM_BASE_URL?.trim();
+  let host = '?';
+  try { host = new URL(baseUrl).host; } catch { /* unset or malformed — chatJson reports it */ }
+  return `${model} @ ${host}`;
+};
+
 // Pull the JSON object out of a reply: bare JSON, a ```json fence, or JSON inside prose.
 export const parseJsonReply = (text) => {
   const fenced = /```(?:json)?\s*([\s\S]*?)```/i.exec(text)?.[1];

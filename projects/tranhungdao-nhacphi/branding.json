@@ -1,0 +1,16 @@
+{
+  "name": "FVIET",
+  "logo": {
+    "enabled": true,
+    "position": "bottom-left",
+    "anchor": "crop",
+    "opacity": 1,
+    "margin": 35,
+    "size": 64,
+    "textSize": 18
+  },
+  "watermark": {
+    "enabled": true,
+    "opacity": 0.08
+  }
+}

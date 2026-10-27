@@ -390,7 +390,7 @@
   <div class="dialog">
     <div class="dialog-head">
       <h2 id="tplTitle">Template prompt</h2>
-      <span class="note">Ghép với prompt của mọi scene khi sinh ảnh. Lưu vào style version đang chọn (đổi ở thanh trên hoặc nút Style).</span>
+      <span class="note">Ghép với prompt của mọi scene khi sinh ảnh; ô cuối là prompt hệ thống cho lượt viết motion. Lưu vào style version đang chọn (đổi ở thanh trên hoặc nút Style).</span>
       <span class="grow"></span>
       <button class="icon-btn" type="button" id="tplClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -402,9 +402,10 @@
       <div class="field"><label for="t_multiCharPrompt">Prompt nhiều nhân vật, từ 2 <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
       <div class="field"><label for="t_text2img">Text-to-image, không nhân vật</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
       <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
+      <div class="field"><label for="t_motionSystem">Prompt hệ thống khi viết motion — camera / action / env</label><textarea id="t_motionSystem" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="motionSystem" data-out="tr_motionSystem" data-label="Dịch">Dịch</button><div class="translation" id="tr_motionSystem" hidden></div></div>
     </div>
     <div class="dialog-foot">
-      <span class="note">Giữ <code>[SCENE-SPECIFIC PROMPT]</code> trong các template nhân vật, khuôn mặt, nhiều nhân vật và text, nếu không prompt của scene sẽ không được chèn. <code>[FRAME]</code> = tỉ lệ khung + vùng an toàn cho phụ đề; <code>[GUARD]</code> = negative dùng chung. Luật giải phẫu và cấm chữ được thêm tự động.</span>
+      <span class="note">Giữ <code>[SCENE-SPECIFIC PROMPT]</code> trong các template nhân vật, khuôn mặt, nhiều nhân vật và text, nếu không prompt của scene sẽ không được chèn. <code>[FRAME]</code> = tỉ lệ khung + vùng an toàn cho phụ đề; <code>[GUARD]</code> = negative dùng chung. Luật giải phẫu và cấm chữ được thêm tự động. Prompt hệ thống motion chỉ gửi cho LLM viết camera/action/env, không gửi cho model video.</span>
       <button class="btn" type="button" id="tplReload">Tải lại</button>
       <button class="btn primary" type="button" id="tplSave">Lưu template</button>
     </div>

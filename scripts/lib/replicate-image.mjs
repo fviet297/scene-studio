@@ -23,6 +23,7 @@ import { customProviderOf, getConfig } from './model-config.mjs';
 import { providerOf } from './providers.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
+import { MOTION_SYSTEM } from './motion-template.mjs';
 import { readPlanHeader, writePlanHeader } from './plan-writer.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
@@ -138,6 +139,10 @@ NEGATIVE: [GUARD], character portrait, giant foreground figure.`;
 // scene's own prompt with these. Placeholders, filled in every template: [STYLE] = style DNA,
 // [GUARD] = the style's shared negative list, [FRAME] = the project aspect's frame and safe-zone
 // line (aspect.mjs), [SCENE-SPECIFIC PROMPT] = that scene's prompt from the plan.
+// `motionSystem` is not an image template: it is the system prompt the motion writer
+// (motion-writer.mjs) sends to the LLM that writes camera/action/env. It lives in this store so the
+// panel edits it beside the image templates and it follows the project's style version; it never
+// reaches a video model.
 const TEMPLATE_DEFAULTS = {
   styleDna: STYLE_DNA,
   guard: GUARD,
@@ -145,6 +150,7 @@ const TEMPLATE_DEFAULTS = {
   faceLockPrompt: FACE_LOCK_PROMPT,
   multiCharPrompt: MULTI_CHAR_PROMPT,
   text2img: TEXT2IMG_TEMPLATE,
+  motionSystem: MOTION_SYSTEM,
 };
 export const TEMPLATE_KEYS = Object.keys(TEMPLATE_DEFAULTS);
 // User edits are persisted here (project-root relative) and override the defaults above. The file

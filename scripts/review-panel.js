@@ -53,6 +53,7 @@ const PROMPT_FIELDS = [
   "multiCharPrompt",
   "text2img",
   "guard",
+  "motionSystem",
 ];
 const TEMPLATE_FIELDS = [...STYLE_FIELDS, ...PROMPT_FIELDS];
 const STATE_LABEL = {
@@ -984,14 +985,23 @@ function renderStage() {
     : "Tải video thay thế";
   $("btnUploadMotionVideo").disabled = mediaLocked;
   renderMotionParts(s);
-  $("motionVideoWrap").hidden = !s.hasMotionVideo;
+  // A clip made from an image that has since been replaced is never shown here either: the stage
+  // falls back to the current still, the same as the timeline and the render.
+  const motionPlays = playsMotion(s);
+  $("motionVideoWrap").hidden = !motionPlays;
   $("motionStale").hidden = !s.motionStale;
-  if (s.hasMotionVideo) {
-    const v = $("motionVideo");
+  const motionVideo = $("motionVideo");
+  if (motionPlays) {
     // Poster = the scene still, so the player takes the clip's 9:16 aspect and fills the pane
     // like the image on the left, instead of collapsing to the browser's default 300x150 box.
-    if (s.hasImage) v.poster = s.imageUrl;
-    if (v.getAttribute("src") !== s.motionVideoUrl) v.src = s.motionVideoUrl;
+    if (s.hasImage) motionVideo.poster = s.imageUrl;
+    if (motionVideo.getAttribute("src") !== s.motionVideoUrl)
+      motionVideo.src = s.motionVideoUrl;
+  } else if (motionVideo.hasAttribute("src")) {
+    // Detach the stale clip so it stops playing behind the pane it no longer owns.
+    motionVideo.pause();
+    motionVideo.removeAttribute("src");
+    motionVideo.load();
   }
   $("btnRemoveMotionVideo").hidden = !s.hasMotionVideo;
   $("btnRemoveMotionVideo").disabled = mediaLocked;

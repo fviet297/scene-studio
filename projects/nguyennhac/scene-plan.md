@@ -11,25 +11,14 @@ char-a = public/projects/nguyennhac/characters/char-a.jpg
 title:
 cue: curious
 host:
-narration: Giữa vùng núi Tây Sơn, Nguyễn Nhạc đã tìm thấy một thanh gươm.
-prompt: Wide Tây Sơn mountain forest in 18th-century Đàng Trong at grey dawn, thick fog pressing between the trees; an old corroded sword lies half-buried among wet stones and tangled roots in the lower third of the frame, tall dark trunks fading into the mist, no path or figure visible, a single shaft of pale light breaking weakly through the canopy above the blade. No 19th-century Nguyễn-dynasty or European elements.
-prompt_vi: Cảnh rộng rừng núi Tây Sơn thế kỷ 18 lúc rạng sáng xám, sương mù dày đặc ép giữa hàng cây; một thanh gươm cũ rỉ sét nửa chìm giữa đá ướt và rễ cây chằng chịt ở phần dưới khung hình, những thân cây tối cao mờ dần trong sương, không có lối đi hay bóng người, một luồng sáng nhạt yếu ớt xuyên qua tán lá phía trên lưỡi gươm. Không yếu tố thời Nguyễn thế kỷ 19 hay châu Âu.
-motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact sword, stones, roots and forest, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Fog drifts slowly between the trunks, the faint light beam flickers faintly, wet leaves stir in a light draft. Motion intensity low, environmental motion low to moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
-motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác thanh gươm, đá, rễ cây và khu rừng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Sương trôi chậm giữa các thân cây, luồng sáng yếu ớt khẽ chập chờn, lá ướt lay động trong làn gió nhẹ. Cường độ chuyển động thấp, môi trường chuyển động thấp đến vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
-
-## scene 2
-
-title:
-cue: curious
-host:
-narration: Không ai biết thanh gươm ấy từ đâu đến. Nhưng Nguyễn Nhạc biết… ông có thể biến nó thành thứ gì.
+narration: Giữa vùng núi Tây Sơn, Nguyễn Nhạc đã tìm thấy một thanh gươm. Không ai biết thanh gươm ấy từ đâu đến. Nhưng Nguyễn Nhạc biết… ông có thể biến nó thành thứ gì.
 char: char-a
 prompt: Wide misty Tây Sơn mountain forest in 18th-century Đàng Trong at grey dawn; the trader crouches small and off-center at about one-fifth frame height, bending low to lift the old corroded sword from among wet stones and roots, his pack pony waits a few steps behind at the treeline, fog pooling low across the forest floor, weak light breaking through the canopy above. No 19th-century Nguyễn-dynasty or European elements.
 prompt_vi: Cảnh rộng rừng núi Tây Sơn mờ sương thế kỷ 18 lúc rạng sáng xám; người buôn cúi người nhỏ và lệch tâm cao khoảng một phần năm khung hình, khom xuống nhặt thanh gươm cũ rỉ sét giữa đá ướt và rễ cây, con ngựa thồ đứng cách vài bước ở bìa rừng, sương đọng thấp trên nền rừng, ánh sáng yếu xuyên qua tán lá phía trên. Không yếu tố thời Nguyễn thế kỷ 19 hay châu Âu.
 motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact trader, sword, pony and forest floor, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. His hand closes slowly around the hilt as he lifts it, fog drifts low across the ground, the pony shifts its weight at the treeline. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion low to moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác người buôn, thanh gươm, ngựa thồ và nền rừng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Bàn tay từ từ nắm chặt chuôi gươm khi nhấc lên, sương trôi thấp trên nền đất, con ngựa thồ xê dịch trọng tâm ở bìa rừng. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động thấp đến vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 3
+## scene 2
 
 title:
 cue: curious
@@ -42,7 +31,7 @@ prompt_vi: Cận cảnh gương mặt và hai tay ông trong luồng sáng xuyê
 motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact face, hands, sword and forest light, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Dust motes drift slowly through the light beam, the blade catches faint glints as his hands hold it steady, background foliage sways softly out of focus. Keep the main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion low and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác gương mặt, hai tay, thanh gươm và ánh sáng rừng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Hạt bụi trôi chậm trong luồng sáng, lưỡi gươm ánh lên khe khẽ khi hai tay giữ yên, tán lá phía sau khẽ lay mờ nhòe. Giữ nhân vật chính ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động thấp và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 7
+## scene 6
 
 title:
 cue: tense
@@ -54,7 +43,7 @@ prompt_vi: Cảnh rộng khoảng rừng có lửa trại trên núi Tây Sơn t
 motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact trader, sword, silent villagers and fire, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Firelight flickers unevenly across the still faces, smoke curls slowly upward, the blade catches faint shifting light. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion low to moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác người buôn, thanh gươm, dân làng im lặng và lửa trại, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Ánh lửa chập chờn không đều trên gương mặt bất động, khói cuộn chậm lên trên, lưỡi gươm ánh lên khe khẽ. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động thấp đến vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 10
+## scene 9
 
 title:
 cue: dramatic
@@ -66,7 +55,7 @@ prompt_vi: Cảnh rộng sân làng trên núi Tây Sơn thế kỷ 18 lúc chi�
 motion: Animate this existing historical illustration into a lively cinematic image-to-video shot. Preserve exact trader, sword, gathered crowd and village square, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Dust drifts through the slanted light, the crowd presses in and shifts with visible wonder, the blade catches faint glints as it is held out. Keep the small main figure stable, expression and pose unchanged. Motion intensity low to medium, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh sống động. Giữ nguyên chính xác người buôn, thanh gươm, đám đông tụ họp và sân làng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Bụi trôi trong ánh nắng xiên, đám đông tiến sát và xê dịch với vẻ kinh ngạc rõ rệt, lưỡi gươm ánh lên khe khẽ khi giơ ra. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp đến vừa, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 13
+## scene 12
 
 title:
 cue: tense
@@ -77,7 +66,7 @@ prompt_vi: Cảnh rộng gian chứa đồ tối trong nhà sàn vùng cao Tây 
 motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact sword, floor, moonlight beam and room, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Keep the camera locked. Dust motes drift slowly through the narrow moonlight beam, the blade holds a faint still glint, the deep shadow around it stays otherwise motionless. Motion intensity low, environmental motion low and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác thanh gươm, sàn nhà, luồng trăng và căn phòng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Giữ máy quay cố định. Hạt bụi trôi chậm trong luồng trăng hẹp, lưỡi gươm giữ một ánh sáng mờ tĩnh lặng, bóng tối sâu quanh nó gần như không lay động. Cường độ chuyển động thấp, môi trường chuyển động thấp và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 17
+## scene 16
 
 title:
 cue: neutral
@@ -89,7 +78,7 @@ prompt_vi: Cảnh rộng toàn cảnh vùng cao Tây Sơn Thượng Đạo rừn
 motion: Animate this existing historical illustration into a quiet cinematic image-to-video shot. Preserve exact trader, ridge, palisades, longhouses and jungle valley, lighting and composition; do not redesign, morph, add or remove anything; no period or style change; no text or watermark. Allow a very slow push-in over the valley. Workers keep raising the palisade posts below, mist drifts and pools slowly in the valleys, distant ridgelines soften in the haze. Keep the small main figure stable, expression and pose unchanged. Motion intensity low, character motion very subtle, environmental motion moderate and natural across the whole frame. No facial deformation, body morphing, warped limbs, extra fingers, duplicated soldiers, melting objects, sudden movements or visual artifacts.
 motion_vi: Làm chuyển động minh họa lịch sử có sẵn này thành một cảnh image-to-video điện ảnh tĩnh lặng. Giữ nguyên chính xác người buôn, sườn núi, lũy tre, nhà sàn và thung lũng rừng, ánh sáng và bố cục; không thiết kế lại, không biến dạng, không thêm bớt bất cứ gì; không đổi thời kỳ hay phong cách; không chữ, không watermark. Cho phép đẩy máy vào rất chậm qua thung lũng. Thợ vẫn tiếp tục dựng cọc lũy bên dưới, sương trôi và đọng chậm trong thung lũng, dãy núi xa mờ dần trong sương mù. Giữ nhân vật chính nhỏ ổn định, biểu cảm và tư thế không đổi. Cường độ chuyển động thấp, nhân vật chuyển động rất tinh tế, môi trường chuyển động vừa và tự nhiên trên toàn khung hình. Không méo mặt, không biến dạng cơ thể, không tay chân vặn vẹo, không thừa ngón, không nhân bản lính, không vật thể chảy nhão, không chuyển động giật cục hay lỗi hình ảnh.
 
-## scene 19
+## scene 18
 
 title:
 cue: dramatic

@@ -1,11 +1,15 @@
 // Image-to-video motion direction, written independently of the image prompt. Per scene the LLM
 // (scripts/lib/llm-client.mjs) writes three short English fields — camera, action, env — plus
 // close Vietnamese translations, from the scene's English visual beat, mood and on-screen cast.
+// The system prompt is the project's `motionSystem` template (defaults in motion-template.mjs, edited
+// in the panel's Template prompt dialog), so the rules a clip is written against are visible there.
 // The fixed wrapper every video model needs (opening line, identity/style lock, intensity,
 // artifact ban) is never stored per scene: composeMotionPrompt adds it when a clip is generated.
 // Used by the AI script writer (phase 3 of a new project) and the review server's motion writer.
 
-import { chatJson } from './llm-client.mjs';
+import { chatJson, describeLlm } from './llm-client.mjs';
+import { getTemplates } from './replicate-image.mjs';
+import { MOTION_SYSTEM } from './motion-template.mjs';
 
 export const MOTION_FIELDS = ['camera', 'action', 'env'];
 // Scenes per LLM call and calls in flight — same sizing as the script writer's prompt phase.
@@ -58,25 +62,6 @@ export const composeMotionPrompt = ({ camera, action, env }, { cue = '', charCou
 
 export const hasMotionParts = (parts) => MOTION_FIELDS.some((f) => (parts?.[f] ?? '').trim());
 
-const MOTION_SYSTEM = `You direct how the still image of each scene of a narrated historical video moves when an image-to-video model animates it. The still already exists; you write only the motion. For every scene write three short English fields, each one line:
-
-camera — ONE motivated camera move with its path: where it starts, where it ends, and its pace. Pick from push-in, pull-back and rise, crane up, tracking alongside, sideways truck, slow orbit, handheld follow. Example: "Slow push-in from the elephant's tusks up to the howdah." Use a locked-off camera only for an intimate still beat (hiding, holding breath), and then say so.
-
-action — what each on-screen main character visibly does: one or two clear actions each, in order, with strong verbs, real amplitude and the body part named ("turns his head toward the river bend, then raises his right arm and points ahead"). Refer to them as "the character" when one is on screen, "the character on the left" / "the character on the right" when two are — never by name. Add the collective motion of extras only when the beat has them. The action plays out the beat's own event (the landing surges ashore, the fire swings back onto the fleet, the decoy is surrounded) — never idle filler such as looking around, nodding or exchanging glances when the beat has a real event. Never ask anyone to stay still or keep a pose.
-
-env — two or three strong environmental motions from the beat's own setting (water, mist, dust, wind in cloth and banners, light, smoke from hearths, crowds), fewer things with bigger moves, chained with "then" when the order matters.
-
-RULES
-- Move only what the beat puts in the frame: no new people, animals, weapons, objects or events.
-- Mood sets the energy: tense or dramatic → fast, strong moves; neutral, hopeful or curious → steady; somber → slow and gentle but still visible.
-- The clip lasts about five to eight seconds: at most two beats of action per field.
-- No art-style, identity, quality or negative phrases (no "keep the face", "no text", "high quality") — those are added automatically. No blood, gore or injury.
-- camera_vi, action_vi, env_vi: close, natural Vietnamese translations of the three fields.
-
-OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "...", "camera_vi": "...", "action_vi": "...", "env_vi": "..."}]}
-One entry per requested scene, in the order given.`;
-
 const oneLine = (value) => (typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '');
 
 const castLine = (names) => {
@@ -103,7 +88,8 @@ Write the JSON object now.`;
 // One LLM call for up to MOTION_BATCH_SIZE scenes → [{ scene, camera, action, env, camera_vi,
 // action_vi, env_vi }], only for the requested scenes the reply covered with all three fields.
 export const writeMotions = async ({ context = {}, batch, signal, onLog }) => {
-  const reply = await chatJson({ system: MOTION_SYSTEM, user: motionRequest(context, batch), signal, onLog, label: 'Viết motion' });
+  const system = getTemplates().motionSystem || MOTION_SYSTEM;
+  const reply = await chatJson({ system, user: motionRequest(context, batch), signal, onLog, label: 'Viết motion' });
   const wanted = new Set(batch.map((s) => s.scene));
   return (Array.isArray(reply.scenes) ? reply.scenes : [])
     .map((r) => ({
@@ -125,7 +111,7 @@ export const writeMotionsBatched = async ({ context, scenes, signal, onLog = () 
     while (queue.length) {
       const batch = queue.shift();
       const label = batch.length > 1 ? `scene ${batch[0].scene}–${batch.at(-1).scene}` : `scene ${batch[0].scene}`;
-      onLog(`▶ Viết motion ${label}…`);
+      onLog(`▶ Viết motion ${label} (${describeLlm()})…`);
       try {
         const written = await writeMotions({ context, batch, signal, onLog });
         for (const row of written) rows.set(row.scene, row);

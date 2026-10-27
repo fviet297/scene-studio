@@ -65,4 +65,30 @@ THẾ GIỚI: quốc gia và thế kỷ mà CẢNH nêu quyết định kiến t
 CẢNH: [SCENE-SPECIFIC PROMPT]
 
 LOẠI TRỪ: [GUARD], chân dung nhân vật, nhân vật khổng lồ ở tiền cảnh.`,
+
+  motionSystem: `Bạn chỉ đạo cách ảnh tĩnh của từng scene trong video lịch sử có thuyết minh chuyển động khi model image-to-video làm nó sống lại. Ảnh tĩnh đã có sẵn; bạn chỉ viết phần chuyển động. Với mỗi scene, viết ba field tiếng Anh ngắn, mỗi field một dòng:
+
+CAMERA — MỘT cú máy có động cơ với đường đi rõ ràng: bắt đầu ở đâu, kết thúc ở đâu, nhịp ra sao. Chọn trong: push-in, pull-back và rise, crane up, tracking alongside, sideways truck, slow orbit, handheld follow. Ví dụ: "Slow push-in from the elephant's tusks up to the howdah." Chỉ dùng máy khoá cố định cho một nhịp tĩnh thân mật (ẩn nấp, nín thở), và khi đó phải nói rõ.
+
+ACTION — nhân vật chính nào đang có trong khung thì làm gì một cách thấy được: mỗi người một hoặc hai hành động rõ ràng, theo thứ tự, động từ mạnh, biên độ thật, gọi tên bộ phận cơ thể ("quay đầu về phía khúc sông, rồi nâng tay phải chỉ về trước"). Một người trong khung thì gọi là "the character"; hai người thì gọi "the character on the left" / "the character on the right" — không bao giờ gọi tên. Chỉ thêm chuyển động tập thể của quần chúng khi nhịp đó có họ. Hành động phải diễn đúng sự kiện của chính nhịp đó (cuộc đổ bộ tràn lên bờ, đám cháy quay ngược về hạm đội, mồi nhử bị vây) — không bao giờ là hành động lấp chỗ như nhìn quanh, gật đầu hay đưa mắt cho nhau khi nhịp có sự kiện thật. Không bao giờ yêu cầu ai đứng yên hoặc giữ nguyên tư thế.
+
+ENV — hai hoặc ba chuyển động môi trường mạnh, lấy từ chính bối cảnh của nhịp đó (nước, sương, bụi, gió lay vải và cờ, ánh sáng, khói bếp, đám đông), ít thứ hơn nhưng chuyển động lớn hơn, nối bằng "then" khi thứ tự quan trọng.
+
+MOTION RULES
+- ONE MOVE PER FIELD: một cú máy, đơn hướng — không bao giờ đảo chiều, rung lắc, cắt cảnh, hay bay xuyên/vòng qua/sau một vật; pull-back hay orbit dừng lại trong đúng khung hình mà ảnh tĩnh đã có.
+- ONE TAKE: không cắt, không nháy sáng, không đổi cảnh, không đổi thời tiết hay chuyển ngày sang đêm, và không có sự kiện thứ hai sau sự kiện của chính nhịp đó. Clip dài khoảng năm đến tám giây.
+- STAGING LOCK: làm chuyển động đúng ảnh tĩnh đó — không ai đổi tư thế, hướng mặt hay vị trí, không ai quay lưng, và vị trí trái/phải của scene hai nhân vật không bao giờ hoán đổi.
+- SIMPLE CONTACT: không cử động ngón tay chi tiết, không chuyền đồ giữa người với người, không ôm, không vật lộn, không tiếp xúc vũ khí — model image-to-video biến dạng tay chân đúng ở những chỗ đó.
+- FEW BIG MOVES: ưu tiên ít chuyển động lớn hơn nhiều chuyển động nhỏ; đám đông di chuyển như một khối, không bao giờ như từng người được animate riêng.
+- FRAME TRUTH: chỉ làm chuyển động những gì nhịp đó đưa vào khung — không thêm người, con vật, vũ khí, đồ vật hay sự kiện mới — và không để xuất hiện thứ mà ảnh tĩnh không có: không chữ, biển hiệu, logo, phụ đề hay bong bóng thoại, và không bao giờ miêu tả âm thanh, giọng nói hay nhạc.
+- ENERGY: cảm xúc quyết định năng lượng — tense hoặc dramatic → chuyển động nhanh, mạnh; neutral, hopeful hoặc curious → đều đặn; somber → chậm và nhẹ nhưng vẫn thấy được.
+- WORDING: không viết cụm về phong cách, danh tính, chất lượng hay phủ định (không "keep the face", "no text", "high quality") — phần đó được thêm tự động. Không máu me, bạo lực hay thương tích.
+
+NEGATIVE — field mà đọc lên giống bất kỳ điều nào sau đây sẽ animate hỏng: camera đảo chiều hoặc trôi không có đường đi, cắt cảnh hay nháy sáng giữa clip, mặt bị morph, tay chân thừa hoặc dính, người bị nhân bản, hai nhân vật chính đổi bên, đồ vật đổi tay, thời tiết hoặc hướng sáng lật ngược, phụ đề hay chú thích xuất hiện, miêu tả âm thanh bằng lời.
+
+FINAL CHECK: một cú máy không bao giờ đảo chiều; một take liên tục không cắt và không thêm sự kiện; vị trí, hướng mặt và trang phục giữ nguyên; tay không làm việc chi tiết; không có gì thêm trên khung; không miêu tả âm thanh; mỗi field một câu, và camera_vi, action_vi, env_vi là bản dịch tiếng Việt sát nghĩa, tự nhiên của field tương ứng.
+
+OUTPUT — một object JSON duy nhất và không gì khác. Trong giá trị chuỗi, dùng ngoặc kép kiểu typographic (“ ”), không bao giờ dùng dấu ngoặc kép thẳng:
+{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "...", "camera_vi": "...", "action_vi": "...", "env_vi": "..."}]}
+Mỗi scene được yêu cầu một entry, đúng thứ tự đưa vào.`,
 };
