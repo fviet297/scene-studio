@@ -37,6 +37,8 @@ const escapeHtml = (str) =>
       ],
   );
 
+const TOAST_MS = 4200;
+const TOAST_ACTION_MS = 15000;
 const ICON_OK =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 const ICON_BAD =
@@ -164,6 +166,11 @@ function newJob(spec, scenes) {
     current: null,
     done: new Set(),
     skip: new Set(),
+    ok: new Set(),
+    failed: new Map(),
+    skipped: new Set(),
+    reports: false,
+    errorNote: null,
     controller: null,
     cancelNote: null,
   };
@@ -207,6 +214,7 @@ async function pumpLane(name) {
   } catch (e) {
     toast(e.message, false);
   } finally {
+    reportJobResult(job);
     lane.running = null;
     await refresh().catch(() => {});
     syncJobUi();
@@ -267,10 +275,87 @@ function abortForSkip(job) {
   job.controller.abort();
 }
 
+// Scenes whose last run failed, per job kind, so "select the failed scenes" can retry them. A later
+// run that succeeds on a scene drops it again.
+const failedByKind = new Map();
+let recentFailedKind = null;
+const failedScenes = () => [...(failedByKind.get(recentFailedKind) ?? [])];
+const JOB_TITLE = {
+  image: "Sinh ảnh",
+  prompt: "Viết prompt ảnh",
+  motionPrompt: "Viết prompt motion",
+  motion: "Sinh motion video",
+  audio: "Sinh audio",
+};
+
+// Replace the selection (the Kịch bản dialog's ticks while it is open, else the timeline's) with
+// `nums` (those still in the plan). A notification's action carries its
+// scene numbers, so it still works after a reload, when failedByKind is empty.
+function selectScenes(nums) {
+  const scenes = nums.filter(findScene);
+  if (!scenes.length) {
+    toast("Các scene này không còn trong kịch bản.", false);
+    return;
+  }
+  if (!$("scriptOverlay").hidden) pickScriptScenes(scenes);
+  else {
+    selected.clear();
+    for (const n of scenes) selected.add(n);
+    renderSelection();
+  }
+  toast(`Đã chọn ${scenes.length} scene: ${sceneList(scenes)}.`);
+}
+
+// What a finished job did, for each scene it ran: ✓ ok, ✗ failed, • skipped. When the job ended
+// without being cancelled, a scene with no end line never got its result (the run died first), so
+// it counts as failed too. Runs that reported no per-scene lines (job.reports false) say nothing.
+function reportJobResult(job) {
+  if (!job.reports || !JOB_TITLE[job.kind]) return;
+  const cancelled = job.controller?.signal.aborted ?? false;
+  const unresolved = job.scenes.filter(
+    (n) => !job.done.has(n) && !job.skip.has(n),
+  );
+  const failed = new Map(job.failed);
+  if (!cancelled)
+    for (const n of unresolved)
+      failed.set(n, job.errorNote ?? "không có kết quả");
+  const kindFailures = failedByKind.get(job.kind) ?? new Set();
+  for (const n of job.ok) kindFailures.delete(n);
+  for (const n of failed.keys()) kindFailures.add(n);
+  failedByKind.set(job.kind, kindFailures);
+  if (failed.size) recentFailedKind = job.kind;
+  renderSelection();
+  if (job.scenes.length < 2 || job.cancelNote) return;
+
+  const failedNums = [...failed.keys()].sort((a, b) => a - b);
+  const counts = [
+    `${job.scenes.length} scene`,
+    `${job.ok.size} thành công`,
+    `${failed.size} lỗi`,
+  ];
+  if (job.skipped.size) counts.push(`${job.skipped.size} bỏ qua`);
+  if (cancelled && unresolved.length)
+    counts.push(`${unresolved.length} chưa chạy`);
+  const detail = [counts.join(" · ")];
+  if (failed.size)
+    detail.push(
+      `Lỗi: scene ${sceneList(failedNums)} — ${failed.get(failedNums[0]) || "xem log"}`,
+    );
+  toast(detail.join("\n"), failed.size === 0, {
+    title: `${JOB_TITLE[job.kind]} ${cancelled ? "đã huỷ" : "hoàn thành"}`,
+    action: failed.size
+      ? {
+          label: `Chọn lại ${failed.size} scene lỗi`,
+          scenes: failedNums,
+        }
+      : null,
+  });
+}
+
 // Follow the server's per-scene log lines ("▶ … scene N" when one starts; "✓/✗/• scene N" or
 // "✓ scene-NN.mp3" when it ends), shared by the image, motion and audio endpoints.
 const SCENE_START = /^▶ .*?\bscene (\d+)/;
-const SCENE_END = /^[✓✗•] scene[- ](\d+)/;
+const SCENE_END = /^([✓✗•]) scene[- ](\d+)(.*)/;
 function trackSceneProgress(job, line) {
   if (job.controller.signal.aborted) return;
   const start = SCENE_START.exec(line);
@@ -282,7 +367,12 @@ function trackSceneProgress(job, line) {
   }
   const end = SCENE_END.exec(line);
   if (!end) return;
-  job.done.add(Number(end[1]));
+  const [, mark, num, rest] = end;
+  const n = Number(num);
+  job.done.add(n);
+  if (mark === "✓") job.ok.add(n);
+  else if (mark === "✗") job.failed.set(n, rest.replace(/^\s*:?\s*/, ""));
+  else job.skipped.add(n);
   job.current = null;
   if (job.skip.size && !unfinishedScenes(job).length) abortForSkip(job);
   syncJobUi();
@@ -1110,8 +1200,8 @@ function renderSelection() {
   // Prompt- and audio-generation both read a scene's narration, so a scene without one
   // isn't actionable — mirror the single-scene btnGenPrompt/btnAudio gates instead of
   // gating on a bare selection count that would enable a no-op batch run.
-  const promptEligible = targets.filter(
-    (s) => s.kind === "ai" && hasNarr(s),
+  const promptEligible = targets.filter((s) =>
+    canWritePrompt(s, promptKind()),
   ).length;
   const audioEligible = targets.filter(hasNarr).length;
   const motionEligibleCount = targets.filter(
@@ -1143,6 +1233,7 @@ function renderSelection() {
     locked ||
     chosen.some((s) => sceneInAnyLane(s.scene)) ||
     !isContiguousSelection(chosen.map((s) => s.scene));
+  $("batchPrompt").disabled = disPrompt;
   $("batchImg").disabled = disImg;
   $("batchAud").disabled = disAud;
   $("batchMotion").disabled = disMotion;
@@ -1157,6 +1248,13 @@ function renderSelection() {
   $("railBatchMotion").disabled = disMotion;
   $("railBatchMerge").disabled = disMerge;
   $("railBatch").hidden = chosen.length === 0;
+  const failedCount = failedScenes().filter(findScene).length;
+  const failedOption = $("selQuick").querySelector('option[value="failed"]');
+  failedOption.textContent = failedCount
+    ? `Scene lỗi gần nhất (${failedCount})`
+    : "Scene lỗi gần nhất";
+  failedOption.disabled = failedCount === 0;
+  syncScriptFailedOption();
 
   // Reflect the shared selection back onto the rail rows and the select-all box without a
   // full re-render, so a change from either view (or a select-all helper) shows everywhere.
@@ -1219,16 +1317,138 @@ function showError(message) {
     : "";
 }
 
-function toast(message, ok = true) {
+// Every toast is kept (newest first) so it can be read again after it fades. The server stores the
+// history per project (/api/notifications), so it survives a reload; `notifications` mirrors it.
+const NOTIFICATION_LIMIT = 50;
+const notifications = [];
+let unreadNotifications = 0;
+
+// A failed save leaves the entry in this page's list, which is still right until the next reload.
+function recordNotification({ message, ok, title, action }) {
+  const entry = {
+    id: crypto.randomUUID(),
+    at: new Date().toISOString(),
+    ok,
+    title,
+    message,
+    action: action && { label: action.label, scenes: action.scenes },
+  };
+  notifications.unshift(entry);
+  notifications.length = Math.min(notifications.length, NOTIFICATION_LIMIT);
+  if ($("notifPanel").hidden) unreadNotifications++;
+  renderNotifications();
+  api("/api/notifications", entry).catch(() => {});
+}
+
+// Replace the list with the active project's stored history (page load, project switch).
+async function loadNotifications() {
+  try {
+    const { items } = await api("/api/notifications");
+    notifications.splice(0, notifications.length, ...items);
+    unreadNotifications = 0;
+    renderNotifications();
+  } catch {
+    // The history is a convenience; the panel works without it.
+  }
+}
+
+function renderNotifications() {
+  for (const badge of document.querySelectorAll("[data-notif-unread]")) {
+    badge.hidden = unreadNotifications === 0;
+    badge.textContent = unreadNotifications;
+  }
+  $("notifClear").disabled = notifications.length === 0;
+  if ($("notifPanel").hidden) return;
+  const list = $("notifList");
+  list.replaceChildren();
+  if (!notifications.length) {
+    const empty = document.createElement("li");
+    empty.className = "notif-empty";
+    empty.textContent = "Chưa có thông báo nào.";
+    list.append(empty);
+    return;
+  }
+  for (const n of notifications) list.append(notificationRow(n));
+}
+
+function notificationRow({ message, ok, title, action, at }) {
+  const row = document.createElement("li");
+  row.className = `notif-row${ok ? "" : " bad"}`;
+  const time = document.createElement("time");
+  time.textContent = new Date(at).toLocaleTimeString("vi-VN");
+  const body = document.createElement("div");
+  body.className = "notif-body";
+  if (title) {
+    const heading = document.createElement("b");
+    heading.textContent = title;
+    body.append(heading);
+  }
+  for (const line of String(message).split("\n")) {
+    const text = document.createElement("span");
+    text.textContent = line;
+    body.append(text);
+  }
+  if (action) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn sm";
+    button.textContent = action.label;
+    button.addEventListener("click", () => selectScenes(action.scenes));
+    body.append(button);
+  }
+  row.append(time, body);
+  return row;
+}
+
+function openNotifications(open) {
+  $("notifPanel").hidden = !open;
+  for (const toggle of document.querySelectorAll("[data-notif-toggle]"))
+    toggle.setAttribute("aria-expanded", String(open));
+  if (open) unreadNotifications = 0;
+  renderNotifications();
+}
+for (const toggle of document.querySelectorAll("[data-notif-toggle]"))
+  toggle.addEventListener("click", () =>
+    openNotifications($("notifPanel").hidden),
+  );
+$("notifClear").addEventListener("click", () => {
+  notifications.length = 0;
+  renderNotifications();
+  api("/api/notifications-clear", {}).catch((e) => toast(e.message, false));
+});
+document.addEventListener("click", (e) => {
+  if (
+    !$("notifPanel").hidden &&
+    !e.target.closest("#notifPanel, [data-notif-toggle]")
+  )
+    openNotifications(false);
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape" || $("notifPanel").hidden) return;
+  e.stopPropagation(); // close only the history, not the dialog under it
+  openNotifications(false);
+});
+
+// opts: { title, action: { label, scenes } } — an action toast stays longer, and its button selects
+// `scenes` then dismisses it. Message lines split on "\n".
+function toast(message, ok = true, { title, action } = {}) {
+  recordNotification({ message, ok, title, action });
   const el = document.createElement("div");
   el.className = `toast${ok ? "" : " bad"}`;
+  const lines = String(message).split("\n").map(escapeHtml);
   el.innerHTML =
-    (ok ? ICON_OK : ICON_BAD) + `<span>${escapeHtml(message)}</span>`;
+    (ok ? ICON_OK : ICON_BAD) +
+    `<span class="toast-body">${title ? `<b>${escapeHtml(title)}</b>` : ""}${lines.map((l) => `<span>${l}</span>`).join("")}${action ? `<button type="button" class="btn sm toast-action">${escapeHtml(action.label)}</button>` : ""}</span>`;
   $("toasts").appendChild(el);
-  setTimeout(() => {
+  const dismiss = () => {
     el.classList.add("leaving");
     setTimeout(() => el.remove(), 200);
-  }, 4200);
+  };
+  el.querySelector(".toast-action")?.addEventListener("click", () => {
+    selectScenes(action.scenes);
+    dismiss();
+  });
+  setTimeout(dismiss, action ? TOAST_ACTION_MS : TOAST_MS);
 }
 
 function openLightbox(src, caption = "") {
@@ -1283,6 +1503,9 @@ function clearProjectLocalState() {
   drafts.narr.clear();
   drafts.motion.clear();
   selected.clear();
+  failedByKind.clear();
+  recentFailedKind = null;
+  notifications.length = 0;
   currentScene = null;
 }
 
@@ -1299,6 +1522,7 @@ async function switchProject(slug) {
     clearProjectLocalState();
     state = await api("/api/project", { slug });
     render();
+    loadNotifications();
     toast(
       `Đã chuyển sang "${state.project.title}" (style: ${state.project.template}).`,
     );
@@ -1416,6 +1640,7 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
   const log = $("conLog");
   log.textContent = "";
   setConsole("running", job.label);
+  job.reports = true;
   let failed = false;
   try {
     await readSse(
@@ -1431,12 +1656,13 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
           trackSceneProgress(job, line);
         } else if (type === "done") {
           setConsole("idle", line);
-          toast(line);
+          if (job.scenes.length < 2) toast(line);
           onDone?.();
         } else if (type === "error") {
           failed = true;
+          job.errorNote = line;
           setConsole("error", line);
-          toast(line, false);
+          if (job.scenes.length < 2) toast(line, false);
         }
       },
       job,
@@ -1449,9 +1675,10 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
       if (!job.cancelNote) toast(`Đã huỷ. ${CANCEL_PROVIDER_NOTE}`, false);
     } else {
       failed = true;
+      job.errorNote = e.message;
       log.textContent += `✗ ${e.message}\n`;
       setConsole("error", e.message);
-      toast(e.message, false);
+      if (job.scenes.length < 2) toast(e.message, false);
     }
   } finally {
     if (failed) openLog(true);
@@ -1466,6 +1693,7 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
 // TTS child process on the cancel readSse sends.
 const quietJob = (path, bodyFor) => async (job) => {
   let lastLog = "";
+  job.reports = true;
   try {
     await readSse(
       path,
@@ -1475,9 +1703,12 @@ const quietJob = (path, bodyFor) => async (job) => {
         if (type === "log") {
           lastLog = line;
           trackSceneProgress(job, line);
-        } else if (type === "done") toast(line);
-        else if (type === "error")
-          toast(lastLog ? `${line} — ${lastLog}` : line, false);
+        } else if (type === "done") {
+          if (job.scenes.length < 2) toast(line);
+        } else if (type === "error") {
+          job.errorNote = lastLog ? `${line} — ${lastLog}` : line;
+          if (job.scenes.length < 2) toast(job.errorNote, false);
+        }
       },
       job,
     );
@@ -2186,21 +2417,20 @@ const pickWhere = (test) => {
   for (const s of state.scenes) if (test(s)) selected.add(s.scene);
   renderSelection();
 };
-$("selAll").addEventListener("click", () => pickWhere(() => true));
-$("selNeedImg").addEventListener("click", () =>
-  pickWhere((s) => !s.hasImage && s.kind === "ai"),
-);
-$("selNeedAud").addEventListener("click", () => pickWhere((s) => !s.hasAudio));
-$("selStaleAud").addEventListener("click", () =>
-  pickWhere((s) => s.audioStale),
-);
-$("selNeedPrompt").addEventListener("click", () =>
-  pickWhere((s) => s.kind === "ai" && !(s.prompt || "").trim()),
-);
-// Same meaning as the rail's "Thiếu motion" filter: ready for a motion video, none yet.
-$("selNeedMotion").addEventListener("click", () =>
-  pickWhere((s) => sceneStatus(s) === "need-render"),
-);
+const QUICK_PICKS = {
+  all: () => true,
+  needImg: (s) => !s.hasImage && s.kind === "ai",
+  needAud: (s) => !s.hasAudio,
+  staleAud: (s) => s.audioStale,
+  failed: (s) => failedScenes().includes(s.scene),
+  needPrompt: (s) => s.kind === "ai" && !(s.prompt || "").trim(),
+  // Same meaning as the rail's "Thiếu motion" filter: ready for a motion video, none yet.
+  needMotion: (s) => sceneStatus(s) === "need-render",
+};
+$("selQuick").addEventListener("change", (e) => {
+  pickWhere(QUICK_PICKS[e.target.value]);
+  e.target.selectedIndex = 0;
+});
 $("selNone").addEventListener("click", clearSelection);
 
 // Rail select-all toggles only the currently shown (filtered) scenes, so "All" respects the
@@ -2264,7 +2494,6 @@ async function confirmBatch(kind, models, modelId, count) {
 
 // One batch action per stage, shared by the rail bar and the timeline batch bar. Both read the
 // same `selected` Set and the same sticky model selects, so either entry point behaves identically.
-// Prompt writing lives in the script modal instead of the timeline bar (see scriptGenHtml).
 const enqueuePrompts = (scenes) =>
   enqueueJob({
     lane: "media",
@@ -2294,9 +2523,51 @@ function releaseSelection(job) {
   for (const n of job.scenes) changed = selected.delete(n) || changed;
   if (changed) renderSelection();
 }
-const runBatchPrompts = () => {
-  fromSelection(enqueuePrompts(batchTargets()));
+// Which prompts the batch writes: the image prompt, the motion parts (camera / action / env), or
+// both. Motion reads the beat or the image prompt, so "both" writes the image prompt first.
+const promptKind = () => $("batchPromptKind").value;
+const REWRITE_FIELDS = {
+  image: ["prompt"],
+  motion: ["camera", "action", "env"],
 };
+function canWritePrompt(s, kind) {
+  if (s.kind !== "ai") return false;
+  if (kind === "motion")
+    return Boolean((s.beat || "").trim() || (s.prompt || "").trim());
+  return Boolean((s.narration || "").trim());
+}
+// Both writers overwrite hand edits and cost LLM calls, so scenes that already have what is about
+// to be rewritten ask first.
+// `kindSelect` is the droplist the user picked the kind in; `release` drops the queued scenes from
+// the timeline selection (the Kịch bản dialog ticks are not part of it).
+async function rewritePrompts(scenes, kindSelect, release) {
+  const kind = kindSelect.value;
+  const writable = state.scenes.filter(
+    (s) => scenes.includes(s.scene) && canWritePrompt(s, kind),
+  );
+  const fields =
+    kind === "both"
+      ? Object.values(REWRITE_FIELDS).flat()
+      : REWRITE_FIELDS[kind];
+  const overwritten = writable.filter((s) =>
+    fields.some((f) => (s[f] || "").trim()),
+  );
+  if (
+    overwritten.length &&
+    !(await confirmRun(
+      `Viết lại prompt (${kindSelect.selectedOptions[0].text.toLowerCase()}) cho ${writable.length} scene.\nScene ${sceneList(overwritten.map((s) => s.scene))} đã có sẵn — bản hiện tại sẽ bị ghi đè.`,
+      "Viết lại",
+    ))
+  )
+    return;
+  const nums = writable.map((s) => s.scene);
+  const queued = [];
+  if (kind !== "motion") queued.push(enqueuePrompts(nums));
+  if (kind !== "image") queued.push(enqueueMotionPrompts(nums));
+  if (release) queued.forEach(fromSelection);
+}
+const runBatchPrompts = () =>
+  rewritePrompts(batchTargets(), $("batchPromptKind"), true);
 // The cost confirm counts only scenes that will actually run: enqueueJob drops the ones that
 // already have the same job pending.
 const runBatchImages = async () => {
@@ -2336,6 +2607,8 @@ const runBatchMotion = async () => {
     return;
   fromSelection(enqueueMotions(scenes, model));
 };
+$("batchPrompt").addEventListener("click", runBatchPrompts);
+$("batchPromptKind").addEventListener("change", renderSelection);
 $("batchImg").addEventListener("click", runBatchImages);
 $("batchAud").addEventListener("click", runBatchAudio);
 $("batchMotion").addEventListener("click", runBatchMotion);
@@ -3332,7 +3605,55 @@ function syncScriptSelection() {
   $("scriptMerge").title = dirty
     ? "Lưu thay đổi của scene đã chọn trước khi gộp"
     : "Tick các scene liền kề ở đầu mỗi scene rồi gộp thành một";
+  syncScriptRewrite(picked, dirty);
+  syncScriptFailedOption();
 }
+
+// Writers read the saved plan, so a picked row with unsaved edits waits, like Merge.
+function syncScriptRewrite(picked, dirty) {
+  const kind = $("scriptPromptKind").value;
+  const eligible = state.scenes.filter(
+    (s) => picked.includes(s.scene) && canWritePrompt(s, kind),
+  ).length;
+  $("scriptRewrite").textContent = picked.length
+    ? `Viết lại prompt (${picked.length})`
+    : "Viết lại prompt";
+  $("scriptRewrite").disabled = Boolean(globalOp) || dirty || eligible === 0;
+  $("scriptRewrite").title = dirty
+    ? "Lưu thay đổi của scene đã tick trước khi viết lại prompt"
+    : "Viết lại prompt cho các scene đang tick (ghi đè prompt hiện có)";
+}
+$("scriptRewrite").addEventListener("click", () =>
+  rewritePrompts([...scriptPicked], $("scriptPromptKind")),
+);
+$("scriptPromptKind").addEventListener("change", syncScriptSelection);
+
+function syncScriptFailedOption() {
+  const count = failedScenes().filter(findScene).length;
+  const option = $("scriptQuick").querySelector('option[value="failed"]');
+  option.textContent = count
+    ? `Scene lỗi gần nhất (${count})`
+    : "Scene lỗi gần nhất";
+  option.disabled = count === 0;
+}
+
+// Replace the ticks with `nums`.
+function pickScriptScenes(nums) {
+  scriptPicked.clear();
+  for (const n of nums) scriptPicked.add(n);
+  syncScriptSelection();
+}
+const SCRIPT_QUICK_PICKS = {
+  all: () => state.scenes.map((s) => s.scene),
+  failed: () => failedScenes().filter(findScene),
+  needPrompt: () => scenesMissingPrompt(),
+  needMotion: () => scenesMissingMotion(),
+  none: () => [],
+};
+$("scriptQuick").addEventListener("change", (e) => {
+  pickScriptScenes(SCRIPT_QUICK_PICKS[e.target.value]());
+  e.target.selectedIndex = 0;
+});
 $("scriptMerge").addEventListener("click", () =>
   openMergeDialog([...scriptPicked]),
 );
@@ -4271,6 +4592,7 @@ async function watchOrphanJobs() {
 }
 
 setConsole("idle", "Đang tải scene...");
+loadNotifications();
 refresh()
   .then(watchOrphanJobs)
   .catch((e) => {

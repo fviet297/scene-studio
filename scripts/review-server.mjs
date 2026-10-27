@@ -97,6 +97,7 @@ import { adoptMotionSource, clearMotionSource, imageFingerprint, isMotionStale, 
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
+import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
 import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
@@ -890,7 +891,8 @@ const generateMotionPromptsBatch = async (res, sceneNos) => {
       .filter((s) => motionBeat(s))
       .map((s) => ({ scene: s.scene, beat: s.beat || s.image.prompt.slice(0, 200) }));
     const rows = targets.length ? await writeMotionsBatched({ context: { outline }, scenes: targets, signal, onLog: log }) : new Map();
-    for (const [n, row] of rows) writeMotionParts(P.planMd, n, row);
+    for (const [n, row] of rows) { writeMotionParts(P.planMd, n, row); log(`✓ scene ${n} motion đã viết`); }
+    for (const t of targets) if (!rows.has(t.scene)) log(`✗ scene ${t.scene}: LLM không trả về motion`);
     sseSend(res, rows.size && rows.size === targets.length ? 'done' : 'error', `Đã viết motion ${rows.size}/${targets.length} scene.`);
   } catch (e) {
     sseSend(res, 'error', e.message);
@@ -1099,6 +1101,24 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'GET' && pathname === '/api/state') {
       sendJson(res, 200, buildState());
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/notifications') {
+      sendJson(res, 200, { items: readNotifications(P.notificationsFile) });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/notifications') {
+      const notification = sanitizeNotification(await readBody(req));
+      if (!notification) { sendJson(res, 400, { error: 'notification needs an id and a message' }); return; }
+      sendJson(res, 200, { items: appendNotification(P.notificationsFile, notification) });
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/notifications-clear') {
+      clearNotifications(P.notificationsFile);
+      sendJson(res, 200, { items: [] });
       return;
     }
 

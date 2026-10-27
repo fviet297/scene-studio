@@ -117,6 +117,8 @@ export const projectPaths = (slug) => {
     manifest: join(publicRoot, 'images', 'asset-manifest.json'),
     // Undo/redo snapshots of scene media. Outside public/ so they never ship in the Remotion bundle.
     historyDir: join('tmp', 'media-history', slug),
+    // Panel notification history (lib/notification-store.mjs).
+    notificationsFile: join('tmp', 'notifications', `${slug}.json`),
     outDir: readOutputDir(),
     // staticFile()-relative prefix (no leading "public/") for Remotion components.
     staticPrefix: `projects/${slug}`,
