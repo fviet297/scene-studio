@@ -19,11 +19,14 @@ const STOP_GRACE_MS = 20000;
 const KILL_GRACE_MS = 5000;
 const LOG_TAIL_CHARS = 1200;
 
+// A venv keeps its interpreter in bin/ on macOS/Linux and in Scripts/ on Windows.
+const venvPython = (dir, venv) => join(dir, venv, ...(process.platform === 'win32' ? ['Scripts', 'python.exe'] : ['bin', 'python']));
+
 const SERVICES = {
   omnivoice: {
     label: 'OmniVoice',
     dir: omnivoiceDir,
-    python: (dir) => join(dir, '.venv/bin/python'),
+    python: (dir) => venvPython(dir, '.venv'),
     // Same as tool/start_omnivoice_server.sh menu option 1 (GPU + Whisper), offline model cache.
     args: () => ['tool/ws_omnivoice_server.py', '--port', String(OMNIVOICE_PORT)],
     env: { HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1' },
@@ -33,7 +36,7 @@ const SERVICES = {
     label: 'muse2api',
     dir: () => resolve(process.env.MUSE2API_DIR ?? '../museapivn'),
     // The venv start.sh creates; it needs Python 3.10+, which start.sh does not check.
-    python: (dir) => join(dir, 'venv/bin/python'),
+    python: (dir) => venvPython(dir, 'venv'),
     args: () => ['-m', 'uvicorn', 'app:app', '--host', '127.0.0.1', '--port', new URL(museBaseUrl()).port || '18610'],
     env: { PYTHONIOENCODING: 'utf-8', PYTHONUTF8: '1' },
     healthUrl: () => `${museBaseUrl()}/healthz`,
