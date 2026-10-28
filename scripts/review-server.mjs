@@ -87,6 +87,7 @@ import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, 
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { parseMinDuration } from './lib/scene-timing.mjs';
+import { suggestCharacterProfile } from './lib/profile-writer.mjs';
 import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, removeSceneField, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { pickerModels, providerOf } from './lib/providers.mjs';
@@ -1747,6 +1748,26 @@ const server = createServer(async (req, res) => {
       mkdirSync(dir, { recursive: true });
       writeFileSync(join(dir, 'profile.json'), `${JSON.stringify(next, null, 2)}\n`);
       sendJson(res, 200, buildState());
+      return;
+    }
+
+    // AI suggestion for a character's profile, from its name and the narration it appears in. Only
+    // returned: the dialog fills its empty fields and the user saves through /api/character-profile.
+    if (req.method === 'POST' && pathname === '/api/character-suggest') {
+      const { id, current } = await readBody(req);
+      const plan = readPlan();
+      if (!plan.characters[id]) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      const row = plan.characterRows.find((c) => c.id === id);
+      await trackJob(res, async () => {
+        const suggestion = await suggestCharacterProfile({
+          id,
+          name: row?.name ?? id,
+          projectTitle: plan.title,
+          current: current && typeof current === 'object' ? normalizeProfilePatch(current) : {},
+          scenes: plan.scenes.map((s) => ({ scene: s.scene, narration: s.narration, characters: s.image.characters })),
+        });
+        sendJson(res, 200, { id, suggestion });
+      });
       return;
     }
 

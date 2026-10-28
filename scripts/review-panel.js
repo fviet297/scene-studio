@@ -4458,23 +4458,71 @@ $("profImport").addEventListener("click", () => {
   if ("unknowns" in obj) $("prof_unknowns").value = asLines(obj.unknowns);
   $("profNote").textContent = "Đã nhập vào form. Kiểm tra rồi bấm Lưu hồ sơ.";
 });
+// The form as a profile patch. aliases: comma-separated field; known_facts/unknowns: one per line
+// (the server splits both).
+const profileFormPatch = () => ({
+  display_name: $("prof_name").value,
+  aliases: $("prof_aliases")
+    .value.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
+  country: $("prof_country").value,
+  period: $("prof_period").value,
+  dynasty: $("prof_dynasty").value,
+  role: $("prof_role").value,
+  known_facts: $("prof_facts").value,
+  interpretation: $("prof_interp").value,
+  unknowns: $("prof_unknowns").value,
+});
+
+// Suggested profile field → its form box and how a value is written there.
+const PROFILE_SUGGEST_FIELDS = {
+  aliases: ["prof_aliases", (v) => v.join(", ")],
+  country: ["prof_country", (v) => v],
+  period: ["prof_period", (v) => v],
+  dynasty: ["prof_dynasty", (v) => v],
+  role: ["prof_role", (v) => v],
+  known_facts: ["prof_facts", (v) => v.join("\n")],
+  interpretation: ["prof_interp", (v) => v],
+  unknowns: ["prof_unknowns", (v) => v.join("\n")],
+};
+
+// AI fills only the boxes that are still empty, so nothing the user wrote is lost; it is not saved
+// until "Lưu hồ sơ".
+$("profSuggest").addEventListener("click", async () => {
+  const id = profileCharId;
+  if (!id) return;
+  const btn = $("profSuggest");
+  btn.disabled = true;
+  $("profNote").textContent = "AI đang đọc narration của nhân vật…";
+  try {
+    const { suggestion } = await api("/api/character-suggest", {
+      id,
+      current: profileFormPatch(),
+    });
+    if (profileCharId !== id || $("profOverlay").hidden) return;
+    let filled = 0;
+    for (const [key, [boxId, format]] of Object.entries(
+      PROFILE_SUGGEST_FIELDS,
+    )) {
+      const value = format(suggestion[key]);
+      if (!value || $(boxId).value.trim()) continue;
+      $(boxId).value = value;
+      filled++;
+    }
+    $("profNote").textContent = filled
+      ? `AI đã điền ${filled} ô trống; ô đã có giữ nguyên. Kiểm tra rồi bấm Lưu hồ sơ.`
+      : "Các ô AI gợi ý được đều đã có nội dung — AI không ghi đè. Xoá ô muốn gợi ý lại rồi bấm lần nữa.";
+  } catch (e) {
+    $("profNote").textContent = e.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
 $("profSave").addEventListener("click", async () => {
   if (!profileCharId) return;
-  // aliases: comma-separated field; known_facts/unknowns: one per line (server splits both).
-  const patch = {
-    display_name: $("prof_name").value,
-    aliases: $("prof_aliases")
-      .value.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean),
-    country: $("prof_country").value,
-    period: $("prof_period").value,
-    dynasty: $("prof_dynasty").value,
-    role: $("prof_role").value,
-    known_facts: $("prof_facts").value,
-    interpretation: $("prof_interp").value,
-    unknowns: $("prof_unknowns").value,
-  };
+  const patch = profileFormPatch();
   $("profSave").disabled = true;
   try {
     state = await api("/api/character-profile", { id: profileCharId, patch });

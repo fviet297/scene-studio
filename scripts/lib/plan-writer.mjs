@@ -165,14 +165,21 @@ export const characterRefPath = (staticPrefix, id) => `public/${staticPrefix}/ch
 
 export const addCharacterToPlan = (planMd, staticPrefix, id) => {
   const lines = readFileSync(planMd, 'utf8').split('\n');
+  const relPath = characterRefPath(staticPrefix, id);
+  const row = `${id} = ${relPath}`;
   const headIdx = lines.findIndex((l) => /^##\s+characters\s*$/i.test(l.trim()));
-  if (headIdx < 0) throw new Error(`${planMd} has no "## characters" block`);
+  if (headIdx < 0) {
+    // A pasted plan may have no cast yet: open the block ahead of the first scene (or at the end).
+    const firstScene = lines.findIndex((l) => /^##\s+scene\s+\d+/i.test(l.trim()));
+    lines.splice(firstScene < 0 ? lines.length : firstScene, 0, '## characters', '', row, '');
+    writeFileSync(planMd, lines.join('\n'));
+    return relPath;
+  }
   let end = lines.findIndex((l, i) => i > headIdx && /^##\s+/.test(l));
   if (end < 0) end = lines.length;
   let insertAt = end;
   while (insertAt > headIdx + 1 && lines[insertAt - 1].trim() === '') insertAt--;
-  const relPath = characterRefPath(staticPrefix, id);
-  lines.splice(insertAt, 0, `${id} = ${relPath}`);
+  lines.splice(insertAt, 0, row);
   writeFileSync(planMd, lines.join('\n'));
   return relPath;
 };
