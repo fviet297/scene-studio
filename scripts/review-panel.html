@@ -52,6 +52,7 @@
       <div class="menu-pop align-end" id="menuApp" role="menu" aria-labelledby="menuAppBtn" hidden>
         <button class="menu-item" type="button" role="menuitem" id="btnModels"><span>Model &amp; provider</span><span class="menu-hint">Provider, API key, model ảnh / motion / LLM</span></button>
         <button class="menu-item" type="button" role="menuitem" id="btnLibrary"><span>Thư viện video</span><span class="menu-hint">Video đã render của mọi dự án, thư mục lưu</span></button>
+        <button class="menu-item" type="button" role="menuitem" id="btnSync"><span>Đồng bộ media</span><span class="menu-hint">Lấy ảnh, audio, video của project đã chọn từ máy khác</span></button>
         <button class="menu-item" type="button" role="menuitem" data-notif-toggle aria-controls="notifPanel"><span class="menu-label">Thông báo<span class="queue num" data-notif-unread hidden></span></span><span class="menu-hint">Lịch sử job đã xong hoặc lỗi</span></button>
       </div>
     </div>
@@ -659,6 +660,28 @@
     <div class="dialog-body single">
       <ul class="lib-grid" id="libGrid"></ul>
       <p class="lib-empty" id="libEmpty" hidden></p>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="syncOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="syncDlgTitle">
+  <div class="dialog sync-dialog">
+    <div class="dialog-head">
+      <h2 id="syncDlgTitle">Đồng bộ media</h2>
+      <span class="note" id="syncInfo"></span>
+      <button class="icon-btn" type="button" id="syncClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p class="lib-dir-note">Chỉ chép project được tick. File thiếu hoặc mới hơn ở nguồn thì chép; file local mới hơn được giữ nguyên, không xoá gì.</p>
+    <div class="dialog-body single">
+      <ul class="sync-list" id="syncList"></ul>
+      <p class="lib-empty" id="syncEmpty" hidden></p>
+      <pre class="sync-output" id="syncOutput" hidden></pre>
+    </div>
+    <div class="sync-actions">
+      <button class="btn sm" type="button" id="syncCheck">Kiểm tra</button>
+      <button class="btn sm primary" type="button" id="syncRun">Đồng bộ</button>
     </div>
   </div>
 </div>

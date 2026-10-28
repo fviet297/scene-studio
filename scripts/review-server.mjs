@@ -62,6 +62,8 @@
 //   GET  /api/preview-data    → rebuild + return the active project's Remotion data (same builder
 //                               the render runs first), so the preview plays exactly what renders
 //   GET  /public/<path>       → files under public/ (what staticFile() points at in the preview)
+//   GET  /api/media-sync      → source root + projects with media there (and whether each exists locally)
+//   POST /api/media-sync      → { slugs, dryRun } → run scripts/sync-media.mjs for those projects
 //   GET  /api/services        → state of the local OmniVoice / muse2api servers
 //   POST /api/services/start  → { id } → start that local server as a child of this one
 //   POST /api/services/stop   → { id } → stop a server this one started
@@ -97,6 +99,7 @@ import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { clearAudioNarration, isAudioStale, readAudioNarration, writeAudioNarration } from './lib/audio-narration.mjs';
 import { adoptMotionSource, clearMotionSource, imageFingerprint, isMotionStale, readMotionSource, writeMotionSource } from './lib/motion-source.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
+import { listSourceProjects, sourceRoot } from './lib/media-sync.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
@@ -633,6 +636,7 @@ const MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'i
 const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav' };
 const PUBLIC_DIR = 'public';
 const execFileAsync = promisify(execFile);
+const MEDIA_SYNC_TIMEOUT_MS = 30 * 60 * 1000;
 // Validate an uploaded scene video against the active project's aspect: orientation must match
 // (portrait for 9:16, landscape for 16:9) and the long edge must be at least 1280px.
 const probeSceneVideo = (path) => {
@@ -1297,6 +1301,29 @@ const server = createServer(async (req, res) => {
       const type = PUBLIC_MIME[name.split('.').pop().toLowerCase()];
       if (name.includes('..') || !type || !existsSync(path)) { res.writeHead(404).end('not found'); return; }
       sendMedia(req, res, path, type);
+      return;
+    }
+
+    if (req.method === 'GET' && pathname === '/api/media-sync') {
+      try {
+        const projects = listSourceProjects().map((slug) => ({ slug, local: existsSync(join('public', 'projects', slug)), active: slug === P.slug }));
+        sendJson(res, 200, { source: sourceRoot(), projects });
+      } catch (e) { sendJson(res, 502, { error: e.message }); }
+      return;
+    }
+
+    // Runs the CLI as a child so copying a big project over the network never blocks this server.
+    if (req.method === 'POST' && pathname === '/api/media-sync') {
+      const { slugs, dryRun } = await readBody(req);
+      if (!Array.isArray(slugs) || slugs.length === 0 || !slugs.every(isValidSlug)) { sendJson(res, 400, { error: 'chọn ít nhất một project hợp lệ' }); return; }
+      try {
+        const known = listSourceProjects();
+        const unknown = slugs.filter((slug) => !known.includes(slug));
+        if (unknown.length) { sendJson(res, 400, { error: `nguồn không có project: ${unknown.join(', ')}` }); return; }
+        const args = [join(HERE, 'sync-media.mjs'), '--project', slugs.join(','), ...(dryRun ? ['--dry-run'] : [])];
+        const { stdout } = await execFileAsync('node', args, { timeout: MEDIA_SYNC_TIMEOUT_MS, maxBuffer: 16 * 1024 * 1024 });
+        sendJson(res, 200, { output: stdout.trim() });
+      } catch (e) { sendJson(res, 500, { error: (e.stderr || e.message).trim() }); }
       return;
     }
 

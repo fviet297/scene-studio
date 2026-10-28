@@ -3073,8 +3073,81 @@ $("libOverlay").addEventListener("click", (e) => {
   if (e.target === $("libOverlay")) closeLibrary();
 });
 
+// ---- media sync: pick projects, pull their media from the other copy of the repo.
+const closeSync = () => {
+  $("syncOverlay").hidden = true;
+};
+const showSyncEmpty = (message) => {
+  $("syncEmpty").textContent = message;
+  $("syncEmpty").hidden = !message;
+};
+const checkedSyncSlugs = () =>
+  [...$("syncList").querySelectorAll("input:checked")].map((box) => box.value);
+const setSyncBusy = (busy) => {
+  for (const id of ["syncCheck", "syncRun"]) $(id).disabled = busy;
+  for (const box of $("syncList").querySelectorAll("input")) box.disabled = busy;
+};
+
+$("btnSync").addEventListener("click", async () => {
+  $("syncOverlay").hidden = false;
+  $("syncList").innerHTML = "";
+  $("syncOutput").hidden = true;
+  $("syncInfo").textContent = "";
+  showSyncEmpty("Đang tải…");
+  try {
+    const { source, projects } = await api("/api/media-sync");
+    $("syncInfo").textContent = source;
+    $("syncList").innerHTML = projects
+      .map(
+        (p) => `<li><label>
+          <input type="checkbox" value="${escapeHtml(p.slug)}" />
+          <span class="sync-slug">${escapeHtml(p.slug)}</span>
+          ${p.active ? '<span class="tag on">Đang mở</span>' : ""}
+          ${p.local ? "" : '<span class="tag">Chưa có ở máy này</span>'}
+        </label></li>`,
+      )
+      .join("");
+    showSyncEmpty(projects.length ? "" : "Nguồn chưa có media của project nào.");
+  } catch (e) {
+    showSyncEmpty(`Không đọc được nguồn: ${e.message}`);
+  }
+});
+
+async function runSync(dryRun) {
+  const slugs = checkedSyncSlugs();
+  if (!slugs.length) {
+    toast("Tick ít nhất một project để đồng bộ.", false);
+    return;
+  }
+  setSyncBusy(true);
+  $("syncOutput").hidden = false;
+  $("syncOutput").textContent = dryRun
+    ? "Đang kiểm tra…"
+    : "Đang chép, project lớn có thể mất vài phút…";
+  try {
+    const { output } = await api("/api/media-sync", { slugs, dryRun });
+    $("syncOutput").textContent = output;
+    if (!dryRun) toast(`Đã đồng bộ ${slugs.length} project`);
+  } catch (e) {
+    $("syncOutput").textContent = e.message;
+    toast(e.message, false);
+  } finally {
+    setSyncBusy(false);
+  }
+}
+$("syncCheck").addEventListener("click", () => runSync(true));
+$("syncRun").addEventListener("click", () => runSync(false));
+$("syncClose").addEventListener("click", closeSync);
+$("syncOverlay").addEventListener("click", (e) => {
+  if (e.target === $("syncOverlay")) closeSync();
+});
+
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    if (!$("syncOverlay").hidden) {
+      closeSync();
+      return;
+    }
     if (!$("libOverlay").hidden) {
       closeLibrary();
       return;
