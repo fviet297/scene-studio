@@ -24,6 +24,7 @@
   "scripts": {
     "dev": "node scripts/build-remotion.mjs --stale && remotion studio",
     "review": "node scripts/review-server.mjs",
+    "sync": "node scripts/sync-media.mjs",
     "build": "node scripts/build-remotion.mjs --stale && remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
