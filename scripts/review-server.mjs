@@ -130,6 +130,7 @@ const PANEL_ASSETS = {
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
+  '/menu.js': ['review-menu.js', 'text/javascript; charset=utf-8'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
   '/thumbnail.js': ['review-thumbnail.js', 'text/javascript; charset=utf-8'],
