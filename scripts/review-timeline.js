@@ -21,7 +21,8 @@
 // paintBrandLayer, selected, renderSelection, pips, playsMotion, syncTimelineHistory) from review-panel.js, which loads first, and redraws on its "studio:render" /
 // "studio:view" events.
 
-// Must match PLACEHOLDER_SCENE_SECONDS and SCENE_GAP_SECONDS in scripts/build-remotion.mjs.
+// Must match PLACEHOLDER_SCENE_SECONDS in scripts/lib/scene-timing.mjs and SCENE_GAP_SECONDS in
+// scripts/build-remotion.mjs.
 const TL_PLACEHOLDER_SECONDS = 4;
 const TL_SCENE_GAP_SECONDS = 0.5;
 const TL_ZOOM_MIN = 4;
@@ -124,9 +125,13 @@ function timelineClips() {
     const videoSeconds = playsMotion(scene)
       ? (tlMediaSeconds.get(scene.motionVideoUrl) ?? 0)
       : 0;
+    // Same rule as scene-timing.mjs: the scene's `duration` is a minimum, and stands in for the
+    // placeholder while the scene has no audio.
+    const minDuration = scene.duration ?? 0;
     const content = Math.max(
-      audioSeconds ?? TL_PLACEHOLDER_SECONDS,
+      audioSeconds ?? scene.duration ?? TL_PLACEHOLDER_SECONDS,
       videoSeconds,
+      minDuration,
     );
     const seconds = content + (i < last ? TL_SCENE_GAP_SECONDS : 0);
     const rate =

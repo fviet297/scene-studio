@@ -8,6 +8,7 @@ import { closeSync, existsSync, openSync, readFileSync, readSync } from 'node:fs
 import { projectPaths } from './project-paths.mjs';
 import { isMotionStale } from './motion-source.mjs';
 import { parsePlanAspect } from './aspect.mjs';
+import { parseMinDuration } from './scene-timing.mjs';
 
 // A motion video only gets used when the file is actually a playable MP4 — a failed or
 // interrupted generation can leave a truncated file (or a stray placeholder saved with a .mp4
@@ -66,7 +67,7 @@ export const parsePlan = (slug, inputPath) => {
 
     const fields = {};
     for (const line of lines) {
-      const kv = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host)\s*:\s*(.+?)\s*$/i.exec(line);
+      const kv = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration)\s*:\s*(.+?)\s*$/i.exec(line);
       if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
     }
 
@@ -91,6 +92,10 @@ export const parsePlan = (slug, inputPath) => {
     // writer's input — so it never has to send the Vietnamese narration to the LLM.
     const scene = { scene: Number(sceneMatch[1]), narration: fields.narration ?? '', beat: fields.beat ?? '', image };
     for (const k of ['title', 'cue', 'host']) if (fields[k]) scene[k] = fields[k];
+    // duration: the scene's minimum length in seconds (scene-timing.mjs); never shortens narration.
+    const minDuration = parseMinDuration(fields.duration);
+    if (minDuration.error) warnings.push(`scene ${scene.scene}: ${minDuration.error} — ignored`);
+    else if (minDuration.value !== undefined) scene.duration = minDuration.value;
     if (fields.time) { const [a, b] = fields.time.split('-'); scene.from = toSeconds(a); scene.to = toSeconds(b); }
 
     const motionVideoPath = join(paths.sceneVideoDir, `scene-${String(scene.scene).padStart(2, '0')}.mp4`);

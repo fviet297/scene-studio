@@ -19,7 +19,7 @@
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,beat?,prompt?,prompt_vi?,camera?,action?,env?,…_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
-//   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char back into the plan .md
+//   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char|duration back into the plan .md
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   GET  /api/character-library → every other project's characters, most recently updated first
 //   GET  /library-characters/<slug>/<file> → another project's character reference image
@@ -86,7 +86,8 @@ import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './li
 import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, PROJECTS_DIR, projectPaths, projectTitle, sceneBase, setActiveSlug, setOutputDir } from './lib/project-paths.mjs';
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
-import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { parseMinDuration } from './lib/scene-timing.mjs';
+import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, removeSceneField, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { pickerModels, providerOf } from './lib/providers.mjs';
 import { ConfigError, initModelConfig } from './lib/model-config.mjs';
@@ -535,6 +536,7 @@ const buildState = () => {
         title: s.title ?? '',
         cue: s.cue ?? '',
         host: s.host ?? '',
+        duration: s.duration ?? null,
         kind: s.image.kind,
         source,
         prompt: s.image.prompt ?? '',
@@ -806,13 +808,14 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
       ).trim());
       if (!Number.isFinite(audioSeconds)) throw new Error('could not read audio duration');
       sseSend(res, 'log', `▶ generating motion video for scene ${n} (${model})...`);
+      if (target.duration > audioSeconds) sseSend(res, 'log', `  scene minimum ${target.duration}s is longer than its audio (${audioSeconds.toFixed(1)}s) — clip sized to the minimum`);
       await trackMediaChange('motion', n, () => generateSceneVideo({
         scene: n,
         imagePath,
         outputDir: P.sceneVideoDir,
         prompt: sceneMotionPrompt(target, undefined, model),
         model,
-        audioSeconds,
+        audioSeconds: Math.max(audioSeconds, target.duration ?? 0),
         aspect: activeAspect(),
         signal,
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
@@ -1481,12 +1484,21 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && pathname === '/api/scene-field') {
       const { scene, field, value } = await readBody(req);
-      const allowed = ['char', 'host', 'title', 'cue'];
+      const allowed = ['char', 'host', 'title', 'cue', 'duration'];
       if (!Number.isFinite(scene) || !allowed.includes(field) || typeof value !== 'string') {
-        sendJson(res, 400, { error: 'scene, field (char|host|title|cue) and value required' });
+        sendJson(res, 400, { error: 'scene, field (char|host|title|cue|duration) and value required' });
         return;
       }
-      writeSceneField(P.planMd, scene, field, value);
+      if (field === 'duration') {
+        // Blank clears the scene's minimum; anything else must parse, so a typo never sits in the plan.
+        const { value: seconds, error } = parseMinDuration(value);
+        if (error) { sendJson(res, 400, { error }); return; }
+        if (seconds === undefined) removeSceneField(P.planMd, scene, 'duration');
+        else writeSceneField(P.planMd, scene, 'duration', String(seconds));
+        await rebuildBundles();
+      } else {
+        writeSceneField(P.planMd, scene, field, value);
+      }
       sendJson(res, 200, buildState());
       return;
     }
@@ -2043,8 +2055,9 @@ const server = createServer(async (req, res) => {
           const motionPrompt = sceneMotionPrompt(target, editedParts, model);
           log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
           log(`audio duration: ${audioSeconds.toFixed(1)}s`);
+          if (target.duration > audioSeconds) log(`scene minimum ${target.duration}s is longer than the audio — clip sized to the minimum`);
           if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
-          const result = await trackMediaChange('motion', scene, () => generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds, duration, aspect: activeAspect(), signal, onLog: log }));
+          const result = await trackMediaChange('motion', scene, () => generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds: Math.max(audioSeconds, target.duration ?? 0), duration, aspect: activeAspect(), signal, onLog: log }));
           // The final Remotion render plays this clip in place of the scene image — rebuild so
           // the bundle's motionVideo flag flips on without a separate manual step.
           await rebuildBundles((event, data) => sseSend(res, event, data));

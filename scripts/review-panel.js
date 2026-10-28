@@ -799,6 +799,8 @@ function renderCharGallery() {
 function syncSetupBlock(s) {
   if (document.activeElement !== $("titleBox"))
     $("titleBox").value = s.title || "";
+  if (document.activeElement !== $("durationBox"))
+    $("durationBox").value = s.duration ?? "";
   const list = state.characterList || [];
   $("charPicker").innerHTML = list
     .map((c) => {
@@ -4059,6 +4061,13 @@ $("titleBox").addEventListener("blur", (e) => {
   const s = current();
   if (s && e.target.value.trim() !== (s.title || ""))
     saveSceneField("title", e.target.value.trim());
+});
+// The scene's minimum length; the server validates it and an empty box clears it.
+$("durationBox").addEventListener("change", (e) => {
+  const s = current();
+  const value = e.target.value.trim();
+  if (s && value !== String(s.duration ?? ""))
+    saveSceneField("duration", value);
 });
 
 // ------------------------------------------------------------------ characters

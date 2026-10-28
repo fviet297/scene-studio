@@ -4,7 +4,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const FIELD_RE = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host)\s*:/i;
+const FIELD_RE = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration)\s*:/i;
 
 // Write one scene field, replacing an existing `field:` line or inserting one after
 // `narration:`. Leaves every other line intact.

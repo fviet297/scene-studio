@@ -201,6 +201,7 @@
         <div class="block-head"><span class="ttl">Thông tin</span></div>
         <div class="field-row">
           <div class="field"><label for="titleBox">Tiêu đề</label><input class="text-input" id="titleBox" type="text" /></div>
+          <div class="field duration-field"><label for="durationBox">Tối thiểu (giây)</label><input class="text-input num" id="durationBox" type="number" min="0.5" max="600" step="0.5" inputmode="decimal" placeholder="theo audio" title="Giữ scene ít nhất chừng này giây trong video. Không cắt narration: audio dài hơn thì scene theo audio. Scene chưa có audio dùng số này thay 4 giây mặc định. Để trống = theo audio." /></div>
         </div>
         <div class="field">
           <label>Nhân vật trong scene</label>
@@ -564,7 +565,7 @@
           <button class="btn quiet sm settings-link" type="button" data-open-template="t_motionSystem" title="Hướng dẫn LLM dùng khi bấm Viết bằng AI — áp dụng cho cả dự án">Sửa prompt hệ thống viết motion</button>
         </details>
         <div class="field">
-          <label for="motionDurationBox">Độ dài (giây) <span class="note">trống = tự khớp audio narration, làm tròn lên theo giới hạn model</span></label>
+          <label for="motionDurationBox">Độ dài (giây) <span class="note">trống = khớp audio narration, hoặc độ dài tối thiểu của scene nếu dài hơn; làm tròn lên theo giới hạn model</span></label>
           <input class="text-input" id="motionDurationBox" type="number" min="1" step="1" inputmode="numeric" placeholder="tự động (khớp audio narration)" />
           <span class="note" id="motionDurationHint"></span>
         </div>
