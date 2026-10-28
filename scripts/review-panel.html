@@ -668,11 +668,16 @@
   <div class="dialog sync-dialog">
     <div class="dialog-head">
       <h2 id="syncDlgTitle">Đồng bộ media</h2>
-      <span class="note" id="syncInfo"></span>
       <button class="icon-btn" type="button" id="syncClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
+    <form class="lib-dir" id="syncSourceForm">
+      <label for="syncSourceInput">Nguồn</label>
+      <input class="text-input" id="syncSourceInput" type="text" spellcheck="false" placeholder="\\\\192.168.1.6\\pet\\scene-studio" />
+      <button class="btn sm primary" type="submit">Lưu</button>
+      <button class="btn sm" type="button" id="syncSourceReset" title="Quay về nguồn mặc định">Mặc định</button>
+    </form>
     <p class="lib-dir-note">Chỉ chép project được tick. File thiếu hoặc mới hơn ở nguồn thì chép; file local mới hơn được giữ nguyên, không xoá gì.</p>
     <div class="dialog-body single">
       <ul class="sync-list" id="syncList"></ul>

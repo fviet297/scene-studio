@@ -61,3 +61,28 @@ test('rejects an invalid slug and a project missing at the source', () => {
   assert.throws(() => planProjectSync('../etc', { root, localBase }), /slug không hợp lệ/);
   assert.throws(() => planProjectSync('khong-co', { root, localBase }), /nguồn không có media/);
 });
+
+test('saved source beats the env var, a bad folder is refused, empty restores the default', async () => {
+  const { root } = setup();
+  put(root, 'gia-long', 'audio/a.mp3', 'x', NEW);
+  const cwd = process.cwd();
+  process.chdir(mkdtempSync(join(tmpdir(), 'sync-cwd-')));
+  const previousEnv = process.env.MEDIA_SYNC_SOURCE;
+  process.env.MEDIA_SYNC_SOURCE = join(root, 'from-env');
+  try {
+    const { setSourceRoot, sourceRoot, DEFAULT_SOURCE } = await import('./media-sync.mjs');
+    assert.equal(sourceRoot(), join(root, 'from-env'));
+    assert.equal(setSourceRoot(root), root);
+    assert.equal(sourceRoot(), root);
+    assert.throws(() => setSourceRoot('relative/path'), /tuyệt đối/);
+    assert.throws(() => setSourceRoot(join(root, 'nope')), /không thấy thư mục media/);
+    assert.equal(sourceRoot(), root);
+    delete process.env.MEDIA_SYNC_SOURCE;
+    setSourceRoot('');
+    assert.equal(sourceRoot(), DEFAULT_SOURCE);
+  } finally {
+    process.chdir(cwd);
+    if (previousEnv === undefined) delete process.env.MEDIA_SYNC_SOURCE;
+    else process.env.MEDIA_SYNC_SOURCE = previousEnv;
+  }
+});

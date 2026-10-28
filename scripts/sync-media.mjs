@@ -47,9 +47,9 @@ const pickProjects = async (slugs) => {
 
 const main = async () => {
   const options = parseArgs(process.argv.slice(2));
-  if (options.source) process.env.MEDIA_SYNC_SOURCE = options.source;
-  const slugs = listSourceProjects();
-  console.log(`Nguồn: ${sourceRoot()}`);
+  const root = options.source ?? sourceRoot();
+  const slugs = listSourceProjects(root);
+  console.log(`Nguồn: ${root}`);
   if (options.list) {
     printList(slugs);
     return;
@@ -60,7 +60,7 @@ const main = async () => {
   if (chosen.length === 0) throw new Error('chưa chọn project nào');
 
   for (const slug of [...new Set(chosen)]) {
-    const plan = planProjectSync(slug);
+    const plan = planProjectSync(slug, { root });
     const summary = `${plan.copy.length} file cần chép (${mb(plan.bytes)}), ${plan.upToDate} đã mới nhất, ${plan.localNewer} local mới hơn (giữ nguyên)`;
     if (options.dryRun) {
       console.log(`[dry-run] ${slug}: ${summary}`);

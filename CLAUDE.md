@@ -24,7 +24,7 @@ npm run sync -- --project a,b [--dry-run]    # pull only those projects' media (
 - `ffprobe` (ffmpeg) must be on PATH: the bundle builder measures per-scene audio with it.
 - The review server and every CLI script need an active project. Resolution order: `--project <slug>` > `PROJECT` env > `projects/active.json`. `projects/active.json` is gitignored and per machine, so a fresh clone fails with `No active project` until you create it (`{ "active": "<slug>" }`) or set `PROJECT`.
 - Copy `.env.example` to `.env`. `REPLICATE_API_TOKEN` is the main key. Provider endpoints, keys and model lists can also be edited in the panel (Model button) and are stored in `data/models.json`, which takes priority over `.env`.
-- `public/projects/` (generated media) is gitignored. `npm run sync` copies chosen projects from `MEDIA_SYNC_SOURCE` (default the Mac share `\\192.168.1.6\pet\scene-studio`): it copies missing or newer files and never overwrites a newer local file or deletes anything (`scripts/lib/media-sync.mjs`).
+- `public/projects/` (generated media) is gitignored. `npm run sync` copies chosen projects from the source folder (saved from the panel into `data/media-sync.json`, else `MEDIA_SYNC_SOURCE`, else the Mac share `\\192.168.1.6\pet\scene-studio`): it copies missing or newer files and never overwrites a newer local file or deletes anything (`scripts/lib/media-sync.mjs`).
 - There is no automated UI test. `docs/tasks/scene-studio-*/` hold progress logs, decisions and handoffs for the panel's UX/IA rounds; read `decisions.md` there before changing panel layout.
 
 ## Architecture

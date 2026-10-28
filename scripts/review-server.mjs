@@ -63,6 +63,7 @@
 //                               the render runs first), so the preview plays exactly what renders
 //   GET  /public/<path>       → files under public/ (what staticFile() points at in the preview)
 //   GET  /api/media-sync      → source root + projects with media there (and whether each exists locally)
+//   POST /api/media-source    → { dir } → save the folder media is pulled from (empty = default)
 //   POST /api/media-sync      → { slugs, dryRun } → run scripts/sync-media.mjs for those projects
 //   GET  /api/services        → state of the local OmniVoice / muse2api servers
 //   POST /api/services/start  → { id } → start that local server as a child of this one
@@ -99,7 +100,7 @@ import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { clearAudioNarration, isAudioStale, readAudioNarration, writeAudioNarration } from './lib/audio-narration.mjs';
 import { adoptMotionSource, clearMotionSource, imageFingerprint, isMotionStale, readMotionSource, writeMotionSource } from './lib/motion-source.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
-import { listSourceProjects, sourceRoot } from './lib/media-sync.mjs';
+import { listSourceProjects, setSourceRoot, sourceRoot } from './lib/media-sync.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
@@ -637,6 +638,16 @@ const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'vi
 const PUBLIC_DIR = 'public';
 const execFileAsync = promisify(execFile);
 const MEDIA_SYNC_TIMEOUT_MS = 30 * 60 * 1000;
+
+// The media source folder plus its projects. A source that cannot be read still reports the folder,
+// so the panel can show the path to fix.
+const sendMediaSources = (res) => {
+  const source = sourceRoot();
+  try {
+    const projects = listSourceProjects(source).map((slug) => ({ slug, local: existsSync(join('public', 'projects', slug)), active: slug === P.slug }));
+    sendJson(res, 200, { source, projects });
+  } catch (e) { sendJson(res, 502, { error: e.message, source }); }
+};
 // Validate an uploaded scene video against the active project's aspect: orientation must match
 // (portrait for 9:16, landscape for 16:9) and the long edge must be at least 1280px.
 const probeSceneVideo = (path) => {
@@ -1305,10 +1316,14 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/api/media-sync') {
-      try {
-        const projects = listSourceProjects().map((slug) => ({ slug, local: existsSync(join('public', 'projects', slug)), active: slug === P.slug }));
-        sendJson(res, 200, { source: sourceRoot(), projects });
-      } catch (e) { sendJson(res, 502, { error: e.message }); }
+      sendMediaSources(res);
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/media-source') {
+      const { dir } = await readBody(req);
+      try { setSourceRoot(dir); } catch (e) { sendJson(res, 400, { error: `không dùng được thư mục này: ${e.message}` }); return; }
+      sendMediaSources(res);
       return;
     }
 

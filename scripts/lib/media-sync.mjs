@@ -5,16 +5,38 @@
 // is newer, or the same age, is never overwritten, and nothing is ever deleted. Copies keep the
 // source mtime, so a second run finds every file up to date.
 //
-// Env: MEDIA_SYNC_SOURCE = root of the other repo copy (default DEFAULT_SOURCE below).
-import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, utimesSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+// Source root, first match wins: the folder saved from the panel (data/media-sync.json, per
+// machine, gitignored), env MEDIA_SYNC_SOURCE, then DEFAULT_SOURCE below.
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, utimesSync, writeFileSync } from 'node:fs';
+import { dirname, isAbsolute, join } from 'node:path';
 import { isValidSlug } from './project-paths.mjs';
 
 export const DEFAULT_SOURCE = '\\\\192.168.1.6\\pet\\scene-studio';
 // SMB shares and FAT-style filesystems round mtimes; a smaller gap is not a real difference.
 const MTIME_TOLERANCE_MS = 2000;
 
-export const sourceRoot = () => process.env.MEDIA_SYNC_SOURCE || DEFAULT_SOURCE;
+export const SOURCE_FILE = join('data', 'media-sync.json');
+
+const readSavedSource = () => {
+  try { return JSON.parse(readFileSync(SOURCE_FILE, 'utf8')).source || null; } catch { return null; }
+};
+
+export const sourceRoot = () => readSavedSource() || process.env.MEDIA_SYNC_SOURCE || DEFAULT_SOURCE;
+// Save a new source root and return the one now in effect. Empty/null restores the default. The
+// folder is checked now (absolute, and it holds public/projects) so a typo fails here, not mid-sync.
+export const setSourceRoot = (input) => {
+  if (input == null || String(input).trim() === '') {
+    rmSync(SOURCE_FILE, { force: true });
+    return sourceRoot();
+  }
+  const source = String(input).trim();
+  if (!isAbsolute(source)) throw new Error('đường dẫn phải là đường dẫn tuyệt đối (ổ đĩa, \\\\máy\\thư-mục hoặc /...)');
+  listSourceProjects(source);
+  mkdirSync(dirname(SOURCE_FILE), { recursive: true });
+  writeFileSync(SOURCE_FILE, `${JSON.stringify({ source }, null, 2)}\n`);
+  return source;
+};
+
 const mediaDir = (root, slug) => join(root, 'public', 'projects', slug);
 
 // Project slugs that have media at the source.

@@ -3088,16 +3088,21 @@ const setSyncBusy = (busy) => {
   for (const box of $("syncList").querySelectorAll("input")) box.disabled = busy;
 };
 
-$("btnSync").addEventListener("click", async () => {
-  $("syncOverlay").hidden = false;
-  $("syncList").innerHTML = "";
+// An unreadable source answers 502 with its path, so the box still shows what to correct.
+async function readSyncSources() {
+  const res = await fetch("/api/media-sync");
+  const data = await res.json();
+  if (!res.ok) {
+    $("syncSourceInput").value = data.source ?? "";
+    throw new Error(data.error || res.statusText);
+  }
+  return data;
+}
+
+function renderSyncSources({ source, projects }) {
+  $("syncSourceInput").value = source;
   $("syncOutput").hidden = true;
-  $("syncInfo").textContent = "";
-  showSyncEmpty("Đang tải…");
-  try {
-    const { source, projects } = await api("/api/media-sync");
-    $("syncInfo").textContent = source;
-    $("syncList").innerHTML = projects
+  $("syncList").innerHTML = projects
       .map(
         (p) => `<li><label>
           <input type="checkbox" value="${escapeHtml(p.slug)}" />
@@ -3107,11 +3112,35 @@ $("btnSync").addEventListener("click", async () => {
         </label></li>`,
       )
       .join("");
-    showSyncEmpty(projects.length ? "" : "Nguồn chưa có media của project nào.");
+  showSyncEmpty(projects.length ? "" : "Nguồn chưa có media của project nào.");
+}
+
+$("btnSync").addEventListener("click", async () => {
+  $("syncOverlay").hidden = false;
+  $("syncList").innerHTML = "";
+  $("syncOutput").hidden = true;
+  showSyncEmpty("Đang tải…");
+  try {
+    renderSyncSources(await readSyncSources());
   } catch (e) {
     showSyncEmpty(`Không đọc được nguồn: ${e.message}`);
   }
 });
+
+// `dir` null restores the default source.
+const saveSyncSource = async (dir) => {
+  try {
+    renderSyncSources(await api("/api/media-source", { dir }));
+    toast("Đã đổi nguồn đồng bộ");
+  } catch (e) {
+    toast(e.message, false);
+  }
+};
+$("syncSourceForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  saveSyncSource($("syncSourceInput").value);
+});
+$("syncSourceReset").addEventListener("click", () => saveSyncSource(null));
 
 async function runSync(dryRun) {
   const slugs = checkedSyncSlugs();
