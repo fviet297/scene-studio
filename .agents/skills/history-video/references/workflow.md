@@ -15,7 +15,7 @@ transcript → historical analysis → character detection → profiles → char
 - List existing assets (`characters/`, `style/`, `public/images/`, `public/audio/`,
   `asset-manifest.json`) and reuse them before generating anything new.
 - If the repo has a `projects/` directory, it hosts multiple comparison videos side by side
-  (see `compare-image`): `scene-plan.md` is `projects/<slug>/scene-plan.md`, assets live
+  (see `scene-studio`): `scene-plan.md` is `projects/<slug>/scene-plan.md`, assets live
   under `public/projects/<slug>/`, and the active project comes from `projects/active.json`
   (or `--project <slug>` / `PROJECT` env). Otherwise use the root-level paths below.
 

@@ -1,6 +1,6 @@
 # Scene plan — the skill input
 
-> Some repos support multiple comparison projects side by side (see `compare-image`). If a
+> Some repos support multiple comparison projects side by side (see `scene-studio`). If a
 > `projects/` directory exists, this file lives at `projects/<slug>/scene-plan.md` and
 > character references at `public/projects/<slug>/characters/<id>.png` instead of the
 > root-level paths shown below, and the parser emits nothing (see **What the parser emits**);

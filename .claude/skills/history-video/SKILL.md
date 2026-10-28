@@ -23,7 +23,7 @@ Do **not** do: transcript → search a name → download a random image → drop
    `asset-manifest.json`. Preserve project conventions and user assets.
 
    **Multi-project layout (optional):** some repos host several comparison videos side by
-   side instead of one (see the `compare-image` reference implementation). Detect this by a
+   side instead of one (see the `scene-studio` reference implementation). Detect this by a
    `projects/` directory at the repo root. When present: `scene-plan.md` lives at
    `projects/<slug>/scene-plan.md`, character references and generated assets sit under
    `public/projects/<slug>/` instead of `public/`, and the active project is read from

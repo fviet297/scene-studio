@@ -19,7 +19,7 @@ Cập nhật: 2026-10-28. Đọc `README.md` + `requirements.md` trước; vòng
 ## Chạy và kiểm
 
 ```bash
-cd /Users/fviet/PET/compare-image
+cd /Users/fviet/PET/scene-studio
 npm run review                      # cổng 9000
 node --test scripts/lib/*.test.mjs  # 69 pass
 ```

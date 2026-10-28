@@ -13,7 +13,7 @@
 ## Chạy panel để thử
 
 ```bash
-cd /Users/fviet/PET/compare-image
+cd /Users/fviet/PET/scene-studio
 npm run review                              # cổng 9000
 REVIEW_PORT=9123 node scripts/review-server.mjs   # cổng khác, khi 9000 đang bận
 ```
