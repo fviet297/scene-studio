@@ -1,4 +1,4 @@
-// Writes one scene's image-generation prompt from its narration via the OpenAI API, following
+// Writes one scene's image-generation prompt from its narration via the configured LLM, following
 // the house rules from the history-video skill: action/setting only (never appearance, which
 // the reference image already locks), physical continuity, concrete named culture/century
 // detail, and explicit left/right placement when multiple characters share a scene, plus its
@@ -6,15 +6,12 @@
 // server (scripts/review-server.mjs) and the CLI (scripts/generate-prompts.mjs), so the
 // instructions live in one place.
 //
-// Requires OPENAI_API_KEY (loaded from ./.env via replicate-image.mjs's loadEnv()).
-// Optional OPENAI_PROMPT_MODEL overrides the default model.
+// Uses the same LLM as the script and motion writers (llm-client.mjs): LLM_BASE_URL / LLM_API_KEY /
+// LLM_MODEL from .env, or whatever provider the panel's Model manager has set.
 
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-
-// Stronger default writer model closes most of the gap with the skill-authored prompts. Override
-// via OPENAI_PROMPT_MODEL if the account lacks it (e.g. set it back to gpt-4.1).
-const DEFAULT_MODEL = 'gpt-5';
+import { chatText } from './llm-client.mjs';
 
 // A single skill-authored example per shape, so the model copies the discipline (named culture,
 // pinned extras, scene-specific negatives) — not the content. Lifted from a real scene-plan.md.
@@ -118,7 +115,7 @@ export const sceneCharacterBrief = (characters, identity = 'full') => {
   return { charLines, notes: `${identityNote}${characterCountRule}`, budget };
 };
 
-// One reply carries both fields, separated by a delimiter line (no second OpenAI call):
+// One reply carries both fields, separated by a delimiter line (no second LLM call):
 // English prompt · ===VI=== · Vietnamese prompt. A missing delimiter leaves the translation empty
 // rather than failing, so a model that answers with the prompt alone still yields a usable prompt.
 const SECTION_RE = /^\s*={2,}\s*VI\s*={2,}\s*$/i;
@@ -139,36 +136,15 @@ const splitSections = (raw) => {
 // the scene may re-dress the character (face-lock) or must keep the reference's costume (full).
 // `context` is optional { prev, next } narration of the neighbouring scenes, used only to keep the
 // setting/action continuous — the model must not depict them.
-export const generateScenePrompt = async ({ narration, characters = [], identity = 'full', apiKey, model, context }) => {
-  const key = apiKey ?? process.env.OPENAI_API_KEY;
-  if (!key) throw new Error('OPENAI_API_KEY not set (put it in .env).');
-  const useModel = model ?? process.env.OPENAI_PROMPT_MODEL ?? DEFAULT_MODEL;
-
+export const generateScenePrompt = async ({ narration, characters = [], identity = 'full', context, signal, onLog }) => {
   const { charLines, notes, budget } = sceneCharacterBrief(characters, identity);
   const contextNote = context && (context.prev || context.next)
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them, and do NOT reuse an adjacent beat's setting plus activity: change the terrain, time of day or action so this reads as a new shot):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
   const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now. Keep the English scene prompt under ${budget} characters. Output the two parts in order, separated by the ===VI=== delimiter line.`;
 
-  // Newer reasoning-class models reject a custom temperature; only send it for the gpt-4 family.
-  const supportsTemperature = /^gpt-4/.test(useModel);
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: useModel,
-      ...(supportsTemperature ? { temperature: 0.7 } : {}),
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
-    }),
-  });
-  if (!res.ok) throw new Error(`OpenAI ${res.status}: ${(await res.text()).slice(0, 500)}`);
-  const data = await res.json();
-  const raw = data.choices?.[0]?.message?.content?.trim();
-  if (!raw) throw new Error('OpenAI returned no prompt text.');
+  const raw = await chatText({ system: SYSTEM_PROMPT, user: userPrompt, signal, onLog, label: 'Viết prompt ảnh' });
   const { text, vi } = splitSections(raw);
-  if (!text) throw new Error('OpenAI returned no prompt text.');
+  if (!text) throw new Error('LLM không trả về prompt.');
   return { text, vi };
 };

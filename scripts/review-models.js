@@ -235,7 +235,7 @@ const mmModelsSectionHtml = (provider) => {
 
 const mmPaneHeadHtml = (provider) => `<div class="models-pane-head">
   <h3>${escapeHtml(provider.label)}</h3>
-  <span class="tag">${mmIsLlm(provider) ? "Viết kịch bản, motion, bài đăng" : provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
+  <span class="tag">${mmIsLlm(provider) ? "Viết kịch bản, prompt ảnh, motion, bài đăng" : provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
   <span class="grow"></span>
   ${provider.builtin ? "" : '<button class="btn quiet danger sm" type="button" data-action="delete-provider">Xoá provider</button>'}
 </div>`;

@@ -4487,7 +4487,7 @@ async function openProfile(id) {
     $("prof_unknowns").value = (profile.unknowns ?? []).join("\n");
     $("prof_import").value = "";
     $("profNote").textContent =
-      "Quốc gia / thời kỳ / triều đại / vai trò được dùng khi OpenAI viết prompt.";
+      "Quốc gia / thời kỳ / triều đại / vai trò được dùng khi AI viết prompt.";
     $("profOverlay").hidden = false;
     $("prof_name").focus();
   } catch (e) {

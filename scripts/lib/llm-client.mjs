@@ -1,10 +1,11 @@
-// OpenAI-compatible chat client for the script, motion and upload-copy writers.
+// OpenAI-compatible chat client for the script, motion, image-prompt and upload-copy writers.
 // Configured from .env, or from the panel's model manager (its "LLM" provider overrides these env
 // vars, model-config.mjs), so the provider can be swapped without touching code:
 //   LLM_BASE_URL (e.g. https://api.openai.com/v1) · LLM_API_KEY · LLM_MODEL
 //   LLM_USER_AGENT — optional; some routers only serve requests from known client user agents.
-// Every call asks for one JSON object back. A reply wrapped in a markdown fence or a sentence is
-// still parsed, since not every OpenAI-compatible server honours response_format.
+// chatJson asks for one JSON object back. A reply wrapped in a markdown fence or a sentence is
+// still parsed, since not every OpenAI-compatible server honours response_format. chatText returns
+// the plain reply (the image-prompt writer's delimiter format).
 
 // A whole-video story from a reasoning model can take several minutes to come back.
 const REQUEST_TIMEOUT_MS = 8 * 60_000;
@@ -100,7 +101,7 @@ const postChat = async (config, body, signal) => fetch(`${config.baseUrl}/chat/c
 
 // One request → the parsed JSON object, or an Error tagged `retryable`. Reasoning models behind a
 // router now and then return content "" or break the JSON with a stray quote; those are retryable.
-const attemptChat = async (config, body, signal, label) => {
+const attemptChat = async (config, body, signal, label, parse) => {
   let text;
   let status;
   try {
@@ -122,7 +123,7 @@ const attemptChat = async (config, body, signal, label) => {
   const content = choice?.message?.content ?? '';
   if (!content.trim()) throw failure(`${label}: model trả về rỗng`, true);
   try {
-    return parseJsonReply(content);
+    return parse(content);
   } catch (error) {
     throw failure(`${label}: ${error.message}`, true);
   }
@@ -131,16 +132,16 @@ const attemptChat = async (config, body, signal, label) => {
 // One system + user turn → the parsed JSON object. Up to MAX_ATTEMPTS requests, each retry
 // announced through onLog (every attempt is a paid call); a cancel (`signal`) or a timeout is
 // never retried.
-export const chatJson = async ({ system, user, signal, label = 'LLM', onLog = () => {} }) => {
+const chat = async ({ system, user, signal, label, onLog, json, parse }) => {
   const config = llmConfig();
   const body = JSON.stringify({
     model: config.model,
-    response_format: { type: 'json_object' },
+    ...(json ? { response_format: { type: 'json_object' } } : {}),
     messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
   });
   for (let attempt = 1; ; attempt++) {
     try {
-      return await attemptChat(config, body, signal, label);
+      return await attemptChat(config, body, signal, label, parse);
     } catch (error) {
       if (signal?.aborted || !error.retryable || attempt === MAX_ATTEMPTS) throw error;
       onLog(`⚠ ${error.message} — thử lại (lần ${attempt + 1}/${MAX_ATTEMPTS})`);
@@ -148,3 +149,10 @@ export const chatJson = async ({ system, user, signal, label = 'LLM', onLog = ()
     }
   }
 };
+
+export const chatJson = ({ system, user, signal, label = 'LLM', onLog = () => {} }) =>
+  chat({ system, user, signal, label, onLog, json: true, parse: parseJsonReply });
+
+// Same request without response_format: the reply text, trimmed.
+export const chatText = ({ system, user, signal, label = 'LLM', onLog = () => {} }) =>
+  chat({ system, user, signal, label, onLog, json: false, parse: (content) => content.trim() });

@@ -34,7 +34,7 @@
 //   POST /api/character-apply → { id, from?: 'draft'|'source' } → the draft (default) or the uploaded
 //                               source image, as it is, becomes that character's reference image
 //   POST /api/generate-puppets → { id? } → spawn generate-puppet-references.mjs, stream its log over SSE
-//   POST /api/generate-prompt → { scene } → write that scene's image prompt from narration via OpenAI
+//   POST /api/generate-prompt → { scene } → write that scene's image prompt from narration via the LLM
 //   POST /api/generate-prompts-batch → { scenes:[...] } → same, sequential, streamed over SSE
 //   POST /api/generate-motion-prompts-batch → { scenes:[...] } → write camera / action / env for
 //                               those scenes via the LLM (motion-writer.mjs), streamed over SSE
@@ -848,7 +848,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
   res.end();
 };
 
-// Write prompts for several AI scenes in turn via OpenAI (scripts/lib/prompt-writer.mjs). One
+// Write prompts for several AI scenes in turn via the LLM (scripts/lib/prompt-writer.mjs). One
 // LLM call per scene, sequential; a failure on one does not abort the rest.
 const generatePromptsBatch = async (res, sceneNos) => {
   sseHead(res);
@@ -1821,7 +1821,7 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/generate-prompt') {
-      // Write one scene's image prompt from its narration via OpenAI (scripts/lib/prompt-writer.mjs).
+      // Write one scene's image prompt from its narration via the LLM (scripts/lib/prompt-writer.mjs).
       const { scene } = await readBody(req);
       const plan = readPlan();
       const target = plan.scenes.find((s) => s.scene === scene);

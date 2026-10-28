@@ -9,6 +9,7 @@
 // Other project:                 node scripts/generate-prompts.mjs --project other-slug
 
 import { loadEnv } from './lib/replicate-image.mjs';
+import { llmConfig } from './lib/llm-client.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
 import { writeSceneField } from './lib/plan-writer.mjs';
 import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
@@ -16,7 +17,7 @@ import { parsePlan } from './lib/parse-plan.mjs';
 
 loadEnv();
 
-if (!process.env.OPENAI_API_KEY) { process.stderr.write('OPENAI_API_KEY not set (put it in .env).\n'); process.exit(1); }
+try { llmConfig(); } catch (error) { process.stderr.write(`${error.message}\n`); process.exit(1); }
 
 const argv = process.argv.slice(2);
 const paths = activePaths(argv);
