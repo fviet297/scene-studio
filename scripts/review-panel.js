@@ -44,10 +44,9 @@ const ICON_OK =
 const ICON_BAD =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>';
 
-// Style DNA lives in the Style dialog, the rest in the Template prompt dialog; each saves only its
-// own fields (the server keeps every blank/missing field at its current value).
-const STYLE_FIELDS = ["styleDna"];
-const PROMPT_FIELDS = [
+// Every field of a style version, edited and saved together in the Style & template dialog.
+const TEMPLATE_FIELDS = [
+  "styleDna",
   "masterPrompt",
   "faceLockPrompt",
   "multiCharPrompt",
@@ -55,7 +54,6 @@ const PROMPT_FIELDS = [
   "guard",
   "motionSystem",
 ];
-const TEMPLATE_FIELDS = [...STYLE_FIELDS, ...PROMPT_FIELDS];
 const STATE_LABEL = {
   "need-image": "thiếu ảnh",
   "need-audio": "thiếu audio",
@@ -795,6 +793,7 @@ function renderCharGallery() {
     })
     .join("");
   for (const id of CHAR_GALLERY_IDS) $(id).innerHTML = html;
+  $("railCastCount").textContent = list.length ? String(list.length) : "";
 }
 
 function syncSetupBlock(s) {
@@ -901,6 +900,7 @@ function renderStage() {
     $("canvasEmpty").hidden = false;
     $("canvasEmptyText").textContent = "Chưa có scene nào trong scene-plan.md.";
     $("stScene").textContent = "Scene";
+    $("inspTitle").textContent = "Chi tiết scene";
     for (const id of ["stKind", "stSource", "stState"]) $(id).hidden = true;
     $("inspector").style.opacity = ".4";
     return;
@@ -1088,6 +1088,7 @@ function setStageState(id, done) {
 }
 
 function syncInspector(s) {
+  $("inspTitle").textContent = `Scene ${s.scene}`;
   const narrDraft = drafts.narr.get(s.scene);
   const narr = $("narrBox");
   if (document.activeElement !== narr)
@@ -1200,6 +1201,18 @@ function motionBatchTitle(targets, eligibleCount) {
   return `Chưa chạy được: ${reasons.join("; ")}.`;
 }
 
+// How many of the targeted scenes each batch button will actually run on (e.g. only AI scenes get
+// an image), shown on the button itself so the scope is clear before the click.
+function showBatchCounts(counts) {
+  for (const badge of document.querySelectorAll("[data-count-for]")) {
+    const n = counts[badge.dataset.countFor] ?? 0;
+    badge.textContent = n ? String(n) : "";
+    badge
+      .closest("button")
+      .setAttribute("aria-description", n ? `chạy cho ${n} scene` : "");
+  }
+}
+
 function renderSelection() {
   for (const n of [...selected]) if (!findScene(n)) selected.delete(n);
   const chosen = state.scenes.filter((s) => selected.has(s.scene));
@@ -1258,6 +1271,12 @@ function renderSelection() {
   $("railBatchMotion").disabled = disMotion;
   $("railBatchMerge").disabled = disMerge;
   $("railBatch").hidden = chosen.length === 0;
+  showBatchCounts({
+    prompt: disPrompt ? 0 : promptEligible,
+    image: disImg ? 0 : aiCount,
+    audio: disAud ? 0 : audioEligible,
+    motion: disMotion ? 0 : motionEligibleCount,
+  });
   const failedCount = failedScenes().filter(findScene).length;
   const failedOption = $("selQuick").querySelector('option[value="failed"]');
   failedOption.textContent = failedCount
@@ -2618,7 +2637,15 @@ const runBatchMotion = async () => {
   fromSelection(enqueueMotions(scenes, model));
 };
 $("batchPrompt").addEventListener("click", runBatchPrompts);
-$("batchPromptKind").addEventListener("change", renderSelection);
+// The rail's kind select mirrors the timeline's, which stays the one value promptKind() reads.
+$("batchPromptKind").addEventListener("change", () => {
+  $("railPromptKind").value = $("batchPromptKind").value;
+  renderSelection();
+});
+$("railPromptKind").addEventListener("change", () => {
+  $("batchPromptKind").value = $("railPromptKind").value;
+  renderSelection();
+});
 $("batchImg").addEventListener("click", runBatchImages);
 $("batchAud").addEventListener("click", runBatchAudio);
 $("batchMotion").addEventListener("click", runBatchMotion);
@@ -2863,33 +2890,32 @@ $("conCopy").addEventListener("click", async () => {
   }
 });
 
-async function openTemplateDialog(overlayId, firstFieldId) {
-  $(overlayId).hidden = false;
+// `firstFieldId` is the field to land on; the motion system prompt sits in a closed "Nâng cao"
+// section, which opens when it is the target.
+async function openTemplateDialog(firstFieldId = "t_styleDna") {
+  $("tplOverlay").hidden = false;
   try {
     await loadTemplates();
   } catch (e) {
     toast(e.message, false);
   }
   const first = $(firstFieldId);
+  const section = first.closest("details");
+  if (section) section.open = true;
   first.focus();
   first.setSelectionRange(0, 0);
   first.scrollTop = 0;
+  first.scrollIntoView({ block: "nearest" });
 }
-$("btnTemplates").addEventListener("click", () =>
-  openTemplateDialog("tplOverlay", "t_masterPrompt"),
-);
-$("btnStyle").addEventListener("click", () =>
-  openTemplateDialog("styleOverlay", "t_styleDna"),
-);
-$("styleClose").addEventListener("click", () => {
-  $("styleOverlay").hidden = true;
-});
-$("styleOverlay").addEventListener("click", (e) => {
-  if (e.target === $("styleOverlay")) $("styleOverlay").hidden = true;
-});
-$("styleReload").addEventListener("click", () =>
-  loadTemplates().catch((e) => toast(e.message, false)),
-);
+$("btnTemplates").addEventListener("click", () => openTemplateDialog());
+// From a scene's Image / Motion dialog straight to the project setting behind it. The scene dialog
+// closes first: the settings dialog would otherwise open underneath it.
+for (const link of document.querySelectorAll("[data-open-template]")) {
+  link.addEventListener("click", () => {
+    link.closest(".overlay").hidden = true;
+    openTemplateDialog(link.dataset.openTemplate);
+  });
+}
 $("tplClose").addEventListener("click", () => {
   $("tplOverlay").hidden = true;
 });
@@ -2948,10 +2974,7 @@ async function saveTemplateFields(fields, button, doneMessage) {
   }
 }
 $("tplSave").addEventListener("click", () =>
-  saveTemplateFields(PROMPT_FIELDS, $("tplSave"), "Đã lưu template."),
-);
-$("styleSave").addEventListener("click", () =>
-  saveTemplateFields(STYLE_FIELDS, $("styleSave"), "Đã lưu style."),
+  saveTemplateFields(TEMPLATE_FIELDS, $("tplSave"), "Đã lưu style & template."),
 );
 
 // Keyboard: scene paging and view switching, ignored while typing.
@@ -3076,10 +3099,6 @@ window.addEventListener("keydown", (e) => {
     }
     if (!$("tplOverlay").hidden) {
       $("tplOverlay").hidden = true;
-      return;
-    }
-    if (!$("styleOverlay").hidden) {
-      $("styleOverlay").hidden = true;
       return;
     }
     if (!$("scriptOverlay").hidden) {
@@ -4314,6 +4333,12 @@ function onCharGalleryClick(e) {
 }
 for (const id of CHAR_GALLERY_IDS)
   $(id).addEventListener("click", onCharGalleryClick);
+// The rail's cast section remembers being folded away, per browser.
+const RAIL_CAST_STORE = "reviewRailCastOpen";
+$("railCast").open = lsGet(RAIL_CAST_STORE) !== "0";
+$("railCast").addEventListener("toggle", () =>
+  lsSet(RAIL_CAST_STORE, $("railCast").open ? "1" : "0"),
+);
 $("charFileInput").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   e.target.value = "";

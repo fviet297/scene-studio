@@ -106,6 +106,9 @@ function renderVoiceSelect() {
   if (key === voiceSelectKey) return;
   voiceSelectKey = key;
   $("voiceSelect").innerHTML = voiceOptionsHtml(state.project.voice);
+  // The workbench's narration block names the voice "Sinh audio" will use (read-only there).
+  const voice = $("voiceSelect").value;
+  $("narrVoice").textContent = voice ? `Giọng: ${voice}` : "";
 }
 
 $("voiceSelect").addEventListener("change", async (e) => {

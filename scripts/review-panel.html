@@ -32,6 +32,13 @@
       </select>
       <select class="mini style-select" id="styleSelect" aria-label="Style ảnh của dự án" title="Style version dùng khi sinh ảnh của dự án này"></select>
       <select class="mini voice-select" id="voiceSelect" aria-label="Giọng đọc narration của dự án" title="Giọng OmniVoice đọc narration của cả dự án"></select>
+      <div class="menu" data-menu>
+        <button class="btn" type="button" id="menuProjectBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="menuProject">Cài đặt dự án<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="menu-pop" id="menuProject" role="menu" aria-labelledby="menuProjectBtn" hidden>
+          <button class="menu-item" type="button" role="menuitem" id="btnTemplates"><span>Style &amp; template</span><span class="menu-hint">Style version, Style DNA, template sinh ảnh, prompt hệ thống viết motion</span></button>
+          <button class="menu-item" type="button" role="menuitem" id="btnBrand"><span>Logo &amp; watermark</span><span class="menu-hint">Logo góc, tên thương hiệu, watermark cho MP4 render</span></button>
+        </div>
+      </div>
     </div>
     <span class="bar-sep"></span>
     <!-- Local servers the pipeline needs: click a stopped one to start it -->
@@ -57,15 +64,7 @@
       <button type="button" id="viewStage" data-view="stage" aria-pressed="false" title="Bàn làm việc (phím 2)">Bàn làm việc</button>
     </div>
     <span class="bar-sep"></span>
-    <div class="menu" data-menu>
-      <button class="btn" type="button" id="menuProjectBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="menuProject">Dự án<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-      <div class="menu-pop" id="menuProject" role="menu" aria-labelledby="menuProjectBtn" hidden>
-        <button class="menu-item" type="button" role="menuitem" id="btnScript"><span>Kịch bản</span><span class="menu-hint">Sửa narration, prompt, motion của mọi scene; nhập JSON</span></button>
-        <button class="menu-item" type="button" role="menuitem" id="btnStyle"><span>Style</span><span class="menu-hint">Style DNA và style version của dự án</span></button>
-        <button class="menu-item" type="button" role="menuitem" id="btnTemplates"><span>Template prompt</span><span class="menu-hint">Template sinh ảnh và prompt hệ thống viết motion</span></button>
-        <button class="menu-item" type="button" role="menuitem" id="btnBrand"><span>Logo &amp; watermark</span><span class="menu-hint">Logo góc, tên thương hiệu, watermark cho MP4 render</span></button>
-      </div>
-    </div>
+    <button class="btn" type="button" id="btnScript" title="Narration, prompt, motion của mọi scene; viết prompt còn thiếu; nhập / copy JSON">Kịch bản</button>
     <div class="menu" data-menu>
       <button class="btn" type="button" id="menuPublishBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="menuPublish">Đóng gói<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
       <div class="menu-pop" id="menuPublish" role="menu" aria-labelledby="menuPublishBtn" hidden>
@@ -124,10 +123,14 @@
       <button class="btn quiet danger sm" type="button" id="btnDeleteScene" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá scene</button>
     </div>
     <div class="pane-scroll">
-      <div class="char-gallery-head">
-        <button class="btn sm" type="button" id="btnAddChar">Thêm nhân vật</button>
-      </div>
-      <div class="char-gallery" id="charGallery"></div>
+      <!-- The cast belongs to the whole project, not to the scene list under it -->
+      <details class="rail-cast" id="railCast" open>
+        <summary>Nhân vật dự án <span class="num" id="railCastCount"></span></summary>
+        <div class="char-gallery-head">
+          <button class="btn sm" type="button" id="btnAddChar">Thêm nhân vật</button>
+        </div>
+        <div class="char-gallery" id="charGallery"></div>
+      </details>
       <ul class="rail-list" id="railList"></ul>
     </div>
 
@@ -138,10 +141,15 @@
         <button class="btn quiet sm" type="button" id="railSelClear">Bỏ chọn</button>
       </div>
       <div class="rail-batch-run">
-        <button class="btn sm" type="button" id="railBatchPrompt" disabled title="Viết lại prompt cho các scene AI đã chọn — loại (ảnh / motion / cả hai) chọn ở thanh Timeline">Prompt</button>
-        <button class="btn sm" type="button" id="railBatchImg" disabled title="Sinh ảnh cho các scene AI đã chọn">Ảnh</button>
-        <button class="btn sm" type="button" id="railBatchAud" disabled title="Sinh audio narration cho các scene đã chọn">Audio</button>
-        <button class="btn sm" type="button" id="railBatchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)">Motion</button>
+        <select class="mini" id="railPromptKind" aria-label="Loại prompt cần viết lại">
+          <option value="both">Cả hai</option>
+          <option value="image">Chỉ ảnh</option>
+          <option value="motion">Chỉ motion</option>
+        </select>
+        <button class="btn sm" type="button" id="railBatchPrompt" disabled title="Viết lại prompt cho các scene AI đã chọn theo loại ở ô bên trái (ghi đè prompt hiện có)">Prompt<span class="batch-count num" data-count-for="prompt"></span></button>
+        <button class="btn sm" type="button" id="railBatchImg" disabled title="Sinh ảnh cho các scene AI đã chọn">Ảnh<span class="batch-count num" data-count-for="image"></span></button>
+        <button class="btn sm" type="button" id="railBatchAud" disabled title="Sinh audio narration cho các scene đã chọn">Audio<span class="batch-count num" data-count-for="audio"></span></button>
+        <button class="btn sm" type="button" id="railBatchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)">Motion<span class="batch-count num" data-count-for="motion"></span></button>
         <button class="btn sm" type="button" id="railBatchMerge" disabled title="Gộp các scene liền kề đã chọn thành một">Gộp</button>
       </div>
     </div>
@@ -181,7 +189,7 @@
 
   <!-- Inspector: scene content first, then the three production stages in pipeline order -->
   <aside class="pane inspector">
-    <div class="pane-head"><span class="ttl">Chi tiết scene</span></div>
+    <div class="pane-head"><span class="ttl" id="inspTitle">Chi tiết scene</span></div>
     <div class="pane-scroll" id="inspector">
 
       <div class="block" id="errBlock" hidden>
@@ -210,6 +218,8 @@
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration của scene đang chọn" placeholder="Lời narration đọc cho scene này"></textarea>
         <div class="btn-row">
           <button class="btn sm" type="button" id="narrSave" disabled>Lưu narration</button>
+          <span class="grow"></span>
+          <span class="note narr-voice" id="narrVoice" title="Giọng đọc của cả dự án — đổi ở ô giọng trên thanh trên cùng"></span>
         </div>
       </div>
 
@@ -334,16 +344,16 @@
         <option value="image">Chỉ ảnh</option>
         <option value="motion">Chỉ motion</option>
       </select>
-      <button class="btn sm batch-act" data-tone="prompt" type="button" id="batchPrompt" disabled title="Viết lại prompt cho các scene AI đã chọn theo loại ở ô bên trái (ghi đè prompt hiện có)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg>Prompt</button>
+      <button class="btn sm batch-act" data-tone="prompt" type="button" id="batchPrompt" disabled title="Viết lại prompt cho các scene AI đã chọn theo loại ở ô bên trái (ghi đè prompt hiện có)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg>Prompt<span class="batch-count num" data-count-for="prompt"></span></button>
     </span>
     <span class="batch-unit" data-tone="image">
       <select class="mini" id="batchImageModelSelect" aria-label="Model ảnh cho chạy hàng loạt"></select>
-      <button class="btn sm batch-act" data-tone="image" type="button" id="batchImg" disabled title="Sinh ảnh cho các scene AI đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Ảnh</button>
+      <button class="btn sm batch-act" data-tone="image" type="button" id="batchImg" disabled title="Sinh ảnh cho các scene AI đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Ảnh<span class="batch-count num" data-count-for="image"></span></button>
     </span>
-    <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn (giọng đọc chọn ở thanh trên)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio</button>
+    <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn (giọng đọc chọn ở thanh trên)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio<span class="batch-count num" data-count-for="audio"></span></button>
     <span class="batch-unit" data-tone="motion">
       <select class="mini" id="batchMotionModelSelect" aria-label="Model motion video cho chạy hàng loạt"></select>
-      <button class="btn sm batch-act" data-tone="motion" type="button" id="batchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>Motion</button>
+      <button class="btn sm batch-act" data-tone="motion" type="button" id="batchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>Motion<span class="batch-count num" data-count-for="motion"></span></button>
     </span>
     <span class="sep"></span>
     <button class="btn sm quiet batch-act" data-tone="merge" type="button" id="batchMerge" disabled title="Gộp các scene liền kề đã chọn thành một (sửa kịch bản, không sinh gì)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.17 2.83L4 22"/><path d="m20 22-5-5"/></svg>Gộp</button>
@@ -383,50 +393,37 @@
   <ul class="notif-list" id="notifList"></ul>
 </div>
 
-<div class="overlay" id="styleOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="styleTitle">
-  <div class="dialog style-dialog">
-    <div class="dialog-head">
-      <h2 id="styleTitle">Style</h2>
-      <span class="note">Style version và Style DNA <code>[STYLE]</code> chèn vào mọi template khi sinh ảnh. Version đang chọn được lưu vào dự án hiện tại.</span>
-      <span class="grow"></span>
-      <button class="icon-btn" type="button" id="styleClose" aria-label="Đóng">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="dialog-body single">
-      <div class="field template-version-row"><label for="t_version">Style version</label><select class="mini wide" id="t_version"></select><input class="text-input" id="t_newVersion" type="text" placeholder="tên version mới (lưu nội dung đang sửa)" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Tạo version</button></div>
-      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
-    </div>
-    <div class="dialog-foot">
-      <span class="note">Đổi version ở đây hoặc ở thanh trên đều áp dụng ngay cho dự án. Ảnh đã sinh giữ style cũ.</span>
-      <button class="btn" type="button" id="styleReload">Tải lại</button>
-      <button class="btn primary" type="button" id="styleSave">Lưu style</button>
-    </div>
-  </div>
-</div>
-
+<!-- One style version = Style DNA + the image templates + the motion-writer system prompt, so they
+     are edited and saved together; the version row sits on top because everything below belongs to it. -->
 <div class="overlay" id="tplOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="tplTitle">
   <div class="dialog">
     <div class="dialog-head">
-      <h2 id="tplTitle">Template prompt</h2>
-      <span class="note">Ghép với prompt của mọi scene khi sinh ảnh; ô cuối là prompt hệ thống cho lượt viết motion. Lưu vào style version đang chọn (đổi ở thanh trên hoặc nút Style).</span>
+      <h2 id="tplTitle">Style &amp; template</h2>
+      <span class="note">Mọi ô dưới đây thuộc style version đang chọn. Version đang chọn được lưu vào dự án hiện tại.</span>
       <span class="grow"></span>
       <button class="icon-btn" type="button" id="tplClose" aria-label="Đóng">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
+    <div class="dialog-body single tpl-version">
+      <div class="field template-version-row"><label for="t_version">Style version</label><select class="mini wide" id="t_version"></select><input class="text-input" id="t_newVersion" type="text" placeholder="tên version mới (lưu nội dung đang sửa)" aria-label="Tên version mới" autocomplete="off"><button class="btn sm" type="button" id="t_activate">Tạo version</button></div>
+    </div>
     <div class="dialog-body">
+      <div class="field"><label for="t_styleDna">Style DNA <code>[STYLE]</code></label><textarea id="t_styleDna" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="styleDna" data-out="tr_styleDna" data-label="Dịch">Dịch</button><div class="translation" id="tr_styleDna" hidden></div></div>
       <div class="field"><label for="t_masterPrompt">Prompt khoá nhân vật (1 người)</label><textarea id="t_masterPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="masterPrompt" data-out="tr_masterPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_masterPrompt" hidden></div></div>
       <div class="field"><label for="t_faceLockPrompt">Prompt khoá khuôn mặt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
       <div class="field"><label for="t_multiCharPrompt">Prompt nhiều nhân vật, từ 2 <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
       <div class="field"><label for="t_text2img">Text-to-image, không nhân vật</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
       <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
-      <div class="field"><label for="t_motionSystem">Prompt hệ thống khi viết motion — camera / action / env</label><textarea id="t_motionSystem" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="motionSystem" data-out="tr_motionSystem" data-label="Dịch">Dịch</button><div class="translation" id="tr_motionSystem" hidden></div></div>
+      <details class="advanced tpl-advanced" id="tplAdvanced">
+        <summary>Nâng cao: prompt hệ thống viết motion</summary>
+        <div class="field"><label for="t_motionSystem">Prompt hệ thống khi viết motion — camera / action / env <span class="note">chỉ gửi cho LLM viết motion, không gửi cho model video</span></label><textarea id="t_motionSystem" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="motionSystem" data-out="tr_motionSystem" data-label="Dịch">Dịch</button><div class="translation" id="tr_motionSystem" hidden></div></div>
+      </details>
     </div>
     <div class="dialog-foot">
-      <span class="note">Giữ <code>[SCENE-SPECIFIC PROMPT]</code> trong các template nhân vật, khuôn mặt, nhiều nhân vật và text, nếu không prompt của scene sẽ không được chèn. <code>[FRAME]</code> = tỉ lệ khung + vùng an toàn cho phụ đề; <code>[GUARD]</code> = negative dùng chung. Luật giải phẫu và cấm chữ được thêm tự động. Prompt hệ thống motion chỉ gửi cho LLM viết camera/action/env, không gửi cho model video.</span>
+      <span class="note">Giữ <code>[SCENE-SPECIFIC PROMPT]</code> trong các template nhân vật, khuôn mặt, nhiều nhân vật và text, nếu không prompt của scene sẽ không được chèn. <code>[STYLE]</code> = Style DNA; <code>[FRAME]</code> = tỉ lệ khung + vùng an toàn cho phụ đề; <code>[GUARD]</code> = negative dùng chung. Luật giải phẫu và cấm chữ được thêm tự động. Ảnh đã sinh giữ style cũ.</span>
       <button class="btn" type="button" id="tplReload">Tải lại</button>
-      <button class="btn primary" type="button" id="tplSave">Lưu template</button>
+      <button class="btn primary" type="button" id="tplSave">Lưu style &amp; template</button>
     </div>
   </div>
 </div>
@@ -535,6 +532,7 @@
         <details class="advanced" id="imageAdvanced">
           <summary>Nâng cao</summary>
           <input class="text-input custom-model" id="imageModelCustom" type="text" spellcheck="false" placeholder="Model ảnh tuỳ chỉnh (owner/name) — ghi đè dropdown" aria-label="Model ảnh tuỳ chỉnh, ghi đè dropdown phía trên" />
+          <button class="btn quiet sm settings-link" type="button" data-open-template="t_styleDna" title="Style DNA và template ghép với prompt này khi sinh ảnh — áp dụng cho cả dự án">Sửa style &amp; template của dự án</button>
         </details>
         <div class="subactions">
           <button class="btn quiet sm" type="button" id="btnUpload">Tải ảnh của bạn lên</button>
@@ -563,6 +561,7 @@
         <details class="advanced" id="motionAdvanced">
           <summary>Nâng cao</summary>
           <input class="text-input custom-model" id="motionModelCustom" type="text" spellcheck="false" placeholder="Model video tuỳ chỉnh (owner/name) — ghi đè dropdown" aria-label="Model motion video tuỳ chỉnh, ghi đè dropdown phía trên" />
+          <button class="btn quiet sm settings-link" type="button" data-open-template="t_motionSystem" title="Hướng dẫn LLM dùng khi bấm Viết bằng AI — áp dụng cho cả dự án">Sửa prompt hệ thống viết motion</button>
         </details>
         <div class="field">
           <label for="motionDurationBox">Độ dài (giây) <span class="note">trống = tự khớp audio narration, làm tròn lên theo giới hạn model</span></label>

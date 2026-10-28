@@ -290,6 +290,31 @@ select.mini.wide { width: 100%; }
 .rail-batch-info b { color: var(--text); font-weight: 650; }
 .rail-batch-run { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .rail-batch-run .btn { width: 100%; justify-content: center; }
+.rail-batch-run select { width: 100%; min-width: 0; }
+
+/* Batch buttons carry how many targeted scenes they will run on; empty when the button is off. */
+.batch-count { font-size: 11px; color: var(--muted); }
+.batch-count:not(:empty) { margin-left: 6px; }
+
+/* Rail: the project's cast, foldable so the scene list can take the whole column. */
+.rail-cast { border-bottom: 1px solid var(--line); }
+.rail-cast > summary {
+  display: flex; align-items: center; gap: 6px; padding: 8px 10px; cursor: pointer;
+  font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint);
+  list-style: none; transition: color .15s ease;
+}
+.rail-cast > summary::-webkit-details-marker { display: none; }
+.rail-cast > summary::before {
+  content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0;
+  transform: rotate(-45deg); transition: transform .15s ease;
+}
+.rail-cast[open] > summary::before { transform: rotate(45deg); }
+.rail-cast > summary:hover { color: var(--text); }
+.rail-cast > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.rail-cast .char-gallery { border-bottom: 0; }
+
+.narr-voice { font-size: 11.5px; color: var(--faint); align-self: center; }
+.settings-link { margin-top: 6px; }
 
 .char-gallery-head { display: flex; gap: 6px; padding: 8px 8px 0; }
 .char-gallery-head .btn { flex: 1; }
@@ -781,10 +806,16 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 }
 .advanced summary:hover { color: var(--text); }
 
-.dialog.style-dialog { width: min(720px, 100%); }
-.style-dialog .field textarea { min-height: 220px; }
-.template-version-row { display: flex; flex-direction: column; gap: 6px; }
-.template-version-row .btn { align-self: flex-start; }
+/* Style & template: the version row is pinned above the scrolling fields it owns. */
+.tpl-version { flex: none; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft); overflow: visible; }
+.template-version-row { display: grid; grid-template-columns: auto minmax(160px, 1fr) minmax(160px, 1fr) auto; align-items: center; gap: 8px; }
+.template-version-row label { white-space: nowrap; }
+.tpl-advanced { grid-column: 1 / -1; }
+.tpl-advanced[open] summary { margin-bottom: 8px; }
+@media (max-width: 720px) {
+  .template-version-row { grid-template-columns: 1fr; }
+  .template-version-row .btn { justify-self: start; }
+}
 
 .confirm-body { margin: 0; font-size: 13px; line-height: 1.6; white-space: pre-line; }
 .custom-model:focus-visible { outline: none; border-color: var(--accent); }
