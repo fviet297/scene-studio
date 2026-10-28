@@ -142,6 +142,7 @@ button { cursor: pointer; }
   transition: background .15s ease;
 }
 .menu-item:hover, .menu-item:focus-visible { background: var(--surface-3); }
+.menu-label { display: inline-flex; align-items: center; gap: 8px; }
 .menu-hint { font-size: 11.5px; font-weight: 400; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .menu > .btn svg { transition: none; } }
 
@@ -594,7 +595,7 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 @keyframes pulse { 50% { opacity: .3; } }
 .console-bar .msg { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .console-bar .tail { font-family: var(--mono); font-size: 11.5px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-.console-bar .queue { flex: none; font-size: 11.5px; color: var(--muted); padding: 1px 7px; border: 1px solid var(--line); border-radius: 999px; }
+.console-bar .queue, .menu-item .queue { flex: none; font-size: 11.5px; color: var(--muted); padding: 1px 7px; border: 1px solid var(--line); border-radius: 999px; }
 .console-log {
   height: 0; overflow: hidden; margin: 0; padding: 0 14px;
   font-family: var(--mono); font-size: 12px; line-height: 1.65; color: #c3cbd3;

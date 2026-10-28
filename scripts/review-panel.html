@@ -45,6 +45,7 @@
       <div class="menu-pop align-end" id="menuApp" role="menu" aria-labelledby="menuAppBtn" hidden>
         <button class="menu-item" type="button" role="menuitem" id="btnModels"><span>Model &amp; provider</span><span class="menu-hint">Provider, API key, model ảnh / motion / LLM</span></button>
         <button class="menu-item" type="button" role="menuitem" id="btnLibrary"><span>Thư viện video</span><span class="menu-hint">Video đã render của mọi dự án, thư mục lưu</span></button>
+        <button class="menu-item" type="button" role="menuitem" data-notif-toggle aria-controls="notifPanel"><span class="menu-label">Thông báo<span class="queue num" data-notif-unread hidden></span></span><span class="menu-hint">Lịch sử job đã xong hoặc lỗi</span></button>
       </div>
     </div>
   </div>
@@ -204,7 +205,7 @@
           <span class="ttl">Narration</span>
           <span class="hint" id="narrHint"></span>
           <span class="stage-state" id="stageAudState"></span>
-          <button class="btn sm" type="button" id="btnAudio" title="OmniVoice đọc narration. Độ dài motion video khớp theo audio này.">Sinh audio</button>
+          <button class="btn sm" type="button" id="btnAudio" title="OmniVoice đọc narration bằng giọng đã chọn ở thanh trên. Độ dài motion video khớp theo audio này.">Sinh audio</button>
         </div>
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration của scene đang chọn" placeholder="Lời narration đọc cho scene này"></textarea>
         <div class="btn-row">
@@ -446,8 +447,8 @@
       <button class="btn sm script-gen-btn gen-prompt" type="button" id="scriptGenMissing" disabled title="Viết prompt ảnh cho mọi scene AI có narration nhưng chưa có prompt">Viết prompt thiếu</button>
       <button class="btn sm script-gen-btn gen-motion" type="button" id="scriptGenMissingMotion" disabled title="Viết camera / nhân vật / môi trường cho mọi scene AI chưa có motion">Viết motion thiếu</button>
       <span class="script-toolbar-sep"></span>
-      <select class="mini" id="scriptQuick" aria-label="Chọn nhanh scene trong kịch bản" title="Chọn nhanh: thay các scene đang tick bằng các scene thoả điều kiện">
-        <option value="" selected disabled>Chọn nhanh…</option>
+      <select class="mini" id="scriptQuick" aria-label="Tick nhanh scene trong kịch bản" title="Tick nhanh: thay các scene đang tick trong dialog này bằng các scene thoả điều kiện (không đổi lựa chọn ở timeline)">
+        <option value="" selected disabled>Tick nhanh…</option>
         <option value="all">Tất cả</option>
         <option value="failed" disabled>Scene lỗi gần nhất</option>
         <option value="needPrompt">Thiếu prompt</option>
@@ -473,9 +474,9 @@
         <textarea id="scriptImportBox" rows="6" spellcheck="false" placeholder='[{"scene":1,"narration":"...","prompt":"...","prompt_vi":"..."}]'></textarea>
         <div class="readonly-field" id="scriptImportPreview" hidden></div>
         <div class="btn-row">
-          <span class="note" id="scriptImportNote">Dán JSON rồi bấm Kiểm tra.</span>
+          <span class="note" id="scriptImportNote">Dán JSON rồi bấm Kiểm tra JSON.</span>
           <span class="grow"></span>
-          <button class="btn sm" type="button" id="scriptImportValidate">Kiểm tra</button>
+          <button class="btn sm" type="button" id="scriptImportValidate">Kiểm tra JSON</button>
           <button class="btn sm primary" type="button" id="scriptImportApply" disabled>Áp dụng</button>
         </div>
       </div>

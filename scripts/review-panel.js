@@ -1429,7 +1429,7 @@ $("notifClear").addEventListener("click", () => {
 document.addEventListener("click", (e) => {
   if (
     !$("notifPanel").hidden &&
-    !e.target.closest("#notifPanel, [data-notif-toggle]")
+    !e.target.closest("#notifPanel, [data-notif-toggle], [data-menu]")
   )
     openNotifications(false);
 });
