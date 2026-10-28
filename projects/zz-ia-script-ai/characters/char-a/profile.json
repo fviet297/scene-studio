@@ -1,0 +1,24 @@
+{
+  "character_id": "char-a",
+  "name": "Ly Cong Uan",
+  "display_name": "Lý Công Uẩn",
+  "aliases": [
+    "Lý Thái Tổ",
+    "vua Lý Thái Tổ"
+  ],
+  "country": "Đại Việt (Vietnam)",
+  "period": "974–1028",
+  "dynasty": "Lý dynasty",
+  "role": "Founder of the Lý dynasty who moved the capital from Hoa Lư to Đại La in 1010 and renamed it Thăng Long.",
+  "known_facts": [
+    "Born in 974 in Cổ Pháp, raised in a Buddhist pagoda.",
+    "Served as a military officer under the Early Lê dynasty.",
+    "Was acclaimed emperor in 1009 after the death of Lê Long Đĩnh.",
+    "Issued the Edict on Moving the Capital (Chiếu dời đô) in 1010.",
+    "Moved the court from Hoa Lư to Đại La and renamed the site Thăng Long, 'ascending dragon'.",
+    "Reigned under the name Thuận Thiên as the first emperor of the Lý dynasty."
+  ],
+  "interpretation": "A man in his mid-thirties, tall and lean but broad-shouldered, with an oval face, high forehead, calm steady eyes, a thin moustache and a short sparse beard. Black hair gathered in a topknot under a black lacquered gauze cap. He wears a yellow silk robe with wide sleeves and faint woven dragon roundels, a dark red sash, and soft black leather boots. Signature accessory: a white paper folding fan with plain wooden ribs, held in his right hand.",
+  "unknowns": [],
+  "reference": "public/projects/zz-ia-script-ai/characters/char-a.jpg"
+}

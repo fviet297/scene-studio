@@ -1,0 +1,29 @@
+{
+  "character_id": "ly-cong-uan",
+  "name": "Lý Công Uẩn",
+  "display_name": "Lý Công Uẩn",
+  "aliases": [
+    "Lý Thái Tổ",
+    "Vua Lý Thái Tổ"
+  ],
+  "reference": "public/projects/zz-ia-regression/characters/ly-cong-uan.jpg",
+  "country": "Dai Viet",
+  "period": "late 10th to early 11th century",
+  "dynasty": "Ly dynasty",
+  "role": "Vị vua khai sáng nhà Lý",
+  "interpretation": "A Vietnamese emperor in his mid-thirties, sturdy and broad-shouldered, with a full round face and calm, firm eyes. Black hair drawn into a topknot under a dark lacquered court hat with a flat back, a trimmed black moustache and short beard. He wears a layered silk court robe in deep yellow with wide sleeves and dragon roundels at the chest, a dark under-robe at the collar, and a jade-set leather belt; his signature accessory is the jade-ornamented belt clasp.",
+  "known_facts": [
+    "Born in 974 at Co Phap, in what is now Bac Ninh province.",
+    "Rose to command the palace guard under the Early Le dynasty before taking the throne.",
+    "In 1009, after the death of Le Long Dinh, he was enthroned by the court and founded the Ly dynasty.",
+    "In 1010 he moved the capital from Hoa Lu to Dai La and renamed it Thang Long.",
+    "The move was proclaimed in the Chieu doi do, the edict on moving the capital.",
+    "His era name was Thuan Thien; he patronised Buddhism and built many pagodas.",
+    "He died in 1028 and was succeeded by his son Ly Thai Tong."
+  ],
+  "unknowns": [
+    "No contemporary portrait or description of his face and build survives; the appearance is reconstructed from Ly-era court dress conventions.",
+    "The names and status of his parents and the story of his adoption are recorded only in later, semi-legendary chronicles.",
+    "The text of the Chieu doi do survives only through later compilations, so its wording is not certainly original."
+  ]
+}
