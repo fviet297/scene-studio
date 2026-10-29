@@ -18,6 +18,7 @@ import {
 import { getSceneMotion } from "./scene-motion";
 import { deliveryBand } from "./delivery-band";
 import { BrandOverlay, type Branding } from "./BrandOverlay";
+import { CaptionTrack, type CaptionGroup } from "./CaptionTrack";
 
 // One composition per project, each fed a ProjectData bundle built by scripts/build-remotion.mjs
 // (src/projects-data/*.json) from that project's projects/<slug>/scene-plan.md + audio. Full-bleed
@@ -85,6 +86,8 @@ export type ProjectData = {
   titleOverlayScene?: number;
   // Stamped by the builder from projects/<slug>/branding.json; absent in bundles built before it.
   branding?: Branding;
+  // Word timings in absolute seconds (scripts/lib/caption-align.mjs); empty until every scene has audio.
+  captionGroups?: CaptionGroup[];
 };
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
@@ -387,6 +390,12 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
             width: "100%",
             height: "100%",
           }}
+        />
+      )}
+      {project.branding?.captions?.enabled && (
+        <CaptionTrack
+          groups={project.captionGroups ?? []}
+          style={project.branding.captions}
         />
       )}
       {project.branding && <BrandOverlay branding={project.branding} />}

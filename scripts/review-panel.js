@@ -3085,7 +3085,8 @@ const checkedSyncSlugs = () =>
   [...$("syncList").querySelectorAll("input:checked")].map((box) => box.value);
 const setSyncBusy = (busy) => {
   for (const id of ["syncCheck", "syncRun"]) $(id).disabled = busy;
-  for (const box of $("syncList").querySelectorAll("input")) box.disabled = busy;
+  for (const box of $("syncList").querySelectorAll("input"))
+    box.disabled = busy;
 };
 
 // An unreadable source answers 502 with its path, so the box still shows what to correct.
@@ -3103,15 +3104,15 @@ function renderSyncSources({ source, projects }) {
   $("syncSourceInput").value = source;
   $("syncOutput").hidden = true;
   $("syncList").innerHTML = projects
-      .map(
-        (p) => `<li><label>
+    .map(
+      (p) => `<li><label>
           <input type="checkbox" value="${escapeHtml(p.slug)}" />
           <span class="sync-slug">${escapeHtml(p.slug)}</span>
           ${p.active ? '<span class="tag on">Đang mở</span>' : ""}
           ${p.local ? "" : '<span class="tag">Chưa có ở máy này</span>'}
         </label></li>`,
-      )
-      .join("");
+    )
+    .join("");
   showSyncEmpty(projects.length ? "" : "Nguồn chưa có media của project nào.");
 }
 
@@ -3321,6 +3322,9 @@ const readBrandForm = () => ({
     enabled: $("brandWmOn").checked,
     opacity: Number($("brandWmOpacity").value) / 100,
   },
+  // Not edited in this dialog (the timeline toggle owns it); carried through so saving the
+  // logo settings does not reset it.
+  captions: state.branding?.captions,
 });
 
 const fillBrandForm = ({ name, logo, watermark }) => {

@@ -3,14 +3,17 @@
 // Opened from the topbar "Thumbnail" button. The thumbnail is drawn on a 1280x720 canvas: a
 // background (any scene image, or an AI background made here), a darkening shade on the headline
 // side, the headline itself, and optionally the channel logo. The headline is drawn by the browser
-// (a gold Noto Serif Display headline under a small Be Vietnam Pro kicker), so Vietnamese
-// diacritics are always right — image models garble them.
+// (a headline in one of the styles of review-thumbnail-styles.js under a small Be Vietnam Pro
+// kicker), so Vietnamese diacritics are always right — image models garble them.
+// "Vẽ chữ bằng AI" (/api/thumbnail-lettering) is the opposite, on request: the image model draws the
+// headline into the picture. That result already carries its own text, so the canvas headline is
+// hidden for it (thIsLettered).
 // "Gợi ý bằng AI" (/api/thumbnail-ideas) asks the LLM for headline options, the cast to show and
 // an English background prompt; "Sinh nền" (/api/thumbnail-generate, SSE) draws that background
 // with the cast's reference images. "Tải PNG" downloads the canvas. The layout is kept per project
 // in localStorage.
 //
-// Uses the panel globals ($, api, toast, readSse, state, escapeHtml, lsGet, lsSet, charById,
+// Uses review-thumbnail-styles.js (loaded first) and the panel globals ($, api, toast, readSse, state, escapeHtml, lsGet, lsSet, charById,
 // fillImageModelSelect, confirmRun, costLine, CANCEL_PROVIDER_NOTE) from review-panel.js, which
 // loads first.
 
@@ -19,17 +22,11 @@ const TH_W = 1280;
 const TH_H = 720;
 const TH_MARGIN = 72;
 const TH_TEXT_SHARE = 0.54; // of the width, for the headline
-const TH_LINE_HEIGHT = 1.12; // room for stacked Vietnamese marks on capitals (Ễ, Ở)
+const TH_LINE_HEIGHT = 1.12; // room for stacked Vietnamese marks on capitals (Ễ, Ở); a style may ask for more
 const TH_MIN_SIZE = 40;
-// Lining figures by default (years and ages sit at cap height); Playfair's old-style ones can't be
-// switched off on a canvas.
-const TH_SERIF = '"Noto Serif Display", Georgia, serif';
-const TH_SANS = '"Be Vietnam Pro", system-ui, sans-serif';
 const TH_KICKER_SCALE = 0.3; // kicker size, × headline size
 const TH_KICKER_GAP = 0.3; // space under the kicker, × headline size
 const TH_RULE = 64; // gold hairline beside the kicker
-const TH_IVORY = "#f6eedc";
-const TH_GOLD = "#e3b04b";
 const TH_LOGO = 64;
 const TH_LOGO_TOP = 32;
 
@@ -40,6 +37,8 @@ const th = {
   panX: 0.5, // 0 = left edge of the image, 1 = right edge
   panY: 0.5,
   side: "left",
+  style: "gold", // id of a TH_STYLES entry
+  job: null, // "background" | "lettering" while th.controller is running
   ideas: [],
   chars: [], // cast ids the AI background shows
   backgrounds: [], // AI backgrounds of this project: [{ file, url }]
@@ -49,6 +48,8 @@ const th = {
 };
 
 const thSlug = () => state.project?.slug ?? "";
+// A picture the image model drew the headline into (server: lettered-<stamp>.jpg).
+const thIsLettered = () => /\/lettered-\d+\.jpg$/.test(th.bg ?? "");
 const clamp01 = (n) => Math.min(1, Math.max(0, n));
 
 function loadImage(url) {
@@ -71,6 +72,9 @@ function thSave() {
       size: $("thumbSize").value,
       color: $("thumbColor").value,
       accent: $("thumbAccent").value,
+      style: th.style,
+      letterStyle: $("thumbLetterStyle").value,
+      letterAuto: $("thumbLetterStyle").dataset.auto !== "false",
       logo: $("thumbLogo").checked,
       bg: th.bg,
       zoom: th.zoom,
@@ -93,10 +97,15 @@ function thRestore() {
   $("thumbText").value = saved.text ?? "";
   $("thumbPrompt").value = saved.prompt ?? "";
   $("thumbSize").value = saved.size ?? 128;
-  // The first version's defaults (white, lemon yellow) predate the gold style: take its colours.
-  const oldDefaults = saved.color === "#ffffff" && saved.accent === "#ffd31a";
-  $("thumbColor").value = oldDefaults ? TH_IVORY : (saved.color ?? TH_IVORY);
-  $("thumbAccent").value = oldDefaults ? TH_GOLD : (saved.accent ?? TH_GOLD);
+  const style = thStyle(saved.style);
+  const gold = thStyle("gold").colors;
+  // The first version's defaults (white, lemon yellow) predate the styles: take the gold ones.
+  const oldDefaults =
+    !saved.style && saved.color === "#ffffff" && saved.accent === "#ffd31a";
+  $("thumbColor").value = oldDefaults ? gold.color : (saved.color ?? style.colors.color);
+  $("thumbAccent").value = oldDefaults ? gold.accent : (saved.accent ?? style.colors.accent);
+  $("thumbLetterStyle").value = saved.letterStyle ?? style.ai;
+  $("thumbLetterStyle").dataset.auto = String(saved.letterAuto ?? true);
   $("thumbLogo").checked = saved.logo ?? true;
   Object.assign(th, {
     bg: saved.bg ?? null,
@@ -104,6 +113,7 @@ function thRestore() {
     panX: saved.panX ?? 0.5,
     panY: saved.panY ?? 0.5,
     side: saved.side ?? "left",
+    style: style.id,
     ideas: saved.ideas ?? [],
     chars: saved.chars ?? [],
   });
@@ -172,7 +182,8 @@ function wrapRows(ctx, lines, maxWidth) {
   return rows;
 }
 
-const headlineFont = (size) => `900 ${size}px ${TH_SERIF}`;
+const headlineFont = (size) => thStyle(th.style).font(size);
+const thLineHeight = () => thStyle(th.style).lineHeight ?? TH_LINE_HEIGHT;
 const kickerFont = (size) => `700 ${Math.round(size * TH_KICKER_SCALE)}px ${TH_SANS}`;
 
 // The block at one headline size: its rows and total height.
@@ -180,7 +191,7 @@ function layoutHeadline(ctx, size, parts) {
   ctx.font = headlineFont(size);
   const rows = wrapRows(ctx, parts.lines.map((l) => l.toLocaleUpperCase("vi")), TH_W * TH_TEXT_SHARE - TH_MARGIN);
   const kickerHeight = parts.kicker ? size * (TH_KICKER_SCALE * 1.2 + TH_KICKER_GAP) : 0;
-  return { size, rows, height: kickerHeight + rows.length * size * TH_LINE_HEIGHT };
+  return { size, rows, height: kickerHeight + rows.length * size * thLineHeight() };
 }
 
 // The vertical band the block is centred in: below the logo when it shares that side.
@@ -199,35 +210,11 @@ function fitHeadline(ctx, band, parts) {
   return layoutHeadline(ctx, TH_MIN_SIZE, parts);
 }
 
-// "#rrggbb" blended toward another colour by t (0..1).
-function mixHex(hex, toward, t) {
-  const channel = (h, i) => parseInt(h.slice(1 + i * 2, 3 + i * 2), 16);
-  const rgb = [0, 1, 2].map((i) => Math.round(channel(hex, i) + (channel(toward, i) - channel(hex, i)) * t));
-  return `rgb(${rgb.join(", ")})`;
-}
-
-// Polished-metal fill for one row: a bright top, the accent through the middle, a dark band at
-// the horizon of the letters, then a lighter foot.
-function metalFill(ctx, y, size) {
-  const gold = $("thumbAccent").value;
-  const g = ctx.createLinearGradient(0, y, 0, y + size);
-  g.addColorStop(0, mixHex(gold, "#ffffff", 0.6));
-  g.addColorStop(0.42, gold);
-  g.addColorStop(0.56, mixHex(gold, "#000000", 0.38));
-  g.addColorStop(1, mixHex(gold, "#ffffff", 0.3));
-  return g;
-}
-
 function drawHeadlineRow(ctx, text, x, y, size) {
-  ctx.save();
-  Object.assign(ctx, { shadowColor: "rgba(0, 0, 0, .8)", shadowBlur: size * 0.3, shadowOffsetY: size * 0.06 });
-  ctx.fillStyle = "#140c04";
-  ctx.fillText(text, x, y);
-  ctx.restore();
-  Object.assign(ctx, { lineJoin: "round", lineWidth: size * 0.05, strokeStyle: "#1d1307" });
-  ctx.strokeText(text, x, y);
-  ctx.fillStyle = metalFill(ctx, y, size);
-  ctx.fillText(text, x, y);
+  thStyle(th.style).drawRow(ctx, text, x, y, size, {
+    accent: $("thumbAccent").value,
+    left: th.side === "left",
+  });
 }
 
 // Small spaced capitals with a gold hairline on the outer side.
@@ -258,7 +245,7 @@ function drawHeadline(ctx) {
     y += size * (TH_KICKER_SCALE * 1.2 + TH_KICKER_GAP);
   }
   ctx.font = headlineFont(size);
-  rows.forEach((row, i) => drawHeadlineRow(ctx, row, x, y + i * size * TH_LINE_HEIGHT, size));
+  rows.forEach((row, i) => drawHeadlineRow(ctx, row, x, y + i * size * thLineHeight(), size));
 }
 
 // Top corner of the headline side: the bottom right is where YouTube shows the duration.
@@ -285,8 +272,10 @@ function thDraw() {
   const ctx = $("thumbCanvas").getContext("2d");
   ctx.clearRect(0, 0, TH_W, TH_H);
   drawBackground(ctx);
-  if ($("thumbText").value.trim()) drawShade(ctx);
-  drawHeadline(ctx);
+  if (!thIsLettered()) {
+    if ($("thumbText").value.trim()) drawShade(ctx);
+    drawHeadline(ctx);
+  }
   drawLogo(ctx);
   $("thumbSizeVal").textContent = $("thumbSize").value;
   $("thumbZoomVal").textContent = `${Math.round(th.zoom * 100)}%`;
@@ -315,13 +304,62 @@ function renderThCast() {
     : "Nền không có nhân vật cố định — bấm Gợi ý bằng AI để chọn.";
 }
 
+const TH_TILE = { width: 132, height: 52, scale: 2, sample: "SỬ VIỆT" };
+
+function paintThStyleTile(canvas, style) {
+  const ctx = canvas.getContext("2d");
+  const { width, height } = canvas;
+  const backdrop = ctx.createLinearGradient(0, 0, width, height);
+  backdrop.addColorStop(0, "#2a2118");
+  backdrop.addColorStop(1, "#0e0b08");
+  ctx.fillStyle = backdrop;
+  ctx.fillRect(0, 0, width, height);
+  const size = Math.round(height * 0.38);
+  Object.assign(ctx, { font: style.font(size), textAlign: "left", textBaseline: "top" });
+  style.drawRow(ctx, TH_TILE.sample, 14, (height - size) / 2, size, {
+    accent: style.colors.accent,
+    left: true,
+  });
+}
+
+function paintThStyleTiles() {
+  for (const tile of $("thumbStyles").querySelectorAll(".thumb-style"))
+    paintThStyleTile(tile.querySelector("canvas"), thStyle(tile.dataset.style));
+}
+
+function renderThStyleTiles() {
+  const { width, height, scale } = TH_TILE;
+  $("thumbStyles").innerHTML = TH_STYLES.map(
+    (style) => `<button type="button" class="thumb-style" data-style="${style.id}" aria-pressed="${style.id === th.style}">
+      <canvas width="${width * scale}" height="${height * scale}" aria-hidden="true"></canvas><span>${escapeHtml(style.label)}</span>
+    </button>`,
+  ).join("");
+  paintThStyleTiles();
+}
+
+// Picking a style takes its colours and, until the user writes their own, its AI lettering text.
+function selectThStyle(id) {
+  const style = thStyle(id);
+  th.style = style.id;
+  $("thumbColor").value = style.colors.color;
+  $("thumbAccent").value = style.colors.accent;
+  if ($("thumbLetterStyle").dataset.auto !== "false")
+    $("thumbLetterStyle").value = style.ai;
+  for (const tile of $("thumbStyles").querySelectorAll(".thumb-style"))
+    tile.setAttribute("aria-pressed", String(tile.dataset.style === style.id));
+  thDraw();
+  thSave();
+}
+
 const bgItemHtml = (url, label, kind) =>
   `<li><button type="button" class="thumb-bg" data-url="${escapeHtml(url)}" aria-pressed="${url === th.bg}" title="${escapeHtml(label)}">
     <img src="${escapeHtml(url)}" alt="" loading="lazy" /><span class="thumb-bg-tag ${kind}">${escapeHtml(label)}</span>
   </button></li>`;
 
 function renderThBackgrounds() {
-  const ai = th.backgrounds.map((b) => bgItemHtml(b.url, "AI", "ai"));
+  const ai = th.backgrounds.map((b) =>
+    bgItemHtml(b.url, b.file.startsWith("lettered-") ? "AI + chữ" : "AI", "ai"),
+  );
   const scenes = (state.scenes ?? [])
     .filter((s) => s.imageUrl)
     .map((s) => bgItemHtml(s.imageUrl, `Scene ${s.scene}`, "scene"));
@@ -342,6 +380,8 @@ async function selectThBackground(url, { keepFrame = false } = {}) {
   }
   thDraw();
   thSave();
+  if (thIsLettered())
+    setThNote("Ảnh này đã có chữ do AI vẽ nên chữ canvas được ẩn. Kiểm tra từng dấu tiếng Việt trước khi dùng.");
 }
 
 function setThNote(text, isError = false) {
@@ -349,14 +389,22 @@ function setThNote(text, isError = false) {
   $("thumbNote").classList.toggle("is-error", isError);
 }
 
+function setThCancelable(button, running, idleLabel) {
+  button.textContent = running ? "Huỷ" : idleLabel;
+  button.classList.toggle("is-cancel", running);
+}
+
+// While a job runs its own button turns into Cancel and the other AI button is locked.
 function setThWorking(text) {
   $("thumbWorking").hidden = text === null;
   if (text !== null) $("thumbWorkingText").textContent = text;
-  const running = Boolean(th.controller);
-  $("thumbGenerate").textContent = running ? "Huỷ" : "Sinh nền";
-  $("thumbGenerate").classList.toggle("is-cancel", running);
-  $("thumbModel").disabled = running;
-  $("thumbPrompt").disabled = running;
+  const job = th.controller ? th.job : null;
+  setThCancelable($("thumbGenerate"), job === "background", "Sinh nền");
+  setThCancelable($("thumbLetter"), job === "lettering", "Vẽ chữ bằng AI");
+  $("thumbGenerate").disabled = job === "lettering";
+  $("thumbLetter").disabled = job === "background";
+  $("thumbModel").disabled = job !== null;
+  $("thumbPrompt").disabled = job !== null;
 }
 
 // ------------------------------------------------------------------ AI
@@ -382,39 +430,57 @@ async function suggestThumbnail() {
   }
 }
 
-async function confirmThumbCost(modelId) {
+async function confirmThumbCost(modelId, what) {
   const model = (state.imageModels ?? []).find((m) => m.id === modelId);
   if (model?.price === 0) return true;
   return confirmRun(
-    `Sinh 1 nền thumbnail bằng ${model?.label ?? modelId}.\n${costLine(model, 1)}`,
+    `Sinh 1 ${what} bằng ${model?.label ?? modelId}.\n${costLine(model, 1)}`,
     "Sinh",
   );
 }
 
-async function streamThumbBackground(controller) {
+async function streamThumbJob(path, body, label, controller) {
   let result = null;
   let failure = null;
   try {
     await readSse(
-      "/api/thumbnail-generate",
-      {
-        model: $("thumbModel").value,
-        prompt: $("thumbPrompt").value,
-        chars: th.chars,
-        side: th.side,
-      },
+      path,
+      body,
       controller.signal,
       (type, data) => {
         if (type === "log") setThWorking(data);
         else if (type === "done") result = data;
         else if (type === "error") failure = data;
       },
-      { label: "Sinh nền thumbnail" },
+      { label },
     );
   } catch (e) {
     if (e.name !== "AbortError") failure = e.message;
   }
   return { result, failure };
+}
+
+// One AI image job (a background or a lettered picture): stream it, and on success make the
+// result the current background.
+async function runThumbJob({ kind, path, body, label, working, done }) {
+  const controller = new AbortController();
+  th.controller = controller;
+  th.job = kind;
+  setThWorking(working);
+  setThNote("");
+  const { result, failure } = await streamThumbJob(path, body, label, controller);
+  if (th.controller !== controller) return; // the dialog was closed, which cancelled the run
+  th.controller = null;
+  th.job = null;
+  setThWorking(null);
+  if (result) {
+    th.backgrounds = [result, ...th.backgrounds];
+    renderThBackgrounds();
+    await selectThBackground(result.url);
+    setThNote(done);
+  } else if (controller.signal.aborted)
+    setThNote(`Đã huỷ. ${CANCEL_PROVIDER_NOTE}`);
+  else setThNote(failure ?? "Kết nối tới server bị ngắt giữa chừng.", true);
 }
 
 async function generateThumbBackground() {
@@ -423,27 +489,65 @@ async function generateThumbBackground() {
     $("thumbPrompt").focus();
     return;
   }
-  if (!$("thumbModel").value) {
+  const model = $("thumbModel").value;
+  if (!model) {
     setThNote("Chưa có model ảnh dùng được — thêm key trong Model.", true);
     return;
   }
-  if (!(await confirmThumbCost($("thumbModel").value))) return;
-  const controller = new AbortController();
-  th.controller = controller;
-  setThWorking("Đang gửi yêu cầu…");
-  setThNote("");
-  const { result, failure } = await streamThumbBackground(controller);
-  if (th.controller !== controller) return; // the dialog was closed, which cancelled the run
-  th.controller = null;
-  setThWorking(null);
-  if (result) {
-    th.backgrounds = [result, ...th.backgrounds];
-    renderThBackgrounds();
-    await selectThBackground(result.url);
-    setThNote("Đã sinh nền mới — kéo ảnh để căn khung.");
-  } else if (controller.signal.aborted)
-    setThNote(`Đã huỷ. ${CANCEL_PROVIDER_NOTE}`);
-  else setThNote(failure ?? "Kết nối tới server bị ngắt giữa chừng.", true);
+  if (!(await confirmThumbCost(model, "nền thumbnail"))) return;
+  await runThumbJob({
+    kind: "background",
+    path: "/api/thumbnail-generate",
+    body: {
+      model,
+      prompt: $("thumbPrompt").value,
+      chars: th.chars,
+      side: th.side,
+    },
+    label: "Sinh nền thumbnail",
+    working: "Đang gửi yêu cầu…",
+    done: "Đã sinh nền mới — kéo ảnh để căn khung.",
+  });
+}
+
+// The picture as framed on the canvas, without shade, headline or logo: what the model letters.
+function thFramedBackgroundJpeg() {
+  const canvas = document.createElement("canvas");
+  Object.assign(canvas, { width: TH_W, height: TH_H });
+  drawBackground(canvas.getContext("2d"));
+  return canvas.toDataURL("image/jpeg", 0.92);
+}
+
+// Capitals, like the canvas headline, so the model copies exactly what the preview shows.
+function thLetteringText() {
+  const { kicker, lines } = headlineParts();
+  const upper = (text) => text.toLocaleUpperCase("vi");
+  return { kicker: upper(kicker), lines: lines.map(upper) };
+}
+
+async function letterThumbnailWithAi() {
+  const text = thLetteringText();
+  const model = $("thumbModel").value;
+  const problem =
+    (!text.kicker && !text.lines.length && "Nhập chữ cho thumbnail trước.") ||
+    (!th.image && "Chọn ảnh nền trước.") ||
+    (!model && "Chưa có model ảnh dùng được — thêm key trong Model.");
+  if (problem) return setThNote(problem, true);
+  if (!(await confirmThumbCost(model, "ảnh thumbnail có chữ AI"))) return;
+  await runThumbJob({
+    kind: "lettering",
+    path: "/api/thumbnail-lettering",
+    body: {
+      model,
+      image: thFramedBackgroundJpeg(),
+      ...text,
+      styleHint: $("thumbLetterStyle").value,
+      side: th.side,
+    },
+    label: "Vẽ chữ thumbnail",
+    working: "Đang gửi ảnh và chữ cho AI…",
+    done: "AI đã vẽ chữ. Kiểm tra từng dấu tiếng Việt; chữ canvas được ẩn cho ảnh này, chọn lại nền khác để dùng chữ canvas.",
+  });
 }
 
 // ------------------------------------------------------------------ open / close / export
@@ -451,6 +555,7 @@ async function generateThumbBackground() {
 async function openThumbDialog() {
   thRestore();
   renderThSide();
+  renderThStyleTiles();
   renderThIdeas();
   renderThCast();
   setThNote("");
@@ -467,11 +572,14 @@ async function openThumbDialog() {
   await selectThBackground(th.bg ?? th.backgrounds[0]?.url ?? firstScene, {
     keepFrame: Boolean(th.bg),
   });
-  // The canvas drew with a fallback face if the headline font was still loading.
-  Promise.all([
-    document.fonts.load(headlineFont(100), "Ấ"),
-    document.fonts.load(kickerFont(100), "Ấ"),
-  ]).then(thDraw, () => {});
+  // The canvas drew with a fallback face if a headline font was still loading.
+  Promise.all([thLoadFonts(), document.fonts.load(kickerFont(100), "Ấ")]).then(
+    () => {
+      thDraw();
+      paintThStyleTiles();
+    },
+    () => {},
+  );
 }
 
 // Called from the panel's Escape handler too. Closing stops a background in progress.
@@ -526,6 +634,14 @@ $("thumbClose").addEventListener("click", closeThumbDialog);
 $("thumbOverlay").addEventListener("click", (e) => {
   if (e.target === $("thumbOverlay")) closeThumbDialog();
 });
+$("thumbLetterStyle").addEventListener("input", (e) => {
+  e.target.dataset.auto = "false";
+  thSave();
+});
+$("thumbStyles").addEventListener("click", (e) => {
+  const tile = e.target.closest(".thumb-style");
+  if (tile) selectThStyle(tile.dataset.style);
+});
 for (const id of [
   "thumbText",
   "thumbSize",
@@ -566,6 +682,9 @@ $("thumbBgs").addEventListener("click", (e) => {
 $("thumbSuggest").addEventListener("click", suggestThumbnail);
 $("thumbGenerate").addEventListener("click", () =>
   th.controller ? th.controller.abort() : generateThumbBackground(),
+);
+$("thumbLetter").addEventListener("click", () =>
+  th.controller ? th.controller.abort() : letterThumbnailWithAi(),
 );
 $("thumbDownload").addEventListener("click", downloadThumbnail);
 $("thumbCanvas").addEventListener("pointerdown", startThDrag);

@@ -4,13 +4,19 @@
 //                         and an English prompt for an AI background;
 //   generateThumbnailBackground — that prompt, in the project's style, through the image model the
 //                         user picked, with the cast's reference images locking their faces. The
-//                         picture leaves one side calm for the headline and carries no text.
+//                         picture leaves one side calm for the headline and carries no text;
+//   letterThumbnail — the opposite, on request: the image model draws the headline into the picture
+//                         in a chosen lettering style. Models garble Vietnamese diacritics, so the
+//                         panel keeps the canvas headline as the always-correct path.
 
 import { chatJson } from './llm-client.mjs';
 import { download, getTemplates, NO_TEXT_POLICY, runImageModel } from './replicate-image.mjs';
 
 export const THUMB_SIDES = ['left', 'right'];
 export const MAX_THUMB_PROMPT = 1500;
+export const MAX_LETTER_STYLE = 400;
+export const MAX_LETTER_LINES = 4;
+export const MAX_LETTER_LINE = 60;
 const MAX_HEADLINES = 5;
 const MAX_THUMB_CAST = 2;
 
@@ -77,6 +83,43 @@ export const generateThumbnailBackground = async ({ prompt, cast, side, model, o
   onLog(`model=${model}, ${shown.length} ảnh tham chiếu, prompt=${fullPrompt.length} ký tự`);
   const url = await runImageModel(process.env.REPLICATE_API_TOKEN, model, {
     prompt: fullPrompt, refPaths: shown.map((c) => c.refPath), aspect: '16:9', onLog, signal,
+  });
+  signal?.throwIfAborted(); // cancelled while the provider finished: keep nothing
+  onLog('đang tải ảnh về');
+  await download(url, outPath);
+};
+
+// Request body of POST /api/thumbnail-lettering → { kicker, lines, styleHint, side }, or throws a
+// Vietnamese message the panel shows as is.
+export const parseLetteringRequest = (body) => {
+  const kicker = asText(body.kicker);
+  const lines = (Array.isArray(body.lines) ? body.lines : []).map(asText).filter(Boolean);
+  const styleHint = asText(body.styleHint);
+  if (!kicker && !lines.length) throw new Error('Nhập chữ cho thumbnail trước.');
+  if (lines.length > MAX_LETTER_LINES) throw new Error(`Tiêu đề tối đa ${MAX_LETTER_LINES} dòng.`);
+  if ([kicker, ...lines].some((line) => line.length > MAX_LETTER_LINE)) throw new Error(`Mỗi dòng chữ tối đa ${MAX_LETTER_LINE} ký tự.`);
+  if (!styleHint) throw new Error('Nhập kiểu chữ cho AI.');
+  if (styleHint.length > MAX_LETTER_STYLE) throw new Error(`Kiểu chữ tối đa ${MAX_LETTER_STYLE} ký tự.`);
+  if (!THUMB_SIDES.includes(body.side)) throw new Error(`side must be ${THUMB_SIDES.join(' | ')}`);
+  return { kicker, lines, styleHint, side: body.side };
+};
+
+export const letteringPrompt = ({ kicker, lines, styleHint, side }) => `Edit this YouTube thumbnail: keep the picture exactly as it is (composition, characters, faces, colours and lighting stay untouched) and add lettering to it.
+
+TEXT TO ADD. Copy it letter by letter with every Vietnamese diacritic exactly as written, and add no other words or text anywhere:
+${kicker ? `Small line above the headline: “${kicker}”\n` : ''}Headline${lines.length > 1 ? ', one row per line' : ''}:
+${lines.map((line) => `“${line}”`).join('\n')}
+
+LETTERING STYLE: ${styleHint}.
+
+PLACEMENT: on the ${side} side of the frame over the calmer, darker area, vertically centred. Large enough to read at phone size, high contrast against the picture, never covering a face; keep the bottom-right corner free.`;
+
+// The panel's text-free composition (`imagePath`) → the same picture with AI lettering → `outPath`.
+export const letterThumbnail = async ({ imagePath, request, model, outPath, signal, onLog = () => {} }) => {
+  const prompt = letteringPrompt(request);
+  onLog(`model=${model}, prompt=${prompt.length} ký tự`);
+  const url = await runImageModel(process.env.REPLICATE_API_TOKEN, model, {
+    prompt, refPaths: [imagePath], aspect: '16:9', onLog, signal,
   });
   signal?.throwIfAborted(); // cancelled while the provider finished: keep nothing
   onLog('đang tải ảnh về');

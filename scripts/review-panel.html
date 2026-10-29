@@ -9,7 +9,7 @@
 <!-- Faces for the YouTube thumbnail canvas (review-thumbnail.js), both with the full Vietnamese set. -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800&family=Noto+Serif+Display:wght@900&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800&family=Noto+Serif+Display:wght@900&family=Oswald:wght@700&display=swap" />
 </head>
 <body class="view-timeline">
 
@@ -313,6 +313,42 @@
       <button type="button" data-mode="master" aria-pressed="false" title="Đúng bản render MP4 (chạy chính composition Remotion)">Bản render</button>
       <button type="button" data-mode="vertical" aria-pressed="false" title="Bản 9:16 Shorts / TikTok: dải giữa của bản 16:9 trong khung 1080×1920, đúng như wrap-vertical">9:16</button>
     </div>
+    <span class="cap-ctl">
+      <button class="btn sm quiet" type="button" id="tlCaptionsToggle" aria-pressed="false" title="Phụ đề lời dẫn: chữ chạy theo nhịp đọc trên video. Hiện ở Bản render / 9:16 và trong MP4; chế độ Nháp không vẽ phụ đề."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg>Phụ đề</button>
+      <button class="icon-btn" type="button" id="tlCaptionsSettings" aria-haspopup="dialog" aria-expanded="false" aria-controls="tlCaptionsPop" aria-label="Tuỳ chỉnh phụ đề" title="Cỡ chữ, màu, vị trí phụ đề"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+      <div class="cap-pop" id="tlCaptionsPop" role="dialog" aria-label="Tuỳ chỉnh phụ đề" hidden>
+        <div class="field">
+          <label for="capSize">Cỡ chữ <output class="num" id="capSizeVal" for="capSize"></output></label>
+          <input type="range" id="capSize" min="28" max="72" step="1" />
+        </div>
+        <div class="field">
+          <span class="field-label" id="capPositionLabel">Vị trí</span>
+          <div class="segmented" id="capPosition" role="group" aria-labelledby="capPositionLabel">
+            <button type="button" data-position="top" aria-pressed="false">Trên</button>
+            <button type="button" data-position="middle" aria-pressed="false">Giữa</button>
+            <button type="button" data-position="bottom" aria-pressed="true">Dưới</button>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="capSpokenColor">Màu đã đọc</label>
+            <input class="cap-color" type="color" id="capSpokenColor" />
+          </div>
+          <div class="field">
+            <label for="capUnspokenColor">Màu chưa đọc</label>
+            <input class="cap-color" type="color" id="capUnspokenColor" />
+          </div>
+        </div>
+        <div class="field" id="capAnchorField">
+          <label for="capAnchor">Bám theo <span class="note">video 16:9</span></label>
+          <select class="mini wide" id="capAnchor">
+            <option value="crop">Vùng crop dọc (9:16 đủ chữ)</option>
+            <option value="frame">Mép khung 16:9 (9:16 có thể cắt)</option>
+          </select>
+        </div>
+        <button class="btn sm quiet" type="button" id="capReset">Đặt lại mặc định</button>
+      </div>
+    </span>
     <button class="icon-btn" type="button" id="tlPlayerRefresh" hidden aria-label="Dựng lại dữ liệu render" title="Dựng lại dữ liệu render (sau khi sửa audio, ảnh, logo…)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5"/></svg>
     </button>
@@ -1050,6 +1086,10 @@
           </div>
           <div class="thumb-ideas" id="thumbIdeas" aria-label="Gợi ý chữ"></div>
           <button class="btn sm" type="button" id="thumbSuggest" title="LLM đọc narration rồi gợi ý chữ, nhân vật và prompt nền">Gợi ý bằng AI</button>
+          <div class="field">
+            <span class="field-label" id="thumbStylesLabel">Kiểu chữ</span>
+            <div class="thumb-styles" id="thumbStyles" role="group" aria-labelledby="thumbStylesLabel"></div>
+          </div>
           <div class="field-row">
             <div class="field">
               <span class="field-label">Vị trí chữ</span>
@@ -1092,15 +1132,24 @@
             <label for="thumbModel">Model ảnh</label>
             <select class="mini wide" id="thumbModel"></select>
           </div>
-          <div class="thumb-working" id="thumbWorking" hidden>
-            <span class="spinner sm" aria-hidden="true"></span>
-            <span id="thumbWorkingText" role="status"></span>
-          </div>
           <button class="btn" type="button" id="thumbGenerate">Sinh nền</button>
+        </fieldset>
+        <fieldset class="brand-group">
+          <legend>AI vẽ chữ vào ảnh</legend>
+          <div class="field">
+            <label for="thumbLetterStyle">Kiểu chữ cho AI <span class="note">tiếng Anh · tự điền theo kiểu chữ đã chọn</span></label>
+            <textarea id="thumbLetterStyle" class="prose" rows="3" maxlength="400" spellcheck="false" data-auto="true"></textarea>
+          </div>
+          <span class="note">AI tự thiết kế chữ nghệ thuật trên ảnh nền hiện tại nhưng hay sai dấu tiếng Việt, nên kiểm tra từng chữ. Chữ canvas ở trên luôn đúng. Dùng model ảnh ở mục Sinh nền AI.</span>
+          <button class="btn" type="button" id="thumbLetter">Vẽ chữ bằng AI</button>
         </fieldset>
       </div>
     </div>
     <div class="dialog-foot">
+      <div class="thumb-working" id="thumbWorking" hidden>
+        <span class="spinner sm" aria-hidden="true"></span>
+        <span id="thumbWorkingText" role="status"></span>
+      </div>
       <span class="note" id="thumbNote" role="status"></span>
       <button class="btn primary" type="button" id="thumbDownload">Tải PNG</button>
     </div>
@@ -1200,6 +1249,7 @@
 <script src="/menu.js"></script>
 <script src="/models.js"></script>
 <script src="/social.js"></script>
+<script src="/thumbnail-styles.js"></script>
 <script src="/thumbnail.js"></script>
 </body>
 </html>

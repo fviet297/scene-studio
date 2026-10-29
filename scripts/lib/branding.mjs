@@ -22,6 +22,14 @@ export const BADGE_RANGES = {
   textSize: { min: 10, max: 48 },
 };
 
+// Subtitle text size in delivered-canvas pixels (1080 wide); bounds match the panel slider.
+export const CAPTION_SIZE_RANGE = { min: 28, max: 72 };
+export const CAPTION_POSITIONS = ['top', 'middle', 'bottom'];
+// 16:9 only, same meaning as BRAND_ANCHORS: 'crop' keeps the text inside the 3:2 strip the 9:16
+// export retains; 'frame' spans the real 16:9 frame (YouTube) and the 9:16 export may crop it.
+export const CAPTION_ANCHORS = BRAND_ANCHORS;
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
+
 // Brand name under the corner logo and in the centre watermark; empty = logo only.
 export const BRAND_NAME_MAX = 24;
 
@@ -29,6 +37,12 @@ export const DEFAULT_BRANDING = {
   name: 'FVIET',
   logo: { enabled: true, position: 'top-right', anchor: 'crop', opacity: 0.85, margin: 24, size: 64, textSize: 18 },
   watermark: { enabled: true, opacity: 0.08 },
+  // Burned-in narration subtitles with a word-by-word highlight (src/CaptionTrack.tsx). Off by
+  // default so existing projects keep rendering exactly as before.
+  captions: {
+    enabled: false, size: 48, position: 'bottom', anchor: 'crop',
+    spokenColor: '#f6c85f', unspokenColor: '#ffffff',
+  },
 };
 
 const brandingPath = (slug) => join(PROJECTS_DIR, slug, 'branding.json');
@@ -37,6 +51,8 @@ const clampOpacity = (value, fallback) => {
   const n = Number(value);
   return Number.isFinite(n) ? Math.min(1, Math.max(0, Math.round(n * 100) / 100)) : fallback;
 };
+
+const hexColor = (value, fallback) => (typeof value === 'string' && HEX_COLOR.test(value) ? value.toLowerCase() : fallback);
 
 const clampInt = (value, { min, max }, fallback) => {
   const n = Number(value);
@@ -48,6 +64,7 @@ const clampInt = (value, { min, max }, fallback) => {
 export const normalizeBranding = (raw = {}) => {
   const logo = raw.logo ?? {};
   const watermark = raw.watermark ?? {};
+  const captions = raw.captions ?? {};
   const d = DEFAULT_BRANDING;
   return {
     name: typeof raw.name === 'string' ? raw.name.trim().slice(0, BRAND_NAME_MAX) : d.name,
@@ -63,6 +80,14 @@ export const normalizeBranding = (raw = {}) => {
     watermark: {
       enabled: typeof watermark.enabled === 'boolean' ? watermark.enabled : d.watermark.enabled,
       opacity: clampOpacity(watermark.opacity, d.watermark.opacity),
+    },
+    captions: {
+      enabled: typeof captions.enabled === 'boolean' ? captions.enabled : d.captions.enabled,
+      size: clampInt(captions.size, CAPTION_SIZE_RANGE, d.captions.size),
+      position: CAPTION_POSITIONS.includes(captions.position) ? captions.position : d.captions.position,
+      anchor: CAPTION_ANCHORS.includes(captions.anchor) ? captions.anchor : d.captions.anchor,
+      spokenColor: hexColor(captions.spokenColor, d.captions.spokenColor),
+      unspokenColor: hexColor(captions.unspokenColor, d.captions.unspokenColor),
     },
   };
 };

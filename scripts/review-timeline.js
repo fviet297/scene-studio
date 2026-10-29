@@ -647,6 +647,7 @@ window.addEventListener("resize", () => {
 
 document.addEventListener("studio:render", () => {
   syncModeButtons();
+  syncCaptionControls();
   if (!tlVisible()) return;
   // A project switch (or an aspect change that drops the 9:16 export) invalidates the built data.
   if (tl.mode === "vertical" && state.project?.aspect !== "16:9")
@@ -805,6 +806,94 @@ function syncModeButtons() {
   master.textContent = wide ? "16:9" : "Bản render";
   $("tlModes").querySelector('[data-mode="vertical"]').hidden = !wide;
 }
+
+// Subtitles are a branding.json setting (captions.*), so the player, the bundle and the MP4 all
+// read one object. Edits apply to the player at once and are saved after a short pause, so
+// dragging the size slider does not write the file on every tick.
+const CAPTION_DEFAULTS = {
+  size: 48,
+  position: "bottom",
+  anchor: "crop",
+  spokenColor: "#f6c85f",
+  unspokenColor: "#ffffff",
+};
+const CAPTION_SAVE_DELAY_MS = 400;
+let captionSaveTimer = null;
+
+function syncCaptionControls() {
+  const captions = state.branding?.captions;
+  if (!captions) return;
+  $("tlCaptionsToggle").setAttribute("aria-pressed", String(captions.enabled));
+  $("capSize").value = captions.size;
+  $("capSizeVal").textContent = `${captions.size}px`;
+  for (const btn of $("capPosition").querySelectorAll("button"))
+    btn.setAttribute(
+      "aria-pressed",
+      String(btn.dataset.position === captions.position),
+    );
+  $("capSpokenColor").value = captions.spokenColor;
+  $("capUnspokenColor").value = captions.unspokenColor;
+  $("capAnchor").value = captions.anchor;
+  $("capAnchorField").hidden = state.project?.aspect !== "16:9";
+}
+
+async function saveCaptions() {
+  try {
+    await api("/api/branding", state.branding);
+  } catch (err) {
+    toast(`Không lưu được phụ đề: ${err.message}`, false);
+  }
+}
+
+function updateCaptions(patch) {
+  if (!state.branding) return;
+  const captions = { ...state.branding.captions, ...patch };
+  state = { ...state, branding: { ...state.branding, captions } };
+  syncCaptionControls();
+  if (isRenderMode()) remountPlayer();
+  else if (patch.enabled)
+    toast("Phụ đề bật. Xem ở Bản render / 9:16 hoặc trong MP4.");
+  clearTimeout(captionSaveTimer);
+  captionSaveTimer = setTimeout(saveCaptions, CAPTION_SAVE_DELAY_MS);
+}
+
+$("tlCaptionsToggle").addEventListener("click", () =>
+  updateCaptions({ enabled: !state.branding?.captions?.enabled }),
+);
+$("capSize").addEventListener("input", (e) =>
+  updateCaptions({ size: Number(e.target.value) }),
+);
+$("capPosition").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-position]");
+  if (btn) updateCaptions({ position: btn.dataset.position });
+});
+$("capSpokenColor").addEventListener("input", (e) =>
+  updateCaptions({ spokenColor: e.target.value }),
+);
+$("capUnspokenColor").addEventListener("input", (e) =>
+  updateCaptions({ unspokenColor: e.target.value }),
+);
+$("capAnchor").addEventListener("change", (e) =>
+  updateCaptions({ anchor: e.target.value }),
+);
+$("capReset").addEventListener("click", () => updateCaptions(CAPTION_DEFAULTS));
+
+function setCaptionPopOpen(open) {
+  $("tlCaptionsPop").hidden = !open;
+  $("tlCaptionsSettings").setAttribute("aria-expanded", String(open));
+}
+$("tlCaptionsSettings").addEventListener("click", () =>
+  setCaptionPopOpen($("tlCaptionsPop").hidden),
+);
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".cap-ctl")) setCaptionPopOpen(false);
+});
+$("tlCaptionsPop").addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  e.stopPropagation();
+  setCaptionPopOpen(false);
+  $("tlCaptionsSettings").focus();
+});
 
 $("tlModes").addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-mode]");

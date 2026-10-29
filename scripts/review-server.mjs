@@ -43,6 +43,7 @@
 //   POST /api/thumbnail-ideas → headline options, cast and an English background prompt (thumbnail.mjs)
 //   GET  /api/thumbnail-backgrounds → the active project's AI thumbnail backgrounds, newest first
 //   POST /api/thumbnail-generate → { model, prompt, chars, side } → one 16:9 AI background, SSE
+//   POST /api/thumbnail-lettering → { model, image, kicker, lines, styleHint, side } → that picture with AI-drawn headline, SSE
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
@@ -108,7 +109,7 @@ import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
 import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
-import { generateThumbnailBackground, MAX_THUMB_PROMPT, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
+import { generateThumbnailBackground, letterThumbnail, MAX_THUMB_PROMPT, parseLetteringRequest, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
 
 loadEnv();
@@ -139,6 +140,7 @@ const PANEL_ASSETS = {
   '/menu.js': ['review-menu.js', 'text/javascript; charset=utf-8'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
+  '/thumbnail-styles.js': ['review-thumbnail-styles.js', 'text/javascript; charset=utf-8'],
   '/thumbnail.js': ['review-thumbnail.js', 'text/javascript; charset=utf-8'],
   '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
@@ -974,12 +976,15 @@ const writeNewProject = ({ slug, title, aspect, template, voice, plan }) => {
 };
 
 // ---- YouTube thumbnail (review-thumbnail.js) ---------------------------------------------
-const THUMB_BACKGROUND_RE = /^ai-\d+\.jpg$/;
+// ai-*: a background; lettered-*: a picture the model drew the headline into (see letterThumbnail).
+const THUMB_BACKGROUND_RE = /^(ai|lettered)-\d+\.jpg$/;
+const thumbnailStamp = (file) => Number(/\d+/.exec(file)[0]);
+const THUMB_SOURCE_JPEG = /^data:image\/jpeg;base64,([A-Za-z0-9+/=]+)$/;
+const MAX_THUMB_SOURCE_CHARS = 8 * 1024 * 1024;
 
 const thumbnailBackgrounds = () => (existsSync(P.thumbnailDir) ? readdirSync(P.thumbnailDir) : [])
   .filter((file) => THUMB_BACKGROUND_RE.test(file))
-  .sort()
-  .reverse()
+  .sort((a, b) => thumbnailStamp(b) - thumbnailStamp(a))
   .map((file) => ({ file, url: `/public/${P.staticPrefix}/thumbnail/${file}` }));
 
 // The cast ids the panel sent → { name, refPath } for each that has a reference image.
@@ -1005,6 +1010,28 @@ const generateThumbnail = async (res, { model, prompt, chars, side }) => {
     sseSend(res, 'done', { file, url: `/public/${P.staticPrefix}/thumbnail/${file}` });
   } catch (error) {
     if (!signal.aborted) sseSend(res, 'error', error.message);
+  }
+  res.end();
+};
+
+const letterThumbnailImage = async (res, { request, model, image }) => {
+  sseHead(res);
+  const signal = cancelSignal(res);
+  const stamp = Date.now();
+  const sourcePath = join(P.thumbnailDir, `src-${stamp}.jpg`);
+  const file = `lettered-${stamp}.jpg`;
+  try {
+    mkdirSync(P.thumbnailDir, { recursive: true });
+    writeFileSync(sourcePath, Buffer.from(image, 'base64'));
+    await letterThumbnail({
+      imagePath: sourcePath, request, model, outPath: join(P.thumbnailDir, file), signal,
+      onLog: (line) => sseSend(res, 'log', line),
+    });
+    sseSend(res, 'done', { file, url: `/public/${P.staticPrefix}/thumbnail/${file}` });
+  } catch (error) {
+    if (!signal.aborted) sseSend(res, 'error', error.message);
+  } finally {
+    if (existsSync(sourcePath)) unlinkSync(sourcePath);
   }
   res.end();
 };
@@ -1876,6 +1903,17 @@ const server = createServer(async (req, res) => {
       if (text.length > MAX_THUMB_PROMPT) { sendJson(res, 400, { error: `Prompt tối đa ${MAX_THUMB_PROMPT} ký tự.` }); return; }
       if (!THUMB_SIDES.includes(side)) { sendJson(res, 400, { error: `side must be ${THUMB_SIDES.join(' | ')}` }); return; }
       trackJob(res, () => generateThumbnail(res, { model: model.trim(), prompt: text, chars, side }));
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/thumbnail-lettering') {
+      const body = await readBody(req);
+      if (typeof body.model !== 'string' || !body.model.trim()) { sendJson(res, 400, { error: 'Chọn model ảnh.' }); return; }
+      const source = typeof body.image === 'string' && body.image.length <= MAX_THUMB_SOURCE_CHARS ? THUMB_SOURCE_JPEG.exec(body.image) : null;
+      if (!source) { sendJson(res, 400, { error: 'Thiếu ảnh nền (JPEG) hoặc ảnh quá lớn.' }); return; }
+      let request;
+      try { request = parseLetteringRequest(body); } catch (error) { sendJson(res, 400, { error: error.message }); return; }
+      trackJob(res, () => letterThumbnailImage(res, { request, model: body.model.trim(), image: source[1] }));
       return;
     }
 

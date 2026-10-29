@@ -12,5 +12,13 @@
   "watermark": {
     "enabled": true,
     "opacity": 0.08
+  },
+  "captions": {
+    "enabled": true,
+    "size": 37,
+    "position": "bottom",
+    "anchor": "frame",
+    "spokenColor": "#f6c85f",
+    "unspokenColor": "#ffffff"
   }
 }
