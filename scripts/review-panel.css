@@ -120,7 +120,6 @@ button { cursor: pointer; }
 .project-settings { display: flex; align-items: center; gap: 6px; padding-left: 12px; border-left: 1px solid var(--line); }
 .project-settings .aspect-select { width: auto; }
 .project-settings .style-select { max-width: 200px; text-overflow: ellipsis; }
-.project-settings .voice-select { max-width: 130px; text-overflow: ellipsis; }
 
 /* Topbar dropdown menus (review-menu.js). Below the dialogs (30) and above the console (20). */
 .menu { position: relative; }
@@ -568,7 +567,10 @@ textarea::placeholder { color: var(--faint); }
   flex: none; min-height: 42px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px;
   padding: 6px 14px; border-top: 1px solid var(--line); background: var(--surface);
 }
-.batch-bar select.mini { width: 132px; text-overflow: ellipsis; }
+/* Model and voice names are the whole point of these selects, so they get enough width to show
+   the distinguishing words ("Muse Image 1.0", "history-v2") before the ellipsis. */
+.batch-bar select.mini { width: 176px; text-overflow: ellipsis; }
+.batch-bar .batch-unit[data-tone="audio"] select.mini { width: 132px; }
 .batch-bar .batch-unit[data-tone="prompt"] select.mini { width: 112px; }
 /* Quick-pick is a verb ("Chọn nhanh…"), not a value, so it needs no more than its label. */
 .batch-bar #selQuick { width: 112px; }
@@ -579,7 +581,7 @@ textarea::placeholder { color: var(--faint); }
 }
 .batch-bar .selinfo b { color: var(--text); font-weight: 650; }
 /* Group labels split the bar into "pick scenes" vs "run a batch on them". */
-.batch-bar .bar-label { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
+.batch-bar .bar-label { font-size: 12px; color: var(--muted); }
 /* Each batch action wears the tone the full-script editor already uses for its stage: image =
    blue, motion = amber, narration audio = the accent. Only icon, text and a tinted border carry
    it (no fills), so the bar stays quiet next to the preview. A model select is fused to its
@@ -936,7 +938,7 @@ body.view-timeline .workbench { display: none; }
 .tl-total { color: var(--faint); }
 .tl-zoom {
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint);
+  font-size: 12px; color: var(--muted);
 }
 .tl-zoom input { width: 120px; accent-color: var(--accent); }
 

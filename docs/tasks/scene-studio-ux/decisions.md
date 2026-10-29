@@ -13,6 +13,10 @@
 - Nút Audio ở batch bar đứng riêng (bỏ wrapper `batch-unit`, sửa bo góc). Tooltip nút Audio và nút Sinh audio trong
   Narration nói giọng chọn ở thanh trên.
 
+> **Đảo ngược (user chốt 2026-10-29)**: giọng đọc trả về batch bar, cạnh nút Audio (`batch-unit` tone audio), vì có lúc
+> user muốn đổi giọng cho vài scene: đổi giọng rồi sinh audio lại cho scene đó. Giọng vẫn lưu cấp project
+> (`/api/project-voice`); audio đã sinh giữ giọng cũ. Nhóm **Cài đặt dự án** chỉ còn tỉ lệ khung và style.
+
 ## D3. Gom nút topbar bằng dropdown menu mới (user chốt 2026-10-28)
 
 - Ba menu theo phạm vi: **Dự án** (Kịch bản, Style, Template prompt, Logo & watermark), **Đóng gói** (Thumbnail, Bài đăng),

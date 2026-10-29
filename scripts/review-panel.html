@@ -31,7 +31,6 @@
         <option value="1:1">1:1</option>
       </select>
       <select class="mini style-select" id="styleSelect" aria-label="Style ảnh của dự án" title="Style version dùng khi sinh ảnh của dự án này"></select>
-      <select class="mini voice-select" id="voiceSelect" aria-label="Giọng đọc narration của dự án" title="Giọng OmniVoice đọc narration của cả dự án"></select>
       <div class="menu" data-menu>
         <button class="btn" type="button" id="menuProjectBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="menuProject">Cài đặt dự án<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         <div class="menu-pop" id="menuProject" role="menu" aria-labelledby="menuProjectBtn" hidden>
@@ -215,13 +214,13 @@
           <span class="ttl">Narration</span>
           <span class="hint" id="narrHint"></span>
           <span class="stage-state" id="stageAudState"></span>
-          <button class="btn sm" type="button" id="btnAudio" title="OmniVoice đọc narration bằng giọng đã chọn ở thanh trên. Độ dài motion video khớp theo audio này.">Sinh audio</button>
+          <button class="btn sm" type="button" id="btnAudio" title="OmniVoice đọc narration bằng giọng đã chọn ở ô giọng cạnh nút Audio trên timeline. Độ dài motion video khớp theo audio này.">Sinh audio</button>
         </div>
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration của scene đang chọn" placeholder="Lời narration đọc cho scene này"></textarea>
         <div class="btn-row">
           <button class="btn sm" type="button" id="narrSave" disabled>Lưu narration</button>
           <span class="grow"></span>
-          <span class="note narr-voice" id="narrVoice" title="Giọng đọc của cả dự án — đổi ở ô giọng trên thanh trên cùng"></span>
+          <span class="note narr-voice" id="narrVoice" title="Giọng đọc của cả dự án — đổi ở ô giọng cạnh nút Audio trên timeline"></span>
         </div>
       </div>
 
@@ -352,7 +351,10 @@
       <select class="mini" id="batchImageModelSelect" aria-label="Model ảnh cho chạy hàng loạt"></select>
       <button class="btn sm batch-act" data-tone="image" type="button" id="batchImg" disabled title="Sinh ảnh cho các scene AI đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Ảnh<span class="batch-count num" data-count-for="image"></span></button>
     </span>
-    <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn (giọng đọc chọn ở thanh trên)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio<span class="batch-count num" data-count-for="audio"></span></button>
+    <span class="batch-unit" data-tone="audio">
+      <select class="mini" id="voiceSelect" aria-label="Giọng đọc narration" title="Giọng OmniVoice đọc narration. Đổi giọng rồi sinh audio lại cho các scene muốn đổi; audio đã sinh giữ nguyên giọng cũ."></select>
+      <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn bằng giọng đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio<span class="batch-count num" data-count-for="audio"></span></button>
+    </span>
     <span class="batch-unit" data-tone="motion">
       <select class="mini" id="batchMotionModelSelect" aria-label="Model motion video cho chạy hàng loạt"></select>
       <button class="btn sm batch-act" data-tone="motion" type="button" id="batchMotion" disabled title="Sinh motion video cho các scene đã chọn (cần có ảnh + audio)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg>Motion<span class="batch-count num" data-count-for="motion"></span></button>
