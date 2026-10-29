@@ -4,7 +4,8 @@
 // Approximate (no word-level ASR). Reused by align-captions.mjs (active project) and
 // build-remotion.mjs (all projects).
 
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
+import './ensure-ffmpeg.mjs';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -12,7 +13,10 @@ const probeDuration = (file) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', file], { encoding: 'utf8' }).trim());
 
 const speechRegions = (file, duration) => {
-  const analysis = execFileSync('sh', ['-c', `ffmpeg -i '${file}' -af silencedetect=noise=-32dB:d=0.18 -f null - 2>&1`], { encoding: 'utf8' });
+  // silencedetect logs to stderr; no shell so it also works on Windows.
+  const run = spawnSync('ffmpeg', ['-i', file, '-af', 'silencedetect=noise=-32dB:d=0.18', '-f', 'null', '-'], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (run.error) throw run.error;
+  const analysis = `${run.stdout ?? ''}${run.stderr ?? ''}`;
   const events = [...analysis.matchAll(/silence_(start|end): ([0-9.]+)/g)].map((m) => ({ type: m[1], time: Number(m[2]) }));
   const silences = [];
   let silenceStart = null;

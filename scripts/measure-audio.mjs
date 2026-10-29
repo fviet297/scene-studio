@@ -3,6 +3,7 @@
 // length always matches the audio — no time-stretching, no guessed frame counts.
 // Run after (re)generating audio: node scripts/measure-audio.mjs
 
+import './lib/ensure-ffmpeg.mjs';
 import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';
 import { activePaths } from './lib/project-paths.mjs';

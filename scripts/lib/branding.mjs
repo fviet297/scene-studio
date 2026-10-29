@@ -25,6 +25,10 @@ export const BADGE_RANGES = {
 // Subtitle text size in delivered-canvas pixels (1080 wide); bounds match the panel slider.
 export const CAPTION_SIZE_RANGE = { min: 28, max: 72 };
 export const CAPTION_POSITIONS = ['top', 'middle', 'bottom'];
+// Fonts bundled in public/fonts (src/caption-fonts.ts); 'arial' is the OS font, which differs per machine.
+export const CAPTION_FONTS = ['be-vietnam', 'montserrat', 'anton', 'bangers', 'arial'];
+export const CAPTION_HIGHLIGHTS = ['karaoke', 'word', 'none'];
+export const CAPTION_STROKE_RANGE = { min: 0, max: 14 };
 // 16:9 only, same meaning as BRAND_ANCHORS: 'crop' keeps the text inside the 3:2 strip the 9:16
 // export retains; 'frame' spans the real 16:9 frame (YouTube) and the 9:16 export may crop it.
 export const CAPTION_ANCHORS = BRAND_ANCHORS;
@@ -40,7 +44,8 @@ export const DEFAULT_BRANDING = {
   // Burned-in narration subtitles with a word-by-word highlight (src/CaptionTrack.tsx). Off by
   // default so existing projects keep rendering exactly as before.
   captions: {
-    enabled: false, size: 48, position: 'bottom', anchor: 'crop',
+    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, backgroundOpacity: 0.42,
+    uppercase: false, highlight: 'karaoke', position: 'bottom', anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
   },
 };
@@ -83,7 +88,12 @@ export const normalizeBranding = (raw = {}) => {
     },
     captions: {
       enabled: typeof captions.enabled === 'boolean' ? captions.enabled : d.captions.enabled,
+      font: CAPTION_FONTS.includes(captions.font) ? captions.font : d.captions.font,
       size: clampInt(captions.size, CAPTION_SIZE_RANGE, d.captions.size),
+      strokeWidth: clampInt(captions.strokeWidth, CAPTION_STROKE_RANGE, d.captions.strokeWidth),
+      backgroundOpacity: Math.min(0.8, clampOpacity(captions.backgroundOpacity, d.captions.backgroundOpacity)),
+      uppercase: typeof captions.uppercase === 'boolean' ? captions.uppercase : d.captions.uppercase,
+      highlight: CAPTION_HIGHLIGHTS.includes(captions.highlight) ? captions.highlight : d.captions.highlight,
       position: CAPTION_POSITIONS.includes(captions.position) ? captions.position : d.captions.position,
       anchor: CAPTION_ANCHORS.includes(captions.anchor) ? captions.anchor : d.captions.anchor,
       spokenColor: hexColor(captions.spokenColor, d.captions.spokenColor),

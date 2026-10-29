@@ -14,6 +14,7 @@
 //
 // Run: node scripts/wrap-vertical.mjs [--project <slug>]
 
+import './lib/ensure-ffmpeg.mjs';
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';

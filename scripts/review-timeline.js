@@ -811,7 +811,12 @@ function syncModeButtons() {
 // read one object. Edits apply to the player at once and are saved after a short pause, so
 // dragging the size slider does not write the file on every tick.
 const CAPTION_DEFAULTS = {
+  font: "be-vietnam",
   size: 48,
+  strokeWidth: 7,
+  backgroundOpacity: 0.42,
+  uppercase: false,
+  highlight: "karaoke",
   position: "bottom",
   anchor: "crop",
   spokenColor: "#f6c85f",
@@ -824,6 +829,17 @@ function syncCaptionControls() {
   const captions = state.branding?.captions;
   if (!captions) return;
   $("tlCaptionsToggle").setAttribute("aria-pressed", String(captions.enabled));
+  $("capFont").value = captions.font;
+  $("capStroke").value = captions.strokeWidth;
+  $("capStrokeVal").textContent = `${captions.strokeWidth}px`;
+  $("capBg").value = Math.round(captions.backgroundOpacity * 100);
+  $("capBgVal").textContent = `${Math.round(captions.backgroundOpacity * 100)}%`;
+  $("capUppercase").checked = captions.uppercase;
+  for (const btn of $("capHighlight").querySelectorAll("button"))
+    btn.setAttribute(
+      "aria-pressed",
+      String(btn.dataset.highlight === captions.highlight),
+    );
   $("capSize").value = captions.size;
   $("capSizeVal").textContent = `${captions.size}px`;
   for (const btn of $("capPosition").querySelectorAll("button"))
@@ -860,6 +876,22 @@ function updateCaptions(patch) {
 $("tlCaptionsToggle").addEventListener("click", () =>
   updateCaptions({ enabled: !state.branding?.captions?.enabled }),
 );
+$("capFont").addEventListener("change", (e) =>
+  updateCaptions({ font: e.target.value }),
+);
+$("capStroke").addEventListener("input", (e) =>
+  updateCaptions({ strokeWidth: Number(e.target.value) }),
+);
+$("capBg").addEventListener("input", (e) =>
+  updateCaptions({ backgroundOpacity: Number(e.target.value) / 100 }),
+);
+$("capUppercase").addEventListener("change", (e) =>
+  updateCaptions({ uppercase: e.target.checked }),
+);
+$("capHighlight").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-highlight]");
+  if (btn) updateCaptions({ highlight: btn.dataset.highlight });
+});
 $("capSize").addEventListener("input", (e) =>
   updateCaptions({ size: Number(e.target.value) }),
 );

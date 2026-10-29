@@ -77,6 +77,7 @@
 // Run: node scripts/review-server.mjs   (then open http://127.0.0.1:8080)
 // Env: REVIEW_PORT (default 8080). Reuses REPLICATE_* from ./.env via replicate-image.mjs.
 
+import './lib/ensure-ffmpeg.mjs';
 import { execFile, execFileSync, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createServer } from 'node:http';

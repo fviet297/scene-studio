@@ -19,7 +19,8 @@ test('falls back to the default when captions.enabled is not a boolean', () => {
 
 test('caption style defaults match the shipped look', () => {
   assert.deepEqual(normalizeBranding().captions, {
-    enabled: false, size: 48, position: 'bottom', anchor: 'crop',
+    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, backgroundOpacity: 0.42,
+    uppercase: false, highlight: 'karaoke', position: 'bottom', anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
   });
 });
@@ -29,7 +30,9 @@ test('keeps a valid caption style and lower-cases colours', () => {
     captions: { enabled: true, size: 60, position: 'top', anchor: 'frame', spokenColor: '#FF8800', unspokenColor: '#00ff00' },
   }).captions;
   assert.deepEqual(captions, {
-    enabled: true, size: 60, position: 'top', anchor: 'frame', spokenColor: '#ff8800', unspokenColor: '#00ff00',
+    enabled: true, font: 'be-vietnam', size: 60, strokeWidth: 7, backgroundOpacity: 0.42,
+    uppercase: false, highlight: 'karaoke', position: 'top', anchor: 'frame',
+    spokenColor: '#ff8800', unspokenColor: '#00ff00',
   });
 });
 
@@ -47,4 +50,23 @@ test('rejects unknown positions, anchors and colours', () => {
   assert.equal(captions.anchor, 'crop');
   assert.equal(captions.spokenColor, '#f6c85f');
   assert.equal(captions.unspokenColor, '#ffffff');
+});
+
+test('keeps the new caption look fields and rejects invalid ones', () => {
+  const ok = normalizeBranding({
+    captions: { font: 'anton', strokeWidth: 3, backgroundOpacity: 0, uppercase: true, highlight: 'word' },
+  }).captions;
+  assert.equal(ok.font, 'anton');
+  assert.equal(ok.strokeWidth, 3);
+  assert.equal(ok.backgroundOpacity, 0);
+  assert.equal(ok.uppercase, true);
+  assert.equal(ok.highlight, 'word');
+  const bad = normalizeBranding({
+    captions: { font: 'comic-sans', strokeWidth: 99, backgroundOpacity: 5, uppercase: 'yes', highlight: 'blink' },
+  }).captions;
+  assert.equal(bad.font, 'be-vietnam');
+  assert.equal(bad.strokeWidth, 14);
+  assert.equal(bad.backgroundOpacity, 0.8);
+  assert.equal(bad.uppercase, false);
+  assert.equal(bad.highlight, 'karaoke');
 });

@@ -10,6 +10,7 @@
 //
 // Run: node scripts/build-remotion.mjs [--project <slug>] [--all | --stale]
 
+import './lib/ensure-ffmpeg.mjs';
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';

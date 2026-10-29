@@ -1,5 +1,7 @@
 # Lý Thường Kiệt
 
+voice: gallery_vi_xl_female_child
+
 template: 16x9-3d-chibi-history-v2
 
 aspect: 16:9

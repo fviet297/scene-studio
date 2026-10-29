@@ -318,6 +318,16 @@
       <button class="icon-btn" type="button" id="tlCaptionsSettings" aria-haspopup="dialog" aria-expanded="false" aria-controls="tlCaptionsPop" aria-label="Tuỳ chỉnh phụ đề" title="Cỡ chữ, màu, vị trí phụ đề"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
       <div class="cap-pop" id="tlCaptionsPop" role="dialog" aria-label="Tuỳ chỉnh phụ đề" hidden>
         <div class="field">
+          <label for="capFont">Font chữ <span class="note">nhúng sẵn, giống Mac/Windows</span></label>
+          <select class="mini wide" id="capFont">
+            <option value="be-vietnam">Be Vietnam Pro (mặc định)</option>
+            <option value="montserrat">Montserrat</option>
+            <option value="anton">Anton (chữ cao, đậm)</option>
+            <option value="bangers">Bangers (truyện tranh)</option>
+            <option value="arial">Arial (font của máy)</option>
+          </select>
+        </div>
+        <div class="field">
           <label for="capSize">Cỡ chữ <output class="num" id="capSizeVal" for="capSize"></output></label>
           <input type="range" id="capSize" min="28" max="72" step="1" />
         </div>
@@ -329,6 +339,23 @@
             <button type="button" data-position="bottom" aria-pressed="true">Dưới</button>
           </div>
         </div>
+        <div class="field">
+          <label for="capStroke">Viền chữ <output class="num" id="capStrokeVal" for="capStroke"></output></label>
+          <input type="range" id="capStroke" min="0" max="14" step="1" />
+        </div>
+        <div class="field">
+          <label for="capBg">Nền mờ sau chữ <output class="num" id="capBgVal" for="capBg"></output></label>
+          <input type="range" id="capBg" min="0" max="80" step="2" />
+        </div>
+        <div class="field">
+          <span class="field-label" id="capHighlightLabel">Hiệu ứng chữ đang đọc</span>
+          <div class="segmented" id="capHighlight" role="group" aria-labelledby="capHighlightLabel">
+            <button type="button" data-highlight="karaoke" aria-pressed="true">Quét màu</button>
+            <button type="button" data-highlight="word" aria-pressed="false">Đổi màu từ</button>
+            <button type="button" data-highlight="none" aria-pressed="false">Tắt</button>
+          </div>
+        </div>
+        <label class="cap-check"><input type="checkbox" id="capUppercase" /> CHỮ IN HOA</label>
         <div class="field-row">
           <div class="field">
             <label for="capSpokenColor">Màu đã đọc</label>

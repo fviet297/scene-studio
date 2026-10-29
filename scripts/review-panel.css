@@ -203,6 +203,7 @@ button { cursor: pointer; }
 .cap-pop input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
 .cap-pop .segmented { width: 100%; }
 .cap-pop .segmented button { flex: 1; justify-content: center; }
+.cap-pop .cap-check { display: flex; align-items: center; gap: 6px; margin: 8px 0; font-size: 12px; cursor: pointer; }
 .cap-pop .field-label { display: block; margin-bottom: 4px; font-size: 12px; color: var(--muted); }
 .cap-color {
   width: 100%; height: 30px; padding: 2px; cursor: pointer;
