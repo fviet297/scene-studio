@@ -505,7 +505,9 @@ select.mini.wide { width: 100%; }
 
 /* Stage popups (Image / Motion) sit between the narrow inspector column and the wide
    template dialog: enough room for a prompt without swallowing the screen. */
-.dialog.stage-dialog { width: min(680px, 100%); }
+.dialog.stage-dialog { width: min(980px, 100%); max-height: 92vh; }
+.stage-dialog .dialog-body.single { min-width: 0; }
+.stage-dialog textarea { max-width: 100%; box-sizing: border-box; }
 
 /* Stage-done pill: shape (filled dot) + word, so state survives greyscale, matching the pips. */
 .stage-state {
