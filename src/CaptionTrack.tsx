@@ -30,6 +30,8 @@ export interface CaptionStyle {
   uppercase: boolean;
   highlight: CaptionHighlight;
   position: CaptionPosition;
+  // Extra nudge from the position preset, in 1080-wide canvas px; negative moves the caption up.
+  offsetY: number;
   anchor: CaptionAnchor;
   spokenColor: string;
   unspokenColor: string;
@@ -45,6 +47,7 @@ export const DEFAULT_CAPTION_STYLE: CaptionStyle = {
   uppercase: false,
   highlight: "karaoke",
   position: "bottom",
+  offsetY: 0,
   anchor: "crop",
   spokenColor: "#f6c85f",
   unspokenColor: "#ffffff",
@@ -222,7 +225,7 @@ export function CaptionTrack({
         justifyContent: "center",
         alignItems: ALIGN_BY_POSITION[style.position],
         opacity: Math.min(fadeIn, fadeOut),
-        transform: `translateY(${(1 - fadeIn) * px(10)}px)`,
+        transform: `translateY(${px(style.offsetY) + (1 - fadeIn) * px(10)}px)`,
       }}
     >
       <p

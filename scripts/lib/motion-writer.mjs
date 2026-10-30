@@ -26,7 +26,7 @@ const CALM_CUES = new Set(['somber']);
 
 const identityLock = (charCount) => {
   const who = charCount >= 2 ? "all characters' faces and costumes and " : charCount === 1 ? "the character's face and costume and " : '';
-  return `Keep ${who}the art style consistent; no new characters, no text or watermark.`;
+  return `Keep ${who}the painted art style, chibi proportions and framing consistent; no new characters, no text or watermark.`;
 };
 
 const asSentence = (text) => {
@@ -41,7 +41,7 @@ const asSentence = (text) => {
 const composePlainMotionPrompt = ({ camera, action, env }, calm) => [
   calm ? 'Animate this illustrated scene into a calm cinematic shot with gentle visible motion.' : 'Animate this illustrated scene into a smooth cinematic shot with clearly visible motion.',
   asSentence(camera), asSentence(action), asSentence(env),
-  'Keep the original art style and composition.',
+  'Keep the original illustration exactly: the same painted look, the same chibi proportions and character design, and the same framing, with every figure staying small and in the style of the still.',
   calm ? 'Gentle, natural motion across the frame.' : 'Natural, steady motion across the whole frame.',
 ].filter(Boolean).join(' ');
 

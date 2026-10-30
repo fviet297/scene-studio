@@ -23,12 +23,15 @@ interface ScenePreview {
   play(): void;
   pause(): void;
   seekTo(frame: number): void;
+  setMuted(muted: boolean): void;
   isPlaying(): boolean;
   on(event: PreviewEvent, handler: (frame: number) => void): void;
 }
 
 let root: Root | null = null;
 let player: PlayerRef | null = null;
+// Kept here as well as on the player: a remount (mode switch, branding edit) builds a new Player.
+let muted = false;
 const handlers = new Map<PreviewEvent, Set<(frame: number) => void>>();
 
 const emit = (event: PreviewEvent) => {
@@ -56,6 +59,7 @@ window.scenePreview = {
         compositionWidth={project.width ?? 1080}
         compositionHeight={project.height ?? 1920}
         style={{ width: "100%", height: "100%" }}
+        initiallyMuted={muted}
         acknowledgeRemotionLicense
       />,
     );
@@ -68,6 +72,11 @@ window.scenePreview = {
   play: () => player?.play(),
   pause: () => player?.pause(),
   seekTo: (frame) => player?.seekTo(frame),
+  setMuted(value) {
+    muted = value;
+    if (value) player?.mute();
+    else player?.unmute();
+  },
   isPlaying: () => player?.isPlaying() ?? false,
   on(event, handler) {
     handlers.set(event, (handlers.get(event) ?? new Set()).add(handler));

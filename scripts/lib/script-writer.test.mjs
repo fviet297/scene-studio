@@ -23,6 +23,15 @@ test('standard keeps the character story, the culture rules and the project moti
   assert.equal(motion, undefined);
 });
 
+test('standard story prompt holds the Say Sử accuracy and ending-budget rules', () => {
+  const { story } = stylePrompts('standard');
+  assert.match(story, /NEVER invent: dialogue, quotations/);
+  assert.match(story, /Name the source for key facts/);
+  assert.match(story, /about one scene in ten/);
+  assert.match(story, /answered at the end from DOCUMENTED causes/);
+  assert.doesNotMatch(story, /warm mentor/);
+});
+
 test('map swaps in the documentary story, the map-frame rules and the map motion prompt', () => {
   const { story, visuals, motion } = stylePrompts('map');
   assert.match(story, /MAP STORY SHAPE/);

@@ -55,6 +55,7 @@ const tl = {
   scrubbing: false,
   sceneOnEnter: null,
   mode: "draft", // "draft" | "master" | "vertical"
+  muted: false, // preview sound only; the rendered MP4 is unaffected
 };
 // The "as rendered" player: built Remotion data for the active project, and the /preview.js load.
 const tlRender = { project: null, slug: null, script: null, wired: false };
@@ -134,9 +135,13 @@ function timelineClips() {
       minDuration,
     );
     const seconds = content + (i < last ? TL_SCENE_GAP_SECONDS : 0);
+    // The soft first frames of a clip are skipped (server: lib/motion-tail.mjs), so the rest
+    // is what has to span the scene.
+    const head = playsMotion(scene) ? (scene.motionHeadSeconds ?? 0) : 0;
+    const playedSeconds = videoSeconds - head;
     const rate =
-      videoSeconds > 0 && videoSeconds < seconds ? videoSeconds / seconds : 1;
-    const clip = { scene, start, seconds, content, audioSeconds, rate };
+      playedSeconds > 0 && playedSeconds < seconds ? playedSeconds / seconds : 1;
+    const clip = { scene, start, seconds, content, audioSeconds, rate, head };
     start += seconds;
     return clip;
   });
@@ -198,17 +203,18 @@ function clipHtml(clip, i) {
     .filter(Boolean)
     .join(" ");
   const picked = selected.has(s.scene);
-  return `<div class="tl-cell${picked ? " selected" : ""}" data-scene="${s.scene}" style="width:${width}px">
+  const narrow = width < TL_CLIP_ICON_MIN_PX + 4;
+  return `<div class="tl-cell${picked ? " selected" : ""}${narrow ? " narrow" : ""}" data-scene="${s.scene}" style="width:${width}px">
     <button type="button" class="${classes}" data-index="${i}"
         aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${motionNote}${castNote}"
         title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${castNote}">
-      ${s.hasImage ? `<img src="${s.imageUrl}" alt="" loading="lazy" draggable="false" />` : ""}
+      ${s.hasImage ? `<img src="${thumbUrl(s.imageUrl, 320)}" alt="" loading="lazy" draggable="false" />` : ""}
       <span class="tl-clip-label">
         <span class="num">${s.scene}</span>${icon}${castDots}
         ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
       </span>
     </button>
-    ${showIcon ? editButtonHtml(s) : ""}
+    ${editButtonHtml(s)}
     ${showPips ? pips(s) : ""}
   </div>`;
 }
@@ -384,7 +390,6 @@ function showSceneInfo(s) {
   $("tlKind").textContent = [clipKind(s), ...notes].join(" · ");
   $("tlKind").classList.toggle("stale", Boolean(s.motionStale));
   syncTimelineHistory(s);
-  $("tlCaption").textContent = s.narration || "";
   for (const btn of $("tlClips").querySelectorAll(".tl-clip"))
     btn.setAttribute(
       "aria-current",
@@ -423,7 +428,7 @@ function loadClip(clips, index, offset) {
     // A new src resets playbackRate to the default, so set both.
     video.defaultPlaybackRate = clip.rate;
     video.playbackRate = clip.rate;
-    video.currentTime = offset * clip.rate;
+    video.currentTime = (clip.head ?? 0) + offset * clip.rate;
   }
   showSceneInfo(s);
 }
@@ -630,6 +635,10 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
     if (tl.playing) pause();
     else play();
+  } else if (e.key === "m") {
+    setMuted(!tl.muted);
+  } else if (e.key === "f") {
+    toggleFullscreen();
   } else if (["ArrowLeft", "ArrowUp", "k"].includes(e.key)) {
     e.preventDefault();
     stepClip(-1);
@@ -751,6 +760,7 @@ function layoutBand() {
 function remountPlayer() {
   if (!tlRender.project || !window.scenePreview) return;
   layoutBand();
+  window.scenePreview.setMuted(tl.muted);
   window.scenePreview.mount($("tlPlayerRoot"), {
     ...tlRender.project,
     branding: state.branding ?? tlRender.project.branding,
@@ -818,6 +828,7 @@ const CAPTION_DEFAULTS = {
   uppercase: false,
   highlight: "karaoke",
   position: "bottom",
+  offsetY: 0,
   anchor: "crop",
   spokenColor: "#f6c85f",
   unspokenColor: "#ffffff",
@@ -833,7 +844,8 @@ function syncCaptionControls() {
   $("capStroke").value = captions.strokeWidth;
   $("capStrokeVal").textContent = `${captions.strokeWidth}px`;
   $("capBg").value = Math.round(captions.backgroundOpacity * 100);
-  $("capBgVal").textContent = `${Math.round(captions.backgroundOpacity * 100)}%`;
+  $("capBgVal").textContent =
+    `${Math.round(captions.backgroundOpacity * 100)}%`;
   $("capUppercase").checked = captions.uppercase;
   for (const btn of $("capHighlight").querySelectorAll("button"))
     btn.setAttribute(
@@ -847,6 +859,8 @@ function syncCaptionControls() {
       "aria-pressed",
       String(btn.dataset.position === captions.position),
     );
+  $("capOffset").value = captions.offsetY;
+  $("capOffsetVal").textContent = `${captions.offsetY}px`;
   $("capSpokenColor").value = captions.spokenColor;
   $("capUnspokenColor").value = captions.unspokenColor;
   $("capAnchor").value = captions.anchor;
@@ -861,14 +875,36 @@ async function saveCaptions() {
   }
 }
 
+// The builder only aligns captions once every scene has narration audio (build-remotion.mjs), so
+// turning them on earlier shows nothing: say so, and offer to select the scenes that lack audio.
+function announceCaptionsOn() {
+  const missing = state.scenes.filter((s) => !s.hasAudio);
+  if (!missing.length) {
+    if (!isRenderMode())
+      toast("Phụ đề bật. Xem ở Bản render / 9:16 hoặc trong MP4.");
+    return;
+  }
+  const have = state.scenes.length - missing.length;
+  toast(
+    `Mới có audio cho ${have}/${state.scenes.length} scene. Phụ đề chỉ hiện khi mọi scene đều có audio.`,
+    false,
+    {
+      title: "Chưa đủ audio để hiện phụ đề",
+      action: {
+        label: `Chọn ${missing.length} scene thiếu audio`,
+        scenes: missing.map((s) => s.scene),
+      },
+    },
+  );
+}
+
 function updateCaptions(patch) {
   if (!state.branding) return;
   const captions = { ...state.branding.captions, ...patch };
   state = { ...state, branding: { ...state.branding, captions } };
   syncCaptionControls();
   if (isRenderMode()) remountPlayer();
-  else if (patch.enabled)
-    toast("Phụ đề bật. Xem ở Bản render / 9:16 hoặc trong MP4.");
+  if (patch.enabled) announceCaptionsOn();
   clearTimeout(captionSaveTimer);
   captionSaveTimer = setTimeout(saveCaptions, CAPTION_SAVE_DELAY_MS);
 }
@@ -899,6 +935,9 @@ $("capPosition").addEventListener("click", (e) => {
   const btn = e.target.closest("button[data-position]");
   if (btn) updateCaptions({ position: btn.dataset.position });
 });
+$("capOffset").addEventListener("input", (e) =>
+  updateCaptions({ offsetY: Number(e.target.value) }),
+);
 $("capSpokenColor").addEventListener("input", (e) =>
   updateCaptions({ spokenColor: e.target.value }),
 );
@@ -910,8 +949,21 @@ $("capAnchor").addEventListener("change", (e) =>
 );
 $("capReset").addEventListener("click", () => updateCaptions(CAPTION_DEFAULTS));
 
+const POP_EDGE_GAP = 16;
+
+// A popover opens upward from its trigger: cap its height to the room above so it scrolls
+// instead of running off the top of a short window. Shared by the subtitle and effects popovers.
+function fitPopHeight(pop, trigger) {
+  const room = trigger.getBoundingClientRect().top - POP_EDGE_GAP - 8;
+  pop.style.maxHeight = `${Math.max(room, 160)}px`;
+}
+
+const fitCaptionPopHeight = () =>
+  fitPopHeight($("tlCaptionsPop"), $("tlCaptionsSettings"));
+
 function setCaptionPopOpen(open) {
   $("tlCaptionsPop").hidden = !open;
+  if (open) fitCaptionPopHeight();
   $("tlCaptionsSettings").setAttribute("aria-expanded", String(open));
 }
 $("tlCaptionsSettings").addEventListener("click", () =>
@@ -920,11 +972,57 @@ $("tlCaptionsSettings").addEventListener("click", () =>
 document.addEventListener("click", (e) => {
   if (!e.target.closest(".cap-ctl")) setCaptionPopOpen(false);
 });
+window.addEventListener("resize", () => {
+  if (!$("tlCaptionsPop").hidden) fitCaptionPopHeight();
+});
 $("tlCaptionsPop").addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
   e.stopPropagation();
   setCaptionPopOpen(false);
   $("tlCaptionsSettings").focus();
+});
+
+// ------------------------------------------------------------------ sound + fullscreen
+
+function setMuted(muted) {
+  tl.muted = muted;
+  $("tlAudio").muted = muted;
+  window.scenePreview?.setMuted(muted);
+  const btn = $("tlMute");
+  btn.setAttribute("aria-pressed", String(muted));
+  const label = muted ? "Bật tiếng xem trước" : "Tắt tiếng xem trước";
+  btn.setAttribute("aria-label", label);
+}
+
+$("tlMute").addEventListener("click", () => setMuted(!tl.muted));
+
+// The whole preview pane goes fullscreen (picture + draft subtitle line), not just the screen.
+function toggleFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else
+    $("tlPreview")
+      .requestFullscreen()
+      .catch((error) =>
+        toast(`Không mở được toàn màn hình: ${error.message}`, false),
+      );
+}
+
+$("tlFullscreen").addEventListener("click", toggleFullscreen);
+
+document.addEventListener("fullscreenchange", () => {
+  const on = document.fullscreenElement === $("tlPreview");
+  $("tlFullscreen").setAttribute(
+    "aria-label",
+    on ? "Thoát toàn màn hình" : "Xem toàn màn hình",
+  );
+  // A button left focused would take Space (to exit) instead of play / pause.
+  if (on) document.activeElement?.blur();
+});
+
+$("tlPreview").addEventListener("click", () => {
+  if (document.fullscreenElement !== $("tlPreview")) return;
+  if (tl.playing) pause();
+  else play();
 });
 
 $("tlModes").addEventListener("click", (e) => {

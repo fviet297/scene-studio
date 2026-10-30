@@ -19,6 +19,13 @@ import { getSceneMotion } from "./scene-motion";
 import { deliveryBand } from "./delivery-band";
 import { BrandOverlay, type Branding } from "./BrandOverlay";
 import { CaptionTrack, type CaptionGroup } from "./CaptionTrack";
+import { GRADE_FILTER, ProjectEffects } from "./effects/ProjectEffects";
+import { transitionFrame } from "./effects/transitions";
+import {
+  DEFAULT_EFFECTS,
+  resolveEffects,
+  type EffectsConfig,
+} from "./effects/types";
 
 // One composition per project, each fed a ProjectData bundle built by scripts/build-remotion.mjs
 // (src/projects-data/*.json) from that project's projects/<slug>/scene-plan.md + audio. Full-bleed
@@ -75,6 +82,14 @@ export type ProjectData = {
   // Per-scene playback rate for a motion clip that is shorter than the scene: clip/scene (≤ 1) so
   // the clip stretches to fill the whole scene instead of leaving a frozen tail. 1 = play as-is.
   motionPlaybackRates?: number[];
+  // Per-scene motion clip length in seconds (0 = no clip). The composition derives the real rate
+  // from it because the Sequence is `overlap` frames longer than the scene (see motionRate).
+  motionClipSeconds?: number[];
+  // Per-scene seconds at the end of the motion clip where it has eased to a near stop (measured by
+  // scripts/lib/motion-tail.mjs); the next scene's transition starts that early to dissolve over it.
+  motionTailSeconds?: number[];
+  // Per-scene seconds skipped at the start of the motion clip (soft, jittery first frames).
+  motionHeadSeconds?: number[];
   uploadedScenes: number[];
   // The plan's `## characters` block, enriched from each profile.json; absent in older bundles.
   characters?: ProjectCharacter[];
@@ -91,9 +106,13 @@ export type ProjectData = {
 };
 
 const PLACEHOLDER_SCENE_SECONDS = 4;
-// Length of the dissolve between consecutive scenes; the incoming scene starts this many frames
-// early so it fades in on top of the outgoing one.
-const CROSSFADE_FRAMES = 8;
+// A scene's <video> and narration <Audio> are mounted this long before they start, so the browser
+// has loaded them by the time the previous scene hands over; otherwise the player stalls at each
+// scene boundary while the next file loads.
+const PREMOUNT_SECONDS = 2;
+
+// The incoming scene starts `effects.transition.frames` early and enters over the outgoing one's
+// tail (dissolve, wipe, slide...); narration stays on the scene's true start.
 
 // --- Overlay sizing -------------------------------------------------------------------------
 // Horizontal and typographic values scale by deliveryBand().unit; see src/delivery-band.ts.
@@ -164,6 +183,72 @@ function sceneTimeline(scenes: Scene[], sceneDurations: number[]) {
   return { frames, starts };
 }
 
+// How the scene is drawn while it enters. The default crossfade keeps the original eased dissolve;
+// the other types come from effects/transitions.ts.
+function enterTransition(
+  effects: EffectsConfig,
+  localFrame: number,
+  durationInFrames: number,
+  overlapFrames: number,
+): { style: React.CSSProperties; flash: number } {
+  const { type } = effects.transition;
+  if (type === "crossfade") {
+    return {
+      style: {
+        opacity: transitionOpacity(
+          localFrame,
+          durationInFrames,
+          overlapFrames,
+          0,
+        ),
+      },
+      flash: 0,
+    };
+  }
+  return transitionFrame(
+    type,
+    overlapFrames > 0 ? localFrame / overlapFrames : 1,
+  );
+}
+
+// How many frames early a scene starts. At least the chosen transition length; when the previous
+// scene's motion clip has eased to a near stop, long enough to dissolve over that dead tail
+// instead of showing it as a stall. A cut (0 frames) stays a cut.
+const MAX_TAIL_OVERLAP_FRAMES = 30;
+function transitionOverlapFrames(
+  transitionFrames: number,
+  previousTailSeconds: number | undefined,
+  previousSceneFrames: number,
+  fps: number,
+): number {
+  if (transitionFrames === 0) return 0;
+  const tailFrames = Math.min(
+    MAX_TAIL_OVERLAP_FRAMES,
+    Math.ceil((previousTailSeconds ?? 0) * fps),
+  );
+  return Math.min(Math.max(transitionFrames, tailFrames), previousSceneFrames);
+}
+
+// A clip shorter than its Sequence is slowed to span all of it, so it never freezes on its last
+// frame. The Sequence starts `overlap` frames before the scene's own start (the transition), so
+// it is longer than the scene the builder measured; bundles built before motionClipSeconds fall
+// back to the builder's own rate. The soft head the clip skips (headSeconds) is not played, so it
+// does not count towards the clip's length.
+function motionRate(
+  clipSeconds: number | undefined,
+  builderRate: number | undefined,
+  headSeconds: number,
+  sequenceFrames: number,
+  fps: number,
+): number {
+  if (clipSeconds === undefined) return builderRate ?? 1;
+  const sequenceSeconds = sequenceFrames / fps;
+  const playedSeconds = clipSeconds - headSeconds;
+  return playedSeconds > 0 && playedSeconds < sequenceSeconds
+    ? playedSeconds / sequenceSeconds
+    : 1;
+}
+
 export function SceneView({
   scene,
   projectSlug,
@@ -171,7 +256,9 @@ export function SceneView({
   publicPrefix,
   uploadedScenes = [],
   motionPlaybackRate = 1,
+  motionStartFromSeconds = 0,
   fadeInFrames = 0,
+  effects = DEFAULT_EFFECTS,
 }: {
   scene: Scene;
   projectSlug: string;
@@ -179,7 +266,9 @@ export function SceneView({
   publicPrefix: string;
   uploadedScenes?: number[];
   motionPlaybackRate?: number;
+  motionStartFromSeconds?: number;
   fadeInFrames?: number;
+  effects?: EffectsConfig;
 }) {
   const local = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -188,7 +277,12 @@ export function SceneView({
   // Fade the whole scene (image + overlays together) in over the previous scene, which is still
   // on screen underneath (see CROSSFADE_FRAMES) — a true cross-dissolve, never a dip to black.
   // The CinematicScene's own transition is disabled here to avoid double-fading the image.
-  const opacity = transitionOpacity(local, durationInFrames, fadeInFrames, 0);
+  const enter = enterTransition(effects, local, durationInFrames, fadeInFrames);
+  const atmosphere = {
+    ...motion.atmosphere,
+    ...(effects.vignette ? {} : { vignette: false }),
+    ...(effects.grain ? {} : { grain: false }),
+  };
   const sceneNo = String(scene.scene).padStart(2, "0");
   const src = `${publicPrefix}/images/scene-${sceneNo}.jpg`;
   const videoSrc = `${publicPrefix}/scene-videos/scene-${sceneNo}.mp4`;
@@ -197,19 +291,20 @@ export function SceneView({
     scene.image.kind === "ai" && !new Set(uploadedScenes).has(scene.scene);
   return (
     <AbsoluteFill
-      style={{ opacity, background: motion.background ?? COLORS.ink }}
+      style={{ ...enter.style, background: motion.background ?? COLORS.ink }}
     >
       {scene.motionVideo ? (
         <CinematicVideoScene
           src={videoSrc}
           playbackRate={motionPlaybackRate}
-          motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
+          startFromSeconds={motionStartFromSeconds}
+          motion={{ ...motion, atmosphere, transitionIn: 0, transitionOut: 0 }}
         />
       ) : (
         <CinematicScene
           src={src}
           durationInFrames={durationInFrames}
-          motion={{ ...motion, transitionIn: 0, transitionOut: 0 }}
+          motion={{ ...motion, atmosphere, transitionIn: 0, transitionOut: 0 }}
         />
       )}
 
@@ -276,6 +371,15 @@ export function SceneView({
           }}
         />
       )}
+      {enter.flash > 0 && (
+        <AbsoluteFill
+          style={{
+            background: "#fff",
+            opacity: enter.flash,
+            pointerEvents: "none",
+          }}
+        />
+      )}
     </AbsoluteFill>
   );
 }
@@ -327,6 +431,9 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
     project.scenes,
     project.sceneDurations,
   );
+  const effects = resolveEffects(project.branding?.effects);
+  const transitionFrames =
+    effects.transition.type === "none" ? 0 : effects.transition.frames;
   const titleIndex = Math.max(
     0,
     project.scenes.findIndex((s) => s.scene === project.titleOverlayScene),
@@ -341,38 +448,62 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
         background: COLORS.ink,
       }}
     >
-      {project.scenes.map((scene, i) => {
-        // Each scene starts early by `overlap` frames and fades in over its predecessor's tail;
-        // narration stays on the scene's true start, so captions and audio are not shifted.
-        const overlap = i === 0 ? 0 : Math.min(CROSSFADE_FRAMES, frames[i - 1]);
-        return (
-          <React.Fragment key={scene.scene}>
-            <Sequence
-              from={starts[i] - overlap}
-              durationInFrames={frames[i] + overlap}
-            >
-              <SceneView
-                scene={scene}
-                projectSlug={project.slug}
+      <AbsoluteFill style={{ filter: GRADE_FILTER[effects.grade] }}>
+        {project.scenes.map((scene, i) => {
+          // Each scene starts early by `overlap` frames and fades in over its predecessor's tail;
+          // narration stays on the scene's true start, so captions and audio are not shifted.
+          const overlap =
+            i === 0
+              ? 0
+              : transitionOverlapFrames(
+                  transitionFrames,
+                  project.motionTailSeconds?.[i - 1],
+                  frames[i - 1],
+                  project.fps,
+                );
+          return (
+            <React.Fragment key={scene.scene}>
+              <Sequence
+                from={starts[i] - overlap}
                 durationInFrames={frames[i] + overlap}
-                publicPrefix={project.publicPrefix}
-                uploadedScenes={project.uploadedScenes}
-                motionPlaybackRate={project.motionPlaybackRates?.[i] ?? 1}
-                fadeInFrames={overlap}
-              />
-            </Sequence>
-            {scene.hasAudio && (
-              <Sequence from={starts[i]} durationInFrames={frames[i]}>
-                <Audio
-                  src={staticFile(
-                    `${project.publicPrefix}/audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
+                premountFor={PREMOUNT_SECONDS * project.fps}
+              >
+                <SceneView
+                  scene={scene}
+                  projectSlug={project.slug}
+                  durationInFrames={frames[i] + overlap}
+                  publicPrefix={project.publicPrefix}
+                  uploadedScenes={project.uploadedScenes}
+                  motionPlaybackRate={motionRate(
+                    project.motionClipSeconds?.[i],
+                    project.motionPlaybackRates?.[i],
+                    project.motionHeadSeconds?.[i] ?? 0,
+                    frames[i] + overlap,
+                    project.fps,
                   )}
+                  motionStartFromSeconds={project.motionHeadSeconds?.[i] ?? 0}
+                  fadeInFrames={overlap}
+                  effects={effects}
                 />
               </Sequence>
-            )}
-          </React.Fragment>
-        );
-      })}
+              {scene.hasAudio && (
+                <Sequence
+                  from={starts[i]}
+                  durationInFrames={frames[i]}
+                  premountFor={PREMOUNT_SECONDS * project.fps}
+                >
+                  <Audio
+                    src={staticFile(
+                      `${project.publicPrefix}/audio/scene-${String(scene.scene).padStart(2, "0")}.mp3`,
+                    )}
+                  />
+                </Sequence>
+              )}
+            </React.Fragment>
+          );
+        })}
+        <ProjectEffects effects={effects} />
+      </AbsoluteFill>
       {project.hasTitleOverlay && titleFrames > 0 && (
         <Sequence from={starts[titleIndex]} durationInFrames={titleFrames}>
           <TitleOverlay

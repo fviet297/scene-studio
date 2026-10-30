@@ -5,7 +5,7 @@
 //   GET  /                    → the control panel (scripts/review-panel.html)
 //   GET  /panel.css|/panel.js|/timeline.js → the panel's stylesheet and scripts
 //   GET  /api/state           → scenes parsed from the active scene-plan.md + which images exist
-//   GET  /images/scene-NN.jpg → serve the current scene image (no-cache so regen shows)
+//   GET  /images/scene-NN.jpg[?w=160|320] → serve the current scene image (no-cache so regen shows); ?w= a small cached copy for strips
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
 //   GET  /api/projects        → list every projects/<slug> + which one is active
 //   POST /api/project         → { slug } → switch the active project, rebuild its bundle
@@ -46,6 +46,7 @@
 //   POST /api/thumbnail-generate → { model, prompt, chars, side } → one 16:9 AI background, SSE
 //   POST /api/thumbnail-lettering → { model, image, kicker, lines, styleHint, side } → that picture with AI-drawn headline, SSE
 //   POST /api/generate        → { scene } → run Replicate for that one AI scene
+//   POST /api/edit-image      → { scene, model, instruction } → edit that scene's existing image: only the typed change, the rest of the picture kept (scene-image-edit.mjs); streamed over SSE
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
 //   POST /api/remove-motion-video → { scene } → remove clip and use the source image instead
@@ -113,6 +114,9 @@ import { DEFAULT_SCRIPT_STYLE, SCENE_COUNT_MIN, SCRIPT_STYLES, isScriptStyle, wr
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
 import { generateThumbnailBackground, letterThumbnail, MAX_THUMB_PROMPT, parseLetteringRequest, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
+import { editSceneImage, MAX_EDIT_INSTRUCTION } from './lib/scene-image-edit.mjs';
+import { ensureThumbnail, thumbWidth } from './lib/image-thumb.mjs';
+import { clipMotionTrim } from './lib/motion-tail.mjs';
 
 loadEnv();
 initModelConfig();
@@ -137,8 +141,10 @@ const PANEL_ASSETS = {
   '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
+  '/effects.js': ['review-effects.js', 'text/javascript; charset=utf-8'],
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
+  '/crop.js': ['review-crop.js', 'text/javascript; charset=utf-8'],
   '/menu.js': ['review-menu.js', 'text/javascript; charset=utf-8'],
   '/models.js': ['review-models.js', 'text/javascript; charset=utf-8'],
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
@@ -573,6 +579,8 @@ const buildState = () => {
         hasMotionVideo,
         motionStale: hasMotionVideo && sceneMotionStale(s.scene),
         motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
+        // Seconds of the clip's soft first frames the timeline skips (see lib/motion-tail.mjs).
+        motionHeadSeconds: hasMotionVideo ? clipMotionTrim(motionPath).headSeconds : 0,
         history: mediaHistory(s.scene),
         promptFullChars,
         promptOverhead,
@@ -1275,8 +1283,11 @@ const server = createServer(async (req, res) => {
       const name = decodeURIComponent(pathname.slice('/images/'.length));
       const path = join(P.imageDir, name);
       if (!name.includes('..') && existsSync(path)) {
-        res.writeHead(200, { 'Content-Type': MIME[name.split('.').pop().toLowerCase()] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
-        res.end(readFileSync(path));
+        // `?w=` asks for a small copy for the panel's strips; the original stays no-store so a regenerated image shows.
+        const width = thumbWidth(url.searchParams.get('w'));
+        const file = width ? await ensureThumbnail({ source: path, cacheDir: join(HERE, '..', 'tmp', 'thumbs'), width }).catch(() => path) : path;
+        res.writeHead(200, { 'Content-Type': MIME[name.split('.').pop().toLowerCase()] ?? 'application/octet-stream', 'Cache-Control': file === path ? 'no-store' : 'private, max-age=86400' });
+        res.end(readFileSync(file));
       } else {
         res.writeHead(404).end('not found');
       }
@@ -1956,6 +1967,36 @@ const server = createServer(async (req, res) => {
           sseSend(res, 'done', `Scene ${scene} image generated (${via})`);
         } catch (e) {
           if (signal.aborted) { console.log(`[image scene ${scene}] cancelled`); return; }
+          log(`error: ${e.message}`);
+          sseSend(res, 'error', e.message);
+        }
+      });
+      res.end();
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/edit-image') {
+      const { scene, model, instruction } = await readBody(req);
+      const plan = readPlan();
+      const target = plan.scenes.find((s) => s.scene === scene);
+      if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
+      if (target.image.kind !== 'ai') { sendJson(res, 400, { error: `scene ${scene} is a search scene, not AI` }); return; }
+      if (!existsSync(imagePathFor(scene))) { sendJson(res, 400, { error: `Scene ${scene} chưa có ảnh để sửa.` }); return; }
+      if (typeof model !== 'string' || !model.trim()) { sendJson(res, 400, { error: 'Chọn model ảnh.' }); return; }
+      if (typeof instruction !== 'string' || !instruction.trim()) { sendJson(res, 400, { error: 'Nhập nội dung cần sửa.' }); return; }
+      if (instruction.length > MAX_EDIT_INSTRUCTION) { sendJson(res, 400, { error: `Nội dung sửa tối đa ${MAX_EDIT_INSTRUCTION} ký tự.` }); return; }
+      sseHead(res);
+      const log = (line) => { console.log(`[image edit scene ${scene}] ${line}`); sseSend(res, 'log', line); };
+      const signal = cancelSignal(res);
+      await trackJob(res, async () => {
+        try {
+          log(`▶ editing scene ${scene} (model=${model.trim()})`);
+          await trackMediaChange('image', scene, () => editSceneImage({
+            scene, instruction, model: model.trim(), characters: target.image.characters, signal, onLog: log,
+          }));
+          sseSend(res, 'done', `Scene ${scene} image edited`);
+        } catch (e) {
+          if (signal.aborted) { console.log(`[image edit scene ${scene}] cancelled`); return; }
           log(`error: ${e.message}`);
           sseSend(res, 'error', e.message);
         }

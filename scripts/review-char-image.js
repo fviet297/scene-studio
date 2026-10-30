@@ -155,9 +155,11 @@ function closeCharImageDialog() {
   $("ciOverlay").hidden = true;
 }
 
-async function uploadCiSource(file) {
-  if (!file) return;
+async function uploadCiSource(picked) {
+  if (!picked) return;
   const id = ci.id;
+  const file = await cropImage(picked);
+  if (!file || ci.id !== id) return;
   setCiNote("Đang tải ảnh nguồn…");
   try {
     const res = await fetch(

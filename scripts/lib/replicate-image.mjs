@@ -35,7 +35,7 @@ let paths = activePaths();
 // `aspect:` line can be edited while the review server is running, and a value cached at startup
 // or at the last project switch would keep generating images in the previous ratio.
 const readAspect = (planMd) => (existsSync(planMd) ? parsePlanAspect(readFileSync(planMd, 'utf8')) : DEFAULT_ASPECT);
-const currentAspect = () => readAspect(paths.planMd);
+export const currentAspect = () => readAspect(paths.planMd);
 export const setProjectPaths = (next) => { paths = next; };
 export const imageDir = () => paths.imageDir;
 export const manifestPath = () => paths.manifest;

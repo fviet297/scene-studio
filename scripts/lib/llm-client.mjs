@@ -141,7 +141,7 @@ const replyFromJson = (text, label) => {
   return { content: choice?.message?.content ?? '', finishReason: choice?.finish_reason };
 };
 
-// One request → the parsed JSON object, or an Error tagged `retryable`. Reasoning models behind a
+// One request → { result: the parsed reply, chars, finishReason }, or an Error tagged `retryable`. Reasoning models behind a
 // router now and then return content "" or break the JSON with a stray quote; those are retryable.
 const attemptChat = async (config, body, signal, label, parse) => {
   let reply;
@@ -162,15 +162,17 @@ const attemptChat = async (config, body, signal, label, parse) => {
   const content = reply.content;
   if (!content.trim()) throw failure(`${label}: model trả về rỗng`, true);
   try {
-    return parse(content);
+    return { result: parse(content), chars: content.length, finishReason: reply.finishReason };
   } catch (error) {
     throw failure(`${label}: ${error.message}`, true);
   }
 };
 
-// One system + user turn → the parsed JSON object. Up to MAX_ATTEMPTS requests, each retry
-// announced through onLog (every attempt is a paid call); a cancel (`signal`) or a timeout is
-// never retried.
+const seconds = (startedAt) => ((Date.now() - startedAt) / 1000).toFixed(1);
+
+// One system + user turn → the parsed JSON object. Up to MAX_ATTEMPTS requests. Every attempt is a
+// paid call, so onLog gets its start (model, host, prompt size), its outcome and duration, and
+// each retry; a cancel (`signal`) or a timeout is never retried.
 const chat = async ({ system, user, signal, label, onLog, json, parse }) => {
   const config = llmConfig();
   const body = JSON.stringify({
@@ -180,10 +182,16 @@ const chat = async ({ system, user, signal, label, onLog, json, parse }) => {
     messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
   });
   for (let attempt = 1; ; attempt++) {
+    const startedAt = Date.now();
+    onLog(`  ↳ ${label}: gọi ${describeLlm()} — prompt ${system.length + user.length} ký tự${attempt > 1 ? ` (lần ${attempt}/${MAX_ATTEMPTS})` : ''}`);
     try {
-      return await attemptChat(config, body, signal, label, parse);
+      const { result, chars, finishReason } = await attemptChat(config, body, signal, label, parse);
+      onLog(`  ↳ ${label}: xong sau ${seconds(startedAt)}s — trả ${chars} ký tự (${finishReason ?? 'không rõ lý do dừng'})`);
+      return result;
     } catch (error) {
-      if (signal?.aborted || !error.retryable || attempt === MAX_ATTEMPTS) throw error;
+      if (signal?.aborted) throw error;
+      onLog(`  ↳ ${label}: lỗi sau ${seconds(startedAt)}s`);
+      if (!error.retryable || attempt === MAX_ATTEMPTS) throw error;
       onLog(`⚠ ${error.message} — thử lại (lần ${attempt + 1}/${MAX_ATTEMPTS})`);
       await pause(RETRY_DELAY_MS * attempt, signal);
     }

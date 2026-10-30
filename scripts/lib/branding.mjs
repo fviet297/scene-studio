@@ -25,6 +25,8 @@ export const BADGE_RANGES = {
 // Subtitle text size in delivered-canvas pixels (1080 wide); bounds match the panel slider.
 export const CAPTION_SIZE_RANGE = { min: 28, max: 72 };
 export const CAPTION_POSITIONS = ['top', 'middle', 'bottom'];
+// Extra vertical nudge on top of the position preset, in delivered-canvas pixels (1080 wide); negative = up.
+export const CAPTION_OFFSET_RANGE = { min: -300, max: 300 };
 // Fonts bundled in public/fonts (src/caption-fonts.ts); 'arial' is the OS font, which differs per machine.
 export const CAPTION_FONTS = ['be-vietnam', 'montserrat', 'anton', 'bangers', 'arial'];
 export const CAPTION_HIGHLIGHTS = ['karaoke', 'word', 'none'];
@@ -32,6 +34,13 @@ export const CAPTION_STROKE_RANGE = { min: 0, max: 14 };
 // 16:9 only, same meaning as BRAND_ANCHORS: 'crop' keeps the text inside the 3:2 strip the 9:16
 // export retains; 'frame' spans the real 16:9 frame (YouTube) and the 9:16 export may crop it.
 export const CAPTION_ANCHORS = BRAND_ANCHORS;
+// Project-wide video effects (src/effects). `layers` are overlays drawn above every scene; the base
+// vignette/grain are the per-scene filmic ground (src/scene-motion.ts) that can be switched off.
+export const EFFECT_LAYERS = ['fog', 'lightRays', 'dust', 'snow', 'embers', 'rain', 'petals', 'bokeh', 'lightLeak'];
+export const EFFECT_INTENSITY_RANGE = { min: 10, max: 100 };
+export const TRANSITION_TYPES = ['crossfade', 'wipe', 'slide', 'zoom', 'iris', 'flash', 'none'];
+export const TRANSITION_FRAMES_RANGE = { min: 4, max: 30 };
+export const COLOR_GRADES = ['none', 'warm', 'cool', 'sepia'];
 const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
 // Brand name under the corner logo and in the centre watermark; empty = logo only.
@@ -45,8 +54,13 @@ export const DEFAULT_BRANDING = {
   // default so existing projects keep rendering exactly as before.
   captions: {
     enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, backgroundOpacity: 0.42,
-    uppercase: false, highlight: 'karaoke', position: 'bottom', anchor: 'crop',
+    uppercase: false, highlight: 'karaoke', position: 'bottom', offsetY: 0, anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
+  },
+  effects: {
+    vignette: true, grain: true, grade: 'none',
+    transition: { type: 'crossfade', frames: 8 },
+    layers: Object.fromEntries(EFFECT_LAYERS.map((key) => [key, { enabled: false, intensity: 50 }])),
   },
 };
 
@@ -62,6 +76,26 @@ const hexColor = (value, fallback) => (typeof value === 'string' && HEX_COLOR.te
 const clampInt = (value, { min, max }, fallback) => {
   const n = Number(value);
   return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback;
+};
+
+const normalizeEffects = (raw = {}) => {
+  const d = DEFAULT_BRANDING.effects;
+  const transition = raw.transition ?? {};
+  const layers = raw.layers ?? {};
+  const flag = (value, fallback) => (typeof value === 'boolean' ? value : fallback);
+  return {
+    vignette: flag(raw.vignette, d.vignette),
+    grain: flag(raw.grain, d.grain),
+    grade: COLOR_GRADES.includes(raw.grade) ? raw.grade : d.grade,
+    transition: {
+      type: TRANSITION_TYPES.includes(transition.type) ? transition.type : d.transition.type,
+      frames: clampInt(transition.frames, TRANSITION_FRAMES_RANGE, d.transition.frames),
+    },
+    layers: Object.fromEntries(EFFECT_LAYERS.map((key) => [key, {
+      enabled: flag(layers[key]?.enabled, d.layers[key].enabled),
+      intensity: clampInt(layers[key]?.intensity, EFFECT_INTENSITY_RANGE, d.layers[key].intensity),
+    }])),
+  };
 };
 
 // Keep only known fields, falling back to the default for anything missing or malformed, so a
@@ -95,10 +129,12 @@ export const normalizeBranding = (raw = {}) => {
       uppercase: typeof captions.uppercase === 'boolean' ? captions.uppercase : d.captions.uppercase,
       highlight: CAPTION_HIGHLIGHTS.includes(captions.highlight) ? captions.highlight : d.captions.highlight,
       position: CAPTION_POSITIONS.includes(captions.position) ? captions.position : d.captions.position,
+      offsetY: clampInt(captions.offsetY, CAPTION_OFFSET_RANGE, d.captions.offsetY),
       anchor: CAPTION_ANCHORS.includes(captions.anchor) ? captions.anchor : d.captions.anchor,
       spokenColor: hexColor(captions.spokenColor, d.captions.spokenColor),
       unspokenColor: hexColor(captions.unspokenColor, d.captions.unspokenColor),
     },
+    effects: normalizeEffects(raw.effects),
   };
 };
 

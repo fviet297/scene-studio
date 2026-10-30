@@ -1,0 +1,77 @@
+{
+  "name": "FVIET",
+  "logo": {
+    "enabled": true,
+    "position": "top-right",
+    "anchor": "frame",
+    "opacity": 0.85,
+    "margin": 24,
+    "size": 64,
+    "textSize": 18
+  },
+  "watermark": {
+    "enabled": true,
+    "opacity": 0.08
+  },
+  "captions": {
+    "enabled": true,
+    "font": "arial",
+    "size": 46,
+    "strokeWidth": 7,
+    "backgroundOpacity": 0.42,
+    "uppercase": false,
+    "highlight": "word",
+    "position": "bottom",
+    "offsetY": 45,
+    "anchor": "frame",
+    "spokenColor": "#f6c85f",
+    "unspokenColor": "#ffffff"
+  },
+  "effects": {
+    "vignette": true,
+    "grain": true,
+    "grade": "none",
+    "transition": {
+      "type": "crossfade",
+      "frames": 4
+    },
+    "layers": {
+      "fog": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "lightRays": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "dust": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "snow": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "embers": {
+        "enabled": true,
+        "intensity": 50
+      },
+      "rain": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "petals": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "bokeh": {
+        "enabled": false,
+        "intensity": 50
+      },
+      "lightLeak": {
+        "enabled": false,
+        "intensity": 50
+      }
+    }
+  }
+}

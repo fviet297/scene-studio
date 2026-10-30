@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, Img, staticFile, useVideoConfig } from "remotion";
 import { deliveryBand } from "./delivery-band";
 import type { CaptionStyle } from "./CaptionTrack";
+import type { EffectsConfig } from "./effects/types";
 
 // Channel branding over the whole render: a corner logo + name, and a large faint centre
 // watermark that makes a cropped re-upload still carry the mark. Settings come from
@@ -33,6 +34,8 @@ export interface Branding {
   watermark: { enabled: boolean; opacity: number };
   // Narration subtitles (CaptionTrack.tsx); absent in bundles built before the setting existed.
   captions?: Partial<CaptionStyle>;
+  // Project-wide effects (src/effects); absent in bundles built before the setting existed.
+  effects?: Partial<EffectsConfig>;
 }
 
 const LOGO_SRC = "brand/logo.svg";

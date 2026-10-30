@@ -1,0 +1,22 @@
+{
+  "character_id": "char-c",
+  "name": "Le Long Dinh",
+  "display_name": "Lê Long Đĩnh",
+  "aliases": [
+    "Lê Ngọa Triều"
+  ],
+  "country": "Đại Việt",
+  "period": "c. 986-1009",
+  "dynasty": "Nhà Tiền Lê",
+  "role": "Last king of the Early Lê, whose death in 1009 opened the way for Lý Công Uẩn.",
+  "known_facts": [
+    "Son of Lê Hoàn (Lê Đại Hành); took the throne in 1005 after his brother Lê Long Việt was killed.",
+    "Reigned 1005-1009 from Hoa Lư.",
+    "Called Lê Ngọa Triều in the histories, which record notorious cruelty and excess.",
+    "Died in 1009 at about twenty-four, leaving young sons.",
+    "His death created the succession crisis that brought Lý Công Uẩn to power."
+  ],
+  "interpretation": "A slight, pale Vietnamese man of about twenty-three, round-faced, heavy brows over restless eyes, a thin moustache, hair in a topknot under a gold-fitted cap. He wears a crimson silk robe embroidered with gold thread, wide sleeves, a heavy gold belt and gold arm-rings, with a curved ivory-handled dagger at his hip.",
+  "unknowns": [],
+  "reference": "public/projects/ly-cong-uan-doi-do/characters/char-c.jpg"
+}

@@ -20,6 +20,7 @@ import { alignCaptions } from './lib/caption-align.mjs';
 import { aspectInfo } from './lib/aspect.mjs';
 import { readBranding } from './lib/branding.mjs';
 import { sceneContentSeconds } from './lib/scene-timing.mjs';
+import { clipMotionTrim } from './lib/motion-tail.mjs';
 
 const FPS = 30;
 // Silent pause inserted after every scene but the last, so narration doesn't run continuously
@@ -105,10 +106,14 @@ for (const slug of targets) {
     const content = Number(sceneContentSeconds({ audio, clip, minDuration: s.duration }).toFixed(3));
     const duration = i < lastIndex ? Number((content + SCENE_GAP_SECONDS).toFixed(3)) : content;
     const playbackRate = clip > 0 && clip < duration ? Number((clip / duration).toFixed(4)) : 1;
-    return { duration, playbackRate };
+    const trim = clip > 0 ? clipMotionTrim(clipFile(s.scene)) : { headSeconds: 0, tailSeconds: 0 };
+    return { duration, playbackRate, clip, ...trim };
   });
   const sceneDurations = sceneTiming.map((t) => t.duration);
   const motionPlaybackRates = sceneTiming.map((t) => t.playbackRate);
+  const motionClipSeconds = sceneTiming.map((t) => Number(t.clip.toFixed(3)));
+  const motionTailSeconds = sceneTiming.map((t) => t.tailSeconds);
+  const motionHeadSeconds = sceneTiming.map((t) => t.headSeconds);
   const sceneSeconds = Object.fromEntries(scenes.map((s, i) => [s.scene, sceneDurations[i]]));
 
   // Captions need every scene's real audio to keep absolute timings correct; skip until then.
@@ -135,6 +140,9 @@ for (const slug of targets) {
     characters: characterRows,
     sceneDurations,
     motionPlaybackRates,
+    motionClipSeconds,
+    motionTailSeconds,
+    motionHeadSeconds,
     captionGroups,
     uploadedScenes,
     // Optional full-frame broadcast overlay drawn over every scene (projects/<slug>/overlay/*.html

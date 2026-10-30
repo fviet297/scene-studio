@@ -193,11 +193,20 @@ button { cursor: pointer; }
 .btn.quiet { background: transparent; border-color: transparent; color: var(--muted); }
 /* Subtitle toggle + its settings popover. The popover opens upward: the transport sits under the preview. */
 .cap-ctl { position: relative; display: inline-flex; align-items: center; gap: 2px; }
+/* Video effects toggle + popover; the popover reuses .cap-pop and opens upward like the subtitle one. */
+.fx-ctl { position: relative; display: inline-flex; align-items: center; }
+.cap-pop.fx-pop { width: 290px; }
+.fx-layers { display: flex; flex-direction: column; gap: 8px; }
+.fx-layer-head { display: flex; align-items: center; justify-content: space-between; }
+.fx-layer-head .cap-check { margin: 0; }
+.fx-layer input[type="range"]:disabled { opacity: .35; cursor: not-allowed; }
 .cap-pop {
   position: absolute; right: 0; bottom: calc(100% + 8px); z-index: 24; width: 270px;
   display: flex; flex-direction: column; gap: 12px; padding: 12px;
   border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--surface-2);
   box-shadow: 0 10px 28px rgba(0, 0, 0, .42);
+  /* Taller than the room above the toggle on a short window: scroll inside instead of clipping the top. */
+  overflow-y: auto; overscroll-behavior: contain;
 }
 .cap-pop[hidden] { display: none; }
 .cap-pop input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
@@ -607,10 +616,12 @@ textarea::placeholder { color: var(--faint); }
 .batch-bar .bar-label { font-size: 12px; color: var(--muted); }
 /* Each batch action wears the tone the full-script editor already uses for its stage: image =
    blue, motion = amber, narration audio = the accent. Only icon, text and a tinted border carry
-   it (no fills), so the bar stays quiet next to the preview. A model select is fused to its
+   it (no fills), so the bar stays quiet next to the preview. The unit needs its own default tone:
+   the prompt unit has no tone of its own, and without one its select border and focus ring lose
+   their colour and fall back to white. A model select is fused to its
    button so "which model" and "go" read as one control. Merge rewrites the plan instead of
    generating media, so it sits apart as a quiet button. */
-.batch-bar .batch-act { --tone: var(--muted); }
+.batch-bar .batch-act, .batch-bar .batch-unit { --tone: var(--muted); }
 .batch-bar [data-tone="image"] { --tone: var(--tone-image); }
 .batch-bar [data-tone="motion"] { --tone: var(--tone-motion); }
 .batch-bar [data-tone="audio"] { --tone: var(--accent); }
@@ -682,6 +693,41 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 /* Motion popup: three short direction fields (camera / action / env) instead of one long prompt. */
 .field textarea.motion-part { min-height: 56px; }
 .motion-legacy { margin: 0; font-size: 11.5px; color: var(--muted); }
+
+/* Character reference crop dialog (review-crop.js). The stage is the square that gets saved; the
+   picture is panned and zoomed under it. Grey matches the pad colour the server uses. */
+.dialog.crop-dialog { width: min(480px, 100%); }
+.crop-stage {
+  position: relative; width: min(100%, 60vh); aspect-ratio: 1; margin: 0 auto; overflow: hidden;
+  background: #d8d8d8; border: 1px solid var(--line); border-radius: var(--r-ctl);
+  cursor: grab; touch-action: none; user-select: none;
+}
+.crop-stage.dragging { cursor: grabbing; }
+.crop-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.crop-stage img {
+  position: absolute; top: 0; left: 0; width: auto; height: auto; max-width: none; max-height: none;
+  transform-origin: 0 0; pointer-events: none; will-change: transform;
+}
+.crop-grid {
+  --crop-line: rgba(255, 255, 255, .6);
+  position: absolute; inset: 0; pointer-events: none; filter: drop-shadow(0 0 1px rgba(0, 0, 0, .55));
+  background:
+    linear-gradient(var(--crop-line), var(--crop-line)) 33.333% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--crop-line), var(--crop-line)) 66.666% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--crop-line), var(--crop-line)) 0 33.333% / 100% 1px no-repeat,
+    linear-gradient(var(--crop-line), var(--crop-line)) 0 66.666% / 100% 1px no-repeat;
+}
+/* Edit an existing scene image (dialog Ảnh): the picture being edited beside the change box. */
+.edit-row { display: flex; gap: 10px; align-items: flex-start; }
+.edit-row textarea { flex: 1; min-width: 0; min-height: 72px; }
+.edit-thumb {
+  flex: none; width: 128px; max-height: 128px; object-fit: contain; cursor: zoom-in;
+  background: #000; border: 1px solid var(--line); border-radius: var(--r-ctl);
+}
+.crop-hint { margin: 0; text-align: center; font-size: 11.5px; color: var(--faint); }
+.crop-controls { display: flex; align-items: center; gap: 8px; }
+.crop-zoom { flex: 1; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.crop-zoom input { flex: 1; min-width: 0; accent-color: var(--accent); cursor: pointer; }
 
 /* Full-script overlay: the whole scene plan (narration + prompts + motion), editable inline. */
 .dialog.script-dialog { width: min(900px, 100%); }
@@ -923,6 +969,9 @@ body.view-timeline .workbench { display: none; }
 }
 .tl-screen img, .tl-screen video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .tl-empty { color: var(--faint); font-size: 12.5px; }
+/* Fullscreen shows only the preview (no transport), so a click on the picture plays / pauses it. */
+.tl-preview:fullscreen { padding: 12px; cursor: pointer; }
+.tl-preview:fullscreen .tl-screen { border: 0; border-radius: 0; }
 /* "As rendered" modes: draft media and the draft brand layer give way to the Remotion player. */
 .tl-screen.is-render > :not(.tl-player, .tl-player-status) { display: none !important; }
 .tl-screen.is-vertical { aspect-ratio: 9 / 16; }
@@ -936,11 +985,6 @@ body.view-timeline .workbench { display: none; }
   background: rgba(7, 8, 10, .78); border: 1px solid var(--line);
 }
 .tl-player-status.error { color: var(--danger); }
-.tl-caption {
-  flex: none; margin: 0; max-width: 72ch; min-height: 3em; text-align: center;
-  font-size: 14px; line-height: 1.5; color: var(--text);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-}
 
 .tl-transport {
   flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px;
@@ -955,6 +999,9 @@ body.view-timeline .workbench { display: none; }
 .tl-play:hover:not(:disabled) { background: #55c7b5; }
 .tl-play:disabled, .icon-btn:disabled { opacity: .4; cursor: not-allowed; }
 .tl-play svg { width: 16px; height: 16px; }
+.tl-mute .ic-muted, .tl-mute[aria-pressed="true"] .ic-sound { display: none; }
+.tl-mute[aria-pressed="true"] .ic-muted { display: block; }
+.tl-mute[aria-pressed="true"] { color: var(--danger); }
 .tl-play .ic-pause, .tl-play.playing .ic-play { display: none; }
 .tl-play.playing .ic-pause { display: block; }
 .tl-time { min-width: 118px; font-size: 12.5px; }
@@ -1015,7 +1062,9 @@ body.view-timeline .workbench { display: none; }
 }
 .tl-clip img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  opacity: .6; pointer-events: none; transition: opacity .15s ease;
+  /* No opacity transition: each thumbnail is a full-size (2048px) JPEG, and animating it re-rasters
+     the downscale on the CPU every frame, which stalled playback at every scene change. */
+  opacity: .6; pointer-events: none;
 }
 .tl-clip:hover { border-color: #3a4048; }
 .tl-clip:hover img { opacity: .85; }
@@ -1065,12 +1114,19 @@ body.view-timeline .workbench { display: none; }
   position: absolute; top: 5px; left: 5px; z-index: 2; display: grid; place-items: center;
   width: 22px; height: 22px; padding: 0; border: 1px solid var(--line); border-radius: var(--r-ctl);
   background: rgba(7, 8, 10, .76); color: var(--text); cursor: pointer;
-  opacity: 0; transition: opacity .15s ease, border-color .15s ease, color .15s ease;
+  opacity: 0; pointer-events: none; transition: opacity .15s ease, border-color .15s ease, color .15s ease;
 }
 .tl-edit svg { width: 12px; height: 12px; }
+/* A clip too narrow for the 22px button gets a smaller one centred over it, so every scene keeps
+   its edit button; it only catches clicks while shown, and the lower clip stays clickable. */
+.tl-cell.narrow .tl-edit { left: 50%; width: 18px; height: 18px; margin-left: -9px; }
+.tl-cell.narrow .tl-edit svg { width: 10px; height: 10px; }
+.tl-cell.narrow.selected .tl-edit { top: 24px; }
 .tl-cell:hover .tl-edit,
 .tl-cell:has(.tl-clip[aria-current="true"]) .tl-edit,
-.tl-edit:focus-visible { opacity: 1; }
+.tl-edit:focus-visible { opacity: 1; pointer-events: auto; }
+.tl-cell:hover .tl-edit,
+.tl-cell:has(.tl-clip[aria-current="true"]) .tl-edit { pointer-events: auto; }
 .tl-edit:hover { border-color: var(--accent); color: var(--accent); }
 /* Drops below the selection check: beside it, it would collide with the pips on mid-width clips. */
 .tl-cell.selected .tl-edit { top: 26px; }

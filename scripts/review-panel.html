@@ -264,7 +264,7 @@
     <button class="btn sm quiet" type="button" id="tlAddChar" title="Thêm nhân vật vào kịch bản">+ Thêm</button>
   </div>
 
-  <div class="tl-preview">
+  <div class="tl-preview" id="tlPreview">
     <div class="tl-screen" id="tlScreen">
       <img id="tlStill" alt="" hidden />
       <video id="tlVideo" muted playsinline preload="auto" hidden></video>
@@ -278,7 +278,6 @@
       </div>
       <span class="tl-player-status" id="tlPlayerStatus" role="status" hidden></span>
     </div>
-    <p class="tl-caption" id="tlCaption"></p>
     <audio id="tlAudio" preload="auto"></audio>
   </div>
 
@@ -294,6 +293,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 4 10 8-10 8V4ZM19 5v14"/></svg>
     </button>
     <span class="tl-time num"><span id="tlNow">0:00.0</span><span class="tl-total"> / <span id="tlTotal">0:00.0</span></span></span>
+    <button class="icon-btn tl-mute" type="button" id="tlMute" aria-pressed="false" aria-label="Tắt tiếng xem trước" title="Tắt / bật tiếng khi xem trước (M)">
+      <svg class="ic-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+      <svg class="ic-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></svg>
+    </button>
     <span class="bar-sep"></span>
     <span class="scene-no" id="tlScene">Scene</span>
     <span class="tag" id="tlKind"></span>
@@ -340,6 +343,10 @@
           </div>
         </div>
         <div class="field">
+          <label for="capOffset">Dịch dọc <span class="note">lên − / xuống +</span> <output class="num" id="capOffsetVal" for="capOffset"></output></label>
+          <input type="range" id="capOffset" min="-300" max="300" step="5" />
+        </div>
+        <div class="field">
           <label for="capStroke">Viền chữ <output class="num" id="capStrokeVal" for="capStroke"></output></label>
           <input type="range" id="capStroke" min="0" max="14" step="1" />
         </div>
@@ -376,8 +383,50 @@
         <button class="btn sm quiet" type="button" id="capReset">Đặt lại mặc định</button>
       </div>
     </span>
+    <span class="fx-ctl">
+      <button class="btn sm quiet" type="button" id="tlEffectsToggle" aria-pressed="false" aria-haspopup="dialog" aria-expanded="false" aria-controls="tlEffectsPop" title="Hiệu ứng video: chuyển cảnh, tông màu, lớp phủ (mưa, hoa rơi, sương...). Hiện ở Bản render / 9:16 và trong MP4."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="M19 3v4M17 5h4"/></svg>Hiệu ứng</button>
+      <div class="cap-pop fx-pop" id="tlEffectsPop" role="dialog" aria-label="Hiệu ứng video" hidden>
+        <div class="field">
+          <label for="fxTransition">Chuyển cảnh</label>
+          <select class="mini wide" id="fxTransition">
+            <option value="crossfade">Hoà mờ (mặc định)</option>
+            <option value="wipe">Quét ngang</option>
+            <option value="slide">Trượt đè</option>
+            <option value="zoom">Zoom hoà mờ</option>
+            <option value="iris">Mở vòng tròn</option>
+            <option value="flash">Loé trắng</option>
+            <option value="none">Cắt thẳng</option>
+          </select>
+        </div>
+        <div class="field" id="fxTransitionFramesField">
+          <label for="fxTransitionFrames">Độ dài chuyển cảnh <output class="num" id="fxTransitionFramesVal" for="fxTransitionFrames"></output></label>
+          <input type="range" id="fxTransitionFrames" min="4" max="30" step="1" />
+        </div>
+        <div class="field">
+          <label for="fxGrade">Tông màu</label>
+          <select class="mini wide" id="fxGrade">
+            <option value="none">Gốc</option>
+            <option value="warm">Ấm</option>
+            <option value="cool">Lạnh</option>
+            <option value="sepia">Nâu ố (sepia)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="cap-check"><input type="checkbox" id="fxVignette" /> Tối viền</label>
+          <label class="cap-check"><input type="checkbox" id="fxGrain" /> Hạt phim</label>
+        </div>
+        <div class="field">
+          <span class="field-label">Lớp phủ <span class="note">phủ lên mọi scene</span></span>
+          <div class="fx-layers" id="fxLayers"></div>
+        </div>
+        <button class="btn sm quiet" type="button" id="fxReset">Đặt lại mặc định</button>
+      </div>
+    </span>
     <button class="icon-btn" type="button" id="tlPlayerRefresh" hidden aria-label="Dựng lại dữ liệu render" title="Dựng lại dữ liệu render (sau khi sửa audio, ảnh, logo…)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5"/></svg>
+    </button>
+    <button class="icon-btn" type="button" id="tlFullscreen" aria-label="Xem toàn màn hình" title="Xem toàn màn hình (F). Space phát / dừng, ← → đổi scene, Esc thoát.">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
     </button>
     <label class="tl-zoom">
       <span>Thu phóng</span>
@@ -607,6 +656,20 @@
           <button class="btn quiet sm history-btn" type="button" id="btnRedoImage" hidden title="Làm lại ảnh của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại ảnh <span class="count num"></span></button>
         </div>
         <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Chọn file ảnh cho scene này" hidden />
+      </div>
+
+      <div class="block" id="editBlock">
+        <div class="block-head">
+          <span class="ttl">Sửa ảnh đã có</span>
+          <span class="hint" id="editHint"></span>
+        </div>
+        <div class="edit-row">
+          <img class="edit-thumb" id="editThumb" alt="Ảnh hiện tại của scene, bấm để xem lớn" title="Bấm để xem lớn" hidden />
+          <textarea id="editBox" rows="3" spellcheck="false" aria-label="Nội dung cần sửa trên ảnh của scene đang chọn" placeholder="Chỉ nhập phần cần đổi, vd. đổi áo nhân vật sang màu đỏ; thêm lá cờ sau lưng. Mọi thứ khác trong ảnh giữ nguyên."></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn sm" type="button" id="btnEdit" disabled title="Gửi ảnh hiện tại và nội dung cần sửa cho model ảnh; phần còn lại của ảnh được giữ nguyên">Sửa ảnh</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1274,10 +1337,42 @@
   <span class="lightbox-cap" id="lightboxCap"></span>
 </div>
 
+<div class="overlay" id="cropOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="cropTitle">
+  <div class="dialog crop-dialog">
+    <div class="dialog-head">
+      <h2 id="cropTitle">Cắt ảnh tham chiếu</h2>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="cropClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="dialog-body single">
+      <div class="crop-stage" id="cropStage" tabindex="0" role="application" aria-label="Khung cắt ảnh vuông. Kéo để di chuyển ảnh, cuộn chuột hoặc phím cộng, trừ để phóng to, thu nhỏ, phím mũi tên để dịch ảnh.">
+        <img id="cropImg" alt="" draggable="false" />
+        <span class="crop-grid" aria-hidden="true"></span>
+      </div>
+      <p class="crop-hint">Ảnh tham chiếu là hình vuông. Kéo để chọn vùng giữ lại, cuộn chuột để phóng to.</p>
+      <div class="crop-controls">
+        <label class="crop-zoom"><span>Phóng to</span><input type="range" id="cropZoom" min="0" max="100" step="1" value="0" aria-label="Phóng to ảnh" /></label>
+        <button class="btn sm quiet" type="button" id="cropFit" title="Thu nhỏ để thấy cả ảnh; phần thừa là nền xám">Vừa cả ảnh</button>
+        <button class="btn sm quiet" type="button" id="cropFill" title="Phóng to cho ảnh phủ kín khung">Phủ kín khung</button>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <button class="btn quiet" type="button" id="cropOriginal" title="Bỏ qua bước cắt: máy chủ tự lấy hình vuông ở giữa ảnh">Dùng ảnh gốc</button>
+      <span class="grow"></span>
+      <button class="btn" type="button" id="cropCancel">Huỷ</button>
+      <button class="btn primary" type="button" id="cropApply">Cắt ảnh</button>
+    </div>
+  </div>
+</div>
+
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script src="/panel.js"></script>
+<script src="/crop.js"></script>
 <script src="/timeline.js"></script>
+<script src="/effects.js"></script>
 <script src="/script-gen.js"></script>
 <script src="/char-image.js"></script>
 <script src="/menu.js"></script>

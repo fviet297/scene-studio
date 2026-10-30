@@ -1,5 +1,10 @@
 import React from "react";
-import { AbsoluteFill, OffthreadVideo, staticFile } from "remotion";
+import {
+  AbsoluteFill,
+  OffthreadVideo,
+  staticFile,
+  useVideoConfig,
+} from "remotion";
 import type { SceneMotion } from "./types";
 import { Atmosphere } from "./atmosphere/Atmosphere";
 
@@ -11,6 +16,8 @@ type Props = {
   background?: string;
   // < 1 slows the clip so a clip shorter than the scene stretches to fill it (no frozen tail).
   playbackRate?: number;
+  // Seconds of the clip to skip: models start a clip soft and jittery (scripts/lib/motion-tail.mjs).
+  startFromSeconds?: number;
 };
 
 // Plays an AI-generated motion clip full-bleed in place of CinematicScene's synthetic Ken
@@ -23,7 +30,9 @@ export const CinematicVideoScene: React.FC<Props> = ({
   motion = {},
   background,
   playbackRate = 1,
+  startFromSeconds = 0,
 }) => {
+  const { fps } = useVideoConfig();
   const { fit = "cover", atmosphere, background: motionBg } = motion;
   const url = src.startsWith("http") ? src : staticFile(src);
 
@@ -33,6 +42,7 @@ export const CinematicVideoScene: React.FC<Props> = ({
         src={url}
         muted
         playbackRate={playbackRate}
+        startFrom={Math.round(startFromSeconds * fps)}
         style={{
           width: "100%",
           height: "100%",

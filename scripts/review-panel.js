@@ -80,7 +80,7 @@ let templateVersions = [];
 // "Dịch" buttons on template fields can show the stored Vietnamese without any translation call.
 let currentTemplates = {};
 const selected = new Set();
-const drafts = { prompt: new Map(), narr: new Map(), motion: new Map() };
+const drafts = { prompt: new Map(), narr: new Map(), motion: new Map(), edit: new Map() };
 
 // A clip animated from an image that has since been replaced is kept on disk but never played:
 // the preview and the render show the current image until the motion is regenerated.
@@ -850,12 +850,17 @@ function renderPipeline() {
   }
 }
 
+// A small copy of a scene image for the strips (rail, timeline): the originals are 2048px, and
+// ~100 of them overflow the browser's decode cache (see lib/image-thumb.mjs).
+const thumbUrl = (url, width) =>
+  url ? `${url}${url.includes("?") ? "&" : "?"}w=${width}` : url;
+
 function renderRail() {
   const list = shownScenes();
   $("railList").innerHTML = list
     .map((s) => {
       const thumb = s.hasImage
-        ? `<img class="thumb" src="${s.imageUrl}" alt="" loading="lazy" />`
+        ? `<img class="thumb" src="${thumbUrl(s.imageUrl, 160)}" alt="" loading="lazy" />`
         : '<span class="thumb blank">?</span>';
       const { mark } = sceneJobStatus(s.scene);
       const jobMark = mark
@@ -1104,6 +1109,7 @@ function syncInspector(s) {
 
   const isAi = s.kind === "ai";
   $("promptBlock").hidden = !isAi;
+  $("editBlock").hidden = !isAi;
   $("searchBlock").hidden = isAi;
   if (isAi) {
     const box = $("promptBox");
@@ -1126,6 +1132,7 @@ function syncInspector(s) {
       Boolean(globalOp) ||
       hasPending("prompt", s.scene) ||
       !(s.narration || "").trim();
+    syncEditBlock(s);
   } else {
     $("searchQuery").textContent = s.query || "chưa có từ khoá";
   }
@@ -1933,6 +1940,53 @@ async function generateImage() {
   });
 }
 
+// "Sửa ảnh đã có": the scene's current image plus the typed change go to the image model, which
+// keeps the rest of the picture (scripts/lib/scene-image-edit.mjs). Queued as an image job, so
+// it shares the image lane and the Huỷ button with "Sinh ảnh".
+function syncEditBlock(s) {
+  const box = $("editBox");
+  if (document.activeElement !== box) box.value = drafts.edit.get(s.scene) ?? "";
+  const thumb = $("editThumb");
+  thumb.hidden = !s.hasImage;
+  if (s.hasImage && thumb.getAttribute("src") !== s.imageUrl)
+    thumb.src = s.imageUrl;
+  $("editHint").textContent = s.hasImage
+    ? "Dùng model đang chọn ở trên. Không ưng thì bấm Hoàn tác ảnh."
+    : "Scene chưa có ảnh để sửa.";
+  syncGenButton(
+    $("btnEdit"),
+    "image",
+    s.scene,
+    "Sửa ảnh",
+    !globalOp && s.hasImage && box.value.trim() !== "",
+  );
+}
+
+function editImage() {
+  const s = current();
+  if (!s) return;
+  const instruction = $("editBox").value.trim();
+  if (!instruction) {
+    showError("Nhập nội dung cần sửa.");
+    return;
+  }
+  const model = effectiveImageModel();
+  enqueueJob({
+    lane: "media",
+    kind: "image",
+    scenes: [s.scene],
+    label: () => `Đang sửa ảnh scene ${s.scene}`,
+    run: consoleJob(
+      "/api/edit-image",
+      () => ({ scene: s.scene, model, instruction }),
+      () => {
+        drafts.edit.delete(s.scene);
+        $("editBox").value = "";
+      },
+    ),
+  });
+}
+
 // Queued like an image so "write prompt, then generate" can be lined up back to back; the
 // image job reads the plan when it starts, so it picks up the freshly written prompt.
 function generatePromptFromNarration() {
@@ -2287,6 +2341,17 @@ $("btnRowGenImage").addEventListener(
   genOrCancel("image", generateImage),
 );
 $("btnGenPrompt").addEventListener("click", generatePromptFromNarration);
+$("editBox").addEventListener("input", () => {
+  const s = current();
+  if (!s) return;
+  drafts.edit.set(s.scene, $("editBox").value);
+  syncEditBlock(s);
+});
+$("btnEdit").addEventListener("click", genOrCancel("image", editImage));
+$("editThumb").addEventListener("click", () => {
+  const img = $("editThumb");
+  openLightbox(img.src, `Scene ${current()?.scene ?? ""}`);
+});
 
 $("btnUpload").addEventListener("click", () => $("fileInput").click());
 $("fileInput").addEventListener("change", (e) => {
@@ -3322,9 +3387,10 @@ const readBrandForm = () => ({
     enabled: $("brandWmOn").checked,
     opacity: Number($("brandWmOpacity").value) / 100,
   },
-  // Not edited in this dialog (the timeline toggle owns it); carried through so saving the
-  // logo settings does not reset it.
+  // Not edited in this dialog (the timeline toggles own them); carried through so saving the
+  // logo settings does not reset them.
   captions: state.branding?.captions,
+  effects: state.branding?.effects,
 });
 
 const fillBrandForm = ({ name, logo, watermark }) => {
@@ -4179,6 +4245,9 @@ $("durationBox").addEventListener("change", (e) => {
 // ------------------------------------------------------------------ characters
 
 let pendingUploadCharId = null;
+// The add-character dialog crops the picked image as soon as it is chosen (a character created
+// first and cropped later would be left without a reference if the crop were cancelled).
+let acCroppedFile = null;
 
 async function uploadCharacterFile(id, file) {
   const res = await fetch(
@@ -4330,6 +4399,7 @@ function openAddCharDialog(replaceId = null) {
   $("acId").value = acReplaceId ?? "";
   $("acName").value = "";
   $("acFile").value = "";
+  acCroppedFile = null;
   $("acLibSearch").value = "";
   acPicked = null;
   $("acOverlay").hidden = false;
@@ -4393,7 +4463,7 @@ async function importPickedCharacter(id, name) {
 $("acCreate").addEventListener("click", async () => {
   const id = $("acId").value.trim();
   const name = $("acName").value.trim();
-  const file = $("acFile").files[0];
+  const file = acCroppedFile ?? $("acFile").files[0];
   if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) {
     $("acNote").textContent = "Id chỉ gồm chữ thường, số và dấu gạch ngang.";
     return;
@@ -4454,12 +4524,22 @@ $("railCast").open = lsGet(RAIL_CAST_STORE) !== "0";
 $("railCast").addEventListener("toggle", () =>
   lsSet(RAIL_CAST_STORE, $("railCast").open ? "1" : "0"),
 );
+$("acFile").addEventListener("change", async (e) => {
+  acCroppedFile = null;
+  const picked = e.target.files[0];
+  if (!picked) return;
+  acCroppedFile = await cropImage(picked);
+  if (acCroppedFile) $("acNote").textContent = "Đã cắt ảnh tham chiếu.";
+  else e.target.value = "";
+});
 $("charFileInput").addEventListener("change", async (e) => {
-  const file = e.target.files[0];
+  const picked = e.target.files[0];
   e.target.value = "";
-  if (!file || !pendingUploadCharId) return;
+  if (!picked || !pendingUploadCharId) return;
   const id = pendingUploadCharId;
   pendingUploadCharId = null;
+  const file = await cropImage(picked);
+  if (!file) return;
   // No lock: a new reference only affects image jobs that start after it lands.
   toast(`Đang tải ảnh tham chiếu của "${id}"…`);
   try {

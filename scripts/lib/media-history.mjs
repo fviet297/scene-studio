@@ -98,9 +98,11 @@ export const settleChange = (dir, file, pending) => {
   return true;
 };
 
+// Steps the panel offers. An undo entry with no file (id null) is the state before the very first
+// version existed: undoing it would delete the media, so it is not offered as a step.
 export const historyCounts = (dir, file) => {
   const { undo, redo } = loadIndex(dir, file);
-  return { undo: undo.length, redo: redo.length };
+  return { undo: undo.filter((entry) => entry.id).length, redo: redo.length };
 };
 
 // Move one step along `from` → `to`. Returns { meta } of the restored state, or null when `from`

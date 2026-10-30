@@ -60,7 +60,17 @@ test('a reply cut at the token limit fails without a retry', async () => {
   mode = 'sse-length';
   const logs = [];
   await assert.rejects(chatJson({ system: 's', user: 'u', onLog: (l) => logs.push(l) }), /vượt giới hạn token/);
-  assert.deepEqual(logs, []);
+  assert.equal(logs.filter((l) => l.includes('thử lại')).length, 0);
+  assert.equal(logs.filter((l) => l.includes('gọi ')).length, 1);
+});
+
+test('a call logs its start (model, host, prompt size) and its outcome', async () => {
+  mode = 'sse';
+  const logs = [];
+  await chatJson({ system: 'sys', user: 'user', label: 'Viết', onLog: (l) => logs.push(l) });
+  assert.equal(logs.length, 2);
+  assert.match(logs[0], /Viết: gọi test-model @ 127\.0\.0\.1:\d+ — prompt 7 ký tự/);
+  assert.match(logs[1], /Viết: xong sau [\d.]+s — trả 18 ký tự \(stop\)/);
 });
 
 test('an HTTP error status reports the provider message', async () => {

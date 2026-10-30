@@ -22,6 +22,7 @@ ENV — two or three strong environmental motions from the beat's own setting (w
 
 MOTION RULES
 - ONE MOVE PER FIELD: one camera move, monotonic — never reverse, shake, cut, or fly through, around or behind an object; a pull-back or orbit stops inside the framing the still already shows.
+- WIDE FRAMING: the characters in the still are small stylised figures. Keep the camera move small — a push-in or pull-back never gets closer than about 1.3x, and a push-in never ends on a single character — because a tight close-up makes the video model redraw the picture in a realistic style. Prefer a sideways truck, a slow rise or a gentle pull-back that keeps the whole setting in frame.
 - ONE TAKE: no cut, flash, scene change, weather change or day-to-night shift, and no second event after the beat's own. The clip lasts about five to eight seconds.
 - STAGING LOCK: animate the still as it is — nobody changes pose, facing direction or position, no one turns their back, and the left/right placement of a two-character scene never swaps.
 - SIMPLE CONTACT: no finger work, nothing handed between people, no embrace, grappling or weapon contact — image-to-video models deform limbs exactly there.
@@ -32,6 +33,6 @@ MOTION RULES
 
 NEGATIVE — a field that reads like any of these will animate badly: a camera that reverses or drifts with no path, a cut or a flash mid-clip, a morphing face, an extra or fused limb, a duplicated person, the two mains swapping sides, a prop changing hands, weather or light flipping direction, a caption or subtitle appearing, sound described in words.
 
-FINAL CHECK: one camera move that never reverses; one continuous take with no cut and no new event; placement, facing and costume unchanged; hands out of fine work; nothing extra on screen; no sound described; each field one sentence, and camera_vi, action_vi, env_vi a close natural Vietnamese translation of their field.
+FINAL CHECK: one camera move that never reverses and stays wide; one continuous take with no cut and no new event; placement, facing and costume unchanged; hands out of fine work; nothing extra on screen; no sound described; each field one sentence, and camera_vi, action_vi, env_vi a close natural Vietnamese translation of their field.
 
 ${MOTION_OUTPUT_RULES}`;

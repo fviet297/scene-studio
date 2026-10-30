@@ -50,28 +50,33 @@ ${LANGUAGE_RULES}
 
 STORY SHAPE — one gripping story, not a checklist
 - First choose ONE explicit through-line: a question, tension or contrast the whole video answers. Every scene is a step along it. Report it in "through_line".
-- Arc, scaled to the scene count: HOOK (the first scene or two) → SETUP (who or what, and why it matters) → CONTEXT and RISE → TURNING POINTS (two to four decisive moments that escalate) → CLIMAX → AFTERMATH and MEANING → CLOSE (the last scene).
-- HOOK: open on a concrete moment, a paradox, a striking image or a curiosity question, so the viewer wants the answer within the first eight seconds. Open a loop that the video closes later. Never open with a definition, a greeting, or an announcement of what the video will cover.
-- Stay on the through-line. Cut facts, dates and side stories that do not move it forward. Keep a date only when it anchors the story; never stack several dates in one scene.
-- Every two or three scenes add a retention device: contrast, a question, escalation, a reveal, or a small payoff.
-- CLOSE: a crisp judgement plus a question that invites the viewer's opinion. Never ask viewers to like or follow, never end on a hollow slogan, never recap the video.
+- Chronological spine: tell it in time order, with a dated anchor (year, reign, season) whenever the story moves to a new phase, and never run backwards without a signal. Introduce the subject's origin (birth, family, place, era) within the first handful of scenes; when the origin is unknown say so ("sử không chép rõ") and begin from the earliest reliable record.
+- Arc, scaled to the scene count: HOOK (the first scene or two) → PROMISE → ORIGIN and RISE → TURNING POINTS (two to four decisive moments that escalate) → CLIMAX → AFTERMATH and MEANING → CLOSE.
+- HOOK: open on a concrete documented moment, a paradox or a curiosity question, so the viewer wants the answer within the first eight seconds, and follow it with one promise sentence of what the video will explain. Do not answer the question inside the hook. Never open with a definition, a greeting or a table of contents.
+- Build the body from episodes: stakes → decisive act → consequence → meaning. Between episodes, summarise briskly; spend the scenes on the moments that changed the outcome.
+- Tension comes from reversals ("Thế nhưng", "Tuy nhiên") about every four to six scenes and from stated causes ("Chính … đã …", "Hậu quả là …"), not from a stream of rhetorical questions.
+- The through-line question is answered at the end from DOCUMENTED causes: the subject's power base, allies, institutions, circumstances and choices that the sources record. Never answer it with an unsourced virtue ("kiên nhẫn", "giữ lời") invented to make the person admirable.
+- CLOSE: the last stretch (death or outcome → what the sources record of the aftermath → what it left → one verdict sentence) takes about one scene in ten, at least two scenes, never more than one in seven. One verdict only: no second and third moral summaries, no repeated recap. End on a crisp judgement plus a question that invites the viewer's opinion. Never ask viewers to like or follow, never end on a hollow slogan.
 
 CONNECTIVE FLOW — the narration is ONE continuous voice-over, not a list of captions
 - Every scene after the first opens with a link to the scene before it: a time jump, a consequence, a contrast, a question the previous line raised, or a word picked up from it.
 - Carry key words and images across scenes so the listener follows one thread.
-- Read the whole narration in order before answering: it must flow as one spoken story, with no restarts and no repeated information.
+- Read the whole narration in order before answering: it must flow as one spoken story, with no restarts and no repeated information (do not restate in the middle or the ending what an earlier scene already said).
 
-NARRATOR VOICE — a warm mentor telling a story to a younger listener
-- Direct, warm and encouraging; plain everyday words, driven by verbs. When a term is unavoidable, explain it in a few words.
-- Mix short punchy sentences with medium ones. Each scene: one idea and one moment you could film, in one or two sentences, about 15 to 35 words. Write lines that already suggest an image of people doing something somewhere, not abstractions.
-- Make contrasts concrete: knowing versus doing, short term versus long term, resources versus ability, the individual versus the collective.
-- Humour only when it makes a point memorable: an unexpected comparison, light exaggeration, or a then-and-now analogy (an ancient office compared with a familiar modern role). At most one light touch every few scenes; never on a somber beat (death, betrayal, sacrifice, defeat), never built on an invented detail, never mocking anyone. Colloquial is fine, vulgar is not.
-- Criticise choices and actions, never a person's worth, a people, an ethnicity or a circumstance.
-- Written for the ear: commas and full stops set the breathing. No brackets, lists, emoji or abbreviations a narrator would stumble on.
+NARRATOR VOICE — a documentary narrator
+- Documentary third person; address the viewer ("bạn", "chúng ta") only in the hook, the promise and the closing question. Plain everyday words, strong verbs; when a term is unavoidable, explain it in a few words.
+- Mix short punchy sentences with medium ones, never above 35 words in a sentence. Each scene: one idea and one moment you could film, in one or two sentences, about 15 to 35 words. Written for the ear: commas and full stops set the breathing. No brackets, lists, emoji or abbreviations a narrator would stumble on.
+- Restrained: at most two superlatives or intensifiers per thousand words, each backed by a number, a rank or a source; no stock formulas ("vô tiền khoáng hậu", "bách chiến bách thắng"). No jokes and no mocking nicknames in the voice; let the facts carry it.
+- Criticise choices and actions, never a person's worth, a people, an ethnicity or a circumstance. No shallow nationalism.
 
-ACCURACY
-- For history, science, law, finance or news, state only facts you are confident are true. Never invent events, numbers, sources or quotes, and never put invented words in a real person's mouth. Present legend or tradition as legend or tradition. When sources disagree, say so briefly.
-- Explain outcomes by context, resources, terrain and strategy, never by ethnicity. No shallow nationalism.
+ACCURACY — the script is held to the record, not to what would make a good scene
+- State only facts you are confident are true, in the sources' own sequence. Name the source for key facts, saying it aloud in the narration ("Đại Việt sử ký toàn thư chép rằng …", "theo bia ký …", the historian's name), as far as you reliably know it. Never invent a source.
+- Every claim is one of: verified (say it plainly); disputed ("Sử cũ chép …, nhưng nhiều nhà nghiên cứu cho rằng …"); legend ("Tương truyền …", and say the record does not confirm it); unknown ("Sử không chép rõ …"). Say the status aloud wherever a viewer could mistake legend for record. Use the weakest wording that is true; do not hedge a certain fact, and do not state a doubtful one as certain. If you cannot classify a claim, leave it out.
+- NEVER invent: dialogue, quotations, last words, thoughts, feelings, gestures, crowd reactions, weather or what someone "did every day". Put a direct quotation in quotation marks only when it is attested in a named source. Otherwise use indirect speech, or a plainly framed passage ("Hãy hình dung …") used at most once or twice in the video and without quotation marks. A motive is attributed to those who hold it ("các sử gia cho rằng …") or inferred from a documented action and flagged ("có thể").
+- Do not stretch the record to fill the scene count. When the sources are thin for a stretch, give those scenes to documented context instead: the place, the institutions, the numbers, the cause and the consequence. Never add an incident, a speech or a reaction that no source records, and never claim a negative you cannot support ("chưa từng", "không ai", "không có trận đánh nào").
+- Check before you write: who actually did the act (the subject or someone under his command), which ruler built or founded what, the order of dynasties, and that a place already existed before you call it empty. Do not credit one ruler with another's work. No anachronism: do not use a later place name or institution for an earlier time ("nay thuộc …"). Give era year first, then the common year; keep every date, age and "n years later" consistent across scenes.
+- Old sources inflate army sizes and casualties: say "theo sử cũ" and prefer ranges. A rival dynasty's chronicler is not a neutral witness; say so when you repeat his charge.
+- Explain outcomes by context, resources, terrain and strategy, never by ethnicity.
 
 CAST
 - "characters": the named people who appear on screen in several scenes and so need a fixed look (a reference image locks their face). Usually one to three. id "char-a" is the main figure, then "char-b", "char-c" in order of first appearance. Someone seen in only one scene, or only from a distance, is not cast: draw them as an anonymous extra.
@@ -81,7 +86,7 @@ SCENES — exactly the requested number, numbered 1..N in order
 - narration: the Vietnamese voice-over line.
 - cue: the delivery emotion, one of neutral | dramatic | tense | somber | hopeful | curious. Hook → dramatic or tense; setup and context → neutral; betrayal or death → somber; battle or chase → tense; victory → dramatic; legacy → hopeful; the closing question → curious. Vary it across the video.
 - chars: the cast ids visible in this scene, in left-to-right placement order; [] when no cast member is on screen. Put the main figure on screen whenever the line is about what they do, decide, lose or suffer — even as a small figure in a wide scene — so the viewer watches them live the story; leave them out only for beats about other actors (the enemy fleet, a rival's decision) or pure setting.
-- visual: English, one or two sentences naming the ONE drawable moment of this line: who does what to whom, where, and at what time of day, with the place and era named. A concrete event with people acting, never a symbol, a map on a table, a book or an empty room. A battle, landing, storm, siege or chase is shown in progress, never replaced by lookouts watching the horizon or people tidying up afterwards; only a killing or massacre is shown as the moment just before or after. Give each scene a different setting or activity from its neighbours. Refer to cast members by name and say only what they do: their face, hair and clothing come from the reference image, so never describe them here.
+- visual: English, one or two sentences naming the ONE drawable moment of this line: who does what to whom, where, and at what time of day, with the place and era named. Take it from what the narration line records; do not add gestures, objects or crowd reactions the line does not state, and for a context line (a law, a number, a cause) draw the documented place, people at work or the era's artefacts, never an invented incident. A concrete event with people acting, never a symbol, a map on a table, a book or an empty room. A battle, landing, storm, siege or chase is shown in progress, never replaced by lookouts watching the horizon or people tidying up afterwards; only a killing or massacre is shown as the moment just before or after. Give each scene a different setting or activity from its neighbours. Refer to cast members by name and say only what they do: their face, hair and clothing come from the reference image, so never describe them here.
 
 ${STORY_OUTPUT_RULES}`;
 

@@ -1,0 +1,22 @@
+{
+  "character_id": "char-b",
+  "name": "Van Hanh",
+  "display_name": "Sư Vạn Hạnh",
+  "aliases": [
+    "Thiền sư Vạn Hạnh"
+  ],
+  "country": "Đại Việt",
+  "period": "10th century - c. 1018",
+  "dynasty": "Nhà Tiền Lê",
+  "role": "Celebrated monk of Cổ Pháp, teacher of Lý Công Uẩn and a voice in the 1009 succession.",
+  "known_facts": [
+    "A famous monk of Cổ Pháp pagoda, in what is now Bắc Ninh.",
+    "Traditionally credited with teaching and advising the young Lý Công Uẩn.",
+    "Said in the annals to have counselled the Early Lê kings before the rise of the Lý.",
+    "Reported to have argued in 1009 that the country needed an adult ruler.",
+    "Died around 1018 and was honoured by the Lý court."
+  ],
+  "interpretation": "A spare Vietnamese monk of about seventy, short and slightly stooped, close-shaven head with faint grey stubble, deep-lined face, calm lowered eyes, thin lips. He wears a faded ochre-brown robe of coarse cloth over a darker under-robe, a brown wooden rosary around his neck, and a folded palm-leaf fan tucked into his sash.",
+  "unknowns": [],
+  "reference": "public/projects/ly-cong-uan-doi-do/characters/char-b.jpg"
+}
