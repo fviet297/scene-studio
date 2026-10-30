@@ -6,8 +6,8 @@
 
 import { execFileSync, spawnSync } from 'node:child_process';
 import './ensure-ffmpeg.mjs';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 
 const probeDuration = (file) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', file], { encoding: 'utf8' }).trim());
@@ -37,6 +37,35 @@ const speechRegions = (file, duration) => {
   return speech;
 };
 
+// Silence detection decodes the whole mp3 (~0.2s each, 40 scenes = several seconds), and every
+// plan edit, undo or audio change rebuilds the bundle. The result only depends on the file, so it is
+// cached next to the audio by size + mtime; only the audio that changed is analysed again.
+const SPEECH_CACHE_FILE = '.speech-regions.json';
+const SPEECH_CACHE_VERSION = 1; // bump when the silencedetect settings above change
+
+const readSpeechCache = (path) => {
+  try {
+    const cache = JSON.parse(readFileSync(path, 'utf8'));
+    return cache.version === SPEECH_CACHE_VERSION ? cache.files : {};
+  } catch {
+    return {};
+  }
+};
+
+// { duration, speech } of one narration file, from the cache when the file is unchanged.
+export const analyseAudio = (file) => {
+  const cachePath = join(dirname(file), SPEECH_CACHE_FILE);
+  const files = readSpeechCache(cachePath);
+  const { size, mtimeMs } = statSync(file);
+  const key = basename(file);
+  const hit = files[key];
+  if (hit?.size === size && hit?.mtimeMs === mtimeMs) return { duration: hit.duration, speech: hit.speech };
+  const duration = probeDuration(file);
+  const speech = speechRegions(file, duration);
+  writeFileSync(cachePath, `${JSON.stringify({ version: SPEECH_CACHE_VERSION, files: { ...files, [key]: { size, mtimeMs, duration, speech } } })}\n`);
+  return { duration, speech };
+};
+
 // segments: [{ scene, text }] (narration-bearing scenes, in order). audioDir: the project's audio
 // folder. sceneSeconds: optional { [scene]: timelineSeconds } — the scene's length in the final
 // video. When a motion clip makes a scene longer than its audio, the caption offset must advance
@@ -50,8 +79,7 @@ export const alignCaptions = (segments, audioDir, sceneSeconds = {}) => {
   for (const segment of segments) {
     const file = join(audioDir, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);
     if (!existsSync(file)) throw new Error(`missing audio ${file} — run generate-narration.mjs`);
-    const duration = probeDuration(file);
-    const speech = speechRegions(file, duration);
+    const { duration, speech } = analyseAudio(file);
     const speechDuration = speech.reduce((sum, [start, end]) => sum + end - start, 0) || duration;
     const speechTimeAt = (target) => {
       let elapsed = 0;

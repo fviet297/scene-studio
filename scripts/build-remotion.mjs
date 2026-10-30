@@ -11,7 +11,6 @@
 // Run: node scripts/build-remotion.mjs [--project <slug>] [--all | --stale]
 
 import './lib/ensure-ffmpeg.mjs';
-import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { listProjects, PROJECTS_DIR, projectPaths, readActiveSlug, resolveSlug } from './lib/project-paths.mjs';
@@ -21,6 +20,7 @@ import { aspectInfo } from './lib/aspect.mjs';
 import { readBranding } from './lib/branding.mjs';
 import { sceneContentSeconds } from './lib/scene-timing.mjs';
 import { clipMotionTrim } from './lib/motion-tail.mjs';
+import { mediaDuration } from './lib/media-duration.mjs';
 
 const FPS = 30;
 // Silent pause inserted after every scene but the last, so narration doesn't run continuously
@@ -29,8 +29,7 @@ const FPS = 30;
 const SCENE_GAP_SECONDS = 0.5;
 const OUT_DIR = 'src/projects-data';
 
-const probeDuration = (file) =>
-  Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', file], { encoding: 'utf8' }).trim());
+const probeDuration = mediaDuration;
 
 const bundlePath = (slug) => join(OUT_DIR, `${slug}.json`);
 
