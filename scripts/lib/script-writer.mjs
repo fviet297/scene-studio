@@ -9,13 +9,18 @@
 // Phases 2 and 3 are fed the English beats, not the narration: the beat already names the
 // drawable event, and an English-only request also passes LLM routers that refuse Vietnamese input.
 // The narration rules follow the trangca skill's story arc and the tony skill's narrator voice.
+// Two styles: 'standard' (a character-led story) and 'map' (a "Vì sao …?" documentary told on a
+// map, scripts/lib/map-mode.mjs), which swaps the story, image-prompt and motion rules.
 
 import { chatJson } from './llm-client.mjs';
 import { PROMPT_EXAMPLES, SCENE_PROMPT_RULES, sceneCharacterBrief } from './prompt-writer.mjs';
 import { writeMotionsBatched } from './motion-writer.mjs';
+import { MAP_MOTION_SYSTEM, MAP_PROMPT_EXAMPLE, MAP_PROMPT_RULES, mapStorySystem } from './map-mode.mjs';
 
 export const SCENE_COUNT_MIN = 3;
-export const SCENE_COUNT_MAX = 40;
+export const SCRIPT_STYLES = ['standard', 'map'];
+export const DEFAULT_SCRIPT_STYLE = 'standard';
+export const isScriptStyle = (style) => SCRIPT_STYLES.includes(style);
 export const CUES = ['neutral', 'dramatic', 'tense', 'somber', 'hopeful', 'curious'];
 // Scenes per phase-2 call: small enough that one reply (4 long fields per scene) stays well under
 // the model's output limit, large enough to keep the call count low. Two calls run at once, which
@@ -25,12 +30,23 @@ const VISUAL_CONCURRENCY = 2;
 const MAX_CAST = 5;
 const CAST_ID_RE = /^char-[a-z]$/;
 
-const STORY_SYSTEM = `You are the head writer of a Vietnamese-language narrated short-video channel (history storytelling for TikTok and YouTube). From the user's video request you write the complete voice-over script of ONE video, split into exactly the requested number of scenes, plus its cast and an English visual beat for every scene. Text only.
-
-LANGUAGE
+// Parts of the story prompt both styles share (the map style assembles them in map-mode.mjs).
+const LANGUAGE_RULES = `LANGUAGE
 - "title" and every "narration": natural spoken Vietnamese (vi-VN), the way a native narrator says it aloud.
 - "display_name" and "aliases": the names as Vietnamese viewers know them, with diacritics.
-- Everything else (visual beats, setting, through-line, the other cast fields): English.
+- Everything else (visual beats, setting, through-line, the other cast fields): English.`;
+
+const CAST_FIELDS_RULE = `- Fields: id; name (ASCII, no diacritics); display_name; aliases (array); country; period; dynasty ("" when not applicable); role (one sentence); known_facts (three to eight short English facts the video relies on); appearance (English, 40 to 80 words, for drawing the reference image: apparent age, build, face, hair and facial hair, period-correct clothing or armour with colours and materials, one signature accessory; no art-style words, no background).`;
+
+const STORY_OUTPUT_RULES = `OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
+{"title": "...", "slug": "...", "through_line": "...", "setting": "...", "characters": [{"id": "char-a", "name": "...", "display_name": "...", "aliases": [], "country": "...", "period": "...", "dynasty": "...", "role": "...", "known_facts": [], "appearance": "..."}], "scenes": [{"scene": 1, "cue": "...", "chars": ["char-a"], "narration": "...", "visual": "..."}]}
+- title: the Vietnamese video title, under 70 characters.
+- slug: lowercase ASCII words joined by hyphens, under 40 characters.
+- setting: English — the country or region, era and culture every image must stay inside, e.g. "Dai Viet (northern Vietnam), 1390s-1407: the late Tran court, the Ho dynasty and the Ming invasion army".`;
+
+const STORY_SYSTEM = `You are the head writer of a Vietnamese-language narrated short-video channel (history storytelling for TikTok and YouTube). From the user's video request you write the complete voice-over script of ONE video, split into exactly the requested number of scenes, plus its cast and an English visual beat for every scene. Text only.
+
+${LANGUAGE_RULES}
 
 STORY SHAPE — one gripping story, not a checklist
 - First choose ONE explicit through-line: a question, tension or contrast the whole video answers. Every scene is a step along it. Report it in "through_line".
@@ -59,7 +75,7 @@ ACCURACY
 
 CAST
 - "characters": the named people who appear on screen in several scenes and so need a fixed look (a reference image locks their face). Usually one to three. id "char-a" is the main figure, then "char-b", "char-c" in order of first appearance. Someone seen in only one scene, or only from a distance, is not cast: draw them as an anonymous extra.
-- Fields: id; name (ASCII, no diacritics); display_name; aliases (array); country; period; dynasty ("" when not applicable); role (one sentence); known_facts (three to eight short English facts the video relies on); appearance (English, 40 to 80 words, for drawing the reference image: apparent age, build, face, hair and facial hair, period-correct clothing or armour with colours and materials, one signature accessory; no art-style words, no background).
+${CAST_FIELDS_RULE}
 
 SCENES — exactly the requested number, numbered 1..N in order
 - narration: the Vietnamese voice-over line.
@@ -67,13 +83,11 @@ SCENES — exactly the requested number, numbered 1..N in order
 - chars: the cast ids visible in this scene, in left-to-right placement order; [] when no cast member is on screen. Put the main figure on screen whenever the line is about what they do, decide, lose or suffer — even as a small figure in a wide scene — so the viewer watches them live the story; leave them out only for beats about other actors (the enemy fleet, a rival's decision) or pure setting.
 - visual: English, one or two sentences naming the ONE drawable moment of this line: who does what to whom, where, and at what time of day, with the place and era named. A concrete event with people acting, never a symbol, a map on a table, a book or an empty room. A battle, landing, storm, siege or chase is shown in progress, never replaced by lookouts watching the horizon or people tidying up afterwards; only a killing or massacre is shown as the moment just before or after. Give each scene a different setting or activity from its neighbours. Refer to cast members by name and say only what they do: their face, hair and clothing come from the reference image, so never describe them here.
 
-OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"title": "...", "slug": "...", "through_line": "...", "setting": "...", "characters": [{"id": "char-a", "name": "...", "display_name": "...", "aliases": [], "country": "...", "period": "...", "dynasty": "...", "role": "...", "known_facts": [], "appearance": "..."}], "scenes": [{"scene": 1, "cue": "...", "chars": ["char-a"], "narration": "...", "visual": "..."}]}
-- title: the Vietnamese video title, under 70 characters.
-- slug: lowercase ASCII words joined by hyphens, under 40 characters.
-- setting: English — the country or region, era and culture every image must stay inside, e.g. "Dai Viet (northern Vietnam), 1390s-1407: the late Tran court, the Ho dynasty and the Ming invasion army".`;
+${STORY_OUTPUT_RULES}`;
 
-const VISUALS_SYSTEM = `You write the image-generation prompt for several scenes of one narrated historical video. Each scene arrives as an English visual beat — the drawable moment of its narration line — plus the characters available in it; read "narration line" in the rules below as that beat. ${SCENE_PROMPT_RULES}
+const MAP_STORY_SYSTEM = mapStorySystem({ languageRules: LANGUAGE_RULES, castFieldsRule: CAST_FIELDS_RULE, outputRules: STORY_OUTPUT_RULES });
+
+const visualsSystem = (rules, examples) => `You write the image-generation prompt for several scenes of one narrated historical video. Each scene arrives as an English visual beat — the drawable moment of its narration line — plus the characters available in it; read "narration line" in the rules below as that beat. ${rules}
 
 OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
 {"scenes": [{"scene": 1, "prompt": "...", "prompt_vi": "..."}]}
@@ -81,7 +95,26 @@ OUTPUT — one JSON object and nothing else. Inside string values quote with typ
 - prompt: the English scene prompt as plain prose, under that scene's character budget.
 - prompt_vi: a close, natural Vietnamese translation of prompt (keep proper, dynasty and place names as they are).
 
-${PROMPT_EXAMPLES}`;
+${examples}`;
+
+// Everything that differs per style: the three system prompts the phases send to the LLM.
+const STYLE_PROMPTS = {
+  standard: {
+    story: STORY_SYSTEM,
+    visuals: visualsSystem(SCENE_PROMPT_RULES, PROMPT_EXAMPLES),
+    motion: undefined, // the project's own motion template (motion-writer.mjs)
+  },
+  map: {
+    story: MAP_STORY_SYSTEM,
+    visuals: visualsSystem(MAP_PROMPT_RULES, `EXAMPLE OF GOOD OUTPUT (English part only — match the discipline; never copy the content):\n[map scene prompt] ${MAP_PROMPT_EXAMPLE}`),
+    motion: MAP_MOTION_SYSTEM,
+  },
+};
+
+export const stylePrompts = (style = DEFAULT_SCRIPT_STYLE) => {
+  if (!isScriptStyle(style)) throw new Error(`Kiểu video không hợp lệ: "${style}" (${SCRIPT_STYLES.join(' | ')})`);
+  return STYLE_PROMPTS[style];
+};
 
 const asText = (value) => (typeof value === 'string' ? value.trim() : '');
 const asList = (value) => (Array.isArray(value) ? value.map(asText).filter(Boolean) : []);
@@ -143,10 +176,11 @@ Write the JSON object now.`;
 
 // Phase 1. Retries once when the reply's scene count misses the request, then accepts what came
 // back (and says so through onLog) rather than failing the whole run.
-export const writeStory = async ({ request, sceneCount, signal, onLog = () => {} }) => {
+export const writeStory = async ({ request, sceneCount, style, signal, onLog = () => {} }) => {
+  const { story: system } = stylePrompts(style);
   let retryNote = '';
   for (let attempt = 1; ; attempt++) {
-    const reply = await chatJson({ system: STORY_SYSTEM, user: storyRequest(request, sceneCount, retryNote), signal, onLog, label: 'Viết kịch bản' });
+    const reply = await chatJson({ system, user: storyRequest(request, sceneCount, retryNote), signal, onLog, label: 'Viết kịch bản' });
     const characters = normalizeCast(reply.characters);
     const scenes = normalizeScenes(reply.scenes, characters.map((c) => c.id));
     if (scenes.length === sceneCount || attempt === 2) {
@@ -205,8 +239,8 @@ Write the JSON object now.`;
 
 // Phase 2 for one batch of scenes → [{ scene, prompt, prompt_vi }], only for
 // the scenes the reply actually covered with a prompt.
-export const writeVisuals = async ({ story, batch, signal, onLog }) => {
-  const reply = await chatJson({ system: VISUALS_SYSTEM, user: visualsRequest(story, batch), signal, onLog, label: 'Viết prompt' });
+export const writeVisuals = async ({ story, batch, style, signal, onLog }) => {
+  const reply = await chatJson({ system: stylePrompts(style).visuals, user: visualsRequest(story, batch), signal, onLog, label: 'Viết prompt' });
   const wanted = new Set(batch.map((s) => s.scene));
   const rows = Array.isArray(reply.scenes) ? reply.scenes : [];
   return rows
@@ -228,11 +262,12 @@ export const visualBatches = (scenes) => {
 // failed batch is logged and its scenes go without that field — the panel's "Viết prompt / motion
 // còn thiếu" fills them later — so one bad reply never throws away the whole story. A cancel
 // (`signal`) aborts everything. onProgress gets { phase: 'story' }, then { phase: 'visuals' |
-// 'motion', done, total } as batches finish.
-export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}, onProgress = () => {} }) => {
+// 'motion', done, total } as batches finish. `style` is 'standard' (default) or 'map'.
+export const writeVideo = async ({ request, sceneCount, style, signal, onLog = () => {}, onProgress = () => {} }) => {
+  const prompts = stylePrompts(style);
   onProgress({ phase: 'story' });
-  onLog(`▶ Viết câu chuyện và narration (${sceneCount} scene)…`);
-  const story = await writeStory({ request, sceneCount, signal, onLog });
+  onLog(`▶ Viết câu chuyện và narration (${sceneCount} scene${style === 'map' ? ', kiểu bản đồ' : ''})…`);
+  const story = await writeStory({ request, sceneCount, style, signal, onLog });
   onLog(`✓ "${story.title}" — ${story.scenes.length} scene, ${story.characters.length} nhân vật`);
   if (story.throughLine) onLog(`  Mạch chính: ${story.throughLine}`);
 
@@ -246,7 +281,7 @@ export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}
       const label = batch.length > 1 ? `scene ${batch[0].scene}–${batch.at(-1).scene}` : `scene ${batch[0].scene}`;
       onLog(`▶ Viết prompt ảnh ${label}…`);
       try {
-        const rows = await writeVisuals({ story, batch, signal, onLog });
+        const rows = await writeVisuals({ story, batch, style, signal, onLog });
         for (const row of rows) visuals.set(row.scene, row);
         onLog(`✓ Prompt ${label} (${rows.length}/${batch.length})`);
       } catch (error) {
@@ -264,6 +299,7 @@ export const writeVideo = async ({ request, sceneCount, signal, onLog = () => {}
   const motions = await writeMotionsBatched({
     context: { setting: story.setting, throughLine: story.throughLine, outline: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual })) },
     scenes: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual, cue: s.cue, names: s.chars.map((id) => byId.get(id)?.name ?? id) })),
+    system: prompts.motion,
     signal,
     onLog,
     onBatch: (done, total) => onProgress({ phase: 'motion', done, total }),

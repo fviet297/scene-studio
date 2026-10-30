@@ -87,8 +87,8 @@ Write the JSON object now.`;
 
 // One LLM call for up to MOTION_BATCH_SIZE scenes → [{ scene, camera, action, env, camera_vi,
 // action_vi, env_vi }], only for the requested scenes the reply covered with all three fields.
-export const writeMotions = async ({ context = {}, batch, signal, onLog }) => {
-  const system = getTemplates().motionSystem || MOTION_SYSTEM;
+// `system` overrides the project's motion template (map mode brings its own).
+export const writeMotions = async ({ context = {}, batch, signal, onLog, system = getTemplates().motionSystem || MOTION_SYSTEM }) => {
   const reply = await chatJson({ system, user: motionRequest(context, batch), signal, onLog, label: 'Viết motion' });
   const wanted = new Set(batch.map((s) => s.scene));
   return (Array.isArray(reply.scenes) ? reply.scenes : [])
@@ -102,7 +102,7 @@ export const writeMotions = async ({ context = {}, batch, signal, onLog }) => {
 // Every scene in batches, two calls at a time → Map(scene → row). A failed batch is logged and its
 // scenes are left without motion (the panel can write them later); a cancel aborts everything.
 // onBatch(done, total) fires as batches finish.
-export const writeMotionsBatched = async ({ context, scenes, signal, onLog = () => {}, onBatch = () => {} }) => {
+export const writeMotionsBatched = async ({ context, scenes, system, signal, onLog = () => {}, onBatch = () => {} }) => {
   const queue = [];
   for (let i = 0; i < scenes.length; i += MOTION_BATCH_SIZE) queue.push(scenes.slice(i, i + MOTION_BATCH_SIZE));
   const rows = new Map();
@@ -113,7 +113,7 @@ export const writeMotionsBatched = async ({ context, scenes, signal, onLog = () 
       const label = batch.length > 1 ? `scene ${batch[0].scene}–${batch.at(-1).scene}` : `scene ${batch[0].scene}`;
       onLog(`▶ Viết motion ${label} (${describeLlm()})…`);
       try {
-        const written = await writeMotions({ context, batch, signal, onLog });
+        const written = await writeMotions({ context, batch, system, signal, onLog });
         for (const row of written) rows.set(row.scene, row);
         onLog(`✓ Motion ${label} (${written.length}/${batch.length})`);
       } catch (error) {

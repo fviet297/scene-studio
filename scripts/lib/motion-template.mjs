@@ -6,6 +6,12 @@
 // Edited per project in the review panel's "Template prompt" dialog, saved under the same style
 // version as the image templates. It is sent to the LLM that writes camera/action/env; it is never
 // sent to a video model (composeMotionPrompt builds that prompt).
+
+// The reply shape the motion writer parses; shared with the map-mode system prompt (map-mode.mjs).
+export const MOTION_OUTPUT_RULES = `OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
+{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "...", "camera_vi": "...", "action_vi": "...", "env_vi": "..."}]}
+One entry per requested scene, in the order given.`;
+
 export const MOTION_SYSTEM = `You direct how the still image of each scene of a narrated historical video moves when an image-to-video model animates it. The still already exists; you write only the motion. For every scene write three short English fields, each one line:
 
 CAMERA — ONE motivated camera move with its path: where it starts, where it ends, and its pace. Pick from push-in, pull-back and rise, crane up, tracking alongside, sideways truck, slow orbit, handheld follow. Example: "Slow push-in from the elephant's tusks up to the howdah." Use a locked-off camera only for an intimate still beat (hiding, holding breath), and then say so.
@@ -28,6 +34,4 @@ NEGATIVE — a field that reads like any of these will animate badly: a camera t
 
 FINAL CHECK: one camera move that never reverses; one continuous take with no cut and no new event; placement, facing and costume unchanged; hands out of fine work; nothing extra on screen; no sound described; each field one sentence, and camera_vi, action_vi, env_vi a close natural Vietnamese translation of their field.
 
-OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "...", "camera_vi": "...", "action_vi": "...", "env_vi": "..."}]}
-One entry per requested scene, in the order given.`;
+${MOTION_OUTPUT_RULES}`;

@@ -851,10 +851,17 @@
           <label for="npRequest">Yêu cầu video</label>
           <textarea id="npRequest" class="prose" rows="5" maxlength="4000" spellcheck="false" placeholder="Video về ai, sự kiện gì; góc kể hoặc câu hỏi muốn trả lời; điểm cần nhấn; người xem là ai…"></textarea>
         </div>
+        <div class="field">
+          <label for="npStyle">Kiểu video <span class="note" id="npStyleHint"></span></label>
+          <select class="mini wide" id="npStyle">
+            <option value="standard">Chuẩn — kể chuyện có nhân vật</option>
+            <option value="map">Bản đồ sử — "Vì sao…?" kể trên bản đồ</option>
+          </select>
+        </div>
         <div class="field np-count">
           <label for="npSceneCount">Số scene</label>
           <div class="np-count-row">
-            <input class="text-input" id="npSceneCount" type="number" min="3" max="40" step="1" value="20" inputmode="numeric" aria-describedby="npLengthHint" />
+            <input class="text-input" id="npSceneCount" type="number" min="3" step="1" value="20" inputmode="numeric" aria-describedby="npLengthHint" />
             <span class="note" id="npLengthHint"></span>
           </div>
         </div>

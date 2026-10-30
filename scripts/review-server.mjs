@@ -11,7 +11,8 @@
 //   POST /api/project         → { slug } → switch the active project, rebuild its bundle
 //   POST /api/project-create  → { slug, title, aspect?, template?, voice?, plan? } → new project from
 //                               a pasted scene-plan.md, or scaffolded from projects/_template
-//   POST /api/script-generate → { request, sceneCount, voice?, slug?, title?, aspect?, template? } →
+//   POST /api/script-generate → { request, sceneCount, style?, voice?, slug?, title?, aspect?, template? } →
+//                               (style: "standard" | "map" — a "Vì sao …?" documentary told on a map)
 //                               LLM writes the whole video (narration, cast, image + motion prompts),
 //                               then it becomes a new active project; progress streamed over SSE
 //   GET  /api/voices          → OmniVoice voice profiles (the running server, else its voice folder)
@@ -108,7 +109,7 @@ import { readBranding, writeBranding } from './lib/branding.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
-import { SCENE_COUNT_MAX, SCENE_COUNT_MIN, writeVideo } from './lib/script-writer.mjs';
+import { DEFAULT_SCRIPT_STYLE, SCENE_COUNT_MIN, SCRIPT_STYLES, isScriptStyle, writeVideo } from './lib/script-writer.mjs';
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
 import { generateThumbnailBackground, letterThumbnail, MAX_THUMB_PROMPT, parseLetteringRequest, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
 import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/character-image.mjs';
@@ -1046,13 +1047,15 @@ const scriptRequestInput = (body) => {
   if (!request) return { error: 'Nhập yêu cầu video.' };
   if (request.length > MAX_SCRIPT_REQUEST) return { error: `Yêu cầu dài quá ${MAX_SCRIPT_REQUEST} ký tự.` };
   const sceneCount = Number(body.sceneCount);
-  if (!Number.isInteger(sceneCount) || sceneCount < SCENE_COUNT_MIN || sceneCount > SCENE_COUNT_MAX) {
-    return { error: `Số scene phải từ ${SCENE_COUNT_MIN} đến ${SCENE_COUNT_MAX}.` };
+  if (!Number.isInteger(sceneCount) || sceneCount < SCENE_COUNT_MIN) {
+    return { error: `Số scene tối thiểu là ${SCENE_COUNT_MIN}.` };
   }
+  const style = body.style ?? DEFAULT_SCRIPT_STYLE;
+  if (!isScriptStyle(style)) return { error: `Kiểu video phải là ${SCRIPT_STYLES.join(' hoặc ')}.` };
   // One line each: the title becomes the plan's `# heading`, where a newline would start a block.
   const optional = (value) => (typeof value === 'string' && value.trim() ? value.replace(/\s+/g, ' ').trim() : undefined);
   const input = {
-    request, sceneCount,
+    request, sceneCount, style,
     slug: optional(body.slug), title: optional(body.title),
     aspect: optional(body.aspect), template: optional(body.template), voice: optional(body.voice),
   };
@@ -1088,7 +1091,7 @@ const generateScriptProject = async (res, input) => {
   const log = (line) => sseSend(res, 'log', line);
   try {
     const { story, visuals, motions } = await writeVideo({
-      request: input.request, sceneCount: input.sceneCount, signal, onLog: log,
+      request: input.request, sceneCount: input.sceneCount, style: input.style, signal, onLog: log,
       onProgress: (progress) => sseSend(res, 'progress', progress),
     });
     // Checked again now: the minutes the LLM took are long enough for the slug to be taken.

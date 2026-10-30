@@ -1,6 +1,6 @@
 # Lý Thường Kiệt
 
-voice: gallery_vi_xl_female_child
+voice: NamLichSu
 
 template: 16x9-3d-chibi-history-v2
 

@@ -84,6 +84,7 @@ const failure = (message, retryable) => Object.assign(new Error(message), { retr
 // else (refused, reset, cut mid-body) is worth another try. Node hides the socket error in `cause`.
 const networkFailure = (error, label, signal) => {
   if (signal?.aborted) return error;
+  if (error.retryable !== undefined) return error; // already classified by readStream / replyFromJson
   if (error.name === 'TimeoutError') return failure(`${label}: quá ${REQUEST_TIMEOUT_MS / 60_000} phút không trả lời`, false);
   return failure(`${label}: lỗi kết nối (${error.cause?.code ?? error.cause?.message ?? error.message})`, true);
 };
@@ -99,19 +100,37 @@ const postChat = async (config, body, signal) => fetch(`${config.baseUrl}/chat/c
   signal: AbortSignal.any([AbortSignal.timeout(REQUEST_TIMEOUT_MS), ...(signal ? [signal] : [])]),
 });
 
-// One request → the parsed JSON object, or an Error tagged `retryable`. Reasoning models behind a
-// router now and then return content "" or break the JSON with a stray quote; those are retryable.
-const attemptChat = async (config, body, signal, label, parse) => {
-  let text;
-  let status;
-  try {
-    const res = await postChat(config, body, signal);
-    status = res.status;
-    text = await res.text(); // inside the try: a connection cut mid-body is a network failure
-  } catch (error) {
-    throw networkFailure(error, label, signal);
+// The request asks for a stream. A long non-streaming reply leaves the connection silent for
+// minutes, and DeepSeek or a router/proxy in front of it cuts it (UND_ERR_SOCKET after ~2 min,
+// seen on a 40-scene story). A stream keeps bytes flowing; a server that ignores `stream` and
+// answers with plain JSON is still handled (replyFromJson).
+const readStream = async (res, label) => {
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let content = '';
+  let finishReason = null;
+  const consume = (line) => {
+    if (!line.startsWith('data:')) return; // SSE comments (": keep-alive") and blank lines
+    const payload = line.slice(5).trim();
+    if (!payload || payload === '[DONE]') return;
+    let chunk;
+    try { chunk = JSON.parse(payload); } catch { return; }
+    if (chunk.error) throw failure(`${label}: ${chunk.error.message ?? JSON.stringify(chunk.error).slice(0, 200)}`, true);
+    const choice = chunk.choices?.[0];
+    content += choice?.delta?.content ?? '';
+    finishReason = choice?.finish_reason ?? finishReason;
+  };
+  for await (const part of res.body) {
+    buffer += decoder.decode(part, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    for (const line of lines) consume(line.trim());
   }
-  if (status < 200 || status >= 300) throw failure(describeFailure(label, status, text), RETRY_STATUSES.includes(status));
+  consume(buffer.trim());
+  return { content, finishReason };
+};
+
+const replyFromJson = (text, label) => {
   let data;
   try {
     data = JSON.parse(text);
@@ -119,8 +138,28 @@ const attemptChat = async (config, body, signal, label, parse) => {
     throw failure(`${label}: provider trả về không phải JSON (${text.slice(0, 120)})`, true);
   }
   const choice = data.choices?.[0];
-  if (choice?.finish_reason === 'length') throw failure(`${label}: trả lời bị cắt vì vượt giới hạn token của model`, false);
-  const content = choice?.message?.content ?? '';
+  return { content: choice?.message?.content ?? '', finishReason: choice?.finish_reason };
+};
+
+// One request → the parsed JSON object, or an Error tagged `retryable`. Reasoning models behind a
+// router now and then return content "" or break the JSON with a stray quote; those are retryable.
+const attemptChat = async (config, body, signal, label, parse) => {
+  let reply;
+  let status;
+  let errorText = '';
+  try {
+    const res = await postChat(config, body, signal);
+    status = res.status;
+    // Inside the try: a connection cut mid-body is a network failure.
+    if (!res.ok) errorText = await res.text();
+    else if ((res.headers.get('content-type') ?? '').includes('text/event-stream')) reply = await readStream(res, label);
+    else reply = replyFromJson(await res.text(), label);
+  } catch (error) {
+    throw networkFailure(error, label, signal);
+  }
+  if (status < 200 || status >= 300) throw failure(describeFailure(label, status, errorText), RETRY_STATUSES.includes(status));
+  if (reply.finishReason === 'length') throw failure(`${label}: trả lời bị cắt vì vượt giới hạn token của model`, false);
+  const content = reply.content;
   if (!content.trim()) throw failure(`${label}: model trả về rỗng`, true);
   try {
     return parse(content);
@@ -136,6 +175,7 @@ const chat = async ({ system, user, signal, label, onLog, json, parse }) => {
   const config = llmConfig();
   const body = JSON.stringify({
     model: config.model,
+    stream: true,
     ...(json ? { response_format: { type: 'json_object' } } : {}),
     messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
   });

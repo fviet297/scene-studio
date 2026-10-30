@@ -16,12 +16,16 @@
 const NP_MODE_STORE = "reviewNewProjectMode";
 const NP_SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 const NP_SCENES_MIN = 3;
-const NP_SCENES_MAX = 40;
 // A scene's narration read aloud, roughly — for the "≈ video length" hint under the scene count.
 const NP_SECONDS_PER_SCENE = 6.5;
 const NP_NOTE = {
   ai: "LLM viết narration, nhân vật, prompt ảnh và motion — khoảng vài phút cho 20 scene. Xong sẽ mở Kịch bản để duyệt.",
   manual: "Tạo projects/<slug>/scene-plan.md rồi chuyển sang dự án đó.",
+};
+// Shown beside the "Kiểu video" label; the server's script-writer.mjs holds the matching prompts.
+const NP_STYLE_HINT = {
+  standard: "",
+  map: "không nhân vật: mỗi scene là một khung bản đồ minh hoạ",
 };
 const NP_PHASES = ["story", "visuals", "motion", "create"];
 const NP_PHASE_LABEL = {
@@ -149,9 +153,8 @@ function setNpMode(mode) {
 
 function updateLengthHint() {
   const n = Number($("npSceneCount").value);
-  if (!Number.isInteger(n) || n < NP_SCENES_MIN || n > NP_SCENES_MAX) {
-    $("npLengthHint").textContent =
-      `từ ${NP_SCENES_MIN} đến ${NP_SCENES_MAX} scene`;
+  if (!Number.isInteger(n) || n < NP_SCENES_MIN) {
+    $("npLengthHint").textContent = `tối thiểu ${NP_SCENES_MIN} scene`;
     return;
   }
   const seconds = Math.round(n * NP_SECONDS_PER_SCENE);
@@ -163,10 +166,16 @@ function updateLengthHint() {
   $("npLengthHint").textContent = `≈ ${length} video`;
 }
 
+function updateStyleHint() {
+  $("npStyleHint").textContent = NP_STYLE_HINT[$("npStyle").value] ?? "";
+}
+
 async function openNewProjectDialog() {
   // The request is kept between openings, so a closed dialog never loses a long brief.
   for (const id of ["npSlug", "npTitleInput", "npPlan"]) $(id).value = "";
   $("npAspect").value = "16:9";
+  $("npStyle").value = "standard";
+  updateStyleHint();
   $("npRun").hidden = true;
   setNpMode(lsGet(NP_MODE_STORE) === "manual" ? "manual" : "ai");
   updateLengthHint();
@@ -203,6 +212,7 @@ function closeNewProjectDialog() {
 
 const NP_FIELD_IDS = [
   "npRequest",
+  "npStyle",
   "npSceneCount",
   "npSlug",
   "npTitleInput",
@@ -369,12 +379,8 @@ async function generateProject() {
     $("npRequest").focus();
     return;
   }
-  if (
-    !Number.isInteger(sceneCount) ||
-    sceneCount < NP_SCENES_MIN ||
-    sceneCount > NP_SCENES_MAX
-  ) {
-    setNpNote(`Số scene phải từ ${NP_SCENES_MIN} đến ${NP_SCENES_MAX}.`, true);
+  if (!Number.isInteger(sceneCount) || sceneCount < NP_SCENES_MIN) {
+    setNpNote(`Số scene tối thiểu là ${NP_SCENES_MIN}.`, true);
     $("npSceneCount").focus();
     return;
   }
@@ -394,7 +400,7 @@ async function generateProject() {
   try {
     await readSse(
       "/api/script-generate",
-      { ...fields, request, sceneCount },
+      { ...fields, request, sceneCount, style: $("npStyle").value },
       signal,
       (type, data) => {
         if (type === "log") appendNpLog(data);
@@ -448,6 +454,7 @@ $("npRequest").addEventListener("keydown", (e) => {
     generateProject();
   }
 });
+$("npStyle").addEventListener("change", updateStyleHint);
 // A pasted plan that declares its own `aspect:` sets the select, so the two never disagree.
 $("npPlan").addEventListener("input", () => {
   const header = $("npPlan").value.split(/^##\s+/m)[0];

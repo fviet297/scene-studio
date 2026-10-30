@@ -1,0 +1,29 @@
+{
+  "name": "FVIET",
+  "logo": {
+    "enabled": true,
+    "position": "top-right",
+    "anchor": "crop",
+    "opacity": 0.85,
+    "margin": 24,
+    "size": 64,
+    "textSize": 18
+  },
+  "watermark": {
+    "enabled": true,
+    "opacity": 0.08
+  },
+  "captions": {
+    "enabled": true,
+    "font": "be-vietnam",
+    "size": 48,
+    "strokeWidth": 7,
+    "backgroundOpacity": 0.42,
+    "uppercase": false,
+    "highlight": "karaoke",
+    "position": "bottom",
+    "anchor": "frame",
+    "spokenColor": "#f6c85f",
+    "unspokenColor": "#ffffff"
+  }
+}
