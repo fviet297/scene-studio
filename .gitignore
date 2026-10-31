@@ -29,3 +29,6 @@ projects/active.json
 projects/output-dir.json
 # Manual scene-plan backups — git history already keeps every committed version.
 projects/**/scene-plan.md.*
+
+# Full ffmpeg binary downloaded per machine (see scripts/lib/ensure-ffmpeg.mjs)
+tools/ffmpeg/

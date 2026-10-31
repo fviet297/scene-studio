@@ -15,7 +15,12 @@
   },
   "captions": {
     "enabled": true,
+    "font": "bangers",
     "size": 37,
+    "strokeWidth": 7,
+    "backgroundOpacity": 0.42,
+    "uppercase": false,
+    "highlight": "karaoke",
     "position": "bottom",
     "anchor": "frame",
     "spokenColor": "#f6c85f",

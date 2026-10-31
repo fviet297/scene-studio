@@ -12,6 +12,9 @@ import { existsSync, readdirSync } from 'node:fs';
 import { delimiter, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const exe = (name) => (process.platform === 'win32' ? `${name}.exe` : name);
+const fromRoot = (...parts) => resolve(fileURLToPath(new URL('../..', import.meta.url)), ...parts);
+
 const hasFfprobe = () => {
   try {
     execFileSync('ffprobe', ['-version'], { stdio: 'ignore' });
@@ -22,10 +25,9 @@ const hasFfprobe = () => {
 };
 
 const remotionBinDir = () => {
-  const scope = resolve(fileURLToPath(new URL('../../node_modules/@remotion', import.meta.url)));
+  const scope = fromRoot('node_modules', '@remotion');
   if (!existsSync(scope)) return null;
-  const exe = process.platform === 'win32' ? 'ffprobe.exe' : 'ffprobe';
-  const pkg = readdirSync(scope).find((name) => name.startsWith('compositor-') && existsSync(join(scope, name, exe)));
+  const pkg = readdirSync(scope).find((name) => name.startsWith('compositor-') && existsSync(join(scope, name, exe('ffprobe'))));
   return pkg ? join(scope, pkg) : null;
 };
 

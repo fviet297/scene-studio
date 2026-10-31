@@ -11,7 +11,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync,
 import { dirname, isAbsolute, join } from 'node:path';
 import { isValidSlug } from './project-paths.mjs';
 
-export const DEFAULT_SOURCE = '\\\\192.168.1.6\\pet\\scene-studio';
+export const DEFAULT_SOURCE = '\\\\192.168.1.3\\pet\\scene-studio';
 // SMB shares and FAT-style filesystems round mtimes; a smaller gap is not a real difference.
 const MTIME_TOLERANCE_MS = 2000;
 

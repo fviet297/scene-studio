@@ -6,6 +6,7 @@
 // Regenerate everything:      node scripts/generate-narration.mjs
 // Regenerate only scenes 5,7: node scripts/generate-narration.mjs 5 7
 
+import './lib/ensure-ffmpeg.mjs';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -122,11 +123,11 @@ for (const segment of targets) {
   }
   const output = join(AUDIO_DIR, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);
   if (files.length === 1) {
-    execFileSync('ffmpeg', ['-y', '-i', files[0], '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
+    execFileSync('ffmpeg', ['-y', '-i', files[0], '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
   } else {
     const concatList = join(TEMP_DIR, `scene-${segment.scene}-concat.txt`);
     writeFileSync(concatList, files.map((file) => `file '${join(process.cwd(), file)}'`).join('\n'));
-    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: 'ignore' });
+    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
   }
   writeAudioNarration(AUDIO_DIR, segment.scene, segment.text);
   process.stdout.write(`✓ scene-${String(segment.scene).padStart(2, '0')}.mp3 (${chunks.length} chunk${chunks.length > 1 ? 's' : ''})\n`);
