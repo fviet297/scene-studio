@@ -51,6 +51,7 @@ const showImage = (img, empty, url) => {
 
 function showDraft(url) {
   ci.hasDraft = Boolean(url);
+  ci.draftUrl = url;
   showImage($("ciDraftImg"), $("ciDraftEmpty"), url);
 }
 
@@ -242,12 +243,29 @@ async function generateCharacterDraft() {
   syncCiButtons();
 }
 
+// Providers may return WebP/AVIF under the draft's .jpg name, which the server's ffmpeg cannot
+// decode: have the browser re-encode the draft as JPEG first.
+async function jpegifyDraft(id) {
+  const blob = await (await fetch(ci.draftUrl)).blob();
+  // The server labels the file by its .jpg name, so read the real format from the magic bytes.
+  const head = new Uint8Array(await blob.slice(0, 3).arrayBuffer());
+  if (head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff) return;
+  const file = await normalizeImageFile(new File([blob], "draft", { type: "image/webp" }));
+  const res = await fetch(`/api/character-draft?id=${encodeURIComponent(id)}`, {
+    method: "POST",
+    headers: { "Content-Type": "image/jpeg" },
+    body: await file.arrayBuffer(),
+  });
+  if (!res.ok) throw new Error((await res.json()).error || res.statusText);
+}
+
 // from: 'draft' (the drawn draft) or 'source' (the uploaded source image, as it is).
 async function applyCharacterImage(from = "draft") {
   const id = ci.id;
   $("ciApply").disabled = true;
   $("ciApplySource").disabled = true;
   try {
+    if (from === "draft") await jpegifyDraft(id);
     state = await api("/api/character-apply", { id, from });
     render();
     ci.id = null;

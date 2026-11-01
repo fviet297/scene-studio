@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { delimiter } from 'node:path';
-import { pathWithFirst } from './ensure-ffmpeg.mjs';
+import { delimiter, join } from 'node:path';
+import { pathWithFirst, pathWithLocalFfmpeg } from './ensure-ffmpeg.mjs';
 
 const path = (...dirs) => dirs.join(delimiter);
 const has = (...dirs) => (file) => dirs.some((dir) => file.startsWith(`${dir}/`));
@@ -28,4 +28,24 @@ test('only the first match moves when several folders have the binary', () => {
 
 test('empty entries in PATH are skipped', () => {
   assert.equal(pathWithFirst(path('', '/a'), 'ffprobe', () => true), path('/a', ''));
+});
+
+const hasFile = (...files) => (file) => files.includes(file);
+
+test('puts the per-machine ffmpeg folder first when no PATH folder has ffmpeg', () => {
+  const local = join('/repo', 'tools', 'ffmpeg');
+  const result = pathWithLocalFfmpeg(path('/a', '/remotion'), local, 'ffmpeg', hasFile(join(local, 'ffmpeg')));
+  assert.equal(result, path(local, '/a', '/remotion'));
+});
+
+test('a system ffmpeg on PATH wins over the per-machine folder', () => {
+  const local = join('/repo', 'tools', 'ffmpeg');
+  const original = path('/a', '/usr/bin');
+  const exists = hasFile(join('/usr/bin', 'ffmpeg'), join(local, 'ffmpeg'));
+  assert.equal(pathWithLocalFfmpeg(original, local, 'ffmpeg', exists), original);
+});
+
+test('leaves PATH alone when the per-machine folder has no ffmpeg', () => {
+  const original = path('/a');
+  assert.equal(pathWithLocalFfmpeg(original, join('/repo', 'tools', 'ffmpeg'), 'ffmpeg', () => false), original);
 });

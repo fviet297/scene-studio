@@ -46,18 +46,20 @@ const VOICE_NOTE_MAX = 36;
 let voiceList = null; // /api/voices → { voices: [{ name, language, note }], defaultVoice, source }
 let voiceListVersion = 0;
 let voiceSelectKey = "";
+let voiceListSource = null; // the audio source voiceList was loaded for
 let npMode = "ai";
 let npRun = null; // the AI run in flight: { controller, startedAt, timer }
 
 // ------------------------------------------------------------------ voices
 
-async function loadVoices() {
+async function loadVoices(source) {
   try {
-    voiceList = await api("/api/voices");
+    voiceList = await api(source ? `/api/voices?source=${encodeURIComponent(source)}` : "/api/voices");
   } catch (e) {
     voiceList = { voices: [], defaultVoice: null };
-    toast(`Không đọc được danh sách giọng OmniVoice: ${e.message}`, false);
+    toast(`Không đọc được danh sách giọng: ${e.message}`, false);
   }
+  voiceListSource = voiceList.audioSource ?? source ?? null;
   voiceListVersion++;
 }
 
@@ -89,7 +91,7 @@ function voiceOptionsHtml(selected) {
     `<option value="${escapeHtml(v.name)}"${v.name === selected ? " selected" : ""}>${escapeHtml(voiceLabel(v))}</option>`;
   const unknown =
     selected && !voices.some((v) => v.name === selected)
-      ? `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (không có trong OmniVoice)</option>`
+      ? `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (không có trong nguồn audio này)</option>`
       : "";
   return (
     unknown +
@@ -106,9 +108,17 @@ function voiceOptionsHtml(selected) {
 // picking never closes the open dropdown.
 function renderVoiceSelect() {
   if (!voiceList || !state.project) return;
-  const key = `${state.project.voice}|${voiceListVersion}`;
+  const source = state.project.audioSource ?? "omnivoice";
+  // The list belongs to one source; fetch the project's own when they differ (switch or reload).
+  if (voiceListSource !== source) {
+    voiceListSource = source;
+    loadVoices(source).then(renderVoiceSelect);
+    return;
+  }
+  const key = `${source}|${state.project.voice}|${voiceListVersion}`;
   if (key === voiceSelectKey) return;
   voiceSelectKey = key;
+  $("audioSourceSelect").value = source;
   $("voiceSelect").innerHTML = voiceOptionsHtml(state.project.voice);
   // The workbench's narration block names the voice "Sinh audio" will use (read-only there).
   const voice = $("voiceSelect").value;
@@ -121,6 +131,28 @@ $("voiceSelect").addEventListener("change", async (e) => {
     state = await api("/api/project-voice", { voice });
     render();
     toast(`Giọng đọc: ${voice} — dùng cho audio sinh từ giờ.`);
+  } catch (err) {
+    toast(err.message, false);
+    voiceSelectKey = "";
+    renderVoiceSelect();
+  }
+});
+
+$("audioSourceSelect").addEventListener("change", async (e) => {
+  const source = e.target.value;
+  try {
+    await loadVoices(source);
+    const voice = voiceList.defaultVoice;
+    if (!voice) {
+      toast("VieNeu chưa chạy nên chưa có danh sách giọng — bật VieNeu rồi chọn lại.", false);
+      e.target.value = state.project.audioSource;
+      await loadVoices(state.project.audioSource);
+      return;
+    }
+    state = await api("/api/project-voice", { voice, source });
+    voiceSelectKey = "";
+    render();
+    toast(`Nguồn audio: ${source} — giọng ${voice}, dùng cho audio sinh từ giờ.`);
   } catch (err) {
     toast(err.message, false);
     voiceSelectKey = "";
@@ -235,6 +267,7 @@ const npProjectFields = () => ({
   aspect: $("npAspect").value,
   template: $("npTemplate").value || undefined,
   voice: $("npVoice").value || undefined,
+  audioSource: voiceList?.audioSource || undefined,
 });
 
 async function createManualProject() {

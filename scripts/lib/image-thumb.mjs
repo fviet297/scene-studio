@@ -21,15 +21,27 @@ export const thumbWidth = (requested) => {
   return THUMB_WIDTHS.find((w) => w >= n) ?? null;
 };
 
+// Sources ffmpeg could not resize, by cache key: a strip repaint asks for every thumbnail again, and
+// re-running a doomed ffmpeg per image (e.g. WebP on an ffmpeg built without a WebP decoder) stalls
+// the server on each repaint. The key holds the source's mtime, so a regenerated image is retried.
+const failures = new Map();
+
 // Path of the resized copy of `source` (created on first use, rebuilt when the source changes).
+// Rejects with the same error, without running ffmpeg again, while an unreadable source is unchanged.
 export const ensureThumbnail = async ({ source, cacheDir, width }) => {
   const { mtimeMs } = statSync(source);
   const key = createHash('sha1').update(`${source}|${mtimeMs}|${width}`).digest('hex').slice(0, 16);
   const target = join(cacheDir, `${key}.jpg`);
   if (existsSync(target)) return target;
+  if (failures.has(key)) throw failures.get(key);
   mkdirSync(cacheDir, { recursive: true });
   const partial = `${target}.${process.pid}.tmp.jpg`;
-  await run('ffmpeg', ['-v', 'error', '-y', '-i', source, '-vf', `scale=${width}:-2`, '-frames:v', '1', '-q:v', JPEG_QUALITY, partial]);
+  try {
+    await run('ffmpeg', ['-v', 'error', '-y', '-i', source, '-vf', `scale=${width}:-2`, '-frames:v', '1', '-q:v', JPEG_QUALITY, partial]);
+  } catch (error) {
+    failures.set(key, error);
+    throw error;
+  }
   renameSync(partial, target);
   return target;
 };

@@ -7,8 +7,9 @@
 // port comes from MUSE2API_BASE_URL.
 import { spawn } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { delimiter, join, resolve } from 'node:path';
 import { baseUrl as museBaseUrl } from './muse-client.mjs';
+import { vieneuDir, vieneuPort, vieneuPython, vieneuUrl } from './vieneu-client.mjs';
 // generate-narration.mjs connects to ws://127.0.0.1:8765/ws, so OmniVoice must listen there.
 import { OMNIVOICE_PORT, omnivoiceDir } from './omnivoice-client.mjs';
 
@@ -31,6 +32,25 @@ const SERVICES = {
     args: () => ['tool/ws_omnivoice_server.py', '--port', String(OMNIVOICE_PORT)],
     env: { HF_HUB_OFFLINE: '1', TRANSFORMERS_OFFLINE: '1' },
     healthUrl: () => `http://127.0.0.1:${OMNIVOICE_PORT}/api/voices`,
+  },
+  vieneu: {
+    label: 'VieNeu',
+    dir: vieneuDir,
+    // VieNeu-TTS ships a self-contained runtime (run_gpu.bat): base Python + the venv's packages.
+    python: () => vieneuPython() ?? join(vieneuDir(), 'runtime', 'python', 'cpython-3.12-windows-x86_64-none', 'python.exe'),
+    args: () => ['-m', 'apps.openai_speech'],
+    env: () => {
+      const dir = vieneuDir();
+      const runtime = join(dir, 'runtime');
+      return {
+        HF_HOME: join(runtime, 'hf'),
+        HF_HUB_OFFLINE: '1',
+        PYTHONIOENCODING: 'utf-8',
+        PYTHONPATH: [join(dir, 'gradio5'), join(dir, 'src'), dir, join(runtime, 'venv', 'Lib', 'site-packages')].join(delimiter),
+        PORT: vieneuPort(),
+      };
+    },
+    healthUrl: () => `${vieneuUrl()}/health`,
   },
   muse2api: {
     label: 'muse2api',
@@ -105,7 +125,7 @@ export const startService = async (id) => {
   const log = openSync(logPath(id), 'w');
   const proc = spawn(python, service.args(), {
     cwd: dir,
-    env: { ...process.env, ...service.env },
+    env: { ...process.env, ...(typeof service.env === 'function' ? service.env() : service.env) },
     stdio: ['ignore', log, log],
   });
   closeSync(log); // the child holds its own copy of the descriptor

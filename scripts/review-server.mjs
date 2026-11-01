@@ -9,14 +9,15 @@
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
 //   GET  /api/projects        → list every projects/<slug> + which one is active
 //   POST /api/project         → { slug } → switch the active project, rebuild its bundle
-//   POST /api/project-create  → { slug, title, aspect?, template?, voice?, plan? } → new project from
+//   POST /api/project-create  → { slug, title, aspect?, template?, voice?, audioSource?, plan? } → new project from
 //                               a pasted scene-plan.md, or scaffolded from projects/_template
-//   POST /api/script-generate → { request, sceneCount, style?, voice?, slug?, title?, aspect?, template? } →
+//   POST /api/script-generate → { request, sceneCount, style?, voice?, audioSource?, slug?, title?, aspect?, template? } →
 //                               (style: "standard" | "map" — a "Vì sao …?" documentary told on a map)
 //                               LLM writes the whole video (narration, cast, image + motion prompts),
 //                               then it becomes a new active project; progress streamed over SSE
-//   GET  /api/voices          → OmniVoice voice profiles (the running server, else its voice folder)
-//   POST /api/project-voice   → { voice } → the active project's narration voice (`voice:` header)
+//   GET  /api/voices[?source=] → voices of an audio source (omnivoice | vieneu; default: the active project's)
+//   POST /api/project-voice   → { voice, source? } → the active project's narration voice (`voice:` header)
+//                               and audio source (`audio:` header; changing it resets the voice)
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,beat?,prompt?,prompt_vi?,camera?,action?,env?,…_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
@@ -109,7 +110,8 @@ import { listServices, restartService, startService, stopService } from './lib/l
 import { readBranding, writeBranding } from './lib/branding.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
-import { DEFAULT_VOICE, isValidVoiceName, listVoices } from './lib/omnivoice-client.mjs';
+import { DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
+import { audioSourceOf, isAudioSource, isValidVoiceFor, voicesFor } from './lib/audio-source.mjs';
 import { DEFAULT_SCRIPT_STYLE, SCENE_COUNT_MIN, SCRIPT_STYLES, isScriptStyle, writeVideo } from './lib/script-writer.mjs';
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
 import { generateThumbnailBackground, letterThumbnail, MAX_THUMB_PROMPT, parseLetteringRequest, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
@@ -297,11 +299,12 @@ const normalizeProfilePatch = (patch) => {
 // Vietnamese prompt/template translations are authored up front (by the lsvn/trangca/history-video
 // skills and the OpenAI prompt writer) and stored alongside each prompt, so the panel reads them
 // straight from state — no runtime translation service.
-// `fit`: 'crop' takes the centre square (uploads); 'pad' letterboxes the whole picture onto a
-// light-grey square — AI drafts, which the dialog previews uncropped and a crop would behead.
+// `fit`: 'crop' takes the centre square (uploads); 'pad' keeps the whole picture at its own aspect ratio —
+// AI drafts, which the dialog previews uncropped and a crop would behead.
 const optimizeCharacterImage = (source, target, fit = 'crop') => {
   const square = fit === 'pad'
-    ? 'scale=1024:1024:force_original_aspect_ratio=decrease:flags=lanczos,pad=1024:1024:(ow-iw)/2:(oh-ih)/2:color=0xD8D8D8'
+    // The ffmpeg bundled with Remotion is built without the pad filter, so the picture keeps its own aspect ratio.
+    ? "scale='min(1024,iw)':'min(1024,ih)':force_original_aspect_ratio=decrease:flags=lanczos"
     : "crop='min(iw,ih)':'min(iw,ih)',scale=1024:1024:flags=lanczos";
   execFileSync('ffmpeg', [
     '-y', '-i', source,
@@ -508,12 +511,12 @@ const buildState = () => {
   }
   const charactersData = parsePlan(P.slug).characterRows;
   const characterList = charactersData.map((c) => {
-    const refBase = c.image.split('/').pop();
+    const refBase = c.image.split(/[\\/]/).pop();
     const refPath = join(P.charDir, refBase);
     const refUrl = existsSync(refPath) ? `/characters/${refBase}?v=${statSync(refPath).mtimeMs}` : null;
     let puppetUrl = null;
     if (c.imageV2 !== c.image) {
-      const puppetBase = c.imageV2.split('/').pop();
+      const puppetBase = c.imageV2.split(/[\\/]/).pop();
       const puppetPath = join(P.charV2Dir, puppetBase);
       if (existsSync(puppetPath)) puppetUrl = `/characters/v2/${puppetBase}?v=${statSync(puppetPath).mtimeMs}`;
     }
@@ -523,7 +526,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), voice: readPlanHeader(planRaw, 'voice') ?? DEFAULT_VOICE },
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'vieneu' ? '' : DEFAULT_VOICE) },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
     imageModels: pickerModels('image', IMAGE_MODELS),
@@ -636,15 +639,29 @@ const readRawBody = (req, maxBytes, tooLargeMessage) => new Promise((resolve, re
   req.on('error', reject);
 });
 // Detect image type from magic bytes so a mislabelled or non-image upload is rejected.
-const isSupportedImage = (buf) => {
-  if (buf.length < 12) return false;
+// Extension for the temp file ffmpeg reads: the bundled build cannot sniff an unknown one.
+const imageExt = (buf) => {
   const hex = buf.subarray(0, 4).toString('hex');
-  if (hex.startsWith('ffd8ff')) return true; // JPEG
-  if (hex === '89504e47') return true; // PNG
-  if (buf.subarray(0, 4).toString('ascii') === 'RIFF' && buf.subarray(8, 12).toString('ascii') === 'WEBP') return true; // WebP
-  return false;
+  if (hex.startsWith('ffd8ff')) return '.jpg';
+  if (hex === '89504e47') return '.png';
+  if (buf.subarray(0, 3).toString('ascii') === 'GIF') return '.gif';
+  if (buf.subarray(0, 2).toString('ascii') === 'BM') return '.bmp';
+  if (buf.subarray(0, 4).toString('ascii') === 'RIFF' && buf.subarray(8, 12).toString('ascii') === 'WEBP') return '.webp';
+  return '';
 };
+const isSupportedImage = (buf) => buf.length >= 12 && imageExt(buf) !== '';
 const MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+// A thumbnail that could not be made falls back to the original; ensureThumbnail repeats the same
+// error object for an unchanged source, so each failure is logged once, not on every strip repaint.
+const loggedThumbErrors = new WeakSet();
+const thumbFallback = (name, error, original) => {
+  if (!loggedThumbErrors.has(error)) {
+    loggedThumbErrors.add(error);
+    const detail = String(error.stderr ?? error.message).trim().split('\n').find((line) => /decoder|invalid|not found|unknown/i.test(line)) ?? error.message;
+    console.log(`[thumb] ${name}: serving the original (${detail.trim()})`);
+  }
+  return original;
+};
 // Everything the composition can reach through staticFile(); media goes out with Range support.
 const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav' };
 const PUBLIC_DIR = 'public';
@@ -959,19 +976,20 @@ const buildNewPlan = ({ slug, title, plan }) => {
 // Checks shared by both ways to start a project (blank/pasted plan, AI writer), run before any
 // work so a bad slug never costs an LLM run. `slug` may be absent: the AI writer derives one.
 // Returns an error message or null.
-const newProjectError = ({ slug, aspect, template, voice }) => {
+const newProjectError = ({ slug, aspect, template, voice, audioSource }) => {
   if (slug !== undefined && !isValidSlug(slug)) return 'slug must be lowercase letters, numbers and hyphens';
   if (slug !== undefined && existsSync(projectPaths(slug).planMd)) return `project "${slug}" already exists`;
   if (aspect !== undefined && !Object.hasOwn(ASPECTS, aspect)) return `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}`;
   if (template !== undefined && !listTemplateVersions().includes(template)) return `không có style version "${template}"`;
-  if (voice !== undefined && !isValidVoiceName(voice)) return `tên giọng đọc không hợp lệ: "${voice}"`;
+  if (audioSource !== undefined && !isAudioSource(audioSource)) return `nguồn audio không hợp lệ: "${audioSource}"`;
+  if (voice !== undefined && !isValidVoiceFor(audioSource ?? 'omnivoice', voice)) return `tên giọng đọc không hợp lệ: "${voice}"`;
   return null;
 };
 
 // Write a checked new project: its folders, then its scene-plan.md (see buildNewPlan) with the
 // header lines. The plan is written last and lands in one rename: listProjects() keys on
 // scene-plan.md, so a project only appears once it is complete. Throws when the plan is unusable.
-const writeNewProject = ({ slug, title, aspect, template, voice, plan }) => {
+const writeNewProject = ({ slug, title, aspect, template, voice, audioSource, plan }) => {
   const target = projectPaths(slug);
   const content = buildNewPlan({ slug, title, plan });
   if (content.error) throw new Error(content.error);
@@ -980,6 +998,7 @@ const writeNewProject = ({ slug, title, aspect, template, voice, plan }) => {
   writeFileSync(draft, content.text);
   if (aspect) writePlanHeader(draft, 'aspect', aspect);
   if (template) writePlanHeader(draft, 'template', template);
+  if (audioSource) writePlanHeader(draft, 'audio', audioSource);
   if (voice) writePlanHeader(draft, 'voice', voice);
   renameSync(draft, target.planMd);
   return target;
@@ -1065,7 +1084,7 @@ const scriptRequestInput = (body) => {
   const input = {
     request, sceneCount, style,
     slug: optional(body.slug), title: optional(body.title),
-    aspect: optional(body.aspect), template: optional(body.template), voice: optional(body.voice),
+    aspect: optional(body.aspect), template: optional(body.template), voice: optional(body.voice), audioSource: optional(body.audioSource),
   };
   const error = newProjectError(input);
   return error ? { error } : input;
@@ -1241,14 +1260,14 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/project-create') {
-      const { slug, title, aspect, template, voice, plan } = await readBody(req);
+      const { slug, title, aspect, template, voice, audioSource, plan } = await readBody(req);
       if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
       const error = isValidSlug(slug)
-        ? newProjectError({ slug, aspect, template, voice })
+        ? newProjectError({ slug, aspect, template, voice, audioSource })
         : 'slug must be lowercase letters, numbers and hyphens';
       if (error) { sendJson(res, 400, { error }); return; }
       try {
-        writeNewProject({ slug, title, aspect, template, voice, plan });
+        writeNewProject({ slug, title, aspect, template, voice, audioSource, plan });
       } catch (e) {
         sendJson(res, 400, { error: e.message });
         return;
@@ -1267,13 +1286,18 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/api/voices') {
-      sendJson(res, 200, { ...(await listVoices()), defaultVoice: DEFAULT_VOICE });
+      const asked = url.searchParams.get('source');
+      const source = isAudioSource(asked) ? asked : audioSourceOf(readFileSync(P.planMd, 'utf8'));
+      sendJson(res, 200, await voicesFor(source));
       return;
     }
 
     if (req.method === 'POST' && pathname === '/api/project-voice') {
-      const { voice } = await readBody(req);
-      if (!isValidVoiceName(voice)) { sendJson(res, 400, { error: `tên giọng đọc không hợp lệ: "${voice}"` }); return; }
+      const { voice, source: asked } = await readBody(req);
+      if (asked !== undefined && !isAudioSource(asked)) { sendJson(res, 400, { error: `nguồn audio không hợp lệ: "${asked}"` }); return; }
+      const source = asked ?? audioSourceOf(readFileSync(P.planMd, 'utf8'));
+      if (!isValidVoiceFor(source, voice)) { sendJson(res, 400, { error: `tên giọng đọc không hợp lệ: "${voice}"` }); return; }
+      if (asked) writePlanHeader(P.planMd, 'audio', asked);
       writePlanHeader(P.planMd, 'voice', voice);
       sendJson(res, 200, buildState());
       return;
@@ -1285,7 +1309,7 @@ const server = createServer(async (req, res) => {
       if (!name.includes('..') && existsSync(path)) {
         // `?w=` asks for a small copy for the panel's strips; the original stays no-store so a regenerated image shows.
         const width = thumbWidth(url.searchParams.get('w'));
-        const file = width ? await ensureThumbnail({ source: path, cacheDir: join(HERE, '..', 'tmp', 'thumbs'), width }).catch(() => path) : path;
+        const file = width ? await ensureThumbnail({ source: path, cacheDir: join(HERE, '..', 'tmp', 'thumbs'), width }).catch((e) => thumbFallback(name, e, path)) : path;
         res.writeHead(200, { 'Content-Type': MIME[name.split('.').pop().toLowerCase()] ?? 'application/octet-stream', 'Cache-Control': file === path ? 'no-store' : 'private, max-age=86400' });
         res.end(readFileSync(file));
       } else {
@@ -1726,8 +1750,8 @@ const server = createServer(async (req, res) => {
       const relPath = plan.characters[id];
       if (!relPath) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
       const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
-      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG or WebP image.' }); return; }
-      const uploadPath = `${relPath}.upload`;
+      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG, WebP, GIF or BMP image.' }); return; }
+      const uploadPath = `${relPath}.upload${imageExt(buf)}`;
       mkdirSync(dirname(uploadPath), { recursive: true });
       writeFileSync(uploadPath, buf);
       try {
@@ -1743,10 +1767,10 @@ const server = createServer(async (req, res) => {
       const id = url.searchParams.get('id');
       if (!planCharacterPath(id)) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
       const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
-      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG or WebP image.' }); return; }
+      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG, WebP, GIF or BMP image.' }); return; }
       mkdirSync(charDraftDir(), { recursive: true });
       const path = charSourcePath(id);
-      const uploadPath = `${path}.upload`;
+      const uploadPath = `${path}.upload${imageExt(buf)}`;
       writeFileSync(uploadPath, buf);
       try {
         optimizeSourceImage(uploadPath, path);
@@ -1792,6 +1816,18 @@ const server = createServer(async (req, res) => {
         }
       });
       res.end();
+      return;
+    }
+
+    if (req.method === 'POST' && pathname === '/api/character-draft') {
+      // Replaces the draft with a browser-re-encoded JPEG (see jpegifyDraft in review-char-image.js).
+      const id = url.searchParams.get('id');
+      if (!planCharacterPath(id)) { sendJson(res, 404, { error: `character "${id}" not found` }); return; }
+      const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
+      if (imageExt(buf) !== '.jpg') { sendJson(res, 400, { error: 'Draft must be a JPEG image.' }); return; }
+      mkdirSync(charDraftDir(), { recursive: true });
+      writeFileSync(charDraftPath(id), buf);
+      sendJson(res, 200, { ok: true });
       return;
     }
 
@@ -2011,7 +2047,7 @@ const server = createServer(async (req, res) => {
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
       const buf = await readRawBody(req, MAX_IMAGE_UPLOAD, 'Image too large (max 15 MB).');
-      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG or WebP image.' }); return; }
+      if (!isSupportedImage(buf)) { sendJson(res, 400, { error: 'Upload a JPEG, PNG, WebP, GIF or BMP image.' }); return; }
       const file = sceneFile(scene);
       mkdirSync(P.imageDir, { recursive: true });
       const path = join(P.imageDir, file);

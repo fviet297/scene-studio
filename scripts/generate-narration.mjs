@@ -1,4 +1,4 @@
-// Per-scene narration generator (OmniVoice clone voice).
+// Per-scene narration generator (OmniVoice clone voice, or VieNeu when the plan header says `audio: vieneu`).
 // Each scene's narration in scene-plan.md becomes one file: public/audio/scene-NN.mp3.
 // Keeping scenes separate means a mispronounced part is fixed by regenerating one scene,
 // not the whole track.
@@ -14,6 +14,8 @@ import { activePaths, parseProjectArg } from './lib/project-paths.mjs';
 import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { connectOmniVoice, DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
 import { readPlanHeader } from './lib/plan-writer.mjs';
+import { audioSourceOf } from './lib/audio-source.mjs';
+import { vieneuSynthesize, vieneuUrl } from './lib/vieneu-client.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
 import { writeAudioNarration } from './lib/audio-narration.mjs';
 
@@ -29,8 +31,23 @@ const NUM_STEP = Number(process.env.TTS_NUM_STEP ?? 32);
 // pauses/rhythm survive instead of being clipped into a flat, monotone read. The threshold sits
 // at -45dB rather than -35dB: Vietnamese unvoiced finals (-ch, -t, -p) and soft onsets live in
 // that band, and cutting at -35dB shaved them off, which reads as slurred consonants.
-const NARRATION_FILTER =
+const SILENCE_FILTER =
   'silenceremove=stop_periods=-1:stop_duration=0.6:stop_threshold=-45dB:stop_silence=0.35';
+
+// The ffmpeg that ships with Remotion (the fallback when no system ffmpeg is installed) is built
+// without `silenceremove`, so asking for it fails the whole scene. Without it the dead-air trim
+// is skipped, with a warning; installing a full ffmpeg brings the trim back.
+const hasSilenceRemove = () => {
+  try {
+    return /silenceremove/.test(execFileSync('ffmpeg', ['-hide_banner', '-filters'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
+  } catch {
+    return false;
+  }
+};
+const CAN_TRIM = hasSilenceRemove();
+if (!CAN_TRIM) process.stdout.write('⚠ ffmpeg thiếu filter silenceremove — bỏ qua bước cắt khoảng lặng dài (cài ffmpeg đầy đủ để bật lại)\n');
+// ffmpeg arguments for the optional filter: none at all when it is unavailable.
+const NARRATION_FILTER_ARGS = CAN_TRIM ? ['-af', SILENCE_FILTER] : [];
 
 // Speech-rate ceiling in letters per second, diacritics excluded (the unit the model's own
 // duration estimator effectively works in). Whisper QA put every dropped-word scene at 20+ and
@@ -44,11 +61,18 @@ const paths = activePaths(argv);
 const SEGMENTS = narrationSegments(parsePlan(paths.slug).scenes);
 const AUDIO_DIR = paths.audioDir;
 // The project's OmniVoice profile, picked in the review panel (`voice:` in the plan header).
-const VOICE = readPlanHeader(readFileSync(paths.planMd, 'utf8'), 'voice') ?? DEFAULT_VOICE;
+const planRaw = readFileSync(paths.planMd, 'utf8');
+const SOURCE = audioSourceOf(planRaw);
+const IS_VIENEU = SOURCE === 'vieneu';
+// VieNeu has no fixed default profile: no `voice:` header means the server's own default voice.
+const VOICE = readPlanHeader(planRaw, 'voice') ?? (IS_VIENEU ? '' : DEFAULT_VOICE);
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;
-process.stdout.write(`OmniVoice ${WS_URL} · voice=${VOICE} · num_step=${NUM_STEP} · ${targets.length} scene(s): ${targets.map((s) => s.scene).join(', ')}\n`);
+const sceneList = `${targets.length} scene(s): ${targets.map((s) => s.scene).join(', ')}`;
+process.stdout.write(IS_VIENEU
+  ? `VieNeu ${vieneuUrl()} · voice=${VOICE || '(mặc định)'} · ${sceneList}\n`
+  : `OmniVoice ${WS_URL} · voice=${VOICE} · num_step=${NUM_STEP} · ${sceneList}\n`);
 
 const toChunks = (text) =>
   (text.match(/[^.!?]+[.!?]+/g) ?? [text]).reduce((result, sentence) => {
@@ -63,8 +87,9 @@ mkdirSync(AUDIO_DIR, { recursive: true });
 rmSync(TEMP_DIR, { recursive: true, force: true });
 mkdirSync(TEMP_DIR, { recursive: true });
 
-const client = await connectOmniVoice({ url: WS_URL });
-process.stdout.write('✓ connected to OmniVoice\n');
+// VieNeu is plain HTTP, so there is nothing to connect or close.
+const client = IS_VIENEU ? { close() {} } : await connectOmniVoice({ url: WS_URL });
+if (!IS_VIENEU) process.stdout.write('✓ connected to OmniVoice\n');
 
 const synthesize = (text, requestId, override = {}) =>
   client.synthesize(requestId, {
@@ -95,6 +120,7 @@ const speechRate = (text, seconds) =>
 // Synthesise one chunk, retrying at a lower speed while the result is too rushed to hold all the
 // text. Returns the slowest attempt if none clears MAX_RATE, since that one dropped the least.
 const synthesizeChunk = async (text, label) => {
+  if (IS_VIENEU) return { wav: await vieneuSynthesize(text, VOICE) };
   let best = null;
   for (const [attempt, override] of [{}, ...RETRIES].entries()) {
     const result = await synthesize(text, ++requestId, override);
@@ -123,11 +149,11 @@ for (const segment of targets) {
   }
   const output = join(AUDIO_DIR, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);
   if (files.length === 1) {
-    execFileSync('ffmpeg', ['-y', '-i', files[0], '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
+    execFileSync('ffmpeg', ['-y', '-i', files[0], ...NARRATION_FILTER_ARGS, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
   } else {
     const concatList = join(TEMP_DIR, `scene-${segment.scene}-concat.txt`);
     writeFileSync(concatList, files.map((file) => `file '${join(process.cwd(), file)}'`).join('\n'));
-    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, '-af', NARRATION_FILTER, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
+    execFileSync('ffmpeg', ['-y', '-f', 'concat', '-safe', '0', '-i', concatList, ...NARRATION_FILTER_ARGS, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
   }
   writeAudioNarration(AUDIO_DIR, segment.scene, segment.text);
   process.stdout.write(`✓ scene-${String(segment.scene).padStart(2, '0')}.mp3 (${chunks.length} chunk${chunks.length > 1 ? 's' : ''})\n`);

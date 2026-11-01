@@ -472,6 +472,7 @@ function syncGlobalButtons() {
   $("styleSelect").disabled = locked;
   $("t_version").disabled = locked;
   $("btnNewProject").disabled = locked;
+  $("audioSourceSelect").disabled = Boolean(globalOp);
   $("voiceSelect").disabled = Boolean(globalOp);
   $("btnAddChar").disabled = Boolean(globalOp);
   $("tlAddChar").disabled = Boolean(globalOp);
@@ -2023,12 +2024,9 @@ function enqueueScenePrompt(n) {
 async function uploadImage(file) {
   const s = current();
   if (!s || !file) return;
-  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
-    showError("Dùng ảnh PNG, JPEG hoặc WebP.");
-    return;
-  }
   await withSceneOp(s.scene, "đang tải lên", async () => {
     try {
+      file = await normalizeImageFile(file);
       const res = await fetch(`/api/upload?scene=${s.scene}`, {
         method: "POST",
         headers: { "Content-Type": file.type },
@@ -4250,6 +4248,7 @@ let pendingUploadCharId = null;
 let acCroppedFile = null;
 
 async function uploadCharacterFile(id, file) {
+  file = await normalizeImageFile(file);
   const res = await fetch(
     `/api/character-upload?id=${encodeURIComponent(id)}`,
     {

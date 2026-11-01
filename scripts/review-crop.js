@@ -241,3 +241,31 @@ $("cropClose").addEventListener("click", () => closeCrop(null));
 $("cropCancel").addEventListener("click", () => closeCrop(null));
 $("cropOriginal").addEventListener("click", () => closeCrop(crop.file));
 $("cropApply").addEventListener("click", applyCrop);
+
+// Any image the browser can decode (WebP, AVIF, GIF, BMP, SVG, HEIC on Safari...) → JPEG/PNG the
+// server and its bundled ffmpeg can read. JPEG and PNG pass through untouched.
+async function normalizeImageFile(file) {
+  if (/^image\/(jpeg|png)$/.test(file.type)) return file;
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = () => reject(new Error("Không đọc được ảnh này."));
+      img.src = url;
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth || 1024;
+    canvas.height = img.naturalHeight || 1024;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+    if (!blob) throw new Error("Không đọc được ảnh này.");
+    const name = file.name.replace(/\.[^.]+$/, "") || "image";
+    return new File([blob], `${name}.jpg`, { type: "image/jpeg" });
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}

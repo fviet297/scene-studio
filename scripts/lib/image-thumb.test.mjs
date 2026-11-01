@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, existsSync } from 'node:fs';
+import { mkdtempSync, existsSync, utimesSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import './ensure-ffmpeg.mjs';
@@ -28,4 +28,26 @@ test('creates a smaller JPEG once and reuses it', async () => {
   assert.equal(widthOf(first), 160);
   assert.equal(await ensureThumbnail({ source, cacheDir, width: 160 }), first);
   assert.ok(existsSync(first));
+});
+
+test('remembers a source ffmpeg cannot read and fails again without re-running ffmpeg', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'thumb-'));
+  const source = join(dir, 'scene-01.jpg');
+  writeFileSync(source, 'not an image');
+  const cacheDir = join(dir, 'cache');
+  const first = await ensureThumbnail({ source, cacheDir, width: 160 }).catch((e) => e);
+  assert.ok(first instanceof Error);
+  const again = await ensureThumbnail({ source, cacheDir, width: 160 }).catch((e) => e);
+  assert.equal(again, first);
+});
+
+test('retries a failed source once it changes', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'thumb-'));
+  const source = join(dir, 'scene-01.jpg');
+  writeFileSync(source, 'not an image');
+  const cacheDir = join(dir, 'cache');
+  await assert.rejects(ensureThumbnail({ source, cacheDir, width: 160 }));
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=red:s=1280x720', '-frames:v', '1', source]);
+  utimesSync(source, new Date(), new Date(Date.now() + 5000));
+  assert.equal(widthOf(await ensureThumbnail({ source, cacheDir, width: 160 })), 160);
 });

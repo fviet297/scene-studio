@@ -1,0 +1,23 @@
+{
+  "character_id": "char-c",
+  "name": "Pigneau de Behaine",
+  "display_name": "Pigneau de Béhaine",
+  "aliases": [
+    "Bá Đa Lộc",
+    "giám mục Đàng Trong"
+  ],
+  "country": "France / Vietnam",
+  "period": "1741–1799",
+  "dynasty": "",
+  "role": "French bishop who acted as Nguyễn Ánh's diplomatic agent, took his son to France in 1787 and returned with volunteers and arms in 1789.",
+  "known_facts": [
+    "Bishop and missionary who attached himself to Nguyễn Ánh's cause in the 1770s.",
+    "Signed the Treaty of Versailles of 1787 on Nguyễn Ánh's behalf.",
+    "Took Nguyễn Ánh's son Nguyễn Phúc Cảnh to France in 1787.",
+    "Returned to Gia Định in 1789 with weapons and French volunteers.",
+    "Died in Cochinchina in 1799."
+  ],
+  "interpretation": "Apparent age late forties, tall and slightly stooping, long narrow face, prominent nose, deep-set grey eyes, thin lips, grey hair receding at the temples; wears a plain black cassock with a silver crucifix on a chain, a wide-brimmed black hat, and a leather satchel on a shoulder strap.",
+  "unknowns": [],
+  "reference": "public\\projects\\gieng-tien-phu-quoc-nguyen-anh\\characters\\char-c.jpg"
+}

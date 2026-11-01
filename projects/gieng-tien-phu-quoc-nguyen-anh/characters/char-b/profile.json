@@ -1,0 +1,24 @@
+{
+  "character_id": "char-b",
+  "name": "Nguyen Hue",
+  "display_name": "Nguyễn Huệ",
+  "aliases": [
+    "Quang Trung",
+    "Bắc Bình Vương"
+  ],
+  "country": "Vietnam (Tây Sơn)",
+  "period": "1753–1792",
+  "dynasty": "Tây Sơn",
+  "role": "The Tây Sơn commander who drove Nguyễn Ánh out of the south and later ruled as Emperor Quang Trung.",
+  "known_facts": [
+    "One of the three Tây Sơn brothers who rose in 1771.",
+    "Commanded Tây Sơn forces that took Gia Định in 1777 and again in 1782.",
+    "Destroyed the Siamese fleet at Rạch Gầm–Xoài Mút in January 1785.",
+    "Proclaimed himself Emperor Quang Trung in 1788.",
+    "Defeated the Qing army at Ngọc Hồi–Đống Đa in early 1789.",
+    "Died in September 1792, leaving a young heir and a divided court."
+  ],
+  "interpretation": "Apparent age mid-thirties, broad-shouldered and compact, square jaw, deep-set dark eyes, thick eyebrows, full moustache and short beard; black hair in a topknot under a dark red cloth turban; wears a dark red padded war coat with iron studs over a brown tunic, leather arm guards, a wide cloth sash, and a long sword in a black lacquered scabbard.",
+  "unknowns": [],
+  "reference": "public\\projects\\gieng-tien-phu-quoc-nguyen-anh\\characters\\char-b.jpg"
+}

@@ -214,7 +214,7 @@
           <span class="ttl">Narration</span>
           <span class="hint" id="narrHint"></span>
           <span class="stage-state" id="stageAudState"></span>
-          <button class="btn sm" type="button" id="btnAudio" title="OmniVoice đọc narration bằng giọng đã chọn ở ô giọng cạnh nút Audio trên timeline. Độ dài motion video khớp theo audio này.">Sinh audio</button>
+          <button class="btn sm" type="button" id="btnAudio" title="Đọc narration bằng nguồn audio và giọng đã chọn ở ô giọng cạnh nút Audio trên timeline. Độ dài motion video khớp theo audio này.">Sinh audio</button>
         </div>
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration của scene đang chọn" placeholder="Lời narration đọc cho scene này"></textarea>
         <div class="btn-row">
@@ -464,7 +464,8 @@
       <button class="btn sm batch-act" data-tone="image" type="button" id="batchImg" disabled title="Sinh ảnh cho các scene AI đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Ảnh<span class="batch-count num" data-count-for="image"></span></button>
     </span>
     <span class="batch-unit" data-tone="audio">
-      <select class="mini" id="voiceSelect" aria-label="Giọng đọc narration" title="Giọng OmniVoice đọc narration. Đổi giọng rồi sinh audio lại cho các scene muốn đổi; audio đã sinh giữ nguyên giọng cũ."></select>
+      <select class="mini" id="audioSourceSelect" aria-label="Nguồn audio narration" title="Engine TTS đọc narration của dự án. Đổi nguồn sẽ đặt lại giọng; audio đã sinh giữ nguyên cho tới khi sinh lại."><option value="omnivoice">OmniVoice</option><option value="vieneu">VieNeu</option></select>
+      <select class="mini" id="voiceSelect" aria-label="Giọng đọc narration" title="Giọng đọc narration theo nguồn audio đã chọn. Đổi giọng rồi sinh audio lại cho các scene muốn đổi; audio đã sinh giữ nguyên giọng cũ."></select>
       <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn bằng giọng đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio<span class="batch-count num" data-count-for="audio"></span></button>
     </span>
     <span class="batch-unit" data-tone="motion">
@@ -655,7 +656,7 @@
           <button class="btn quiet sm history-btn" type="button" id="btnUndoImage" hidden title="Hoàn tác ảnh của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>Hoàn tác ảnh <span class="count num"></span></button>
           <button class="btn quiet sm history-btn" type="button" id="btnRedoImage" hidden title="Làm lại ảnh của scene này"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>Làm lại ảnh <span class="count num"></span></button>
         </div>
-        <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Chọn file ảnh cho scene này" hidden />
+        <input type="file" id="fileInput" accept="image/*" aria-label="Chọn file ảnh cho scene này" hidden />
       </div>
 
       <div class="block" id="editBlock">
@@ -819,7 +820,7 @@
   </div>
 </div>
 
-<input type="file" id="charFileInput" accept="image/png,image/jpeg,image/webp" aria-label="Chọn ảnh tham chiếu cho nhân vật này" hidden />
+<input type="file" id="charFileInput" accept="image/*" aria-label="Chọn ảnh tham chiếu cho nhân vật này" hidden />
 
 <div class="overlay" id="acOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="acTitle">
   <div class="dialog narrow ac-dialog">
@@ -841,7 +842,7 @@
       </div>
       <div class="field" id="acIdField"><label for="acId">Id</label><input class="text-input" id="acId" type="text" placeholder="vd. tran-hung-dao" spellcheck="false" autocomplete="off" /></div>
       <div class="field"><label for="acName">Tên hiển thị</label><input class="text-input" id="acName" type="text" placeholder="vd. Trần Hưng Đạo" autocomplete="off" /></div>
-      <div class="field" id="acFileField"><label for="acFile">Ảnh tham chiếu (tuỳ chọn — bỏ trống để tạo bằng AI)</label><input id="acFile" type="file" accept="image/png,image/jpeg,image/webp" /></div>
+      <div class="field" id="acFileField"><label for="acFile">Ảnh tham chiếu (tuỳ chọn — bỏ trống để tạo bằng AI)</label><input id="acFile" type="file" accept="image/*" /></div>
     </div>
     <div class="dialog-foot">
       <span class="note" id="acNote" aria-live="polite">Thêm vào khối ## characters và tạo profile.json. Không chọn ảnh thì mở tiếp bước tạo ảnh từ mô tả.</span>
@@ -1014,7 +1015,7 @@
             <button class="btn sm quiet" type="button" id="ciUseCurrent">Dùng ảnh tham chiếu hiện tại</button>
             <button class="btn sm" type="button" id="ciApplySource" hidden>Dùng thẳng ảnh này làm tham chiếu</button>
           </div>
-          <input type="file" id="ciSourceFile" accept="image/png,image/jpeg,image/webp" aria-label="Chọn ảnh nguồn" hidden />
+          <input type="file" id="ciSourceFile" accept="image/*" aria-label="Chọn ảnh nguồn" hidden />
         </div>
         <div class="field">
           <label for="ciDesc" id="ciDescLabel">Mô tả ngoại hình</label>
