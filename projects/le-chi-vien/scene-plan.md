@@ -1,5 +1,7 @@
 # Vụ án Lệ Chi Viên
 
+template: 16x9-watercolor-chibi-history-v1
+
 aspect: 16:9
 
 <!-- Real photos/artefacts only (no AI images). Each scene's search: line records what the

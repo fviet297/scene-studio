@@ -86,7 +86,11 @@ function measureMedia(url, tag) {
     if (tlVisible()) renderTimeline();
   });
   probe.addEventListener("error", () =>
-    console.warn(`timeline: could not read the duration of ${url}`),
+    logEvent(
+      "timeline",
+      `Không đọc được độ dài ${url.split("?")[0]} (file lỗi hoặc thiếu)`,
+      "warn",
+    ),
   );
   probe.src = url;
 }
@@ -648,6 +652,20 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+// The track has no scrollbar, so a plain mouse wheel scrolls it sideways when zoomed past the
+// width (a trackpad's horizontal swipe already does). Ctrl+wheel stays the browser's zoom.
+$("tlTrack").addEventListener(
+  "wheel",
+  (e) => {
+    const track = e.currentTarget;
+    if (e.ctrlKey || track.scrollWidth <= track.clientWidth) return;
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    e.preventDefault();
+    track.scrollLeft += e.deltaY;
+  },
+  { passive: false },
+);
+
 window.addEventListener("resize", () => {
   if (!tlVisible()) return;
   if (tl.userZoom) paintBrandLayer($("tlScreen"), state.branding);
@@ -694,6 +712,7 @@ function currentTime() {
 
 function setPlayerStatus(message, isError = false) {
   const status = $("tlPlayerStatus");
+  if (message && isError) logEvent("timeline", message, "error");
   status.hidden = !message;
   status.textContent = message || "";
   status.classList.toggle("error", isError);

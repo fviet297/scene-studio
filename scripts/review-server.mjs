@@ -105,6 +105,7 @@ import { removeSceneMedia, shiftSceneMedia } from './lib/scene-shift.mjs';
 import { clearAudioNarration, isAudioStale, readAudioNarration, writeAudioNarration } from './lib/audio-narration.mjs';
 import { adoptMotionSource, clearMotionSource, imageFingerprint, isMotionStale, readMotionSource, writeMotionSource } from './lib/motion-source.mjs';
 import { buildCharacterContext, generateScenePrompt } from './lib/prompt-writer.mjs';
+import { describeLlm } from './lib/llm-client.mjs';
 import { listSourceProjects, setSourceRoot, sourceRoot } from './lib/media-sync.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
@@ -141,6 +142,7 @@ const PANEL = join(HERE, 'review-panel.html');
 // The panel's stylesheet and script, served as-is next to the page.
 const PANEL_ASSETS = {
   '/panel.css': ['review-panel.css', 'text/css; charset=utf-8'],
+  '/log.js': ['review-log.js', 'text/javascript; charset=utf-8'],
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
   '/effects.js': ['review-effects.js', 'text/javascript; charset=utf-8'],
@@ -724,15 +726,16 @@ const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
   // every scene) and keep only the steps whose file actually changed.
   const scenes = args.length ? args.map(Number) : readPlan().scenes.map((s) => s.scene);
   const pendingChanges = scenes.map((n) => [n, beginChange(mediaHistoryDir('audio', n), mediaPath('audio', n), audioMeta(n))]);
+  const started = Date.now();
   const child = spawn('node', [join(HERE, 'generate-narration.mjs'), ...args], { cwd: process.cwd() });
   const pipe = (stream) => stream.on('data', (b) => b.toString().split('\n').filter(Boolean).forEach((line) => send('log', line)));
   pipe(child.stdout);
   pipe(child.stderr);
   child.on('close', async (code) => {
     for (const [n, pending] of pendingChanges) settleChange(mediaHistoryDir('audio', n), mediaPath('audio', n), pending);
-    if (code !== 0) { send('error', `Exited with code ${code}`); res.end(); resolve(); return; }
+    if (code !== 0) { send('error', `Exited with code ${code} after ${secondsSince(started)}`); res.end(); resolve(); return; }
     await rebuildBundles(send); // new audio → refresh hasAudio/durations/captions in the bundle
-    send('done', 'Audio generation finished.');
+    send('done', `Audio generation finished (${secondsSince(started)}).`);
     res.end();
     resolve();
   });
@@ -740,7 +743,9 @@ const streamNarration = (res, args, startMsg) => new Promise((resolve) => {
 });
 
 // --- shared SSE helpers --------------------------------------------------------------------
-const sseHead = (res) => res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
+// Wall time since `started` (Date.now()), for the per-scene and per-job lines of a job log.
+const secondsSince = (started) => `${((Date.now() - started) / 1000).toFixed(1)}s`;
+const sseHead =(res) => res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store', Connection: 'keep-alive' });
 // A scene's end line in a job log ("✓/✗/• scene N", "✓ scene-NN.mp3") — the same lines the
 // panel's trackSceneProgress reads; kept per job so /api/jobs reports which scenes are finished.
 const SCENE_END_LINE = /^[✓✗•] scene[- ](\d+)/;
@@ -804,6 +809,7 @@ const generateImagesBatch = async (res, sceneNos, model) => {
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
+  sseSend(res, 'log', `image batch: ${sceneNos.length} scene(s), model=${model || 'auto (by reference count)'}`);
   for (const n of sceneNos) {
     if (signal.aborted) return;
     const target = plan.scenes.find((s) => s.scene === n);
@@ -811,11 +817,12 @@ const generateImagesBatch = async (res, sceneNos, model) => {
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
     if (!target.image.prompt) { sseSend(res, 'log', `✗ scene ${n} has no prompt — skipped`); continue; }
     attempted++;
+    const started = Date.now();
     sseSend(res, 'log', `▶ generating scene ${n}...`);
     try {
       const { via } = await trackMediaChange('image', n, () => generateSceneImage(target, plan.characters, { model, signal, onLog: (line) => sseSend(res, 'log', `  ${line}`) }));
       ok++;
-      sseSend(res, 'log', `✓ scene ${n} (${via}) — ${ok}/${sceneNos.length} ảnh thành công`);
+      sseSend(res, 'log', `✓ scene ${n} (${via}, ${secondsSince(started)}) — ${ok}/${sceneNos.length} ảnh thành công`);
     } catch (e) {
       if (signal.aborted) { console.log(`[image batch] cancelled at scene ${n}`); return; }
       sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
@@ -834,10 +841,12 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
+  sseSend(res, 'log', `motion batch: ${sceneNos.length} scene(s), model=${model}, aspect=${activeAspect()}`);
   for (const n of sceneNos) {
     if (signal.aborted) break;
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
+    const started = Date.now();
     const imagePath = join(P.imageDir, sceneFile(n));
     const audioPath = join(P.audioDir, audioFile(n));
     if (!existsSync(imagePath) || !existsSync(audioPath)) {
@@ -866,7 +875,7 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
       }));
       ok++;
-      sseSend(res, 'log', `✓ scene ${n} motion video ready — ${ok}/${sceneNos.length} video thành công`);
+      sseSend(res, 'log', `✓ scene ${n} motion video ready (${secondsSince(started)}) — ${ok}/${sceneNos.length} video thành công`);
     } catch (e) {
       if (signal.aborted) { console.log(`[motion batch] cancelled at scene ${n}`); break; }
       sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
@@ -885,6 +894,7 @@ const generatePromptsBatch = async (res, sceneNos) => {
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
+  sseSend(res, 'log', `prompt batch: ${sceneNos.length} scene(s), LLM ${describeLlm()}`);
   for (const n of sceneNos) {
     if (signal.aborted) break;
     const target = plan.scenes.find((s) => s.scene === n);
@@ -892,6 +902,7 @@ const generatePromptsBatch = async (res, sceneNos) => {
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
     if (!target.narration) { sseSend(res, 'log', `✗ scene ${n} has no narration — skipped`); continue; }
     attempted++;
+    const started = Date.now();
     sseSend(res, 'log', `▶ writing prompt for scene ${n}...`);
     try {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
@@ -901,7 +912,7 @@ const generatePromptsBatch = async (res, sceneNos) => {
       writeSceneField(P.planMd, n, 'prompt', text);
       writeSceneField(P.planMd, n, 'prompt_vi', vi);
       ok++;
-      sseSend(res, 'log', `✓ scene ${n}: ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
+      sseSend(res, 'log', `✓ scene ${n} (${secondsSince(started)}): ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
   }
   sseSend(res, ok === attempted ? 'done' : 'error', `Wrote ${ok}/${attempted} prompt(s).`);
@@ -933,6 +944,7 @@ const generateMotionPromptsBatch = async (res, sceneNos) => {
     else if (!motionBeat(s)) log(`✗ scene ${n}: chưa có beat hay prompt ảnh — skipped`);
     else targets.push(motionInput(s));
   }
+  log(`motion prompt batch: ${targets.length}/${sceneNos.length} scene(s), LLM ${describeLlm()}`);
   const withoutBeat = targets.filter((t) => !plan.scenes.find((x) => x.scene === t.scene).beat).map((t) => t.scene);
   if (withoutBeat.length) log(`• scene ${withoutBeat.join(', ')} chưa có beat → dùng prompt ảnh làm mô tả cảnh`);
   try {
@@ -1910,7 +1922,9 @@ const server = createServer(async (req, res) => {
       const gi = plan.scenes.findIndex((s) => s.scene === scene);
       const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
       await trackJob(res, async () => {
+        const started = Date.now();
         const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+        console.log(`[prompt scene ${scene}] ${describeLlm()} · ${secondsSince(started)} · ${text.length} chars`);
         writeSceneField(P.planMd, scene, 'prompt', text);
         writeSceneField(P.planMd, scene, 'prompt_vi', vi);
         sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
@@ -1998,9 +2012,10 @@ const server = createServer(async (req, res) => {
       const signal = cancelSignal(res);
       await trackJob(res, async () => {
         try {
+          const started = Date.now();
           log(`▶ generating scene ${scene}${model ? ` (model=${model})` : ' (auto route by reference count)'}`);
           const { via } = await trackMediaChange('image', scene, () => generateSceneImage(target, plan.characters, { model, signal, onLog: log }));
-          sseSend(res, 'done', `Scene ${scene} image generated (${via})`);
+          sseSend(res, 'done', `Scene ${scene} image generated (${via}, ${secondsSince(started)})`);
         } catch (e) {
           if (signal.aborted) { console.log(`[image scene ${scene}] cancelled`); return; }
           log(`error: ${e.message}`);
@@ -2026,11 +2041,12 @@ const server = createServer(async (req, res) => {
       const signal = cancelSignal(res);
       await trackJob(res, async () => {
         try {
-          log(`▶ editing scene ${scene} (model=${model.trim()})`);
+          const started = Date.now();
+          log(`▶ editing scene ${scene} (model=${model.trim()}): ${instruction.trim().slice(0, 300)}`);
           await trackMediaChange('image', scene, () => editSceneImage({
             scene, instruction, model: model.trim(), characters: target.image.characters, signal, onLog: log,
           }));
-          sseSend(res, 'done', `Scene ${scene} image edited`);
+          sseSend(res, 'done', `Scene ${scene} image edited (${secondsSince(started)})`);
         } catch (e) {
           if (signal.aborted) { console.log(`[image edit scene ${scene}] cancelled`); return; }
           log(`error: ${e.message}`);
@@ -2156,9 +2172,11 @@ const server = createServer(async (req, res) => {
         { label: 'Build Remotion data → src/projects-data', cmd: 'node', args: [join(HERE, 'build-remotion.mjs'), '--project', P.slug] },
         {
           label: 'Render MP4 (H.264 CRF 17, this can take several minutes)',
-          cmd: 'npx',
+          // The CLI's own entry run by this node: spawning a bare `npx` fails on Windows
+          // (ENOENT — it is npx.cmd there, and Node refuses .cmd files without a shell).
+          cmd: process.execPath,
           args: [
-            'remotion',
+            join(HERE, '..', 'node_modules', '@remotion', 'cli', 'remotion-cli.js'),
             'render',
             P.slug,
             outMp4(),

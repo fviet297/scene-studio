@@ -487,6 +487,25 @@
 
 <!-- Console: non-blocking, so a running job never hides the scenes -->
 <section class="console" id="console">
+  <!-- Activity log drawer (review-log.js): slides up over the working area, never resizes it -->
+  <div class="console-drawer" id="conDrawer" role="region" aria-label="Log hoạt động">
+    <div class="console-drawer-head">
+      <b>Log hoạt động</b>
+      <span class="num log-count" id="conLogCount"></span>
+      <span class="grow"></span>
+      <select class="mini" id="conLogLevel" aria-label="Lọc theo mức" title="Lọc theo mức">
+        <option value="all">Mọi mức</option>
+        <option value="warn">Lỗi + cảnh báo</option>
+        <option value="error">Chỉ lỗi</option>
+      </select>
+      <select class="mini" id="conLogSource" aria-label="Lọc theo nguồn" title="Lọc theo nguồn: prompt, ảnh, audio, motion…">
+        <option value="all">Mọi nguồn</option>
+      </select>
+      <button class="btn quiet sm" type="button" id="conLogClear" title="Xoá toàn bộ log đã lưu trên trình duyệt này">Xoá log</button>
+      <button class="icon-btn" type="button" id="conLogClose" aria-label="Đóng log" title="Đóng log (Esc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="console-log" id="conLog" role="log" tabindex="0"></div>
+  </div>
   <div class="console-bar">
     <span class="dot" id="conDot"></span>
     <span class="msg" id="conMsg">Rảnh</span>
@@ -495,10 +514,9 @@
     <button class="btn quiet sm" type="button" id="conClearQueue" hidden title="Bỏ các job chưa bắt đầu (job đang chạy vẫn tiếp tục)">Xoá hàng chờ</button>
     <button class="btn quiet sm" type="button" id="conCancel" hidden title="Huỷ job ảnh/motion đang chạy; hàng chờ chạy tiếp">Huỷ</button>
     <button class="btn quiet sm" type="button" data-notif-toggle aria-controls="notifPanel" aria-expanded="false" title="Xem lại các thông báo đã hiện">Thông báo<span class="queue num" data-notif-unread hidden></span></button>
-    <button class="btn quiet sm" type="button" id="conCopy" title="Copy toàn bộ log của job gần nhất">Copy log</button>
-    <button class="btn quiet sm" type="button" id="conToggle" aria-expanded="false" aria-controls="conLog">Xem log</button>
+    <button class="btn quiet sm" type="button" id="conCopy" title="Copy các dòng log đang hiện (theo bộ lọc)">Copy log</button>
+    <button class="btn quiet sm" type="button" id="conToggle" aria-expanded="false" aria-controls="conDrawer" title="Log hoạt động của cả phiên: job, request lỗi, thông báo, lỗi JS">Xem log<span class="queue num bad" id="conLogBadge" hidden title="Lỗi mới từ lần mở log trước"></span></button>
   </div>
-  <pre class="console-log" id="conLog" aria-live="polite"></pre>
 </section>
 
 <div class="notif-panel" id="notifPanel" hidden role="region" aria-label="Lịch sử thông báo">
@@ -1370,6 +1388,7 @@
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
+<script src="/log.js"></script>
 <script src="/panel.js"></script>
 <script src="/crop.js"></script>
 <script src="/timeline.js"></script>

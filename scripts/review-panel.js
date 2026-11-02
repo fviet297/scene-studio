@@ -12,19 +12,56 @@
 
 const $ = (id) => document.getElementById(id);
 
+// Bookkeeping requests whose success would only flood the activity log (failures still log).
+const API_QUIET_PATHS = new Set([
+  "/api/notifications",
+  "/api/notifications-clear",
+  "/api/cancel",
+]);
+// " · scene 4" / " · scene 1, 2, 3" / " · 24 scene" for a log line about a request body.
+const apiSceneHint = (body) => {
+  if (Number.isFinite(body?.scene)) return ` · scene ${body.scene}`;
+  if (!Array.isArray(body?.scenes) || !body.scenes.length) return "";
+  return body.scenes.length > 6
+    ? ` · ${body.scenes.length} scene`
+    : ` · scene ${body.scenes.join(", ")}`;
+};
+const elapsedSince = (started) =>
+  `${((performance.now() - started) / 1000).toFixed(1)}s`;
+
+// Every failed request is logged with its endpoint, status and scene, so an error toast always
+// has its technical detail in the log (review-log.js). Successful POSTs are logged with timing.
 const api = async (path, body) => {
-  const res = await fetch(
-    path,
-    body
-      ? {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      : {},
-  );
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || res.statusText);
+  const method = body ? "POST" : "GET";
+  const source = logSourceForPath(path);
+  const what = `${method} ${path}${apiSceneHint(body)}`;
+  const started = performance.now();
+  let res;
+  try {
+    res = await fetch(
+      path,
+      body
+        ? {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          }
+        : {},
+    );
+  } catch (e) {
+    logEvent(source, `${what}: không gọi được server (${e.message})`, "error");
+    throw e;
+  }
+  const data = await res.json().catch(() => null);
+  if (!res.ok || data === null) {
+    const message =
+      data?.error ||
+      (res.ok ? "server trả về dữ liệu không phải JSON" : res.statusText);
+    logEvent(source, `${what} → ${res.status}: ${message}`, "error");
+    throw new Error(message);
+  }
+  if (method === "POST" && !API_QUIET_PATHS.has(path))
+    logEvent(source, `${what} → ${res.status} · ${elapsedSince(started)}`);
   return data;
 };
 
@@ -193,6 +230,11 @@ function enqueueJob(spec) {
   const lane = lanes[spec.lane];
   lane.queue.push(job);
   if (lane.running)
+    logEvent(
+      "queue",
+      `Xếp hàng #${lane.queue.length}: ${job.label}${skipped ? ` (bỏ qua ${skipped} scene đã chờ)` : ""}`,
+    );
+  if (lane.running)
     toast(
       `Đã xếp hàng: ${job.label}${skipped ? ` (bỏ qua ${skipped} scene đã chờ)` : ""}.`,
     );
@@ -208,11 +250,15 @@ async function pumpLane(name) {
   job.controller = new AbortController();
   lane.running = job;
   syncJobUi();
+  const source = logSourceForPath("", job.kind);
+  const started = performance.now();
+  logEvent(source, `▶ Bắt đầu: ${job.label}`);
   try {
     await job.run(job);
   } catch (e) {
     toast(e.message, false);
   } finally {
+    logJobEnd(job, source, started);
     reportJobResult(job);
     lane.running = null;
     await refresh().catch(() => {});
@@ -303,6 +349,23 @@ function selectScenes(nums) {
     renderSelection();
   }
   toast(`Đã chọn ${scenes.length} scene: ${sceneList(scenes)}.`);
+}
+
+// The job's closing line in the activity log: how long it took and, for runs that report per
+// scene, how many scenes ended which way.
+function logJobEnd(job, source, started) {
+  const cancelled = job.controller?.signal.aborted ?? false;
+  // Render and other whole-project runs report no per-scene lines: no counts for them.
+  const counted = job.ok.size + job.failed.size + job.skipped.size > 0;
+  const counts = counted
+    ? ` — ${job.ok.size} thành công, ${job.failed.size} lỗi${job.skipped.size ? `, ${job.skipped.size} bỏ qua` : ""}`
+    : "";
+  const failed = job.failed.size > 0 || Boolean(job.errorNote);
+  logEvent(
+    source,
+    `■ ${cancelled ? "Đã huỷ" : "Kết thúc"} sau ${elapsedSince(started)}: ${job.label}${counts}`,
+    cancelled ? "warn" : failed ? "error" : "ok",
+  );
 }
 
 // What a finished job did, for each scene it ran: ✓ ok, ✗ failed, • skipped. When the job ended
@@ -1350,6 +1413,7 @@ function setView(next) {
 }
 
 function showError(message) {
+  if (message) logEvent("ui", message, "error");
   $("errBlock").hidden = !message;
   $("errText").innerHTML = message
     ? ICON_BAD + `<span>${escapeHtml(message)}</span>`
@@ -1472,6 +1536,11 @@ document.addEventListener("keydown", (e) => {
 // `scenes` then dismisses it. Message lines split on "\n".
 function toast(message, ok = true, { title, action } = {}) {
   recordNotification({ message, ok, title, action });
+  logEvent(
+    "ui",
+    `${title ? `${title}: ` : ""}${String(message).split("\n").join(" · ")}`,
+    ok ? "ok" : "error",
+  );
   const el = document.createElement("div");
   el.className = `toast${ok ? "" : " bad"}`;
   const lines = String(message).split("\n").map(escapeHtml);
@@ -1524,8 +1593,9 @@ async function refreshSoon() {
   refreshInFlight = true;
   try {
     await refresh();
-  } catch {
+  } catch (e) {
     // the next scene or the job's final refresh retries
+    logEvent("api", `Chưa tải lại được trạng thái giữa job: ${e.message}`, "warn");
   } finally {
     refreshInFlight = false;
     if (refreshQueued) {
@@ -1620,7 +1690,36 @@ function buildExportJson() {
 // reload leaves the job running (the reloaded panel finds it via /api/jobs). Aborting `signal`
 // is the panel's Cancel: it closes the stream and sends that cancel. `job` ({ label, kind,
 // scenes }) describes it in /api/jobs, so a reloaded panel can show it and lock its scenes.
+// Every event of the stream also lands in the activity log (review-log.js), tagged by the job's
+// kind or the endpoint, so a generation started from any dialog leaves a trail.
 async function readSse(path, body, signal, onEvent, job = {}) {
+  const source = logSourceForPath(path, job.kind);
+  const started = performance.now();
+  logEvent(source, `→ POST ${path}${apiSceneHint(body)}`);
+  try {
+    await streamSse(path, body, signal, job, (type, data) => {
+      const text = typeof data === "string" ? data : `[${type}] ${logText(data)}`;
+      const level =
+        type === "done"
+          ? "ok"
+          : type === "error"
+            ? "error"
+            : type === "log"
+              ? logLevelForLine(text)
+              : "info";
+      logEvent(source, type === "done" ? `✓ ${text}` : type === "error" ? `✗ ${text}` : text, level);
+      onEvent(type, data);
+    });
+    logEvent(source, `← ${path} đóng stream sau ${elapsedSince(started)}`);
+  } catch (e) {
+    if (e.name === "AbortError")
+      logEvent(source, `${path}: đã huỷ sau ${elapsedSince(started)}`, "warn");
+    else logEvent(source, `${path}: ${e.message}`, "error");
+    throw e;
+  }
+}
+
+async function streamSse(path, body, signal, job, onEvent) {
   const jobId = crypto.randomUUID();
   const cancel = () =>
     fetch("/api/cancel", {
@@ -1676,8 +1775,6 @@ const CANCEL_PROVIDER_NOTE =
 // only, so a successful run never covers the scene you were looking at. Cancel aborts the
 // job's controller, which closes the fetch and tells the server to stop the scene in flight too (see CANCEL_PROVIDER_NOTE for what that means at the provider).
 const consoleJob = (path, bodyFor, onDone) => async (job) => {
-  const log = $("conLog");
-  log.textContent = "";
   setConsole("running", job.label);
   job.reports = true;
   let failed = false;
@@ -1687,9 +1784,6 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
       bodyFor(job.scenes),
       job.controller.signal,
       (type, line) => {
-        log.textContent +=
-          (type === "done" ? "✓ " : type === "error" ? "✗ " : "") + line + "\n";
-        log.scrollTop = log.scrollHeight;
         if (type === "log") {
           setConsole("running", job.label, line);
           trackSceneProgress(job, line);
@@ -1708,14 +1802,17 @@ const consoleJob = (path, bodyFor, onDone) => async (job) => {
     );
   } catch (e) {
     if (e.name === "AbortError") {
-      log.textContent += `• ${job.cancelNote ?? "Đã huỷ"}. ${CANCEL_PROVIDER_NOTE}\n`;
+      logEvent(
+        logSourceForPath(path, job.kind),
+        `• ${job.cancelNote ?? "Đã huỷ"}. ${CANCEL_PROVIDER_NOTE}`,
+        "warn",
+      );
       setConsole("idle", job.cancelNote ?? "Đã huỷ");
       // A per-scene cancel already toasted from cancelSceneJob.
       if (!job.cancelNote) toast(`Đã huỷ. ${CANCEL_PROVIDER_NOTE}`, false);
     } else {
       failed = true;
       job.errorNote = e.message;
-      log.textContent += `✗ ${e.message}\n`;
       setConsole("error", e.message);
       if (job.scenes.length < 2) toast(e.message, false);
     }
@@ -1796,12 +1893,6 @@ const enqueueAudio = (scenes) =>
     label: (ns) => `Sinh audio cho scene ${sceneList(ns)}`,
     run: quietJob("/api/audio-batch", (ns) => ({ scenes: ns })),
   });
-
-function openLog(open) {
-  $("console").classList.toggle("open", open);
-  $("conToggle").setAttribute("aria-expanded", String(open));
-  $("conToggle").textContent = open ? "Ẩn log" : "Xem log";
-}
 
 async function saveField(kind, value) {
   const s = current();
@@ -2010,7 +2101,9 @@ function enqueueScenePrompt(n) {
     run: async (job) => {
       setConsole("running", job.label);
       try {
-        await api("/api/generate-prompt", { scene: n });
+        const res = await api("/api/generate-prompt", { scene: n });
+        logEvent("prompt", `✓ Scene ${n} prompt: ${res.prompt}`, "ok");
+        if (res.promptVi) logEvent("prompt", `  Bản dịch: ${res.promptVi}`);
         setConsole("idle", `Scene ${n}: đã viết prompt.`);
         toast(`Scene ${n}: đã viết prompt từ narration.`);
       } catch (e) {
@@ -2930,9 +3023,6 @@ $("btnMergeConfirm").addEventListener("click", async () => {
   }
 });
 
-$("conToggle").addEventListener("click", () =>
-  openLog(!$("console").classList.contains("open")),
-);
 $("conCancel").addEventListener("click", () => {
   $("conCancel").disabled = true;
   if (lanes.media.running) lanes.media.running.controller.abort();
@@ -2941,19 +3031,6 @@ $("conCancel").addEventListener("click", () => {
       api("/api/cancel", { id: job.id }).catch((e) => toast(e.message, false));
 });
 $("conClearQueue").addEventListener("click", clearQueues);
-$("conCopy").addEventListener("click", async () => {
-  const log = $("conLog").textContent;
-  if (!log.trim()) {
-    toast("Log trống.", false);
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(log);
-    toast("Đã copy log.");
-  } catch {
-    toast("Clipboard không dùng được.", false);
-  }
-});
 
 // `firstFieldId` is the field to land on; the motion system prompt sits in a closed "Nâng cao"
 // section, which opens when it is the target.

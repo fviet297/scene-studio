@@ -19,7 +19,7 @@ export const ACTIVE_FILE = join(PROJECTS_DIR, 'active.json');
 // the repo's out/ so finished videos sync via iCloud. Single source for both the review-server
 // render step and wrap-vertical.mjs. This is only the default: the panel can point renders
 // elsewhere (see readOutputDir), a per-machine choice kept out of git.
-export const OUTPUT_DIR = '/Users/fviet/Library/Mobile Documents/com~apple~CloudDocs/Video';
+export const OUTPUT_DIR = '/out';
 export const OUTPUT_DIR_FILE = join(PROJECTS_DIR, 'output-dir.json');
 
 export const readOutputDir = () => {

@@ -39,21 +39,21 @@ export const pathWithFirst = (pathValue, exe, exists = existsSync) => {
   return [entries[index], ...entries.slice(0, index), ...entries.slice(index + 1)].join(delimiter);
 };
 
-// `pathValue` with `localDir` in front when it holds `exe` and no PATH folder does, so a system
-// ffmpeg still wins (unchanged otherwise).
+// The ffmpeg folder that ships with Remotion: never counts as a system ffmpeg.
+export const isRemotionBinDir = (dir) => /[\\/]@remotion[\\/]compositor-/.test(dir);
+
+// `pathValue` with `localDir` first (and only once) when it holds `exe` and no other PATH folder
+// does, the Remotion one aside, so a system ffmpeg still wins (unchanged otherwise). It ignores
+// `localDir` and the Remotion folder when looking for a system ffmpeg, so a child process that
+// inherits a PATH already holding both still puts the local build first.
 export const pathWithLocalFfmpeg = (pathValue, localDir, exe, exists = existsSync) => {
-  const onPath = pathValue.split(delimiter).some((dir) => dir && exists(join(dir, exe)));
-  if (onPath || !exists(join(localDir, exe))) return pathValue;
-  return `${localDir}${delimiter}${pathValue}`;
+  const others = pathValue.split(delimiter).filter((dir) => dir !== localDir);
+  const onSystemPath = others.some((dir) => dir && !isRemotionBinDir(dir) && exists(join(dir, exe)));
+  if (onSystemPath || !exists(join(localDir, exe))) return pathValue;
+  return [localDir, ...others].join(delimiter);
 };
 
 const exeSuffix = process.platform === 'win32' ? '.exe' : '';
-
-// Per-machine full ffmpeg (gitignored tools/ffmpeg/). The Remotion build lacks WebP decoding, lavfi
-// sources and the pad filter, so thumbnails of WebP scene images fail with it. Decided on PATH as the
-// machine set it: the Remotion folder appended below also holds an ffmpeg.
-const localFfmpegPath = pathWithLocalFfmpeg(process.env.PATH ?? '', fromRoot('tools', 'ffmpeg'), `ffmpeg${exeSuffix}`);
-const useLocalFfmpeg = localFfmpegPath !== (process.env.PATH ?? '');
 
 if (!hasFfprobe()) {
   const dir = remotionBinDir();
@@ -62,5 +62,7 @@ if (!hasFfprobe()) {
 
 // ffmpeg first, then ffprobe, so a folder holding both ends up in front.
 for (const name of ['ffmpeg', 'ffprobe']) process.env.PATH = pathWithFirst(process.env.PATH ?? '', `${name}${exeSuffix}`);
-// Last, so the ffprobe move above cannot put the Remotion ffmpeg back in front of it.
-if (useLocalFfmpeg) process.env.PATH = `${fromRoot('tools', 'ffmpeg')}${delimiter}${process.env.PATH}`;
+// Per-machine full ffmpeg (gitignored tools/ffmpeg/). The Remotion build lacks WebP decoding, lavfi
+// sources, the pad filter and the null-output encoder (silencedetect), so it goes in front last:
+// the ffprobe move above would otherwise put the Remotion ffmpeg back ahead of it.
+process.env.PATH = pathWithLocalFfmpeg(process.env.PATH ?? '', fromRoot('tools', 'ffmpeg'), `ffmpeg${exeSuffix}`);

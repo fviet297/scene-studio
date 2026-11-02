@@ -49,3 +49,11 @@ test('leaves PATH alone when the per-machine folder has no ffmpeg', () => {
   const original = path('/a');
   assert.equal(pathWithLocalFfmpeg(original, join('/repo', 'tools', 'ffmpeg'), 'ffmpeg', () => false), original);
 });
+
+test('a child process keeps the per-machine ffmpeg first even after the Remotion folder moved ahead', () => {
+  const local = join('/repo', 'tools', 'ffmpeg');
+  const remotion = join('/repo', 'node_modules', '@remotion', 'compositor-win32-x64-msvc');
+  const exists = hasFile(join(local, 'ffmpeg'), join(remotion, 'ffmpeg'));
+  const result = pathWithLocalFfmpeg(path(remotion, local, '/a'), local, 'ffmpeg', exists);
+  assert.equal(result, path(local, remotion, '/a'));
+});

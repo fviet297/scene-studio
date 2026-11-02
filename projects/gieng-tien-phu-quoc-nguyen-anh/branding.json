@@ -61,7 +61,7 @@
         "intensity": 50
       },
       "petals": {
-        "enabled": false,
+        "enabled": true,
         "intensity": 50
       },
       "bokeh": {
