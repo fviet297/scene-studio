@@ -44,7 +44,10 @@ const mmModelsOf = (id) => mm.data.models.filter((m) => m.provider === id);
 const mmKeyField = (provider) =>
   provider.fields.find((f) => f.name === "apiKey");
 // A provider with no image / motion kinds is the LLM: what it writes, not what it draws.
-const mmIsLlm = (provider) => !provider.kinds.length;
+const mmIsLlm = (provider) => provider.role === "llm";
+// ElevenLabs: narration voice, a connection form only (like the LLM), no image / motion models.
+const mmIsTts = (provider) => provider.role === "tts";
+const mmHasModelList = (provider) => !mmIsLlm(provider) && !mmIsTts(provider);
 const mmLlmModel = (provider) =>
   provider.fields.find((f) => f.name === "model")?.value || "chưa chọn model";
 
@@ -60,7 +63,7 @@ const mmPrice = (price) =>
 const mmRailItemHtml = (p) => {
   const key = mmKeyField(p);
   const models = mmModelsOf(p.id).filter((m) => !m.hidden).length;
-  const meta = mmIsLlm(p) ? mmLlmModel(p) : `${models} model`;
+  const meta = mmHasModelList(p) ? `${models} model` : mmLlmModel(p);
   return `<button type="button" class="models-rail-item" data-provider="${escapeHtml(p.id)}" aria-current="${p.id === mm.selected && mm.mode !== "add-provider"}">
     <span class="models-rail-name">${escapeHtml(p.label)}</span>
     <span class="models-rail-meta">
@@ -99,7 +102,9 @@ const mmFieldHtml = (provider, field) => {
     : (field.placeholder ?? (provider.builtin ? "để trống = mặc định" : ""));
   const missingKey = mmIsLlm(provider)
     ? "Chưa có key — không viết được kịch bản, motion và bài đăng bằng AI."
-    : "Chưa có key — model của provider này bị khoá.";
+    : mmIsTts(provider)
+      ? "Chưa có key — không sinh được audio bằng nguồn ElevenLabs."
+      : "Chưa có key — model của provider này bị khoá.";
   const hint = MM_SOURCE_NOTE[field.source] ?? (secret ? missingKey : "");
   return `<div class="field">
     <label for="${id}">${MM_FIELD_LABEL[field.name]}</label>
@@ -235,7 +240,7 @@ const mmModelsSectionHtml = (provider) => {
 
 const mmPaneHeadHtml = (provider) => `<div class="models-pane-head">
   <h3>${escapeHtml(provider.label)}</h3>
-  <span class="tag">${mmIsLlm(provider) ? "Viết kịch bản, prompt ảnh, motion, bài đăng" : provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
+  <span class="tag">${mmIsLlm(provider) ? "Viết kịch bản, prompt ảnh, motion, bài đăng" : mmIsTts(provider) ? "Giọng đọc narration · thay OmniVoice / VieNeu" : provider.builtin ? "Có sẵn" : "Tự thêm · chuẩn OpenAI Images"}</span>
   <span class="grow"></span>
   ${provider.builtin ? "" : '<button class="btn quiet danger sm" type="button" data-action="delete-provider">Xoá provider</button>'}
 </div>`;
@@ -277,7 +282,7 @@ function mmRenderPane() {
     pane.innerHTML =
       mmPaneHeadHtml(provider) +
       mmConnectionHtml(provider) +
-      (mmIsLlm(provider) ? "" : mmModelsSectionHtml(provider));
+      (mmHasModelList(provider) ? mmModelsSectionHtml(provider) : "");
   }
   pane.querySelector("[data-autofocus]")?.focus();
 }
@@ -305,6 +310,7 @@ async function mmMutate(action, body, doneMessage) {
     mmRender();
     toast(doneMessage);
     refresh().catch(() => {});
+    document.dispatchEvent(new Event("studio:models-changed"));
     return true;
   } catch (error) {
     buttons.forEach((b) => (b.disabled = false));

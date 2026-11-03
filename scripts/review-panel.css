@@ -252,7 +252,7 @@ button { cursor: pointer; }
 .pane-head .ttl { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); }
 .pane-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
 
-select.mini {
+select.mini, input.mini {
   height: 26px; padding: 0 6px; border-radius: var(--r-ctl);
   border: 1px solid var(--line); background: var(--surface-2); font-size: 12px;
 }
@@ -601,8 +601,8 @@ textarea::placeholder { color: var(--faint); }
 }
 /* Model and voice names are the whole point of these selects, so they get enough width to show
    the distinguishing words ("Muse Image 1.0", "history-v2") before the ellipsis. */
-.batch-bar select.mini { width: 176px; text-overflow: ellipsis; }
-.batch-bar .batch-unit[data-tone="audio"] select.mini { width: 132px; }
+.batch-bar select.mini, .batch-bar input.mini { width: 176px; text-overflow: ellipsis; }
+.batch-bar .batch-unit[data-tone="audio"] select.mini, .batch-bar .batch-unit[data-tone="audio"] input.mini { width: 132px; }
 .batch-bar .batch-unit[data-tone="prompt"] select.mini { width: 112px; }
 /* Quick-pick is a verb ("Chọn nhanh…"), not a value, so it needs no more than its label. */
 .batch-bar #selQuick { width: 112px; }
@@ -634,7 +634,7 @@ textarea::placeholder { color: var(--faint); }
 }
 .batch-bar .batch-act:focus-visible { outline: 2px solid var(--tone); outline-offset: 1px; }
 .batch-bar .batch-unit { display: inline-flex; align-items: center; }
-.batch-bar .batch-unit select.mini {
+.batch-bar .batch-unit select.mini, .batch-bar .batch-unit input.mini {
   height: 27px; border-right: 0; border-radius: var(--r-ctl) 0 0 var(--r-ctl);
   border-color: color-mix(in oklab, var(--tone) 40%, var(--line));
 }
@@ -643,7 +643,7 @@ textarea::placeholder { color: var(--faint); }
    fused edge and spill over the button. Ring the whole unit instead, in its tone. */
 .batch-bar .batch-unit { border-radius: var(--r-ctl); }
 .batch-bar .batch-unit:has(:focus-visible) { outline: 2px solid var(--tone); outline-offset: 1px; }
-.batch-bar .batch-unit select.mini:focus-visible { outline: none; border-radius: var(--r-ctl) 0 0 var(--r-ctl); }
+.batch-bar .batch-unit select.mini:focus-visible, .batch-bar .batch-unit input.mini:focus-visible { outline: none; border-radius: var(--r-ctl) 0 0 var(--r-ctl); }
 .batch-bar .batch-unit .batch-act:focus-visible { outline: none; border-radius: 0 var(--r-ctl) var(--r-ctl) 0; }
 
 input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }

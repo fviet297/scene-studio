@@ -40,6 +40,7 @@ const describeBuiltin = (config, provider) => ({
   label: provider.label,
   builtin: true,
   kinds: provider.kinds,
+  role: provider.role ?? (provider.kinds.length ? 'media' : 'llm'),
   fields: Object.entries(provider.fields).map(([field, variable]) => describeBuiltinField(config, provider, field, variable)),
 });
 

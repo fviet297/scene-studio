@@ -89,6 +89,10 @@ const lookup = (id) => {
   return service;
 };
 
+// Installed = its Python interpreter exists. The panel hides a service that is neither installed nor
+// answering, so a machine without it (using ElevenLabs instead) does not show dead buttons.
+const isInstalled = (service) => existsSync(service.python(service.dir()));
+
 const isAlive = ({ proc, spawnError }) => !spawnError && proc.exitCode === null && proc.signalCode === null;
 
 // state: running (health answers) | starting (our child is alive, not answering yet)
@@ -97,7 +101,7 @@ const isAlive = ({ proc, spawnError }) => !spawnError && proc.exitCode === null 
 export const serviceStatus = async (id) => {
   const service = lookup(id);
   const record = children.get(id);
-  const base = { id, label: service.label, url: service.healthUrl(), managed: Boolean(record && !record.stopping && isAlive(record)) };
+  const base = { id, label: service.label, url: service.healthUrl(), installed: isInstalled(service), managed: Boolean(record && !record.stopping && isAlive(record)) };
   const healthy = await isHealthy(service.healthUrl());
   if (record?.stopping) {
     if (healthy) return { ...base, state: 'stopping' };

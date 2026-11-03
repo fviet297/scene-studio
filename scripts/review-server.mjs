@@ -16,6 +16,7 @@
 //                               LLM writes the whole video (narration, cast, image + motion prompts),
 //                               then it becomes a new active project; progress streamed over SSE
 //   GET  /api/voices[?source=] → voices of an audio source (omnivoice | vieneu; default: the active project's)
+//   GET  /api/audio-sources   → { current, sources:[{ id, label }] } → the narration engines worth offering (installed / keyed)
 //   POST /api/project-voice   → { voice, source? } → the active project's narration voice (`voice:` header)
 //                               and audio source (`audio:` header; changing it resets the voice)
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md
@@ -112,7 +113,8 @@ import { readBranding, writeBranding } from './lib/branding.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
-import { audioSourceOf, isAudioSource, isValidVoiceFor, voicesFor } from './lib/audio-source.mjs';
+import { audioSourceChoices, audioSourceOf, isAudioSource, isValidVoiceFor, voicesFor } from './lib/audio-source.mjs';
+import { resolveElevenlabsVoice } from './lib/elevenlabs-client.mjs';
 import { DEFAULT_SCRIPT_STYLE, SCENE_COUNT_MIN, SCRIPT_STYLES, isScriptStyle, writeVideo } from './lib/script-writer.mjs';
 import { MAX_SOCIAL_NOTE, writeSocialPosts } from './lib/social-writer.mjs';
 import { generateThumbnailBackground, letterThumbnail, MAX_THUMB_PROMPT, parseLetteringRequest, THUMB_SIDES, writeThumbnailIdeas } from './lib/thumbnail.mjs';
@@ -528,7 +530,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'vieneu' ? '' : DEFAULT_VOICE) },
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : '') },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
     imageModels: pickerModels('image', IMAGE_MODELS),
@@ -1304,11 +1306,21 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'GET' && pathname === '/api/audio-sources') {
+      const current = audioSourceOf(readFileSync(P.planMd, 'utf8'));
+      sendJson(res, 200, { current, sources: await audioSourceChoices(current) });
+      return;
+    }
+
     if (req.method === 'POST' && pathname === '/api/project-voice') {
-      const { voice, source: asked } = await readBody(req);
+      const { voice: typed, source: asked } = await readBody(req);
       if (asked !== undefined && !isAudioSource(asked)) { sendJson(res, 400, { error: `nguồn audio không hợp lệ: "${asked}"` }); return; }
       const source = asked ?? audioSourceOf(readFileSync(P.planMd, 'utf8'));
-      if (!isValidVoiceFor(source, voice)) { sendJson(res, 400, { error: `tên giọng đọc không hợp lệ: "${voice}"` }); return; }
+      let voice = typed;
+      if (source === 'elevenlabs') {
+        // Typed freely in the panel (id or name); empty is allowed and means "not chosen yet".
+        try { voice = await resolveElevenlabsVoice(typed); } catch (error) { sendJson(res, 400, { error: error.message }); return; }
+      } else if (!isValidVoiceFor(source, voice)) { sendJson(res, 400, { error: `tên giọng đọc không hợp lệ: "${voice}"` }); return; }
       if (asked) writePlanHeader(P.planMd, 'audio', asked);
       writePlanHeader(P.planMd, 'voice', voice);
       sendJson(res, 200, buildState());

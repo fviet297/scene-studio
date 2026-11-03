@@ -47,6 +47,9 @@ let voiceList = null; // /api/voices → { voices: [{ name, language, note }], d
 let voiceListVersion = 0;
 let voiceSelectKey = "";
 let voiceListSource = null; // the audio source voiceList was loaded for
+let audioChoices = null; // /api/audio-sources → [{ id, label }]
+let audioChoicesVersion = 0;
+const ELEVEN_VOICE_STORE = "reviewElevenlabsVoice";
 let npMode = "ai";
 let npRun = null; // the AI run in flight: { controller, startedAt, timer }
 
@@ -68,7 +71,9 @@ const voiceLabel = (v) => {
     v.note.length > VOICE_NOTE_MAX
       ? `${v.note.slice(0, VOICE_NOTE_MAX - 1)}…`
       : v.note;
-  return note ? `${v.name} — ${note}` : v.name;
+  // ElevenLabs values are opaque voice ids, so it supplies a readable `label`.
+  const name = v.label ?? v.name;
+  return note ? `${name} — ${note}` : name;
 };
 
 // Options grouped by language. A voice the plan names that OmniVoice no longer lists stays as the
@@ -115,15 +120,84 @@ function renderVoiceSelect() {
     loadVoices(source).then(renderVoiceSelect);
     return;
   }
-  const key = `${source}|${state.project.voice}|${voiceListVersion}`;
+  const key = `${source}|${state.project.voice}|${voiceListVersion}|${audioChoicesVersion}`;
   if (key === voiceSelectKey) return;
   voiceSelectKey = key;
-  $("audioSourceSelect").value = source;
-  $("voiceSelect").innerHTML = voiceOptionsHtml(state.project.voice);
+  renderAudioSourceOptions(source);
+  const isEleven = source === "elevenlabs";
+  $("voiceSelect").hidden = isEleven;
+  $("voiceInput").hidden = !isEleven;
+  let voice;
+  if (isEleven) {
+    // Free text (voice id or name), remembered across projects; the list only feeds suggestions.
+    voice = state.project.voice;
+    $("voiceInput").value = voice || lsGet(ELEVEN_VOICE_STORE) || "";
+    $("voiceDatalist").innerHTML = (voiceList?.voices ?? [])
+      .map(
+        (v) =>
+          `<option value="${escapeHtml(v.name)}">${escapeHtml(voiceLabel(v))}</option>`,
+      )
+      .join("");
+  } else {
+    $("voiceSelect").innerHTML = voiceOptionsHtml(state.project.voice);
+    voice = $("voiceSelect").value;
+  }
   // The workbench's narration block names the voice "Sinh audio" will use (read-only there).
-  const voice = $("voiceSelect").value;
-  $("narrVoice").textContent = voice ? `Giọng: ${voice}` : "";
+  $("narrVoice").textContent = voice ? `Giọng: ${voiceDisplayName(voice)}` : "";
 }
+
+// ElevenLabs stores an opaque id; show the account's name for it when the list is loaded.
+function voiceDisplayName(voice) {
+  const listed = (voiceList?.voices ?? []).find((v) => v.name === voice);
+  return listed?.label ?? voice;
+}
+
+// Only the engines that can work here: a local one when installed or running, ElevenLabs when it
+// has a key (server decides, /api/audio-sources). One choice left → nothing to pick, so the select hides.
+function renderAudioSourceOptions(current) {
+  const sources = audioChoices ?? [];
+  const select = $("audioSourceSelect");
+  select.innerHTML = sources
+    .map((s) => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.label)}</option>`)
+    .join("");
+  select.value = current;
+  select.hidden = sources.length < 2;
+}
+
+async function loadAudioChoices() {
+  try {
+    audioChoices = (await api("/api/audio-sources")).sources;
+  } catch {
+    audioChoices = audioChoices ?? [];
+  }
+  audioChoicesVersion++;
+}
+
+async function saveElevenlabsVoice() {
+  const input = $("voiceInput");
+  const typed = input.value.trim();
+  if (typed === (state.project.voice ?? "")) return;
+  try {
+    state = await api("/api/project-voice", { voice: typed });
+    if (typed) lsSet(ELEVEN_VOICE_STORE, state.project.voice);
+    voiceSelectKey = "";
+    render();
+    toast(
+      typed
+        ? `Giọng ElevenLabs: ${voiceDisplayName(state.project.voice)} — dùng cho audio sinh từ giờ.`
+        : "Đã xoá giọng ElevenLabs của dự án.",
+    );
+  } catch (err) {
+    toast(err.message, false);
+    voiceSelectKey = "";
+    renderVoiceSelect();
+  }
+}
+
+$("voiceInput").addEventListener("change", saveElevenlabsVoice);
+$("voiceInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") e.target.blur();
+});
 
 $("voiceSelect").addEventListener("change", async (e) => {
   const voice = e.target.value;
@@ -142,9 +216,16 @@ $("audioSourceSelect").addEventListener("change", async (e) => {
   const source = e.target.value;
   try {
     await loadVoices(source);
-    const voice = voiceList.defaultVoice;
-    if (!voice) {
-      toast("VieNeu chưa chạy nên chưa có danh sách giọng — bật VieNeu rồi chọn lại.", false);
+    // ElevenLabs takes a typed voice, so it never needs the list: reuse the remembered one.
+    const voice =
+      source === "elevenlabs"
+        ? (lsGet(ELEVEN_VOICE_STORE) ?? "")
+        : voiceList.defaultVoice;
+    if (!voice && source !== "elevenlabs") {
+      toast(
+        "Nguồn này chưa có danh sách giọng — bật dịch vụ tương ứng (OmniVoice / VieNeu) rồi chọn lại.",
+        false,
+      );
       e.target.value = state.project.audioSource;
       await loadVoices(state.project.audioSource);
       return;
@@ -152,7 +233,11 @@ $("audioSourceSelect").addEventListener("change", async (e) => {
     state = await api("/api/project-voice", { voice, source });
     voiceSelectKey = "";
     render();
-    toast(`Nguồn audio: ${source} — giọng ${voice}, dùng cho audio sinh từ giờ.`);
+    toast(
+      voice
+        ? `Nguồn audio: ${source} — giọng ${voiceDisplayName(state.project.voice)}, dùng cho audio sinh từ giờ.`
+        : `Nguồn audio: ${source} — nhập voice ID/tên giọng ở ô bên cạnh trước khi sinh audio.`,
+    );
   } catch (err) {
     toast(err.message, false);
     voiceSelectKey = "";
@@ -161,7 +246,11 @@ $("audioSourceSelect").addEventListener("change", async (e) => {
 });
 
 document.addEventListener("studio:render", renderVoiceSelect);
-loadVoices().then(renderVoiceSelect);
+// A key saved in the Model manager may make ElevenLabs available (or change its voice list).
+document.addEventListener("studio:models-changed", () => {
+  Promise.all([loadAudioChoices(), loadVoices(voiceListSource)]).then(renderVoiceSelect);
+});
+Promise.all([loadAudioChoices(), loadVoices()]).then(renderVoiceSelect);
 
 // ------------------------------------------------------------------ new project dialog
 

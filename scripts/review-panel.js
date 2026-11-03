@@ -537,6 +537,7 @@ function syncGlobalButtons() {
   $("btnNewProject").disabled = locked;
   $("audioSourceSelect").disabled = Boolean(globalOp);
   $("voiceSelect").disabled = Boolean(globalOp);
+  $("voiceInput").disabled = Boolean(globalOp);
   $("btnAddChar").disabled = Boolean(globalOp);
   $("tlAddChar").disabled = Boolean(globalOp);
 }
@@ -4850,7 +4851,10 @@ function serviceTitle(s) {
 
 // A chip per service; a server this panel started also gets "Khởi động lại" and "Dừng" beside it.
 function renderServices(services) {
+  // A service that is not installed here and not answering gets no chip (the user may rely on
+  // ElevenLabs instead); one started from a terminal elsewhere still shows.
   $("services").innerHTML = services
+    .filter((s) => s.installed || s.state !== "stopped")
     .map((s) => {
       const startable = s.state === "stopped" || s.state === "failed";
       const chip = `<button class="btn sm svc" type="button" data-service="${escapeHtml(s.id)}" data-state="${escapeHtml(s.state)}" title="${escapeHtml(serviceTitle(s))}"${startable ? "" : " disabled"}><span class="svc-dot"></span>${escapeHtml(s.label)}<span class="svc-state">${SERVICE_STATE_WORD[s.state]}</span></button>`;

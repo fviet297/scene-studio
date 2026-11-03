@@ -28,6 +28,10 @@ export const BUILTIN_PROVIDERS = [
   { id: 'muse', label: 'muse2api', prefix: 'muse:', kinds: BOTH, fields: { apiKey: 'MUSE2API_KEY', baseUrl: 'MUSE2API_BASE_URL' }, defaults: { baseUrl: 'http://localhost:18610' } },
   { id: 'llm', label: 'LLM', kinds: [], fields: { apiKey: 'LLM_API_KEY', baseUrl: 'LLM_BASE_URL', model: 'LLM_MODEL', userAgent: 'LLM_USER_AGENT' },
     placeholders: { baseUrl: 'API chuẩn OpenAI Chat, vd. https://api.openai.com/v1', model: 'vd. gpt-5', userAgent: 'tuỳ chọn — chỉ khi router đòi' } },
+  // Narration TTS (audio source `elevenlabs`, see elevenlabs-client.mjs): kinds [] and role 'tts', so
+  // the manager shows a connection form only, like the LLM.
+  { id: 'elevenlabs', label: 'ElevenLabs', role: 'tts', kinds: [], fields: { apiKey: 'ELEVENLABS_API_KEY', baseUrl: 'ELEVENLABS_BASE_URL', model: 'ELEVENLABS_MODEL' },
+    defaults: { baseUrl: 'https://api.elevenlabs.io', model: 'eleven_multilingual_v2' } },
 ];
 export const CUSTOM_KINDS = ['image'];
 

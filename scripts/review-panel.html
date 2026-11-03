@@ -464,8 +464,10 @@
       <button class="btn sm batch-act" data-tone="image" type="button" id="batchImg" disabled title="Sinh ảnh cho các scene AI đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Ảnh<span class="batch-count num" data-count-for="image"></span></button>
     </span>
     <span class="batch-unit" data-tone="audio">
-      <select class="mini" id="audioSourceSelect" aria-label="Nguồn audio narration" title="Engine TTS đọc narration của dự án. Đổi nguồn sẽ đặt lại giọng; audio đã sinh giữ nguyên cho tới khi sinh lại."><option value="omnivoice">OmniVoice</option><option value="vieneu">VieNeu</option></select>
+      <select class="mini" id="audioSourceSelect" aria-label="Nguồn audio narration" title="Engine TTS đọc narration của dự án. Đổi nguồn sẽ đặt lại giọng; audio đã sinh giữ nguyên cho tới khi sinh lại."><option value="omnivoice">OmniVoice</option><option value="vieneu">VieNeu</option><option value="elevenlabs">ElevenLabs</option></select>
       <select class="mini" id="voiceSelect" aria-label="Giọng đọc narration" title="Giọng đọc narration theo nguồn audio đã chọn. Đổi giọng rồi sinh audio lại cho các scene muốn đổi; audio đã sinh giữ nguyên giọng cũ."></select>
+      <input class="mini" type="text" id="voiceInput" list="voiceDatalist" hidden autocomplete="off" spellcheck="false" placeholder="Voice ID / tên giọng" aria-label="Giọng ElevenLabs (voice ID hoặc tên giọng)" title="Voice ID hoặc tên giọng ElevenLabs. Nhấn Enter hoặc rời ô để lưu vào dự án; giá trị được nhớ cho các dự án sau." />
+      <datalist id="voiceDatalist"></datalist>
       <button class="btn sm batch-act" data-tone="audio" type="button" id="batchAud" disabled title="Sinh audio narration cho các scene đã chọn bằng giọng đã chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 10v3M6 6v11M10 3v18M14 8v7M18 5v13M22 10v3"/></svg>Audio<span class="batch-count num" data-count-for="audio"></span></button>
     </span>
     <span class="batch-unit" data-tone="motion">

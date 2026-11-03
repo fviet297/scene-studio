@@ -1,4 +1,5 @@
-// Per-scene narration generator (OmniVoice clone voice, or VieNeu when the plan header says `audio: vieneu`).
+// Per-scene narration generator (OmniVoice clone voice, or VieNeu / ElevenLabs when the plan header says
+// `audio: vieneu` / `audio: elevenlabs`).
 // Each scene's narration in scene-plan.md becomes one file: public/audio/scene-NN.mp3.
 // Keeping scenes separate means a mispronounced part is fixed by regenerating one scene,
 // not the whole track.
@@ -16,6 +17,7 @@ import { connectOmniVoice, DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
 import { readPlanHeader } from './lib/plan-writer.mjs';
 import { audioSourceOf } from './lib/audio-source.mjs';
 import { vieneuSynthesize, vieneuUrl } from './lib/vieneu-client.mjs';
+import { elevenlabsModel, elevenlabsSynthesize, elevenlabsUrl } from './lib/elevenlabs-client.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
 import { writeAudioNarration } from './lib/audio-narration.mjs';
 
@@ -63,15 +65,21 @@ const AUDIO_DIR = paths.audioDir;
 // The project's OmniVoice profile, picked in the review panel (`voice:` in the plan header).
 const planRaw = readFileSync(paths.planMd, 'utf8');
 const SOURCE = audioSourceOf(planRaw);
-const IS_VIENEU = SOURCE === 'vieneu';
+// Plain-HTTP sources: no connection to open, one request per chunk.
+const HTTP_SOURCES = {
+  vieneu: { label: 'VieNeu', endpoint: vieneuUrl, synthesize: vieneuSynthesize },
+  elevenlabs: { label: 'ElevenLabs', endpoint: () => `${elevenlabsUrl()} · model=${elevenlabsModel()}`, synthesize: elevenlabsSynthesize },
+};
+const HTTP_SOURCE = HTTP_SOURCES[SOURCE] ?? null;
 // VieNeu has no fixed default profile: no `voice:` header means the server's own default voice.
-const VOICE = readPlanHeader(planRaw, 'voice') ?? (IS_VIENEU ? '' : DEFAULT_VOICE);
+// ElevenLabs has none either, and needs a voice id (checked when it synthesizes).
+const VOICE = readPlanHeader(planRaw, 'voice') ?? (HTTP_SOURCE ? '' : DEFAULT_VOICE);
 const { rest } = parseProjectArg(argv);
 const only = rest.map(Number).filter((n) => Number.isFinite(n));
 const targets = only.length ? SEGMENTS.filter((s) => only.includes(s.scene)) : SEGMENTS;
 const sceneList = `${targets.length} scene(s): ${targets.map((s) => s.scene).join(', ')}`;
-process.stdout.write(IS_VIENEU
-  ? `VieNeu ${vieneuUrl()} · voice=${VOICE || '(mặc định)'} · ${sceneList}\n`
+process.stdout.write(HTTP_SOURCE
+  ? `${HTTP_SOURCE.label} ${HTTP_SOURCE.endpoint()} · voice=${VOICE || '(mặc định)'} · ${sceneList}\n`
   : `OmniVoice ${WS_URL} · voice=${VOICE} · num_step=${NUM_STEP} · ${sceneList}\n`);
 
 const toChunks = (text) =>
@@ -87,9 +95,8 @@ mkdirSync(AUDIO_DIR, { recursive: true });
 rmSync(TEMP_DIR, { recursive: true, force: true });
 mkdirSync(TEMP_DIR, { recursive: true });
 
-// VieNeu is plain HTTP, so there is nothing to connect or close.
-const client = IS_VIENEU ? { close() {} } : await connectOmniVoice({ url: WS_URL });
-if (!IS_VIENEU) process.stdout.write('✓ connected to OmniVoice\n');
+const client = HTTP_SOURCE ? { close() {} } : await connectOmniVoice({ url: WS_URL });
+if (!HTTP_SOURCE) process.stdout.write('✓ connected to OmniVoice\n');
 
 const synthesize = (text, requestId, override = {}) =>
   client.synthesize(requestId, {
@@ -120,7 +127,7 @@ const speechRate = (text, seconds) =>
 // Synthesise one chunk, retrying at a lower speed while the result is too rushed to hold all the
 // text. Returns the slowest attempt if none clears MAX_RATE, since that one dropped the least.
 const synthesizeChunk = async (text, label) => {
-  if (IS_VIENEU) return { wav: await vieneuSynthesize(text, VOICE) };
+  if (HTTP_SOURCE) return { wav: await HTTP_SOURCE.synthesize(text, VOICE) };
   let best = null;
   for (const [attempt, override] of [{}, ...RETRIES].entries()) {
     const result = await synthesize(text, ++requestId, override);
@@ -142,7 +149,7 @@ for (const segment of targets) {
   process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars\n`);
   const files = [];
   for (const [index, chunk] of chunks.entries()) {
-    const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.wav`);
+    const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.audio`);
     const { wav: audio } = await synthesizeChunk(chunk, `scene ${segment.scene} chunk ${index + 1}`);
     writeFileSync(wav, audio);
     files.push(wav);
