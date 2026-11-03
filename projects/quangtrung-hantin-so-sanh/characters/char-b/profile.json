@@ -1,0 +1,14 @@
+{
+  "character_id": "char-b",
+  "name": "Hàn Tín",
+  "display_name": "Hàn Tín",
+  "aliases": ["Hoài Âm hầu", "Tề vương"],
+  "country": "Han China",
+  "period": "3rd century BC",
+  "dynasty": "Western Han",
+  "role": "Han general under Liu Bang, later king of Qi and Chu, demoted to Marquis of Huaiyin",
+  "known_facts": ["Born in Huaiyin, poor; Shiji records the humiliation of crawling between a bully's legs", "Left Xiang Yu for Liu Bang in 206 BC; Xiao He chased him down and recommended him as grand general", "Defeated Zhao at Jingxing in 204 BC with the back-to-the-river formation", "Flooded and destroyed Long Ju's Chu army at the Wei River in 203 BC", "Made king of Qi in 203 BC, commanded the encirclement of Xiang Yu at Gaixia in 202 BC", "Demoted in 201 BC and killed in the Changle Palace in 196 BC; three clans extinguished"],
+  "interpretation": "Early Western Han general, based on the user reference.",
+  "unknowns": ["Birth year unknown", "Whether he truly plotted rebellion is debated", "No verified contemporary portrait survives"],
+  "reference": "public/projects/quangtrung-hantin-so-sanh/characters/char-b.png"
+}

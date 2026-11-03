@@ -513,6 +513,7 @@
     <span class="queue num" id="conQueue" hidden></span>
     <button class="btn quiet sm" type="button" id="conClearQueue" hidden title="Bỏ các job chưa bắt đầu (job đang chạy vẫn tiếp tục)">Xoá hàng chờ</button>
     <button class="btn quiet sm" type="button" id="conCancel" hidden title="Huỷ job ảnh/motion đang chạy; hàng chờ chạy tiếp">Huỷ</button>
+    <button class="btn quiet sm" type="button" id="conCancelAudio" hidden title="Huỷ job sinh audio đang chạy; hàng chờ chạy tiếp">Huỷ audio</button>
     <button class="btn quiet sm" type="button" data-notif-toggle aria-controls="notifPanel" aria-expanded="false" title="Xem lại các thông báo đã hiện">Thông báo<span class="queue num" data-notif-unread hidden></span></button>
     <button class="btn quiet sm" type="button" id="conCopy" title="Copy các dòng log đang hiện (theo bộ lọc)">Copy log</button>
     <button class="btn quiet sm" type="button" id="conToggle" aria-expanded="false" aria-controls="conDrawer" title="Log hoạt động của cả phiên: job, request lỗi, thông báo, lỗi JS">Xem log<span class="queue num bad" id="conLogBadge" hidden title="Lỗi mới từ lần mở log trước"></span></button>
@@ -1366,11 +1367,11 @@
       </button>
     </div>
     <div class="dialog-body single">
-      <div class="crop-stage" id="cropStage" tabindex="0" role="application" aria-label="Khung cắt ảnh vuông. Kéo để di chuyển ảnh, cuộn chuột hoặc phím cộng, trừ để phóng to, thu nhỏ, phím mũi tên để dịch ảnh.">
+      <div class="crop-stage" id="cropStage" tabindex="0" role="application" aria-label="Khung cắt ảnh. Kéo để di chuyển ảnh, cuộn chuột hoặc phím cộng, trừ để phóng to, thu nhỏ, phím mũi tên để dịch ảnh.">
         <img id="cropImg" alt="" draggable="false" />
         <span class="crop-grid" aria-hidden="true"></span>
       </div>
-      <p class="crop-hint">Ảnh tham chiếu là hình vuông. Kéo để chọn vùng giữ lại, cuộn chuột để phóng to.</p>
+      <p class="crop-hint" id="cropHint">Ảnh tham chiếu là hình vuông. Kéo để chọn vùng giữ lại, cuộn chuột để phóng to.</p>
       <div class="crop-controls">
         <label class="crop-zoom"><span>Phóng to</span><input type="range" id="cropZoom" min="0" max="100" step="1" value="0" aria-label="Phóng to ảnh" /></label>
         <button class="btn sm quiet" type="button" id="cropFit" title="Thu nhỏ để thấy cả ảnh; phần thừa là nền xám">Vừa cả ảnh</button>

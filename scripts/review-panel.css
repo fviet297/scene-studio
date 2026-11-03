@@ -729,11 +729,12 @@ input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px;
 .field textarea.motion-part { min-height: 56px; }
 .motion-legacy { margin: 0; font-size: 11.5px; color: var(--muted); }
 
-/* Character reference crop dialog (review-crop.js). The stage is the square that gets saved; the
+/* Crop dialog (review-crop.js): character refs (square) and scene photos (project aspect). The stage is the frame that gets saved; the
    picture is panned and zoomed under it. Grey matches the pad colour the server uses. */
 .dialog.crop-dialog { width: min(480px, 100%); }
 .crop-stage {
-  position: relative; width: min(100%, 60vh); aspect-ratio: 1; margin: 0 auto; overflow: hidden;
+  --crop-aspect: 1;
+  position: relative; width: min(100%, calc(60vh * var(--crop-aspect))); aspect-ratio: var(--crop-aspect); margin: 0 auto; overflow: hidden;
   background: #d8d8d8; border: 1px solid var(--line); border-radius: var(--r-ctl);
   cursor: grab; touch-action: none; user-select: none;
 }
@@ -1123,6 +1124,8 @@ body.view-timeline .workbench { display: none; }
 /* Up to five character dots after the scene number; on a narrow clip they overlap like an avatar
    stack (each keeps its dark ring) so the label never overflows. */
 .tl-clip { container-type: inline-size; }
+.tl-clip-castbar { position: absolute; top: 0; left: 0; right: 0; display: flex; height: 5px; pointer-events: none; }
+.tl-clip-castbar i { flex: 1; }
 .tl-clip-chars { display: inline-flex; align-items: center; gap: 2px; flex: none; }
 .tl-clip-chars .char-dot { width: 6px; height: 6px; }
 @container (max-width: 110px) {

@@ -19,6 +19,7 @@ import { getSceneMotion } from "./scene-motion";
 import { deliveryBand } from "./delivery-band";
 import { BrandOverlay, type Branding } from "./BrandOverlay";
 import { CaptionTrack, type CaptionGroup } from "./CaptionTrack";
+import { useCaptionFont } from "./caption-fonts";
 import { GRADE_FILTER, ProjectEffects } from "./effects/ProjectEffects";
 import { transitionFrame } from "./effects/transitions";
 import {
@@ -272,6 +273,8 @@ export function SceneView({
 }) {
   const local = useCurrentFrame();
   const { width, height } = useVideoConfig();
+  // Title uses the bundled Be Vietnam Pro: system Arial draws broken Vietnamese diacritics at heavy weight.
+  const titleFont = useCaptionFont("be-vietnam");
   const overlay = overlayMetrics(width, height);
   const motion = getSceneMotion(projectSlug, scene.scene);
   // Fade the whole scene (image + overlays together) in over the previous scene, which is still
@@ -327,8 +330,8 @@ export function SceneView({
             left: overlay.titleInset,
             right: overlay.titleInset,
             textAlign: "center",
-            fontFamily: "Arial, sans-serif",
-            fontWeight: 1000,
+            fontFamily: titleFont.family,
+            fontWeight: titleFont.weight,
             fontSize: overlay.titleFontSize,
             lineHeight: 1.1,
             color: "white",

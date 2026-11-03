@@ -1,15 +1,24 @@
-// Square crop dialog for character reference images.
+// Crop dialog for images the person brings in: character references (square) and scene photos
+// (the project's aspect).
 //
 // Every reference is stored as a 1024×1024 square (review-server optimizeCharacterImage), and the
 // server's own fallback is a centre crop, which beheads a tall full-body picture. So the panel lets
 // the person choose the square first: drag to move, zoom to size it, or zoom out to keep the whole
 // picture on a light-grey margin (the same grey the server pads AI drafts with).
 //
-//   cropImage(file) → Promise<File | null>
+//   cropImage(file, options?) → Promise<File | null>
 //     the cropped JPEG, the untouched file when the person chooses "Dùng ảnh gốc" (or the browser
 //     cannot decode it, so the server decides), or null when the dialog is cancelled.
+//     options: { aspect = 1 (width / height of the frame), title, hint, padColor, originalHint }.
 
 const CROP_PAD_COLOR = "#D8D8D8";
+const CROP_DEFAULTS = {
+  aspect: 1,
+  title: "Cắt ảnh tham chiếu",
+  hint: "Ảnh tham chiếu là hình vuông. Kéo để chọn vùng giữ lại, cuộn chuột để phóng to.",
+  padColor: CROP_PAD_COLOR,
+  originalHint: "Bỏ qua bước cắt: máy chủ tự lấy hình vuông ở giữa ảnh",
+};
 const CROP_MAX_OUTPUT_PX = 2048;
 const CROP_MAX_ZOOM_OVER_COVER = 4;
 const CROP_JPEG_QUALITY = 0.95;
@@ -29,19 +38,21 @@ const crop = {
   x: 0, // stage position of the image's top-left corner
   y: 0,
   drag: null,
+  options: CROP_DEFAULTS,
 };
 
-const cropStageSize = () => $("cropStage").clientWidth;
+const cropFrameW = () => $("cropStage").clientWidth;
+const cropFrameH = () => $("cropStage").clientHeight;
 const cropContainScale = () =>
-  cropStageSize() / Math.max(crop.natural.w, crop.natural.h);
+  Math.min(cropFrameW() / crop.natural.w, cropFrameH() / crop.natural.h);
 const cropCoverScale = () =>
-  cropStageSize() / Math.min(crop.natural.w, crop.natural.h);
+  Math.max(cropFrameW() / crop.natural.w, cropFrameH() / crop.natural.h);
 const cropMaxScale = () => cropCoverScale() * CROP_MAX_ZOOM_OVER_COVER;
 
 // The picture never leaves a gap bigger than it must: on an axis where it is larger than the
 // frame it keeps covering it; where it is smaller it stays fully inside.
-function clampAxis(offset, imageSize) {
-  const room = cropStageSize() - imageSize;
+function clampAxis(offset, imageSize, frameSize) {
+  const room = frameSize - imageSize;
   return room <= 0
     ? Math.min(0, Math.max(room, offset))
     : Math.min(room, Math.max(0, offset));
@@ -49,8 +60,8 @@ function clampAxis(offset, imageSize) {
 
 function paintCrop() {
   const { w, h } = crop.natural;
-  crop.x = clampAxis(crop.x, w * crop.scale);
-  crop.y = clampAxis(crop.y, h * crop.scale);
+  crop.x = clampAxis(crop.x, w * crop.scale, cropFrameW());
+  crop.y = clampAxis(crop.y, h * crop.scale, cropFrameH());
   crop.img.style.transform = `translate(${crop.x}px, ${crop.y}px) scale(${crop.scale})`;
   const min = cropContainScale();
   const t = Math.log(crop.scale / min) / Math.log(cropMaxScale() / min);
@@ -68,16 +79,14 @@ function zoomCropTo(scale, px, py) {
 }
 
 function zoomCropBy(factor) {
-  const center = cropStageSize() / 2;
-  zoomCropTo(crop.scale * factor, center, center);
+  zoomCropTo(crop.scale * factor, cropFrameW() / 2, cropFrameH() / 2);
 }
 
 function fitCrop(scale) {
-  const size = cropStageSize();
   const { w, h } = crop.natural;
   crop.scale = scale;
-  crop.x = (size - w * scale) / 2;
-  crop.y = (size - h * scale) / 2;
+  crop.x = (cropFrameW() - w * scale) / 2;
+  crop.y = (cropFrameH() - h * scale) / 2;
   paintCrop();
 }
 
@@ -94,22 +103,26 @@ function closeCrop(result) {
 }
 
 function renderCropBlob() {
-  const side = cropStageSize() / crop.scale; // source pixels the frame shows
+  const srcW = cropFrameW() / crop.scale; // source pixels the frame shows
+  const srcH = cropFrameH() / crop.scale;
   const sx = -crop.x / crop.scale;
   const sy = -crop.y / crop.scale;
-  const out = Math.min(Math.round(side), CROP_MAX_OUTPUT_PX);
+  const shrink = Math.min(1, CROP_MAX_OUTPUT_PX / Math.max(srcW, srcH));
+  const outW = Math.max(1, Math.round(srcW * shrink));
+  const outH = Math.max(1, Math.round(srcH * shrink));
   const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = out;
+  canvas.width = outW;
+  canvas.height = outH;
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = CROP_PAD_COLOR;
-  ctx.fillRect(0, 0, out, out);
+  ctx.fillStyle = crop.options.padColor;
+  ctx.fillRect(0, 0, outW, outH);
   ctx.imageSmoothingQuality = "high";
   const { w, h } = crop.natural;
   const left = Math.max(0, sx);
   const top = Math.max(0, sy);
-  const right = Math.min(w, sx + side);
-  const bottom = Math.min(h, sy + side);
-  const toOut = out / side;
+  const right = Math.min(w, sx + srcW);
+  const bottom = Math.min(h, sy + srcH);
+  const toOut = outW / srcW;
   ctx.drawImage(
     crop.img,
     left,
@@ -148,9 +161,15 @@ function loadCropImage(url) {
   });
 }
 
-function cropImage(file) {
+function cropImage(file, options = {}) {
   crop.resolve?.(null); // a second call replaces the first
   crop.file = file;
+  crop.options = { ...CROP_DEFAULTS, ...options };
+  $("cropTitle").textContent = crop.options.title;
+  $("cropHint").textContent = crop.options.hint;
+  $("cropOriginal").title = crop.options.originalHint;
+  $("cropStage").style.setProperty("--crop-aspect", String(crop.options.aspect));
+  $("cropStage").style.background = crop.options.padColor;
   crop.opener = document.activeElement;
   crop.objectUrl = URL.createObjectURL(file);
   return new Promise((resolve) => {
@@ -208,8 +227,11 @@ $("cropStage").addEventListener(
 $("cropZoom").addEventListener("input", (e) => {
   const min = cropContainScale();
   const t = Number(e.target.value) / CROP_SLIDER_MAX;
-  const center = cropStageSize() / 2;
-  zoomCropTo(min * Math.pow(cropMaxScale() / min, t), center, center);
+  zoomCropTo(
+    min * Math.pow(cropMaxScale() / min, t),
+    cropFrameW() / 2,
+    cropFrameH() / 2,
+  );
 });
 $("cropFit").addEventListener("click", () => fitCrop(cropContainScale()));
 $("cropFill").addEventListener("click", () => fitCrop(cropCoverScale()));

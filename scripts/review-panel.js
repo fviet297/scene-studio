@@ -551,6 +551,11 @@ function syncConsoleQueue() {
     ? media.cancellable === false
     : orphanJobs.length === 0;
   if (media) $("conCancel").disabled = media.controller.signal.aborted;
+  const audio = lanes.audio.running;
+  const audioOrphans = orphanJobs.filter((j) => j.lane === "audio");
+  $("conCancelAudio").hidden = !audio && audioOrphans.length === 0;
+  if (audio) $("conCancelAudio").disabled = audio.controller.signal.aborted;
+  else $("conCancelAudio").disabled = false;
 }
 
 const findScene = (n) => state.scenes.find((s) => s.scene === n) ?? null;
@@ -2114,9 +2119,24 @@ function enqueueScenePrompt(n) {
   });
 }
 
-async function uploadImage(file) {
+// width / height of the project's frame ("9:16" → 0.5625); the crop frame for scene photos.
+function projectFrameRatio() {
+  const [w, h] = String(state.project?.aspect || "9:16").split(":").map(Number);
+  return w > 0 && h > 0 ? w / h : 9 / 16;
+}
+
+async function uploadImage(picked) {
   const s = current();
-  if (!s || !file) return;
+  if (!s || !picked) return;
+  // Crop first, outside the scene lock: the dialog can stay open as long as the person needs.
+  let file = await cropImage(picked, {
+    aspect: projectFrameRatio(),
+    title: `Cắt ảnh cho scene ${s.scene}`,
+    hint: `Khung theo tỉ lệ dự án (${state.project?.aspect || "9:16"}). Kéo để chọn vùng giữ lại, cuộn chuột hoặc kéo thanh để phóng to, thu nhỏ.`,
+    padColor: "#000000",
+    originalHint: "Bỏ qua bước cắt: dùng nguyên ảnh, khi render sẽ tự phủ kín khung",
+  });
+  if (!file) return;
   await withSceneOp(s.scene, "đang tải lên", async () => {
     try {
       file = await normalizeImageFile(file);
@@ -3029,6 +3049,13 @@ $("conCancel").addEventListener("click", () => {
   else
     for (const job of orphanJobs)
       api("/api/cancel", { id: job.id }).catch((e) => toast(e.message, false));
+});
+$("conCancelAudio").addEventListener("click", () => {
+  $("conCancelAudio").disabled = true;
+  if (lanes.audio.running) lanes.audio.running.controller.abort();
+  for (const job of orphanJobs.filter((j) => j.lane === "audio"))
+    api("/api/cancel", { id: job.id }).catch((e) => toast(e.message, false));
+  toast("Đã huỷ job sinh audio đang chạy.");
 });
 $("conClearQueue").addEventListener("click", clearQueues);
 

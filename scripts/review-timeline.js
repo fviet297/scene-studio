@@ -198,6 +198,12 @@ function clipHtml(clip, i) {
     showCast && cast.length
       ? `<span class="tl-clip-chars">${cast.map(charDotHtml).join("")}</span>`
       : "";
+  // Narrow clips drop the dots, so a colour bar along the top edge keeps the cast visible at any zoom.
+  const castBar = cast.length
+    ? `<span class="tl-clip-castbar" aria-hidden="true">${cast
+        .map((id) => `<i style="background:${charColor(id)}"></i>`)
+        .join("")}</span>`
+    : "";
   const classes = [
     "tl-clip",
     s.hasAudio ? "" : "no-audio",
@@ -213,6 +219,7 @@ function clipHtml(clip, i) {
         aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${motionNote}${castNote}"
         title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${castNote}">
       ${s.hasImage ? `<img src="${thumbUrl(s.imageUrl, 320)}" alt="" loading="lazy" draggable="false" />` : ""}
+      ${castBar}
       <span class="tl-clip-label">
         <span class="num">${s.scene}</span>${icon}${castDots}
         ${showDuration ? `<span class="num tl-clip-dur">${duration}</span>` : ""}
