@@ -19,7 +19,7 @@ test('falls back to the default when captions.enabled is not a boolean', () => {
 
 test('caption style defaults match the shipped look', () => {
   assert.deepEqual(normalizeBranding().captions, {
-    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, backgroundOpacity: 0.42,
+    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, strokeColor: '#000000', backgroundOpacity: 0.42,
     uppercase: false, highlight: 'karaoke', position: 'bottom', offsetY: 0, anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
   });
@@ -30,7 +30,7 @@ test('keeps a valid caption style and lower-cases colours', () => {
     captions: { enabled: true, size: 60, position: 'top', anchor: 'frame', spokenColor: '#FF8800', unspokenColor: '#00ff00' },
   }).captions;
   assert.deepEqual(captions, {
-    enabled: true, font: 'be-vietnam', size: 60, strokeWidth: 7, backgroundOpacity: 0.42,
+    enabled: true, font: 'be-vietnam', size: 60, strokeWidth: 7, strokeColor: '#000000', backgroundOpacity: 0.42,
     uppercase: false, highlight: 'karaoke', position: 'top', offsetY: 0, anchor: 'frame',
     spokenColor: '#ff8800', unspokenColor: '#00ff00',
   });
@@ -78,8 +78,41 @@ test('keeps the new caption look fields and rejects invalid ones', () => {
   assert.equal(bad.highlight, 'karaoke');
 });
 
+test('scene title defaults reproduce the look it had before it was editable', () => {
+  assert.deepEqual(normalizeBranding().title, {
+    enabled: true, font: 'be-vietnam', size: 52, color: '#ffffff', strokeWidth: 0, strokeColor: '#000000',
+    backgroundOpacity: 0, uppercase: false, shadow: true, scrim: true, position: 'top', offsetY: 0,
+  });
+});
+
+test('keeps a valid scene title style and lower-cases colours', () => {
+  const title = normalizeBranding({
+    title: {
+      enabled: false, size: 80, color: '#FFD31A', strokeWidth: 8, strokeColor: '#101010', backgroundOpacity: 0.5,
+      uppercase: true, shadow: false, scrim: false, position: 'middle', offsetY: -40,
+    },
+  }).title;
+  assert.deepEqual(title, {
+    enabled: false, font: 'be-vietnam', size: 80, color: '#ffd31a', strokeWidth: 8, strokeColor: '#101010',
+    backgroundOpacity: 0.5, uppercase: true, shadow: false, scrim: false, position: 'middle', offsetY: -40,
+  });
+});
+
+test('clamps and rejects invalid scene title values', () => {
+  const title = normalizeBranding({
+    title: {
+      enabled: 'yes', size: 999, color: 'white', strokeWidth: -3, strokeColor: '#12', backgroundOpacity: 9,
+      uppercase: 1, shadow: 'no', scrim: null, position: 'left', offsetY: 'up',
+    },
+  }).title;
+  assert.deepEqual(title, {
+    enabled: true, font: 'be-vietnam', size: 120, color: '#ffffff', strokeWidth: 0, strokeColor: '#000000',
+    backgroundOpacity: 0.8, uppercase: false, shadow: true, scrim: true, position: 'top', offsetY: 0,
+  });
+  assert.equal(normalizeBranding({ title: { size: 3 } }).title.size, 28);
+});
+
 test('scene title font defaults to Be Vietnam Pro and keeps a known font', () => {
-  assert.deepEqual(normalizeBranding().title, { font: 'be-vietnam' });
   assert.equal(normalizeBranding({ title: { font: 'playfair' } }).title.font, 'playfair');
   assert.equal(normalizeBranding({ title: { font: 'charm' } }).title.font, 'charm');
   assert.equal(normalizeBranding({ title: { font: 'comic-sans' } }).title.font, 'be-vietnam');

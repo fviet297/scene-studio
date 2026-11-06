@@ -31,6 +31,9 @@ export const CAPTION_OFFSET_RANGE = { min: -300, max: 300 };
 export const CAPTION_FONTS = ['be-vietnam', 'montserrat', 'anton', 'bangers', 'playfair', 'charm', 'lobster', 'arial'];
 export const CAPTION_HIGHLIGHTS = ['karaoke', 'word', 'none'];
 export const CAPTION_STROKE_RANGE = { min: 0, max: 14 };
+// Scene title: the same fields as captions, a wider size range (it is a headline, not a subtitle).
+// Positions and the offset range are shared with captions.
+export const TITLE_SIZE_RANGE = { min: 28, max: 120 };
 // 16:9 only, same meaning as BRAND_ANCHORS: 'crop' keeps the text inside the 3:2 strip the 9:16
 // export retains; 'frame' spans the real 16:9 frame (YouTube) and the 9:16 export may crop it.
 export const CAPTION_ANCHORS = BRAND_ANCHORS;
@@ -53,12 +56,16 @@ export const DEFAULT_BRANDING = {
   // Burned-in narration subtitles with a word-by-word highlight (src/CaptionTrack.tsx). Off by
   // default so existing projects keep rendering exactly as before.
   captions: {
-    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, backgroundOpacity: 0.42,
+    enabled: false, font: 'be-vietnam', size: 48, strokeWidth: 7, strokeColor: '#000000', backgroundOpacity: 0.42,
     uppercase: false, highlight: 'karaoke', position: 'bottom', offsetY: 0, anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
   },
-  // Font of the scene title drawn at the top of the frame (ScenePlanVideo); same ids as captions.
-  title: { font: 'be-vietnam' },
+  // Scene title drawn at the top of the frame (src/SceneTitle.tsx); same font ids as captions. The
+  // defaults reproduce the look it had before it became editable: white 52px, soft shadow, no outline.
+  title: {
+    enabled: true, font: 'be-vietnam', size: 52, color: '#ffffff', strokeWidth: 0, strokeColor: '#000000',
+    backgroundOpacity: 0, uppercase: false, shadow: true, scrim: true, position: 'top', offsetY: 0,
+  },
   effects: {
     vignette: true, grain: true, grade: 'none',
     transition: { type: 'crossfade', frames: 8 },
@@ -73,6 +80,8 @@ const clampOpacity = (value, fallback) => {
   return Number.isFinite(n) ? Math.min(1, Math.max(0, Math.round(n * 100) / 100)) : fallback;
 };
 
+const flag = (value, fallback) => (typeof value === 'boolean' ? value : fallback);
+
 const hexColor = (value, fallback) => (typeof value === 'string' && HEX_COLOR.test(value) ? value.toLowerCase() : fallback);
 
 const clampInt = (value, { min, max }, fallback) => {
@@ -84,7 +93,6 @@ const normalizeEffects = (raw = {}) => {
   const d = DEFAULT_BRANDING.effects;
   const transition = raw.transition ?? {};
   const layers = raw.layers ?? {};
-  const flag = (value, fallback) => (typeof value === 'boolean' ? value : fallback);
   return {
     vignette: flag(raw.vignette, d.vignette),
     grain: flag(raw.grain, d.grain),
@@ -128,6 +136,7 @@ export const normalizeBranding = (raw = {}) => {
       font: CAPTION_FONTS.includes(captions.font) ? captions.font : d.captions.font,
       size: clampInt(captions.size, CAPTION_SIZE_RANGE, d.captions.size),
       strokeWidth: clampInt(captions.strokeWidth, CAPTION_STROKE_RANGE, d.captions.strokeWidth),
+      strokeColor: hexColor(captions.strokeColor, d.captions.strokeColor),
       backgroundOpacity: Math.min(0.8, clampOpacity(captions.backgroundOpacity, d.captions.backgroundOpacity)),
       uppercase: typeof captions.uppercase === 'boolean' ? captions.uppercase : d.captions.uppercase,
       highlight: CAPTION_HIGHLIGHTS.includes(captions.highlight) ? captions.highlight : d.captions.highlight,
@@ -137,7 +146,20 @@ export const normalizeBranding = (raw = {}) => {
       spokenColor: hexColor(captions.spokenColor, d.captions.spokenColor),
       unspokenColor: hexColor(captions.unspokenColor, d.captions.unspokenColor),
     },
-    title: { font: CAPTION_FONTS.includes(title.font) ? title.font : d.title.font },
+    title: {
+      enabled: flag(title.enabled, d.title.enabled),
+      font: CAPTION_FONTS.includes(title.font) ? title.font : d.title.font,
+      size: clampInt(title.size, TITLE_SIZE_RANGE, d.title.size),
+      color: hexColor(title.color, d.title.color),
+      strokeWidth: clampInt(title.strokeWidth, CAPTION_STROKE_RANGE, d.title.strokeWidth),
+      strokeColor: hexColor(title.strokeColor, d.title.strokeColor),
+      backgroundOpacity: Math.min(0.8, clampOpacity(title.backgroundOpacity, d.title.backgroundOpacity)),
+      uppercase: flag(title.uppercase, d.title.uppercase),
+      shadow: flag(title.shadow, d.title.shadow),
+      scrim: flag(title.scrim, d.title.scrim),
+      position: CAPTION_POSITIONS.includes(title.position) ? title.position : d.title.position,
+      offsetY: clampInt(title.offsetY, CAPTION_OFFSET_RANGE, d.title.offsetY),
+    },
     effects: normalizeEffects(raw.effects),
   };
 };

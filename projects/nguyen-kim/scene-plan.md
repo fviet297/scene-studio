@@ -20,6 +20,7 @@ char-e = public/projects/nguyen-kim/characters/char-e.jpg
 
 ## scene 1
 
+title: Năm 1533: vua không kinh thành
 cue: neutral
 host:
 narration: Năm 1533, giữa đất Ai Lao, một người thuộc dòng dõi nhà Lê được tôn lên làm vua. Nhưng có một nghịch lý: vị vua ấy không có kinh thành, không nắm trong tay đất nước, thậm chí phải dựa vào một vị tướng để duy trì triều đình. Người đứng sau sự kiện này là Nguyễn Kim. Ông đang thực hiện một kế hoạch tưởng chừng rất khó thành công: đưa nhà Lê trở lại sau khi đã mất ngôi vào tay nhà Mạc.
@@ -58,6 +59,7 @@ env_vi: Sương trôi xuống các sườn thung lũng và mỏng dần trên m�
 
 ## scene 4
 
+title: Nhà Lê rạn nứt
 cue: somber
 host:
 narration: Chỉ vài chục năm trước đó, nhà Lê vẫn là triều đại hùng mạnh của Đại Việt. Dưới thời Lê Thánh Tông, bộ máy cai trị được củng cố, luật pháp được hoàn thiện, lãnh thổ mở rộng. Nhưng sau thời kỳ cực thịnh, triều đình dần suy yếu. Các vị vua kế tiếp không còn đủ khả năng kiểm soát những phe phái đang tranh giành quyền lực. Một vương triều từng rất vững chắc bắt đầu rạn nứt từ bên trong.
@@ -99,6 +101,7 @@ env_vi: Bụi lơ lửng và xoay chậm trong ánh sáng hành lang, rồi mộ
 
 ## scene 7
 
+title: 1527: Nhà Mạc lập triều
 cue: tense
 host:
 narration: Giữa tình trạng hỗn loạn ấy, Mạc Đăng Dung từng bước vươn lên. Từ một võ quan, ông nắm giữ binh quyền, chi phối triều đình và trở thành nhân vật có ảnh hưởng lớn nhất trong chính trường. Khi quyền lực đã nằm trong tay, Mạc Đăng Dung tiến thêm một bước. Năm 1527, ông buộc vua Lê Cung Hoàng nhường ngôi, chính thức lập ra nhà Mạc.
@@ -127,6 +130,7 @@ env_vi: Gió rạng đông lạnh buốt giật những lá cờ đỏ thắm tr
 
 ## scene 9
 
+title: Cựu thần chống Mạc
 cue: somber
 host:
 narration: Sự kiện năm 1527 không đơn thuần là thay đổi một vị vua. Nó đánh dấu sự kết thúc của nhà Lê sơ và mở đầu cho một triều đại mới. Tuy nhiên, không phải tất cả quan lại và tướng lĩnh đều chấp nhận sự chuyển giao này. Một bộ phận cựu thần vẫn trung thành với hoàng tộc nhà Lê. Họ rời bỏ triều đình, tìm cách chống lại nhà Mạc. Trong số những người ấy, Nguyễn Kim dần trở thành nhân vật chủ chốt.
@@ -168,6 +172,7 @@ env_vi: Những lá cờ đỏ thắm mới tung ra và phần phật trong gió
 
 ## scene 12
 
+title: Trung thành chưa đủ
 cue: tense
 host:
 narration: Nguyễn Kim từng phục vụ nhà Lê và có vị trí trong hàng ngũ võ tướng. Khi nhà Mạc giành ngôi, ông không quy phục mà tập hợp lực lượng chống lại triều đại mới. Nhưng lòng trung thành thôi chưa đủ để giành lại quyền lực. Nhà Mạc đang nắm kinh thành, quân đội và bộ máy cai trị. Những người theo Nguyễn Kim lại phân tán, thiếu căn cứ và thiếu một vị vua để tập hợp lực lượng. Nếu muốn tiếp tục cuộc chiến, ông phải tìm một hướng đi khác.
@@ -209,6 +214,7 @@ env_vi: Sương chiều trôi giữa những hàng cây, khăn vấn và vạt �
 
 ## scene 15
 
+title: Sang đất Ai Lao
 cue: neutral
 host:
 narration: Nguyễn Kim đưa lực lượng sang Ai Lao, tìm nơi có thể bảo toàn quân đội và xây dựng căn cứ. Đây là một lựa chọn mang tính chiến lược. Thay vì đối đầu trực diện với nhà Mạc khi chưa đủ sức, ông chuyển sang một địa bàn an toàn hơn, tìm kiếm sự hỗ trợ từ bên ngoài và tập hợp những người cùng chí hướng. Cuộc khôi phục nhà Lê bắt đầu từ nơi đất khách, cách xa kinh thành Thăng Long.
@@ -250,6 +256,7 @@ env_vi: Sương trôi chậm dọc các dãy núi xanh, rồi một bóng mây l
 
 ## scene 18
 
+title: Căn cứ Sầm Hạ
 cue: neutral
 host:
 narration: Tại vùng Sầm Hạ thuộc Ai Lao, Nguyễn Kim từng bước xây dựng căn cứ hoạt động. Ông tập hợp các cựu thần nhà Lê, thu hút thêm những người chống nhà Mạc và tổ chức lực lượng quân sự. Căn cứ này chưa thể giúp ông lập tức trở về nước, nhưng nó giải quyết được vấn đề sống còn: lực lượng phục Lê có nơi đứng chân, có người chỉ huy và có điều kiện chuẩn bị cho những bước tiếp theo.
@@ -291,6 +298,7 @@ env_vi: Bụi dâng thành một đám mây thấp từ nền đất bị giẫm
 
 ## scene 21
 
+title: Đồng minh Ai Lao
 cue: neutral
 host:
 narration: Một lực lượng lưu vong khó có thể tồn tại lâu dài nếu không có sự hậu thuẫn. Nguyễn Kim tìm cách liên kết với vua Ai Lao là Sạ Đẩu, nhận được sự giúp đỡ về quân lực và lương thực. Nhờ đó, lực lượng của ông có thêm điều kiện duy trì hoạt động. Sự hỗ trợ từ Ai Lao không giúp Nguyễn Kim lập tức đánh bại nhà Mạc, nhưng nó tạo ra nền tảng để cuộc kháng cự tiếp tục.
@@ -332,6 +340,7 @@ env_vi: Bụi cuộn lên quanh vó bò và những chiếc thúng vừa đặt 
 
 ## scene 24
 
+title: Cần một vị vua
 cue: tense
 host:
 narration: Nguyễn Kim đã có căn cứ, có đồng minh và có những người theo mình. Nhưng lực lượng ấy vẫn thiếu một yếu tố quan trọng: tính chính thống. Nếu chỉ nhân danh cá nhân để chống nhà Mạc, ông khó có thể quy tụ toàn bộ những người từng phục vụ nhà Lê. Cuộc khôi phục cần một người thuộc dòng dõi hoàng gia, một vị vua có thể đại diện cho vương triều đã mất. Vì thế, Nguyễn Kim bắt đầu tìm kiếm hậu duệ nhà Lê còn sống.
@@ -373,6 +382,7 @@ env_vi: Sương sớm trôi giữa những thân cây, rồi bụi cuốn lên t
 
 ## scene 27
 
+title: Tìm được Lê Duy Ninh
 cue: hopeful
 host:
 narration: Sau biến cố năm 1527, một số thành viên hoàng tộc nhà Lê phải rời khỏi trung tâm quyền lực. Trong số những người còn lại, Nguyễn Kim tìm được Lê Duy Ninh, con vua Lê Chiêu Tông. Đây là nhân vật có thể đáp ứng yêu cầu về huyết thống hoàng gia. Từ một người phải sống trong cảnh lưu lạc, Lê Duy Ninh sắp trở thành trung tâm của một triều đình đang được gây dựng lại.
@@ -401,6 +411,7 @@ env_vi: Cỏ khô ven đường rạp xuống theo cơn gió, rồi rìa mái tr
 
 ## scene 29
 
+title: Dòng dõi hoàng thống
 cue: neutral
 host:
 narration: Lê Duy Ninh thuộc dòng dõi trực hệ của nhà Lê, là con vua Lê Chiêu Tông. Sau khi nhà Mạc giành ngôi, ông không còn vị thế của một hoàng tử trong triều đình mà phải sống xa kinh thành. Nguyễn Kim tìm đón ông về căn cứ ở Ai Lao. Sự xuất hiện của Lê Duy Ninh giúp lực lượng phục Lê có một người kế thừa hoàng thống, thay vì chỉ là tập hợp những tướng lĩnh cùng chống lại nhà Mạc.
@@ -442,6 +453,7 @@ env_vi: Tấm màn vải trơn căng phồng và gợn sóng trong gió, rồi b
 
 ## scene 32
 
+title: Giai thoại Chúa Chổm
 cue: playful
 host:
 narration: Gắn với thân thế Lê Trang Tông, dân gian còn lưu truyền câu chuyện Chúa Chổm. Theo một dị bản, Chúa Chổm từng là chàng trai nghèo, thường xuyên vay mượn tiền bạc và mang nhiều món nợ. Về sau, thân phận hoàng tộc của ông được phát hiện, rồi ông trở thành vua. Câu chuyện còn kể rằng những người từng cho vay tìm đến đòi nợ khi ông đã lên ngôi. Một vị vua mang theo cả những món nợ từ thời chưa hiển đạt – đó là hình ảnh khiến giai thoại này được truyền lại rộng rãi.
@@ -483,6 +495,7 @@ env_vi: Bụi bốc lên quanh chân đám đông, rồi vải tán phần phậ
 
 ## scene 35
 
+title: Giai thoại và sử sách
 cue: neutral
 host:
 narration: Tuy nhiên, cần phân biệt câu chuyện Chúa Chổm với những gì sử sách ghi nhận. Các ghi chép lịch sử xác nhận Lê Duy Ninh là con vua Lê Chiêu Tông và được Nguyễn Kim tìm đón để tôn lập. Nhưng chưa có bằng chứng đủ chắc chắn để khẳng định Chúa Chổm chính là Lê Trang Tông. Vì vậy, câu chuyện về những món nợ của vị vua này nên được xem là giai thoại dân gian, không phải một sự kiện đã được xác nhận trong chính sử.
@@ -524,6 +537,7 @@ env_vi: Một góc chồng sổ khẽ nhấc lên trong gió, rồi bụi bay l�
 
 ## scene 38
 
+title: 1533: Lê Trang Tông lên ngôi
 cue: triumphant
 host:
 narration: Tháng Giêng năm 1533, tại Ai Lao, Lê Duy Ninh được Nguyễn Kim cùng các cựu thần tôn lên làm vua, lấy hiệu là Lê Trang Tông, đặt niên hiệu Nguyên Hòa. Nhà Lê chính thức bước vào thời kỳ Trung Hưng. Nguyễn Kim giữ vai trò Thượng phụ Thái sư, trở thành người đứng đầu việc quân và việc nước bên cạnh nhà vua. Sau sáu năm kể từ khi mất ngôi, nhà Lê đã có một vị vua trở lại.
@@ -565,6 +579,7 @@ env_vi: Lá cờ đỏ thắm tung lên và gợn sóng dọc theo cán tre, r�
 
 ## scene 41
 
+title: Triều đình chưa có kinh đô
 cue: neutral
 host:
 narration: Triều đình Lê Trang Tông lúc này chưa có kinh đô và cũng chưa kiểm soát được vùng đất rộng lớn nào ở Đại Việt. Nhưng về mặt chính trị, sự tồn tại của nhà vua đã tạo ra khác biệt quan trọng. Những cựu thần có thể quy tụ dưới danh nghĩa phục hồi nhà Lê. Nguyễn Kim có thêm cơ sở để kêu gọi lực lượng, tổ chức quân đội và tiếp tục cuộc chiến. Từ đây, cuộc đối đầu với nhà Mạc không còn chỉ là hoạt động của một nhóm tướng lĩnh lưu vong.
@@ -606,6 +621,7 @@ env_vi: Mưa đập mạnh lên mái tranh phía trên, rồi ngọn đèn chậ
 
 ## scene 44
 
+title: Thượng phụ Thái sư
 cue: neutral
 host:
 narration: Lê Trang Tông là người đứng đầu vương triều về danh nghĩa, nhưng Nguyễn Kim mới là nhân vật giữ vai trò chủ chốt trong việc điều hành lực lượng phục Lê. Ông vừa tổ chức quân đội, vừa duy trì quan hệ với Ai Lao, vừa tìm cách mở rộng ảnh hưởng trong nước. Công việc trước mắt không phải tiến thẳng ra Thăng Long, mà là từng bước tạo được chỗ đứng vững chắc trên lãnh thổ Đại Việt.
@@ -634,6 +650,7 @@ env_vi: Bụi bốc lên khỏi thao trường thành một đám mây thấp, r
 
 ## scene 46
 
+title: 1540: Trở về Nghệ An
 cue: hopeful
 host:
 narration: Sau nhiều năm chuẩn bị, lực lượng của Nguyễn Kim có điều kiện tiến về phía nam Đại Việt. Sự hậu thuẫn từ Ai Lao, sự tham gia của các cựu thần và những người chống nhà Mạc giúp quân đội Lê Trung Hưng từng bước lớn mạnh. Năm 1540, Nguyễn Kim đưa quân trở về Nghệ An. Đây là bước chuyển quan trọng: triều đình từng phải hoạt động ở đất khách nay đã có thể trực tiếp đặt chân trở lại trong nước.
@@ -675,6 +692,7 @@ env_vi: Những mảng màu trong mờ lan rộng ra khắp các đồng bằng,
 
 ## scene 49
 
+title: Chỗ đứng trong nước
 cue: neutral
 host:
 narration: Việc tiến vào Nghệ An giúp lực lượng Lê Trung Hưng có địa bàn hoạt động thuận lợi hơn. Từ đây, Nguyễn Kim tiếp tục củng cố lực lượng và mở rộng ảnh hưởng về phía bắc. Thanh Hóa cũng trở thành địa bàn quan trọng trong cuộc chiến. Sau nhiều năm chỉ có thể tập hợp quân ở bên ngoài, lực lượng phục Lê giờ đây đã có chỗ đứng trên lãnh thổ Đại Việt.
@@ -703,6 +721,7 @@ env_vi: Sương sớm trôi khỏi mặt sông sau bến tàu, rồi một cơn 
 
 ## scene 51
 
+title: 1543: Chiếm Tây Đô
 cue: triumphant
 host:
 narration: Cuối năm 1543, quân Lê Trung Hưng chiếm được Tây Đô, tức thành nhà Hồ ở Thanh Hóa. Đây là một thắng lợi đáng kể, bởi Thanh Hóa là vùng đất có vị trí quan trọng đối với nhà Lê. Từ một triều đình lưu vong, nhà Lê Trung Hưng đã giành được địa bàn thực tế để tiếp tục hoạt động. Nhà Mạc vẫn kiểm soát Thăng Long và nhiều vùng phía bắc, nhưng thế lực đối địch với họ đã trở lại đủ mạnh để duy trì cuộc chiến lâu dài.
@@ -744,6 +763,7 @@ env_vi: Ánh tím đậm dần trên vùng đồng bằng phía bắc, rồi m�
 
 ## scene 54
 
+title: Hai triều đình cùng tồn tại
 cue: somber
 host:
 narration: Chiếm được Tây Đô không đồng nghĩa với việc nhà Lê đã khôi phục hoàn toàn đất nước. Nhà Mạc vẫn còn kinh thành, quân đội và bộ máy cai trị. Hai triều đình cùng tồn tại, mỗi bên đều có lực lượng và vùng kiểm soát riêng. Cuộc chiến Lê – Mạc vì thế chưa thể kết thúc trong một vài chiến dịch. Nguyễn Kim đã đưa nhà Lê trở lại, nhưng việc giành lại toàn bộ quyền lực vẫn là mục tiêu còn dang dở.
@@ -785,6 +805,7 @@ env_vi: Một làn sương mỏng trôi qua vùng cao nguyên xanh, rồi bóng 
 
 ## scene 57
 
+title: Trụ cột triều Lê
 cue: somber
 host:
 narration: Trong những năm tiếp theo, Nguyễn Kim tiếp tục giữ vai trò chỉ huy lực lượng Lê Trung Hưng. Ông là người đã đưa cuộc kháng cự từ một căn cứ ở Ai Lao trở thành một triều đình có vua, có quân đội và có địa bàn hoạt động trong nước. Nhưng thành quả ấy vẫn phụ thuộc rất lớn vào khả năng điều hành của ông. Bên cạnh nhà vua, Nguyễn Kim là trụ cột quyền lực quan trọng nhất của triều đình.
@@ -826,6 +847,7 @@ env_vi: Những hạt bụi trôi trong ánh sáng ban trưa tràn qua ô cửa,
 
 ## scene 60
 
+title: 1545: Nguyễn Kim qua đời
 cue: tense
 host:
 narration: Năm 1545, Nguyễn Kim qua đời trong một vụ việc được sử sách ghi là bị đầu độc. Theo ghi chép, người thực hiện là Dương Chấp Nhất, một tướng từng theo nhà Mạc rồi quy hàng lực lượng Lê. Vụ việc xảy ra khi Nguyễn Kim đang nắm giữ vai trò chỉ huy chủ chốt. Cái chết của ông khiến triều đình Lê Trung Hưng mất đi người đã gây dựng lực lượng từ những ngày đầu.
@@ -854,6 +876,7 @@ env_vi: Khói đuốc bị gió xám xé ngang, rồi bụi bắn lên từ vó 
 
 ## scene 62
 
+title: Ai nắm quân quyền?
 cue: tense
 host:
 narration: Nguyễn Kim qua đời, để lại một vấn đề lớn: ai sẽ tiếp tục điều hành quân đội và nắm quyền thực tế trong triều đình? Lê Trang Tông vẫn là vua, nhưng quyền lực quân sự không thể để trống. Hai người con trai của Nguyễn Kim là Nguyễn Uông và Nguyễn Hoàng đều có vị trí trong gia tộc, trong khi con rể ông là Trịnh Kiểm cũng đang nắm giữ vai trò quân sự quan trọng. Sự chuyển giao quyền lực sau cái chết của Nguyễn Kim sẽ ảnh hưởng đến cả lịch sử Đại Việt về sau.
@@ -895,6 +918,7 @@ env_vi: Những hạt bụi mịn trôi trong các luồng sáng xiên, rồi t�
 
 ## scene 65
 
+title: Trịnh Kiểm nắm quyền
 cue: tense
 host:
 narration: Sau cái chết của Nguyễn Kim, Trịnh Kiểm dần nắm quyền chỉ huy lực lượng Lê Trung Hưng. Ông vốn là một tướng lĩnh có công trong cuộc chiến chống nhà Mạc, đồng thời là con rể của Nguyễn Kim. Từ đây, cán cân quyền lực trong triều đình bắt đầu thay đổi. Nhà Lê vẫn có vua, nhưng người kiểm soát quân đội và điều hành công việc thực tế ngày càng có vai trò quyết định. Đó là khởi đầu cho một giai đoạn mới của thời Lê Trung Hưng.
@@ -936,6 +960,7 @@ env_vi: Những hạt bụi trôi trong ánh sáng ban trưa từ vách mở, r�
 
 ## scene 68
 
+title: Di sản Nguyễn Kim
 cue: somber
 host:
 narration: Nguyễn Kim không thể tự tay đưa nhà Lê trở lại thống trị toàn bộ Đại Việt. Nhưng ông đã làm được điều quan trọng nhất: cứu vãn một vương triều tưởng như đã kết thúc, tìm được người kế vị hoàng thống, xây dựng lực lượng ở Ai Lao và đưa triều đình trở lại trong nước. Sau khi ông qua đời, cuộc chiến với nhà Mạc vẫn tiếp diễn, còn quyền lực trong triều đình dần chuyển sang tay Trịnh Kiểm. Từ di sản của Nguyễn Kim, một câu chuyện khác bắt đầu – câu chuyện về Trịnh Kiểm, Nguyễn Hoàng và sự hình thành hai thế lực Trịnh – Nguyễn.

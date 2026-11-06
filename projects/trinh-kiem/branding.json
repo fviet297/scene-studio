@@ -18,6 +18,7 @@
     "font": "be-vietnam",
     "size": 48,
     "strokeWidth": 7,
+    "strokeColor": "#000000",
     "backgroundOpacity": 0.42,
     "uppercase": false,
     "highlight": "karaoke",
@@ -28,7 +29,18 @@
     "unspokenColor": "#ffffff"
   },
   "title": {
-    "font": "charm"
+    "enabled": true,
+    "font": "playfair",
+    "size": 52,
+    "color": "#f6d98b",
+    "strokeWidth": 3,
+    "strokeColor": "#1d1307",
+    "backgroundOpacity": 0,
+    "uppercase": false,
+    "shadow": true,
+    "scrim": true,
+    "position": "top",
+    "offsetY": 0
   },
   "effects": {
     "vignette": true,

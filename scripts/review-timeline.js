@@ -931,6 +931,7 @@ const CAPTION_DEFAULTS = {
   font: "be-vietnam",
   size: 48,
   strokeWidth: 7,
+  strokeColor: "#000000",
   backgroundOpacity: 0.42,
   uppercase: false,
   highlight: "karaoke",
@@ -943,36 +944,14 @@ const CAPTION_DEFAULTS = {
 const CAPTION_SAVE_DELAY_MS = 400;
 let captionSaveTimer = null;
 
+// The look itself is edited in the shared text style dialog (review-text-style.js); here only the
+// on/off toggles live, and the dialog is refreshed when it is open.
 function syncCaptionControls() {
-  const captions = state.branding?.captions;
-  if (!captions) return;
-  $("tlCaptionsToggle").setAttribute("aria-pressed", String(captions.enabled));
-  $("capFont").value = captions.font;
-  $("capTitleFont").value = state.branding.title?.font ?? "be-vietnam";
-  $("capStroke").value = captions.strokeWidth;
-  $("capStrokeVal").textContent = `${captions.strokeWidth}px`;
-  $("capBg").value = Math.round(captions.backgroundOpacity * 100);
-  $("capBgVal").textContent =
-    `${Math.round(captions.backgroundOpacity * 100)}%`;
-  $("capUppercase").checked = captions.uppercase;
-  for (const btn of $("capHighlight").querySelectorAll("button"))
-    btn.setAttribute(
-      "aria-pressed",
-      String(btn.dataset.highlight === captions.highlight),
-    );
-  $("capSize").value = captions.size;
-  $("capSizeVal").textContent = `${captions.size}px`;
-  for (const btn of $("capPosition").querySelectorAll("button"))
-    btn.setAttribute(
-      "aria-pressed",
-      String(btn.dataset.position === captions.position),
-    );
-  $("capOffset").value = captions.offsetY;
-  $("capOffsetVal").textContent = `${captions.offsetY}px`;
-  $("capSpokenColor").value = captions.spokenColor;
-  $("capUnspokenColor").value = captions.unspokenColor;
-  $("capAnchor").value = captions.anchor;
-  $("capAnchorField").hidden = state.project?.aspect !== "16:9";
+  const { captions, title } = state.branding ?? {};
+  if (captions)
+    $("tlCaptionsToggle").setAttribute("aria-pressed", String(captions.enabled));
+  if (title) $("tlTitleToggle").setAttribute("aria-pressed", String(title.enabled));
+  syncTextStyleDialog();
 }
 
 async function saveCaptions() {
@@ -1013,16 +992,18 @@ function updateCaptions(patch) {
   if (patch.enabled) announceCaptionsOn();
 }
 
-// The scene title font shares the subtitle popover and its save path (branding.json `title`).
-function updateTitleFont(font) {
+// The scene title shares the subtitle save path (branding.json `title`).
+function updateTitle(patch) {
   if (!state.branding) return;
-  applyBrandingPatch({ title: { ...state.branding.title, font } });
+  applyBrandingPatch({ title: { ...state.branding.title, ...patch } });
 }
 
 function applyBrandingPatch(patch) {
   state = { ...state, branding: { ...state.branding, ...patch } };
   syncCaptionControls();
-  if (isRenderMode()) remountPlayer();
+  // While the text style dialog is open it shows its own preview; remounting the player on every
+  // slider tick would be slow, so the dialog remounts once when it closes.
+  if (isRenderMode() && !tsIsOpen()) remountPlayer();
   clearTimeout(captionSaveTimer);
   captionSaveTimer = setTimeout(saveCaptions, CAPTION_SAVE_DELAY_MS);
 }
@@ -1030,78 +1011,18 @@ function applyBrandingPatch(patch) {
 $("tlCaptionsToggle").addEventListener("click", () =>
   updateCaptions({ enabled: !state.branding?.captions?.enabled }),
 );
-$("capFont").addEventListener("change", (e) =>
-  updateCaptions({ font: e.target.value }),
+$("tlTitleToggle").addEventListener("click", () =>
+  updateTitle({ enabled: !state.branding?.title?.enabled }),
 );
-$("capTitleFont").addEventListener("change", (e) =>
-  updateTitleFont(e.target.value),
-);
-$("capStroke").addEventListener("input", (e) =>
-  updateCaptions({ strokeWidth: Number(e.target.value) }),
-);
-$("capBg").addEventListener("input", (e) =>
-  updateCaptions({ backgroundOpacity: Number(e.target.value) / 100 }),
-);
-$("capUppercase").addEventListener("change", (e) =>
-  updateCaptions({ uppercase: e.target.checked }),
-);
-$("capHighlight").addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-highlight]");
-  if (btn) updateCaptions({ highlight: btn.dataset.highlight });
-});
-$("capSize").addEventListener("input", (e) =>
-  updateCaptions({ size: Number(e.target.value) }),
-);
-$("capPosition").addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-position]");
-  if (btn) updateCaptions({ position: btn.dataset.position });
-});
-$("capOffset").addEventListener("input", (e) =>
-  updateCaptions({ offsetY: Number(e.target.value) }),
-);
-$("capSpokenColor").addEventListener("input", (e) =>
-  updateCaptions({ spokenColor: e.target.value }),
-);
-$("capUnspokenColor").addEventListener("input", (e) =>
-  updateCaptions({ unspokenColor: e.target.value }),
-);
-$("capAnchor").addEventListener("change", (e) =>
-  updateCaptions({ anchor: e.target.value }),
-);
-$("capReset").addEventListener("click", () => updateCaptions(CAPTION_DEFAULTS));
 
 const POP_EDGE_GAP = 16;
 
 // A popover opens upward from its trigger: cap its height to the room above so it scrolls
-// instead of running off the top of a short window. Shared by the subtitle and effects popovers.
+// instead of running off the top of a short window. Used by the effects popover.
 function fitPopHeight(pop, trigger) {
   const room = trigger.getBoundingClientRect().top - POP_EDGE_GAP - 8;
   pop.style.maxHeight = `${Math.max(room, 160)}px`;
 }
-
-const fitCaptionPopHeight = () =>
-  fitPopHeight($("tlCaptionsPop"), $("tlCaptionsSettings"));
-
-function setCaptionPopOpen(open) {
-  $("tlCaptionsPop").hidden = !open;
-  if (open) fitCaptionPopHeight();
-  $("tlCaptionsSettings").setAttribute("aria-expanded", String(open));
-}
-$("tlCaptionsSettings").addEventListener("click", () =>
-  setCaptionPopOpen($("tlCaptionsPop").hidden),
-);
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".cap-ctl")) setCaptionPopOpen(false);
-});
-window.addEventListener("resize", () => {
-  if (!$("tlCaptionsPop").hidden) fitCaptionPopHeight();
-});
-$("tlCaptionsPop").addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  e.stopPropagation();
-  setCaptionPopOpen(false);
-  $("tlCaptionsSettings").focus();
-});
 
 // ------------------------------------------------------------------ sound + fullscreen
 

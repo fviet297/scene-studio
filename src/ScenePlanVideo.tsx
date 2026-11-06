@@ -19,7 +19,11 @@ import { getSceneMotion } from "./scene-motion";
 import { deliveryBand } from "./delivery-band";
 import { BrandOverlay, type Branding } from "./BrandOverlay";
 import { CaptionTrack, type CaptionGroup } from "./CaptionTrack";
-import { useCaptionFont, type CaptionFontId } from "./caption-fonts";
+import {
+  SceneTitle,
+  resolveTitleStyle,
+  type TitleStyle,
+} from "./SceneTitle";
 import { GRADE_FILTER, ProjectEffects } from "./effects/ProjectEffects";
 import { transitionFrame } from "./effects/transitions";
 import {
@@ -139,12 +143,15 @@ const OVERLAY_PROFILES = {
   vertical: {
     topScrim: 340 / 1920,
     titleTop: 260 / 1920,
+    // Clear space under a bottom-aligned title: the same platform-chrome margin captions keep.
+    titleBottom: 480 / 1920,
     tagTop: 200 / 1920,
     bottomScrim: 460 / 1920,
   },
   wide: {
     topScrim: 162 / 1080,
     titleTop: 97 / 1080,
+    titleBottom: 36 / 1080,
     tagTop: 49 / 1080,
     bottomScrim: 0,
   },
@@ -162,9 +169,8 @@ function overlayMetrics(width: number, height: number) {
     topScrimHeight: Math.round(height * profile.topScrim),
     bottomScrimHeight: Math.round(height * profile.bottomScrim),
     titleTop: Math.round(height * profile.titleTop),
+    titleBottom: Math.round(height * profile.titleBottom),
     titleInset: cropInset + px(110),
-    titleFontSize: px(52),
-    titleShadow: `0 ${px(2)}px ${px(8)}px rgba(0,0,0,.6)`,
     tagTop: Math.round(height * profile.tagTop),
     tagLeft: cropInset + px(14),
     tagFontSize: px(15),
@@ -265,7 +271,7 @@ export function SceneView({
   motionStartFromSeconds = 0,
   fadeInFrames = 0,
   effects = DEFAULT_EFFECTS,
-  titleFontId = "be-vietnam",
+  titleStyle,
 }: {
   scene: Scene;
   projectSlug: string;
@@ -276,12 +282,12 @@ export function SceneView({
   motionStartFromSeconds?: number;
   fadeInFrames?: number;
   effects?: EffectsConfig;
-  // branding.json `title.font`; bundled fonts only: system Arial draws broken Vietnamese diacritics at heavy weight.
-  titleFontId?: CaptionFontId;
+  // branding.json `title`; absent in bundles built before the title was editable.
+  titleStyle?: Partial<TitleStyle>;
 }) {
   const local = useCurrentFrame();
   const { width, height } = useVideoConfig();
-  const titleFont = useCaptionFont(titleFontId);
+  const title = resolveTitleStyle(titleStyle);
   const overlay = overlayMetrics(width, height);
   const motion = getSceneMotion(projectSlug, scene.scene);
   // Fade the whole scene (image + overlays together) in over the previous scene, which is still
@@ -319,34 +325,28 @@ export function SceneView({
       )}
 
       {/* top scrim + title, sized by overlayMetrics for the current aspect */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: overlay.topScrimHeight,
-          background: "linear-gradient(rgba(0,0,0,.74), transparent)",
-        }}
-      />
-      {scene.title && (
+      {title.scrim && (
         <div
           style={{
             position: "absolute",
-            top: overlay.titleTop,
-            left: overlay.titleInset,
-            right: overlay.titleInset,
-            textAlign: "center",
-            fontFamily: titleFont.family,
-            fontWeight: titleFont.weight,
-            fontSize: overlay.titleFontSize,
-            lineHeight: 1.1,
-            color: "white",
-            textShadow: overlay.titleShadow,
+            top: 0,
+            left: 0,
+            right: 0,
+            height: overlay.topScrimHeight,
+            background: "linear-gradient(rgba(0,0,0,.74), transparent)",
           }}
-        >
-          {scene.title}
-        </div>
+        />
+      )}
+      {scene.title && title.enabled && (
+        <SceneTitle
+          text={scene.title}
+          style={title}
+          box={{
+            top: overlay.titleTop,
+            bottom: overlay.titleBottom,
+            inset: overlay.titleInset,
+          }}
+        />
       )}
       {/* AI reconstruction tag — kept clear of the top-left back button */}
       {showsAiTag && (
@@ -494,7 +494,7 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
                   motionStartFromSeconds={project.motionHeadSeconds?.[i] ?? 0}
                   fadeInFrames={overlap}
                   effects={effects}
-                  titleFontId={project.branding?.title?.font}
+                  titleStyle={project.branding?.title}
                 />
               </Sequence>
               {scene.hasAudio && (

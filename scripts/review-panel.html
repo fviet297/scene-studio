@@ -322,85 +322,11 @@
     </div>
     <span class="cap-ctl">
       <button class="btn sm quiet" type="button" id="tlCaptionsToggle" aria-pressed="false" title="Phụ đề lời dẫn: chữ chạy theo nhịp đọc trên video. Hiện ở Bản render / 9:16 và trong MP4; chế độ Nháp không vẽ phụ đề."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg>Phụ đề</button>
-      <button class="icon-btn" type="button" id="tlCaptionsSettings" aria-haspopup="dialog" aria-expanded="false" aria-controls="tlCaptionsPop" aria-label="Tuỳ chỉnh phụ đề" title="Cỡ chữ, màu, vị trí phụ đề"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
-      <div class="cap-pop" id="tlCaptionsPop" role="dialog" aria-label="Tuỳ chỉnh phụ đề" hidden>
-        <div class="field">
-          <label for="capFont">Font chữ <span class="note">nhúng sẵn, giống Mac/Windows</span></label>
-          <select class="mini wide" id="capFont">
-            <option value="be-vietnam">Be Vietnam Pro (mặc định)</option>
-            <option value="montserrat">Montserrat</option>
-            <option value="anton">Anton (chữ cao, đậm)</option>
-            <option value="bangers">Bangers (truyện tranh)</option>
-            <option value="playfair">Playfair Display (serif điện ảnh)</option>
-            <option value="charm">Charm (thư pháp bút lông)</option>
-            <option value="lobster">Lobster (chữ viết tay đậm)</option>
-            <option value="arial">Arial (font của máy)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="capTitleFont">Font tiêu đề scene <span class="note">chữ lớn ở đầu khung hình</span></label>
-          <select class="mini wide" id="capTitleFont">
-            <option value="be-vietnam">Be Vietnam Pro (mặc định)</option>
-            <option value="playfair">Playfair Display (serif điện ảnh)</option>
-            <option value="charm">Charm (thư pháp bút lông)</option>
-            <option value="lobster">Lobster (chữ viết tay đậm)</option>
-            <option value="montserrat">Montserrat</option>
-            <option value="anton">Anton (chữ cao, đậm)</option>
-            <option value="bangers">Bangers (truyện tranh)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="capSize">Cỡ chữ <output class="num" id="capSizeVal" for="capSize"></output></label>
-          <input type="range" id="capSize" min="28" max="72" step="1" />
-        </div>
-        <div class="field">
-          <span class="field-label" id="capPositionLabel">Vị trí</span>
-          <div class="segmented" id="capPosition" role="group" aria-labelledby="capPositionLabel">
-            <button type="button" data-position="top" aria-pressed="false">Trên</button>
-            <button type="button" data-position="middle" aria-pressed="false">Giữa</button>
-            <button type="button" data-position="bottom" aria-pressed="true">Dưới</button>
-          </div>
-        </div>
-        <div class="field">
-          <label for="capOffset">Dịch dọc <span class="note">lên − / xuống +</span> <output class="num" id="capOffsetVal" for="capOffset"></output></label>
-          <input type="range" id="capOffset" min="-300" max="300" step="5" />
-        </div>
-        <div class="field">
-          <label for="capStroke">Viền chữ <output class="num" id="capStrokeVal" for="capStroke"></output></label>
-          <input type="range" id="capStroke" min="0" max="14" step="1" />
-        </div>
-        <div class="field">
-          <label for="capBg">Nền mờ sau chữ <output class="num" id="capBgVal" for="capBg"></output></label>
-          <input type="range" id="capBg" min="0" max="80" step="2" />
-        </div>
-        <div class="field">
-          <span class="field-label" id="capHighlightLabel">Hiệu ứng chữ đang đọc</span>
-          <div class="segmented" id="capHighlight" role="group" aria-labelledby="capHighlightLabel">
-            <button type="button" data-highlight="karaoke" aria-pressed="true">Quét màu</button>
-            <button type="button" data-highlight="word" aria-pressed="false">Đổi màu từ</button>
-            <button type="button" data-highlight="none" aria-pressed="false">Tắt</button>
-          </div>
-        </div>
-        <label class="cap-check"><input type="checkbox" id="capUppercase" /> CHỮ IN HOA</label>
-        <div class="field-row">
-          <div class="field">
-            <label for="capSpokenColor">Màu đã đọc</label>
-            <input class="cap-color" type="color" id="capSpokenColor" />
-          </div>
-          <div class="field">
-            <label for="capUnspokenColor">Màu chưa đọc</label>
-            <input class="cap-color" type="color" id="capUnspokenColor" />
-          </div>
-        </div>
-        <div class="field" id="capAnchorField">
-          <label for="capAnchor">Bám theo <span class="note">video 16:9</span></label>
-          <select class="mini wide" id="capAnchor">
-            <option value="crop">Vùng crop dọc (9:16 đủ chữ)</option>
-            <option value="frame">Mép khung 16:9 (9:16 có thể cắt)</option>
-          </select>
-        </div>
-        <button class="btn sm quiet" type="button" id="capReset">Đặt lại mặc định</button>
-      </div>
+      <button class="icon-btn" type="button" id="tlCaptionsSettings" aria-haspopup="dialog" aria-label="Kiểu chữ phụ đề" title="Kiểu chữ phụ đề: mẫu có sẵn, font, màu, viền, vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+    </span>
+    <span class="cap-ctl">
+      <button class="btn sm quiet" type="button" id="tlTitleToggle" aria-pressed="true" title="Tiêu đề scene: dòng chữ lớn ở đầu khung hình. Hiện ở Bản render / 9:16 và trong MP4; chế độ Nháp không vẽ tiêu đề."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg>Tiêu đề</button>
+      <button class="icon-btn" type="button" id="tlTitleSettings" aria-haspopup="dialog" aria-label="Kiểu chữ tiêu đề scene" title="Kiểu chữ tiêu đề scene: mẫu có sẵn, font, màu, viền, vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
     </span>
     <span class="fx-ctl">
       <button class="btn sm quiet" type="button" id="tlEffectsToggle" aria-pressed="false" aria-haspopup="dialog" aria-expanded="false" aria-controls="tlEffectsPop" title="Hiệu ứng video: chuyển cảnh, tông màu, lớp phủ (mưa, hoa rơi, sương...). Hiện ở Bản render / 9:16 và trong MP4."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="M19 3v4M17 5h4"/></svg>Hiệu ứng</button>
@@ -1413,6 +1339,125 @@
   </div>
 </div>
 
+<!-- Text style editor: one dialog for every burned-in text layer (subtitles, scene title). The layer
+     is chosen by the button that opens it; review-text-style.js -->
+<div class="overlay" id="tsOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="tsTitle">
+  <div class="dialog ts-dialog">
+    <div class="dialog-head">
+      <h2 id="tsTitle">Kiểu chữ</h2>
+      <span class="note" id="tsSubtitle"></span>
+      <span class="grow"></span>
+      <button class="icon-btn" type="button" id="tsClose" aria-label="Đóng">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="ts-body">
+      <figure class="ts-preview">
+        <div class="ts-stage" id="tsStage" role="img" aria-label="Xem trước kiểu chữ trên ảnh scene đang chọn">
+          <img id="tsStageImg" alt="" hidden />
+          <div class="ts-scrim" id="tsScrim"></div>
+          <div class="ts-layer" id="tsLayer"><div class="ts-text" id="tsText"></div></div>
+        </div>
+        <figcaption class="note">Xem trước gần đúng trên ảnh scene đang chọn. Bản render và MP4 là bản chính xác.</figcaption>
+      </figure>
+      <div class="ts-controls" id="tsControls">
+        <label class="brand-check ts-enable"><input type="checkbox" data-ts="enabled" /> <span id="tsEnableLabel">Hiện</span></label>
+        <fieldset class="ts-group">
+          <legend>Mẫu có sẵn</legend>
+          <div class="ts-presets" id="tsPresets" role="group" aria-label="Mẫu kiểu chữ"></div>
+          <span class="note">Chọn mẫu rồi chỉnh tiếp bên dưới. Mẫu không đổi cỡ chữ và vị trí.</span>
+        </fieldset>
+        <fieldset class="ts-group">
+          <legend>Chữ</legend>
+          <div class="field">
+            <label for="tsFont">Font <span class="note">nhúng sẵn, giống Mac/Windows</span></label>
+            <select class="mini wide" id="tsFont" data-ts="font">
+              <option value="be-vietnam">Be Vietnam Pro (mặc định)</option>
+              <option value="montserrat">Montserrat</option>
+              <option value="anton">Anton (chữ cao, đậm)</option>
+              <option value="bangers">Bangers (truyện tranh)</option>
+              <option value="playfair">Playfair Display (serif điện ảnh)</option>
+              <option value="charm">Charm (thư pháp bút lông)</option>
+              <option value="lobster">Lobster (chữ viết tay đậm)</option>
+              <option value="arial">Arial (font của máy)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tsSize">Cỡ chữ <output class="num" id="tsSizeVal" data-ts-out="size" for="tsSize"></output></label>
+            <input type="range" id="tsSize" data-ts="size" min="28" max="72" step="1" />
+          </div>
+          <div class="field-row">
+            <div class="field" data-ts-for="title">
+              <label for="tsColor">Màu chữ</label>
+              <input class="cap-color" type="color" id="tsColor" data-ts="color" />
+            </div>
+            <div class="field" data-ts-for="captions">
+              <label for="tsSpokenColor">Màu đã đọc</label>
+              <input class="cap-color" type="color" id="tsSpokenColor" data-ts="spokenColor" />
+            </div>
+            <div class="field" data-ts-for="captions">
+              <label for="tsUnspokenColor">Màu chưa đọc</label>
+              <input class="cap-color" type="color" id="tsUnspokenColor" data-ts="unspokenColor" />
+            </div>
+          </div>
+          <label class="brand-check"><input type="checkbox" data-ts="uppercase" /> CHỮ IN HOA</label>
+        </fieldset>
+        <fieldset class="ts-group">
+          <legend>Viền và nền</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="tsStroke">Viền chữ <output class="num" id="tsStrokeVal" data-ts-out="strokeWidth" for="tsStroke"></output></label>
+              <input type="range" id="tsStroke" data-ts="strokeWidth" min="0" max="14" step="1" />
+            </div>
+            <div class="field ts-color-field">
+              <label for="tsStrokeColor">Màu viền</label>
+              <input class="cap-color" type="color" id="tsStrokeColor" data-ts="strokeColor" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="tsBg">Nền mờ sau chữ <output class="num" id="tsBgVal" data-ts-out="backgroundOpacity" for="tsBg"></output></label>
+            <input type="range" id="tsBg" data-ts="backgroundOpacity" data-ts-scale="100" min="0" max="80" step="2" />
+          </div>
+          <label class="brand-check" data-ts-for="title"><input type="checkbox" data-ts="shadow" /> Bóng đổ nhẹ sau chữ</label>
+        </fieldset>
+        <fieldset class="ts-group">
+          <legend>Vị trí</legend>
+          <div class="segmented" data-ts-seg="position" role="group" aria-label="Vị trí theo chiều dọc">
+            <button type="button" data-value="top" aria-pressed="false">Trên</button>
+            <button type="button" data-value="middle" aria-pressed="false">Giữa</button>
+            <button type="button" data-value="bottom" aria-pressed="false">Dưới</button>
+          </div>
+          <div class="field">
+            <label for="tsOffset">Dịch dọc <span class="note">lên − / xuống +</span> <output class="num" id="tsOffsetVal" data-ts-out="offsetY" for="tsOffset"></output></label>
+            <input type="range" id="tsOffset" data-ts="offsetY" min="-300" max="300" step="5" />
+          </div>
+          <div class="field" id="tsAnchorField" data-ts-for="captions">
+            <label for="tsAnchor">Bám theo <span class="note">video 16:9</span></label>
+            <select class="mini wide" id="tsAnchor" data-ts="anchor">
+              <option value="crop">Vùng crop dọc (9:16 đủ chữ)</option>
+              <option value="frame">Mép khung 16:9 (9:16 có thể cắt)</option>
+            </select>
+          </div>
+          <label class="brand-check" data-ts-for="title"><input type="checkbox" data-ts="scrim" /> Dải tối mờ ở đầu khung hình <span class="note">giúp chữ dễ đọc</span></label>
+        </fieldset>
+        <fieldset class="ts-group" data-ts-for="captions">
+          <legend>Hiệu ứng chữ đang đọc</legend>
+          <div class="segmented" data-ts-seg="highlight" role="group" aria-label="Hiệu ứng chữ đang đọc">
+            <button type="button" data-value="karaoke" aria-pressed="false">Quét màu</button>
+            <button type="button" data-value="word" aria-pressed="false">Đổi màu từ</button>
+            <button type="button" data-value="none" aria-pressed="false">Tắt</button>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="dialog-foot">
+      <span class="note" role="status">Tự lưu. Bản render và MP4 dùng ngay kiểu này.</span>
+      <button class="btn quiet" type="button" id="tsReset" title="Đặt font, màu, viền, nền, cỡ chữ và vị trí về mặc định">Đặt lại mặc định</button>
+      <button class="btn primary" type="button" id="tsDone">Xong</button>
+    </div>
+  </div>
+</div>
+
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
 <script src="/log.js"></script>
@@ -1420,6 +1465,7 @@
 <script src="/crop.js"></script>
 <script src="/timeline.js"></script>
 <script src="/effects.js"></script>
+<script src="/text-style.js"></script>
 <script src="/script-gen.js"></script>
 <script src="/char-image.js"></script>
 <script src="/menu.js"></script>

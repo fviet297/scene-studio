@@ -3505,6 +3505,10 @@ window.addEventListener("keydown", (e) => {
       closeModels();
       return;
     }
+    if (!$("tsOverlay").hidden) {
+      closeTextStyle();
+      return;
+    }
     if (!$("brandOverlay").hidden) {
       $("brandOverlay").hidden = true;
       return;

@@ -2,6 +2,7 @@ import React from "react";
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { deliveryBand } from "./delivery-band";
 import { useCaptionFont, type CaptionFontId } from "./caption-fonts";
+import { strokeOutline } from "./text-style";
 
 // Burned-in narration subtitles. scripts/lib/caption-align.mjs spreads each scene's words across
 // the speech regions of its audio, so a word's start/end is approximate (no word-level ASR) but
@@ -26,6 +27,7 @@ export interface CaptionStyle {
   font: CaptionFontId;
   size: number;
   strokeWidth: number;
+  strokeColor: string;
   backgroundOpacity: number;
   uppercase: boolean;
   highlight: CaptionHighlight;
@@ -43,6 +45,7 @@ export const DEFAULT_CAPTION_STYLE: CaptionStyle = {
   font: "be-vietnam",
   size: 48,
   strokeWidth: 7,
+  strokeColor: "#000000",
   backgroundOpacity: 0.42,
   uppercase: false,
   highlight: "karaoke",
@@ -87,10 +90,9 @@ const wordProgress = (word: CaptionWord, seconds: number) =>
 const outline = (
   px: (n: number) => number,
   strokeWidth: number,
+  strokeColor: string,
 ): React.CSSProperties => ({
-  WebkitTextStroke:
-    strokeWidth > 0 ? `${px(strokeWidth)}px rgba(0,0,0,.78)` : undefined,
-  paintOrder: "stroke fill",
+  ...strokeOutline(px, strokeWidth, strokeColor),
   textShadow: `0 ${px(3)}px ${px(10)}px rgba(0,0,0,.55)`,
 });
 
@@ -107,7 +109,7 @@ function CaptionWordView({
 }) {
   const progress = wordProgress(word, seconds);
   const isActive = progress > 0 && progress < 1;
-  const textStyle = outline(px, style.strokeWidth);
+  const textStyle = outline(px, style.strokeWidth, style.strokeColor);
   const text = style.uppercase ? word.text.toLocaleUpperCase("vi") : word.text;
   if (style.highlight !== "karaoke") {
     const reached = style.highlight === "word" && progress > 0;

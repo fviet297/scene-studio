@@ -55,7 +55,7 @@
 //   GET  /api/model-config    → providers (endpoint, masked key) and image/motion models, grouped for the manager
 //   POST /api/model-config/<provider-add|provider-update|provider-delete|model-add|model-update|model-delete|model-hidden>
 //                             → edit data/models.json (keys never returned in full), answers with the refreshed list
-//   GET  /api/branding        → the active project's corner logo + watermark, captions, title font, effects
+//   GET  /api/branding        → the active project's corner logo + watermark, captions + scene title text styles, effects
 //   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
 //   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
 //   POST /api/project-aspect  → { aspect } → change the active project's `aspect:` header
@@ -151,6 +151,7 @@ const PANEL_ASSETS = {
   '/panel.js': ['review-panel.js', 'text/javascript; charset=utf-8'],
   '/timeline.js': ['review-timeline.js', 'text/javascript; charset=utf-8'],
   '/effects.js': ['review-effects.js', 'text/javascript; charset=utf-8'],
+  '/text-style.js': ['review-text-style.js', 'text/javascript; charset=utf-8'],
   '/script-gen.js': ['review-script-gen.js', 'text/javascript; charset=utf-8'],
   '/char-image.js': ['review-char-image.js', 'text/javascript; charset=utf-8'],
   '/crop.js': ['review-crop.js', 'text/javascript; charset=utf-8'],

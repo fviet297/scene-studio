@@ -1591,3 +1591,68 @@ body.view-timeline .workbench { display: none; }
   .thumb-body { grid-template-columns: 1fr; overflow-y: auto; }
   .thumb-controls { overflow: visible; }
 }
+
+/* ---------------------------------------------------------------- Text style editor (review-text-style.js) */
+
+/* The fonts the render bundles (public/fonts, src/caption-fonts.ts), so the preview draws the same glyphs. */
+@font-face { font-family: "SceneStudio Be Vietnam Pro"; src: url("/public/fonts/BeVietnamPro-ExtraBold.ttf"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "SceneStudio Montserrat"; src: url("/public/fonts/Montserrat-Variable.ttf"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "SceneStudio Anton"; src: url("/public/fonts/Anton-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "SceneStudio Bangers"; src: url("/public/fonts/Bangers-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "SceneStudio Playfair Display"; src: url("/public/fonts/PlayfairDisplay-Variable.ttf"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "SceneStudio Charm"; src: url("/public/fonts/Charm-Bold.ttf"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "SceneStudio Lobster"; src: url("/public/fonts/Lobster-Regular.ttf"); font-weight: 400; font-display: swap; }
+
+/* A control shown for one layer only (data-ts-for) must hide even where its class sets display. */
+[data-ts-for][hidden] { display: none !important; }
+
+.dialog.ts-dialog { width: min(980px, 100%); }
+.ts-body { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; padding: 14px; overflow: hidden; min-height: 0; }
+.ts-preview { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+.ts-preview .note { font-size: 11.5px; color: var(--faint); text-align: center; }
+.ts-stage {
+  --ts-aspect: 9 / 16;
+  position: relative; overflow: hidden; aspect-ratio: var(--ts-aspect);
+  width: min(100%, calc(64vh * (9 / 16))); background: var(--stage);
+  border: 1px solid var(--line); border-radius: var(--r-ctl);
+}
+/* A 16:9 stage is wide: let it use the column instead of the narrow 9:16 width. */
+.ts-stage[style*="16 / 9"] { width: min(100%, calc(56vh * (16 / 9))); }
+.ts-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ts-scrim { position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(rgba(0, 0, 0, .74), transparent); }
+.ts-scrim[hidden] { display: none; }
+.ts-layer { position: absolute; display: flex; justify-content: center; }
+.ts-text { text-align: center; text-wrap: balance; max-width: 100%; }
+
+.ts-controls { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; min-height: 0; padding-right: 2px; }
+.ts-controls label .note { text-transform: none; letter-spacing: 0; font-size: 11.5px; color: var(--faint); }
+.ts-group {
+  margin: 0; padding: 12px; display: flex; flex-direction: column; gap: 12px;
+  border: 1px solid var(--line-soft); border-radius: var(--r-panel); background: var(--surface-2);
+}
+.ts-group legend { padding: 0 6px; font-size: 12px; font-weight: 650; color: var(--text); }
+.ts-group > .note { font-size: 11.5px; color: var(--muted); }
+.ts-group .field output { margin-left: 6px; color: var(--muted); letter-spacing: 0; }
+.ts-group input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.ts-group .segmented { width: 100%; }
+.ts-group .segmented button { flex: 1; justify-content: center; }
+.ts-group .field-row { align-items: flex-end; }
+.ts-group .ts-color-field { flex: 0 0 96px; }
+.ts-enable { padding: 0 2px; font-weight: 600; }
+
+.ts-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.ts-preset {
+  display: flex; flex-direction: column; gap: 4px; padding: 3px; text-align: center;
+  border: 2px solid transparent; border-radius: var(--r-ctl); background: var(--surface-3);
+  color: var(--muted); font-size: 11px; font-weight: 600;
+  transition: border-color .15s ease, color .15s ease;
+}
+.ts-preset-sample { display: grid; place-items: center; height: 38px; border-radius: 4px; font-size: 20px; line-height: 1; }
+.ts-preset:hover { color: var(--text); border-color: var(--line); }
+.ts-preset[aria-pressed="true"] { color: var(--text); border-color: var(--accent); }
+.ts-preset:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+@media (max-width: 900px) {
+  .ts-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .ts-controls { overflow: visible; }
+}
