@@ -1,0 +1,22 @@
+{
+  "character_id": "char-d",
+  "name": "Trinh Kiem",
+  "display_name": "Trịnh Kiểm",
+  "aliases": [
+    "Trịnh Kiểm"
+  ],
+  "country": "Đại Việt",
+  "period": "16th century (d. 1570)",
+  "dynasty": "Lê Trung Hưng / Mạc",
+  "role": "Tướng Lê Trung Hưng, con rể Nguyễn Kim, nắm quyền chỉ huy quân đội sau khi Nguyễn Kim mất năm 1545",
+  "known_facts": [
+    "Là con rể của Nguyễn Kim",
+    "Sau 1545 dần nắm quyền chỉ huy lực lượng Lê Trung Hưng",
+    "Khởi đầu quyền lực họ Trịnh bên cạnh vua Lê"
+  ],
+  "interpretation": "Trang phục triều đình/quân đội Đại Việt thế kỷ 16, không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-nguyen-phan-tranh/characters/char-d.jpg"
+}

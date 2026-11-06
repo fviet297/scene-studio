@@ -1,0 +1,21 @@
+{
+  "character_id": "char-d",
+  "name": "Nguyen Thi Ngoc Bao",
+  "display_name": "Nguyễn Thị Ngọc Bảo",
+  "aliases": [
+    "Ngọc Bảo"
+  ],
+  "country": "Đại Việt",
+  "period": "16th century",
+  "dynasty": "Lê Trung Hưng",
+  "role": "Con gái Nguyễn Kim, vợ Trịnh Kiểm, chị của Nguyễn Hoàng",
+  "known_facts": [
+    "Con gái Nguyễn Kim, kết hôn với Trịnh Kiểm",
+    "Theo sử, Nguyễn Hoàng nhờ bà nói với Trịnh Kiểm để được vào trấn thủ Thuận Hóa"
+  ],
+  "interpretation": "16th-century Đại Việt noblewoman: layered áo giao lĩnh crossed-collar robe, long skirt, hair in a low bun with a plain headscarf. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-kiem/characters/char-d.jpg"
+}

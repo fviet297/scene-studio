@@ -2,6 +2,9 @@
 //   1. writeStory   — one call: title, slug, through-line, setting, the cast, and per scene the
 //                     Vietnamese narration, delivery cue, cast ids and an English visual beat. One
 //                     call for the whole narration is what keeps it a single connected voice-over.
+//      writeShots   — when the project has a motion clip length, a narration longer than one clip
+//                     is shown in several shots (lib/shot-timing.mjs): this splits its line into
+//                     that many consecutive visual beats. Every later phase works on shots.
 //   2. writeVisuals — the image prompt (with its Vietnamese translation) for a batch of scenes,
 //                     under the same house rules as prompt-writer.mjs.
 //   3. motion       — camera / action / env per scene, written independently of the image prompt
@@ -9,13 +12,14 @@
 // Phases 2 and 3 are fed the English beats, not the narration: the beat already names the
 // drawable event, and an English-only request also passes LLM routers that refuse Vietnamese input.
 // The narration rules follow the trangca skill's story arc and the tony skill's narrator voice.
-// Two styles: 'standard' (a character-led story) and 'map' (a "Vì sao …?" documentary told on a
+// Two styles: 'standard' (a character-led story, whose spatial lines can still be drawn as map scenes) and 'map' (a "Vì sao …?" documentary told on a
 // map, scripts/lib/map-mode.mjs), which swaps the story, image-prompt and motion rules.
 
 import { chatJson } from './llm-client.mjs';
 import { PROMPT_EXAMPLES, SCENE_PROMPT_RULES, sceneCharacterBrief } from './prompt-writer.mjs';
 import { writeMotionsBatched } from './motion-writer.mjs';
-import { MAP_MOTION_SYSTEM, MAP_PROMPT_EXAMPLE, MAP_PROMPT_RULES, mapStorySystem } from './map-mode.mjs';
+import { MAP_MOTION_SYSTEM, MAP_PROMPT_EXAMPLE, MAP_PROMPT_RULES, MAP_SCENES_STORY_RULES, MAP_SCENES_VISUALS_RULES, mapStorySystem } from './map-mode.mjs';
+import { estimateNarrationSeconds, shotCountFor } from './shot-timing.mjs';
 
 export const SCENE_COUNT_MIN = 3;
 export const SCRIPT_STYLES = ['standard', 'map'];
@@ -27,7 +31,7 @@ export const CUES = ['neutral', 'dramatic', 'tense', 'somber', 'hopeful', 'curio
 // roughly halves the wait (a 5-scene batch takes ~45 s) without hammering the provider.
 const VISUAL_BATCH_SIZE = 5;
 const VISUAL_CONCURRENCY = 2;
-const MAX_CAST = 5;
+const MAX_CAST = 6;
 const CAST_ID_RE = /^char-[a-z]$/;
 
 // Parts of the story prompt both styles share (the map style assembles them in map-mode.mjs).
@@ -39,7 +43,8 @@ const LANGUAGE_RULES = `LANGUAGE
 const CAST_FIELDS_RULE = `- Fields: id; name (ASCII, no diacritics); display_name; aliases (array); country; period; dynasty ("" when not applicable); role (one sentence); known_facts (three to eight short English facts the video relies on); appearance (English, 40 to 80 words, for drawing the reference image: apparent age, build, face, hair and facial hair, period-correct clothing or armour with colours and materials, one signature accessory; no art-style words, no background).`;
 
 const STORY_OUTPUT_RULES = `OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"title": "...", "slug": "...", "through_line": "...", "setting": "...", "characters": [{"id": "char-a", "name": "...", "display_name": "...", "aliases": [], "country": "...", "period": "...", "dynasty": "...", "role": "...", "known_facts": [], "appearance": "..."}], "scenes": [{"scene": 1, "cue": "...", "chars": ["char-a"], "narration": "...", "visual": "..."}]}
+{"title": "...", "slug": "...", "through_line": "...", "setting": "...", "characters": [{"id": "char-a", "name": "...", "display_name": "...", "aliases": [], "country": "...", "period": "...", "dynasty": "...", "role": "...", "known_facts": [], "appearance": "..."}], "scenes": [{"scene": 1, "cue": "...", "chars": ["char-a"], "narration": "...", "visual": "...", "map": false}]}
+- map: true only for a map scene as the story rules define it; false (or left out) for every other scene.
 - title: the Vietnamese video title, under 70 characters.
 - slug: lowercase ASCII words joined by hyphens, under 40 characters.
 - setting: English — the country or region, era and culture every image must stay inside, e.g. "Dai Viet (northern Vietnam), 1390s-1407: the late Tran court, the Ho dynasty and the Ming invasion army".`;
@@ -79,14 +84,17 @@ ACCURACY — the script is held to the record, not to what would make a good sce
 - Explain outcomes by context, resources, terrain and strategy, never by ethnicity.
 
 CAST
-- "characters": the named people who appear on screen in several scenes and so need a fixed look (a reference image locks their face). Usually one to three. id "char-a" is the main figure, then "char-b", "char-c" in order of first appearance. Someone seen in only one scene, or only from a distance, is not cast: draw them as an anonymous extra.
+- "characters": the named people who appear on screen in several scenes and so need a fixed look (a reference image locks their face AND their costume). Usually one to three people, at most six ids in all. id "char-a" is the main figure, then "char-b", "char-c" in order of first appearance. Someone seen in only one scene, or only from a distance, is not cast: draw them as an anonymous extra.
+- LIFE STAGES — one id per look. When a person's look changes materially during the story and the viewer must see it (an exiled prince who is later crowned, a commoner who becomes a general, a youth who grows old, armour exchanged for a monk's robe), cast each stage as its own id, because one reference cannot show both costumes. Do not split for a pose, a mood, a wound or a prop. Name the stage in display_name in brackets (“Lê Duy Ninh (thời lưu lạc)”, “Lê Trang Tông (sau đăng quang)”), give every stage the same aliases, and make period, role, known_facts and appearance describe only that stage (appearance: that stage's dress; the face, build and age lineage stay consistent with the other stage). In each scene "chars" holds the id of the stage the person is in at that moment — the scene that completes the change uses the new id — and never both ids of the same person in one scene. A line that spans the change becomes two scenes. Split only people who appear in several scenes at each stage, and never inflate the cast just to reach six.
 ${CAST_FIELDS_RULE}
 
 SCENES — exactly the requested number, numbered 1..N in order
 - narration: the Vietnamese voice-over line.
 - cue: the delivery emotion, one of neutral | dramatic | tense | somber | hopeful | curious. Hook → dramatic or tense; setup and context → neutral; betrayal or death → somber; battle or chase → tense; victory → dramatic; legacy → hopeful; the closing question → curious. Vary it across the video.
 - chars: the cast ids visible in this scene, in left-to-right placement order; [] when no cast member is on screen. Put the main figure on screen whenever the line is about what they do, decide, lose or suffer — even as a small figure in a wide scene — so the viewer watches them live the story; leave them out only for beats about other actors (the enemy fleet, a rival's decision) or pure setting.
-- visual: English, one or two sentences naming the ONE drawable moment of this line: who does what to whom, where, and at what time of day, with the place and era named. Take it from what the narration line records; do not add gestures, objects or crowd reactions the line does not state, and for a context line (a law, a number, a cause) draw the documented place, people at work or the era's artefacts, never an invented incident. A concrete event with people acting, never a symbol, a map on a table, a book or an empty room. A battle, landing, storm, siege or chase is shown in progress, never replaced by lookouts watching the horizon or people tidying up afterwards; only a killing or massacre is shown as the moment just before or after. Give each scene a different setting or activity from its neighbours. Refer to cast members by name and say only what they do: their face, hair and clothing come from the reference image, so never describe them here.
+- visual: English, one or two sentences naming the ONE drawable moment of this line: who does what to whom, where, and at what time of day, with the place and era named. Take it from what the narration line records; do not add gestures, objects or crowd reactions the line does not state, and for a context line (a law, a number, a cause) draw the documented place, people at work or the era's artefacts, never an invented incident. A concrete event with people acting, never a symbol, a map on a table, a book or an empty room. A battle, landing, storm, siege or chase is shown in progress, never replaced by lookouts watching the horizon or people tidying up afterwards; only a killing or massacre is shown as the moment just before or after. Give each scene a different setting or activity from its neighbours. Refer to cast members by name and say only what they do: their face, hair and clothing come from the reference image, so never describe them here. The exception is a map scene (see below), whose visual is a map frame.
+
+${MAP_SCENES_STORY_RULES}
 
 ${STORY_OUTPUT_RULES}`;
 
@@ -106,7 +114,7 @@ ${examples}`;
 const STYLE_PROMPTS = {
   standard: {
     story: STORY_SYSTEM,
-    visuals: visualsSystem(SCENE_PROMPT_RULES, PROMPT_EXAMPLES),
+    visuals: visualsSystem(`${SCENE_PROMPT_RULES}\n\n${MAP_SCENES_VISUALS_RULES(MAP_PROMPT_EXAMPLE)}`, PROMPT_EXAMPLES),
     motion: undefined, // the project's own motion template (motion-writer.mjs)
   },
   map: {
@@ -160,13 +168,19 @@ const normalizeCast = (raw) => {
 
 // The model's scenes, renumbered 1..n in reply order. A scene without narration is dropped (there
 // is nothing to voice or to draw it from); unknown cast ids and cues fall back to none / neutral.
-const normalizeScenes = (raw, castIds) => (Array.isArray(raw) ? raw : [])
-  .map((s) => ({
-    cue: CUES.includes(asText(s?.cue).toLowerCase()) ? asText(s.cue).toLowerCase() : 'neutral',
-    chars: [...new Set(asList(s?.chars).map((id) => id.toLowerCase()))].filter((id) => castIds.includes(id)),
-    narration: oneLine(s?.narration),
-    visual: oneLine(s?.visual),
-  }))
+// `map` marks a map scene of a standard video; it has no cast on screen. In map style every scene is
+// a map frame already, so the flag is dropped there.
+const normalizeScenes = (raw, castIds, style) => (Array.isArray(raw) ? raw : [])
+  .map((s) => {
+    const isMapScene = style !== 'map' && s?.map === true;
+    return {
+      cue: CUES.includes(asText(s?.cue).toLowerCase()) ? asText(s.cue).toLowerCase() : 'neutral',
+      chars: isMapScene ? [] : [...new Set(asList(s?.chars).map((id) => id.toLowerCase()))].filter((id) => castIds.includes(id)),
+      narration: oneLine(s?.narration),
+      visual: oneLine(s?.visual),
+      map: isMapScene,
+    };
+  })
   .filter((s) => s.narration)
   .map((s, i) => ({ scene: i + 1, ...s }));
 
@@ -187,7 +201,7 @@ export const writeStory = async ({ request, sceneCount, style, signal, onLog = (
   for (let attempt = 1; ; attempt++) {
     const reply = await chatJson({ system, user: storyRequest(request, sceneCount, retryNote), signal, onLog, label: 'Viết kịch bản' });
     const characters = normalizeCast(reply.characters);
-    const scenes = normalizeScenes(reply.scenes, characters.map((c) => c.id));
+    const scenes = normalizeScenes(reply.scenes, characters.map((c) => c.id), style);
     if (scenes.length === sceneCount || attempt === 2) {
       if (scenes.length !== sceneCount) onLog(`⚠ LLM trả ${scenes.length}/${sceneCount} scene — giữ nguyên`);
       if (!scenes.length) throw new Error('LLM không trả về scene nào có narration.');
@@ -207,6 +221,104 @@ export const writeStory = async ({ request, sceneCount, style, signal, onLog = (
   }
 };
 
+// Phase 1b. Narrations per writeShots call, and calls at once (as phase 2).
+const SHOT_BATCH_SIZE = 6;
+const SHOT_CONCURRENCY = 2;
+
+const SHOTS_SYSTEM = `You split the visual of a narrated historical video into shots. Each requested scene is one Vietnamese voice-over line that is shown in a given number of consecutive shots while it is read; for each scene you write exactly that many English visual beats, one per shot, in the order the line is spoken.
+
+RULES
+- Shot k shows what the line says during the k-th part of it: the first shot the start of the line, the last shot its end. Split along the line's own clauses; never show something the line has not reached yet.
+- Each beat follows the same discipline as the scene's single beat you are given: one or two English sentences naming ONE drawable moment (who does what to whom, where, at what time of day, with the place and era), a concrete event with people acting, never a symbol, a map on a table, a book or an empty room. Take it from what the line records; do not add gestures, objects, crowds or reactions it does not state. For a context clause (a law, a number, a cause) draw the documented place, people at work or the era's artefacts.
+- The shots of one line must differ from each other: change the action, the framing (wide, medium, close) or the place, so they read as a sequence of new shots, not the same picture repeated. Keep the setting and era continuous.
+- Refer to cast members by name and say only what they do; their face, hair and clothing come from the reference image, so never describe them.
+- chars: the cast ids visible in that shot, in left-to-right order, chosen only from the ids the scene lists; [] when none of them is on screen.
+- map: true only when the scene is marked MAP SCENE (then every shot is a map frame: a route, a territory change, a base location); otherwise false.
+
+OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
+{"scenes": [{"scene": 1, "shots": [{"visual": "...", "chars": ["char-a"], "map": false}]}]}
+- One entry per requested scene, in the order given, each with exactly the requested number of shots.`;
+
+const shotsRequest = (story, batch) => {
+  const names = new Map(story.characters.map((c) => [c.id, c.name]));
+  const blocks = batch.map((s) => `SCENE ${s.scene} — ${s.shots} shots${s.map ? ' — MAP SCENE' : ''}
+Narration: ${s.narration}
+The scene's single beat: ${s.visual}
+Cast ids available: ${s.chars.length ? s.chars.map((id) => `${id} (${names.get(id) ?? id})`).join(', ') : 'none'}`);
+  return `Video setting: ${story.setting || 'as named in the beats'}
+Story through-line: ${story.throughLine}
+
+Split these scenes into shots:
+
+${blocks.join('\n\n')}
+
+Write the JSON object now.`;
+};
+
+// Phase 1b for one batch → Map(scene → [{ visual, chars, map }]), only for scenes the reply covered
+// with exactly the requested number of non-empty shots.
+export const writeShots = async ({ story, batch, signal, onLog }) => {
+  const reply = await chatJson({ system: SHOTS_SYSTEM, user: shotsRequest(story, batch), signal, onLog, label: 'Chia shot' });
+  const wanted = new Map(batch.map((s) => [s.scene, s]));
+  const result = new Map();
+  for (const row of Array.isArray(reply.scenes) ? reply.scenes : []) {
+    const scene = wanted.get(Number(row?.scene));
+    if (!scene) continue;
+    const shots = (Array.isArray(row.shots) ? row.shots : []).map((shot) => ({
+      visual: oneLine(shot?.visual),
+      chars: [...new Set(asList(shot?.chars).map((id) => id.toLowerCase()))].filter((id) => scene.chars.includes(id)),
+      map: scene.map,
+    }));
+    if (shots.length === scene.shots && shots.every((shot) => shot.visual)) result.set(scene.scene, shots);
+  }
+  return result;
+};
+
+// The story's scenes → shots, renumbered 1..n: a narration's first shot carries its narration, its
+// later shots have none (lib/shot-timing.mjs). Every shot keeps the scene's cue (the motion
+// writer's mood). `shotsByScene` holds the split for scenes shown in more than one shot.
+export const flattenShots = (scenes, shotsByScene) => scenes
+  .flatMap((s) => (shotsByScene.get(s.scene) ?? [{ visual: s.visual, chars: s.chars, map: s.map }])
+    .map((shot, i) => ({ cue: s.cue, chars: shot.chars, narration: i === 0 ? s.narration : '', visual: shot.visual, map: shot.map })))
+  .map((shot, i) => ({ scene: i + 1, ...shot }));
+
+// Run phase 1b over the scenes whose narration outlasts one motion clip of `motionSeconds`, then
+// flatten. Without a clip length every narration stays one shot. A failed batch, or a scene the
+// reply split into the wrong number of shots, stays one shot (logged) — "Thêm shot" adds more later.
+const splitIntoShots = async ({ story, motionSeconds, signal, onLog, onProgress }) => {
+  if (!motionSeconds) return story.scenes;
+  const multi = story.scenes
+    .map((s) => ({ ...s, shots: shotCountFor(estimateNarrationSeconds(s.narration), motionSeconds) }))
+    .filter((s) => s.shots > 1);
+  const shotsByScene = new Map();
+  if (multi.length) {
+    onLog(`▶ Chia shot cho ${multi.length} narration dài hơn ${motionSeconds}s…`);
+    const queue = visualBatches(multi, SHOT_BATCH_SIZE);
+    let done = 0;
+    onProgress({ phase: 'shots', done, total: multi.length });
+    const worker = async () => {
+      while (queue.length) {
+        const batch = queue.shift();
+        try {
+          const rows = await writeShots({ story, batch, signal, onLog });
+          for (const [scene, shots] of rows) shotsByScene.set(scene, shots);
+          const missed = batch.filter((s) => !rows.has(s.scene)).map((s) => s.scene);
+          if (missed.length) onLog(`⚠ Scene ${missed.join(', ')}: LLM chia sai số shot — giữ 1 shot`);
+        } catch (error) {
+          if (signal?.aborted) throw error;
+          onLog(`✗ Chia shot scene ${batch[0].scene}–${batch.at(-1).scene}: ${error.message} — giữ 1 shot`);
+        }
+        done += batch.length;
+        onProgress({ phase: 'shots', done, total: multi.length });
+      }
+    };
+    await Promise.all(Array.from({ length: SHOT_CONCURRENCY }, worker));
+  }
+  const shots = flattenShots(story.scenes, shotsByScene);
+  onLog(`✓ ${story.scenes.length} narration → ${shots.length} shot (motion ${motionSeconds}s)`);
+  return shots;
+};
+
 // The character context prompt-writer's brief expects ({ name, country, period, dynasty, role,
 // knownFacts }), from the story's cast.
 const castContext = (cast) => ({
@@ -223,7 +335,7 @@ const visualsRequest = (story, batch) => {
   const outline = story.scenes.map((s) => `${s.scene}. ${s.visual}`).join('\n');
   const blocks = batch.map((s) => {
     const { charLines, notes, budget } = sceneCharacterBrief(s.chars.map((id) => castContext(byId.get(id))));
-    return `SCENE ${s.scene} — mood: ${s.cue}
+    return `SCENE ${s.scene} — mood: ${s.cue}${s.map ? ' — MAP SCENE' : ''}
 Beat: ${s.visual}
 Characters available in this scene, in this exact order (use only these references):
 ${charLines}${notes}
@@ -257,9 +369,9 @@ export const writeVisuals = async ({ story, batch, style, signal, onLog }) => {
     .filter((r) => wanted.has(r.scene) && r.prompt);
 };
 
-export const visualBatches = (scenes) => {
+export const visualBatches = (scenes, size = VISUAL_BATCH_SIZE) => {
   const batches = [];
-  for (let i = 0; i < scenes.length; i += VISUAL_BATCH_SIZE) batches.push(scenes.slice(i, i + VISUAL_BATCH_SIZE));
+  for (let i = 0; i < scenes.length; i += size) batches.push(scenes.slice(i, i + size));
   return batches;
 };
 
@@ -268,13 +380,17 @@ export const visualBatches = (scenes) => {
 // còn thiếu" fills them later — so one bad reply never throws away the whole story. A cancel
 // (`signal`) aborts everything. onProgress gets { phase: 'story' }, then { phase: 'visuals' |
 // 'motion', done, total } as batches finish. `style` is 'standard' (default) or 'map'.
-export const writeVideo = async ({ request, sceneCount, style, signal, onLog = () => {}, onProgress = () => {} }) => {
+// `motionSeconds` (optional): the project's motion clip length; a narration longer than one clip is
+// split into shots (phase 1b, { phase: 'shots' } progress), and the returned story.scenes are those
+// shots — only a narration's first shot carries its narration.
+export const writeVideo = async ({ request, sceneCount, style, motionSeconds, signal, onLog = () => {}, onProgress = () => {} }) => {
   const prompts = stylePrompts(style);
   onProgress({ phase: 'story' });
   onLog(`▶ Viết câu chuyện và narration (${sceneCount} scene${style === 'map' ? ', kiểu bản đồ' : ''})…`);
-  const story = await writeStory({ request, sceneCount, style, signal, onLog });
-  onLog(`✓ "${story.title}" — ${story.scenes.length} scene, ${story.characters.length} nhân vật`);
-  if (story.throughLine) onLog(`  Mạch chính: ${story.throughLine}`);
+  const written = await writeStory({ request, sceneCount, style, signal, onLog });
+  onLog(`✓ "${written.title}" — ${written.scenes.length} scene, ${written.characters.length} nhân vật`);
+  if (written.throughLine) onLog(`  Mạch chính: ${written.throughLine}`);
+  const story = { ...written, scenes: await splitIntoShots({ story: written, motionSeconds, signal, onLog, onProgress }) };
 
   const visuals = new Map();
   const queue = visualBatches(story.scenes);
@@ -301,13 +417,27 @@ export const writeVideo = async ({ request, sceneCount, style, signal, onLog = (
 
   const byId = new Map(story.characters.map((c) => [c.id, c]));
   onProgress({ phase: 'motion', done: 0, total: story.scenes.length });
-  const motions = await writeMotionsBatched({
-    context: { setting: story.setting, throughLine: story.throughLine, outline: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual })) },
-    scenes: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual, cue: s.cue, names: s.chars.map((id) => byId.get(id)?.name ?? id) })),
-    system: prompts.motion,
-    signal,
-    onLog,
-    onBatch: (done, total) => onProgress({ phase: 'motion', done, total }),
-  });
+  const context = { setting: story.setting, throughLine: story.throughLine, outline: story.scenes.map((s) => ({ scene: s.scene, beat: s.visual })) };
+  const toMotionScene = (s) => ({ scene: s.scene, beat: s.visual, cue: s.cue, names: s.chars.map((id) => byId.get(id)?.name ?? id) });
+  // A standard video can hold map scenes: they get the map motion prompt, the rest the style's own.
+  // The two groups run one after the other, so progress counts on from the first group's total.
+  const groups = [
+    { scenes: story.scenes.filter((s) => !s.map), system: prompts.motion },
+    { scenes: story.scenes.filter((s) => s.map), system: MAP_MOTION_SYSTEM },
+  ].filter((g) => g.scenes.length);
+  const motions = new Map();
+  let doneBefore = 0;
+  for (const { scenes, system } of groups) {
+    const rows = await writeMotionsBatched({
+      context,
+      scenes: scenes.map(toMotionScene),
+      system,
+      signal,
+      onLog,
+      onBatch: (done) => onProgress({ phase: 'motion', done: doneBefore + done, total: story.scenes.length }),
+    });
+    for (const [scene, row] of rows) motions.set(scene, row);
+    doneBefore += scenes.length;
+  }
   return { story, visuals, motions };
 };

@@ -19,7 +19,7 @@ import { getSceneMotion } from "./scene-motion";
 import { deliveryBand } from "./delivery-band";
 import { BrandOverlay, type Branding } from "./BrandOverlay";
 import { CaptionTrack, type CaptionGroup } from "./CaptionTrack";
-import { useCaptionFont } from "./caption-fonts";
+import { useCaptionFont, type CaptionFontId } from "./caption-fonts";
 import { GRADE_FILTER, ProjectEffects } from "./effects/ProjectEffects";
 import { transitionFrame } from "./effects/transitions";
 import {
@@ -51,6 +51,11 @@ export type Scene = {
   // Stamped by the builder: whether public/projects/<slug>/audio/scene-NN.mp3 exists. A missing
   // file must NOT be handed to <Audio>, which errors when the source is absent.
   hasAudio?: boolean;
+  // A scene without narration is another shot of the narration before it (shotOf = that scene's
+  // number) and plays on under its audio. audioShots: on the narration's own scene, how many scenes
+  // (itself + its extra shots) its audio plays across. Both stamped by the builder.
+  shotOf?: number;
+  audioShots?: number;
   image: {
     kind: "ai" | "search";
     characters: string[];
@@ -260,6 +265,7 @@ export function SceneView({
   motionStartFromSeconds = 0,
   fadeInFrames = 0,
   effects = DEFAULT_EFFECTS,
+  titleFontId = "be-vietnam",
 }: {
   scene: Scene;
   projectSlug: string;
@@ -270,11 +276,12 @@ export function SceneView({
   motionStartFromSeconds?: number;
   fadeInFrames?: number;
   effects?: EffectsConfig;
+  // branding.json `title.font`; bundled fonts only: system Arial draws broken Vietnamese diacritics at heavy weight.
+  titleFontId?: CaptionFontId;
 }) {
   const local = useCurrentFrame();
   const { width, height } = useVideoConfig();
-  // Title uses the bundled Be Vietnam Pro: system Arial draws broken Vietnamese diacritics at heavy weight.
-  const titleFont = useCaptionFont("be-vietnam");
+  const titleFont = useCaptionFont(titleFontId);
   const overlay = overlayMetrics(width, height);
   const motion = getSceneMotion(projectSlug, scene.scene);
   // Fade the whole scene (image + overlays together) in over the previous scene, which is still
@@ -487,12 +494,15 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
                   motionStartFromSeconds={project.motionHeadSeconds?.[i] ?? 0}
                   fadeInFrames={overlap}
                   effects={effects}
+                  titleFontId={project.branding?.title?.font}
                 />
               </Sequence>
               {scene.hasAudio && (
                 <Sequence
                   from={starts[i]}
-                  durationInFrames={frames[i]}
+                  durationInFrames={frames
+                    .slice(i, i + (scene.audioShots ?? 1))
+                    .reduce((total, f) => total + f, 0)}
                   premountFor={PREMOUNT_SECONDS * project.fps}
                 >
                   <Audio

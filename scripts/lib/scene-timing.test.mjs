@@ -1,11 +1,15 @@
 // node --test scripts/lib/scene-timing.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PLACEHOLDER_SCENE_SECONDS, parseMinDuration, sceneContentSeconds } from './scene-timing.mjs';
+import { PLACEHOLDER_SCENE_SECONDS, parseMinDuration } from './scene-timing.mjs';
+import { groupShotSeconds } from './shot-timing.mjs';
 
-test('a scene with no minimum lasts as long as its audio or its clip, whichever is longer', () => {
+// A narration shown in one shot (the classic one-image scene), via the shot-timing rules.
+const sceneContentSeconds = ({ audio, clip = 0, minDuration }) => groupShotSeconds({ audio, shots: [{ clip, minDuration }] })[0];
+
+test('a scene with no minimum lasts as long as its audio; a longer clip is cut at the audio end', () => {
   assert.equal(sceneContentSeconds({ audio: 6.2, clip: 5 }), 6.2);
-  assert.equal(sceneContentSeconds({ audio: 6.2, clip: 8 }), 8);
+  assert.equal(sceneContentSeconds({ audio: 6.2, clip: 8 }), 6.2);
 });
 
 test('a scene without audio holds for the placeholder length', () => {

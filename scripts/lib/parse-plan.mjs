@@ -9,6 +9,8 @@ import { projectPaths } from './project-paths.mjs';
 import { isMotionStale } from './motion-source.mjs';
 import { parsePlanAspect } from './aspect.mjs';
 import { parseMinDuration } from './scene-timing.mjs';
+import { parseMotionDuration, shotGroups } from './shot-timing.mjs';
+import { readPlanHeader } from './plan-writer.mjs';
 
 // A motion video only gets used when the file is actually a playable MP4 — a failed or
 // interrupted generation can leave a truncated file (or a stray placeholder saved with a .mp4
@@ -110,6 +112,20 @@ export const parsePlan = (slug, inputPath) => {
 
   scenes.sort((a, b) => a.scene - b.scene);
 
+  // A scene without narration is another shot of the narration before it (shot-timing.mjs):
+  // shotOf = that narration's scene number (absent on the scene holding the narration), and
+  // shotIndex / shotCount = its place among the group's shots (1-based).
+  for (const { head, members } of shotGroups(scenes)) {
+    members.forEach((index, i) => {
+      const scene = scenes[index];
+      if (index !== head) scene.shotOf = scenes[head].scene;
+      scene.shotIndex = i + 1;
+      scene.shotCount = members.length;
+    });
+  }
+  const motionDuration = parseMotionDuration(readPlanHeader(raw, 'motion-duration'));
+  if (motionDuration.error) warnings.push(`${motionDuration.error} — ignored`);
+
   for (const s of scenes) {
     if (s.image.kind === 'ai' && !s.image.prompt) warnings.push(`scene ${s.scene}: no prompt and no search`);
     for (const id of s.image.characters) {
@@ -139,7 +155,9 @@ export const parsePlan = (slug, inputPath) => {
     try { assetManifest = JSON.parse(readFileSync(paths.manifest, 'utf8')); } catch { assetManifest = []; }
   }
 
-  return { slug, input, title, aspect, characters, scenes, characterRows, assetManifest, warnings };
+  // motionDuration: the project's motion clip length (plan header `motion-duration:`), undefined
+  // when unset — motion clips are then sized to the narration as before.
+  return { slug, input, title, aspect, motionDuration: motionDuration.value, characters, scenes, characterRows, assetManifest, warnings };
 };
 
 // The TTS / caption input: one { scene, text, cue? } per scene that has narration.

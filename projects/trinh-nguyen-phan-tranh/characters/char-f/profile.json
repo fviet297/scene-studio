@@ -1,0 +1,23 @@
+{
+  "character_id": "char-f",
+  "name": "Trinh Tac",
+  "display_name": "Trịnh Tạc",
+  "aliases": [
+    "Tây vương",
+    "Hoằng Tổ Dương vương"
+  ],
+  "country": "Đại Việt",
+  "period": "1606–1682 (ruled 1657–1682)",
+  "dynasty": "Lê Trung Hưng — Trịnh",
+  "role": "Con Trịnh Tráng, chúa Trịnh mở các chiến dịch 1661 và 1672",
+  "known_facts": [
+    "Kế vị Trịnh Tráng năm 1657",
+    "Đánh Đàng Trong năm 1661–1662 và 1672",
+    "Sau 1672 sông Gianh thành ranh giới thực tế"
+  ],
+  "interpretation": "Elder Trịnh lord: ochre-brown brocade robe over armour, black winged court cap, greying beard. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-nguyen-phan-tranh/characters/char-f.jpg"
+}

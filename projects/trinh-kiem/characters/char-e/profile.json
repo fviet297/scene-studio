@@ -1,0 +1,23 @@
+{
+  "character_id": "char-e",
+  "name": "Le Trang Tong (crowned)",
+  "display_name": "Lê Trang Tông (sau đăng quang)",
+  "country": "Đại Việt",
+  "dynasty": "Lê Trung Hưng",
+  "aliases": [
+    "Lê Duy Ninh",
+    "Lê Trang Tông"
+  ],
+  "period": "1533-1548 (reign)",
+  "role": "Emperor of the restored Lê (Lê Trung Hưng), enthroned in Ai Lao in January 1533 with the era name Nguyên Hòa, with Nguyễn Kim as Thượng phụ Thái sư",
+  "known_facts": [
+    "Tháng Giêng 1533, tại Ai Lao, được Nguyễn Kim cùng các cựu thần tôn lên làm vua, hiệu Lê Trang Tông, niên hiệu Nguyên Hòa",
+    "Mở đầu thời Lê Trung Hưng; triều đình lúc đầu chưa có kinh đô",
+    "Quyền điều hành quân đội thực tế nằm ở Nguyễn Kim, sau 1545 chuyển dần sang Trịnh Kiểm"
+  ],
+  "interpretation": "Modest exile-court royal dress of a 16th-century Đại Việt king: plain dark ceremonial robe with restrained yellow trim and a simple black court cap, no elaborate regalia. Same person as char-b — keep the face, change dress and apparent age.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-kiem/characters/char-e.jpg"
+}

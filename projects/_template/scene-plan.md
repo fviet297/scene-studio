@@ -4,6 +4,10 @@
 
 aspect: 9:16
 
+<!-- Optional. `motion-duration: 10` = every motion clip is 10 s, and a narration longer than that is
+     shown in several shots: a `## scene` with no `narration:` line plays on under the narration
+     above it (same audio and caption, its own image and motion). Omit = one shot per narration. -->
+
 ## characters
 
 char-a = public/projects/<slug>/characters/char-a.png

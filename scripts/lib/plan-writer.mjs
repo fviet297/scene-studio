@@ -77,7 +77,9 @@ const sceneBlockLines = (sceneNo, fields) => {
   // char: which character(s) the scene is about — drives reference locking + prompt template.
   // Passed pre-normalized to a comma id string ('' = no character → text-to-image).
   if (typeof fields.char === 'string') block.push(`char: ${clean(fields.char)}`);
-  block.push(`narration: ${clean(fields.narration)}`);
+  // No narration line on an extra shot: a scene without narration plays on under the narration
+  // before it (shot-timing.mjs).
+  if (clean(fields.narration ?? '')) block.push(`narration: ${clean(fields.narration)}`);
   if (fields.beat) block.push(`beat: ${clean(fields.beat)}`);
   if (fields.prompt) block.push(`prompt: ${clean(fields.prompt)}`);
   if (fields.prompt_vi) block.push(`prompt_vi: ${clean(fields.prompt_vi)}`);
@@ -222,6 +224,17 @@ export const writePlanHeader = (planMd, key, value) => {
     if (title >= 0) lines.splice(title + 1, 0, '', line);
     else lines.splice(0, 0, line, '');
   }
+  writeFileSync(planMd, lines.join('\n'));
+};
+
+// Drop a header line, if present.
+export const removePlanHeader = (planMd, key) => {
+  const lines = readFileSync(planMd, 'utf8').split('\n');
+  const end = headerEnd(lines);
+  const re = headerLineRe(key);
+  const existing = lines.findIndex((l, i) => i < end && re.test(l));
+  if (existing < 0) return;
+  lines.splice(existing, 1);
   writeFileSync(planMd, lines.join('\n'));
 };
 

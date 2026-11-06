@@ -1,20 +1,14 @@
-// How long a scene runs in the final video, shared by the render data builder (build-remotion.mjs)
-// and the review server. The timeline preview (review-timeline.js) mirrors these rules in the
-// browser — keep the two in step.
+// A scene's `duration:` minimum and the placeholder length. How a narration's time is split between
+// its shots lives in shot-timing.mjs (motion clips are stretched to span the narration, or the
+// last one is cut at its end, so no clip plays on over silence).
 //
-// A scene lasts as long as its narration audio or its motion clip, whichever is longer. A scene's
-// optional `duration:` (seconds) is a minimum on top of that: it can hold a scene past the end of its
-// narration, never cut the narration short. A scene with no audio yet holds for its minimum, or for
-// the placeholder length when it has none.
+// A scene's optional `duration:` (seconds) is a minimum on top of that: it can hold a scene past the
+// end of its narration, never cut the narration short. A scene with no audio yet holds for its
+// minimum, or for the placeholder length when it has none.
 
 export const PLACEHOLDER_SCENE_SECONDS = 4;
 // Upper bound for a scene's minimum — far past any real scene, it only catches typos like "80" for "8".
 export const MAX_MIN_DURATION_SECONDS = 600;
-
-export const sceneContentSeconds = ({ audio, clip = 0, minDuration }) => {
-  const floor = minDuration ?? 0;
-  return Math.max(audio ?? minDuration ?? PLACEHOLDER_SCENE_SECONDS, clip, floor);
-};
 
 // A scene-plan `duration:` value → { value } in seconds (undefined = no minimum), or { error }.
 // Accepts "8", "7.5s" and the Vietnamese decimal comma "4,5".

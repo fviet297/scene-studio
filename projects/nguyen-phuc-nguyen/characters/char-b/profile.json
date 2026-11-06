@@ -1,0 +1,23 @@
+{
+  "character_id": "char-b",
+  "name": "Nguyen Hoang (elderly)",
+  "display_name": "Nguyễn Hoàng (tuổi già)",
+  "aliases": [
+    "Nguyễn Hoàng",
+    "Chúa Tiên",
+    "Đoan quận công"
+  ],
+  "country": "Đại Việt",
+  "period": "1600–1613 (old age, d. 1613)",
+  "dynasty": "Lê Trung Hưng — Thuận Quảng",
+  "role": "Trấn thủ Thuận Hóa – Quảng Nam, người đặt nền móng cho các chúa Nguyễn",
+  "known_facts": [
+    "Năm 1600 theo đường biển trở về Thuận Hóa, không ra Bắc nữa",
+    "Mất năm 1613, con là Nguyễn Phúc Nguyên kế nghiệp"
+  ],
+  "interpretation": "Elderly lord of Thuận Quảng in his seventies or eighties: long white beard, dark-blue silk robe with gold trim, black court cap. Same person as the young Nguyễn Hoàng — keep the face, change dress and apparent age. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-phuc-nguyen/characters/char-b.jpg"
+}

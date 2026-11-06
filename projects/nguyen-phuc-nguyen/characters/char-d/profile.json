@@ -1,0 +1,23 @@
+{
+  "character_id": "char-d",
+  "name": "Trinh Trang",
+  "display_name": "Trịnh Tráng",
+  "aliases": [
+    "Thanh Đô vương",
+    "Văn Tổ Nghị vương"
+  ],
+  "country": "Đại Việt",
+  "period": "1577–1657 (ruled 1623–1657)",
+  "dynasty": "Lê Trung Hưng — Trịnh",
+  "role": "Con Trịnh Tùng, chúa Trịnh mở đầu chiến tranh Trịnh – Nguyễn",
+  "known_facts": [
+    "Kế vị Trịnh Tùng năm 1623",
+    "Năm 1627 đưa quân đánh Thuận Hóa",
+    "Các chiến dịch 1633, 1643, 1648"
+  ],
+  "interpretation": "Trịnh lord: deep crimson brocade robe with gold dragon-free cloud trim, black winged court cap. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-phuc-nguyen/characters/char-d.jpg"
+}

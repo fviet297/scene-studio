@@ -34,8 +34,10 @@ export const SceneOneVideo: React.FC<SceneOneProps> = ({
         durationInFrames={durationInFrames}
         publicPrefix={data.publicPrefix}
         uploadedScenes={data.uploadedScenes}
+        titleFontId={data.branding?.title?.font}
       />
-      <Audio src={staticFile(audio)} />
+      {/* An extra shot (no narration of its own) has no audio file to play. */}
+      {s.hasAudio && <Audio src={staticFile(audio)} />}
     </AbsoluteFill>
   );
 };

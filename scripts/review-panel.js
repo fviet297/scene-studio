@@ -533,6 +533,8 @@ function syncGlobalButtons() {
   $("aspectSelect").disabled = locked;
   // A style switch changes what queued image jobs are built from, so it waits like a project switch.
   $("styleSelect").disabled = locked;
+  // Queued motion jobs read the project's motion length when they start.
+  $("motionDurationSelect").disabled = locked;
   $("t_version").disabled = locked;
   $("btnNewProject").disabled = locked;
   $("audioSourceSelect").disabled = Boolean(globalOp);
@@ -561,6 +563,15 @@ function syncConsoleQueue() {
 
 const findScene = (n) => state.scenes.find((s) => s.scene === n) ?? null;
 const current = () => findScene(currentScene);
+// The narration a scene's image is drawn from: its own, or for an extra shot (no narration of its
+// own, lib/shot-timing.mjs) the narration it plays under.
+const drawnNarration = (s) =>
+  ((s.narration || "").trim() ||
+    (s.shotOf ? findScene(s.shotOf)?.narration || "" : "")).trim();
+// A motion clip needs the image, and its length: the project's motion length when set, else the
+// narration's audio.
+const canMakeMotion = (s) =>
+  s.hasImage && (Boolean(state.project?.motionDuration) || s.hasAudio);
 const shownScenes = () =>
   state.scenes.filter((s) => filter === "all" || sceneStatus(s) === filter);
 
@@ -617,6 +628,19 @@ function renderProjectSwitch() {
   $("projectSelect").innerHTML = options;
   $("aspectSelect").value = state.project?.aspect || "9:16";
   syncStyleSelects(state.project?.templateVersions, state.project?.template);
+  syncMotionDurationSelect(state.project?.motionDuration ?? null);
+}
+
+// Common motion clip lengths; a project set to another value gets that value listed too.
+const MOTION_DURATION_CHOICES = [5, 6, 8, 10, 12, 15];
+
+function syncMotionDurationSelect(seconds) {
+  const choices = [...new Set([...MOTION_DURATION_CHOICES, ...(seconds ? [seconds] : [])])].sort((a, b) => a - b);
+  $("motionDurationSelect").innerHTML = [
+    '<option value="">Motion · theo audio</option>',
+    ...choices.map((s) => `<option value="${s}">Motion · ${s}s</option>`),
+  ].join("");
+  $("motionDurationSelect").value = seconds ? String(seconds) : "";
 }
 
 // The style version picker exists twice — the top bar (quick switch) and the Style dialog — and both
@@ -936,14 +960,23 @@ function renderRail() {
       const jobMark = mark
         ? `<span class="job-mark ${mark}">${mark === "running" ? "đang chạy" : "chờ"}</span>`
         : "";
-      return `<li class="rail-row${selected.has(s.scene) ? " selected" : ""}" data-scene="${s.scene}">
+      // Shots of one narration (lib/shot-timing.mjs): tagged "shot k/n", an extra shot indented
+      // under its narration and labelled with it instead of an empty narration.
+      const shotTag =
+        s.shotCount > 1
+          ? `<span class="shot-tag">shot ${s.shotIndex}/${s.shotCount}</span>`
+          : "";
+      const line = s.shotOf
+        ? `↳ dùng narration scene ${s.shotOf}`
+        : escapeHtml((s.narration || "").slice(0, 70)) || "chưa có narration";
+      return `<li class="rail-row${selected.has(s.scene) ? " selected" : ""}${s.shotOf ? " shot" : ""}" data-scene="${s.scene}">
       <input type="checkbox" class="rail-check" data-role="pick" ${selected.has(s.scene) ? "checked" : ""} title="Chọn scene ${s.scene}" aria-label="Chọn scene ${s.scene}" />
       <button type="button" class="rail-item" data-scene="${s.scene}" aria-current="${s.scene === currentScene}">
         ${thumb}
         <span class="meta">
-          <span class="no num">Scene ${s.scene}${jobMark}</span>
+          <span class="no num">Scene ${s.scene}${shotTag}${jobMark}</span>
           ${pips(s)}
-          <span class="line">${escapeHtml((s.narration || "").slice(0, 70)) || "chưa có narration"}</span>
+          <span class="line">${line}</span>
         </span>
       </button>
     </li>`;
@@ -1033,7 +1066,10 @@ function renderStage() {
   // Scene-scoped locks: a pending job turns only this scene's button of its kind into Cancel,
   // and direct file edits (upload/undo/remove) wait only while this scene's media is written.
   const mediaLocked = Boolean(globalOp) || sceneMediaBusy(s.scene);
-  const canMotion = !globalOp && s.hasImage && s.hasAudio;
+  // With a project motion length the clip length is known up front; otherwise it matches the audio.
+  const motionLength = state.project?.motionDuration ?? null;
+  const motionReady = canMakeMotion(s);
+  const canMotion = !globalOp && motionReady;
   syncGenButton(
     $("btnMotionVideo"),
     "motion",
@@ -1049,9 +1085,10 @@ function renderStage() {
     canMotion,
     true,
   );
-  const motionNeeds =
-    s.hasImage && s.hasAudio
-      ? ""
+  const motionNeeds = motionReady
+    ? ""
+    : motionLength
+      ? "Cần có ảnh trước"
       : "Cần có ảnh và audio trước (độ dài video khớp theo audio)";
   $("btnMotionVideo").title = motionNeeds;
   $("btnRowGenMotion").title =
@@ -1165,7 +1202,19 @@ function setStageState(id, done) {
 }
 
 function syncInspector(s) {
-  $("inspTitle").textContent = `Scene ${s.scene}`;
+  $("inspTitle").textContent =
+    s.shotCount > 1
+      ? `Scene ${s.scene} · shot ${s.shotIndex}/${s.shotCount}`
+      : `Scene ${s.scene}`;
+  // An extra shot has no narration of its own: say whose it plays under. Typing one here makes the
+  // shot a narration of its own (lib/shot-timing.mjs).
+  const owner = s.shotOf ? findScene(s.shotOf) : null;
+  $("shotNote").hidden = !owner;
+  if (owner)
+    $("shotNote").textContent = `Shot ${s.shotIndex}/${s.shotCount} — dùng narration, audio và caption của scene ${owner.scene}: “${(owner.narration || "").slice(0, 160)}${(owner.narration || "").length > 160 ? "…" : ""}”. Nhập narration ở đây sẽ tách shot này thành narration mới.`;
+  $("narrBox").placeholder = owner
+    ? "Để trống: shot này dùng narration phía trên"
+    : "Lời narration đọc cho scene này";
   const narrDraft = drafts.narr.get(s.scene);
   const narr = $("narrBox");
   if (document.activeElement !== narr)
@@ -1201,7 +1250,7 @@ function syncInspector(s) {
     $("btnGenPrompt").disabled =
       Boolean(globalOp) ||
       hasPending("prompt", s.scene) ||
-      !(s.narration || "").trim();
+      !drawnNarration(s);
     syncEditBlock(s);
   } else {
     $("searchQuery").textContent = s.query || "chưa có từ khoá";
@@ -1261,15 +1310,16 @@ function isContiguousSelection(nums) {
 // Selection is shared by the rail (workbench) and the timeline clips. This keeps every
 // selection-driven control in both places in sync from the one `selected` Set, so a scene
 // ticked in the rail also reads as ticked on the timeline, and vice versa.
-// Motion length follows the scene's audio, so a scene needs both image and audio. When none of the
-// target scenes qualifies the button is off — say which scene lacks what, instead of a bare grey.
+// Motion length is the project's motion length, else it follows the narration's audio, so a scene
+// needs its image (and then its audio). When none of the target scenes qualifies the button is
+// off — say which scene lacks what, instead of a bare grey.
 const MOTION_BATCH_TITLE =
-  "Sinh motion video cho các scene đã chọn (cần có ảnh + audio)";
+  "Sinh motion video cho các scene đã chọn (cần có ảnh; dự án chưa đặt độ dài motion thì cần cả audio)";
 function motionBatchTitle(targets, eligibleCount) {
   if (eligibleCount > 0 || !targets.length) return MOTION_BATCH_TITLE;
   const noImage = targets.filter((s) => !s.hasImage).map((s) => s.scene);
   const noAudio = targets
-    .filter((s) => s.hasImage && !s.hasAudio)
+    .filter((s) => s.hasImage && !canMakeMotion(s))
     .map((s) => s.scene);
   const reasons = [];
   if (noImage.length) reasons.push(`scene ${sceneList(noImage)} chưa có ảnh`);
@@ -1306,9 +1356,7 @@ function renderSelection() {
     canWritePrompt(s, promptKind()),
   ).length;
   const audioEligible = targets.filter(hasNarr).length;
-  const motionEligibleCount = targets.filter(
-    (s) => s.hasImage && s.hasAudio,
-  ).length;
+  const motionEligibleCount = targets.filter(canMakeMotion).length;
 
   const nums = chosen.map((s) => s.scene);
   const info = chosen.length
@@ -2090,7 +2138,7 @@ function editImage() {
 function generatePromptFromNarration() {
   const s = current();
   if (!s) return;
-  if (!(s.narration || "").trim()) {
+  if (!drawnNarration(s)) {
     showError("Narration đang trống — viết narration trước.");
     return;
   }
@@ -2618,6 +2666,24 @@ $("aspectSelect").addEventListener("change", async () => {
   }
 });
 
+// The project's motion clip length: only new motion requests and the time split change; clips
+// already made keep their length.
+$("motionDurationSelect").addEventListener("change", async () => {
+  const value = $("motionDurationSelect").value;
+  try {
+    state = await api("/api/project-motion-duration", { value });
+    render();
+    toast(
+      value
+        ? `Motion mới của dự án dài ${value}s. Clip đã có giữ nguyên.`
+        : "Motion mới khớp theo phần audio của từng shot.",
+    );
+  } catch (e) {
+    syncMotionDurationSelect(state.project?.motionDuration ?? null);
+    toast(e.message, false);
+  }
+});
+
 // Each quick filter replaces the selection (not adds to it), so "Thiếu ảnh" after "Tất cả"
 // leaves only the scenes missing an image.
 const pickWhere = (test) => {
@@ -2742,7 +2808,7 @@ function canWritePrompt(s, kind) {
   if (s.kind !== "ai") return false;
   if (kind === "motion")
     return Boolean((s.beat || "").trim() || (s.prompt || "").trim());
-  return Boolean((s.narration || "").trim());
+  return Boolean(drawnNarration(s));
 }
 // Both writers overwrite hand edits and cost LLM calls, so scenes that already have what is about
 // to be rewritten ask first.
@@ -2800,8 +2866,7 @@ const runBatchMotion = async () => {
   const count = state.scenes.filter(
     (s) =>
       scenes.includes(s.scene) &&
-      s.hasImage &&
-      s.hasAudio &&
+      canMakeMotion(s) &&
       !hasPending("motion", s.scene),
   ).length;
   if (
@@ -2943,6 +3008,48 @@ async function insertSceneBelow(anchor = currentScene) {
   }
 }
 $("btnInsertScene").addEventListener("click", () => insertSceneBelow());
+
+// Add one more shot (image / motion) at the end of the selected scene's narration group. The new
+// scene has no narration, so it plays on under that narration's audio and caption
+// (lib/shot-timing.mjs); it starts with the selected shot's cast.
+async function addShot() {
+  if (sceneRenumberBusy) return;
+  const s = current();
+  if (!s) {
+    toast("Chọn một scene để thêm shot.", false);
+    return;
+  }
+  const blocker = renumberBlocker("thêm shot");
+  if (blocker) {
+    toast(blocker, false);
+    return;
+  }
+  const owner = s.shotOf ?? s.scene;
+  const group = state.scenes.filter(
+    (x) => x.scene === owner || x.shotOf === owner,
+  );
+  const at = Math.max(...group.map((x) => x.scene)) + 1;
+  sceneRenumberBusy = true;
+  try {
+    state = await api("/api/insert-scene", {
+      at,
+      narration: "",
+      char: (s.characters || []).join(", "),
+    });
+    selected.clear();
+    scriptPicked.clear();
+    render();
+    selectScene(at);
+    toast(
+      `Đã thêm shot ${group.length + 1} cho narration scene ${owner} — viết prompt ảnh cho shot này.`,
+    );
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    sceneRenumberBusy = false;
+  }
+}
+$("btnAddShot").addEventListener("click", addShot);
 $("batchInsert").addEventListener("click", () => insertSceneBelow());
 // ---- delete scene: confirm, then the server removes it, closes the numbering gap and keeps its
 // media in tmp/deleted-scenes.
@@ -2968,8 +3075,16 @@ async function deleteScene(n = currentScene) {
   const excerpt = narration
     ? `\n"${narration.slice(0, NARRATION_EXCERPT_CHARS)}${narration.length > NARRATION_EXCERPT_CHARS ? "…" : ""}"`
     : "";
+  // Its extra shots have no narration of their own, so they would play on under the narration
+  // above instead (lib/shot-timing.mjs).
+  const orphans = scene.shotOf
+    ? 0
+    : state.scenes.filter((s) => s.shotOf === n).length;
+  const orphanNote = orphans
+    ? `\n\nScene này có ${orphans} shot phía sau. Chúng không có narration riêng nên sẽ thành shot của narration phía trên — xoá hoặc nhập narration cho chúng nếu không muốn vậy.`
+    : "";
   const confirmed = await confirmRun(
-    `Xoá scene ${n}?${excerpt}\n\nCác scene sau đổi số lùi 1. Ảnh, audio và motion của scene này được chuyển vào tmp/deleted-scenes (khôi phục thủ công).`,
+    `Xoá scene ${n}?${excerpt}\n\nCác scene sau đổi số lùi 1. Ảnh, audio và motion của scene này được chuyển vào tmp/deleted-scenes (khôi phục thủ công).${orphanNote}`,
     "Xoá scene",
     true,
   );
@@ -3493,6 +3608,7 @@ const readBrandForm = () => ({
   // Not edited in this dialog (the timeline toggles own them); carried through so saving the
   // logo settings does not reset them.
   captions: state.branding?.captions,
+  title: state.branding?.title,
   effects: state.branding?.effects,
 });
 
@@ -3871,12 +3987,11 @@ function syncScriptGenButtons() {
     const dirty = btn.closest(".script-row")?.classList.contains("dirty");
     let ok = false;
     if (s && !dirty && !globalOp) {
-      if (kind === "prompt")
-        ok = s.kind === "ai" && (s.narration || "").trim().length > 0;
+      if (kind === "prompt") ok = s.kind === "ai" && Boolean(drawnNarration(s));
       else if (kind === "image") ok = s.kind === "ai";
       else if (kind === "audio")
         ok = !renderActive() && (s.narration || "").trim().length > 0;
-      else if (kind === "motion") ok = s.hasImage && s.hasAudio;
+      else if (kind === "motion") ok = canMakeMotion(s);
     }
     syncGenButton(btn, kind, n, btn.dataset.label, ok, true);
   }
@@ -3970,7 +4085,7 @@ const scenesMissingPrompt = () =>
     .filter(
       (s) =>
         s.kind === "ai" &&
-        (s.narration || "").trim() &&
+        drawnNarration(s) &&
         !(s.prompt || "").trim() &&
         !hasPending("prompt", s.scene),
     )

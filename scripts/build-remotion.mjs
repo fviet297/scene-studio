@@ -18,7 +18,7 @@ import { narrationSegments, parsePlan } from './lib/parse-plan.mjs';
 import { alignCaptions } from './lib/caption-align.mjs';
 import { aspectInfo } from './lib/aspect.mjs';
 import { readBranding } from './lib/branding.mjs';
-import { sceneContentSeconds } from './lib/scene-timing.mjs';
+import { groupShotSeconds, shotGroups, SILENT_TAIL_WARN_SECONDS } from './lib/shot-timing.mjs';
 import { clipMotionTrim } from './lib/motion-tail.mjs';
 import { mediaDuration } from './lib/media-duration.mjs';
 
@@ -88,22 +88,35 @@ for (const slug of targets) {
 
   const audioFile = (n) => join(paths.audioDir, `scene-${String(n).padStart(2, '0')}.mp3`);
   const clipFile = (n) => join(paths.sceneVideoDir, `scene-${String(n).padStart(2, '0')}.mp4`);
-  const hasAudio = (n) => existsSync(audioFile(n));
-  const allAudioReady = scenes.length > 0 && scenes.every((s) => hasAudio(s.scene));
+  // Only the scene holding a narration plays audio; its extra shots (scenes without narration,
+  // lib/shot-timing.mjs) play on under it.
+  const hasAudio = (s) => !s.shotOf && existsSync(audioFile(s.scene));
+  const groups = shotGroups(scenes);
+  const allAudioReady = scenes.length > 0 && groups.every(({ head }) => !scenes[head].narration || hasAudio(scenes[head]));
 
-  // Scene length in the final video = max(audio, clip, the scene's `duration:` minimum) — see
-  // lib/scene-timing.mjs — plus a short silent gap before the next scene (none after the last). When the clip is LONGER than the narration (the model padded up
-  // to its next allowed length) the scene runs the full clip and the audio's remainder is silent.
-  // When the clip is SHORTER than the whole scene (narration outruns the model's max clip length),
-  // the clip is slowed just enough to span the narration AND the gap, so motion never freezes into
-  // a dead tail. `motionPlaybackRate` = clip/duration (≤ 1) is applied to OffthreadVideo; a
-  // non-motion scene gets 1.
+  // A narration group's time is split between its shots by lib/shot-timing.mjs (clips longer than
+  // the narration are cut at its end), plus a short silent gap after the group's last shot (none
+  // after the video's last). When the clip is LONGER than the shot's share the shot plays only
+  // that share (the tail is cut). When the clip is SHORTER than the whole shot (the
+  // narration outruns it, or the gap follows), the clip is slowed just enough to span it, so
+  // motion never freezes into a dead tail. `motionPlaybackRate` = clip/duration (≤ 1) is applied
+  // to OffthreadVideo; a non-motion shot gets 1.
+  const clips = scenes.map((s) => (s.motionVideo ? probeDuration(clipFile(s.scene)) : 0));
+  const contents = new Array(scenes.length);
+  for (const { head, members } of groups) {
+    const audio = hasAudio(scenes[head]) ? probeDuration(audioFile(scenes[head].scene)) : null;
+    const seconds = groupShotSeconds({ audio, shots: members.map((i) => ({ clip: clips[i], minDuration: scenes[i].duration })) });
+    members.forEach((index, k) => { contents[index] = Number(seconds[k].toFixed(3)); });
+    const silentTail = audio === null ? 0 : seconds.reduce((total, s) => total + s, 0) - audio;
+    if (silentTail > SILENT_TAIL_WARN_SECONDS) {
+      process.stderr.write(`WARN [${slug}] scene ${scenes[head].scene}: ${silentTail.toFixed(1)}s cuối nhóm shot không có tiếng (clip/ảnh dài hơn audio). Bớt shot hoặc giảm motion-duration.\n`);
+    }
+  }
   const lastIndex = scenes.length - 1;
   const sceneTiming = scenes.map((s, i) => {
-    const audio = hasAudio(s.scene) ? probeDuration(audioFile(s.scene)) : null;
-    const clip = s.motionVideo ? probeDuration(clipFile(s.scene)) : 0;
-    const content = Number(sceneContentSeconds({ audio, clip, minDuration: s.duration }).toFixed(3));
-    const duration = i < lastIndex ? Number((content + SCENE_GAP_SECONDS).toFixed(3)) : content;
+    const clip = clips[i];
+    const endsGroup = i < lastIndex && !scenes[i + 1].shotOf;
+    const duration = endsGroup ? Number((contents[i] + SCENE_GAP_SECONDS).toFixed(3)) : contents[i];
     const playbackRate = clip > 0 && clip < duration ? Number((clip / duration).toFixed(4)) : 1;
     const trim = clip > 0 ? clipMotionTrim(clipFile(s.scene)) : { headSeconds: 0, tailSeconds: 0 };
     return { duration, playbackRate, clip, ...trim };
@@ -113,9 +126,13 @@ for (const slug of targets) {
   const motionClipSeconds = sceneTiming.map((t) => Number(t.clip.toFixed(3)));
   const motionTailSeconds = sceneTiming.map((t) => t.tailSeconds);
   const motionHeadSeconds = sceneTiming.map((t) => t.headSeconds);
-  const sceneSeconds = Object.fromEntries(scenes.map((s, i) => [s.scene, sceneDurations[i]]));
+  // A narration's caption timeline spans its whole group (all its shots).
+  const sceneSeconds = Object.fromEntries(groups.map(({ head, members }) => [
+    scenes[head].scene,
+    Number(members.reduce((total, i) => total + sceneDurations[i], 0).toFixed(3)),
+  ]));
 
-  // Captions need every scene's real audio to keep absolute timings correct; skip until then.
+  // Captions need every narration's real audio to keep absolute timings correct; skip until then.
   // Offsets advance by sceneSeconds so a clip-extended scene doesn't desync later captions.
   const segments = narrationSegments(scenes);
   const captionGroups = allAudioReady ? alignCaptions(segments, paths.audioDir, sceneSeconds).groups : [];
@@ -134,7 +151,9 @@ for (const slug of targets) {
     publicPrefix: paths.staticPrefix,
     fps: FPS,
     durationInFrames,
-    scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s.scene) })),
+    // audioShots: on a narration's scene, how many scenes (itself + its extra shots) its audio
+    // plays across.
+    scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s), ...(s.shotOf ? {} : { audioShots: s.shotCount }) })),
     // Character gallery rows (id, name, aliases, image, imageV2) for the puppet preview.
     characters: characterRows,
     sceneDurations,

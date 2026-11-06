@@ -1,0 +1,23 @@
+{
+  "character_id": "char-e",
+  "name": "Nguyen Phuc Tan",
+  "display_name": "Nguyễn Phúc Tần",
+  "aliases": [
+    "Chúa Hiền",
+    "Dũng Lễ hầu"
+  ],
+  "country": "Đại Việt",
+  "period": "1620–1687 (ruled 1648–1687)",
+  "dynasty": "Chúa Nguyễn — Đàng Trong",
+  "role": "Chúa Nguyễn thứ tư, chuyển sang tiến công ra Bắc năm 1655",
+  "known_facts": [
+    "Kế vị Nguyễn Phúc Lan năm 1648",
+    "Năm 1655 quân Nguyễn vượt sông Gianh đánh ra Nghệ An",
+    "Khoảng 1660 quân Nguyễn rút về"
+  ],
+  "interpretation": "Young Nguyễn lord in field dress: dark-green robe over lamellar armour, black headcloth. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-nguyen-phan-tranh/characters/char-e.jpg"
+}

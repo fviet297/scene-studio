@@ -10,6 +10,9 @@ export type CaptionFontId =
   | "montserrat"
   | "anton"
   | "bangers"
+  | "playfair"
+  | "charm"
+  | "lobster"
   | "arial";
 
 interface CaptionFontSpec {
@@ -41,6 +44,22 @@ export const CAPTION_FONTS: Record<CaptionFontId, CaptionFontSpec> = {
     family: "SceneStudio Bangers",
     weight: 400,
     file: "fonts/Bangers-Regular.ttf",
+  },
+  playfair: {
+    family: "SceneStudio Playfair Display",
+    weight: 900,
+    file: "fonts/PlayfairDisplay-Variable.ttf",
+    fileWeight: "400 900",
+  },
+  charm: {
+    family: "SceneStudio Charm",
+    weight: 700,
+    file: "fonts/Charm-Bold.ttf",
+  },
+  lobster: {
+    family: "SceneStudio Lobster",
+    weight: 400,
+    file: "fonts/Lobster-Regular.ttf",
   },
   arial: { family: "Arial, sans-serif", weight: 800 },
 };
@@ -94,5 +113,8 @@ export const useCaptionFont = (id: CaptionFontId): CaptionFontSpec => {
     };
   }, [id, handle]);
 
-  return readyId === id || !spec.file ? spec : CAPTION_FONTS.arial;
+  if (readyId !== id && spec.file) return CAPTION_FONTS.arial;
+  // A file that failed to load leaves the bundled family unregistered; fall back to Arial, not the
+  // browser's default serif.
+  return spec.file ? { ...spec, family: `"${spec.family}", Arial, sans-serif` } : spec;
 };

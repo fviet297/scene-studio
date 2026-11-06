@@ -145,12 +145,26 @@ async function openCharImageDialog(id) {
   }
 }
 
-// Called from the panel's Escape handler too. Closing stops a draft in progress.
-function closeCharImageDialog() {
+// Called from the panel's Escape handler too. Closing stops a draft in progress, so it asks first;
+// `closing` keeps a second click or Escape from stacking a second question.
+let closing = false;
+async function closeCharImageDialog() {
+  if (closing) return;
   if (ci.controller) {
-    ci.controller.abort();
-    ci.controller = null;
-    toast(`Đã huỷ tạo ảnh. ${CANCEL_PROVIDER_NOTE}`, false);
+    closing = true;
+    const stop = await confirmRun(
+      "Đang tạo ảnh nhân vật. Đóng cửa sổ sẽ huỷ lượt tạo này và mất ảnh đang vẽ.",
+      "Huỷ tạo ảnh và đóng",
+      true,
+    );
+    closing = false;
+    if (!stop) return;
+    // The run may have finished while the question was open: then there is nothing left to cancel.
+    if (ci.controller) {
+      ci.controller.abort();
+      ci.controller = null;
+      toast(`Đã huỷ tạo ảnh. ${CANCEL_PROVIDER_NOTE}`, false);
+    }
   }
   ci.id = null;
   $("ciOverlay").hidden = true;

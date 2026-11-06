@@ -1,0 +1,25 @@
+{
+  "character_id": "char-a",
+  "name": "Nguyen Phuc Nguyen",
+  "display_name": "Nguyễn Phúc Nguyên",
+  "aliases": [
+    "Chúa Sãi",
+    "Thụy quận công",
+    "Hy Tông"
+  ],
+  "country": "Đại Việt",
+  "period": "1563–1635 (ruled 1613–1635)",
+  "dynasty": "Chúa Nguyễn — Đàng Trong",
+  "role": "Con thứ sáu của Nguyễn Hoàng, chúa Nguyễn thứ hai",
+  "known_facts": [
+    "Kế nghiệp Nguyễn Hoàng năm 1613",
+    "Năm 1614 tổ chức lại bộ máy cai trị ở Thuận Quảng",
+    "Năm 1627 chống cuộc tiến công đầu tiên của Trịnh Tráng",
+    "Mất năm 1635"
+  ],
+  "interpretation": "Lord of Thuận Quảng in middle age: teal-green silk robe with gold trim, black court cap. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-phuc-nguyen/characters/char-a.jpg"
+}

@@ -102,6 +102,49 @@ Example — narration "Nhà Tây Sơn nổi dậy, nhanh chóng tiến vào Thă
 rallying the troops, banners streaming, winter terrain, wide low-angle composition` (action +
 setting only; no appearance).
 
+## Several shots per narration
+
+One narration (one audio file, one caption run) can be shown in several shots — several images
+or motion clips. Used when a narration reads longer than one motion clip.
+
+```md
+motion-duration: 10
+
+## scene 1
+
+cue: neutral
+char: char-a
+narration: Năm 1533, giữa đất Ai Lao, một người thuộc dòng dõi nhà Lê được tôn lên làm vua...
+prompt: <shot 1: the start of the line>
+motion: ...
+
+## scene 2
+
+char: char-a
+prompt: <shot 2: the next part of the line — a different action, framing or place>
+motion: ...
+```
+
+- **`motion-duration: <seconds>`** (header, under `aspect:`) — the length every motion clip is
+  asked for. Leave it out to keep the old behaviour: one shot per narration, clip sized to the
+  narration's audio.
+- **A `## scene` with no `narration:` line is another shot of the narration above it.** It plays
+  on under that narration's audio and caption; only its image and motion are its own. Numbering
+  stays 1..N over every scene, shots included. Never give a shot its own `narration:` (that makes
+  it a new narration with its own audio).
+- **How many shots:** `ceil(narration seconds / motion-duration)`, where narration seconds ≈
+  letters and digits (diacritics stripped) / 13.5 — roughly words / 4. With no `motion-duration`,
+  one shot.
+- **What each shot shows:** shot k draws the k-th part of the line, in spoken order (the first
+  shot the start, the last shot the end). Each shot changes the action, framing or place — never
+  repeat the first shot's picture. A shot's `beat:` (English drawable moment) is what its prompt
+  and motion are written from.
+- **Timing (done by the pipeline, `scripts/lib/shot-timing.mjs`):** a shot with a motion clip runs
+  for the clip's length; the stills share what is left of the narration evenly (so with no motion
+  yet each still is audio / number of shots). Clips that together fall short of the narration
+  are slowed to span it; clips longer than it leave a silent tail. The 0.5 s pause comes only after
+  a narration's last shot.
+
 ## What the parser emits
 
 - `src/scene-plan.json` — `{ characters, scenes[] }`; each scene is `{ scene, from?, to?,

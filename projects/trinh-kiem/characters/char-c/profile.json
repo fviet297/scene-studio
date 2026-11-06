@@ -1,0 +1,25 @@
+{
+  "character_id": "char-c",
+  "name": "Nguyen Hoang",
+  "display_name": "Nguyễn Hoàng (thời trẻ)",
+  "aliases": [
+    "Nguyễn Hoàng",
+    "Đoan quận công",
+    "Chúa Tiên"
+  ],
+  "country": "Đại Việt",
+  "period": "1545–1600 (from his twenties to middle age)",
+  "dynasty": "Lê Trung Hưng",
+  "role": "Con trai thứ của Nguyễn Kim, tướng nhà Lê, trấn thủ Thuận Hóa từ 1558",
+  "known_facts": [
+    "Con thứ của Nguyễn Kim, em vợ Trịnh Kiểm",
+    "Năm 1558 vào trấn thủ Thuận Hóa, đóng dinh ở Ái Tử",
+    "Năm 1570 kiêm trấn thủ Quảng Nam",
+    "Năm 1593 ra Bắc giúp triều Lê đánh nhà Mạc, ở lại đến 1600"
+  ],
+  "interpretation": "16th-century Đại Việt general's dress: dark-blue quilted military robe with a lacquered lamellar chest plate, black khăn headcloth, sword at the hip; a young man in his late twenties, clean-shaven or thin moustache. Same person as the elderly Nguyễn Hoàng — keep the face, change dress and apparent age. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-kiem/characters/char-c.jpg"
+}

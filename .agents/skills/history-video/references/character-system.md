@@ -70,6 +70,21 @@ scene: [scripts/generate-visuals.mjs](../scripts/generate-visuals.mjs) feeds it 
 image-to-image model so the same person appears in every generated panel. If a character has no reference,
 that character's panels must be sourced (search) or the user must add the image.
 
+### Life stages: one id per look
+
+A reference locks face **and** costume, so a real person whose look changes materially — exiled
+prince → crowned king, commoner → general, youth → old age, armour → monk's robe — is cast as one
+id per stage, each with its own profile and reference (e.g. `char-b` "Lê Duy Ninh (thời lưu lạc)",
+`char-c` "Lê Trang Tông (sau đăng quang)"). Do not split for pose, mood, a wound or a prop.
+
+- Each stage's `display_name` carries the stage in brackets; `aliases` list the person's other
+  names; `period`, `role` and `known_facts` cover only that stage; `interpretation` ends "Same
+  person as <id> — keep the face, change dress and apparent age."
+- Generate the later stage's reference **from the earlier stage's image** (image-to-image), so the
+  face survives while costume and age change; then check the pair is still recognisably one person.
+- Per scene, `char:` is the id of the stage at that moment, never two ids of the same person in
+  one scene. Keep the whole cast to ~5–6 ids.
+
 ## 4. Consistency
 
 Once a reference is approved, every scene reuses it. **Preserve**: face, facial structure,

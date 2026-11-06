@@ -21,8 +21,8 @@
 // paintBrandLayer, selected, renderSelection, pips, playsMotion, syncTimelineHistory) from review-panel.js, which loads first, and redraws on its "studio:render" /
 // "studio:view" events.
 
-// Must match PLACEHOLDER_SCENE_SECONDS in scripts/lib/scene-timing.mjs and SCENE_GAP_SECONDS in
-// scripts/build-remotion.mjs.
+// Must match PLACEHOLDER_SCENE_SECONDS in scripts/lib/scene-timing.mjs, SCENE_GAP_SECONDS in
+// scripts/build-remotion.mjs and MIN_STILL_SECONDS in scripts/lib/shot-timing.mjs.
 const TL_PLACEHOLDER_SECONDS = 4;
 const TL_SCENE_GAP_SECONDS = 0.5;
 const TL_ZOOM_MIN = 4;
@@ -41,6 +41,8 @@ const TL_CLIP_ICON_WITH_CAST_MIN_PX = 64;
 const TL_FOLLOW_MARGIN_PX = 40;
 // "Previous" past this point rewinds the current scene instead of jumping back one.
 const TL_REWIND_THRESHOLD_SECONDS = 1;
+// Audio this close to where a shot wants it is left playing rather than re-seeked.
+const TL_AUDIO_SEEK_TOLERANCE_SECONDS = 0.25;
 
 // Media url → measured seconds. Urls carry ?v=<mtime>, so a regenerated file is re-measured.
 const tlMediaSeconds = new Map();
@@ -103,8 +105,10 @@ function renderClips(project) {
     const frames = Math.round(project.sceneDurations[i] * project.fps);
     const seconds = frames / project.fps;
     const scene = state.scenes.find((s) => s.scene === built.scene) ?? built;
-    // The builder bakes the pause before the next scene into the duration; labels show content.
-    const gap = i < project.scenes.length - 1 ? TL_SCENE_GAP_SECONDS : 0;
+    // The builder bakes the pause before the next narration into the duration (only after a
+    // narration's last shot: the next scene has narration again); labels show content.
+    const next = project.scenes[i + 1];
+    const gap = next && !next.shotOf ? TL_SCENE_GAP_SECONDS : 0;
     const content = seconds - gap;
     const clip = {
       scene,
@@ -119,36 +123,99 @@ function renderClips(project) {
   });
 }
 
+// Browser copy of groupShotSeconds in scripts/lib/shot-timing.mjs — keep the two in step. One
+// narration's shot lengths: a motion shot runs its clip, the stills share what is left of the
+// narration; clips that all together fall short of it are stretched, longer ones have the last
+// shot cut at the end of the narration; `duration` is a minimum.
+const TL_MIN_STILL_SECONDS = 2;
+const TL_MIN_TAIL_SHOT_SECONDS = 2;
+const TL_SILENT_TAIL_WARN_SECONDS = 1;
+function tlGroupShotSeconds(audio, shots) {
+  const isMotion = (s) => s.clip > 0;
+  const floor = (s, seconds) => Math.max(seconds, s.minDuration ?? 0);
+  if (audio === null || audio === undefined)
+    return shots.map((s) =>
+      floor(s, isMotion(s) ? s.clip : (s.minDuration ?? TL_PLACEHOLDER_SECONDS)),
+    );
+  const motionSeconds = shots
+    .filter(isMotion)
+    .reduce((total, s) => total + s.clip, 0);
+  const stills = shots.filter((s) => !isMotion(s)).length;
+  if (stills > 0) {
+    const share = Math.max(
+      (audio - motionSeconds) / stills,
+      stills === shots.length ? 0 : TL_MIN_STILL_SECONDS,
+    );
+    return shots.map((s) => floor(s, isMotion(s) ? s.clip : share));
+  }
+  if (motionSeconds > audio) {
+    const last = shots.length - 1;
+    const before = shots
+      .slice(0, last)
+      .reduce((total, s) => total + s.clip, 0);
+    const tail = Math.min(
+      shots[last].clip,
+      Math.max(audio - before, TL_MIN_TAIL_SHOT_SECONDS),
+    );
+    return shots.map((s, i) => floor(s, i === last ? tail : s.clip));
+  }
+  const stretch =
+    motionSeconds > 0 && motionSeconds < audio ? audio / motionSeconds : 1;
+  return shots.map((s) => floor(s, s.clip * stretch));
+}
+
+// A scene without narration is another shot of the narration before it (shotOf, from the server):
+// its shots share that narration's audio, which plays on across them, and the pause before the
+// next scene comes only after the group's last shot.
 function timelineClips() {
   if (isRenderMode() && tlRender.project) return renderClips(tlRender.project);
+  const groups = [];
+  for (const scene of state.scenes) {
+    if (!scene.shotOf || !groups.length) groups.push([scene]);
+    else groups.at(-1).push(scene);
+  }
+  const clips = [];
   let start = 0;
-  const last = state.scenes.length - 1;
-  return state.scenes.map((scene, i) => {
-    const audioSeconds = scene.hasAudio
-      ? (tlMediaSeconds.get(scene.audioUrl) ?? null)
+  groups.forEach((group, g) => {
+    const owner = group[0];
+    const audioSeconds = owner.hasAudio
+      ? (tlMediaSeconds.get(owner.audioUrl) ?? null)
       : null;
-    const videoSeconds = playsMotion(scene)
-      ? (tlMediaSeconds.get(scene.motionVideoUrl) ?? 0)
-      : 0;
-    // Same rule as scene-timing.mjs: the scene's `duration` is a minimum, and stands in for the
-    // placeholder while the scene has no audio.
-    const minDuration = scene.duration ?? 0;
-    const content = Math.max(
-      audioSeconds ?? scene.duration ?? TL_PLACEHOLDER_SECONDS,
-      videoSeconds,
-      minDuration,
+    const videoSeconds = group.map((scene) =>
+      playsMotion(scene) ? (tlMediaSeconds.get(scene.motionVideoUrl) ?? 0) : 0,
     );
-    const seconds = content + (i < last ? TL_SCENE_GAP_SECONDS : 0);
-    // The soft first frames of a clip are skipped (server: lib/motion-tail.mjs), so the rest
-    // is what has to span the scene.
-    const head = playsMotion(scene) ? (scene.motionHeadSeconds ?? 0) : 0;
-    const playedSeconds = videoSeconds - head;
-    const rate =
-      playedSeconds > 0 && playedSeconds < seconds ? playedSeconds / seconds : 1;
-    const clip = { scene, start, seconds, content, audioSeconds, rate, head };
-    start += seconds;
-    return clip;
+    const contents = tlGroupShotSeconds(
+      audioSeconds,
+      group.map((scene, k) => ({
+        clip: videoSeconds[k],
+        minDuration: scene.duration ?? undefined,
+      })),
+    );
+    const groupSilentTail =
+      audioSeconds === null
+        ? 0
+        : contents.reduce((total, c) => total + c, 0) - audioSeconds;
+    let audioOffset = 0;
+    group.forEach((scene, k) => {
+      const content = contents[k];
+      const endsGroup = k === group.length - 1 && g < groups.length - 1;
+      const seconds = content + (endsGroup ? TL_SCENE_GAP_SECONDS : 0);
+      // The soft first frames of a clip are skipped (server: lib/motion-tail.mjs), so the rest
+      // is what has to span the scene.
+      const head = playsMotion(scene) ? (scene.motionHeadSeconds ?? 0) : 0;
+      const playedSeconds = videoSeconds[k] - head;
+      const rate =
+        playedSeconds > 0 && playedSeconds < seconds
+          ? playedSeconds / seconds
+          : 1;
+      // audioOffset: how far into the narration's audio this shot starts.
+      const silentTail = k === group.length - 1 ? groupSilentTail : 0;
+      clips.push({ scene, start, seconds, content, audioSeconds, audioOffset, rate, head, silentTail });
+      start += seconds;
+      audioOffset += seconds;
+    });
   });
+  return clips;
 }
 
 const clipsTotal = (clips) => clips.reduce((sum, c) => sum + c.seconds, 0);
@@ -190,7 +257,12 @@ function clipHtml(clip, i) {
     : s.audioStale
       ? ", audio cũ (narration đã sửa)"
       : "";
-  const motionNote = s.motionStale ? ", motion cũ (ảnh đã đổi)" : "";
+  const hasSilentTail = (clip.silentTail ?? 0) > TL_SILENT_TAIL_WARN_SECONDS;
+  const motionNote =
+    (s.motionStale ? ", motion cũ (ảnh đã đổi)" : "") +
+    (hasSilentTail
+      ? `, ${clip.silentTail.toFixed(1)}s cuối không có tiếng (shot dài hơn audio)`
+      : "");
   const castNote = cast.length
     ? `, nhân vật: ${cast.map((id) => charById(id)?.name ?? id).join(", ")}`
     : "";
@@ -208,6 +280,7 @@ function clipHtml(clip, i) {
     "tl-clip",
     s.hasAudio ? "" : "no-audio",
     s.audioStale ? "stale-audio" : "",
+    hasSilentTail ? "silent-tail" : "",
     s.hasImage ? "" : "no-image",
   ]
     .filter(Boolean)
@@ -217,7 +290,7 @@ function clipHtml(clip, i) {
   return `<div class="tl-cell${picked ? " selected" : ""}${narrow ? " narrow" : ""}" data-scene="${s.scene}" style="width:${width}px">
     <button type="button" class="${classes}" data-index="${i}"
         aria-current="${i === tl.index}" aria-pressed="${picked}" aria-label="Scene ${s.scene}, ${clip.content.toFixed(1)} giây, ${clipKind(s)}${audioNote}${motionNote}${castNote}"
-        title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${castNote}">
+        title="Scene ${s.scene} · ${duration} · ${clipKind(s)}${audioNote}${hasSilentTail ? motionNote : ""}${castNote}">
       ${s.hasImage ? `<img src="${thumbUrl(s.imageUrl, 320)}" alt="" loading="lazy" draggable="false" />` : ""}
       ${castBar}
       <span class="tl-clip-label">
@@ -434,7 +507,14 @@ function loadClip(clips, index, offset) {
 
   setMediaSrc($("tlAudio"), s.hasAudio ? s.audioUrl : null);
   setMediaSrc(video, motion ? s.motionVideoUrl : null);
-  if (s.hasAudio) $("tlAudio").currentTime = offset;
+  if (s.hasAudio) {
+    // An extra shot plays on in its narration's audio; crossing into it while playing leaves the
+    // audio running instead of seeking it back by a few milliseconds.
+    const audio = $("tlAudio");
+    const at = (clip.audioOffset ?? 0) + offset;
+    if (Math.abs(audio.currentTime - at) > TL_AUDIO_SEEK_TOLERANCE_SECONDS)
+      audio.currentTime = at;
+  }
   if (motion) {
     // A new src resets playbackRate to the default, so set both.
     video.defaultPlaybackRate = clip.rate;
@@ -458,7 +538,8 @@ function startMedia(clip) {
       });
   // Seeking into the trailing pause or a padded clip tail starts past the narration's end.
   const narrationLeft =
-    s.hasAudio && tl.offset < (clip.audioSeconds ?? clip.content);
+    s.hasAudio &&
+    (clip.audioOffset ?? 0) + tl.offset < (clip.audioSeconds ?? clip.content);
   if (narrationLeft)
     $("tlAudio")
       .play()
@@ -867,6 +948,7 @@ function syncCaptionControls() {
   if (!captions) return;
   $("tlCaptionsToggle").setAttribute("aria-pressed", String(captions.enabled));
   $("capFont").value = captions.font;
+  $("capTitleFont").value = state.branding.title?.font ?? "be-vietnam";
   $("capStroke").value = captions.strokeWidth;
   $("capStrokeVal").textContent = `${captions.strokeWidth}px`;
   $("capBg").value = Math.round(captions.backgroundOpacity * 100);
@@ -927,10 +1009,20 @@ function announceCaptionsOn() {
 function updateCaptions(patch) {
   if (!state.branding) return;
   const captions = { ...state.branding.captions, ...patch };
-  state = { ...state, branding: { ...state.branding, captions } };
+  applyBrandingPatch({ captions });
+  if (patch.enabled) announceCaptionsOn();
+}
+
+// The scene title font shares the subtitle popover and its save path (branding.json `title`).
+function updateTitleFont(font) {
+  if (!state.branding) return;
+  applyBrandingPatch({ title: { ...state.branding.title, font } });
+}
+
+function applyBrandingPatch(patch) {
+  state = { ...state, branding: { ...state.branding, ...patch } };
   syncCaptionControls();
   if (isRenderMode()) remountPlayer();
-  if (patch.enabled) announceCaptionsOn();
   clearTimeout(captionSaveTimer);
   captionSaveTimer = setTimeout(saveCaptions, CAPTION_SAVE_DELAY_MS);
 }
@@ -940,6 +1032,9 @@ $("tlCaptionsToggle").addEventListener("click", () =>
 );
 $("capFont").addEventListener("change", (e) =>
   updateCaptions({ font: e.target.value }),
+);
+$("capTitleFont").addEventListener("change", (e) =>
+  updateTitleFont(e.target.value),
 );
 $("capStroke").addEventListener("input", (e) =>
   updateCaptions({ strokeWidth: Number(e.target.value) }),

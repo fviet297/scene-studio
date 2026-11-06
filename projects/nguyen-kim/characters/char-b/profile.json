@@ -1,0 +1,24 @@
+{
+  "character_id": "char-b",
+  "name": "Le Duy Ninh (in exile)",
+  "display_name": "Lê Duy Ninh (thời lưu lạc)",
+  "country": "Đại Việt",
+  "dynasty": "Lê Trung Hưng",
+  "aliases": [
+    "Lê Duy Ninh",
+    "Lê Trang Tông"
+  ],
+  "period": "early 16th century, before the enthronement of 1533",
+  "role": "Son of emperor Lê Chiêu Tông, living far from the capital after the Mạc took the throne, found by Nguyễn Kim",
+  "known_facts": [
+    "Là con vua Lê Chiêu Tông, thuộc dòng dõi trực hệ nhà Lê",
+    "Sau khi nhà Mạc giành ngôi năm 1527 phải sống xa kinh thành",
+    "Được Nguyễn Kim tìm đón về căn cứ ở Ai Lao",
+    "Giai thoại Chúa Chổm gắn với ông chỉ là truyền thuyết dân gian, chưa có bằng chứng trong chính sử"
+  ],
+  "interpretation": "Plain commoner dress of a 16th-century Đại Việt youth living in obscurity: undyed cotton tunic, simple headcloth, no rank insignia. Same person as char-e — keep the face, change dress and apparent age.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-kim/characters/char-b.png"
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, Img, staticFile, useVideoConfig } from "remotion";
 import { deliveryBand } from "./delivery-band";
 import type { CaptionStyle } from "./CaptionTrack";
+import type { CaptionFontId } from "./caption-fonts";
 import type { EffectsConfig } from "./effects/types";
 
 // Channel branding over the whole render: a corner logo + name, and a large faint centre
@@ -34,6 +35,8 @@ export interface Branding {
   watermark: { enabled: boolean; opacity: number };
   // Narration subtitles (CaptionTrack.tsx); absent in bundles built before the setting existed.
   captions?: Partial<CaptionStyle>;
+  // Scene title font (SceneView); absent in bundles built before the setting existed.
+  title?: { font?: CaptionFontId };
   // Project-wide effects (src/effects); absent in bundles built before the setting existed.
   effects?: Partial<EffectsConfig>;
 }

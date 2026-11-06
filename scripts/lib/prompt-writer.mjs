@@ -135,13 +135,15 @@ const splitSections = (raw) => {
 // maps reference N to the Nth character named here). `identity` ('face'|'full') hints whether
 // the scene may re-dress the character (face-lock) or must keep the reference's costume (full).
 // `context` is optional { prev, next } narration of the neighbouring scenes, used only to keep the
-// setting/action continuous — the model must not depict them.
-export const generateScenePrompt = async ({ narration, characters = [], identity = 'full', context, signal, onLog }) => {
+// setting/action continuous — the model must not depict them. `shotNote` (optional) is set when the
+// narration is shown in several shots: which shot this is and what the others already show.
+export const generateScenePrompt = async ({ narration, characters = [], identity = 'full', context, shotNote, signal, onLog }) => {
   const { charLines, notes, budget } = sceneCharacterBrief(characters, identity);
   const contextNote = context && (context.prev || context.next)
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them, and do NOT reuse an adjacent beat's setting plus activity: change the terrain, time of day or action so this reads as a new shot):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
-  const userPrompt = `Narration for this scene:\n"${narration}"\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now. Keep the English scene prompt under ${budget} characters. Output the two parts in order, separated by the ===VI=== delimiter line.`;
+  const shotSection = shotNote ? `\n\n${shotNote}` : '';
+  const userPrompt = `Narration for this scene:\n"${narration}"${shotSection}\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now. Keep the English scene prompt under ${budget} characters. Output the two parts in order, separated by the ===VI=== delimiter line.`;
 
   const raw = await chatText({ system: SYSTEM_PROMPT, user: userPrompt, signal, onLog, label: 'Viết prompt ảnh' });
   const { text, vi } = splitSections(raw);

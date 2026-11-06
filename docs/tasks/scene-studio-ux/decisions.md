@@ -65,6 +65,24 @@
 
 - Không có trong code; không thêm tính năng mới (ràng buộc 1). Ghi ở câu hỏi mở `requirements.md`.
 
+## D10. Một narration nhiều shot (user chốt 2026-11-05)
+
+- **Mô hình "shot phẳng"**: mỗi `## scene` vẫn là một ảnh/motion; scene không có `narration:` là shot thêm của narration
+  phía trên, dùng chung audio và caption. File media vẫn `scene-NN.*`, project cũ chạy nguyên. Đã cân nhắc phân cấp
+  `## scene` > `### shot` (file `scene-NN-sK.*`): khớp mô hình hơn nhưng phải sửa media, history, manifest, đánh số lại,
+  editor, Remotion, sync — user chọn shot phẳng.
+- **Chia giờ** (`scripts/lib/shot-timing.mjs`): shot có motion chạy đúng độ dài clip, ảnh tĩnh chia đều phần audio còn
+  lại; chưa có motion thì mỗi ảnh = audio / số shot. Motion dài hơn audio thì đuôi im lặng (user chọn thay vì co giãn).
+- **Độ dài motion** là cài đặt dự án (header `motion-duration:`): ô chọn "Motion · Ns" trong nhóm **Cài đặt dự án** ở
+  hàng 1 (cạnh tỉ lệ và style), ô "Độ dài motion" trong dialog Dự án mới. Trống = clip khớp audio như trước.
+- **Số shot** khi AI viết kịch bản = làm tròn lên (giây ước lượng của narration / độ dài motion); bước "Chia shot" mới
+  giữa Câu chuyện và Prompt ảnh.
+- Rail: shot thụt vào dưới narration, nhãn "shot k/n", dòng phụ "↳ dùng narration scene N". Nút **Thêm shot** cạnh
+  Chèn scene (thêm vào cuối nhóm, mang `char:` theo). Khối Narration của shot có ghi chú dùng narration nào; nhập
+  narration vào shot thì shot thành narration mới. Không thêm id mới nào khác ngoài `btnAddShot`, `shotNote`,
+  `motionDurationSelect`, `npMotionDuration`.
+- Bỏ cách thử trước đó (`audio_src` / `audio_start` / `audio_end` nhập giây bằng tay).
+
 ## Phương án không chọn
 
 - **Chỉ nhóm nút, không menu** — ít rủi ro hơn nhưng hàng 2 vẫn dài; user chọn menu.

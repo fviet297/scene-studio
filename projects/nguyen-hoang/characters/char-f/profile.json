@@ -1,0 +1,23 @@
+{
+  "character_id": "char-f",
+  "name": "Trinh Tung",
+  "display_name": "Trịnh Tùng",
+  "aliases": [
+    "Bình An vương",
+    "Thành Tổ Triết vương"
+  ],
+  "country": "Đại Việt",
+  "period": "1550–1623",
+  "dynasty": "Lê Trung Hưng — Trịnh",
+  "role": "Con Trịnh Kiểm, chúa Trịnh, người lấy lại Thăng Long năm 1592",
+  "known_facts": [
+    "Nổi lên sau tranh chấp kế vị khi Trịnh Kiểm mất năm 1570",
+    "Năm 1592 chiếm Thăng Long từ nhà Mạc",
+    "Mất năm 1623, Trịnh Tráng kế vị"
+  ],
+  "interpretation": "Trịnh lord-general: maroon brocade robe over lamellar armour, black court cap with side wings. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-hoang/characters/char-f.jpg"
+}

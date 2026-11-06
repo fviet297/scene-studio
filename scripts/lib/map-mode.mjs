@@ -57,6 +57,24 @@ MAP FRAME
 9. Close with ONE exclusion sentence naming what to keep out of this frame: modern borders and city grids when the year is historical, lettering, ships of the wrong era.
 10. Be concise — the English prompt is inserted into a template with a hard character budget. Plain prose only: no markdown, no quotation marks, no field labels, no preamble.`;
 
+// Map scenes inside a standard (character-led) video. Mirrors the lsvn skill's "Map-scene triage"
+// (SKILL.md §3). The story writer marks the spatial lines with "map": true; the visuals and motion
+// phases then switch to the map rules for those scenes only.
+export const MAP_SCENES_STORY_RULES = `MAP SCENES — lines that are about geography are drawn as a map frame
+- A scene is a map scene ("map": true) when its line's main content is SPATIAL: a march, flight, exile, migration or sea route from one place to another; territory or control changing hands, or two powers holding different regions; where a base, capital or front lies relative to the enemy, a border, the sea or the mountains; a campaign moving across several named places in sequence. Every other scene is "map": false.
+- It is NOT a map scene when the line is about a person, an act or an idea: a coronation, a conversation, a death or poisoning, an introduction of a figure, a legend, a verdict, the closing question. Those stay ordinary drawable moments.
+- Use it sparingly: about 15 to 30 percent of the scenes, never more than two map scenes in a row, and never scene 1 unless its line is itself a question about a place. Zero map scenes is correct when no line is spatial.
+- A map scene has "chars": [] (this overrides the rule about keeping the main figure on screen: the map shows WHERE, the neighbouring scenes show WHO) and its "visual" names the map frame: the view scale (a close-up of a valley or harbour, a region, the whole country), the geography by position and shape, what changes on the map (a region washed with colour, a route arrow, a ring round a place) and what moves on it (tiny columns of troops, ships under sail, smoke, cloud shadow). Name only places the narration names; invent no geography. Change the view scale between neighbouring map scenes. No lettering, labels or year badge, they are added later. Whenever the East Sea is in view, include the two island groups (Hoàng Sa in the north, Trường Sa in the south) as scattered islets in their places.`;
+
+// Appended to the standard image-prompt system prompt: scenes marked MAP SCENE follow the map-frame
+// rules instead of the character-scene rules above.
+export const MAP_SCENES_VISUALS_RULES = (example) => `MAP SCENES
+A scene whose header says "MAP SCENE" is an illustrated top-down relief map, not a character scene: for that scene ignore the rules above and follow the MAP FRAME rules below. The scene has no character reference. Every other scene follows the rules above.
+
+${MAP_PROMPT_RULES}
+
+[map scene prompt example] ${example}`;
+
 export const MAP_PROMPT_EXAMPLE = 'Wide top-down illustrated relief map of the Gulf of Thailand coast at dawn, 1708; the flat Mekong delta coastline curves along the east, a green teardrop island lies small off the western shore, and a narrow strip of coast around a harbour is washed in translucent teal with soft edges while the far east is washed in soft red; three junk-rigged sailing boats cross the bay toward the teal strip along a wide soft teal route arrow, cloud shadows drifting over the sea. Southeast Asian maritime setting, 18th century. No lettering or labels, no modern borders, no European ships.';
 
 export const MAP_MOTION_SYSTEM = `You direct how the still image of each scene of a narrated history video told on a map moves when an image-to-video model animates it. The still is an illustrated top-down relief map and already exists; you write only the motion. For every scene write three short English fields, each one line:

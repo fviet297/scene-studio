@@ -9,9 +9,9 @@
 //   GET  /characters/<file>   → serve a character reference/puppet image for the active project
 //   GET  /api/projects        → list every projects/<slug> + which one is active
 //   POST /api/project         → { slug } → switch the active project, rebuild its bundle
-//   POST /api/project-create  → { slug, title, aspect?, template?, voice?, audioSource?, plan? } → new project from
+//   POST /api/project-create  → { slug, title, aspect?, template?, voice?, audioSource?, motionDuration?, plan? } → new project from
 //                               a pasted scene-plan.md, or scaffolded from projects/_template
-//   POST /api/script-generate → { request, sceneCount, style?, voice?, audioSource?, slug?, title?, aspect?, template? } →
+//   POST /api/script-generate → { request, sceneCount, style?, motionDuration?, voice?, audioSource?, slug?, title?, aspect?, template? } →
 //                               (style: "standard" | "map" — a "Vì sao …?" documentary told on a map)
 //                               LLM writes the whole video (narration, cast, image + motion prompts),
 //                               then it becomes a new active project; progress streamed over SSE
@@ -55,10 +55,11 @@
 //   GET  /api/model-config    → providers (endpoint, masked key) and image/motion models, grouped for the manager
 //   POST /api/model-config/<provider-add|provider-update|provider-delete|model-add|model-update|model-delete|model-hidden>
 //                             → edit data/models.json (keys never returned in full), answers with the refreshed list
-//   GET  /api/branding        → the active project's corner logo + watermark settings
+//   GET  /api/branding        → the active project's corner logo + watermark, captions, title font, effects
 //   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
 //   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
 //   POST /api/project-aspect  → { aspect } → change the active project's `aspect:` header
+//   POST /api/project-motion-duration → { value } → the `motion-duration:` header (seconds per motion shot; blank clears it)
 //   POST /api/finalize        → { format: wide|vertical } → render; a 16:9 project's vertical
 //                               export is the master plus its 1080x1920 wrap (wrap-vertical.mjs)
 //   GET  /video[?f=9x16]      → the rendered master, or its 9:16 wrap
@@ -96,8 +97,10 @@ import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, 
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { parseMinDuration } from './lib/scene-timing.mjs';
+import { parseMotionDuration } from './lib/shot-timing.mjs';
+import { mediaDuration } from './lib/media-duration.mjs';
 import { suggestCharacterProfile } from './lib/profile-writer.mjs';
-import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removeScene, removeSceneField, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
+import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removePlanHeader, removeScene, removeSceneField, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
 import { composeMotionPrompt, hasMotionParts, MOTION_FIELDS, writeMotionsBatched } from './lib/motion-writer.mjs';
 import { pickerModels, providerOf } from './lib/providers.mjs';
 import { ConfigError, initModelConfig } from './lib/model-config.mjs';
@@ -233,6 +236,19 @@ const audioMeta = (n) => {
 };
 // The narration was edited (or merged) after this scene's audio was generated.
 const sceneAudioStale = (n, narration) => existsSync(join(P.audioDir, audioFile(n))) && isAudioStale(P.audioDir, n, narration);
+// The scene whose narration and audio a scene plays under: itself, or for an extra shot (a scene
+// without narration, lib/shot-timing.mjs) the scene holding the narration before it.
+const audioOwner = (s) => s.shotOf ?? s.scene;
+const ownerAudioPath = (s) => join(P.audioDir, audioFile(audioOwner(s)));
+// Seconds to ask a motion model for: the project's motion length (plan header motion-duration),
+// else the old rule — the narration's audio, shared evenly between its shots. null while that
+// audio does not exist yet.
+const motionTargetSeconds = (plan, s) => {
+  if (plan.motionDuration) return plan.motionDuration;
+  if (!existsSync(ownerAudioPath(s))) return null;
+  return mediaDuration(ownerAudioPath(s)) / (s.shotCount ?? 1);
+};
+const NO_MOTION_LENGTH = 'chưa có audio để khớp độ dài motion — sinh audio trước, hoặc đặt độ dài motion của dự án';
 // A motion step carries the fingerprint of the image its clip was animated from (motion-source.mjs),
 // so undo/redo keeps the out-of-date check matching the clip that comes back.
 const motionMeta = (n) => {
@@ -504,7 +520,7 @@ const normalizeImportChar = (value, charIds) => {
 // Build the per-scene view the panel renders: prompt, char refs, image kind, whether the
 // image/audio exist yet (with an mtime cache-buster so a regenerated file reloads).
 const buildState = () => {
-  const { characters, scenes } = readPlan();
+  const { characters, scenes, motionDuration } = readPlan();
   const authenticity = readAuthenticity();
   const planRaw = existsSync(P.planMd) ? readFileSync(P.planMd, 'utf8') : '';
   const title = planRaw.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? 'Scenes';
@@ -530,7 +546,7 @@ const buildState = () => {
   const templates = getTemplates();
   return {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : '') },
+    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : ''), motionDuration: motionDuration ?? null },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: readBranding(P.slug),
     imageModels: pickerModels('image', IMAGE_MODELS),
@@ -541,8 +557,10 @@ const buildState = () => {
       const file = sceneFile(s.scene);
       const path = join(P.imageDir, file);
       const has = existsSync(path);
-      const apath = join(P.audioDir, audioFile(s.scene));
+      // An extra shot reports its narration's audio: it plays on under it.
+      const apath = ownerAudioPath(s);
       const hasAudio = existsSync(apath);
+      const owner = s.shotOf ? scenes.find((x) => x.scene === s.shotOf) : s;
       const motionPath = join(P.sceneVideoDir, sceneVideoFile(s.scene));
       const hasMotionVideo = existsSync(motionPath);
       // uploaded photo, AI reconstruction, or a sourced search image — drives the AI tag.
@@ -581,8 +599,13 @@ const buildState = () => {
         hasImage: has,
         imageUrl: has ? `/images/${file}?v=${statSync(path).mtimeMs}` : null,
         hasAudio,
-        audioStale: sceneAudioStale(s.scene, s.narration ?? ''),
-        audioUrl: hasAudio ? `/audio/${audioFile(s.scene)}?v=${statSync(apath).mtimeMs}` : null,
+        audioStale: sceneAudioStale(audioOwner(s), owner?.narration ?? ''),
+        audioUrl: hasAudio ? `/audio/${audioFile(audioOwner(s))}?v=${statSync(apath).mtimeMs}` : null,
+        // Shots of one narration (lib/shot-timing.mjs): shotOf = the scene holding the narration
+        // (null on that scene itself), shotIndex / shotCount = place among its shots (1-based).
+        shotOf: s.shotOf ?? null,
+        shotIndex: s.shotIndex ?? 1,
+        shotCount: s.shotCount ?? 1,
         hasMotionVideo,
         motionStale: hasMotionVideo && sceneMotionStale(s.scene),
         motionVideoUrl: hasMotionVideo ? `/motion-video/${sceneVideoFile(s.scene)}?v=${statSync(motionPath).mtimeMs}` : null,
@@ -667,7 +690,7 @@ const thumbFallback = (name, error, original) => {
   return original;
 };
 // Everything the composition can reach through staticFile(); media goes out with Range support.
-const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav' };
+const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav', ttf: 'font/ttf' };
 const PUBLIC_DIR = 'public';
 const execFileAsync = promisify(execFile);
 const MEDIA_SYNC_TIMEOUT_MS = 30 * 60 * 1000;
@@ -850,28 +873,24 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     const started = Date.now();
     const imagePath = join(P.imageDir, sceneFile(n));
-    const audioPath = join(P.audioDir, audioFile(n));
-    if (!existsSync(imagePath) || !existsSync(audioPath)) {
-      sseSend(res, 'log', `• scene ${n} skipped: image and audio are required`);
+    if (!existsSync(imagePath)) {
+      sseSend(res, 'log', `• scene ${n} skipped: no image yet`);
       continue;
     }
     attempted++;
     try {
-      const audioSeconds = Number(execFileSync(
-        'ffprobe',
-        ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', audioPath],
-        { encoding: 'utf8' },
-      ).trim());
-      if (!Number.isFinite(audioSeconds)) throw new Error('could not read audio duration');
-      sseSend(res, 'log', `▶ generating motion video for scene ${n} (${model})...`);
-      if (target.duration > audioSeconds) sseSend(res, 'log', `  scene minimum ${target.duration}s is longer than its audio (${audioSeconds.toFixed(1)}s) — clip sized to the minimum`);
+      const targetSeconds = motionTargetSeconds(plan, target);
+      if (targetSeconds === null) throw new Error(NO_MOTION_LENGTH);
+      if (!Number.isFinite(targetSeconds)) throw new Error('could not read audio duration');
+      sseSend(res, 'log', `▶ generating motion video for scene ${n} (${model}, ~${targetSeconds.toFixed(1)}s)...`);
+      if (target.duration > targetSeconds) sseSend(res, 'log', `  scene minimum ${target.duration}s is longer than ${targetSeconds.toFixed(1)}s — clip sized to the minimum`);
       await trackMediaChange('motion', n, () => generateSceneVideo({
         scene: n,
         imagePath,
         outputDir: P.sceneVideoDir,
         prompt: sceneMotionPrompt(target, undefined, model),
         model,
-        audioSeconds: Math.max(audioSeconds, target.duration ?? 0),
+        audioSeconds: Math.max(targetSeconds, target.duration ?? 0),
         aspect: activeAspect(),
         signal,
         onLog: (line) => sseSend(res, 'log', `  ${line}`),
@@ -888,6 +907,31 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
   res.end();
 };
 
+// What the prompt writer draws a scene from: { narration, context, shotNote? }, or null when there
+// is nothing to draw from. A scene with several shots (lib/shot-timing.mjs) is drawn from the
+// narration they share plus a note: which shot it is (the narration is read in order across them),
+// its own English beat when it has one, and what the other shots already show, so the shots of one
+// narration show different moments instead of repeating each other.
+const SIBLING_PROMPT_CHARS = 220;
+const promptSource = (plan, s) => {
+  const index = plan.scenes.findIndex((x) => x.scene === s.scene);
+  const text = (x) => x?.narration || x?.beat || undefined;
+  const context = { prev: text(plan.scenes[index - 1]), next: text(plan.scenes[index + 1]) };
+  const ownerNo = s.shotOf ?? s.scene;
+  const owner = plan.scenes.find((x) => x.scene === ownerNo);
+  if (!owner?.narration) return null;
+  if ((s.shotCount ?? 1) === 1) return { narration: owner.narration, context };
+  const others = plan.scenes
+    .filter((x) => x.scene !== s.scene && (x.scene === ownerNo || x.shotOf === ownerNo) && x.image.prompt)
+    .map((x) => `- shot ${x.shotIndex}: ${x.image.prompt.slice(0, SIBLING_PROMPT_CHARS)}`);
+  const shotNote = [
+    `This narration is shown in ${s.shotCount} consecutive shots, read in order across them; this scene is shot ${s.shotIndex} of ${s.shotCount}. Draw the moment of the narration that falls in that part of it, not the whole line.`,
+    s.beat ? `This shot's drawable moment: "${s.beat}"` : '',
+    others.length ? `The other shots of this narration already show (do NOT repeat their setting plus activity; change the action, framing or place):\n${others.join('\n')}` : '',
+  ].filter(Boolean).join('\n');
+  return { narration: owner.narration, context, shotNote };
+};
+
 // Write prompts for several AI scenes in turn via the LLM (scripts/lib/prompt-writer.mjs). One
 // LLM call per scene, sequential; a failure on one does not abort the rest.
 const generatePromptsBatch = async (res, sceneNos) => {
@@ -902,15 +946,14 @@ const generatePromptsBatch = async (res, sceneNos) => {
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
-    if (!target.narration) { sseSend(res, 'log', `✗ scene ${n} has no narration — skipped`); continue; }
+    const source = promptSource(plan, target);
+    if (!source) { sseSend(res, 'log', `✗ scene ${n} has no narration — skipped`); continue; }
     attempted++;
     const started = Date.now();
-    sseSend(res, 'log', `▶ writing prompt for scene ${n}...`);
+    sseSend(res, 'log', `▶ writing prompt for scene ${n}${target.shotCount > 1 ? ` (shot ${target.shotIndex}/${target.shotCount})` : ''}...`);
     try {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
-      const gi = plan.scenes.findIndex((s) => s.scene === n);
-      const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
-      const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+      const { text, vi } = await generateScenePrompt({ ...source, characters, identity: target.image.identity });
       writeSceneField(P.planMd, n, 'prompt', text);
       writeSceneField(P.planMd, n, 'prompt_vi', vi);
       ok++;
@@ -924,10 +967,11 @@ const generatePromptsBatch = async (res, sceneNos) => {
 // The motion writer's view of one scene: its English beat — or, for plans written before beats
 // were stored, its image prompt — plus mood and on-screen cast names (left to right).
 const motionBeat = (s) => s.beat || s.image?.prompt || '';
-const motionInput = (s) => ({
+// An extra shot has no cue of its own: it takes the mood of the narration it plays under.
+const motionInput = (s, plan) => ({
   scene: s.scene,
   beat: motionBeat(s),
-  cue: s.cue ?? '',
+  cue: s.cue || plan.scenes.find((x) => x.scene === s.shotOf)?.cue || '',
   names: buildCharacterContext(s.image.characters, P.profilesDir).map((c) => c.name),
 });
 
@@ -944,7 +988,7 @@ const generateMotionPromptsBatch = async (res, sceneNos) => {
     if (!s) log(`✗ scene ${n} not found`);
     else if (s.image.kind !== 'ai') log(`• scene ${n} is a search scene — skipped`);
     else if (!motionBeat(s)) log(`✗ scene ${n}: chưa có beat hay prompt ảnh — skipped`);
-    else targets.push(motionInput(s));
+    else targets.push(motionInput(s, plan));
   }
   log(`motion prompt batch: ${targets.length}/${sceneNos.length} scene(s), LLM ${describeLlm()}`);
   const withoutBeat = targets.filter((t) => !plan.scenes.find((x) => x.scene === t.scene).beat).map((t) => t.scene);
@@ -990,7 +1034,8 @@ const buildNewPlan = ({ slug, title, plan }) => {
 // Checks shared by both ways to start a project (blank/pasted plan, AI writer), run before any
 // work so a bad slug never costs an LLM run. `slug` may be absent: the AI writer derives one.
 // Returns an error message or null.
-const newProjectError = ({ slug, aspect, template, voice, audioSource }) => {
+const newProjectError = ({ slug, aspect, template, voice, audioSource, motionDuration }) => {
+  if (motionDuration !== undefined && parseMotionDuration(String(motionDuration)).error) return parseMotionDuration(String(motionDuration)).error;
   if (slug !== undefined && !isValidSlug(slug)) return 'slug must be lowercase letters, numbers and hyphens';
   if (slug !== undefined && existsSync(projectPaths(slug).planMd)) return `project "${slug}" already exists`;
   if (aspect !== undefined && !Object.hasOwn(ASPECTS, aspect)) return `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}`;
@@ -1003,7 +1048,7 @@ const newProjectError = ({ slug, aspect, template, voice, audioSource }) => {
 // Write a checked new project: its folders, then its scene-plan.md (see buildNewPlan) with the
 // header lines. The plan is written last and lands in one rename: listProjects() keys on
 // scene-plan.md, so a project only appears once it is complete. Throws when the plan is unusable.
-const writeNewProject = ({ slug, title, aspect, template, voice, audioSource, plan }) => {
+const writeNewProject = ({ slug, title, aspect, template, voice, audioSource, motionDuration, plan }) => {
   const target = projectPaths(slug);
   const content = buildNewPlan({ slug, title, plan });
   if (content.error) throw new Error(content.error);
@@ -1014,6 +1059,9 @@ const writeNewProject = ({ slug, title, aspect, template, voice, audioSource, pl
   if (template) writePlanHeader(draft, 'template', template);
   if (audioSource) writePlanHeader(draft, 'audio', audioSource);
   if (voice) writePlanHeader(draft, 'voice', voice);
+  // Motion clip length for every shot (lib/shot-timing.mjs); unset = clips sized to the narration.
+  const motionSeconds = parseMotionDuration(String(motionDuration ?? '')).value;
+  if (motionSeconds !== undefined) writePlanHeader(draft, 'motion-duration', String(motionSeconds));
   renameSync(draft, target.planMd);
   return target;
 };
@@ -1099,6 +1147,7 @@ const scriptRequestInput = (body) => {
     request, sceneCount, style,
     slug: optional(body.slug), title: optional(body.title),
     aspect: optional(body.aspect), template: optional(body.template), voice: optional(body.voice), audioSource: optional(body.audioSource),
+    motionDuration: optional(body.motionDuration === undefined ? undefined : String(body.motionDuration)),
   };
   const error = newProjectError(input);
   return error ? { error } : input;
@@ -1131,8 +1180,11 @@ const generateScriptProject = async (res, input) => {
   const signal = cancelSignal(res);
   const log = (line) => sseSend(res, 'log', line);
   try {
+    // story.scenes are shots: a narration's first shot carries it, its extra shots have none.
     const { story, visuals, motions } = await writeVideo({
-      request: input.request, sceneCount: input.sceneCount, style: input.style, signal, onLog: log,
+      request: input.request, sceneCount: input.sceneCount, style: input.style,
+      motionSeconds: input.motionDuration === undefined ? undefined : parseMotionDuration(input.motionDuration).value,
+      signal, onLog: log,
       onProgress: (progress) => sseSend(res, 'progress', progress),
     });
     // Checked again now: the minutes the LLM took are long enough for the slug to be taken.
@@ -1274,14 +1326,14 @@ const server = createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && pathname === '/api/project-create') {
-      const { slug, title, aspect, template, voice, audioSource, plan } = await readBody(req);
+      const { slug, title, aspect, template, voice, audioSource, motionDuration, plan } = await readBody(req);
       if (activeJobs > 0) { sendJson(res, 409, { error: JOBS_RUNNING_ERROR }); return; }
       const error = isValidSlug(slug)
-        ? newProjectError({ slug, aspect, template, voice, audioSource })
+        ? newProjectError({ slug, aspect, template, voice, audioSource, motionDuration })
         : 'slug must be lowercase letters, numbers and hyphens';
       if (error) { sendJson(res, 400, { error }); return; }
       try {
-        writeNewProject({ slug, title, aspect, template, voice, audioSource, plan });
+        writeNewProject({ slug, title, aspect, template, voice, audioSource, motionDuration, plan });
       } catch (e) {
         sendJson(res, 400, { error: e.message });
         return;
@@ -1475,6 +1527,18 @@ const server = createServer(async (req, res) => {
 
     // Images and motion clips already generated keep their old shape; the render covers-crops
     // them to the new frame and new generations follow the new aspect.
+    if (req.method === 'POST' && pathname === '/api/project-motion-duration') {
+      // The project's motion clip length (plan header motion-duration); blank clears it, so clips
+      // go back to being sized to the narration.
+      const { value } = await readBody(req);
+      const { value: seconds, error } = parseMotionDuration(String(value ?? ''));
+      if (error) { sendJson(res, 400, { error }); return; }
+      if (seconds === undefined) removePlanHeader(P.planMd, 'motion-duration');
+      else writePlanHeader(P.planMd, 'motion-duration', String(seconds));
+      sendJson(res, 200, buildState());
+      return;
+    }
+
     if (req.method === 'POST' && pathname === '/api/project-aspect') {
       const { aspect } = await readBody(req);
       if (!ASPECTS[aspect]) { sendJson(res, 400, { error: `tỉ lệ khung phải là ${Object.keys(ASPECTS).join(', ')}` }); return; }
@@ -1684,16 +1748,19 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && pathname === '/api/insert-scene') {
       // Add one new scene numbered `at`; the scene that held `at` and every later one move down by
       // one, media files included. Refused while a job runs: it would write to the old numbers.
-      const { at, narration = '' } = await readBody(req);
+      // A blank narration makes the new scene another shot of the narration above it
+      // (lib/shot-timing.mjs); `char` (optional) carries that shot's cast over.
+      const { at, narration = '', char } = await readBody(req);
       if (activeJobs > 0) { sendJson(res, 409, { error: 'Đang có job chạy trên server — chờ xong rồi chèn scene.' }); return; }
       const lastScene = Math.max(0, ...readPlan().scenes.map((s) => s.scene));
       if (!Number.isInteger(at) || at < 1 || at > lastScene + 1) { sendJson(res, 400, { error: `vị trí chèn phải từ 1 đến ${lastScene + 1}` }); return; }
       if (typeof narration !== 'string') { sendJson(res, 400, { error: 'narration phải là chuỗi' }); return; }
+      if (char !== undefined && typeof char !== 'string') { sendJson(res, 400, { error: 'char phải là chuỗi' }); return; }
 
       writeFileSync(`${P.planMd}.bak`, readFileSync(P.planMd, 'utf8'));
       try {
         shiftSceneMedia(P, at);
-        insertScene(P.planMd, at, { narration });
+        insertScene(P.planMd, at, { narration, ...(char ? { char } : {}) });
       } catch (e) {
         sendJson(res, 500, { error: `chèn scene thất bại (bản sao plan: ${basename(P.planMd)}.bak): ${e.message}` });
         return;
@@ -1929,13 +1996,13 @@ const server = createServer(async (req, res) => {
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
       if (target.image.kind !== 'ai') { sendJson(res, 400, { error: `scene ${scene} is a search scene, not AI` }); return; }
-      if (!target.narration) { sendJson(res, 400, { error: `scene ${scene} has no narration yet` }); return; }
+      // An extra shot is drawn from the narration it plays under (see promptSource).
+      const source = promptSource(plan, target);
+      if (!source) { sendJson(res, 400, { error: `scene ${scene} has no narration yet` }); return; }
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
-      const gi = plan.scenes.findIndex((s) => s.scene === scene);
-      const context = { prev: plan.scenes[gi - 1]?.narration, next: plan.scenes[gi + 1]?.narration };
       await trackJob(res, async () => {
         const started = Date.now();
-        const { text, vi } = await generateScenePrompt({ narration: target.narration, characters, identity: target.image.identity, context });
+        const { text, vi } = await generateScenePrompt({ ...source, characters, identity: target.image.identity });
         console.log(`[prompt scene ${scene}] ${describeLlm()} · ${secondsSince(started)} · ${text.length} chars`);
         writeSceneField(P.planMd, scene, 'prompt', text);
         writeSceneField(P.planMd, scene, 'prompt_vi', vi);
@@ -2167,7 +2234,8 @@ const server = createServer(async (req, res) => {
       const wrapVertical = activeAspect() === '16:9' && format !== 'wide';
       const plan = readPlan();
       const missImg = plan.scenes.filter((s) => !existsSync(join(P.imageDir, sceneFile(s.scene)))).map((s) => s.scene);
-      const missAud = plan.scenes.filter((s) => !existsSync(join(P.audioDir, audioFile(s.scene)))).map((s) => s.scene);
+      // Only a scene holding a narration needs its own audio; its extra shots play on under it.
+      const missAud = plan.scenes.filter((s) => !s.shotOf && !existsSync(join(P.audioDir, audioFile(s.scene)))).map((s) => s.scene);
       if (missImg.length || missAud.length) {
         sseHead(res);
         if (missImg.length) sseSend(res, 'log', `✗ missing images: scene ${missImg.join(', ')}`);
@@ -2253,12 +2321,14 @@ const server = createServer(async (req, res) => {
       const editedParts = MOTION_FIELDS.some((f) => typeof body[f] === 'string') ? body : undefined;
       const imagePath = join(P.imageDir, sceneFile(scene));
       if (!existsSync(imagePath)) { sendJson(res, 400, { error: `scene ${scene} has no image yet` }); return; }
-      const audioPath = join(P.audioDir, audioFile(scene));
-      if (!existsSync(audioPath)) { sendJson(res, 400, { error: `scene ${scene} has no audio yet — generate audio first so the motion video's duration can match it` }); return; }
+      // A length typed in the popup wins; else the project's motion length or the narration's share.
+      const hasOverride = Number.isFinite(duration) && duration > 0;
       let audioSeconds;
       try {
-        audioSeconds = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', audioPath], { encoding: 'utf8' }).trim());
+        audioSeconds = motionTargetSeconds(plan, target);
       } catch (e) { sendJson(res, 500, { error: `ffprobe failed: ${e.message}` }); return; }
+      if (audioSeconds === null && !hasOverride) { sendJson(res, 400, { error: `scene ${scene}: ${NO_MOTION_LENGTH}` }); return; }
+      audioSeconds ??= duration;
       sseHead(res);
       const log = (line) => { console.log(`[motion-video scene ${scene}] ${line}`); sseSend(res, 'log', line); };
       const signal = cancelSignal(res);
@@ -2266,9 +2336,11 @@ const server = createServer(async (req, res) => {
         try {
           const motionPrompt = sceneMotionPrompt(target, editedParts, model);
           log(`motion prompt: ${motionPrompt.replace(/\s+/g, ' ').slice(0, 700)}`);
-          log(`audio duration: ${audioSeconds.toFixed(1)}s`);
-          if (target.duration > audioSeconds) log(`scene minimum ${target.duration}s is longer than the audio — clip sized to the minimum`);
-          if (Number.isFinite(duration) && duration > 0) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
+          log(plan.motionDuration
+            ? `motion length: ${audioSeconds}s (project setting)`
+            : `motion length: ${audioSeconds.toFixed(1)}s (narration audio${(target.shotCount ?? 1) > 1 ? ` / ${target.shotCount} shots` : ''})`);
+          if (target.duration > audioSeconds) log(`scene minimum ${target.duration}s is longer — clip sized to the minimum`);
+          if (hasOverride) log(`requested duration override: ${duration}s (snapped to the model's allowed lengths)`);
           const result = await trackMediaChange('motion', scene, () => generateSceneVideo({ scene, imagePath, outputDir: P.sceneVideoDir, prompt: motionPrompt, model, audioSeconds: Math.max(audioSeconds, target.duration ?? 0), duration, aspect: activeAspect(), signal, onLog: log }));
           // The final Remotion render plays this clip in place of the scene image — rebuild so
           // the bundle's motionVideo flag flips on without a separate manual step.

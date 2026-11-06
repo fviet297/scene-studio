@@ -1,0 +1,25 @@
+{
+  "character_id": "char-a",
+  "name": "Nguyen Kim",
+  "display_name": "Nguyễn Kim",
+  "aliases": [
+    "Nguyễn Kim",
+    "Thượng phụ Thái sư Hưng quốc công"
+  ],
+  "country": "Đại Việt",
+  "period": "early 16th century (d. 1545)",
+  "dynasty": "Lê Trung Hưng / Mạc",
+  "role": "Võ tướng nhà Lê, người dựng lại nhà Lê Trung Hưng từ căn cứ ở Ai Lao",
+  "known_facts": [
+    "Chống nhà Mạc sau 1527, đưa lực lượng sang Ai Lao, lập căn cứ ở Sầm Hạ",
+    "Liên kết vua Ai Lao Sạ Đẩu để có quân và lương",
+    "Tìm Lê Duy Ninh, tôn lên làm vua Lê Trang Tông năm 1533, giữ chức Thượng phụ Thái sư",
+    "1540 đưa quân về Nghệ An; cuối 1543 chiếm Tây Đô (Thanh Hóa)",
+    "Năm 1545 qua đời, sử ghi bị Dương Chấp Nhất đầu độc"
+  ],
+  "interpretation": "Trang phục triều đình/quân đội Đại Việt thế kỷ 16, không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-kim/characters/char-a.png"
+}

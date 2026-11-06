@@ -28,7 +28,7 @@ export const CAPTION_POSITIONS = ['top', 'middle', 'bottom'];
 // Extra vertical nudge on top of the position preset, in delivered-canvas pixels (1080 wide); negative = up.
 export const CAPTION_OFFSET_RANGE = { min: -300, max: 300 };
 // Fonts bundled in public/fonts (src/caption-fonts.ts); 'arial' is the OS font, which differs per machine.
-export const CAPTION_FONTS = ['be-vietnam', 'montserrat', 'anton', 'bangers', 'arial'];
+export const CAPTION_FONTS = ['be-vietnam', 'montserrat', 'anton', 'bangers', 'playfair', 'charm', 'lobster', 'arial'];
 export const CAPTION_HIGHLIGHTS = ['karaoke', 'word', 'none'];
 export const CAPTION_STROKE_RANGE = { min: 0, max: 14 };
 // 16:9 only, same meaning as BRAND_ANCHORS: 'crop' keeps the text inside the 3:2 strip the 9:16
@@ -57,6 +57,8 @@ export const DEFAULT_BRANDING = {
     uppercase: false, highlight: 'karaoke', position: 'bottom', offsetY: 0, anchor: 'crop',
     spokenColor: '#f6c85f', unspokenColor: '#ffffff',
   },
+  // Font of the scene title drawn at the top of the frame (ScenePlanVideo); same ids as captions.
+  title: { font: 'be-vietnam' },
   effects: {
     vignette: true, grain: true, grade: 'none',
     transition: { type: 'crossfade', frames: 8 },
@@ -104,6 +106,7 @@ export const normalizeBranding = (raw = {}) => {
   const logo = raw.logo ?? {};
   const watermark = raw.watermark ?? {};
   const captions = raw.captions ?? {};
+  const title = raw.title ?? {};
   const d = DEFAULT_BRANDING;
   return {
     name: typeof raw.name === 'string' ? raw.name.trim().slice(0, BRAND_NAME_MAX) : d.name,
@@ -134,6 +137,7 @@ export const normalizeBranding = (raw = {}) => {
       spokenColor: hexColor(captions.spokenColor, d.captions.spokenColor),
       unspokenColor: hexColor(captions.unspokenColor, d.captions.unspokenColor),
     },
+    title: { font: CAPTION_FONTS.includes(title.font) ? title.font : d.title.font },
     effects: normalizeEffects(raw.effects),
   };
 };

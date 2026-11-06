@@ -31,6 +31,7 @@
         <option value="1:1">1:1</option>
       </select>
       <select class="mini style-select" id="styleSelect" aria-label="Style ảnh của dự án" title="Style version dùng khi sinh ảnh của dự án này"></select>
+      <select class="mini motion-duration-select" id="motionDurationSelect" aria-label="Độ dài motion của dự án" title="Độ dài mỗi motion video. Một narration có thể có nhiều shot (ảnh/motion): shot có motion chạy đúng độ dài clip, ảnh tĩnh chia phần audio còn lại. Theo audio = clip khớp phần audio của shot, như trước."></select>
       <div class="menu" data-menu>
         <button class="btn" type="button" id="menuProjectBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="menuProject">Cài đặt dự án<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         <div class="menu-pop" id="menuProject" role="menu" aria-labelledby="menuProjectBtn" hidden>
@@ -119,7 +120,8 @@
       </select>
     </div>
     <div class="rail-tools">
-      <button class="btn quiet sm" type="button" id="btnInsertScene" title="Chèn một scene trống ngay dưới scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn scene</button>
+      <button class="btn quiet sm" type="button" id="btnInsertScene" title="Chèn một scene trống ngay dưới scene đang chọn. Chưa nhập narration thì nó là shot thêm của narration phía trên."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn scene</button>
+      <button class="btn quiet sm" type="button" id="btnAddShot" title="Thêm một shot (ảnh/motion) vào cuối narration đang chọn. Shot dùng chung narration, audio và caption; chỉ có ảnh và motion riêng."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M19 9v6M22 12h-6"/></svg>Thêm shot</button>
       <button class="btn quiet danger sm" type="button" id="btnDeleteScene" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá scene</button>
     </div>
     <div class="pane-scroll">
@@ -216,6 +218,8 @@
           <span class="stage-state" id="stageAudState"></span>
           <button class="btn sm" type="button" id="btnAudio" title="Đọc narration bằng nguồn audio và giọng đã chọn ở ô giọng cạnh nút Audio trên timeline. Độ dài motion video khớp theo audio này.">Sinh audio</button>
         </div>
+        <!-- Shown on an extra shot (a scene without narration): it plays on under the narration above. -->
+        <p class="note shot-note" id="shotNote" hidden></p>
         <textarea id="narrBox" class="prose" rows="4" spellcheck="false" aria-label="Narration của scene đang chọn" placeholder="Lời narration đọc cho scene này"></textarea>
         <div class="btn-row">
           <button class="btn sm" type="button" id="narrSave" disabled>Lưu narration</button>
@@ -327,7 +331,22 @@
             <option value="montserrat">Montserrat</option>
             <option value="anton">Anton (chữ cao, đậm)</option>
             <option value="bangers">Bangers (truyện tranh)</option>
+            <option value="playfair">Playfair Display (serif điện ảnh)</option>
+            <option value="charm">Charm (thư pháp bút lông)</option>
+            <option value="lobster">Lobster (chữ viết tay đậm)</option>
             <option value="arial">Arial (font của máy)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="capTitleFont">Font tiêu đề scene <span class="note">chữ lớn ở đầu khung hình</span></label>
+          <select class="mini wide" id="capTitleFont">
+            <option value="be-vietnam">Be Vietnam Pro (mặc định)</option>
+            <option value="playfair">Playfair Display (serif điện ảnh)</option>
+            <option value="charm">Charm (thư pháp bút lông)</option>
+            <option value="lobster">Lobster (chữ viết tay đậm)</option>
+            <option value="montserrat">Montserrat</option>
+            <option value="anton">Anton (chữ cao, đậm)</option>
+            <option value="bangers">Bangers (truyện tranh)</option>
           </select>
         </div>
         <div class="field">
@@ -978,6 +997,10 @@
           <label for="npVoice">Giọng đọc</label>
           <select class="mini wide" id="npVoice"></select>
         </div>
+        <div class="field np-motion">
+          <label for="npMotionDuration">Độ dài motion (giây)</label>
+          <input class="text-input num" id="npMotionDuration" type="number" min="1" max="20" step="1" inputmode="numeric" placeholder="theo audio" title="Độ dài mỗi motion video. Narration dài hơn số này được chia thành nhiều shot (ảnh/motion), audio và caption giữ nguyên. Để trống = mỗi narration một shot, motion khớp độ dài audio như cũ." />
+        </div>
       </div>
       <div class="field" id="npPlanField" hidden>
         <label for="npPlan">Scene-plan.md <span class="note">tuỳ chọn — dán output skill lsvn / trangca</span></label>
@@ -993,6 +1016,7 @@
         </div>
         <ol class="np-steps" id="npSteps">
           <li data-phase="story">Câu chuyện + narration</li>
+          <li data-phase="shots">Chia shot</li>
           <li data-phase="visuals">Prompt ảnh</li>
           <li data-phase="motion">Motion</li>
           <li data-phase="create">Tạo dự án</li>

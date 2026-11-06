@@ -1,0 +1,22 @@
+{
+  "character_id": "char-f",
+  "name": "Nguyen Binh Khiem",
+  "display_name": "Nguyễn Bỉnh Khiêm",
+  "aliases": [
+    "Trạng Trình",
+    "Bạch Vân cư sĩ"
+  ],
+  "country": "Đại Việt",
+  "period": "1491–1585",
+  "dynasty": "Mạc",
+  "role": "Nhà nho, Trạng nguyên đời Mạc, ẩn cư dạy học",
+  "known_facts": [
+    "Đỗ Trạng nguyên năm 1535 dưới triều Mạc",
+    "Giai thoại \"Hoành Sơn nhất đái, vạn đại dung thân\" gắn với ông"
+  ],
+  "interpretation": "Elderly Confucian scholar in retirement: plain indigo cotton scholar's robe, black khăn headcloth, long white beard, folding fan. Không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/trinh-kiem/characters/char-f.jpg"
+}

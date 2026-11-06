@@ -78,6 +78,14 @@ test('keeps the new caption look fields and rejects invalid ones', () => {
   assert.equal(bad.highlight, 'karaoke');
 });
 
+test('scene title font defaults to Be Vietnam Pro and keeps a known font', () => {
+  assert.deepEqual(normalizeBranding().title, { font: 'be-vietnam' });
+  assert.equal(normalizeBranding({ title: { font: 'playfair' } }).title.font, 'playfair');
+  assert.equal(normalizeBranding({ title: { font: 'charm' } }).title.font, 'charm');
+  assert.equal(normalizeBranding({ title: { font: 'comic-sans' } }).title.font, 'be-vietnam');
+  assert.equal(normalizeBranding({ title: null }).title.font, 'be-vietnam');
+});
+
 test('effects default to today\'s look: base vignette + grain, crossfade, no extra layers', () => {
   const { effects } = normalizeBranding();
   assert.equal(effects.vignette, true);

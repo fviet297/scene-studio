@@ -51,5 +51,6 @@ Commit and push directly to `main` by default. Do not create feature branches or
 
 - Image prompts describe action, setting and composition only, never a character's face or costume; identity comes from the `char:` reference image. Physical continuity (boats vs carts, etc.) is validated before a prompt is saved.
 - Code that changes audio, image or plan content must keep the bundle's staleness inputs (`newestInput` in `build-remotion.mjs`) correct, or the studio will show an old bundle.
-- Scene gap: `SCENE_GAP_SECONDS` (0.5s) is baked into `sceneDurations`, which drives duration, timeline and caption offsets together. Do not add separate padding elsewhere.
+- Shots: a `## scene` without `narration:` is another shot (image / motion) of the narration above it and plays on under that narration's audio and caption. How a narration's time is split between its shots (motion shots run their clip, stills share the rest) lives in `scripts/lib/shot-timing.mjs`; `review-timeline.js` mirrors it in the browser. The plan header `motion-duration:` sets every motion clip's length and, in the AI script writer, how many shots a narration gets.
+- Scene gap: `SCENE_GAP_SECONDS` (0.5s) is baked into `sceneDurations` after a narration's last shot only, which drives duration, timeline and caption offsets together. Do not add separate padding elsewhere.
 - Rendered MP4s default to `OUTPUT_DIR` in `project-paths.mjs`, a macOS iCloud path. On other machines set a render folder in the panel (stored in `projects/output-dir.json`).

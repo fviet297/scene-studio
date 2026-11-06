@@ -1,0 +1,22 @@
+{
+  "character_id": "char-c",
+  "name": "Mac Dang Dung",
+  "display_name": "Mạc Đăng Dung",
+  "aliases": [
+    "Mạc Đăng Dung",
+    "Mạc Thái Tổ"
+  ],
+  "country": "Đại Việt",
+  "period": "late 15th - mid 16th century (d. 1541)",
+  "dynasty": "Lê Trung Hưng / Mạc",
+  "role": "Võ quan nắm binh quyền cuối thời Lê sơ, ép Lê Cung Hoàng nhường ngôi năm 1527, lập nhà Mạc",
+  "known_facts": [
+    "Từ võ quan nắm binh quyền, chi phối triều đình",
+    "Năm 1527 buộc vua Lê Cung Hoàng nhường ngôi, lập nhà Mạc"
+  ],
+  "interpretation": "Trang phục triều đình/quân đội Đại Việt thế kỷ 16, không có chân dung đương thời được xác minh.",
+  "unknowns": [
+    "No verified contemporary life portrait survives"
+  ],
+  "reference": "public/projects/nguyen-kim/characters/char-c.png"
+}

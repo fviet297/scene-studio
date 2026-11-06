@@ -14,6 +14,8 @@
 // the topbar voice on its "studio:render" event.
 
 const NP_MODE_STORE = "reviewNewProjectMode";
+// The last motion length typed, offered again for the next new project.
+const NP_MOTION_STORE = "reviewNewProjectMotionSeconds";
 const NP_SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
 const NP_SCENES_MIN = 3;
 // A scene's narration read aloud, roughly — for the "≈ video length" hint under the scene count.
@@ -27,12 +29,13 @@ const NP_STYLE_HINT = {
   standard: "",
   map: "không nhân vật: mỗi scene là một khung bản đồ minh hoạ",
 };
-const NP_PHASES = ["story", "visuals", "motion", "create"];
+const NP_PHASES = ["story", "shots", "visuals", "motion", "create"];
 const NP_PHASE_LABEL = {
-  story: "Bước 1/4 · Viết câu chuyện và narration",
-  visuals: "Bước 2/4 · Viết prompt ảnh",
-  motion: "Bước 3/4 · Viết motion (camera, nhân vật, môi trường)",
-  create: "Bước 4/4 · Tạo dự án",
+  story: "Bước 1/5 · Viết câu chuyện và narration",
+  shots: "Bước 2/5 · Chia narration dài thành nhiều shot",
+  visuals: "Bước 3/5 · Viết prompt ảnh",
+  motion: "Bước 4/5 · Viết motion (camera, nhân vật, môi trường)",
+  create: "Bước 5/5 · Tạo dự án",
 };
 // Narration is Vietnamese, so Vietnamese voices lead the list.
 const VOICE_LANGUAGE_ORDER = ["Vietnamese", "English", "Chinese"];
@@ -296,6 +299,7 @@ async function openNewProjectDialog() {
   for (const id of ["npSlug", "npTitleInput", "npPlan"]) $(id).value = "";
   $("npAspect").value = "16:9";
   $("npStyle").value = "standard";
+  $("npMotionDuration").value = lsGet(NP_MOTION_STORE) ?? "";
   updateStyleHint();
   $("npRun").hidden = true;
   setNpMode(lsGet(NP_MODE_STORE) === "manual" ? "manual" : "ai");
@@ -340,6 +344,7 @@ const NP_FIELD_IDS = [
   "npAspect",
   "npTemplate",
   "npVoice",
+  "npMotionDuration",
   "npPlan",
 ];
 
@@ -357,6 +362,8 @@ const npProjectFields = () => ({
   template: $("npTemplate").value || undefined,
   voice: $("npVoice").value || undefined,
   audioSource: voiceList?.audioSource || undefined,
+  // Seconds per motion shot; blank = one shot per narration, clips sized to its audio.
+  motionDuration: $("npMotionDuration").value.trim() || undefined,
 });
 
 async function createManualProject() {
@@ -391,8 +398,8 @@ async function createManualProject() {
 function showNpPhase({ phase, done, total }) {
   const label = NP_PHASE_LABEL[phase] ?? "";
   $("npRunStep").textContent =
-    (phase === "visuals" || phase === "motion") && total
-      ? `${label} · ${done}/${total} scene`
+    (phase === "visuals" || phase === "motion" || phase === "shots") && total
+      ? `${label} · ${done}/${total} ${phase === "shots" ? "narration" : "shot"}`
       : label;
   const at = NP_PHASES.indexOf(phase);
   for (const step of $("npSteps").children) {
@@ -565,6 +572,9 @@ $("npModes").addEventListener("click", (e) => {
   if (button && !npRun) setNpMode(button.dataset.npMode);
 });
 $("npSceneCount").addEventListener("input", updateLengthHint);
+$("npMotionDuration").addEventListener("change", (e) =>
+  lsSet(NP_MOTION_STORE, e.target.value.trim()),
+);
 $("npCreate").addEventListener("click", () =>
   npMode === "ai" ? generateProject() : createManualProject(),
 );
