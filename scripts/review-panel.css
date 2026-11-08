@@ -1526,6 +1526,21 @@ body.view-timeline .workbench { display: none; }
 .social-post .block-head .hint { margin-left: 0; font-variant-numeric: tabular-nums; }
 .social-post .block-head .hint.over { color: var(--danger); }
 .social-post textarea { min-height: 200px; resize: vertical; }
+/* YouTube title candidates: score badge, title, angle. Click puts the title in the field above. */
+.social-options { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.social-options .note { margin: 0; }
+.social-option-list { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+.social-option {
+  display: flex; align-items: baseline; gap: 8px; width: 100%; padding: 6px 10px; text-align: left; cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--surface-3); color: var(--text);
+  font-size: 12.5px; transition: border-color .15s, background .15s;
+}
+.social-option:hover { border-color: var(--accent); background: var(--accent-dim); }
+.social-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.social-option[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-dim); }
+.social-option .score { flex: none; min-width: 26px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+.social-option .text { flex: 1; min-width: 0; }
+.social-option .angle { flex: none; font-size: 11px; color: var(--faint); }
 .social-empty { margin: 0; padding: 22px 12px; text-align: center; font-size: 12.5px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--r-ctl); }
 
 /* ---------------------------------------------------------------- YouTube thumbnail (review-thumbnail.js) */
@@ -1559,6 +1574,14 @@ body.view-timeline .workbench { display: none; }
 }
 .thumb-idea:hover { border-color: var(--accent); background: var(--accent-dim); }
 .thumb-idea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+/* AI concept picker: same chip, squarer, with the pressed one marked. */
+.thumb-concept {
+  padding: 5px 10px; min-height: 30px; border: 1px solid var(--line); border-radius: var(--r-ctl); background: var(--surface-3);
+  font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: border-color .15s, background .15s;
+}
+.thumb-concept:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--text); }
+.thumb-concept[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-dim); color: var(--text); }
+.thumb-concept:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 /* Background picker: AI backgrounds first, then every scene that has an image. */
 .thumb-bgs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-height: 196px; overflow-y: auto; }

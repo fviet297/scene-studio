@@ -1154,7 +1154,8 @@
             <textarea id="thumbText" class="prose" rows="3" spellcheck="false" placeholder="vd. Nguyễn Ánh&#10;Tuổi 16 trở lại bàn cờ"></textarea>
           </div>
           <div class="thumb-ideas" id="thumbIdeas" aria-label="Gợi ý chữ"></div>
-          <button class="btn sm" type="button" id="thumbSuggest" title="LLM đọc narration rồi gợi ý chữ, nhân vật và prompt nền">Gợi ý bằng AI</button>
+          <div class="thumb-ideas" id="thumbConcepts" role="group" aria-label="Concept thumbnail"></div>
+          <button class="btn sm" type="button" id="thumbSuggest" title="LLM đọc narration (và tiêu đề đã chọn trong Bài đăng) rồi gợi ý 3 concept: chữ, nhân vật và prompt nền">Gợi ý bằng AI</button>
           <div class="field">
             <span class="field-label" id="thumbStylesLabel">Kiểu chữ</span>
             <div class="thumb-styles" id="thumbStyles" role="group" aria-labelledby="thumbStylesLabel"></div>
@@ -1256,6 +1257,10 @@
             </button>
           </div>
           <input class="text-input" id="socialPostTitle" type="text" autocomplete="off" />
+          <div class="social-options" id="socialOptions" hidden>
+            <p class="note" id="socialPickReason"></p>
+            <div class="social-option-list" id="socialOptionList" role="group" aria-label="Phương án tiêu đề"></div>
+          </div>
         </div>
         <div class="field">
           <div class="block-head">
@@ -1274,6 +1279,15 @@
             </button>
           </div>
           <input class="text-input" id="socialPostHashtags" type="text" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="field" id="socialKeywordsField" hidden>
+          <div class="block-head">
+            <label for="socialPostKeywords">Từ khóa SEO <span class="note">gợi ý theo nội dung video, chưa có dữ liệu lượt tìm kiếm</span></label>
+            <button class="icon-btn" type="button" data-copy="keywords" aria-label="Copy từ khóa" title="Copy từ khóa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+          <textarea id="socialPostKeywords" class="prose" rows="5" spellcheck="false"></textarea>
         </div>
       </div>
       <p class="social-empty" id="socialEmpty">Bấm “Viết bằng AI” để viết tiêu đề, mô tả và hashtag cho cả ba nền tảng từ narration của dự án.</p>

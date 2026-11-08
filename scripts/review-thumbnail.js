@@ -40,6 +40,8 @@ const th = {
   style: "gold", // id of a TH_STYLES entry
   job: null, // "background" | "lettering" while th.controller is running
   ideas: [],
+  concepts: [], // AI concepts: [{ id, headline, emotion, titleFit, chars, prompt }]
+  concept: null, // id of the concept applied last
   chars: [], // cast ids the AI background shows
   backgrounds: [], // AI backgrounds of this project: [{ file, url }]
   controller: null, // the background generation in flight
@@ -82,6 +84,8 @@ function thSave() {
       panY: th.panY,
       side: th.side,
       ideas: th.ideas,
+      concepts: th.concepts,
+      concept: th.concept,
       chars: th.chars,
     }),
   );
@@ -115,6 +119,8 @@ function thRestore() {
     side: saved.side ?? "left",
     style: style.id,
     ideas: saved.ideas ?? [],
+    concepts: saved.concepts ?? [],
+    concept: saved.concept ?? null,
     chars: saved.chars ?? [],
   });
 }
@@ -297,6 +303,30 @@ function renderThIdeas() {
     .join("");
 }
 
+const TH_CONCEPT_NAMES = { A: "Xung đột cảm xúc", B: "Khoảnh khắc lịch sử", C: "Bí ẩn / tò mò" };
+
+function renderThConcepts() {
+  $("thumbConcepts").innerHTML = th.concepts
+    .map((c) => {
+      const tip = [c.emotion && `Cảm xúc: ${c.emotion}`, c.titleFit].filter(Boolean).join(" — ");
+      return `<button type="button" class="thumb-concept" data-id="${escapeHtml(c.id)}" aria-pressed="${c.id === th.concept}" title="${escapeHtml(tip)}">${escapeHtml(c.id)} · ${escapeHtml(TH_CONCEPT_NAMES[c.id] ?? "")}</button>`;
+    })
+    .join("");
+}
+
+// Applies one AI concept: its picture prompt and cast, and its headline under the current kicker.
+function applyThConcept(concept) {
+  th.concept = concept.id;
+  th.chars = concept.chars;
+  $("thumbPrompt").value = concept.prompt;
+  const { kicker } = headlineParts();
+  $("thumbText").value = kicker ? `${kicker}\n${concept.headline}` : concept.headline;
+  renderThConcepts();
+  renderThCast();
+  thDraw();
+  thSave();
+}
+
 function renderThCast() {
   const names = th.chars.map((id) => charById(id)?.name ?? id);
   $("thumbCast").textContent = names.length
@@ -409,20 +439,37 @@ function setThWorking(text) {
 
 // ------------------------------------------------------------------ AI
 
+// The YouTube title picked in the "Bài đăng" dialog, so the thumbnail is designed as the other
+// half of it. "" when nothing was written yet (the server then uses the plan title).
+function thChosenTitle() {
+  try {
+    const posts = JSON.parse(lsGet(SOCIAL_STORE + thSlug()) ?? "null");
+    return typeof posts?.youtube?.title === "string" ? posts.youtube.title : "";
+  } catch {
+    return "";
+  }
+}
+
 async function suggestThumbnail() {
   const button = $("thumbSuggest");
   button.disabled = true;
   setThNote("LLM đang đọc narration và gợi ý…");
   try {
-    const { headlines, chars, prompt } = await api("/api/thumbnail-ideas", {});
-    Object.assign(th, { ideas: headlines, chars });
+    const { headlines, chars, prompt, concepts, recommended } = await api(
+      "/api/thumbnail-ideas",
+      { title: thChosenTitle() },
+    );
+    Object.assign(th, { ideas: headlines, chars, concepts, concept: recommended });
     $("thumbPrompt").value = prompt;
     if (!$("thumbText").value.trim()) $("thumbText").value = headlines[0];
     renderThIdeas();
+    renderThConcepts();
     renderThCast();
     thDraw();
     thSave();
-    setThNote("Bấm một gợi ý để thay tiêu đề; dòng phụ được giữ.");
+    setThNote(
+      "3 concept A/B/C: bấm để đổi prompt nền, nhân vật và chữ. Bấm một gợi ý chữ để thay tiêu đề; dòng phụ được giữ.",
+    );
   } catch (e) {
     setThNote(e.message, true);
   } finally {
@@ -557,6 +604,7 @@ async function openThumbDialog() {
   renderThSide();
   renderThStyleTiles();
   renderThIdeas();
+  renderThConcepts();
   renderThCast();
   setThNote("");
   if (!th.controller) setThWorking(null);
@@ -674,6 +722,11 @@ $("thumbIdeas").addEventListener("click", (e) => {
   $("thumbText").value = kicker ? `${kicker}\n${button.textContent}` : button.textContent;
   thDraw();
   thSave();
+});
+$("thumbConcepts").addEventListener("click", (e) => {
+  const button = e.target.closest(".thumb-concept");
+  const concept = th.concepts.find((c) => c.id === button?.dataset.id);
+  if (concept) applyThConcept(concept);
 });
 $("thumbBgs").addEventListener("click", (e) => {
   const button = e.target.closest(".thumb-bg");

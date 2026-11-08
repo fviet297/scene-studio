@@ -18,6 +18,8 @@ CAMERA — ONE motivated camera move with its path: where it starts, where it en
 
 ACTION — what each on-screen main character visibly does: one or two clear actions each, in order, with strong verbs, real amplitude and the body part named ("turns his head toward the river bend, then raises his right arm and points ahead"). Refer to them as "the character" when one is on screen, "the character on the left" / "the character on the right" when two are — never by name. Add the collective motion of extras only when the beat has them. The action plays out the beat's own event (the landing surges ashore, the fire swings back onto the fleet, the decoy is surrounded) — never idle filler such as looking around, nodding or exchanging glances when the beat has a real event. Never ask anyone to stay still or keep a pose.
 
+EXPRESSION — let the beat's emotion shape the movement. The main character's posture and gesture carry it (shoulders sinking for dread, chest lifting and an arm raised for resolve), and the extras react in the same key with ONE simple, readable move that fits the beat (heads turning toward the shout, a hand shading the eyes, a startled hop back). A light or ironic beat may take one gentle, family-friendly comic reaction from a figure or animal the beat already puts in the frame; somber, tragic, ceremonial and battle-loss beats get none — keep them restrained and respectful. Each scene's reaction differs from its neighbours', and reactions obey STAGING LOCK and SIMPLE CONTACT below.
+
 ENV — two or three strong environmental motions from the beat's own setting (water, mist, dust, wind in cloth and banners, light, smoke from hearths, crowds), fewer things with bigger moves, chained with "then" when the order matters.
 
 MOTION RULES

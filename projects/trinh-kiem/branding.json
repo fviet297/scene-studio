@@ -16,14 +16,14 @@
   "captions": {
     "enabled": true,
     "font": "be-vietnam",
-    "size": 48,
+    "size": 28,
     "strokeWidth": 7,
     "strokeColor": "#000000",
     "backgroundOpacity": 0.42,
     "uppercase": false,
     "highlight": "karaoke",
     "position": "bottom",
-    "offsetY": 0,
+    "offsetY": 15,
     "anchor": "frame",
     "spokenColor": "#f6c85f",
     "unspokenColor": "#ffffff"

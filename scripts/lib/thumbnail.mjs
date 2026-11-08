@@ -1,7 +1,8 @@
 // YouTube thumbnail for the panel's "Thumbnail" dialog (review-thumbnail.js). The panel draws the
 // headline itself on a canvas, so Vietnamese diacritics always come out right; this module only
-//   writeThumbnailIdeas — one LLM call (llm-client.mjs): short headline options, the cast to show,
-//                         and an English prompt for an AI background;
+//   writeThumbnailIdeas — one LLM call (llm-client.mjs): three concepts (emotional conflict,
+//                         historical drama, curiosity), each with a short headline, the cast to
+//                         show and an English prompt for an AI background;
 //   generateThumbnailBackground — that prompt, in the project's style, through the image model the
 //                         user picked, with the cast's reference images locking their faces. The
 //                         picture leaves one side calm for the headline and carries no text;
@@ -20,20 +21,30 @@ export const MAX_LETTER_LINE = 60;
 const MAX_HEADLINES = 5;
 const MAX_THUMB_CAST = 2;
 
-const IDEAS_SYSTEM = `You design YouTube thumbnails for a Vietnamese-language history storytelling channel. From the full voice-over of ONE video you propose the headline text and the picture.
+const CONCEPT_IDS = ['A', 'B', 'C'];
 
-HEADLINES — "headlines": ${MAX_HEADLINES} options, Vietnamese (vi-VN) with full diacritics
-- 2 to 5 words each, at most 28 characters: readable at phone size in one glance.
-- Each must make a scrolling viewer need to click: a curiosity gap, a paradox, a shocking stake, a sharp contrast, or a striking concrete detail (a number, a decisive moment). Do not give the answer away and do not repeat the video title word for word; the thumbnail and the title work together.
-- Vary the angle across the options (question, bold claim, number, contrast, emotion).
-- Honest: only what the narration delivers. No invented facts, no cheap clickbait words such as “SỐC”, no emoji, no hashtags.
+const IDEAS_SYSTEM = `You are the thumbnail strategist of "Chuyện Cũ Kể Lại", a Vietnamese-language YouTube channel that tells Vietnamese history, military history and historical figures as engaging stories. From the full voice-over of ONE video and its title you design three different thumbnail concepts.
 
-PICTURE
+THE TITLE + THUMBNAIL PAIR
+- The thumbnail must not merely illustrate the title. It adds a second layer, a feeling, a stake or a detail the title leaves out, so the pair pulls harder than either alone.
+- Never repeat the title word for word on the thumbnail. Everything must come from the narration: no invented events, and nothing that makes a viewer misread what happened in history. Show people in their true role and period.
+
+THREE CONCEPTS — "concepts", exactly these three, in this order
+- A, "emotional-conflict": conflict between people, the faces and feeling of the figures.
+- B, "historical-drama": the decisive moment, event or turning point of the story.
+- C, "curiosity-mystery": one odd, hidden or paradoxical detail that makes a viewer need to know more.
+Each concept has:
+- "headline": Vietnamese (vi-VN) with full diacritics, 2 to 5 words, at most 28 characters, readable at phone size in one glance. A curiosity gap, a paradox, a stake, a contrast or a concrete detail; it does not give the answer away. No cheap clickbait such as “SỐC”, no emoji, no hashtags.
+- "emotion": Vietnamese, a few words: the feeling the thumbnail should land.
+- "titleFit": Vietnamese, one sentence: what this thumbnail adds to the title.
 - "chars": ids of at most ${MAX_THUMB_CAST} cast members to show, the main figure first; [] when the strongest picture needs no cast member.
-- "prompt": English, 40 to 90 words, ONE dramatic frozen moment from the story that raises the same question as the headlines: who (cast members by name only — their face and costume come from reference images, never describe them), the emotion on their face (fury, dread, defiance, grief…), what they do, and a simple setting with era and place named. Prefer a big close-up or medium close-up of one or two faces with strong emotion over a wide crowd scene. No text, letters, logos, frames or split screens.
+- "prompt": English, 40 to 90 words, ONE frozen moment, built to read when shrunk: the main subject (cast members by name only; their face and costume come from reference images, never describe them), the composition (prefer a big close-up or medium close-up of one or two faces over a wide crowd scene), the facial expression (fury, dread, defiance, grief…), what they do, a simple historical setting with era and place named, and the light and colour mood. At most two figures and one clear focal point; no crowds of detail. No text, letters, logos, frames or split screens.
+
+"recommended": the letter (A, B or C) of the concept that pairs best with the title.
+"alternatives": ${MAX_HEADLINES - CONCEPT_IDS.length} more Vietnamese headlines (same rules) for the recommended concept, each from a different angle (question, number, contrast, bold claim).
 
 OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"headlines": ["...", "..."], "chars": ["char-a"], "prompt": "..."}`;
+{"concepts": [{"id": "A", "headline": "...", "emotion": "...", "titleFit": "...", "chars": ["char-a"], "prompt": "..."}, {"id": "B", ...}, {"id": "C", ...}], "recommended": "A", "alternatives": ["...", "..."]}`;
 
 const asText = (value) => (typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '');
 
@@ -49,16 +60,37 @@ ${scenes.filter((s) => s.narration).map((s) => `${s.scene}. ${s.narration}`).joi
 
 Write the JSON object now.`;
 
-// { title, scenes: [{ scene, narration }], cast: [{ id, name }] } → { headlines, chars, prompt }.
+// One concept the model returned → { id, headline, emotion, titleFit, chars, prompt }, or null when
+// it lacks a headline or a picture prompt. Cast ids the project does not have are dropped.
+const normalizeConcept = (raw, id, castIds) => {
+  const headline = asText(raw?.headline);
+  const prompt = asText(raw?.prompt).slice(0, MAX_THUMB_PROMPT);
+  if (!headline || !prompt) return null;
+  const chars = [...new Set(Array.isArray(raw?.chars) ? raw.chars.map(asText) : [])].filter((c) => castIds.includes(c)).slice(0, MAX_THUMB_CAST);
+  return { id, headline, emotion: asText(raw?.emotion), titleFit: asText(raw?.titleFit), chars, prompt };
+};
+
+// The model's reply → { headlines, chars, prompt, concepts, recommended }. headlines / chars /
+// prompt are the recommended concept's, so a caller that ignores `concepts` still gets one idea;
+// headlines lists the recommended one first, then the other concepts', then the alternatives.
+export const normalizeThumbnailIdeas = (reply, cast) => {
+  const castIds = cast.map((c) => c.id);
+  const list = Array.isArray(reply?.concepts) ? reply.concepts : [];
+  const concepts = CONCEPT_IDS
+    .map((id, i) => normalizeConcept(list.find((c) => asText(c?.id).toUpperCase() === id) ?? list[i], id, castIds))
+    .filter(Boolean);
+  if (!concepts.length) throw new Error('LLM không trả về chữ hoặc prompt cho thumbnail.');
+  const recommended = concepts.find((c) => c.id === asText(reply.recommended).toUpperCase()) ?? concepts[0];
+  const alternatives = (Array.isArray(reply.alternatives) ? reply.alternatives : []).map(asText);
+  const headlines = [...new Set([recommended.headline, ...concepts.map((c) => c.headline), ...alternatives].filter(Boolean))].slice(0, MAX_HEADLINES);
+  return { headlines, chars: recommended.chars, prompt: recommended.prompt, concepts, recommended: recommended.id };
+};
+
+// { title, scenes: [{ scene, narration }], cast: [{ id, name }] } → see normalizeThumbnailIdeas.
 export const writeThumbnailIdeas = async ({ title, scenes, cast, signal }) => {
   if (!scenes.some((s) => s.narration)) throw new Error('Dự án chưa có narration để gợi ý thumbnail.');
   const reply = await chatJson({ system: IDEAS_SYSTEM, user: ideasRequest({ title, scenes, cast }), signal, label: 'Gợi ý thumbnail' });
-  const castIds = cast.map((c) => c.id);
-  const headlines = [...new Set((Array.isArray(reply.headlines) ? reply.headlines : []).map(asText).filter(Boolean))].slice(0, MAX_HEADLINES);
-  const chars = [...new Set(Array.isArray(reply.chars) ? reply.chars.map(asText) : [])].filter((id) => castIds.includes(id)).slice(0, MAX_THUMB_CAST);
-  const prompt = asText(reply.prompt).slice(0, MAX_THUMB_PROMPT);
-  if (!headlines.length || !prompt) throw new Error('LLM không trả về chữ hoặc prompt cho thumbnail.');
-  return { headlines, chars, prompt };
+  return normalizeThumbnailIdeas(reply, cast);
 };
 
 const castLine = (cast) => (cast.length === 1

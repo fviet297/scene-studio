@@ -43,7 +43,7 @@
 //                               those scenes via the LLM (motion-writer.mjs), streamed over SSE
 //   POST /api/social-generate → { note? } → title, description and hashtags for YouTube, TikTok and
 //                               Facebook from the active project's narration (social-writer.mjs)
-//   POST /api/thumbnail-ideas → headline options, cast and an English background prompt (thumbnail.mjs)
+//   POST /api/thumbnail-ideas → { title? } → three thumbnail concepts (headline, cast, English background prompt) plus the recommended one's (thumbnail.mjs)
 //   GET  /api/thumbnail-backgrounds → the active project's AI thumbnail backgrounds, newest first
 //   POST /api/thumbnail-generate → { model, prompt, chars, side } → one 16:9 AI background, SSE
 //   POST /api/thumbnail-lettering → { model, image, kicker, lines, styleHint, side } → that picture with AI-drawn headline, SSE
@@ -2026,9 +2026,13 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && pathname === '/api/thumbnail-ideas') {
       const plan = readPlan();
+      // The panel sends the YouTube title the user chose in "Bài đăng", so the thumbnail is
+      // designed as the other half of that title; the plan title is the fallback.
+      const { title } = await readBody(req);
+      const chosenTitle = typeof title === 'string' ? title.trim().slice(0, 200) : '';
       await trackJob(res, async () => {
         const ideas = await writeThumbnailIdeas({
-          title: plan.title, scenes: plan.scenes, cast: plan.characterRows.map(({ id, name }) => ({ id, name })),
+          title: chosenTitle || plan.title, scenes: plan.scenes, cast: plan.characterRows.map(({ id, name }) => ({ id, name })),
         });
         sendJson(res, 200, ideas);
       });

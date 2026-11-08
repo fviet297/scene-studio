@@ -11,10 +11,14 @@
 
 const SOCIAL_STORE = "reviewSocialPosts:";
 const SOCIAL_FIELDS = ["title", "description", "hashtags"];
+// "Copy tất cả" joins SOCIAL_FIELDS only; the YouTube SEO keywords are a separate, optional field.
+const SOCIAL_EDITABLE = [...SOCIAL_FIELDS, "keywords"];
 
 const social = {
   platform: "youtube",
-  posts: null, // { youtube|tiktok|facebook: { title, description, hashtags: string, titleLimit } }
+  // { youtube|tiktok|facebook: { title, description, hashtags: string, titleLimit } }; youtube may
+  // also hold titleOptions [{ title, angle, trigger, strength, risk, score }], pickReason, keywords.
+  posts: null,
   busy: false,
 };
 
@@ -22,12 +26,32 @@ const socialSlug = () => state.project?.slug ?? "";
 const socialInput = (field) =>
   $(`socialPost${field[0].toUpperCase()}${field.slice(1)}`);
 
+const SOCIAL_KEYWORD_GROUPS = [
+  ["primary", "Chính"],
+  ["secondary", "Phụ"],
+  ["longTail", "Dài"],
+  ["related", "Liên quan"],
+];
+
+// The server's keyword groups become editable text, one group per line.
+const keywordsToText = (keywords) =>
+  SOCIAL_KEYWORD_GROUPS.map(([key, label]) => {
+    const value = [].concat(keywords?.[key] ?? []).filter(Boolean).join(", ");
+    return value && `${label}: ${value}`;
+  })
+    .filter(Boolean)
+    .join("\n");
+
 // The server's hashtag array becomes one editable line, which is also what gets copied.
 const toEditablePosts = (posts) =>
   Object.fromEntries(
     Object.entries(posts).map(([platform, post]) => [
       platform,
-      { ...post, hashtags: post.hashtags.join(" ") },
+      {
+        ...post,
+        hashtags: post.hashtags.join(" "),
+        ...(post.keywords ? { keywords: keywordsToText(post.keywords) } : {}),
+      },
     ]),
   );
 
@@ -51,6 +75,29 @@ function renderTitleCount() {
   $("socialTitleCount").classList.toggle("over", length > post.titleLimit);
 }
 
+// Title candidates (YouTube only), best score first; the one now in the title field is marked.
+function renderTitleOptions() {
+  const post = social.posts?.[social.platform];
+  const options = post?.titleOptions ?? [];
+  $("socialOptions").hidden = !options.length;
+  $("socialPickReason").textContent = post?.pickReason
+    ? `Bản được chọn: ${post.pickReason}`
+    : "";
+  const current = $("socialPostTitle").value.trim();
+  $("socialOptionList").innerHTML = options
+    .map((o, i) => {
+      const tip = [
+        o.trigger && `Gây tò mò: ${o.trigger}`,
+        o.strength && `Mạnh: ${o.strength}`,
+        o.risk && `Rủi ro: ${o.risk}`,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      return `<button type="button" class="social-option" data-index="${i}" aria-pressed="${o.title === current}" title="${escapeHtml(tip)}"><span class="score">${o.score}</span><span class="text">${escapeHtml(o.title)}</span><span class="angle">${escapeHtml(o.angle)}</span></button>`;
+    })
+    .join("");
+}
+
 function renderSocial() {
   for (const b of $("socialTabs").querySelectorAll("button"))
     b.setAttribute(
@@ -65,8 +112,11 @@ function renderSocial() {
     ? "Viết lại bằng AI"
     : "Viết bằng AI";
   if (!post) return;
-  for (const field of SOCIAL_FIELDS) socialInput(field).value = post[field];
+  for (const field of SOCIAL_EDITABLE)
+    socialInput(field).value = post[field] ?? "";
+  $("socialKeywordsField").hidden = !post.keywords;
   renderTitleCount();
+  renderTitleOptions();
 }
 
 function setSocialBusy(busy, status = "") {
@@ -131,6 +181,7 @@ const SOCIAL_COPY_LABEL = {
   title: "tiêu đề",
   description: "mô tả",
   hashtags: "hashtag",
+  keywords: "từ khóa",
 };
 
 $("btnSocial").addEventListener("click", openSocialDialog);
@@ -146,11 +197,25 @@ $("socialTabs").addEventListener("click", (e) => {
 });
 $("socialGenerate").addEventListener("click", generateSocialPosts);
 $("socialPost").addEventListener("input", (e) => {
-  const field = SOCIAL_FIELDS.find((f) => socialInput(f) === e.target);
+  const field = SOCIAL_EDITABLE.find((f) => socialInput(f) === e.target);
   if (!field) return;
   social.posts[social.platform][field] = e.target.value;
   saveStoredPosts();
-  if (field === "title") renderTitleCount();
+  if (field === "title") {
+    renderTitleCount();
+    renderTitleOptions();
+  }
+});
+$("socialOptionList").addEventListener("click", (e) => {
+  const button = e.target.closest("button[data-index]");
+  const option =
+    social.posts?.[social.platform]?.titleOptions?.[Number(button?.dataset.index)];
+  if (!option) return;
+  social.posts[social.platform].title = option.title;
+  socialInput("title").value = option.title;
+  saveStoredPosts();
+  renderTitleCount();
+  renderTitleOptions();
 });
 $("socialPost").addEventListener("click", (e) => {
   const button = e.target.closest("button[data-copy]");

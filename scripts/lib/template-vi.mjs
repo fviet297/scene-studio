@@ -72,6 +72,8 @@ CAMERA — MỘT cú máy có động cơ với đường đi rõ ràng: bắt �
 
 ACTION — nhân vật chính nào đang có trong khung thì làm gì một cách thấy được: mỗi người một hoặc hai hành động rõ ràng, theo thứ tự, động từ mạnh, biên độ thật, gọi tên bộ phận cơ thể ("quay đầu về phía khúc sông, rồi nâng tay phải chỉ về trước"). Một người trong khung thì gọi là "the character"; hai người thì gọi "the character on the left" / "the character on the right" — không bao giờ gọi tên. Chỉ thêm chuyển động tập thể của quần chúng khi nhịp đó có họ. Hành động phải diễn đúng sự kiện của chính nhịp đó (cuộc đổ bộ tràn lên bờ, đám cháy quay ngược về hạm đội, mồi nhử bị vây) — không bao giờ là hành động lấp chỗ như nhìn quanh, gật đầu hay đưa mắt cho nhau khi nhịp có sự kiện thật. Không bao giờ yêu cầu ai đứng yên hoặc giữ nguyên tư thế.
 
+EXPRESSION — để cảm xúc của nhịp đó định hình chuyển động. Tư thế và cử chỉ của nhân vật chính mang cảm xúc ấy (vai chùng xuống khi lo sợ, ngực ưỡn lên và một tay giơ cao khi quyết tâm), còn quần chúng phản ứng cùng tông bằng MỘT cử động đơn giản, dễ đọc, hợp với nhịp (đầu quay về phía tiếng hét, tay che mắt, giật mình lùi một bước). Nhịp nhẹ hoặc mỉa mai có thể có một phản ứng hài hước nhẹ nhàng, an toàn cho gia đình, từ một nhân vật hay con vật mà nhịp đó đã đưa vào khung; nhịp somber, bi kịch, nghi lễ và thua trận thì không có — giữ tiết chế và trang trọng. Phản ứng của mỗi scene khác với scene bên cạnh, và tuân theo STAGING LOCK và SIMPLE CONTACT bên dưới.
+
 ENV — hai hoặc ba chuyển động môi trường mạnh, lấy từ chính bối cảnh của nhịp đó (nước, sương, bụi, gió lay vải và cờ, ánh sáng, khói bếp, đám đông), ít thứ hơn nhưng chuyển động lớn hơn, nối bằng "then" khi thứ tự quan trọng.
 
 MOTION RULES
