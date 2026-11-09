@@ -3609,6 +3609,7 @@ const readBrandForm = () => ({
     enabled: $("brandWmOn").checked,
     opacity: Number($("brandWmOpacity").value) / 100,
   },
+  intro: { enabled: $("brandIntroOn").checked },
   // Not edited in this dialog (the timeline toggles own them); carried through so saving the
   // logo settings does not reset them.
   captions: state.branding?.captions,
@@ -3616,8 +3617,9 @@ const readBrandForm = () => ({
   effects: state.branding?.effects,
 });
 
-const fillBrandForm = ({ name, logo, watermark }) => {
+const fillBrandForm = ({ name, logo, watermark, intro }) => {
   $("brandName").value = name;
+  $("brandIntroOn").checked = intro?.enabled ?? true;
   $("brandLogoOn").checked = logo.enabled;
   $("brandLogoPos").value = logo.position;
   $("brandLogoAnchor").value = logo.anchor;
@@ -3707,8 +3709,9 @@ $("btnBrand").addEventListener("click", async () => {
   $("brandAnchorField").hidden = state.project?.aspect !== "16:9";
   $("brandNote").textContent = BRAND_NOTE;
   try {
-    const { branding } = await api("/api/branding");
+    const { branding, assets } = await api("/api/branding");
     fillBrandForm(branding);
+    paintBrandAssets(assets);
     $("brandOverlay").hidden = false;
     renderBrandPreview();
   } catch (e) {
@@ -3737,9 +3740,11 @@ $("brandOverlay").addEventListener("click", (e) => {
 $("brandSave").addEventListener("click", async () => {
   $("brandSave").disabled = true;
   try {
+    const introWasOn = state.branding?.intro?.enabled ?? true;
     const { branding } = await api("/api/branding", readBrandForm());
     state = { ...state, branding };
     render();
+    if (branding.intro.enabled !== introWasOn) reloadRenderPreview();
     $("brandOverlay").hidden = true;
     toast("Đã lưu logo & watermark. Áp dụng ở lần Render MP4 tiếp theo.");
   } catch (e) {
@@ -3748,6 +3753,121 @@ $("brandSave").addEventListener("click", async () => {
     $("brandSave").disabled = false;
   }
 });
+
+// Logo and intro video shared by every project (lib/brand-assets.mjs). Unlike the settings above,
+// an upload is saved at once: it replaces the shared file for all projects, not this project's
+// branding.json.
+
+// The player holds its own copy of the bundle, which carries the intro length and the logo file.
+const reloadRenderPreview = () => {
+  if (isRenderMode()) loadRenderData(currentTime());
+};
+
+// A new logo keeps the route /brand-logo.svg, so every <img> on it is reloaded explicitly.
+const refreshBrandLogoImages = () => {
+  const src = `/brand-logo.svg?v=${Date.now()}`;
+  for (const img of document.querySelectorAll('img[src^="/brand-logo.svg"]')) img.src = src;
+  th.logo = null;
+};
+
+const paintBrandAssets = ({ logo, intro }) => {
+  $("brandLogoReset").hidden = !logo.custom;
+  $("brandLogoNote").textContent = logo.custom
+    ? "Đang dùng logo bạn tải lên, áp dụng cho mọi project."
+    : "Logo mặc định của repo. Logo tải lên áp dụng cho mọi project.";
+  $("brandIntroReset").hidden = !intro;
+  const preview = $("brandIntroPreview");
+  preview.hidden = !intro;
+  if (intro && preview.getAttribute("src") !== intro.url) preview.src = intro.url;
+  if (!intro) preview.removeAttribute("src");
+  $("brandIntroNote").textContent = intro
+    ? `Intro ${intro.seconds.toFixed(1)}s (${intro.width}×${intro.height}) · mặc định cho mọi project.${
+        intro.orientationMismatch
+          ? " Khác chiều với project này nên sẽ bị cắt cho vừa khung."
+          : ""
+      }`
+    : "Chưa có intro. Video tải lên là intro mặc định của mọi project.";
+};
+
+const BRAND_UPLOAD_BUTTONS = [
+  "brandLogoUpload",
+  "brandLogoReset",
+  "brandIntroUpload",
+  "brandIntroReset",
+];
+
+// POST a file (or nothing, for a reset) to a brand-asset route, then show the new state everywhere.
+const sendBrandAsset = async (path, file, busyNote, doneNote) => {
+  for (const id of BRAND_UPLOAD_BUTTONS) $(id).disabled = true;
+  $("brandNote").textContent = busyNote;
+  try {
+    let data;
+    if (file) {
+      const res = await fetch(path, {
+        method: "POST",
+        headers: { "Content-Type": file.type || "application/octet-stream" },
+        body: await file.arrayBuffer(),
+      });
+      data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || res.statusText);
+    } else {
+      data = await api(path, {});
+    }
+    state = { ...state, branding: data.branding };
+    paintBrandAssets(data.assets);
+    refreshBrandLogoImages();
+    renderBrandPreview();
+    render();
+    reloadRenderPreview();
+    $("brandNote").textContent = doneNote;
+    toast(doneNote);
+  } catch (e) {
+    $("brandNote").textContent = e.message;
+    toast(e.message, false);
+  } finally {
+    for (const id of BRAND_UPLOAD_BUTTONS) $(id).disabled = false;
+  }
+};
+
+const wireBrandUpload = (buttonId, inputId, path, busyNote, doneNote) => {
+  $(buttonId).addEventListener("click", () => $(inputId).click());
+  $(inputId).addEventListener("change", () => {
+    const [file] = $(inputId).files;
+    $(inputId).value = "";
+    if (file) sendBrandAsset(path, file, busyNote, doneNote);
+  });
+};
+
+wireBrandUpload(
+  "brandLogoUpload",
+  "brandLogoFile",
+  "/api/brand-logo",
+  "Đang tải logo…",
+  "Đã đổi logo cho mọi project. Áp dụng ở lần Render MP4 tiếp theo.",
+);
+wireBrandUpload(
+  "brandIntroUpload",
+  "brandIntroFile",
+  "/api/brand-intro",
+  "Đang tải và kiểm tra video intro…",
+  "Đã lưu intro mặc định cho mọi project. Áp dụng ở lần Render MP4 tiếp theo.",
+);
+$("brandLogoReset").addEventListener("click", () =>
+  sendBrandAsset(
+    "/api/brand-logo-reset",
+    null,
+    "Đang khôi phục logo…",
+    "Đã về logo mặc định.",
+  ),
+);
+$("brandIntroReset").addEventListener("click", () =>
+  sendBrandAsset(
+    "/api/brand-intro-reset",
+    null,
+    "Đang xoá intro…",
+    "Đã xoá intro dùng chung.",
+  ),
+);
 
 // ------------------------------------------------------------------ full-script editor
 //

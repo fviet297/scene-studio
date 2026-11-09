@@ -21,6 +21,7 @@ import { readBranding } from './lib/branding.mjs';
 import { groupShotSeconds, shotGroups, SILENT_TAIL_WARN_SECONDS } from './lib/shot-timing.mjs';
 import { clipMotionTrim } from './lib/motion-tail.mjs';
 import { mediaDuration } from './lib/media-duration.mjs';
+import { customAssetsMtime, introInfo, logoStaticPath } from './lib/brand-assets.mjs';
 
 const FPS = 30;
 // Silent pause inserted after every scene but the last, so narration doesn't run continuously
@@ -50,6 +51,8 @@ const newestInput = (slug) => {
     mtimeOf(paths.planMd),
     mtimeOf(paths.manifest),
     mtimeOf(join(PROJECTS_DIR, slug, 'branding.json')),
+    // The logo and intro uploaded in the panel are shared by every project.
+    customAssetsMtime(),
     ...profiles,
     newestIn(paths.audioDir),
     newestIn(paths.imageDir),
@@ -137,7 +140,13 @@ for (const slug of targets) {
   const segments = narrationSegments(scenes);
   const captionGroups = allAudioReady ? alignCaptions(segments, paths.audioDir, sceneSeconds).groups : [];
 
-  const durationInFrames = sceneDurations.reduce((sum, sec) => sum + Math.round(sec * FPS), 0) || FPS;
+  const scenesFrames = sceneDurations.reduce((sum, sec) => sum + Math.round(sec * FPS), 0) || FPS;
+  // The channel intro plays before scene 1 and pushes every scene, caption and audio back by its
+  // length (ScenePlanVideo). Only when this project keeps it on and an intro has been uploaded.
+  const branding = readBranding(slug);
+  const intro = branding.intro.enabled ? introInfo() : null;
+  const introFrames = intro ? Math.max(1, Math.round(intro.seconds * FPS)) : 0;
+  const durationInFrames = scenesFrames + introFrames;
   const uploadedScenes = assetManifest
     .filter((m) => m.authenticity === 'USER_UPLOAD')
     .map((m) => m.scene);
@@ -151,6 +160,7 @@ for (const slug of targets) {
     publicPrefix: paths.staticPrefix,
     fps: FPS,
     durationInFrames,
+    ...(intro ? { introSrc: intro.src, introFrames } : {}),
     // audioShots: on a narration's scene, how many scenes (itself + its extra shots) its audio
     // plays across.
     scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s), ...(s.shotOf ? {} : { audioShots: s.shotCount }) })),
@@ -171,11 +181,11 @@ for (const slug of targets) {
     // Scene the headline card enters on: plan header `title-overlay-scene: N`, else the first scene.
     titleOverlayScene: titleOverlaySceneOf(paths.planMd),
     // Corner logo + centre watermark settings (projects/<slug>/branding.json, edited in the panel).
-    branding: readBranding(slug),
+    branding: { ...branding, logoSrc: logoStaticPath() },
   };
   writeFileSync(bundlePath(slug), `${JSON.stringify(data, null, 2)}\n`);
   built.push(slug);
-  process.stdout.write(`Built ${slug}: ${scenes.length} scenes, ${captionGroups.length} caption groups, ${(durationInFrames / FPS).toFixed(1)}s${allAudioReady ? '' : ' (audio incomplete — no captions)'}\n`);
+  process.stdout.write(`Built ${slug}: ${scenes.length} scenes, ${captionGroups.length} caption groups, ${(durationInFrames / FPS).toFixed(1)}s${introFrames ? ` (gồm intro ${(introFrames / FPS).toFixed(1)}s)` : ''}${allAudioReady ? '' : ' (audio incomplete — no captions)'}\n`);
 }
 
 // Every project whose bundle exists on disk stays in the index, so rebuilding one project keeps

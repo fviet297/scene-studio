@@ -57,7 +57,11 @@
 //                             → edit data/models.json (keys never returned in full), answers with the refreshed list
 //   GET  /api/branding        → the active project's corner logo + watermark, captions + scene title text styles, effects
 //   POST /api/branding        → { logo:{enabled,position,opacity}, watermark:{enabled,opacity} } → save
-//   GET  /brand-logo.svg      → the channel logo (public/brand/logo.svg) for the panel preview
+//   GET  /brand-logo.svg      → the channel logo (uploaded one, else public/brand/logo.svg) for the panel preview
+//   POST /api/brand-logo      → raw PNG/JPG/WebP/SVG body → new shared logo for every project
+//   POST /api/brand-logo-reset → back to the repo's logo
+//   POST /api/brand-intro     → raw MP4/MOV/WebM body → shared intro video played before scene 1
+//   POST /api/brand-intro-reset → remove the shared intro
 //   POST /api/project-aspect  → { aspect } → change the active project's `aspect:` header
 //   POST /api/project-motion-duration → { value } → the `motion-duration:` header (seconds per motion shot; blank clears it)
 //   POST /api/finalize        → { format: wide|vertical } → render; a 16:9 project's vertical
@@ -113,6 +117,10 @@ import { describeLlm } from './lib/llm-client.mjs';
 import { listSourceProjects, setSourceRoot, sourceRoot } from './lib/media-sync.mjs';
 import { listServices, restartService, startService, stopService } from './lib/local-services.mjs';
 import { readBranding, writeBranding } from './lib/branding.mjs';
+import {
+  detectLogoExt, detectVideoExt, hasCustomLogo, introInfo, isSafeSvg, logoDiskPath, logoStaticPath,
+  MAX_LOGO_BYTES, resetCustomAsset, saveCustomAsset, validateIntro,
+} from './lib/brand-assets.mjs';
 import { appendNotification, clearNotifications, readNotifications, sanitizeNotification } from './lib/notification-store.mjs';
 import { previewBundle } from './lib/preview-bundle.mjs';
 import { DEFAULT_VOICE } from './lib/omnivoice-client.mjs';
@@ -160,7 +168,6 @@ const PANEL_ASSETS = {
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
   '/thumbnail-styles.js': ['review-thumbnail-styles.js', 'text/javascript; charset=utf-8'],
   '/thumbnail.js': ['review-thumbnail.js', 'text/javascript; charset=utf-8'],
-  '/brand-logo.svg': ['../public/brand/logo.svg', 'image/svg+xml'],
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -549,7 +556,7 @@ const buildState = () => {
     title,
     project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : ''), motionDuration: motionDuration ?? null },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
-    branding: readBranding(P.slug),
+    branding: brandingPayload(readBranding(P.slug)),
     imageModels: pickerModels('image', IMAGE_MODELS),
     motionVideoModels: pickerModels('motion', MOTION_VIDEO_MODELS),
     seedreamPromptLimit: SEEDREAM_PROMPT_LIMIT,
@@ -655,6 +662,7 @@ const readBody = (req) => new Promise((resolve) => {
 });
 const MAX_IMAGE_UPLOAD = 15 * 1024 * 1024;
 const MAX_VIDEO_UPLOAD = 500 * 1024 * 1024;
+const MAX_INTRO_UPLOAD = 200 * 1024 * 1024;
 const readRawBody = (req, maxBytes, tooLargeMessage) => new Promise((resolve, reject) => {
   const chunks = [];
   let size = 0;
@@ -691,7 +699,7 @@ const thumbFallback = (name, error, original) => {
   return original;
 };
 // Everything the composition can reach through staticFile(); media goes out with Range support.
-const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', wav: 'audio/wav', ttf: 'font/ttf' };
+const PUBLIC_MIME = { ...MIME, svg: 'image/svg+xml', mp3: 'audio/mpeg', mp4: 'video/mp4', webm: 'video/webm', wav: 'audio/wav', ttf: 'font/ttf' };
 const PUBLIC_DIR = 'public';
 const execFileAsync = promisify(execFile);
 const MEDIA_SYNC_TIMEOUT_MS = 30 * 60 * 1000;
@@ -704,6 +712,25 @@ const sendMediaSources = (res) => {
     const projects = listSourceProjects(source).map((slug) => ({ slug, local: existsSync(join('public', 'projects', slug)), active: slug === P.slug }));
     sendJson(res, 200, { source, projects });
   } catch (e) { sendJson(res, 502, { error: e.message, source }); }
+};
+// A project's branding plus the shared logo file the render will draw, so the player previews the
+// same image; never written back to branding.json.
+const brandingPayload = (branding) => ({ ...branding, logoSrc: logoStaticPath() });
+// What the logo/intro section of the Logo dialog shows. `orientationMismatch`: the intro is landscape
+// while the active project is portrait (or the reverse); it still plays, cropped to fill the frame.
+const brandAssetsPayload = () => {
+  const intro = introInfo();
+  const { orientation } = aspectInfo(activeAspect());
+  return {
+    logo: { custom: hasCustomLogo() },
+    intro: intro && {
+      url: `/public/${intro.src}`,
+      seconds: Number(intro.seconds.toFixed(2)),
+      width: intro.width,
+      height: intro.height,
+      orientationMismatch: orientation !== 'square' && (orientation === 'horizontal') !== (intro.width > intro.height),
+    },
+  };
 };
 // Validate an uploaded scene video against the active project's aspect: orientation must match
 // (portrait for 9:16, landscape for 16:9) and the long edge must be at least 1280px.
@@ -1576,11 +1603,62 @@ const server = createServer(async (req, res) => {
     // Corner logo + centre watermark for the final render; applied at the next Render MP4, whose
     // build step stamps branding.json into the Remotion bundle.
     if (req.method === 'GET' && pathname === '/api/branding') {
-      sendJson(res, 200, { branding: readBranding(P.slug) });
+      sendJson(res, 200, { branding: brandingPayload(readBranding(P.slug)), assets: brandAssetsPayload() });
       return;
     }
     if (req.method === 'POST' && pathname === '/api/branding') {
-      sendJson(res, 200, { branding: writeBranding(P.slug, await readBody(req)) });
+      sendJson(res, 200, { branding: brandingPayload(writeBranding(P.slug, await readBody(req))) });
+      return;
+    }
+
+    // The channel logo as the panel's previews and the thumbnail dialog draw it. The path keeps its
+    // old .svg name, but it serves whatever format was uploaded; `sandbox` stops a hostile SVG
+    // opened in its own tab from running script on the panel's origin.
+    if (req.method === 'GET' && pathname === '/brand-logo.svg') {
+      const path = logoDiskPath();
+      const type = PUBLIC_MIME[path.split('.').pop().toLowerCase()] ?? 'image/png';
+      res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-cache', 'Content-Security-Policy': 'sandbox' });
+      res.end(readFileSync(path));
+      return;
+    }
+
+    // Logo and intro video shared by every project (lib/brand-assets.mjs). Each upload replaces the
+    // previous one and becomes the default for all projects; a project can still switch them off in
+    // its own branding.json.
+    if (req.method === 'POST' && pathname === '/api/brand-logo') {
+      const buf = await readRawBody(req, MAX_LOGO_BYTES, 'Logo quá lớn (tối đa 5 MB).');
+      const ext = detectLogoExt(buf);
+      if (!ext) { sendJson(res, 400, { error: 'Chọn ảnh PNG, JPG, WebP hoặc SVG.' }); return; }
+      if (ext === '.svg' && !isSafeSvg(buf)) { sendJson(res, 400, { error: 'SVG chứa script hoặc phần tử không an toàn.' }); return; }
+      saveCustomAsset('logo', buf, ext);
+      await rebuildBundles();
+      sendJson(res, 200, { branding: brandingPayload(readBranding(P.slug)), assets: brandAssetsPayload() });
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/api/brand-logo-reset') {
+      resetCustomAsset('logo');
+      await rebuildBundles();
+      sendJson(res, 200, { branding: brandingPayload(readBranding(P.slug)), assets: brandAssetsPayload() });
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/api/brand-intro') {
+      const buf = await readRawBody(req, MAX_INTRO_UPLOAD, 'Video quá lớn (tối đa 200 MB).');
+      const ext = detectVideoExt(buf);
+      if (!ext) { sendJson(res, 400, { error: 'Chọn video MP4, MOV hoặc WebM.' }); return; }
+      try {
+        saveCustomAsset('intro', buf, ext, validateIntro);
+      } catch (error) {
+        sendJson(res, 400, { error: error.stderr ? 'Không đọc được video này (ffprobe lỗi).' : error.message });
+        return;
+      }
+      await rebuildBundles();
+      sendJson(res, 200, { branding: brandingPayload(readBranding(P.slug)), assets: brandAssetsPayload() });
+      return;
+    }
+    if (req.method === 'POST' && pathname === '/api/brand-intro-reset') {
+      resetCustomAsset('intro');
+      await rebuildBundles();
+      sendJson(res, 200, { branding: brandingPayload(readBranding(P.slug)), assets: brandAssetsPayload() });
       return;
     }
 

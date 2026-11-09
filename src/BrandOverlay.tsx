@@ -33,6 +33,9 @@ export interface Branding {
     textSize: number;
   };
   watermark: { enabled: boolean; opacity: number };
+  // Logo file, staticFile()-relative: the repo's logo or the one uploaded in the panel. Stamped by
+  // the builder; absent in bundles built before logos were uploadable.
+  logoSrc?: string;
   // Narration subtitles (CaptionTrack.tsx); absent in bundles built before the setting existed.
   captions?: Partial<CaptionStyle>;
   // Scene title style (SceneTitle.tsx); absent, or only `font`, in bundles built before it was editable.
@@ -41,7 +44,7 @@ export interface Branding {
   effects?: Partial<EffectsConfig>;
 }
 
-const LOGO_SRC = "brand/logo.svg";
+const DEFAULT_LOGO_SRC = "brand/logo.svg";
 const FONT = "Arial, sans-serif";
 
 // Gap between the logo and the brand name under it, in delivered pixels.
@@ -69,9 +72,11 @@ const textShadow = (px: (n: number) => number) =>
 function CornerBadge({
   branding,
   name,
+  logoSrc,
 }: {
   branding: Branding["logo"];
   name: string;
+  logoSrc: string;
 }) {
   const { width, height } = useVideoConfig();
   const band = deliveryBand(width, height);
@@ -104,7 +109,7 @@ function CornerBadge({
       }}
     >
       <Img
-        src={staticFile(LOGO_SRC)}
+        src={staticFile(logoSrc)}
         style={{
           height: px(branding.size),
           filter: `drop-shadow(0 ${px(2)}px ${px(5)}px rgba(0,0,0,.6))`,
@@ -131,7 +136,15 @@ function CornerBadge({
   );
 }
 
-function CentreWatermark({ opacity, name }: { opacity: number; name: string }) {
+function CentreWatermark({
+  opacity,
+  name,
+  logoSrc,
+}: {
+  opacity: number;
+  name: string;
+  logoSrc: string;
+}) {
   const { width, height } = useVideoConfig();
   const { bandWidth, unit } = deliveryBand(width, height);
   return (
@@ -144,7 +157,7 @@ function CentreWatermark({ opacity, name }: { opacity: number; name: string }) {
       }}
     >
       <Img
-        src={staticFile(LOGO_SRC)}
+        src={staticFile(logoSrc)}
         style={{ width: Math.round(bandWidth * WATERMARK_LOGO_SHARE) }}
       />
       {name && (
@@ -165,16 +178,22 @@ function CentreWatermark({ opacity, name }: { opacity: number; name: string }) {
 }
 
 export function BrandOverlay({ branding }: { branding: Branding }) {
+  const logoSrc = branding.logoSrc ?? DEFAULT_LOGO_SRC;
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {branding.watermark.enabled && branding.watermark.opacity > 0 && (
         <CentreWatermark
           opacity={branding.watermark.opacity}
           name={branding.name}
+          logoSrc={logoSrc}
         />
       )}
       {branding.logo.enabled && branding.logo.opacity > 0 && (
-        <CornerBadge branding={branding.logo} name={branding.name} />
+        <CornerBadge
+          branding={branding.logo}
+          name={branding.name}
+          logoSrc={logoSrc}
+        />
       )}
     </AbsoluteFill>
   );

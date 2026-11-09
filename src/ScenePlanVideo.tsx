@@ -5,6 +5,7 @@ import {
   Easing,
   Img,
   interpolate,
+  OffthreadVideo,
   Sequence,
   staticFile,
   useCurrentFrame,
@@ -111,6 +112,10 @@ export type ProjectData = {
   titleOverlayScene?: number;
   // Stamped by the builder from projects/<slug>/branding.json; absent in bundles built before it.
   branding?: Branding;
+  // Channel intro played before scene 1 (uploaded in the panel, public/brand/custom/). Stamped only
+  // when this project keeps it on and one exists; durationInFrames already includes introFrames.
+  introSrc?: string;
+  introFrames?: number;
   // Word timings in absolute seconds (scripts/lib/caption-align.mjs); empty until every scene has audio.
   captionGroups?: CaptionGroup[];
 };
@@ -434,9 +439,38 @@ function TitleOverlay({
   );
 }
 
+// The channel intro: full frame, with its own sound, ahead of the first scene.
+function IntroClip({ src }: { src: string }) {
+  return (
+    <AbsoluteFill style={{ background: COLORS.ink }}>
+      <OffthreadVideo
+        src={staticFile(src)}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </AbsoluteFill>
+  );
+}
+
 export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
   project,
 }) => {
+  const introFrames = project.introSrc ? (project.introFrames ?? 0) : 0;
+  const film = <ScenePlanFilm project={project} />;
+  if (introFrames <= 0) return film;
+  return (
+    <AbsoluteFill style={{ background: COLORS.ink }}>
+      <Sequence durationInFrames={introFrames}>
+        <IntroClip src={project.introSrc as string} />
+      </Sequence>
+      {/* Scenes, audio, captions and branding run on their own clock, started after the intro. */}
+      <Sequence from={introFrames} premountFor={PREMOUNT_SECONDS * project.fps}>
+        {film}
+      </Sequence>
+    </AbsoluteFill>
+  );
+};
+
+const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
   const { frames, starts } = sceneTimeline(
     project.scenes,
     project.sceneDurations,

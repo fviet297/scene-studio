@@ -633,7 +633,9 @@ function seekTo(seconds) {
   );
   if (isRenderMode()) {
     if (tlRender.project)
-      window.scenePreview?.seekTo(Math.round(t * tlRender.project.fps));
+      window.scenePreview?.seekTo(
+        Math.round(t * tlRender.project.fps) + playerIntroFrames(),
+      );
   } else if (tl.playing) startMedia(clips[index]);
   syncPlayhead(clips);
 }
@@ -835,11 +837,18 @@ function loadPreviewScript() {
   return tlRender.script;
 }
 
+// The channel intro plays ahead of scene 1 in the player, but the timeline starts at scene 1: its
+// clip times are the player's frames minus these. While the intro plays the playhead waits at 0.
+function playerIntroFrames() {
+  const project = tlRender.project;
+  return project?.introSrc ? (project.introFrames ?? 0) : 0;
+}
+
 // The player owns the clock in the render modes; the timeline only follows its frame.
 function onPlayerFrame(frame) {
   if (!isRenderMode() || !tlRender.project) return;
   const clips = timelineClips();
-  const t = frame / tlRender.project.fps;
+  const t = Math.max(0, frame - playerIntroFrames()) / tlRender.project.fps;
   const found = clips.findIndex((c) => t < c.start + c.seconds);
   const index = found < 0 ? clips.length - 1 : found;
   if (index !== tl.index) {

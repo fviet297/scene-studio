@@ -1041,6 +1041,28 @@
           <label for="brandName">Tên thương hiệu <span class="note">để trống = chỉ hiện logo</span></label>
           <input class="text-input" id="brandName" type="text" maxlength="24" autocomplete="off" spellcheck="false" placeholder="vd. FVIET" />
         </div>
+        <fieldset class="brand-group" id="brandAssets">
+          <legend>Logo &amp; intro dùng chung <span class="note">mọi project</span></legend>
+          <div class="field">
+            <label>Logo kênh</label>
+            <div class="btn-row">
+              <button class="btn sm" type="button" id="brandLogoUpload">Tải logo mới…</button>
+              <button class="btn sm quiet" type="button" id="brandLogoReset" hidden>Về logo mặc định</button>
+            </div>
+            <input type="file" id="brandLogoFile" accept="image/png,image/jpeg,image/webp,image/svg+xml" aria-label="Chọn file logo PNG, JPG, WebP hoặc SVG" hidden />
+            <span class="note" id="brandLogoNote">Logo mặc định của repo. Logo tải lên áp dụng cho mọi project.</span>
+          </div>
+          <label class="brand-check"><input type="checkbox" id="brandIntroOn" /> Chèn intro vào đầu video (project này)</label>
+          <div class="field brand-intro-field">
+            <div class="btn-row">
+              <button class="btn sm" type="button" id="brandIntroUpload">Tải video intro…</button>
+              <button class="btn sm quiet danger" type="button" id="brandIntroReset" hidden>Xoá intro</button>
+            </div>
+            <input type="file" id="brandIntroFile" accept="video/mp4,video/quicktime,video/webm" aria-label="Chọn video intro MP4, MOV hoặc WebM" hidden />
+            <video class="brand-intro-preview" id="brandIntroPreview" controls preload="metadata" hidden></video>
+            <span class="note" id="brandIntroNote">Chưa có intro. Video tải lên là intro mặc định của mọi project.</span>
+          </div>
+        </fieldset>
         <fieldset class="brand-group">
           <legend>Logo góc + tên</legend>
           <label class="brand-check"><input type="checkbox" id="brandLogoOn" /> Hiện logo góc</label>

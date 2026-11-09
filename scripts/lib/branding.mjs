@@ -1,9 +1,10 @@
 // Per-project channel branding drawn over the final render: a corner logo + brand name, and a
 // large faint centre watermark against re-uploads. Stored as projects/<slug>/branding.json and
-// stamped into the Remotion bundle by build-remotion.mjs. The logo itself is public/brand/logo.svg.
+// stamped into the Remotion bundle by build-remotion.mjs.
 //
 // A project without the file gets DEFAULT_BRANDING, so every video carries the brand unless a
-// project switches it off in the review panel.
+// project switches it off in the review panel. The logo file is shared by all projects: the repo's
+// public/brand/logo.svg, or the one uploaded in the panel (lib/brand-assets.mjs).
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -53,6 +54,9 @@ export const DEFAULT_BRANDING = {
   name: 'FVIET',
   logo: { enabled: true, position: 'top-right', anchor: 'crop', opacity: 0.85, margin: 24, size: 64, textSize: 18 },
   watermark: { enabled: true, opacity: 0.08 },
+  // Intro video uploaded in the panel (lib/brand-assets.mjs) played before the first scene. On by
+  // default like the logo, but it only appears once an intro has been uploaded.
+  intro: { enabled: true },
   // Burned-in narration subtitles with a word-by-word highlight (src/CaptionTrack.tsx). Off by
   // default so existing projects keep rendering exactly as before.
   captions: {
@@ -131,6 +135,7 @@ export const normalizeBranding = (raw = {}) => {
       enabled: typeof watermark.enabled === 'boolean' ? watermark.enabled : d.watermark.enabled,
       opacity: clampOpacity(watermark.opacity, d.watermark.opacity),
     },
+    intro: { enabled: flag(raw.intro?.enabled, d.intro.enabled) },
     captions: {
       enabled: typeof captions.enabled === 'boolean' ? captions.enabled : d.captions.enabled,
       font: CAPTION_FONTS.includes(captions.font) ? captions.font : d.captions.font,

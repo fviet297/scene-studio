@@ -32,3 +32,6 @@ projects/**/scene-plan.md.*
 
 # Full ffmpeg binary downloaded per machine (see scripts/lib/ensure-ffmpeg.mjs)
 tools/ffmpeg/
+
+# Logo and intro video uploaded in the panel (shared by every project, per machine)
+public/brand/custom/
