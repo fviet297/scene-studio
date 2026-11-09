@@ -20,6 +20,8 @@ import { vieneuSynthesize, vieneuUrl } from './lib/vieneu-client.mjs';
 import { elevenlabsModel, elevenlabsSynthesize, elevenlabsUrl } from './lib/elevenlabs-client.mjs';
 import { normaliseForTts } from './lib/tts-text.mjs';
 import { writeAudioNarration } from './lib/audio-narration.mjs';
+import { speechChunks } from './lib/sentence-chunks.mjs';
+import { pausedConcatArgs } from './lib/paused-concat.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
 const TEMP_DIR = 'tmp/narration';
@@ -67,7 +69,9 @@ const planRaw = readFileSync(paths.planMd, 'utf8');
 const SOURCE = audioSourceOf(planRaw);
 // Plain-HTTP sources: no connection to open, one request per chunk.
 const HTTP_SOURCES = {
-  vieneu: { label: 'VieNeu', endpoint: vieneuUrl, synthesize: vieneuSynthesize },
+  // sentencePauses: one request per sentence, joined with a fixed pause (lib/paused-concat.mjs),
+  // so the gap between sentences does not depend on how the voice happens to end each clip.
+  vieneu: { label: 'VieNeu', endpoint: vieneuUrl, synthesize: vieneuSynthesize, sentencePauses: true },
   elevenlabs: { label: 'ElevenLabs', endpoint: () => `${elevenlabsUrl()} · model=${elevenlabsModel()}`, synthesize: elevenlabsSynthesize },
 };
 const HTTP_SOURCE = HTTP_SOURCES[SOURCE] ?? null;
@@ -145,18 +149,21 @@ const synthesizeChunk = async (text, label) => {
 
 let requestId = 0;
 for (const segment of targets) {
-  const chunks = toChunks(normaliseForTts(segment.text));
+  const spoken = normaliseForTts(segment.text);
+  const chunks = HTTP_SOURCE?.sentencePauses ? speechChunks(spoken) : toChunks(spoken).map((text) => ({ text }));
   process.stdout.write(`▶ scene ${segment.scene}: synthesizing ${chunks.length} chunk(s), ${segment.text.length} chars\n`);
   const files = [];
   for (const [index, chunk] of chunks.entries()) {
     const wav = join(TEMP_DIR, `scene-${segment.scene}-${String(index).padStart(2, '0')}.audio`);
-    const { wav: audio } = await synthesizeChunk(chunk, `scene ${segment.scene} chunk ${index + 1}`);
+    const { wav: audio } = await synthesizeChunk(chunk.text, `scene ${segment.scene} chunk ${index + 1}`);
     writeFileSync(wav, audio);
     files.push(wav);
   }
   const output = join(AUDIO_DIR, `scene-${String(segment.scene).padStart(2, '0')}.mp3`);
   if (files.length === 1) {
     execFileSync('ffmpeg', ['-y', '-i', files[0], ...NARRATION_FILTER_ARGS, '-codec:a', 'libmp3lame', '-q:a', '2', output], { stdio: ['ignore', 'ignore', 'inherit'] });
+  } else if (HTTP_SOURCE?.sentencePauses) {
+    execFileSync('ffmpeg', pausedConcatArgs(files, output, { trim: CAN_TRIM, gaps: chunks.map((chunk) => chunk.gapAfter), clipFilter: CAN_TRIM ? SILENCE_FILTER : '' }), { stdio: ['ignore', 'ignore', 'inherit'] });
   } else {
     const concatList = join(TEMP_DIR, `scene-${segment.scene}-concat.txt`);
     writeFileSync(concatList, files.map((file) => `file '${join(process.cwd(), file)}'`).join('\n'));
