@@ -50,6 +50,7 @@ this same file, so a re-run keeps the generated prompts and the user can hand-ed
 
 - **narration** (required) — the transcript for that scene; drives TTS + captions, and is the
   sole source the skill uses to write that scene's image prompt.
+  **No dash in narration text.** Never put "–", "—" or a spaced hyphen " - " between words in narration: TTS stops unnaturally there. Write paired names side by side ("Thuận Quảng", "Trịnh Nguyễn", "Lê Trịnh", not "Thuận – Quảng"), join with "và"/"với" if needed, spell ranges out ("từ năm 1613 đến năm 1627", not "1613–1627"), use a comma for a pause. Titles and captions shown on screen are exempt only if they are not voiced.
 - **prompt** (written by the skill, not the user) — what the scene image shows. Generated from
   the narration and saved back here. Present on every AI scene after the skill runs; a user may
   hand-edit it. Absent on `search:` scenes.

@@ -8,7 +8,7 @@
 // generated audio/images into the wrong project is the one mistake this module exists to
 // prevent.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { isAbsolute, join } from 'node:path';
 
@@ -78,14 +78,29 @@ export const resolveSlug = (argv = process.argv.slice(2)) => {
   return slug;
 };
 
-// Every dir under projects/ that has a scene-plan.md, excluding scaffolding dirs (leading _).
+// When the project dir was created. It is the dir's birth time, not the plan's: scene-plan.md is
+// rewritten by rename on every edit, so its own times move. Filesystems without a birth time
+// report 0; fall back to the dir's mtime there.
+const projectCreatedMs = (slug) => {
+  try {
+    const { birthtimeMs, mtimeMs } = statSync(join(PROJECTS_DIR, slug));
+    return birthtimeMs > 0 ? birthtimeMs : mtimeMs;
+  } catch { return 0; }
+};
+
+// Newest first; equal times fall back to slug order so the list never shuffles.
+export const sortNewestFirst = (entries) =>
+  [...entries].sort((a, b) => b.createdMs - a.createdMs || a.slug.localeCompare(b.slug));
+
+// Every dir under projects/ that has a scene-plan.md, excluding scaffolding dirs (leading _),
+// newest created project first.
 export const listProjects = () => {
   if (!existsSync(PROJECTS_DIR)) return [];
-  return readdirSync(PROJECTS_DIR, { withFileTypes: true })
+  const slugs = readdirSync(PROJECTS_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory() && !d.name.startsWith('_'))
     .map((d) => d.name)
-    .filter((slug) => existsSync(join(PROJECTS_DIR, slug, 'scene-plan.md')))
-    .sort();
+    .filter((slug) => existsSync(join(PROJECTS_DIR, slug, 'scene-plan.md')));
+  return sortNewestFirst(slugs.map((slug) => ({ slug, createdMs: projectCreatedMs(slug) }))).map((e) => e.slug);
 };
 
 export const projectTitle = (slug) => {

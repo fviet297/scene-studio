@@ -12,7 +12,9 @@
 //     stretched to span it (slowed down a little);
 //   - when every shot has a clip and together they are longer than the narration, the last shot is
 //     cut at the end of the narration (at least MIN_TAIL_SHOT_SECONDS of it stays), so motion never
-//     keeps playing over silence.
+//     keeps playing over silence;
+//   - the same cut applies to the last motion shot when stills (at least MIN_STILL_SECONDS each)
+//     plus clips would overrun the narration.
 // A shot's `duration:` stays a minimum on top of that.
 
 import { PLACEHOLDER_SCENE_SECONDS } from './scene-timing.mjs';
@@ -57,6 +59,15 @@ export const groupShotSeconds = ({ audio, shots }) => {
   const stills = shots.filter((s) => !isMotion(s)).length;
   if (stills > 0) {
     const share = Math.max((audio - motionSeconds) / stills, stills === shots.length ? 0 : MIN_STILL_SECONDS);
+    // Clips plus the stills' minimum overrun the narration: cut the last motion shot so the group
+    // ends with the narration instead of playing on over silence.
+    const motionBudget = audio - share * stills;
+    if (motionSeconds > motionBudget) {
+      const last = shots.map(isMotion).lastIndexOf(true);
+      const before = sum(shots.slice(0, last).filter(isMotion).map((s) => s.clip));
+      const tail = Math.min(shots[last].clip, Math.max(motionBudget - before, MIN_TAIL_SHOT_SECONDS));
+      return shots.map((s, i) => floor(s, i === last ? tail : isMotion(s) ? s.clip : share));
+    }
     return shots.map((s) => floor(s, isMotion(s) ? s.clip : share));
   }
   if (motionSeconds > audio) {

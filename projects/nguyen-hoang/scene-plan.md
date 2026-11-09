@@ -2,7 +2,7 @@
 
 motion-duration: 10
 
-voice: NamLichSu
+voice: Hải Đăng
 
 audio: vieneu
 

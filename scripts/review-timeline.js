@@ -146,6 +146,21 @@ function tlGroupShotSeconds(audio, shots) {
       (audio - motionSeconds) / stills,
       stills === shots.length ? 0 : TL_MIN_STILL_SECONDS,
     );
+    const motionBudget = audio - share * stills;
+    if (motionSeconds > motionBudget) {
+      const last = shots.map(isMotion).lastIndexOf(true);
+      const before = shots
+        .slice(0, last)
+        .filter(isMotion)
+        .reduce((total, s) => total + s.clip, 0);
+      const tail = Math.min(
+        shots[last].clip,
+        Math.max(motionBudget - before, TL_MIN_TAIL_SHOT_SECONDS),
+      );
+      return shots.map((s, i) =>
+        floor(s, i === last ? tail : isMotion(s) ? s.clip : share),
+      );
+    }
     return shots.map((s) => floor(s, isMotion(s) ? s.clip : share));
   }
   if (motionSeconds > audio) {

@@ -12,6 +12,9 @@ import { chatJson } from './llm-client.mjs';
 export const PLATFORMS = ['youtube', 'tiktok', 'facebook'];
 export const MAX_SOCIAL_NOTE = 1000;
 export const CHANNEL_NAME = 'Chuyện Cũ Kể Lại';
+// Every YouTube title and description must carry this phrase (prompt rule + code fallback below).
+export const BRAND_KEYWORD = 'Kể Chuyện';
+export const BRAND_HASHTAG = '#KeChuyen';
 // Each platform's own cap; the prompt asks for less, so the cut below only guards a model that
 // ignores it (YouTube rejects a longer title outright).
 const TITLE_LIMIT = { youtube: 100, tiktok: 150, facebook: 255 };
@@ -40,6 +43,7 @@ STEP 1 — ANALYSE (the "analysis" object, one short Vietnamese sentence per fie
 STEP 2 — TEN TITLE CANDIDATES (youtube "titleOptions")
 Write 10 YouTube titles, one per angle, in this order: mystery (historical mystery), twist (unexpected turn), conflict (human conflict), strategy (strategic genius), riseFall (rise and fall), hidden (hidden history), paradox (historical paradox), whatIf (counterfactual: use ONLY when the narration itself explores the hypothetical, and make the “nếu” framing explicit; otherwise write a second best angle and still label it "whatIf"), drama (dramatic storytelling), search (search intent: what a viewer would type to find this story).
 - Each title: 55 to 70 characters, natural modern Vietnamese, the main person or subject named when it fits (best in the first half), and a concrete reason to click.
+- BRAND KEYWORD: every one of the ten titles must start with, or naturally contain, the exact phrase “${BRAND_KEYWORD}” (capital K and C), for example “${BRAND_KEYWORD}: …” or “… ${BRAND_KEYWORD} …”. Keep it inside the 70 character budget.
 - The ten must differ in idea, not just in a few words. No generic titles such as “Cuộc đời của…”, “Lịch sử về…”, “Tìm hiểu về…”, “Tiểu sử của…”.
 - Honest: every claim and implied promise is delivered by the narration. No invented facts, numbers or quotes. No ALL-CAPS words, no stacked question marks, at most one emoji, no “kinh hoàng”, “chấn động”, “SỐC”, “không thể tin nổi”.
 - For each give: "title"; "angle" (the key above); "trigger" (the curiosity trigger, a few words); "strength" (one short phrase); "risk" (one short phrase: what could mislead or underperform); "scores" with integers attention (0-25), curiosity (0-25), clarity (0-20), accuracy (0-20, fit with the video), distinct (0-10).
@@ -50,12 +54,12 @@ youtube.title is the ONE title you recommend. Choose by fit with the story and w
 
 PER PLATFORM
 - youtube.description (600 to 1300 characters, plain paragraphs separated by blank lines):
-  1) Opening, two lines that show above “Xem thêm”: the topic and the main keyword placed naturally, a curiosity about the story, and what the viewer will discover.
+  1) Opening, two lines that show above “Xem thêm”: the topic and the main keyword placed naturally, a curiosity about the story, and what the viewer will discover. The opening must start with, or naturally contain, the exact phrase “${BRAND_KEYWORD}”.
   2) Summary of 3 to 5 sentences: the people, events and context that matter, teasing the turning points without spoiling the ending or the surprises.
   3) CTA: invite viewers to subscribe to ${CHANNEL_NAME}, then ask one question that invites viewers to share their view on the person or event.
   Natural prose, no keyword stuffing.
-  youtube.hashtags: 3 to 5 that really relate to the story.
-  youtube.keywords: { "primary": "one phrase", "secondary": [2 to 4], "longTail": [2 to 4 phrases a viewer might search], "related": [2 to 4 search terms] }. Only terms that fit what the video really covers. Never claim a search volume or ranking.
+  youtube.hashtags: 3 to 5 that really relate to the story. The first one must be ${BRAND_HASHTAG}.
+  youtube.keywords: { "primary": "one phrase", "secondary": [2 to 4], "longTail": [2 to 4 phrases a viewer might search], "related": [2 to 4 search terms] }. Only terms that fit what the video really covers. Never claim a search volume or ranking. "primary" must contain “${BRAND_KEYWORD.toLowerCase()}” (for example “${BRAND_KEYWORD.toLowerCase()} + the main subject”) and at least one "longTail" phrase must contain it too.
 - tiktok.title: a punchy on-cover hook under 60 characters.
   tiktok.description: the caption, 150 to 300 characters: one hook line, one line of tension, one question for the comments. Up to 2 fitting emoji.
   tiktok.hashtags: 4 to 6, mixing broad (#lichsu, #xuhuong) and specific ones.
@@ -138,7 +142,43 @@ export const normalizeYoutube = (raw) => {
   return { ...post, titleOptions, pickReason: oneLine(raw?.pickReason), keywords: normalizeKeywords(raw?.keywords) };
 };
 
-const socialRequest = ({ title, narration, note }) => `Video title in the project: ${title || '(none)'}
+const foldKey = (value) => asText(value).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/gi, 'd').toLowerCase();
+const hasBrandKeyword = (text) => foldKey(text).includes(foldKey(BRAND_KEYWORD));
+
+// Safety net for a model that ignores the brand-keyword rule: prefix the phrase when it is missing.
+// An empty text stays empty so the "no title" check still fires. A title is re-cut to its limit.
+const withBrandKeyword = (text, limit) => {
+  if (!text || hasBrandKeyword(text)) return text;
+  const prefixed = `${BRAND_KEYWORD}: ${text}`;
+  return limit ? prefixed.slice(0, limit) : prefixed;
+};
+
+// Brand hashtag first, without a duplicate, still inside the hashtag cap.
+const withBrandHashtag = (hashtags) =>
+  [BRAND_HASHTAG, ...hashtags.filter((tag) => tag.toLowerCase() !== BRAND_HASHTAG.toLowerCase())].slice(0, MAX_HASHTAGS);
+
+// SEO keywords: the primary phrase and the long-tail list both carry the brand phrase. A missing
+// long-tail hit is filled with "<brand> <primary>"; with no primary phrase there is nothing to build on.
+const withBrandKeywords = (keywords) => {
+  const brand = BRAND_KEYWORD.toLowerCase();
+  const primary = keywords.primary && !hasBrandKeyword(keywords.primary) ? `${brand} ${keywords.primary}` : keywords.primary;
+  const hasLongTail = keywords.longTail.some(hasBrandKeyword);
+  const longTail = hasLongTail || !primary ? keywords.longTail : [...keywords.longTail, primary].slice(-MAX_KEYWORDS);
+  return { ...keywords, primary, longTail };
+};
+
+// Returns a new YouTube post whose title, every title option, description, hashtags and SEO
+// keywords carry the brand keyword.
+export const ensureYoutubeKeyword = (post) => ({
+  ...post,
+  title: withBrandKeyword(post.title, post.titleLimit),
+  description: withBrandKeyword(post.description),
+  titleOptions: post.titleOptions.map((o) => ({ ...o, title: withBrandKeyword(o.title, post.titleLimit) })),
+  hashtags: withBrandHashtag(post.hashtags),
+  keywords: withBrandKeywords(post.keywords),
+});
+
+const socialRequest =({ title, narration, note }) => `Video title in the project: ${title || '(none)'}
 
 Full voice-over, scene by scene:
 <<<
@@ -155,7 +195,7 @@ export const writeSocialPosts = async ({ title, scenes, note, signal, onLog }) =
   if (!narration) throw new Error('Dự án chưa có narration để viết bài đăng.');
   const reply = await chatJson({ system: SOCIAL_SYSTEM, user: socialRequest({ title, narration, note }), signal, onLog, label: 'Viết bài đăng' });
   const posts = {
-    youtube: normalizeYoutube(reply.youtube),
+    youtube: ensureYoutubeKeyword(normalizeYoutube(reply.youtube)),
     tiktok: normalizePost(reply.tiktok, 'tiktok'),
     facebook: normalizePost(reply.facebook, 'facebook'),
   };

@@ -2,7 +2,7 @@
 
 motion-duration: 10
 
-voice: NamLichSu
+voice: Hải Đăng
 
 audio: vieneu
 
@@ -22,7 +22,7 @@ char-d = public/projects/nguyen-phuc-nguyen/characters/char-d.jpg
 title: Cơ nghiệp nửa thế kỷ
 cue: somber
 host:
-narration: Năm 1613, Nguyễn Hoàng qua đời. Ông để lại cho con trai một cơ nghiệp đã được gây dựng suốt hơn nửa thế kỷ: vùng Thuận Hóa và Quảng Nam, một bộ máy cai quản riêng, lực lượng quân sự và nguồn lực kinh tế ngày càng ổn định.
+narration: Năm 1613, chúa Nguyễn Hoàng qua đời, để lại cho con trai một vùng đất rộng, một bộ máy riêng và một đội quân. Còn một việc ông chưa giải quyết xong: quan hệ với họ Trịnh ngoài Bắc.
 char: char-b, char-a
 prompt: Wide interior of a timber hall in the Thuận Hóa residence at dusk, 1613; red-lacquered columns, grey-tiled roof beyond open doors, ceramic oil lamps. The elderly figure rests small and off-centre on a low wooden bed under a plain cloth canopy while the younger figure kneels beside it, both hands receiving a lacquered box holding a bronze seal. Officials with East-Asian faces in dark robes and black caps kneel in rows behind, attendants hold lamps; guards and plain solid-crimson cloth banners, no emblem or lettering stand in the courtyard. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Nội thất rộng một gian nhà gỗ trong dinh Thuận Hóa lúc chạng vạng, năm 1613; cột sơn son, mái ngói xám sau những cánh cửa mở, đèn dầu gốm. Nhân vật cao tuổi nằm nhỏ, lệch tâm trên một chiếc giường gỗ thấp dưới màn vải trơn, nhân vật trẻ hơn quỳ bên cạnh, hai tay đón một hộp sơn mài đựng ấn đồng. Quan lại gương mặt Đông Á mặc áo tối màu, đội mũ đen quỳ thành hàng phía sau, người hầu cầm đèn; lính gác và cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết đứng ngoài sân. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -51,7 +51,7 @@ env_vi: Cờ phần phật trong gió sớm, bụi bốc lên từ bãi tập, r
 title: Người kế nghiệp
 cue: hopeful
 host:
-narration: Người kế vị là Nguyễn Phúc Nguyên. Nếu Nguyễn Hoàng là người đặt nền móng, thì Nguyễn Phúc Nguyên sẽ là người đưa cơ nghiệp ấy tiến gần hơn đến một chính quyền tự chủ.
+narration: Người nhận cơ nghiệp ấy là Nguyễn Phúc Nguyên, con thứ sáu của Nguyễn Hoàng, dân gian quen gọi là chúa Sãi. Mười bốn năm sau, ông sẽ phải đối đầu với một người rất thân thuộc: chính anh rể của mình.
 char: char-a
 prompt: Wide stone-paved courtyard of the timber Thuận Hóa residence at sunrise, 1613; low halls with grey-tiled roofs and red-lacquered columns. The figure stands small and off-centre at one-fifth frame height on the stone steps while rows of officials and commanders with East-Asian faces bow below; drummers beat a bronze drum. To one side, workers in cotton tunics haul a long timber beam onto the stone footing of a new hall. plain solid-crimson cloth banners, no emblem or lettering line the walls. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân lát đá của dinh Thuận Hóa bằng gỗ lúc bình minh, năm 1613; những dãy nhà thấp mái ngói xám, cột sơn son. Nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình trên bậc đá trong khi các hàng quan lại và tướng lĩnh gương mặt Đông Á cúi chào bên dưới; người đánh trống gõ trống đồng. Một bên, thợ mặc áo vải kéo một cây xà gỗ dài đặt lên nền móng đá của một gian nhà mới. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết dọc tường. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -67,7 +67,7 @@ env_vi: Nắng sớm quét ngang sân, mặt trống rung lên theo từng nhị
 title: Bóng họ Trịnh phía Bắc
 cue: tense
 host:
-narration: Nhưng con đường phía trước không hề dễ dàng. Ở miền Bắc, họ Trịnh vẫn nắm quyền thực tế bên cạnh vua Lê. Họ không muốn vùng Thuận – Quảng trở thành một thế lực độc lập ngoài tầm kiểm soát.
+narration: Anh rể ấy là Trịnh Tráng, con trai Trịnh Tùng, người đứng đầu họ Trịnh. Theo Trịnh vương ngọc phả, vợ ông là bà Nguyễn Thị Ngọc Tú, con gái Nguyễn Hoàng. Nhưng tình thân là một chuyện, quyền lực là chuyện khác: ngoài Bắc, họ Trịnh nắm quyền thực tế bên cạnh vua Lê.
 char: char-c
 prompt: Wide audience hall of the Thăng Long palace on an overcast noon, early 17th century; red-lacquered columns, grey-tiled roof. A young Lê emperor sits remote on a raised throne at the back, seen at distance with face unreadable, while the figure stands small and off-centre on the floor below, nearer the officials, who bow toward him rather than toward the throne. Guards with halberds line the columns; officials with East-Asian faces wear dark robes and black winged caps. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh điện chầu cung Thăng Long vào trưa trời âm u, đầu thế kỷ 17; cột sơn son, mái ngói xám. Một vị vua Lê trẻ ngồi xa trên ngai cao phía sau, nhìn từ xa không rõ mặt, trong khi nhân vật đứng nhỏ, lệch tâm trên nền điện bên dưới, gần hàng quan hơn, và các quan cúi chào về phía ông chứ không về phía ngai. Lính cầm kích đứng dọc hàng cột; quan lại gương mặt Đông Á mặc áo tối màu, đội mũ cánh chuồn đen. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -96,7 +96,7 @@ env_vi: Thuyền buồm chậm rãi đi dọc bờ biển, Biển Đông lấp l
 title: Củng cố từ gốc
 cue: neutral
 host:
-narration: Nguyễn Phúc Nguyên lên nắm quyền trong bối cảnh ấy. Ông hiểu rằng muốn duy trì cơ nghiệp của cha, trước hết phải củng cố chính quyền tại chỗ. Nếu mọi quyết định vẫn phụ thuộc vào triều đình miền Bắc, vùng đất phía nam sẽ khó giữ được sự tự chủ đã hình thành.
+narration: Vậy chúa Sãi làm gì trước tiên? Không phải kéo quân ra Bắc. Ông lo chuyện ở nhà: sổ sách, dân số, thuế má. Nghe thì chán, nhưng chiến tranh nào cũng cần có người đếm gạo.
 char: char-a
 prompt: Wide timber council hall in Thuận Hóa at night, 1613; the figure sits small and off-centre at one-fifth frame height behind a long low table spread with paper registers and household rolls, ceramic oil lamps burning. Around the table local village chiefs in plain brown tunics and khăn vấn headcloths, commanders in quilted cotton armour and clerks with brushes lean in, East-Asian faces; one chief unrolls a land register. Guards stand at the open door, plain solid-crimson cloth banners, no emblem or lettering outside. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh gian hội nghị bằng gỗ ở Thuận Hóa về đêm, năm 1613; nhân vật ngồi nhỏ, lệch tâm, cao khoảng một phần năm khung hình sau một chiếc bàn dài thấp bày sổ sách giấy và sổ hộ tịch, đèn dầu gốm thắp sáng. Quanh bàn, các hào trưởng địa phương mặc áo nâu giản dị, đội khăn vấn, tướng lĩnh mặc giáp bông chần và thư lại cầm bút lông chồm người tới, gương mặt Đông Á; một hào trưởng trải ra một cuốn địa bạ. Lính gác đứng ở cửa mở, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết bên ngoài. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -122,10 +122,10 @@ env_vi: Sương sớm bốc khỏi mặt sông, con thuyền neo đập nhẹ v�
 
 ## scene 8
 
-title: Năm 1614: dựng bộ máy
+title: Dựng bộ máy riêng
 cue: neutral
 host:
-narration: Một trong những bước đi quan trọng của ông là kiện toàn bộ máy quản lý. Năm 1614, chính quyền ở Thuận – Quảng được tổ chức lại với các cơ quan phụ trách những lĩnh vực khác nhau. Bộ máy cai trị dần mang tính ổn định và có khả năng điều hành công việc riêng.
+narration: Ông tổ chức lại chính quyền ở Thuận Hóa và Quảng Nam, để từng cơ quan lo một mảng việc riêng. Dân có đơn kiện, quan có sổ sách, và mọi thứ được xử lý ngay tại chỗ.
 char: char-a
 prompt: Wide courtyard of the Thuận Hóa residence at bright midday, 1614; three separate timber office halls with grey-tiled roofs face the yard, each open-fronted, clerks with East-Asian faces in dark robes writing on paper registers at low desks, stacking rolls into wooden cabinets and stamping red seals. Villagers queue with petitions before each hall. The figure walks small and off-centre at one-fifth frame height across the yard with two officials, pointing to one hall. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân dinh Thuận Hóa giữa trưa nắng, năm 1614; ba dãy nhà làm việc bằng gỗ mái ngói xám riêng biệt quay mặt ra sân, mặt trước để mở, thư lại gương mặt Đông Á mặc áo tối màu viết sổ sách giấy trên bàn thấp, xếp cuộn giấy vào tủ gỗ và đóng ấn đỏ. Dân làng xếp hàng dâng đơn trước mỗi dãy nhà. Nhân vật đi nhỏ, lệch tâm, cao khoảng một phần năm khung hình băng qua sân cùng hai vị quan, tay chỉ về một dãy nhà. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -154,7 +154,7 @@ env_vi: Gió gợn sóng trên ruộng lúa, bụi xoáy trong sân và con trâ
 title: Nguồn thu và binh lực
 cue: neutral
 host:
-narration: Việc tổ chức hành chính không chỉ nhằm quản lý dân cư. Nó còn giúp Nguyễn Phúc Nguyên kiểm soát nguồn thu, huy động nhân lực và duy trì quân đội. Một chính quyền muốn tồn tại lâu dài cần có nguồn lực ổn định, chứ không thể chỉ dựa vào uy tín của người đứng đầu.
+narration: Có sổ sách thì có thuế, có thuế thì nuôi được quân. Nghe như bài toán lớp ba, nhưng đó chính là cách một chính quyền tự đứng vững trên đôi chân của mình.
 char:
 prompt: Wide village threshing ground in Thuận Hóa at harvest, late afternoon, early 17th century; tax officials in dark robes weigh baskets of rice on wooden steelyards while clerks record in registers at a trestle table, villagers in nón lá carry shoulder-pole baskets, ox-carts are loaded with sacks bound for a riverside granary with thatched roofs. Stacked straw, threshing flails rising and falling. All figures have East-Asian faces. plain solid-crimson cloth banners, no emblem or lettering on the granary. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân phơi lúa của một làng ở Thuận Hóa mùa gặt, chiều muộn, đầu thế kỷ 17; quan thu thuế mặc áo tối màu cân thúng thóc bằng cân đòn gỗ trong khi thư lại ghi sổ ở chiếc bàn kê, dân làng đội nón lá gánh thúng bằng đòn gánh, xe bò chất đầy bao chuẩn bị chở về kho lúa mái tranh ven sông. Rơm chất đống, những cây néo đập lúa nâng lên hạ xuống. Mọi người đều có gương mặt Đông Á. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết trên kho lúa. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -183,7 +183,7 @@ env_vi: Cờ phần phật trên cột, bụi tung lên dưới bước chân v�
 title: Trên tuyến giao thương
 cue: hopeful
 host:
-narration: Thuận Hóa và Quảng Nam có vị trí quan trọng trong chiến lược ấy. Đây là vùng đất nằm trên tuyến giao thương, có điều kiện phát triển nông nghiệp, thủ công nghiệp và hoạt động buôn bán. Những nguồn lực đó giúp chính quyền Nguyễn có thêm cơ sở kinh tế.
+narration: Họ còn may mắn có một vị trí đẹp. Thuận Hóa và Quảng Nam nằm trên tuyến giao thương, có ruộng, có nghề thủ công, có cả chợ búa. Riêng Hội An thì tấp nập thuyền buôn nước ngoài.
 char:
 prompt: Wide top-down illustrated relief map of the central coast of Đại Việt, Thuận Hóa and Quảng Nam, in the early 17th century; green mountain ranges on the west fall to narrow plains, rivers wind to the sea, a wide river mouth opens near the southern end of the strip. The coastal strip carries a translucent soft-red wash with soft edges; a wide soft teal route arrow runs along the offshore sea lane and curls into the river mouth, wooden junks and sailing ships following it. Tiny paddies and villages line the rivers; cloud shadows drift. No lettering or labels, no modern borders, no foreign border lines drawn across the sea.
 prompt_vi: Toàn cảnh bản đồ địa hình minh hoạ nhìn từ trên xuống của dải duyên hải miền Trung Đại Việt, Thuận Hóa và Quảng Nam, đầu thế kỷ 17; dãy núi xanh phía tây đổ xuống đồng bằng hẹp, sông uốn khúc ra biển, một cửa sông rộng mở gần đầu phía nam của dải đất. Dải duyên hải phủ màu đỏ nhạt trong mờ viền mềm; một mũi tên đường thuyền màu xanh ngọc rộng, mềm chạy dọc luồng biển ngoài khơi và cong vào cửa sông, thuyền gỗ và thuyền buồm nối theo. Ruộng và làng nhỏ li ti dọc các dòng sông; bóng mây trôi. Không chữ hay nhãn, không đường biên hiện đại, không đường ranh nước ngoài vẽ trên biển.
@@ -212,7 +212,7 @@ env_vi: Cánh buồm phần phật căng gió, nước sông vỗ vào mạn thu
 title: Mở đất, đón người
 cue: hopeful
 host:
-narration: Nguyễn Phúc Nguyên cũng tiếp tục thu hút người tài và khuyến khích dân cư đến khai phá, sinh sống. Việc mở rộng cộng đồng cư dân góp phần tăng nhân lực sản xuất, củng cố phòng thủ và tạo nền tảng cho sự phát triển lâu dài.
+narration: Dân đến thì đất sống. Chúa Sãi khuyến khích người dân vào khai phá, lập làng. Thêm người nghĩa là thêm tay cày, thêm tay giữ đất, và thêm người nộp thuế, điều mà chính quyền nào cũng thích.
 char: char-a
 prompt: Wide open timber pavilion in a garden of the Thuận Hóa residence on a clear morning, early 17th century; the figure sits small and off-centre at one-fifth frame height on a low dais while young scholars with East-Asian faces in plain indigo robes and black khăn headcloths kneel in a row presenting essay scrolls, officials reading them aloud, an attendant pouring tea. Lotus pond, frangipani trees and more candidates waiting at the gate. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh một nhà thủy tạ gỗ mở trong vườn dinh Thuận Hóa vào một buổi sáng trong trẻo, đầu thế kỷ 17; nhân vật ngồi nhỏ, lệch tâm, cao khoảng một phần năm khung hình trên bục thấp trong khi các nho sĩ trẻ gương mặt Đông Á mặc áo chàm giản dị, đội khăn đen quỳ thành hàng dâng cuộn bài văn, các quan đọc to, một người hầu rót trà. Ao sen, cây đại và thêm nhiều sĩ tử đang chờ ở cổng. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -241,7 +241,7 @@ env_vi: Khói từ đống cành cháy cuộn qua thung lũng, nước lấp lá
 title: Cùng phò vua Lê
 cue: curious
 host:
-narration: Trong khi đó, quan hệ giữa Nguyễn và Trịnh vẫn tồn tại trên danh nghĩa cùng phò tá vua Lê. Nhưng thực tế, hai bên ngày càng có những lợi ích riêng. Họ Trịnh kiểm soát triều đình ở miền Bắc, còn họ Nguyễn điều hành vùng Thuận – Quảng với mức độ tự chủ ngày càng cao.
+narration: Giờ đến phần khó tin nhất. Trên giấy tờ, họ Nguyễn và họ Trịnh vẫn cùng phò tá vua Lê. Nhưng ngoài Bắc, họ Trịnh nắm triều đình, còn trong Nam, họ Nguyễn tự lo việc của mình.
 char: char-a
 prompt: Wide ceremonial courtyard of the Thuận Hóa residence at early morning, early 17th century; an altar table draped in yellow silk faces north, holding a lacquered box with an imperial decree, incense burners smoking. The figure stands small and off-centre at one-fifth frame height at the head of rows of officials with East-Asian faces in dark court robes and black winged caps, all bowing toward the north; musicians with drums and flutes at the side. plain solid-crimson cloth banners, no emblem or lettering on the walls. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân hành lễ của dinh Thuận Hóa lúc sáng sớm, đầu thế kỷ 17; một bàn hương án phủ lụa vàng quay về hướng bắc, đặt hộp sơn mài đựng chiếu chỉ của vua, lư hương nghi ngút khói. Nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình ở đầu các hàng quan lại gương mặt Đông Á mặc triều phục tối màu, đội mũ cánh chuồn đen, tất cả cùng cúi lạy về phương bắc; nhạc công với trống và sáo đứng một bên. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết trên tường. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -270,7 +270,7 @@ env_vi: Những lữ khách li ti di chuyển qua đèo, khói bay từ cả hai
 title: Mâu thuẫn tích tụ
 cue: tense
 host:
-narration: Mâu thuẫn không xuất hiện chỉ trong một ngày. Nó tích tụ qua những vấn đề về quyền quản lý, nghĩa vụ với triều đình và quyền quyết định đối với vùng đất phía nam.
+narration: Mâu thuẫn không nổ ra trong một ngày. Nó tích dần qua những câu hỏi nghe rất hành chính: ai quản vùng đất này, ai chịu nghĩa vụ gì với triều đình, và ai có tiếng nói cuối cùng.
 char: char-a
 prompt: Wide riverside warehouse yard in Thuận Hóa on an overcast afternoon, early 17th century; envoys from the northern court in dark robes inspect tribute chests and rice sacks beside cargo boats bound north, one envoy unrolling a long list of demands. The figure stands small and off-centre at one-fifth frame height among his officials with arms folded; porters with East-Asian faces stop mid-task, sacks still on their shoulders, half the chests left unloaded. plain solid-crimson cloth banners, no emblem or lettering on the boats. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân kho ven sông ở Thuận Hóa vào một buổi chiều u ám, đầu thế kỷ 17; sứ giả triều đình phía bắc mặc áo tối màu kiểm tra những hòm cống phẩm và bao thóc bên các thuyền chở hàng đi ra bắc, một sứ giả trải ra một danh sách dài các yêu cầu. Nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình giữa các quan của mình, khoanh tay; phu khuân gương mặt Đông Á dừng tay giữa chừng, bao vẫn trên vai, một nửa số hòm chưa được chất lên. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết trên thuyền. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -286,7 +286,7 @@ env_vi: Mây xám cuộn trên sông, thuyền chở hàng chòng chành ở ch�
 title: Không bên nào nhường
 cue: tense
 host:
-narration: Nguyễn Phúc Nguyên không muốn trao lại quyền kiểm soát thực tế cho họ Trịnh. Ngược lại, họ Trịnh cũng không muốn chấp nhận một vùng lãnh thổ rộng lớn nằm ngoài sự chi phối của mình.
+narration: Các sử gia thường nhận xét: chúa Nguyễn không muốn trao lại quyền kiểm soát thực tế, còn họ Trịnh cũng chẳng muốn một vùng đất rộng lớn nằm ngoài tầm với. Hai bên đều có lý do của mình, và đó mới là rắc rối.
 char: char-a
 prompt: Wide view of the earthen rampart and timber gate tower of the Thuận Hóa garrison at dusk, early 17th century; below, the northern envoys' party with plain dark parasols rides away north along a dusty road between rice fields. The figure stands small and off-centre at one-fifth frame height on the gate tower watching them go, while guards with East-Asian faces in quilted cotton armour swing the heavy timber doors shut and light torches along the wall. plain solid-crimson cloth banners, no emblem or lettering. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh lũy đất và chòi cổng gỗ của đồn Thuận Hóa lúc hoàng hôn, đầu thế kỷ 17; bên dưới, đoàn sứ giả phía bắc với những chiếc lọng tối màu trơn cưỡi ngựa rời đi về phía bắc trên con đường bụi giữa ruộng lúa. Nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình trên chòi cổng nhìn theo, trong khi lính gác gương mặt Đông Á mặc giáp bông chần đẩy hai cánh cổng gỗ nặng khép lại và thắp đuốc dọc tường. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -302,7 +302,7 @@ env_vi: Bụi cuốn theo sau đoàn ngựa, lửa đuốc bùng lên dọc lũy
 title: 1623: Trịnh Tráng kế vị
 cue: somber
 host:
-narration: Năm 1623, Trịnh Tùng qua đời. Người kế vị là Trịnh Tráng. Sự thay đổi người đứng đầu họ Trịnh không làm dịu đi mâu thuẫn. Trái lại, Trịnh Tráng tiếp tục tìm cách củng cố quyền lực và tăng cường sự kiểm soát đối với Thuận – Quảng.
+narration: Năm 1623, Trịnh Tùng qua đời, con trai là Trịnh Tráng lên thay. Ai hy vọng người mới sẽ dễ tính hơn thì phải thất vọng: Trịnh Tráng tiếp tục củng cố quyền lực, và tăng sức ép lên Thuận Quảng.
 char: char-c
 prompt: Wide view of an arched brick city gate of Thăng Long at smoky dawn, 1623; a covered palanquin carried by bearers moves out through the gateway with a tight escort of guards in lacquered lamellar armour, the aged figure seated small and off-centre inside, slumped against the cushions. Behind the wall, smoke rises from burnt roofs; townspeople with East-Asian faces watch from doorways, carts of belongings on the road. plain solid-crimson cloth banners, no emblem or lettering hang torn. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh một cổng thành Thăng Long xây gạch vòm cuốn lúc bình minh mù khói, năm 1623; một chiếc kiệu có mui do phu khiêng đi ra qua cổng với đội hộ vệ mặc giáp phiến sơn mài vây sát, nhân vật đã già ngồi nhỏ, lệch tâm bên trong, dựa người mệt mỏi vào gối. Phía sau tường thành, khói bốc lên từ những mái nhà bị cháy; dân phố gương mặt Đông Á nhìn ra từ khung cửa, xe chở đồ đạc trên đường. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết rách tả tơi. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -331,7 +331,7 @@ env_vi: Hàng quân nhích chân, dậm đất, bụi bốc lên sau những con
 title: Hai cách nhìn
 cue: tense
 host:
-narration: Đối với Trịnh Tráng, vùng đất phía nam vẫn thuộc phạm vi của triều đình Lê – Trịnh. Nguyễn Phúc Nguyên phải thực hiện nghĩa vụ và chịu sự điều phối từ miền Bắc. Nhưng với Nguyễn Phúc Nguyên, việc duy trì quyền tự chủ là điều kiện sống còn để bảo vệ cơ nghiệp của cha.
+narration: Hai bên nhìn cùng một vùng đất bằng hai cách khác nhau. Với Trịnh Tráng, đó là đất của triều đình Lê Trịnh, phải chịu sự điều phối từ miền Bắc. Còn với chúa Nguyễn, các sử gia cho rằng giữ quyền tự chủ là cách giữ cơ nghiệp của cha.
 char: char-d
 prompt: Wide study hall in the Trịnh lord's palace at night, 1620s; the figure sits small and off-centre at one-fifth frame height behind a broad lacquered desk dictating, two scribes with East-Asian faces in dark robes write on long paper sheets, an official presses a large red seal onto a finished letter and hands it to a kneeling envoy. Shelves of rolled documents, bronze oil lamps, red-lacquered columns; guards at the door. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh thư phòng trong phủ chúa Trịnh về đêm, thập niên 1620; nhân vật ngồi nhỏ, lệch tâm, cao khoảng một phần năm khung hình sau một chiếc án thư sơn mài rộng đang đọc cho viết, hai thư lại gương mặt Đông Á mặc áo tối màu viết trên những tờ giấy dài, một vị quan đóng ấn đỏ lớn lên bức thư đã xong và trao cho một sứ giả đang quỳ. Kệ đầy văn thư cuộn, đèn dầu bằng đồng, cột sơn son; lính gác ở cửa. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -357,10 +357,10 @@ env_vi: Ngọn nến run rẩy, khói hương cuộn lên qua bài vị và ánh
 
 ## scene 24
 
-title: Ai nắm Thuận – Quảng?
+title: Ai nắm Thuận Quảng?
 cue: curious
 host:
-narration: Những bất đồng ngày càng trở nên căng thẳng. Vấn đề không còn đơn thuần là một viên quan có tuân lệnh triều đình hay không. Đó là cuộc tranh chấp về quyền lực: ai có quyền điều hành Thuận – Quảng, ai kiểm soát nguồn thu và ai có quyền quyết định quân sự tại vùng đất này?
+narration: Vậy rốt cuộc ai nắm Thuận Quảng? Ai điều hành, ai thu thuế, ai có quyền ra lệnh cho quân đội? Nếu là bạn, bạn có chịu nhường không?
 char: char-a
 prompt: Wide timber war council hall in Thuận Hóa at night, 1620s; commanders in quilted cotton armour and officials in dark robes, East-Asian faces, stand around a long low table piled with registers and grain tallies, arguing: one slaps the table, another points north, a third holds up a ledger. The figure sits small and off-centre at one-fifth frame height at the head of the table, listening. Bronze oil lamps, weapon racks along the walls, guards at the door. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh gian bàn việc quân bằng gỗ ở Thuận Hóa về đêm, thập niên 1620; các tướng mặc giáp bông chần và quan lại mặc áo tối màu, gương mặt Đông Á, đứng quanh một chiếc bàn dài thấp chất đầy sổ sách và thẻ đếm lương thực, tranh cãi: một người đập tay xuống bàn, người khác chỉ về phía bắc, người thứ ba giơ cao cuốn sổ thu chi. Nhân vật ngồi nhỏ, lệch tâm, cao khoảng một phần năm khung hình ở đầu bàn, lắng nghe. Đèn dầu bằng đồng, giá vũ khí dọc tường, lính gác ở cửa. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -389,7 +389,7 @@ env_vi: Tia lửa bắn ra từ đe, hơi nước và khói lò cuộn lên dư�
 title: Hai trung tâm quyền lực
 cue: somber
 host:
-narration: Hai bên vẫn có thể cùng sử dụng danh nghĩa phò tá vua Lê. Nhưng phía sau danh nghĩa ấy là hai trung tâm quyền lực đang ngày càng xa cách.
+narration: Lúc này đã có hai trung tâm quyền lực: một ở Thăng Long, một ở Thuận Hóa. Chung một ông vua trên giấy, nhưng mỗi bên đã có đường đi riêng.
 char:
 prompt: Wide mountain pass road over the Hoành Sơn ridge on a windy grey afternoon, 1620s; a long stone-and-earth road winds over the green ridge between the sea and the mountains. A lone courier with an East-Asian face in a dark robe rides south carrying a lacquered decree tube on his back. Far behind him on the northern slope stands a small earthen watch post with plain solid-crimson cloth banners, no emblem or lettering; far ahead on the southern slope another post, its guards watching him come. Wind-bent pines, the sea grey below. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh con đường đèo vượt dãy Hoành Sơn vào một buổi chiều xám lộng gió, thập niên 1620; con đường đá đất dài uốn lượn qua sống núi xanh giữa biển và núi. Một lính trạm đơn độc gương mặt Đông Á mặc áo tối màu cưỡi ngựa về phía nam, đeo ống sắc sơn mài sau lưng. Xa phía sau anh, trên sườn bắc là một chòi canh đất nhỏ với cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết; xa phía trước, trên sườn nam là một chòi canh khác, lính gác đang nhìn anh tới. Thông bị gió uốn cong, biển xám bên dưới. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -405,7 +405,7 @@ env_vi: Gió uốn cong rặng thông và lùa mây thấp qua sống núi, tron
 title: Chuẩn bị cho xung đột
 cue: tense
 host:
-narration: Trịnh Tráng muốn đưa Thuận – Quảng trở lại dưới sự kiểm soát chặt chẽ của miền Bắc. Nguyễn Phúc Nguyên thì tiếp tục củng cố quân đội, chuẩn bị cho khả năng xung đột.
+narration: Trịnh Tráng muốn đưa Thuận Quảng về dưới sự kiểm soát chặt chẽ của miền Bắc. Còn Nguyễn Phúc Nguyên tiếp tục củng cố quân đội, nhiều khả năng để phòng khi thương lượng không còn tác dụng.
 char: char-a
 prompt: Wide river plain north of Thuận Hóa on a cloudy morning, 1620s; hundreds of soldiers and labourers with East-Asian faces in cotton tunics and nón lá pile earth into a long rampart, ram timber stakes along its face and carry baskets of soil on shoulder poles; behind it, archers drill in rows. The figure rides small and off-centre at one-fifth frame height along the top of the rampart with two commanders in quilted armour. plain solid-crimson cloth banners, no emblem or lettering along the works. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh đồng bằng ven sông phía bắc Thuận Hóa vào một buổi sáng nhiều mây, thập niên 1620; hàng trăm binh lính và dân phu gương mặt Đông Á mặc áo vải, đội nón lá đắp đất thành một bức lũy dài, đóng cọc gỗ dọc mặt lũy và gánh những sọt đất bằng đòn gánh; phía sau, cung thủ luyện tập theo hàng. Nhân vật cưỡi ngựa nhỏ, lệch tâm, cao khoảng một phần năm khung hình dọc đỉnh lũy cùng hai vị tướng mặc giáp bông chần. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết dọc công trình. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -421,7 +421,7 @@ env_vi: Bụi bốc lên từ những sọt đất vừa đổ, mũi tên vút n
 title: Vượt khỏi thương lượng
 cue: tense
 host:
-narration: Đến giữa thập niên 1620, mâu thuẫn đã vượt khỏi phạm vi thương lượng thông thường. Những bất đồng về nghĩa vụ và quyền kiểm soát trở thành nguyên nhân trực tiếp dẫn đến đối đầu quân sự.
+narration: Rồi đến lúc lời qua tiếng lại không còn đủ. Theo nhiều tài liệu, Trịnh Tráng đòi họ Nguyễn phải thần phục, và Nguyễn Phúc Nguyên từ chối.
 char:
 prompt: Wide northern army camp on a river plain in Nghệ An at grey dawn, mid-1620s; rows of canvas tents stretch to the hills, soldiers with East-Asian faces in lacquered lamellar armour sharpen blades at grindstones, grooms strap armour onto war elephants, and at the river mouth a fleet of oared wooden war junks gathers with plain solid-crimson cloth banners, no emblem or lettering. Smoke from cook fires, carts of grain arriving along the road. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh một doanh trại quân phía bắc trên đồng bằng ven sông ở Nghệ An lúc bình minh xám, giữa thập niên 1620; những hàng lều vải trải dài tới chân đồi, binh lính gương mặt Đông Á mặc giáp phiến sơn mài mài gươm trên đá mài, quản tượng buộc giáp lên voi chiến, và ở cửa sông một đoàn thuyền chiến gỗ có mái chèo tập kết với cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết. Khói bếp, xe chở lương đến dọc đường. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -437,7 +437,7 @@ env_vi: Khói bếp trôi trên doanh trại, nước bắn tung từ mái chèo
 title: 1627: Trịnh Tráng nam tiến
 cue: tense
 host:
-narration: Năm 1627, Trịnh Tráng quyết định đưa quân tiến đánh Thuận Hóa. Nguyễn Phúc Nguyên tổ chức phòng thủ, chuẩn bị đối đầu với lực lượng từ miền Bắc.
+narration: Năm 1627, Trịnh Tráng đem quân vào đánh Thuận Hóa. Anh rể kéo quân đi đánh em vợ, còn ở phía nam, quân Nguyễn đã chuẩn bị sẵn.
 char:
 prompt: Wide top-down illustrated relief map of north-central Đại Việt in 1627, from the Nghệ An plain south past the Hoành Sơn ridge to the Thuận Hóa coast; the north carries a translucent amber wash with soft edges, the land south of the ridge a translucent soft-red wash. Two wide soft orange arrows thrust south, one along the coastal road, one by sea along the shore, ending at a river just south of the ridge, where a thin red ring marks the defenders' line; tiny columns of soldiers and war junks follow the arrows; smoke rises at the river. No lettering or labels, no modern borders, no foreign border lines drawn across the sea.
 prompt_vi: Toàn cảnh bản đồ địa hình minh hoạ nhìn từ trên xuống của vùng Bắc Trung Bộ Đại Việt năm 1627, từ đồng bằng Nghệ An xuôi qua dãy Hoành Sơn đến bờ biển Thuận Hóa; phía bắc phủ màu hổ phách trong mờ viền mềm, vùng đất phía nam dãy núi phủ màu đỏ nhạt trong mờ. Hai mũi tên màu cam rộng, mềm đâm xuống phía nam, một theo đường ven biển, một theo đường biển dọc bờ, dừng ở một con sông ngay phía nam dãy núi, nơi một vòng đỏ mảnh đánh dấu phòng tuyến; những đoàn quân và thuyền chiến li ti đi theo mũi tên; khói bốc lên bên sông. Không chữ hay nhãn, không đường biên hiện đại, không đường ranh nước ngoài vẽ trên biển.
@@ -453,7 +453,7 @@ env_vi: Những đoàn quân và thuyền chiến li ti tiến theo mũi tên, m
 title: Chiến tranh bùng nổ
 cue: dramatic
 host:
-narration: Cuộc chiến Trịnh – Nguyễn chính thức bùng nổ.
+narration: Cuộc chiến Trịnh Nguyễn chính thức bắt đầu, từ một mâu thuẫn tưởng chừng chỉ là chuyện nhà.
 char:
 prompt: Wide river battle at a broad estuary in Thuận Hóa at stormy dusk, 1627; northern war junks with plain solid-crimson cloth banners, no emblem or lettering row toward the southern bank, soldiers with East-Asian faces in lacquered lamellar armour crouched behind shields. On the southern bank defenders in quilted cotton armour man a long earthen rampart lined with timber stakes, loosing arrows and firing matchlocks, powder smoke rolling over the water. Rain squalls, churned water, no blood. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh trận đánh trên một cửa sông rộng ở Thuận Hóa lúc hoàng hôn giông bão, năm 1627; thuyền chiến phía bắc với cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết chèo về phía bờ nam, binh lính gương mặt Đông Á mặc giáp phiến sơn mài nấp sau khiên. Trên bờ nam, quân phòng thủ mặc giáp bông chần trấn giữ một bức lũy đất dài cắm cọc gỗ, bắn tên và bắn súng hỏa mai, khói thuốc súng cuộn trên mặt nước. Mưa giông, nước sủi bọt, không có máu. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -469,7 +469,7 @@ env_vi: Khói thuốc súng cuộn ngang sông, mưa giông quất xuống mặt
 title: Cùng danh nghĩa, hai thế lực
 cue: curious
 host:
-narration: Điều đáng chú ý là cả hai bên vẫn nhân danh nhà Lê. Nhưng trên thực tế, họ đã trở thành hai thế lực có chính quyền, quân đội và lợi ích riêng.
+narration: Nói gọn lại, hai bên đánh nhau và cả hai đều nhân danh nhà Lê. Nhưng trên thực tế, mỗi bên đã là một thế lực có chính quyền, quân đội và lợi ích riêng.
 char: char-d
 prompt: Wide view across a broad river on the frontier at a hazy morning, 1627; on the near northern bank the figure stands small and off-centre at one-fifth frame height beside a large command tent and a palanquin under a yellow silk canopy guarded by officials, troops with East-Asian faces in lacquered lamellar armour drawn up in ranks. Across the water the southern bank rises with an earthen rampart, timber stakes and its own ranks of defenders in quilted armour. plain solid-crimson cloth banners, no emblem or lettering on both banks. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh nhìn qua một dòng sông rộng ở vùng biên giới vào một buổi sáng mờ sương, năm 1627; trên bờ bắc gần, nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình bên một lều chỉ huy lớn và một cỗ kiệu dưới lọng lụa vàng có các quan canh giữ, quân lính gương mặt Đông Á mặc giáp phiến sơn mài dàn hàng. Bên kia sông, bờ nam nhô lên với bức lũy đất, cọc gỗ và hàng quân phòng thủ của riêng họ mặc giáp bông chần. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết trên cả hai bờ. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -485,7 +485,7 @@ env_vi: Sương trôi trên mặt nước giữa hai bờ, lụa vàng gợn só
 title: Từ nơi dung thân đến chiến tuyến
 cue: somber
 host:
-narration: Nguyễn Hoàng từng đến Thuận Hóa để tìm một nơi dung thân. Nguyễn Phúc Nguyên giờ đây phải bảo vệ vùng đất ấy bằng quân sự.
+narration: Tương truyền, khi Nguyễn Hoàng vào Thuận Hóa, ông chỉ cần một nơi dung thân. Gần bảy mươi năm sau, con trai ông phải bảo vệ nơi ấy bằng quân đội.
 char: char-a
 prompt: Wide view from the top of a long earthen rampart in Thuận Hóa at sunset, 1627; the figure stands small and off-centre at one-fifth frame height on the rampart, looking north over the river; soldiers with East-Asian faces in quilted cotton armour man the line with spears and crossbows, braziers burning. Behind, inland, the old timber residence with grey-tiled roofs, rice fields and villages glow in the last light. plain solid-crimson cloth banners, no emblem or lettering along the wall. No Qing, 19th-century Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh nhìn từ đỉnh một bức lũy đất dài ở Thuận Hóa lúc hoàng hôn, năm 1627; nhân vật đứng nhỏ, lệch tâm, cao khoảng một phần năm khung hình trên lũy, nhìn về phía bắc qua dòng sông; binh lính gương mặt Đông Á mặc giáp bông chần trấn giữ phòng tuyến với giáo và nỏ, lò than cháy rực. Phía sau, sâu trong đất liền, dinh thự gỗ cũ mái ngói xám, ruộng lúa và làng mạc ửng lên trong ánh chiều cuối cùng. cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết dọc tường lũy. Không có yếu tố nhà Thanh, triều Nguyễn thế kỷ 19, nhà Minh Trung Hoa hay châu Âu.
@@ -501,7 +501,7 @@ env_vi: Lửa lò than bốc cao trong gió chiều, tàn lửa bay trên lũy v
 title: Gần nửa thế kỷ phân tranh
 cue: dramatic
 host:
-narration: Và cuộc chiến bắt đầu năm 1627 sẽ kéo dài gần nửa thế kỷ, biến sự khác biệt về quyền lực thành một cuộc phân tranh sâu sắc trong lịch sử Đại Việt.
+narration: Cuộc chiến mở màn năm 1627 kéo dài đến năm 1672, khi hai bên lấy sông Gianh làm ranh giới. Gần nửa thế kỷ phân tranh, xoay quanh một câu hỏi: ai nắm Thuận Quảng. Theo bạn, bên nào có lý hơn? Hãy để lại ý kiến ở phần bình luận.
 char:
 prompt: Wide top-down illustrated relief map of Đại Việt in the 17th century, the whole S-shaped land from the northern delta to the southern coast; the north carries a translucent amber wash with soft edges, the centre and south a translucent soft-red wash, the two meeting along a river below the Hoành Sơn ridge. Along that river short orange and red arrows clash back and forth, small plumes of smoke rising at several points. Wooden junks on the East Sea, where two scattered clusters of tiny islets lie, the northern one east of the central coast, the southern one far to the south-east; cloud shadows drift. No lettering or labels, no modern borders, no foreign border lines drawn across the sea.
 prompt_vi: Toàn cảnh bản đồ địa hình minh hoạ nhìn từ trên xuống của Đại Việt thế kỷ 17, cả dải đất hình chữ S từ đồng bằng phía bắc đến bờ biển phía nam; phía bắc phủ màu hổ phách trong mờ viền mềm, miền giữa và phía nam phủ màu đỏ nhạt trong mờ, hai vùng gặp nhau dọc một con sông dưới dãy Hoành Sơn. Dọc con sông ấy những mũi tên ngắn màu cam và đỏ va vào nhau qua lại, những cột khói nhỏ bốc lên ở nhiều điểm. Thuyền gỗ trên Biển Đông, nơi có hai cụm đảo nhỏ li ti, cụm phía bắc nằm phía đông bờ biển miền Trung, cụm phía nam xa về đông nam; bóng mây trôi. Không chữ hay nhãn, không đường biên hiện đại, không đường ranh nước ngoài vẽ trên biển.

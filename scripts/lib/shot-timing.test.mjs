@@ -33,8 +33,14 @@ test('motion shots keep their clip length and the stills share the rest', () => 
   assert.deepEqual(groupShotSeconds({ audio: 22, shots: [{ clip: 10 }, { clip: 0 }, { clip: 0 }] }), [10, 6, 6]);
 });
 
-test('stills get a minimum when the clips already fill the narration', () => {
-  assert.deepEqual(groupShotSeconds({ audio: 12, shots: [{ clip: 10 }, { clip: 10 }, { clip: 0 }] }), [10, 10, MIN_STILL_SECONDS]);
+test('stills get a minimum and the last clip is cut when clips would overrun the narration', () => {
+  assert.deepEqual(groupShotSeconds({ audio: 12, shots: [{ clip: 10 }, { clip: 10 }, { clip: 0 }] }), [10, MIN_TAIL_SHOT_SECONDS, MIN_STILL_SECONDS]);
+  assert.deepEqual(groupShotSeconds({ audio: 14, shots: [{ clip: 10 }, { clip: 10 }, { clip: 0 }] }), [10, 2, 2]);
+  assert.deepEqual(groupShotSeconds({ audio: 16, shots: [{ clip: 10 }, { clip: 10 }, { clip: 0 }] }), [10, 4, 2]);
+});
+
+test('a still followed by a longer clip: the clip is cut at the end of the narration', () => {
+  assert.deepEqual(groupShotSeconds({ audio: 8.9, shots: [{ clip: 0 }, { clip: 10 }] }), [MIN_STILL_SECONDS, 6.9]);
 });
 
 test('clips shorter than the narration are stretched to span it', () => {

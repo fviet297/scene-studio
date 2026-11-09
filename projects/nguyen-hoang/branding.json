@@ -16,19 +16,31 @@
   "captions": {
     "enabled": true,
     "font": "be-vietnam",
-    "size": 48,
+    "size": 28,
     "strokeWidth": 7,
+    "strokeColor": "#000000",
     "backgroundOpacity": 0.42,
     "uppercase": false,
     "highlight": "karaoke",
     "position": "bottom",
-    "offsetY": 0,
+    "offsetY": 25,
     "anchor": "frame",
     "spokenColor": "#f6c85f",
     "unspokenColor": "#ffffff"
   },
   "title": {
-    "font": "charm"
+    "enabled": true,
+    "font": "anton",
+    "size": 52,
+    "color": "#ffd31a",
+    "strokeWidth": 8,
+    "strokeColor": "#000000",
+    "backgroundOpacity": 0,
+    "uppercase": true,
+    "shadow": true,
+    "scrim": true,
+    "position": "top",
+    "offsetY": 0
   },
   "effects": {
     "vignette": true,

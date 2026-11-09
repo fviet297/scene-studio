@@ -41,7 +41,7 @@ const SILENCE_FILTER =
 // is skipped, with a warning; installing a full ffmpeg brings the trim back.
 const hasSilenceRemove = () => {
   try {
-    return /silenceremove/.test(execFileSync('ffmpeg', ['-hide_banner', '-filters'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
+    return /\bsilenceremove\b/.test(execFileSync('ffmpeg', ['-hide_banner', '-filters'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
   } catch {
     return false;
   }

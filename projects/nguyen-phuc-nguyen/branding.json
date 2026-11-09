@@ -14,10 +14,11 @@
     "opacity": 0.08
   },
   "captions": {
-    "enabled": true,
+    "enabled": false,
     "font": "be-vietnam",
     "size": 48,
     "strokeWidth": 7,
+    "strokeColor": "#000000",
     "backgroundOpacity": 0.42,
     "uppercase": false,
     "highlight": "karaoke",
@@ -28,7 +29,18 @@
     "unspokenColor": "#ffffff"
   },
   "title": {
-    "font": "charm"
+    "enabled": true,
+    "font": "montserrat",
+    "size": 33,
+    "color": "#ffffff",
+    "strokeWidth": 0,
+    "strokeColor": "#000000",
+    "backgroundOpacity": 0.7,
+    "uppercase": true,
+    "shadow": false,
+    "scrim": true,
+    "position": "bottom",
+    "offsetY": 0
   },
   "effects": {
     "vignette": true,
@@ -56,7 +68,7 @@
         "intensity": 50
       },
       "embers": {
-        "enabled": false,
+        "enabled": true,
         "intensity": 50
       },
       "rain": {

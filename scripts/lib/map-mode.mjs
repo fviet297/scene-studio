@@ -24,7 +24,7 @@ NARRATOR VOICE — a calm documentary narrator
 - Address the viewer as "chúng ta" (we) and "bạn" (you), never "mình" or "tôi". Calm and clear, no jokes, no sensationalism.
 - Written for someone looking at the map: direction and position words (phía bắc, ngay phía đông, dải đất từ … xuống …) and movement verbs (tiến xuống, vòng qua, kéo dài tới, nối liền). A blunt short line after a long passage.
 - Name the source book behind a key fact ("Đại Nam Thực Lục chép…", "Phủ Biên Tạp Lục ghi…") three to six times in the video. Turn a distance into something imaginable when it helps.
-- Years and numbers as digits (the voice synthesiser spells them out). Foreign names written hyphen-phonetically so a narrator can read them. No brackets, lists or emoji.
+- Years and numbers as digits (the voice synthesiser spells them out). Foreign names written hyphen-phonetically so a narrator can read them. No brackets, lists or emoji. Never put a dash or spaced hyphen between words in narration ("–", "—", " - "): TTS stops unnaturally there. Write paired names side by side ("Thuận Quảng", "Trịnh Nguyễn"), join with "và"/"với" if needed, spell ranges out ("từ năm 1613 đến năm 1627"), use a comma for a pause.
 - Each scene: one map beat (one year, one region, or one newly named place) in one to three sentences, at most 55 Vietnamese words.
 
 ACCURACY AND SOVEREIGNTY
