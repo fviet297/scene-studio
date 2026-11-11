@@ -3,23 +3,40 @@
 // panel's audio undo. Comparing it with the plan's current narration tells the panel the audio is
 // out of date after the narration was edited, merged or replaced.
 
-import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { sceneBase } from './project-paths.mjs';
 
 const recordPath = (audioDir, scene) => join(audioDir, `${sceneBase(scene)}.txt`);
 const normalise = (text) => text.replace(/\s+/g, ' ').trim();
 
+// /api/state asks this for every scene; the file only changes when audio is (re)generated, so the
+// text is cached against its mtime and this module's own writes drop the entry.
+const textCache = new Map();
+
 export const readAudioNarration = (audioDir, scene) => {
   const file = recordPath(audioDir, scene);
-  return existsSync(file) ? readFileSync(file, 'utf8') : null;
+  let mtimeMs = 0;
+  try {
+    mtimeMs = statSync(file).mtimeMs;
+  } catch {
+    return null;
+  }
+  const hit = textCache.get(file);
+  if (hit && hit.mtimeMs === mtimeMs) return hit.text;
+  const text = readFileSync(file, 'utf8');
+  textCache.set(file, { mtimeMs, text });
+  return text;
 };
 
 export const writeAudioNarration = (audioDir, scene, narration) => {
-  writeFileSync(recordPath(audioDir, scene), narration);
+  const file = recordPath(audioDir, scene);
+  textCache.delete(file);
+  writeFileSync(file, narration);
 };
 
 export const clearAudioNarration = (audioDir, scene) => {
+  textCache.delete(recordPath(audioDir, scene));
   rmSync(recordPath(audioDir, scene), { force: true });
 };
 

@@ -3,7 +3,6 @@ import {
   AbsoluteFill,
   Audio,
   Easing,
-  Freeze,
   Img,
   interpolate,
   OffthreadVideo,
@@ -271,8 +270,7 @@ function motionRate(
     : 1;
 }
 
-// Every prop SceneView needs for scene `index`, so the intro hold draws scene 1 exactly as the
-// film will once it starts on that same frame (no jump from a stand-in still).
+// Every prop SceneView needs for scene `index`.
 function sceneViewProps(
   project: ProjectData,
   effects: EffectsConfig,
@@ -490,48 +488,31 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
 }) => {
   const introFrames = project.introSrc ? (project.introFrames ?? 0) : 0;
   const introPadFrames = project.introSrc ? (project.introPadFrames ?? 0) : 0;
-  const film = <ScenePlanFilm project={project} />;
-  if (introFrames <= 0) return film;
-  // The silent hold after the intro shows scene 1 frozen on its first frame, exactly where the
-  // film picks it up, so the picture is already there while the narration waits. Freeze keeps
-  // scene 1's own first frame (motion clip included) instead of a look-alike still.
-  const padFilm =
-    introPadFrames > 0 && project.scenes.length > 0 ? (
-      <Sequence from={introFrames} durationInFrames={introPadFrames}>
-        <Freeze frame={0}>
-          <SceneView
-            {...sceneViewProps(
-              project,
-              resolveEffects(project.branding?.effects),
-              0,
-              sceneTimeline(project.scenes, project.sceneDurations).frames[0],
-              0,
-            )}
-          />
-        </Freeze>
-        {/* The film draws this from its own first frame; drawing it here too keeps the logo from
-            popping in at the cut. It is static, so the two frames match. */}
-        {project.branding && <BrandOverlay branding={project.branding} />}
-      </Sequence>
-    ) : null;
+  if (introFrames <= 0) return <ScenePlanFilm project={project} lead={0} />;
+  // Scene 1 starts moving the moment the intro ends; only its narration (and everything after it,
+  // so scenes stay in sync with their audio) waits `introPadFrames`, so the narrator does not start
+  // on top of the channel voice that ends the intro.
   return (
     <AbsoluteFill style={{ background: COLORS.ink }}>
       <Sequence durationInFrames={introFrames}>
         <IntroClip src={project.introSrc as string} />
       </Sequence>
-      {padFilm}
-      {/* Scenes, audio, captions and branding run on their own clock, started after the intro. */}
       <Sequence
-        from={introFrames + introPadFrames}
+        from={introFrames}
         premountFor={PREMOUNT_SECONDS * project.fps}
       >
-        {film}
+        <ScenePlanFilm project={project} lead={introPadFrames} />
       </Sequence>
     </AbsoluteFill>
   );
 };
 
-const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
+// `lead` frames at the start show scene 1 playing with no narration yet (the silent hold after the
+// intro); audio, captions, the headline card and every later scene are pushed back by it.
+const ScenePlanFilm: React.FC<{ project: ProjectData; lead: number }> = ({
+  project,
+  lead,
+}) => {
   const { frames, starts } = sceneTimeline(
     project.scenes,
     project.sceneDurations,
@@ -569,8 +550,8 @@ const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
           return (
             <React.Fragment key={scene.scene}>
               <Sequence
-                from={starts[i] - overlap}
-                durationInFrames={frames[i] + overlap}
+                from={i === 0 ? 0 : starts[i] + lead - overlap}
+                durationInFrames={frames[i] + overlap + (i === 0 ? lead : 0)}
                 premountFor={PREMOUNT_SECONDS * project.fps}
               >
                 <SceneView
@@ -578,14 +559,14 @@ const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
                     project,
                     effects,
                     i,
-                    frames[i] + overlap,
+                    frames[i] + overlap + (i === 0 ? lead : 0),
                     overlap,
                   )}
                 />
               </Sequence>
               {scene.hasAudio && (
                 <Sequence
-                  from={starts[i]}
+                  from={starts[i] + lead}
                   durationInFrames={frames
                     .slice(i, i + (scene.audioShots ?? 1))
                     .reduce((total, f) => total + f, 0)}
@@ -604,7 +585,10 @@ const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
         <ProjectEffects effects={effects} />
       </AbsoluteFill>
       {project.hasTitleOverlay && titleFrames > 0 && (
-        <Sequence from={starts[titleIndex]} durationInFrames={titleFrames}>
+        <Sequence
+          from={starts[titleIndex] + lead}
+          durationInFrames={titleFrames}
+        >
           <TitleOverlay
             src={staticFile(`${project.publicPrefix}/overlay/news-title.png`)}
             durationInFrames={titleFrames}
@@ -623,10 +607,12 @@ const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
         />
       )}
       {project.branding?.captions?.enabled && (
-        <CaptionTrack
-          groups={project.captionGroups ?? []}
-          style={project.branding.captions}
-        />
+        <Sequence from={lead}>
+          <CaptionTrack
+            groups={project.captionGroups ?? []}
+            style={project.branding.captions}
+          />
+        </Sequence>
       )}
       {project.branding && <BrandOverlay branding={project.branding} />}
     </AbsoluteFill>

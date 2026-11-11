@@ -7,23 +7,30 @@
   "private": true,
   "dependencies": {
     "@remotion/cli": "4.0.507",
+    "@remotion/tailwind-v4": "4.0.507",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.507",
-    "@remotion/tailwind-v4": "4.0.507",
     "tailwindcss": "4.0.0"
   },
   "devDependencies": {
     "@remotion/eslint-config-flat": "4.0.507",
+    "@types/node": "^22.10.0",
     "@types/react": "19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@types/web": "0.0.166",
+    "@vitejs/plugin-react": "^5.0.0",
     "eslint": "9.19.0",
     "prettier": "3.8.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "^7.0.0"
   },
   "scripts": {
     "dev": "node scripts/build-remotion.mjs --stale && remotion studio",
     "review": "node scripts/review-server.mjs",
+    "panel:dev": "vite --config panel/vite.config.ts",
+    "panel:build": "vite build --config panel/vite.config.ts",
+    "panel:check": "tsc --noEmit -p panel/tsconfig.json",
     "sync": "node scripts/sync-media.mjs",
     "setup-maps": "node scripts/setup-map-kit.mjs",
     "setup:services": "node scripts/setup-services.mjs",

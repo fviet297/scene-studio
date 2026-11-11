@@ -22,6 +22,7 @@ import { normaliseForTts } from './lib/tts-text.mjs';
 import { writeAudioNarration } from './lib/audio-narration.mjs';
 import { speechChunks } from './lib/sentence-chunks.mjs';
 import { pausedConcatArgs } from './lib/paused-concat.mjs';
+import { measurePauses, strayPauseCount } from './lib/pause-check.mjs';
 
 const WS_URL = 'ws://127.0.0.1:8765/ws';
 const TEMP_DIR = 'tmp/narration';
@@ -130,7 +131,28 @@ const speechRate = (text, seconds) =>
 
 // Synthesise one chunk, retrying at a lower speed while the result is too rushed to hold all the
 // text. Returns the slowest attempt if none clears MAX_RATE, since that one dropped the least.
+// VieNeu now and then stops for 0.3-0.5s inside a phrase with no punctuation ("Đào Duy ... Từ").
+// It is random, so such a take is thrown away and the chunk synthesised again, up to this many
+// takes; the take with the fewest stray pauses is kept (lib/pause-check.mjs).
+const MAX_TAKES = 3;
+
+const synthesizeCleanTake = async (text, label) => {
+  let best = null;
+  for (let take = 1; take <= MAX_TAKES; take += 1) {
+    const wav = await HTTP_SOURCE.synthesize(text, VOICE);
+    const probe = join(TEMP_DIR, `take-${process.pid}.audio`);
+    writeFileSync(probe, wav);
+    const strays = strayPauseCount(measurePauses(probe), text);
+    if (!best || strays < best.strays) best = { wav, strays };
+    if (strays === 0) break;
+    process.stdout.write(`    ↻ ${label}: ngắt giữa câu ${strays} chỗ (lần ${take}/${MAX_TAKES})${take < MAX_TAKES ? ' — đọc lại' : ' — giữ bản tốt nhất'}
+`);
+  }
+  return { wav: best.wav };
+};
+
 const synthesizeChunk = async (text, label) => {
+  if (HTTP_SOURCE?.sentencePauses) return synthesizeCleanTake(text, label);
   if (HTTP_SOURCE) return { wav: await HTTP_SOURCE.synthesize(text, VOICE) };
   let best = null;
   for (const [attempt, override] of [{}, ...RETRIES].entries()) {

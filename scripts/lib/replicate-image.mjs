@@ -243,16 +243,54 @@ const noReferenceRoute = (scene, t) => (isMapScene(scene)
 // The full prompt string generateSceneImage would send for one scene (template + style + scene
 // prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
 // Routes by declared character count, mirroring generateSceneImage's template choice.
+//
+// /api/state asks for this for every scene on every save, and the result only changes when the
+// scene prompt, its cast or the templates do — so it is memoised on exactly those inputs.
+const promptCache = new Map();
+const PROMPT_CACHE_MAX = 400;
+
+const fingerprint = (text) => {
+  let hash = 5381;
+  for (let i = 0; i < text.length; i += 1) hash = ((hash << 5) + hash + text.charCodeAt(i)) | 0;
+  return hash;
+};
+
+const templatesKeyCache = new WeakMap();
+
+const templatesKey = (templates) => {
+  const cached = templatesKeyCache.get(templates);
+  if (cached) return cached;
+  const key = [
+    fingerprint(templates.styleDna ?? ''),
+    fingerprint(templates.guard ?? ''),
+    fingerprint(templates.masterPrompt ?? ''),
+    fingerprint(templates.faceLockPrompt ?? ''),
+    fingerprint(templates.multiCharPrompt ?? ''),
+    fingerprint(templates.text2img ?? ''),
+    fingerprint(templates.mapPrompt ?? ''),
+  ].join('.');
+  templatesKeyCache.set(templates, key);
+  return key;
+};
+
 export const assemblePrompt = (scene, templates = getTemplates(), aspect = currentAspect()) => {
   const chars = scene.image?.characters ?? [];
   const scenePrompt = scene.image?.prompt ?? '';
-  if (chars.length) {
-    const multi = chars.length > 1;
-    const face = !multi && scene.image?.identity === 'face';
-    const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
-    return buildPrompt(templates, scenePrompt, template, aspect);
-  }
-  return buildPrompt(templates, scenePrompt, noReferenceRoute(scene, templates).template, aspect);
+  const key = [aspect, templatesKey(templates), chars.join(','), scene.image?.identity ?? '', scenePrompt].join('\u0001');
+  const hit = promptCache.get(key);
+  if (hit !== undefined) return hit;
+  const prompt = (() => {
+    if (chars.length) {
+      const multi = chars.length > 1;
+      const face = !multi && scene.image?.identity === 'face';
+      const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
+      return buildPrompt(templates, scenePrompt, template, aspect);
+    }
+    return buildPrompt(templates, scenePrompt, noReferenceRoute(scene, templates).template, aspect);
+  })();
+  if (promptCache.size >= PROMPT_CACHE_MAX) promptCache.delete(promptCache.keys().next().value);
+  promptCache.set(key, prompt);
+  return prompt;
 };
 
 // Default image model for every scene regardless of reference count (single-character,

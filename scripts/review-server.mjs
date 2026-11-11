@@ -95,7 +95,7 @@ import { createServer } from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, unlinkSync, watch, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { basename, dirname, join } from 'node:path';
+import { basename, dirname, extname, join } from 'node:path';
 import { beginChange, historyCounts, redoChange, settleChange, undoChange } from './lib/media-history.mjs';
 import { generateSceneImage, loadEnv, upsertManifest, manifestPath, getTemplates, saveTemplates, activateTemplateVersion, listTemplateVersions, setProjectPaths as setImageProjectPaths, IMAGE_MODELS, assemblePrompt, SEEDREAM_PROMPT_LIMIT } from './lib/replicate-image.mjs';
 import { buildMotionPrompt, generateSceneVideo, MOTION_VIDEO_MODELS } from './lib/motion-video.mjs';
@@ -173,6 +173,26 @@ const PANEL_ASSETS = {
   '/social.js': ['review-social.js', 'text/javascript; charset=utf-8'],
   '/thumbnail-styles.js': ['review-thumbnail-styles.js', 'text/javascript; charset=utf-8'],
   '/thumbnail.js': ['review-thumbnail.js', 'text/javascript; charset=utf-8'],
+};
+
+// The React panel (panel/ builds into scripts/panel-dist) is served under /studio while the
+// legacy HTML panel keeps "/" until the port reaches parity.
+const PANEL_DIST = join(HERE, 'panel-dist');
+const PANEL_DIST_MIME = {
+  html: 'text/html; charset=utf-8',
+  js: 'text/javascript; charset=utf-8',
+  css: 'text/css; charset=utf-8',
+  json: 'application/json; charset=utf-8',
+  map: 'application/json; charset=utf-8',
+  svg: 'image/svg+xml',
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  webp: 'image/webp',
+  ico: 'image/x-icon',
+  woff: 'font/woff',
+  woff2: 'font/woff2',
+  ttf: 'font/ttf',
 };
 
 // The active project's paths. Mutable: POST /api/project and /api/project-create reassign it,
@@ -598,7 +618,8 @@ const normalizeImportChar = (value, charIds) => {
 // Build the per-scene view the panel renders: prompt, char refs, image kind, whether the
 // image/audio exist yet (with an mtime cache-buster so a regenerated file reloads).
 const buildState = () => {
-  const { characters, scenes, motionDuration } = readPlan();
+  const plan = parsePlan(P.slug);
+  const { characters, scenes, motionDuration } = plan;
   const authenticity = readAuthenticity();
   const planRaw = existsSync(P.planMd) ? readFileSync(P.planMd, 'utf8') : '';
   const title = planRaw.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? 'Scenes';
@@ -607,7 +628,8 @@ const buildState = () => {
   for (const s of scenes) for (const id of s.image.characters ?? []) {
     sceneCharMap.set(id, [...(sceneCharMap.get(id) ?? []), s.scene]);
   }
-  const charactersData = parsePlan(P.slug).characterRows;
+  // characterRows comes from the parse above; parsing the plan a second time cost ~25 ms per call.
+  const charactersData = plan.characterRows;
   const characterList = charactersData.map((c) => {
     const refBase = c.image.split(/[\\/]/).pop();
     const refPath = join(P.charDir, refBase);
@@ -622,9 +644,10 @@ const buildState = () => {
   });
 
   const templates = getTemplates();
-  return {
+  const stateAspect = activeAspect();
+  const state = {
     title,
-    project: { slug: P.slug, title, aspect: activeAspect(), template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : ''), motionDuration: motionDuration ?? null },
+    project: { slug: P.slug, title, aspect: stateAspect, template: templates.activeVersion, templateVersions: listTemplateVersions(), audioSource: audioSourceOf(planRaw), voice: readPlanHeader(planRaw, 'voice') ?? (audioSourceOf(planRaw) === 'omnivoice' ? DEFAULT_VOICE : ''), motionDuration: motionDuration ?? null },
     // Corner logo + watermark, so the timeline preview shows what the render will draw.
     branding: brandingPayload(readBranding(P.slug)),
     imageModels: pickerModels('image', IMAGE_MODELS),
@@ -646,7 +669,7 @@ const buildState = () => {
       // Full prompt length (template + style + scene prompt) the image API would receive, and the
       // fixed template overhead (full − scene prompt) so the panel can count live as the user types.
       const isAi = s.image.kind === 'ai';
-      const promptFullChars = isAi ? assemblePrompt(s, templates).length : 0;
+      const promptFullChars = isAi ? assemblePrompt(s, templates, stateAspect).length : 0;
       const promptOverhead = isAi ? promptFullChars - (s.image.prompt?.length ?? 0) : 0;
       return {
         scene: s.scene,
@@ -700,6 +723,7 @@ const buildState = () => {
     characters,
     characterList,
   };
+  return state;
 };
 
 // --- tiny http helpers ---------------------------------------------------------------------
@@ -1365,6 +1389,30 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    if (req.method === 'GET' && (pathname === '/studio' || pathname.startsWith('/studio/'))) {
+      const index = join(PANEL_DIST, 'index.html');
+      if (!existsSync(index)) {
+        res.writeHead(503, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
+        res.end('Panel React chưa được build. Chạy: npm run panel:build');
+        return;
+      }
+      const rel = pathname === '/studio' ? 'index.html' : decodeURIComponent(pathname.slice('/studio/'.length));
+      const file = join(PANEL_DIST, rel);
+      // Unknown paths fall back to index.html: the SPA has no routes yet, but this keeps a deep
+      // link working after a reload instead of a 404.
+      const target = !rel.includes('..') && file.startsWith(PANEL_DIST) && existsSync(file) && statSync(file).isFile()
+        ? file
+        : index;
+      const type = PANEL_DIST_MIME[extname(target).slice(1).toLowerCase()] ?? 'application/octet-stream';
+      // Vite hashes asset names, so only the entry document needs to stay uncached.
+      res.writeHead(200, {
+        'Content-Type': type,
+        'Cache-Control': target === index ? 'no-store' : 'public, max-age=31536000, immutable',
+      });
+      res.end(readFileSync(target));
+      return;
+    }
+
     if (req.method === 'GET' && pathname === '/api/state') {
       sendJson(res, 200, buildState());
       return;
@@ -1560,6 +1608,15 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && pathname === '/preview.js') {
       res.writeHead(200, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(await previewBundle());
+      return;
+    }
+
+    // The built Remotion data that the timeline and the "as rendered" preview read. Served from
+    // disk: build-remotion rewrites it on every plan edit, so reading it costs no rebuild.
+    if (req.method === 'GET' && pathname === '/api/bundle') {
+      const file = join('src', 'projects-data', `${P.slug}.json`);
+      if (!existsSync(file)) { sendJson(res, 404, { error: 'chưa có bundle — chạy build-remotion' }); return; }
+      sendJson(res, 200, JSON.parse(readFileSync(file, 'utf8')));
       return;
     }
 

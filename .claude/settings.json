@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C d:/scene-studio log --oneline -8)",
+      "Bash(grep -nE '^\\(async \\)?function |^const [A-Za-z_$]+ = \\(async \\)?\\\\\\(|^let [A-Za-z_$]+ =|^var [A-Za-z_$]+ =|^const state|^const S =|^let state|^const els|^const dom' review-panel.js)",
+      "Bash(sed -E 's/.*addEventListener//')"
+    ]
+  }
+}

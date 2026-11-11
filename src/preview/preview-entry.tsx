@@ -17,8 +17,13 @@ window.remotion_staticBase = "/public";
 
 type PreviewEvent = "frameupdate" | "play" | "pause" | "ended";
 
+interface MountOptions {
+  /** Native Remotion transport under the frame — the React panel wants it, the legacy timeline draws its own. */
+  controls?: boolean;
+}
+
 interface ScenePreview {
-  mount(host: HTMLElement, project: ProjectData): void;
+  mount(host: HTMLElement, project: ProjectData, options?: MountOptions): void;
   unmount(): void;
   play(): void;
   pause(): void;
@@ -26,12 +31,15 @@ interface ScenePreview {
   setMuted(muted: boolean): void;
   isPlaying(): boolean;
   on(event: PreviewEvent, handler: (frame: number) => void): void;
+  off(event: PreviewEvent, handler: (frame: number) => void): void;
 }
 
 let root: Root | null = null;
 let player: PlayerRef | null = null;
 // Kept here as well as on the player: a remount (mode switch, branding edit) builds a new Player.
 let muted = false;
+// A seek asked for before the Player ref exists (mount → seekTo in the same tick) is applied on attach.
+let pendingSeek: number | null = null;
 const handlers = new Map<PreviewEvent, Set<(frame: number) => void>>();
 
 const emit = (event: PreviewEvent) => {
@@ -44,10 +52,14 @@ const attach = (ref: PlayerRef | null) => {
   player = ref;
   for (const event of ["frameupdate", "play", "pause", "ended"] as const)
     ref.addEventListener(event, () => emit(event));
+  if (pendingSeek !== null) {
+    ref.seekTo(pendingSeek);
+    pendingSeek = null;
+  }
 };
 
 window.scenePreview = {
-  mount(host, project) {
+  mount(host, project, options = {}) {
     root ??= createRoot(host);
     root.render(
       <Player
@@ -58,6 +70,7 @@ window.scenePreview = {
         fps={project.fps}
         compositionWidth={project.width ?? 1080}
         compositionHeight={project.height ?? 1920}
+        controls={options.controls ?? false}
         style={{ width: "100%", height: "100%" }}
         initiallyMuted={muted}
         acknowledgeRemotionLicense
@@ -71,7 +84,10 @@ window.scenePreview = {
   },
   play: () => player?.play(),
   pause: () => player?.pause(),
-  seekTo: (frame) => player?.seekTo(frame),
+  seekTo(frame) {
+    if (player) player.seekTo(frame);
+    else pendingSeek = frame;
+  },
   setMuted(value) {
     muted = value;
     if (value) player?.mute();
@@ -80,5 +96,8 @@ window.scenePreview = {
   isPlaying: () => player?.isPlaying() ?? false,
   on(event, handler) {
     handlers.set(event, (handlers.get(event) ?? new Set()).add(handler));
+  },
+  off(event, handler) {
+    handlers.get(event)?.delete(handler);
   },
 };

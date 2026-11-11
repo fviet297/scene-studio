@@ -19,9 +19,35 @@ export const MAX_HISTORY = 10;
 
 const INDEX = 'index.json';
 
+// /api/state asks for every scene's three indexes, and reading 177 tiny files per panel refresh
+// dominates that call. The parsed text is cached against the file's mtime; writeIndex drops the
+// entry so an undo/redo step never reads a stale index.
+const indexText = new Map();
+
 const readIndex = (dir) => {
+  const file = join(dir, INDEX);
+  let mtimeMs = 0;
   try {
-    return JSON.parse(readFileSync(join(dir, INDEX), 'utf8'));
+    mtimeMs = statSync(file).mtimeMs;
+  } catch {
+    mtimeMs = 0;
+  }
+  const cached = indexText.get(dir);
+  if (cached && cached.mtimeMs === mtimeMs) {
+    return cached.index ? JSON.parse(cached.index) : { undo: [], redo: [] };
+  }
+  let text = null;
+  if (mtimeMs) {
+    try {
+      text = readFileSync(file, 'utf8');
+    } catch {
+      text = null;
+    }
+  }
+  indexText.set(dir, { mtimeMs, index: text });
+  if (text === null) return { undo: [], redo: [] };
+  try {
+    return JSON.parse(text);
   } catch {
     return { undo: [], redo: [] };
   }
@@ -29,6 +55,7 @@ const readIndex = (dir) => {
 
 const writeIndex = (dir, index) => {
   mkdirSync(dir, { recursive: true });
+  indexText.delete(dir);
   writeFileSync(join(dir, INDEX), JSON.stringify(index));
 };
 

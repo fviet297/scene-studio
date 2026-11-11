@@ -47,7 +47,15 @@ export const readNumber = (value) => {
 // Digit runs, including thousands separators ("30.000 quân", "30,000 quân").
 const NUMBER = /\d{1,3}(?:[.,]\d{3})+|\d+/g;
 
-// Rewrite a narration line for the synthesiser. Only numbers change; punctuation and wording
-// are left alone so the delivery still matches what the writer intended.
+// Unit abbreviations that follow a number. Left as-is the voice spells the letters ("3 m" came
+// back as "ba mờ"), so they are read out in full. Only a unit right after a number is touched,
+// and only when it stands alone ("3 m," yes, "3 mâm" no).
+const UNITS = { km: 'ki lô mét', cm: 'xen ti mét', mm: 'mi li mét', m: 'mét', kg: 'ki lô gam', ha: 'héc ta' };
+const NUMBER_UNIT = new RegExp(`(\\d)\\s*(${Object.keys(UNITS).join('|')})(?![\\p{L}\\p{N}])`, 'gu');
+
+// Rewrite a narration line for the synthesiser. Only numbers and the units after them change;
+// punctuation and wording are left alone so the delivery still matches what the writer intended.
 export const normaliseForTts = (text) =>
-  text.replace(NUMBER, (match) => readNumber(match.replace(/[.,]/g, '')));
+  text
+    .replace(NUMBER_UNIT, (_, digit, unit) => `${digit} ${UNITS[unit]}`)
+    .replace(NUMBER, (match) => readNumber(match.replace(/[.,]/g, '')));

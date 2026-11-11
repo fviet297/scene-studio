@@ -17,7 +17,7 @@ char-b = public/projects/luy-thay/characters/char-b.jpg
 
 ## scene 1
 
-title:
+title: 
 cue: dramatic
 host:
 narration: Đêm tháng 11 năm 1672, quân Trịnh phá được một đoạn lũy Trấn Ninh. Đến sáng, đoạn lũy đã đắp lại xong. Chỉ có đất, gỗ và những người đắp lại đoạn tường trong đêm. Quân Trịnh nhìn đoạn lũy mới đắp, rồi rút quân. Đánh sập một đoạn tường không đồng nghĩa với việc mở được đường vào. Đó là lần cuối cùng họ đem đại quân vào Nam.
@@ -52,7 +52,7 @@ title:
 cue: neutral
 host:
 beat: Close top-down map zoomed on the Đồng Hới waist, Quảng Bình: a dashed line measures the roughly 50-kilometre gap between the mountains and the sea, with the Gianh river pinned to the north.
-map: {"view":{"c":"dong-hoi","span":2.5},"year":"~1630","lines":[{"pts":[[106.2,17.47],[106.75,17.47]],"color":"white","dash":true,"w":5,"at":0.6,"dur":1.2}],"labels":[{"text":"~50 km","place":[106.47,17.47],"color":"white","dx":0,"dy":-60,"size":28,"at":2.0}],"pins":[{"place":"song-gianh","color":"yellow","at":4.0}]}
+map: {"view":{"c":[106.4,17.6],"span":5},"year":"~1630","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.5,"at":0.3,"grow":true},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.5,"at":0.9,"grow":true}],"names":[{"text":"ĐÀNG NGOÀI","place":"ha-tinh","color":"orange","size":34,"at":1.4},{"text":"ĐÀNG TRONG","place":[106.85,16.95],"color":"white","size":34,"at":1.8}],"lines":[{"pts":[[106.2,17.47],[106.75,17.47]],"color":"white","dash":true,"w":7,"at":2.4,"dur":1.2}],"labels":[{"text":"~50 km","place":[106.47,17.47],"color":"white","dx":0,"dy":-52,"size":32,"at":3.4},{"text":"Đồng Hới","place":"dong-hoi","color":"white","dx":24,"dy":44,"size":30,"at":4.2}],"pins":[{"place":"song-gianh","color":"yellow","at":5}]}
 
 ## scene 5
 
@@ -60,11 +60,11 @@ title:
 cue: neutral
 host:
 beat: Close top-down map zoomed on Đồng Hới: an orange arrow representing repeated Trịnh advances from the north stops short at a red ring around Lũy Thầy, the main battleground of the forty-five-year war.
-map: {"view":{"c":"dong-hoi","span":2.5},"year":"~1630","arrows":[{"from":[106.3,17.9],"to":"luy-thay","color":"orange","at":0.5,"dur":1.5,"w":12}],"rings":[{"place":"luy-thay","r":55,"color":"red","at":2.5}],"labels":[{"text":"Châu Bố Chính","place":"dong-hoi","color":"white","dx":0,"dy":100,"size":28,"at":4.0}]}
+map: {"view":{"c":[106.4,17.6],"span":5},"year":"~1630","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.5,"at":0.3,"grow":true},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.5,"at":0.9,"grow":true}],"names":[{"text":"ĐÀNG NGOÀI","place":"ha-tinh","color":"orange","size":34,"at":1.4},{"text":"ĐÀNG TRONG","place":[106.85,16.95],"color":"white","size":34,"at":1.8}],"arrows":[{"from":"ha-tinh","to":"luy-thay","color":"orange","at":2.4,"dur":1.8,"w":14}],"rings":[{"place":"luy-thay","r":45,"color":"red","at":4.4}],"labels":[{"text":"Lũy Thầy","place":"luy-thay","color":"white","dx":30,"dy":-34,"size":32,"at":5}]}
 
 ## scene 6
 
-title: Đào Duy Từ
+title: Đào Duy Từ (1572–1634)
 cue: neutral
 host:
 narration: Người đặt tên cho hệ thống lũy này là Đào Duy Từ, sinh năm 1572 ở Thanh Hóa. Ông là con nhà hát xướng, ở Đàng Ngoài không được dự thi, nên vào Nam. Ông dâng lên chúa Nguyễn Phúc Nguyên bài Ngọa Long cương, được chúa gọi là Thầy. Vì vậy dân gọi hệ thống lũy này là Lũy Thầy. Ông mất ngày 17 tháng 10 năm Giáp Tuất, tức ngày 7 tháng 12 năm 1634, thọ 63 tuổi.
@@ -87,7 +87,7 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 8
 
-title: Năm 1627: Đại Quân Vào Nam
+title: Lần Một, 1627
 cue: tense
 host:
 narration: Trước khi có lũy, tháng 3 năm 1627, Trịnh Tráng đem đại quân vào đánh, theo sử cũ là hai mươi vạn quân thủy bộ, rước vua Lê đi cùng. Hai đạo quân hội nhau ở cửa Nhật Lệ, đúng nơi sau này lũy Nhật Lệ được đắp. Phía Nguyễn có các tướng Nguyễn Hữu Dật, Nguyễn Vệ và Nguyễn Phúc Trung đón đánh. Quân Trịnh rút về. Trận này cho thấy Đàng Ngoài mạnh hơn hẳn, và Đàng Trong phải tìm một cách giữ đất khác.
@@ -121,7 +121,7 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 11
 
-title:
+title: Mâm Đồng Hai Đáy, 1630
 cue: dramatic
 host:
 narration: Năm 1630, Trịnh Tráng sai sứ mang sắc vua Lê vào bắt chúa Nguyễn nộp thuế và cho con ra chầu. Đào Duy Từ bày kế nhận sắc, rồi sai người đem sắc trả lại, giấu trong một cái mâm đồng hai đáy. Một cái mâm, hai đáy, và một lời từ chối không cần nói thành lời. Sau lần ấy, Đàng Trong biết mình phải tự giữ lấy đất của mình.
@@ -149,7 +149,7 @@ cue: neutral
 host:
 narration: Cùng năm 1630, lũy Trường Dục được đắp, dài khoảng 10 km, cao khoảng 3 m, chạy từ chân núi Thần Đinh, dọc sông Rào Đá, đến phá Hạc Hải. Đó là bức lũy đầu tiên trong hệ thống, đắp cùng năm với vụ mâm đồng hai đáy. Nó không cao, không dày bằng những bức lũy đắp sau, nhưng nó mở đầu cho một cách giữ đất mới, dựa vào đất, sông và núi thay vì dựa vào số quân.
 beat: Close top-down map of the Trường Dục line in Quảng Bình, 1630: a red wall line starts at Núi Thần Đinh in the west and draws east along the Rào Đá river.
-map: {"view":{"c":[106.48,17.38],"span":2.3},"year":"1630","lines":[{"pts":[[106.40,17.335],[106.46,17.36],[106.52,17.40],[106.55,17.42]],"color":"red","dash":false,"w":10,"at":1.0,"dur":1.5}],"labels":[{"text":"Núi Thần Đinh","place":[106.40,17.335],"color":"white","dx":-120,"dy":-20,"size":28,"at":0.5}]}
+map: {"view":{"c":[106.45,17.45],"span":3.6},"year":"1630","names":[{"text":"QUẢNG BÌNH","place":[106.1,17.9],"color":"white","size":34,"at":0.2}],"lines":[{"pts":[[106.4,17.335],[106.46,17.36],[106.52,17.4],[106.55,17.42]],"color":"red","dash":false,"w":10,"at":1.5,"dur":1.5}],"labels":[{"text":"Núi Thần Đinh","place":[106.4,17.335],"color":"white","dx":-130,"dy":-24,"size":28,"at":0.8},{"text":"Đồng Hới","place":"dong-hoi","color":"white","dx":50,"dy":90,"size":30,"at":3.4}]}
 
 ## scene 14
 
@@ -157,11 +157,11 @@ title:
 cue: neutral
 host:
 beat: Close top-down map at the Hạc Hải lagoon end of the Trường Dục line, 1630: the lagoon is labelled and the line's start point pinned, marking the first wall built in the system.
-map: {"view":{"c":[106.52,17.40],"span":2.0},"year":"1630","labels":[{"text":"Phá Hạc Hải","place":[106.55,17.42],"color":"white","dx":100,"dy":20,"size":28,"at":1.0}],"pins":[{"place":[106.46,17.36],"color":"red","at":2.0}],"rings":[{"place":[106.55,17.42],"r":50,"color":"red","at":3.0}]}
+map: {"view":{"c":[106.5,17.45],"span":3},"year":"1630","labels":[{"text":"Phá Hạc Hải","place":[106.55,17.42],"color":"white","dx":140,"dy":-50,"size":28,"at":1},{"text":"Đồng Hới","place":"dong-hoi","color":"white","dx":60,"dy":150,"size":30,"at":1.6}],"pins":[{"place":[106.46,17.36],"color":"red","at":2.2}],"rings":[{"place":[106.55,17.42],"r":45,"color":"red","at":3}],"names":[{"text":"QUẢNG BÌNH","place":[106.1,17.8],"color":"white","size":34,"at":0.2}]}
 
 ## scene 15
 
-title:
+title: Lũy Nhật Lệ, 1631
 cue: neutral
 host:
 narration: Năm 1631, lũy Nhật Lệ được đắp, còn gọi là lũy Thầy hay lũy Đồng Hới. Lũy dài khoảng 12 km, cao khoảng 6 m, gấp đôi lũy Trường Dục, chạy từ núi Đầu Mâu ra cửa biển Nhật Lệ. Mặt ngoài ốp gỗ lim, mặt trong đắp 5 bậc cho voi ngựa đi lại. Cứ một trượng đặt một khẩu súng quá sơn, cách 3 đến 5 trượng lập một pháo đài. Nhờ cách bố trí ấy, dọc 12 km lũy không có khoảng trống lớn. Đây là bức lũy chính, vừa là tường thành, vừa là trận địa pháo.
@@ -199,7 +199,7 @@ cue: hopeful
 host:
 narration: Năm 1634, lũy Trường Sa được đắp ở Bảo Ninh, dài 7 km, do Nguyễn Hữu Dật đắp. Năm 1662, đắp thêm lũy Trấn Ninh và lũy Sa Phụ, khi chiến tranh đã kéo dài hơn 30 năm. Gộp lại, cả hệ thống dài khoảng 34 km, khóa kín dải đất hẹp ở Quảng Bình. Mỗi bức lũy đắp vào một năm khác nhau, nhưng chúng cùng làm một việc, biến một vùng đất hẹp thành một cửa ải mà đại quân khó vượt qua.
 beat: Medium top-down map at Đồng Hới, 1634: the Trường Dục and Nhật Lệ wall segments stand drawn and labelled.
-map: {"view":{"c":"dong-hoi","span":2.8},"year":"1634","lines":[{"pts":[[106.40,17.335],[106.46,17.36],[106.52,17.40],[106.55,17.42]],"color":"red","dash":false,"w":8,"at":0.4,"dur":1},{"pts":[[106.50,17.44],[106.58,17.46],[106.63,17.47]],"color":"red","dash":false,"w":8,"at":1.5,"dur":1}],"labels":[{"text":"Trường Dục","place":[106.46,17.36],"color":"white","dx":-110,"dy":-10,"size":26,"at":0.7},{"text":"Nhật Lệ","place":"dong-hoi","color":"white","dx":30,"dy":-40,"size":28,"at":2.0}]}
+map: {"view":{"c":[106.45,17.5],"span":4.2},"year":"1634","names":[{"text":"QUẢNG BÌNH","place":[106.1,17.9],"color":"white","size":32,"at":0.2}],"lines":[{"pts":[[106.4,17.335],[106.46,17.36],[106.52,17.4],[106.55,17.42]],"color":"red","dash":false,"w":9,"at":0.6,"dur":1},{"pts":[[106.5,17.44],[106.58,17.46],[106.63,17.47]],"color":"red","dash":false,"w":9,"at":1.8,"dur":1}],"labels":[{"text":"Trường Dục","place":[106.46,17.36],"color":"white","dx":-120,"dy":-10,"size":28,"at":1},{"text":"Nhật Lệ","place":"dong-hoi","color":"white","dx":34,"dy":-44,"size":30,"at":2.6}]}
 
 ## scene 19
 
@@ -207,7 +207,7 @@ title:
 cue: hopeful
 host:
 beat: Medium top-down map at Đồng Hới, 1662: the Trường Sa segment joins the line and a name reveals the system's total length of about 34 kilometres.
-map: {"view":{"c":"dong-hoi","span":2.8},"year":"1662","lines":[{"pts":[[106.60,17.47],[106.615,17.465]],"color":"red","dash":false,"w":8,"at":0.5,"dur":0.8}],"labels":[{"text":"Trường Sa","place":[106.63,17.47],"color":"white","dx":60,"dy":30,"size":26,"at":1.5}],"names":[{"text":"34 KM","place":[106.54,17.40],"color":"yellow","size":34,"at":3.0}]}
+map: {"view":{"c":[106.45,17.5],"span":3.4},"year":"1662","lines":[{"pts":[[106.4,17.335],[106.46,17.36],[106.52,17.4],[106.55,17.42]],"color":"red","dash":false,"w":9,"at":0.3,"dur":0.8},{"pts":[[106.5,17.44],[106.58,17.46],[106.63,17.47]],"color":"red","dash":false,"w":9,"at":1.1,"dur":0.8},{"pts":[[106.6,17.47],[106.615,17.465]],"color":"red","dash":false,"w":9,"at":1.9,"dur":0.8}],"labels":[{"text":"Trường Dục","place":[106.46,17.36],"color":"white","dx":-120,"dy":40,"size":28,"at":0.8},{"text":"Nhật Lệ","place":[106.55,17.45],"color":"white","dx":-150,"dy":-50,"size":28,"at":1.6},{"text":"Trường Sa","place":[106.63,17.47],"color":"white","dx":70,"dy":70,"size":28,"at":2.4}],"names":[{"text":"34 KM","place":[106.15,17.8],"color":"yellow","size":40,"at":3.2}]}
 
 ## scene 20
 
@@ -268,7 +268,7 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 25
 
-title:
+title: Lần Ba, 1643
 cue: tense
 host:
 narration: Năm 1643, Trịnh Tráng rước vua Lê vào lần ba. Trịnh Tạc chỉ huy tiền quân, chiếm lại Bắc Bố Chính, giết tướng Nguyễn là Bùi Công Thắng, rồi đóng quân ở cửa Nhật Lệ. Bắc Bố Chính mất, nhưng lũy Nhật Lệ vẫn đứng. Vì trời nóng nực, quân Trịnh phải rút. Cùng năm đó, tháng 6 năm 1643, ba tàu chiến Hà Lan vào cửa Thuận An đánh chúa Nguyễn theo lời nhờ của chúa Trịnh, và bị thủy quân Nguyễn Phúc Tần đánh bại. Đàng Ngoài đã ba lần đến tận cửa Nhật Lệ mà phải quay về.
@@ -378,12 +378,12 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 35
 
-title:
+title: Thứ Nhất: Đất Hẹp
 cue: neutral
 host:
 narration: Phần trả lời thứ nhất nằm ở đất. Chỗ Đồng Hới là nơi đất nước hẹp nhất, chỉ khoảng 50 km từ núi ra biển. Đại quân muốn vào Nam phải đi qua đúng dải đất hẹp này, và sông Gianh lại chắn ngang. Quân Trịnh có thể đi bằng đường biển, như đã làm ở cửa Nhật Lệ, nhưng đường biển cũng dẫn đến đúng cửa lũy. Lũy đắp đúng vào cổ chai đó. Đối thủ mạnh hơn, nhưng ở đúng chỗ này, mạnh hơn không đồng nghĩa với đi qua được.
 beat: Close top-down map of the Đồng Hới waist, Quảng Bình: a dashed line marks the roughly 50-kilometre gap between the mountains and the sea.
-map: {"view":{"c":"dong-hoi","span":2.3},"year":"1630","lines":[{"pts":[[106.2,17.47],[106.75,17.47]],"color":"white","dash":true,"w":5,"at":0.6,"dur":1.2}],"labels":[{"text":"~50 km","place":[106.47,17.47],"color":"white","dx":0,"dy":-50,"size":30,"at":2.0}]}
+map: {"view":{"c":[106.4,17.6],"span":5.5},"year":"1630","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.5,"at":0.3,"grow":true},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.5,"at":0.9,"grow":true}],"names":[{"text":"ĐÀNG NGOÀI","place":"ha-tinh","color":"orange","size":34,"at":1.4},{"text":"ĐÀNG TRONG","place":[106.85,16.95],"color":"white","size":34,"at":1.8}],"lines":[{"pts":[[106.2,17.47],[106.75,17.47]],"color":"white","dash":true,"w":7,"at":2.4,"dur":1.2}],"labels":[{"text":"~50 km","place":[106.47,17.47],"color":"white","dx":0,"dy":-52,"size":32,"at":3.4},{"text":"Đồng Hới","place":"dong-hoi","color":"white","dx":24,"dy":44,"size":30,"at":4.2}]}
 
 ## scene 36
 
@@ -391,11 +391,11 @@ title:
 cue: neutral
 host:
 beat: Close top-down map of the same Đồng Hới waist: the Sông Gianh boundary line is marked running north to south.
-map: {"view":{"c":"dong-hoi","span":2.3},"year":"1630","lines":[{"pts":[[106.47,17.97],[106.47,17.6]],"color":"yellow","dash":true,"w":5,"at":0.5,"dur":1}],"labels":[{"text":"Sông Gianh","place":"song-gianh","color":"yellow","dx":-140,"dy":30,"size":26,"at":2.0}]}
+map: {"view":{"c":[106.4,17.8],"span":5.5},"year":"1630","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.5,"at":0.3,"grow":true},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.5,"at":0.9,"grow":true}],"names":[{"text":"ĐÀNG NGOÀI","place":"ha-tinh","color":"orange","size":34,"at":1.4},{"text":"ĐÀNG TRONG","place":[106.85,16.95],"color":"white","size":34,"at":1.8}],"lines":[{"pts":[[106.47,17.97],[106.47,17.6]],"color":"yellow","dash":true,"w":7,"at":2.4,"dur":1}],"labels":[{"text":"Sông Gianh","place":"song-gianh","color":"yellow","dx":-150,"dy":34,"size":30,"at":3.6},{"text":"Đồng Hới","place":"dong-hoi","color":"white","dx":24,"dy":44,"size":30,"at":4.4}]}
 
 ## scene 37
 
-title:
+title: Thứ Hai: Cách Đắp
 cue: neutral
 host:
 narration: Phần trả lời thứ hai nằm ở cách đắp. Lũy Nhật Lệ cao khoảng 6 m, bằng chiều cao một ngôi nhà hai tầng, mặt ngoài ốp gỗ lim, mặt trong có 5 bậc cho voi ngựa đi lại. Cứ một trượng đặt một khẩu súng quá sơn, cách 3 đến 5 trượng lập một pháo đài. Đây không phải một bờ đất đắp vội, mà là một trận địa có chiều sâu, vừa che người giữ, vừa bắn ra ngoài. Đánh vào lũy là đánh vào một nơi đã chuẩn bị sẵn để đón mình.
@@ -428,7 +428,7 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 40
 
-title:
+title: Thứ Ba: Cách Giữ
 cue: dramatic
 host:
 narration: Phần trả lời thứ ba nằm ở cách giữ. Bức tường cho người giữ quyền chọn lúc đánh, lúc thủ. Năm 1633, quân Trịnh chờ nội ứng không đến, Nguyễn Hữu Dật đánh ra và thắng. Năm 1643, quân Trịnh đến cửa Nhật Lệ rồi phải rút vì nóng nực. Năm 1648, quân Nguyễn cố thủ ở Trường Dục, rồi đem voi chiến đánh ra khi thời cơ đến. Bức tường không đánh thay người, nhưng nó cho người giữ đất được đánh vào lúc mình muốn.
@@ -440,7 +440,7 @@ motion_vi: Làm cho bức minh họa lịch sử này chuyển động thành m�
 
 ## scene 41
 
-title: Ngoại Lệ: Đánh Ra Bắc
+title: Ngoại Lệ: Đánh Ra Bắc, 1655
 cue: somber
 host:
 narration: Chỉ có một lần Đàng Trong chủ động đánh ra Bắc. Tháng 4 năm 1655, Nguyễn Hữu Tiến và Nguyễn Hữu Dật vượt sông Gianh, chiếm bảy huyện phía nam sông Lam, giữ suốt năm năm. Bảy huyện ấy là Kỳ Hoa, Thạch Hà, Thiên Lộc, Nghi Xuân, La Sơn, Hương Sơn và Thanh Chương. Năm 1660, quân Trịnh phản công do Trịnh Căn chỉ huy. Nguyễn Hữu Tiến rút quân mà không báo cho Nguyễn Hữu Dật, Hữu Dật phải tự mở đường về, bảy huyện mất lại hết. Từ đó, Đàng Trong trở về sau lũy.
@@ -457,7 +457,7 @@ map: {"view":"bac-trung-bo","year":"1660","arrows":[{"from":"nghe-an","to":"ha-t
 
 ## scene 43
 
-title:
+title: Lần Năm, 1661
 cue: tense
 host:
 narration: Tháng 10 năm 1661 đến tháng 3 năm 1662, Trịnh Tạc rước vua Lê vào, Trịnh Căn chia ba đường đánh lũy, nhưng cả ba đường đều gặp cùng một bức tường. Nguyễn Hữu Dật dùng kế vườn không nhà trống, dồn dân vào trong lũy. Quân Trịnh đánh mấy tháng không hạ được lũy, đến tháng 3 năm 1662 mệt mỏi vì khí hậu và lương thực hao hụt nên phải rút. Lại một lần nữa, bức tường không cần thắng trận, chỉ cần đứng yên cho đến khi đối phương tự rút.
@@ -517,7 +517,7 @@ motion: Animate this historical illustration into a dynamic cinematic shot with 
 
 ## scene 49
 
-title:
+title: Cả Hai Cùng Dừng
 cue: somber
 host:
 narration: Từ đó, hai bên ngừng đánh, lấy sông Gianh làm ranh giới. Đàng Ngoài ở phía bắc, Đàng Trong ở phía nam, và hai bên không đánh nhau nữa trong nhiều năm sau đó. Không có hòa ước, không có lễ ký kết. Chỉ là hai bên đều mệt. Cuộc chiến kéo dài 45 năm kết thúc không bằng một trận thắng, mà bằng việc cả hai bên cùng dừng lại.

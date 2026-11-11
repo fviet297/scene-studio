@@ -644,9 +644,12 @@ function seekTo(seconds) {
     Math.min(t - clips[index].start, clips[index].seconds),
   );
   if (isRenderMode()) {
+    // The very start of the timeline is frame 0, so the intro plays before scene 1.
     if (tlRender.project)
       window.scenePreview?.seekTo(
-        Math.round(t * tlRender.project.fps) + playerIntroFrames(),
+        t > 0
+          ? Math.round(t * tlRender.project.fps) + playerIntroFrames()
+          : 0,
       );
   } else if (tl.playing) startMedia(clips[index]);
   syncPlayhead(clips);
