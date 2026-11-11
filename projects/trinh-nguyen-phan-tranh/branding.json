@@ -1,5 +1,5 @@
 {
-  "name": "FVIET",
+  "name": "",
   "logo": {
     "enabled": true,
     "position": "top-right",
@@ -13,11 +13,16 @@
     "enabled": true,
     "opacity": 0.08
   },
-  "captions": {
+  "intro": {
     "enabled": true,
+    "padSeconds": 1.5
+  },
+  "captions": {
+    "enabled": false,
     "font": "be-vietnam",
     "size": 48,
     "strokeWidth": 7,
+    "strokeColor": "#000000",
     "backgroundOpacity": 0.42,
     "uppercase": false,
     "highlight": "karaoke",
@@ -28,7 +33,18 @@
     "unspokenColor": "#ffffff"
   },
   "title": {
-    "font": "charm"
+    "enabled": true,
+    "font": "anton",
+    "size": 52,
+    "color": "#ffd31a",
+    "strokeWidth": 8,
+    "strokeColor": "#000000",
+    "backgroundOpacity": 0,
+    "uppercase": true,
+    "shadow": true,
+    "scrim": true,
+    "position": "bottom",
+    "offsetY": 0
   },
   "effects": {
     "vignette": true,
@@ -40,11 +56,11 @@
     },
     "layers": {
       "fog": {
-        "enabled": false,
+        "enabled": true,
         "intensity": 50
       },
       "lightRays": {
-        "enabled": false,
+        "enabled": true,
         "intensity": 50
       },
       "dust": {
@@ -56,8 +72,8 @@
         "intensity": 50
       },
       "embers": {
-        "enabled": false,
-        "intensity": 50
+        "enabled": true,
+        "intensity": 80
       },
       "rain": {
         "enabled": false,

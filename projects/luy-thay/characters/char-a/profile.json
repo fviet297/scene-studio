@@ -1,0 +1,21 @@
+{
+  "character_id": "char-a",
+  "name": "Dao Duy Tu",
+  "display_name": "Đào Duy Từ",
+  "aliases": ["Đào Công", "Thầy"],
+  "country": "Đại Việt (Đàng Trong, chúa Nguyễn)",
+  "period": "1572-1634, early 17th century",
+  "dynasty": "Chúa Nguyễn (Đàng Trong)",
+  "role": "Scholar barred from the Ming-era exam system for his family's hát xướng background; fled south, became chief strategist and advisor to chúa Nguyễn Phúc Nguyên, proposed and oversaw the Lũy Thầy defensive line",
+  "known_facts": [
+    "Born 1572 in Thanh Hóa; barred from sitting the Đàng Ngoài exams because his family worked as hát xướng (theatrical/singing) performers, a stigmatized occupation",
+    "Went south to Đàng Trong and presented the poem 'Ngọa Long Cương' to chúa Nguyễn Phúc Nguyên, who honored him with the title 'Thầy' (Teacher) — the origin of the name 'Lũy Thầy' for the wall system he later proposed",
+    "In 1630, when Trịnh Tráng sent an edict demanding tribute and a son sent to court, devised the double-bottomed bronze tray (mâm đồng hai đáy) to return the edict without open confrontation, signaling Đàng Trong's refusal to submit",
+    "Proposed and directed the 1630 construction of Lũy Trường Dục, the first wall in the system, running from Núi Thần Đinh along sông Rào Đá to phá Hạc Hải",
+    "Died 17th day of the 10th lunar month, year Giáp Tuất, i.e. 7 December 1634, aged 63",
+    "His death and chúa Nguyễn Phúc Nguyên's death the following year (1635) left the walls he proposed to be maintained and tested by later generals, chiefly Nguyễn Hữu Dật"
+  ],
+  "interpretation": "Early 17th-century Vietnamese scholar-advisor in plain dark court dress, based on the user reference.",
+  "unknowns": ["No verified contemporary portrait survives"],
+  "reference": "public/projects/luy-thay/characters/char-a.png"
+}

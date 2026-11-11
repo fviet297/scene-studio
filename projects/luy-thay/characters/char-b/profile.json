@@ -1,0 +1,21 @@
+{
+  "character_id": "char-b",
+  "name": "Nguyen Huu Dat",
+  "display_name": "Nguyễn Hữu Dật",
+  "aliases": [],
+  "country": "Đại Việt (Đàng Trong, chúa Nguyễn)",
+  "period": "active 1627-1672, 17th century",
+  "dynasty": "Chúa Nguyễn (Đàng Trong)",
+  "role": "Nguyễn general; defended the Lũy Thầy line across nearly every major Trịnh offensive from 1627 to 1672, built Lũy Trường Sa in 1634, and commanded the final defense at age seventy in 1672",
+  "known_facts": [
+    "One of the Nguyễn generals (with Nguyễn Vệ and Nguyễn Phúc Trung) who met Trịnh Tráng's first invasion at cửa Nhật Lệ in 1627, before any wall existed there",
+    "Built Lũy Trường Sa at Bảo Ninh in 1634, the third wall in the system, about 7 km long",
+    "In 1633, when Trịnh Tráng's second invasion stalled waiting over ten days for a promised but never-delivered signal from an inside collaborator, led the sortie that broke the Trịnh camp and forced its retreat",
+    "Led the 1655-1660 Đàng Trong offensive north of sông Gianh with Nguyễn Hữu Tiến, holding seven districts south of sông Lam (Kỳ Hoa, Thạch Hà, Thiên Lộc, Nghi Xuân, La Sơn, Hương Sơn, Thanh Chương) for five years before Trịnh Căn's 1660 counterattack retook them",
+    "In the 1661-1662 siege, used a scorched-earth tactic (vườn không nhà trống), moving the local population inside the walls, until Trịnh forces withdrew in March 1662 from exhaustion and supply shortage",
+    "In 1672, aged about seventy, commanded the defense of Lũy Trấn Ninh together with Nguyễn Phúc Hiệp (Chúa Hiền's fourth son) against the last major Trịnh offensive, which withdrew after heavy losses"
+  ],
+  "interpretation": "17th-century Vietnamese Nguyễn general in lacquered leather lamellar armor, based on the user reference.",
+  "unknowns": ["No verified contemporary portrait survives"],
+  "reference": "public/projects/luy-thay/characters/char-b.png"
+}

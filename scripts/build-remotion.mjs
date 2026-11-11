@@ -146,9 +146,14 @@ for (const slug of targets) {
   const branding = readBranding(slug);
   const intro = branding.intro.enabled ? introInfo() : null;
   const introFrames = intro ? Math.max(1, Math.round(intro.seconds * FPS)) : 0;
-  const durationInFrames = scenesFrames + introFrames;
+  // Silent hold after the intro's last frame, before scene 1's narration: the intro ends on the
+  // channel voice and the narrator starts on a different one, so a short gap keeps them apart.
+  const introPadFrames = intro ? Math.round(branding.intro.padSeconds * FPS) : 0;
+  const durationInFrames = scenesFrames + introFrames + introPadFrames;
+  // Scenes whose picture is not AI-made — the user's own upload, or a map drawn by code
+  // (map-render.mjs) — so the video shows no "AI phục dựng" tag on them.
   const uploadedScenes = assetManifest
-    .filter((m) => m.authenticity === 'USER_UPLOAD')
+    .filter((m) => m.authenticity === 'USER_UPLOAD' || m.authenticity === 'CODE_MAP')
     .map((m) => m.scene);
 
   const data = {
@@ -160,7 +165,7 @@ for (const slug of targets) {
     publicPrefix: paths.staticPrefix,
     fps: FPS,
     durationInFrames,
-    ...(intro ? { introSrc: intro.src, introFrames } : {}),
+    ...(intro ? { introSrc: intro.src, introFrames, introPadFrames } : {}),
     // audioShots: on a narration's scene, how many scenes (itself + its extra shots) its audio
     // plays across.
     scenes: scenes.map((s) => ({ ...s, hasAudio: hasAudio(s), ...(s.shotOf ? {} : { audioShots: s.shotCount }) })),
@@ -185,7 +190,10 @@ for (const slug of targets) {
   };
   writeFileSync(bundlePath(slug), `${JSON.stringify(data, null, 2)}\n`);
   built.push(slug);
-  process.stdout.write(`Built ${slug}: ${scenes.length} scenes, ${captionGroups.length} caption groups, ${(durationInFrames / FPS).toFixed(1)}s${introFrames ? ` (gồm intro ${(introFrames / FPS).toFixed(1)}s)` : ''}${allAudioReady ? '' : ' (audio incomplete — no captions)'}\n`);
+  const introNote = introFrames
+    ? ` (gồm intro ${(introFrames / FPS).toFixed(1)}s${introPadFrames ? ` + lặng ${(introPadFrames / FPS).toFixed(1)}s` : ''})`
+    : '';
+  process.stdout.write(`Built ${slug}: ${scenes.length} scenes, ${captionGroups.length} caption groups, ${(durationInFrames / FPS).toFixed(1)}s${introNote}${allAudioReady ? '' : ' (audio incomplete — no captions)'}\n`);
 }
 
 // Every project whose bundle exists on disk stays in the index, so rebuilding one project keeps

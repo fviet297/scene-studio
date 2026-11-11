@@ -4,6 +4,7 @@ import { deliveryBand } from "./delivery-band";
 import type { CaptionStyle } from "./CaptionTrack";
 import type { TitleStyle } from "./SceneTitle";
 import type { EffectsConfig } from "./effects/types";
+import { useCaptionFont } from "./caption-fonts";
 
 // Channel branding over the whole render: a corner logo + name, and a large faint centre
 // watermark that makes a cropped re-upload still carry the mark. Settings come from
@@ -45,7 +46,10 @@ export interface Branding {
 }
 
 const DEFAULT_LOGO_SRC = "brand/logo.svg";
-const FONT = "Arial, sans-serif";
+// The brand name is drawn in the bundled Be Vietnam Pro (caption-fonts.ts), not a system font:
+// Arial has no 900 weight, so the browser faked a bold that misplaced the stacked Vietnamese marks
+// (ệ, ể) at badge size, and a system font draws differently on every machine.
+const BRAND_FONT = "be-vietnam";
 
 // Gap between the logo and the brand name under it, in delivered pixels.
 const BADGE_GAP = 4;
@@ -79,6 +83,7 @@ function CornerBadge({
   logoSrc: string;
 }) {
   const { width, height } = useVideoConfig();
+  const font = useCaptionFont(BRAND_FONT);
   const band = deliveryBand(width, height);
   const { unit, isWide } = band;
   const cropInset = branding.anchor === "frame" ? 0 : band.cropInset;
@@ -118,8 +123,8 @@ function CornerBadge({
       {name && (
         <span
           style={{
-            fontFamily: FONT,
-            fontWeight: 900,
+            fontFamily: font.family,
+            fontWeight: font.weight,
             fontSize: px(branding.textSize),
             lineHeight: 1,
             letterSpacing: "0.14em",
@@ -146,6 +151,7 @@ function CentreWatermark({
   logoSrc: string;
 }) {
   const { width, height } = useVideoConfig();
+  const font = useCaptionFont(BRAND_FONT);
   const { bandWidth, unit } = deliveryBand(width, height);
   return (
     <AbsoluteFill
@@ -163,8 +169,8 @@ function CentreWatermark({
       {name && (
         <span
           style={{
-            fontFamily: FONT,
-            fontWeight: 900,
+            fontFamily: font.family,
+            fontWeight: font.weight,
             fontSize: Math.round(WATERMARK_TEXT * unit),
             letterSpacing: "0.2em",
             color: "white",

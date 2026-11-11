@@ -22,7 +22,8 @@
 //   POST /api/prompt          → { scene, prompt } → write prompt back into the plan .md
 //   POST /api/narration       → { scene, narration } → write narration back into the plan .md
 //   POST /api/scenes-update   → { scenes:[{scene,narration?,cue?,char?,beat?,prompt?,prompt_vi?,camera?,action?,env?,…_vi?,motion?,motion_vi?}] } bulk patch (full-script editor + JSON import)
-//   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char|duration back into the plan .md
+//   POST /api/scene-field     → { scene, field, value } → write title|cue|host|char|duration|map back into the plan .md
+//                               (map: a JSON map spec, checked before it is saved; blank removes it)
 //   POST /api/character-create → { id, name } → add a character to the plan + create its profile.json
 //   GET  /api/character-library → every other project's characters, most recently updated first
 //   GET  /library-characters/<slug>/<file> → another project's character reference image
@@ -47,7 +48,8 @@
 //   GET  /api/thumbnail-backgrounds → the active project's AI thumbnail backgrounds, newest first
 //   POST /api/thumbnail-generate → { model, prompt, chars, side } → one 16:9 AI background, SSE
 //   POST /api/thumbnail-lettering → { model, image, kicker, lines, styleHint, side } → that picture with AI-drawn headline, SSE
-//   POST /api/generate        → { scene } → run Replicate for that one AI scene
+//   POST /api/generate        → { scene } → run Replicate for that one AI scene; a map scene is drawn by
+//                               code instead (still + clip, lib/map-render.mjs), its map spec written first if missing
 //   POST /api/edit-image      → { scene, model, instruction } → edit that scene's existing image: only the typed change, the rest of the picture kept (scene-image-edit.mjs); streamed over SSE
 //   POST /api/upload?scene=N  → raw image body → use the user's own photo for that scene
 //   POST /api/upload-motion-video?scene=N → raw MP4/MOV body → replace that scene's motion video
@@ -91,7 +93,7 @@ import { execFile, execFileSync, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createServer } from 'node:http';
 import { randomUUID } from 'node:crypto';
-import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, unlinkSync, watch, writeFileSync, statSync } from 'node:fs';
+import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, unlinkSync, watch, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { basename, dirname, join } from 'node:path';
 import { beginChange, historyCounts, redoChange, settleChange, undoChange } from './lib/media-history.mjs';
@@ -101,7 +103,7 @@ import { activePaths, ensureProjectDirs, isValidSlug, listProjects, OUTPUT_DIR, 
 import { ASPECTS, aspectInfo, parsePlanAspect } from './lib/aspect.mjs';
 import { parsePlan } from './lib/parse-plan.mjs';
 import { parseMinDuration } from './lib/scene-timing.mjs';
-import { parseMotionDuration } from './lib/shot-timing.mjs';
+import { flexibleShotSeconds, parseMotionDuration, shotGroups } from './lib/shot-timing.mjs';
 import { mediaDuration } from './lib/media-duration.mjs';
 import { suggestCharacterProfile } from './lib/profile-writer.mjs';
 import { addCharacterToPlan, appendScene, characterRefPath, closeSceneGap, hasSceneHeading, insertScene, mergeScenes, MOTION_PART_KEYS, readPlanHeader, removePlanHeader, removeScene, removeSceneField, renderScenePlan, writeCharacterPath, writeMotionParts, writePlanHeader, writeSceneField } from './lib/plan-writer.mjs';
@@ -133,6 +135,9 @@ import { generateCharacterImage, MAX_CHARACTER_DESCRIPTION } from './lib/charact
 import { editSceneImage, MAX_EDIT_INSTRUCTION } from './lib/scene-image-edit.mjs';
 import { ensureThumbnail, thumbWidth } from './lib/image-thumb.mjs';
 import { clipMotionTrim } from './lib/motion-tail.mjs';
+import { isMapScene } from './lib/map-image.mjs';
+import { isMapKitInstalled, MAP_KIT_MISSING, mapClipSeconds, normalizeMapSpec, renderMapScene } from './lib/map-render.mjs';
+import { loadMapVocabulary, writeMapSpec } from './lib/map-spec-writer.mjs';
 
 loadEnv();
 initModelConfig();
@@ -287,6 +292,71 @@ const afterMediaChange = (kind, n, source) => {
   // A new image retires the scene's clip from the render (parse-plan.mjs drops its motionVideo flag).
   if (kind === 'image' && existsSync(motionPathFor(n))) rebuildBundles();
 };
+// Map scenes (lib/map-image.mjs isMapScene) are drawn by code, never by an image or motion model:
+// the H2 map kit installed outside the repo (lib/map-render.mjs) renders the still and the clip
+// from the scene's `map:` spec. A map scene without a spec yet gets one written by the LLM from its
+// narration, beat and image prompt (lib/map-spec-writer.mjs) and saved into the plan first.
+const MAP_FPS = 30;
+const mapManifestEntry = (n, spec) => ({
+  id: sceneBase(n), scene: n, type: 'code_map',
+  subject: `Map scene ${n}`, source: 'Vẽ bằng code (bộ bản đồ H2): nền NASA Blue Marble, đường bờ Natural Earth', sourceUrl: null,
+  license: 'Nền NASA Blue Marble và dữ liệu Natural Earth (public domain); ranh giới các thời kỳ là ước lượng',
+  credit: 'Bản đồ vẽ bằng code', authenticity: 'CODE_MAP', characters: [], map: spec,
+});
+const ensureMapSpec = async (plan, target, log, signal) => {
+  if (target.image.map) return target.image.map;
+  log('• chưa có đặc tả bản đồ (map:) — LLM viết từ lời đọc và prompt ảnh');
+  const owner = plan.scenes.find((x) => x.scene === (target.shotOf ?? target.scene));
+  const spec = await writeMapSpec({
+    aspect: activeAspect(), narration: owner?.narration ?? '', beat: target.beat ?? '', prompt: target.image.prompt ?? '',
+    vocab: await loadMapVocabulary(), signal, onLog: log,
+  });
+  writeSceneField(P.planMd, target.scene, 'map', JSON.stringify(spec));
+  log(`✓ đã lưu map: ${JSON.stringify(spec).slice(0, 400)}`);
+  return spec;
+};
+// A map clip can be any length, so it is sized to its share of the narration — what a still would
+// get beside the group's other clips (shot-timing.mjs flexibleShotSeconds) — and the group ends with
+// its narration instead of running on over silence. Requires the owner's audio: see renderSceneMap.
+const mapTargetSeconds = (plan, target) => {
+  const audioPath = ownerAudioPath(target);
+  const group = shotGroups(plan.scenes).find((g) => g.members.some((i) => plan.scenes[i].scene === target.scene));
+  const shots = group.members.map((i) => {
+    const s = plan.scenes[i];
+    const flexible = isMapScene(s);
+    return { clip: s.motionVideo && !flexible ? mediaDuration(motionPathFor(s.scene)) : 0, minDuration: s.duration, flexible };
+  });
+  const index = group.members.findIndex((i) => plan.scenes[i].scene === target.scene);
+  return flexibleShotSeconds({ audio: mediaDuration(audioPath), shots, index });
+};
+const renderSceneMap = async (plan, target, { log, signal }) => {
+  if (!isMapKitInstalled()) throw new Error(MAP_KIT_MISSING);
+  // The clip's length comes from its share of the narration audio (mapTargetSeconds below). Without
+  // audio yet that share is unknown, so a guessed length would likely be wrong — too short (the map
+  // then gets stretched/slowed to fill the real narration once audio lands) or too long (dead air at
+  // the end). Require audio first instead of guessing.
+  if (!existsSync(ownerAudioPath(target))) {
+    throw new Error(`scene ${target.scene}: chưa có audio — sinh audio cho narration trước khi vẽ bản đồ (độ dài bản đồ tính theo audio)`);
+  }
+  const n = target.scene;
+  const spec = await ensureMapSpec(plan, target, log, signal);
+  const seconds = mapClipSeconds({ target: mapTargetSeconds(plan, target), minimum: target.duration });
+  const workDir = join(HERE, '..', 'tmp', 'map-render', `${P.slug}-${sceneBase(n)}`);
+  log(`▶ vẽ bản đồ scene ${n} bằng code (${seconds}s, ${activeAspect()})`);
+  const { image, video } = await renderMapScene({ spec, aspect: activeAspect(), seconds, fps: MAP_FPS, workDir, signal, onLog: (line) => log(`  ${line}`) });
+  signal?.throwIfAborted();
+  mkdirSync(P.imageDir, { recursive: true });
+  mkdirSync(P.sceneVideoDir, { recursive: true });
+  // Image first: the clip written next is then recorded as animated from this image.
+  await trackMediaChange('image', n, () => {
+    copyFileSync(image, imagePathFor(n));
+    upsertManifest(mapManifestEntry(n, spec));
+  });
+  await trackMediaChange('motion', n, () => copyFileSync(video, motionPathFor(n)));
+  rmSync(workDir, { recursive: true, force: true });
+  return { via: 'bản đồ vẽ bằng code' };
+};
+
 const stepMedia = (step, kind, n) => {
   const restored = step(mediaHistoryDir(kind, n), mediaPath(kind, n), mediaMeta(kind, n));
   if (restored && kind === 'audio') {
@@ -572,7 +642,7 @@ const buildState = () => {
       const motionPath = join(P.sceneVideoDir, sceneVideoFile(s.scene));
       const hasMotionVideo = existsSync(motionPath);
       // uploaded photo, AI reconstruction, or a sourced search image — drives the AI tag.
-      const source = authenticity[s.scene] === 'USER_UPLOAD' ? 'upload' : s.image.kind;
+      const source = authenticity[s.scene] === 'USER_UPLOAD' ? 'upload' : authenticity[s.scene] === 'CODE_MAP' ? 'map' : s.image.kind;
       // Full prompt length (template + style + scene prompt) the image API would receive, and the
       // fixed template overhead (full − scene prompt) so the panel can count live as the user types.
       const isAi = s.image.kind === 'ai';
@@ -589,6 +659,9 @@ const buildState = () => {
         source,
         prompt: s.image.prompt ?? '',
         promptVi: s.image.promptVi ?? '',
+        // A map scene is drawn by code (lib/map-render.mjs); map = its spec as JSON text ('' = none yet).
+        isMap: isMapScene(s),
+        map: s.image.map ? JSON.stringify(s.image.map) : '',
         beat: s.beat ?? '',
         // The full prompt a motion video would be sent with (see sceneMotionPrompt).
         motionPrompt: sceneMotionPrompt(s),
@@ -862,18 +935,24 @@ const generateImagesBatch = async (res, sceneNos, model) => {
   const plan = readPlan();
   let ok = 0;
   let attempted = 0;
+  let mapsDrawn = 0;
   sseSend(res, 'log', `image batch: ${sceneNos.length} scene(s), model=${model || 'auto (by reference count)'}`);
   for (const n of sceneNos) {
     if (signal.aborted) return;
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     if (target.image.kind !== 'ai') { sseSend(res, 'log', `• scene ${n} is a search scene — skipped`); continue; }
-    if (!target.image.prompt) { sseSend(res, 'log', `✗ scene ${n} has no prompt — skipped`); continue; }
+    const isMap = isMapScene(target);
+    if (!target.image.prompt && !isMap) { sseSend(res, 'log', `✗ scene ${n} has no prompt — skipped`); continue; }
     attempted++;
     const started = Date.now();
     sseSend(res, 'log', `▶ generating scene ${n}...`);
     try {
-      const { via } = await trackMediaChange('image', n, () => generateSceneImage(target, plan.characters, { model, signal, onLog: (line) => sseSend(res, 'log', `  ${line}`) }));
+      const onLog = (line) => sseSend(res, 'log', `  ${line}`);
+      const { via } = isMap
+        ? await renderSceneMap(plan, target, { log: onLog, signal })
+        : await trackMediaChange('image', n, () => generateSceneImage(target, plan.characters, { model, signal, onLog }));
+      if (isMap) mapsDrawn++;
       ok++;
       sseSend(res, 'log', `✓ scene ${n} (${via}, ${secondsSince(started)}) — ${ok}/${sceneNos.length} ảnh thành công`);
     } catch (e) {
@@ -881,6 +960,8 @@ const generateImagesBatch = async (res, sceneNos, model) => {
       sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
     }
   }
+  // A map scene also wrote its clip, which the bundle's motion flags have to pick up.
+  if (mapsDrawn) await rebuildBundles((event, data) => sseSend(res, event, data));
   sseSend(res, ok === attempted ? 'done' : 'error', `Generated ${ok}/${attempted} scene image(s).`);
   res.end();
 };
@@ -900,6 +981,19 @@ const generateMotionVideosBatch = async (res, sceneNos, model) => {
     const target = plan.scenes.find((s) => s.scene === n);
     if (!target) { sseSend(res, 'log', `✗ scene ${n} not found`); continue; }
     const started = Date.now();
+    if (isMapScene(target)) {
+      // A map scene's clip is drawn by code with its still, not animated by a motion model.
+      attempted++;
+      try {
+        await renderSceneMap(plan, target, { log: (line) => sseSend(res, 'log', `  ${line}`), signal });
+        ok++;
+        sseSend(res, 'log', `✓ scene ${n} bản đồ vẽ bằng code (${secondsSince(started)}) — ${ok}/${sceneNos.length} video thành công`);
+      } catch (e) {
+        if (signal.aborted) { console.log(`[motion batch] cancelled at scene ${n}`); break; }
+        sseSend(res, 'log', `✗ scene ${n}: ${e.message}`);
+      }
+      continue;
+    }
     const imagePath = join(P.imageDir, sceneFile(n));
     if (!existsSync(imagePath)) {
       sseSend(res, 'log', `• scene ${n} skipped: no image yet`);
@@ -983,7 +1077,7 @@ const generatePromptsBatch = async (res, sceneNos) => {
       const characters = buildCharacterContext(target.image.characters, P.profilesDir);
       const { text, vi } = await generateScenePrompt({ ...source, characters, identity: target.image.identity });
       writeSceneField(P.planMd, n, 'prompt', text);
-      writeSceneField(P.planMd, n, 'prompt_vi', vi);
+      if (vi) writeSceneField(P.planMd, n, 'prompt_vi', vi);
       ok++;
       sseSend(res, 'log', `✓ scene ${n} (${secondsSince(started)}): ${text.slice(0, 90)}${text.length > 90 ? '…' : ''}`);
     } catch (e) { sseSend(res, 'log', `✗ scene ${n}: ${e.message}`); }
@@ -1210,7 +1304,7 @@ const generateScriptProject = async (res, input) => {
   try {
     // story.scenes are shots: a narration's first shot carries it, its extra shots have none.
     const { story, visuals, motions } = await writeVideo({
-      request: input.request, sceneCount: input.sceneCount, style: input.style,
+      request: input.request, sceneCount: input.sceneCount, style: input.style, aspect: input.aspect,
       motionSeconds: input.motionDuration === undefined ? undefined : parseMotionDuration(input.motionDuration).value,
       signal, onLog: log,
       onProgress: (progress) => sseSend(res, 'progress', progress),
@@ -1224,8 +1318,8 @@ const generateScriptProject = async (res, input) => {
       title: story.title,
       characters: Object.fromEntries(story.characters.map((c) => [c.id, refPath(c.id)])),
       scenes: story.scenes.map((s) => ({
-        scene: s.scene, cue: s.cue, char: s.chars.join(', '), narration: s.narration, beat: s.visual,
-        ...visuals.get(s.scene), // prompt, prompt_vi — absent when its batch failed
+        scene: s.scene, cue: s.cue, char: s.chars.join(', '), narration: s.narration, beat: s.visual, title: s.title,
+        ...visuals.get(s.scene), // prompt, prompt_vi — or map for a map drawn by code; absent when its batch failed
         ...motions.get(s.scene), // camera, action, env + their _vi — absent when its batch failed
       })),
     });
@@ -1710,7 +1804,7 @@ const server = createServer(async (req, res) => {
       // patch keyed by scene: only the fields present are written, verbatim, with no derived-field
       // clearing (a prompt edit keeps prompt_vi, a narration edit keeps the prompt, etc.). New
       // scene numbers are appended. `char` accepts an id/comma-string/array/"both"/"none".
-      const STRING_FIELDS = ['narration', 'cue', 'beat', 'prompt', 'prompt_vi', 'motion', 'motion_vi', ...MOTION_PART_KEYS];
+      const STRING_FIELDS = ['narration', 'cue', 'beat', 'prompt', 'prompt_vi', 'map', 'motion', 'motion_vi', ...MOTION_PART_KEYS];
       const body = await readBody(req);
       const rows = Array.isArray(body) ? body : Array.isArray(body?.scenes) ? body.scenes : null;
       if (!rows || !rows.length) { sendJson(res, 400, { error: 'expected an array of {scene, ...fields} or {scenes:[...]}' }); return; }
@@ -1760,12 +1854,20 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && pathname === '/api/scene-field') {
       const { scene, field, value } = await readBody(req);
-      const allowed = ['char', 'host', 'title', 'cue', 'duration'];
+      const allowed = ['char', 'host', 'title', 'cue', 'duration', 'map'];
       if (!Number.isFinite(scene) || !allowed.includes(field) || typeof value !== 'string') {
-        sendJson(res, 400, { error: 'scene, field (char|host|title|cue|duration) and value required' });
+        sendJson(res, 400, { error: 'scene, field (char|host|title|cue|duration|map) and value required' });
         return;
       }
-      if (field === 'duration') {
+      if (field === 'map') {
+        // A map spec is saved only when it parses; blank removes it (the scene goes back to its prompt).
+        if (!value.trim()) removeSceneField(P.planMd, scene, 'map');
+        else {
+          let spec;
+          try { spec = normalizeMapSpec(value); } catch (e) { sendJson(res, 400, { error: e.message }); return; }
+          writeSceneField(P.planMd, scene, 'map', JSON.stringify(spec));
+        }
+      } else if (field === 'duration') {
         // Blank clears the scene's minimum; anything else must parse, so a typo never sits in the plan.
         const { value: seconds, error } = parseMinDuration(value);
         if (error) { sendJson(res, 400, { error }); return; }
@@ -2084,7 +2186,7 @@ const server = createServer(async (req, res) => {
         const { text, vi } = await generateScenePrompt({ ...source, characters, identity: target.image.identity });
         console.log(`[prompt scene ${scene}] ${describeLlm()} · ${secondsSince(started)} · ${text.length} chars`);
         writeSceneField(P.planMd, scene, 'prompt', text);
-        writeSceneField(P.planMd, scene, 'prompt_vi', vi);
+        if (vi) writeSceneField(P.planMd, scene, 'prompt_vi', vi);
         sendJson(res, 200, { ok: true, scene, prompt: text, promptVi: vi });
       });
       return;
@@ -2168,10 +2270,28 @@ const server = createServer(async (req, res) => {
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
       if (target.image.kind !== 'ai') { sendJson(res, 400, { error: `scene ${scene} is a search scene, not AI` }); return; }
-      if (!target.image.prompt) { sendJson(res, 400, { error: `scene ${scene} has no prompt yet` }); return; }
+      const isMap = isMapScene(target);
+      if (!target.image.prompt && !isMap) { sendJson(res, 400, { error: `scene ${scene} has no prompt yet` }); return; }
       sseHead(res);
       const log = (line) => { console.log(`[image scene ${scene}] ${line}`); sseSend(res, 'log', line); };
       const signal = cancelSignal(res);
+      if (isMap) {
+        // A map scene: still + clip drawn by code, no image model (renderSceneMap).
+        await trackJob(res, async () => {
+          try {
+            const started = Date.now();
+            const { via } = await renderSceneMap(plan, target, { log, signal });
+            await rebuildBundles((event, data) => sseSend(res, event, data));
+            sseSend(res, 'done', `Scene ${scene}: ${via} (${secondsSince(started)})`);
+          } catch (e) {
+            if (signal.aborted) { console.log(`[image scene ${scene}] cancelled`); return; }
+            log(`error: ${e.message}`);
+            sseSend(res, 'error', e.message);
+          }
+        });
+        res.end();
+        return;
+      }
       await trackJob(res, async () => {
         try {
           const started = Date.now();
@@ -2401,6 +2521,26 @@ const server = createServer(async (req, res) => {
       const plan = readPlan();
       const target = plan.scenes.find((s) => s.scene === scene);
       if (!target) { sendJson(res, 404, { error: `scene ${scene} not found` }); return; }
+      if (isMapScene(target)) {
+        // A map scene's clip is drawn by code together with its still (renderSceneMap).
+        sseHead(res);
+        const log = (line) => { console.log(`[map scene ${scene}] ${line}`); sseSend(res, 'log', line); };
+        const signal = cancelSignal(res);
+        await trackJob(res, async () => {
+          try {
+            const started = Date.now();
+            const { via } = await renderSceneMap(plan, target, { log, signal });
+            await rebuildBundles((event, data) => sseSend(res, event, data));
+            sseSend(res, 'done', `Scene ${scene}: ${via} (${secondsSince(started)})`);
+          } catch (e) {
+            if (signal.aborted) { console.log(`[map scene ${scene}] cancelled`); return; }
+            log(`error: ${e.message}`);
+            sseSend(res, 'error', e.message);
+          }
+        });
+        res.end();
+        return;
+      }
       const editedParts = MOTION_FIELDS.some((f) => typeof body[f] === 'string') ? body : undefined;
       const imagePath = join(P.imageDir, sceneFile(scene));
       if (!existsSync(imagePath)) { sendJson(res, 400, { error: `scene ${scene} has no image yet` }); return; }

@@ -48,15 +48,19 @@ test('both styles ask for the JSON shape the parsers read', () => {
     const { story, visuals, motion } = stylePrompts(style);
     assert.match(story, /"through_line": "\.\.\.", "setting"/);
     assert.match(story, /display_name; aliases/, 'the cast field list is shared');
-    assert.match(visuals, /"prompt_vi": "\.\.\."/);
-    if (motion) assert.match(motion, /"camera_vi": "\.\.\."/);
+    assert.match(visuals, /"prompt": "\.\.\."/);
+    assert.doesNotMatch(visuals, /"prompt_vi"/);
+    if (motion) {
+      assert.match(motion, /"camera": "\.\.\."/);
+      assert.doesNotMatch(motion, /"camera_vi"/);
+    }
   }
 });
 
 test('standard story prompt lets the writer mark spatial lines as map scenes', () => {
   const { story } = stylePrompts('standard');
   assert.match(story, /MAP SCENES — lines that are about geography/);
-  assert.match(story, /"map": false\}\]\}/);
+  assert.match(story, /"map": false, "title": ""\}\]\}/);
   assert.match(story, /never more than two map scenes in a row/);
   assert.match(story, /Hoàng Sa in the north, Trường Sa in the south/);
 });
@@ -79,12 +83,12 @@ test('standard story prompt casts one id per life stage of a person', () => {
 test('flattenShots turns a narration split into shots into scenes, narration on the first shot only', async () => {
   const { flattenShots } = await import('./script-writer.mjs');
   const scenes = [
-    { scene: 1, cue: 'tense', chars: ['char-a'], narration: 'Câu một dài.', visual: 'one', map: false },
+    { scene: 1, cue: 'tense', chars: ['char-a'], narration: 'Câu một dài.', visual: 'one', map: false, title: 'Nguyễn Phúc Nguyên (1563–1635) - Chúa Sãi' },
     { scene: 2, cue: 'neutral', chars: [], narration: 'Câu hai.', visual: 'two', map: false },
   ];
   const split = new Map([[1, [{ visual: 'one-a', chars: ['char-a'], map: false }, { visual: 'one-b', chars: [], map: false }]]]);
   assert.deepEqual(flattenShots(scenes, split), [
-    { scene: 1, cue: 'tense', chars: ['char-a'], narration: 'Câu một dài.', visual: 'one-a', map: false },
+    { scene: 1, cue: 'tense', chars: ['char-a'], narration: 'Câu một dài.', visual: 'one-a', map: false, title: 'Nguyễn Phúc Nguyên (1563–1635) - Chúa Sãi' },
     { scene: 2, cue: 'tense', chars: [], narration: '', visual: 'one-b', map: false },
     { scene: 3, cue: 'neutral', chars: [], narration: 'Câu hai.', visual: 'two', map: false },
   ]);

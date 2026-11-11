@@ -62,7 +62,10 @@ export const groupShotSeconds = ({ audio, shots }) => {
     // Clips plus the stills' minimum overrun the narration: cut the last motion shot so the group
     // ends with the narration instead of playing on over silence.
     const motionBudget = audio - share * stills;
-    if (motionSeconds > motionBudget) {
+    // Only a real motion shot can be cut; with none (motionSeconds 0, e.g. an all-map group whose
+    // clips aren't rendered yet), motionBudget is 0 by construction but float error can make it
+    // compare as negative — skip the cut instead of indexing a motion shot that does not exist.
+    if (motionSeconds > 0 && motionSeconds > motionBudget) {
       const last = shots.map(isMotion).lastIndexOf(true);
       const before = sum(shots.slice(0, last).filter(isMotion).map((s) => s.clip));
       const tail = Math.min(shots[last].clip, Math.max(motionBudget - before, MIN_TAIL_SHOT_SECONDS));
@@ -78,6 +81,16 @@ export const groupShotSeconds = ({ audio, shots }) => {
   }
   const stretch = motionSeconds > 0 && motionSeconds < audio ? audio / motionSeconds : 1;
   return shots.map((s) => floor(s, s.clip * stretch));
+};
+
+// The length to render a flexible shot at — a map drawn by code (map-render.mjs), whose clip can
+// be any length — so its group ends with its narration instead of running on over silence: the
+// share a still would get, with every flexible shot of the group counted as a still. `shots`: as
+// groupShotSeconds takes them, plus `flexible: true` on the map shots. null while there is no audio.
+export const flexibleShotSeconds = ({ audio, shots, index }) => {
+  if (audio === null || audio === undefined) return null;
+  const asStills = shots.map((s) => (s.flexible ? { ...s, clip: 0 } : s));
+  return Number(groupShotSeconds({ audio, shots: asStills })[index].toFixed(2));
 };
 
 // Rough spoken length of a Vietnamese narration line, from its letter count.

@@ -2,7 +2,7 @@
 
 motion-duration: 10
 
-voice: NamLichSu
+voice: Hải Đăng
 
 audio: vieneu
 
@@ -24,7 +24,7 @@ char-f = public/projects/trinh-nguyen-phan-tranh/characters/char-f.jpg
 title: Hai đạo quân, một vua Lê
 cue: dramatic
 host:
-narration: Năm 1627, hai đạo quân chuẩn bị đối đầu ở hai miền đất nước. Cả hai đều nhân danh phò tá vua Lê, nhưng không bên nào chịu đặt quyền lực của mình dưới sự kiểm soát của bên kia.
+narration: Năm 1627, hai đạo quân đối mặt ở hai miền đất nước. Cả hai đều nhân danh phò tá vua Lê. Vậy vì sao họ lại đánh nhau suốt 45 năm?
 char: char-a, char-b
 prompt: Wide windswept coastal sand plain in central Đại Việt under a storm-grey sky, 1627; two armies face each other across an open stretch of dunes and scrub. The two figures sit on horseback small and off-centre at about one-fifth frame height at opposite edges of the plain, each before his own host: northern ranks under plain solid-crimson cloth banners, no emblem or lettering, southern ranks under plain solid-indigo cloth banners, no emblem or lettering. Soldiers with East-Asian faces in lacquered leather lamellar vests, rattan shields and conical straw hats; elephants behind. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh đồng cát ven biển lộng gió ở miền trung Đại Việt dưới bầu trời xám bão, năm 1627; hai đạo quân đối mặt nhau qua một dải cồn cát và cây bụi trống trải. Hai nhân vật ngồi trên lưng ngựa, nhỏ, lệch tâm, cao khoảng một phần năm khung hình, ở hai mép đối diện của đồng cát, mỗi người trước đạo quân của mình: hàng quân phía bắc dưới cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, hàng quân phía nam dưới cờ vải chàm trơn, không phù hiệu hay chữ viết. Binh lính gương mặt Đông Á mặc giáp phiến da sơn mài, khiên mây và nón lá; voi chiến phía sau. Không yếu tố nhà Thanh, nhà Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -41,14 +41,8 @@ title: Đàng Ngoài và Đàng Trong
 cue: neutral
 host:
 narration: Ở phía bắc là chúa Trịnh, nắm triều đình và điều hành vùng Đàng Ngoài. Ở phía nam là chúa Nguyễn, xây dựng một chính quyền tự chủ tại Đàng Trong.
-prompt: Wide illustrated top-down relief map of Đại Việt in the early 17th century, hand-painted watercolour on aged paper; the S-shaped land runs from the northern delta down a narrow coast between mountains and sea. The northern half is washed in soft crimson, the southern strip from the Hoành Sơn spur down to the Quảng Nam coast in soft indigo, a thin pale gap of mountains between them. Tiny sailing junks dot the coast, cloud shadows drift over the mountains; in the Biển Đông, the Hoàng Sa and Trường Sa island groups appear as small scattered islets in place. No labels, lettering or year badge. No Qing, Ming or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống của Đại Việt đầu thế kỷ 17, vẽ màu nước trên giấy cũ; dải đất hình chữ S trải từ châu thổ phía bắc xuống dải ven biển hẹp giữa núi và biển. Nửa phía bắc phủ sắc đỏ thẫm nhạt, dải phía nam từ nhánh Hoành Sơn xuống bờ biển Quảng Nam phủ sắc chàm nhạt, một khe núi nhạt màu ngăn giữa. Thuyền buồm nhỏ rải dọc bờ biển, bóng mây trôi trên núi; trên Biển Đông, quần đảo Hoàng Sa và Trường Sa hiện là những cụm đảo nhỏ rải rác đúng vị trí. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh hay châu Âu.
-camera: The camera flies slowly down the length of the country from the northern delta to the southern coast.
-camera_vi: Máy quay bay chậm dọc chiều dài đất nước từ châu thổ phía bắc xuống bờ biển phía nam.
-action: The crimson wash blooms outward across the north, then the indigo wash spreads down the southern strip until the two colours meet at the mountain spur.
-action_vi: Lớp màu đỏ thẫm loang dần khắp phía bắc, rồi lớp màu chàm lan xuống dải đất phía nam cho tới khi hai màu gặp nhau ở nhánh núi.
-env: Tiny junks glide along the coast, the sea shimmers, and cloud shadows sweep across the mountains.
-env_vi: Thuyền buồm nhỏ lướt dọc bờ biển, mặt biển lấp lánh và bóng mây quét qua dãy núi.
+beat: Map of early-17th-century Đại Việt split into Đàng Ngoài under the Trịnh and Đàng Trong under the Nguyễn, with the Hoành Sơn spur between them.
+map: {"view":"viet-nam","year":"~1600","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.6,"at":0.4,"grow":true},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"at":0.9,"grow":true}],"labels":[{"text":"Chúa Trịnh","place":"thang-long","color":"orange","dx":-180,"dy":-20,"size":32,"at":1.3},{"text":"Chúa Nguyễn","place":"phu-xuan","color":"red","dx":150,"dy":-40,"size":32,"at":1.9}],"names":[{"text":"Đàng Ngoài","place":"nghe-an","color":"yellow","size":40,"at":2.3},{"text":"Đàng Trong","place":"quang-ngai","color":"white","size":40,"at":2.7}],"lines":[{"pts":[[105.7,18.15],[106.4,18],[107.1,17.75]],"color":"yellow","dash":true,"w":6,"at":3.1,"dur":1}]}
 
 ## scene 3
 
@@ -83,23 +77,16 @@ env_vi: Sương sớm tan khỏi đồi, cờ đỏ thẫm bay trong gió và kh
 
 ## scene 5
 
-char:
+cue: neutral
 beat: Map of Nguyễn Hoàng's 1558 journey from Thanh Hóa south past the Hoành Sơn spur to Thuận Hóa, an indigo route drawing itself along the coast.
-prompt: Wide illustrated top-down relief map of central Đại Việt in 1558, hand-painted watercolour on aged paper, region scale; green mountain ranges press a narrow coastal plain against the sea, the Hoành Sơn spur running down to the shore as a dark ridge. A thin indigo route line runs from the Thanh Hóa plain south along the coast, past the spur, to a river lagoon in Thuận Hóa marked by a small indigo ring. Tiny sailing junks and a column of porters follow the route, cloud shadows drift over the ridges, the sea glints. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống miền trung Đại Việt năm 1558, màu nước trên giấy cũ, tầm vùng; các dãy núi xanh ép dải đồng bằng ven biển hẹp sát biển, nhánh Hoành Sơn chạy ra tận bờ như một sống núi sẫm. Một đường tuyến màu chàm mảnh chạy từ đồng bằng Thanh Hóa xuống phía nam dọc bờ biển, qua nhánh núi, tới một đầm phá ở Thuận Hóa được đánh dấu bằng vòng tròn chàm nhỏ. Thuyền buồm nhỏ và một đoàn phu theo tuyến đường, bóng mây trôi trên sống núi, mặt biển lấp lánh. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow drift southward along the coast following the route line.
-camera_vi: Máy quay trôi chậm về phía nam dọc bờ biển theo đường tuyến.
-action: The indigo route draws itself from the northern plain past the mountain spur, then the ring at Thuận Hóa pulses and an indigo wash spreads around it.
-action_vi: Đường tuyến chàm tự vẽ từ đồng bằng phía bắc qua nhánh núi, rồi vòng tròn ở Thuận Hóa nhấp nháy và lớp màu chàm loang ra quanh đó.
-env: Tiny junks sail south along the route, waves glint on the shore, and cloud shadows slide over the ridges.
-env_vi: Thuyền buồm nhỏ xuôi nam theo tuyến, sóng lấp lánh trên bờ và bóng mây lướt qua sống núi.
+map: {"view":[104.5,15.8,108.4,20.4],"year":"1558","regions":[{"r":"goc","color":"#e0a526","alpha":0.55,"grow":false,"at":0.3},{"r":"manh-1069","color":"#d8383a","alpha":0.6,"grow":true,"at":2},{"r":"manh-1306","color":"#d8383a","alpha":0.6,"grow":true,"at":2.2},{"r":"manh-1471","color":"#d8383a","alpha":0.6,"grow":true,"at":2.4}],"labels":[{"text":"Thanh Hóa","place":"thanh-hoa","color":"orange","dx":-180,"dy":-40,"size":32,"at":0.4},{"text":"Hoành Sơn","place":"hoanh-son","color":"brown","dx":120,"dy":30,"size":32,"at":1.5},{"text":"Thuận Hóa","place":"thuan-hoa","color":"red","dx":140,"dy":-170,"size":34,"at":2.8}],"lines":[{"pts":["thanh-hoa",[106,19.4],[106.3,18.9],"hoanh-son","dong-hoi",[106.9,17.1],[107.3,16.8],"thuan-hoa"],"color":"yellow","dash":false,"w":6,"at":0.8,"dur":2.2}],"rings":[{"place":"thuan-hoa","r":50,"color":"red","at":3.2}]}
 
 ## scene 6
 
 title: Chính quyền Thuận – Quảng
 cue: neutral
 host:
-narration: Đến đời Nguyễn Phúc Nguyên, chính quyền Thuận – Quảng ngày càng tự chủ. Trong khi đó, họ Trịnh vẫn kiểm soát triều đình ở miền Bắc và muốn duy trì quyền chi phối đối với vùng đất phía nam.
+narration: Đến đời Nguyễn Phúc Nguyên, chính quyền Thuận Quảng ngày càng tự chủ. Trong khi đó, họ Trịnh vẫn kiểm soát triều đình ở miền Bắc và muốn duy trì quyền chi phối đối với vùng đất phía nam.
 char: char-b
 prompt: Wide open-sided timber hall of the Nguyễn administration in Thuận Hóa on a bright morning, early 17th century; the character sits small and off-centre at about one-fifth frame height behind a low lacquered table on a raised wooden floor, overseeing the work. Clerks with East-Asian faces in plain cotton robes and black khăn headcloths record tax rolls, while farmers in conical straw hats carry rice baskets up the steps to wooden scales; plain solid-indigo cloth banners, no emblem or lettering, hang outside; rice paddies and a river beyond. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh một sảnh gỗ mở bốn phía của chính quyền họ Nguyễn ở Thuận Hóa vào một buổi sáng sáng sủa, đầu thế kỷ 17; nhân vật ngồi nhỏ, lệch tâm, khoảng một phần năm khung hình sau chiếc bàn sơn mài thấp trên sàn gỗ cao, giám sát công việc. Thư lại gương mặt Đông Á mặc áo vải, khăn đen ghi sổ thuế, trong khi nông dân đội nón lá khiêng thúng lúa lên bậc tới cân gỗ; cờ vải chàm trơn, không phù hiệu hay chữ viết, treo bên ngoài; ruộng lúa và dòng sông phía xa. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -130,7 +117,7 @@ env_vi: Gió nâng các góc tờ chiếu, hai bên cờ quật theo những lu�
 title: Trịnh Tráng kế vị
 cue: dramatic
 host:
-narration: Năm 1623, Trịnh Tráng kế vị Trịnh Tùng. Ông muốn củng cố quyền lực của họ Trịnh và đưa Thuận – Quảng trở lại dưới sự kiểm soát của miền Bắc. Nguyễn Phúc Nguyên không chấp nhận mất quyền tự chủ mà gia tộc mình đã gây dựng qua nhiều thập kỷ.
+narration: Năm 1623, Trịnh Tráng kế vị Trịnh Tùng. Ông muốn củng cố quyền lực của họ Trịnh và đưa Thuận Quảng trở lại dưới sự kiểm soát của miền Bắc. Nguyễn Phúc Nguyên không chấp nhận mất quyền tự chủ mà gia tộc mình đã gây dựng qua nhiều thập kỷ.
 char: char-a
 prompt: Wide throne courtyard of the Trịnh lord's palace at Thăng Long on a clear spring morning, 1623; the character stands small and off-centre at about one-fifth frame height at the top of broad stone steps under a red-lacquered timber gate pavilion, while rows of officials with East-Asian faces in dark robes and black winged caps kneel and bow on both sides of the paved court. Guards in lacquered leather lamellar vests hold halberds, plain solid-crimson cloth banners, no emblem or lettering, line the walls, low wide tiled roofs and old banyan trees behind. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sân chầu trong phủ chúa Trịnh ở Thăng Long vào một buổi sáng xuân trong trẻo, năm 1623; nhân vật đứng nhỏ, lệch tâm, khoảng một phần năm khung hình trên đỉnh bậc đá rộng dưới cổng lầu gỗ sơn đỏ, trong khi hàng quan lại gương mặt Đông Á mặc áo sẫm, mũ cánh chuồn đen quỳ lạy hai bên sân lát đá. Lính mặc giáp phiến da sơn mài cầm kích, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, dọc tường, mái ngói thấp rộng và cây đa cổ phía sau. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -143,6 +130,7 @@ env_vi: Cờ đỏ thẫm bay trong gió xuân, lá đa rung rinh và khói hư�
 
 ## scene 9
 
+cue: dramatic
 char: char-b
 beat: Nguyễn Phúc Nguyên on a coastal earthen rampart in Thuận Hóa sets aside a northern demand scroll and turns to his officers.
 prompt: Wide high earthen rampart above a river estuary in Thuận Hóa at windy late afternoon, 1620s; the character stands small and off-centre at about one-fifth frame height on the rampart walk, holding a rolled document at his side and looking north across the water. Behind him officers with East-Asian faces in lacquered leather lamellar vests wait; soldiers stack rattan shields and roll bronze cannons into earthen embrasures, plain solid-indigo cloth banners, no emblem or lettering, snap on poles; fishing boats in the estuary below, green hills to the north. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -175,7 +163,7 @@ env_vi: Ngọn đèn bùng lên rồi chao đảo, bóng dài quét qua tường
 title: Năm 1627: trận đầu
 cue: tense
 host:
-narration: Năm 1627, quân Trịnh tiến đánh Thuận Hóa. Đây là cuộc giao tranh lớn đầu tiên trong thời kỳ Trịnh – Nguyễn phân tranh. Quân Nguyễn dựa vào hệ thống phòng thủ và địa hình để chống đỡ. Cuộc tiến công không đạt được mục tiêu khuất phục hoàn toàn đối phương.
+narration: Năm 1627, quân Trịnh tiến đánh Thuận Hóa. Đây là cuộc giao tranh lớn đầu tiên trong thời kỳ Trịnh Nguyễn phân tranh. Quân Nguyễn dựa vào hệ thống phòng thủ và địa hình để chống đỡ. Cuộc tiến công không đạt được mục tiêu khuất phục hoàn toàn đối phương.
 char: char-a
 prompt: Wide river estuary on the Thuận Hóa frontier at grey dawn, 1627; the character rides small and off-centre at about one-fifth frame height in a howdah on a war elephant on a low northern hill, directing the attack. Below, northern troops with East-Asian faces in lacquered leather lamellar vests and rattan shields wade the shallow estuary and push rafts toward a long earthen embankment lined with sharpened bamboo stakes, held by southern defenders; plain solid-crimson cloth banners, no emblem or lettering, advance, plain solid-indigo ones hold the bank; musket smoke and spray. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh cửa sông ở biên giới Thuận Hóa lúc rạng đông xám, năm 1627; nhân vật ngồi nhỏ, lệch tâm, khoảng một phần năm khung hình trên bành voi chiến trên một đồi thấp phía bắc, chỉ huy cuộc tấn công. Phía dưới, quân phía bắc gương mặt Đông Á mặc giáp phiến da sơn mài, cầm khiên mây lội qua cửa sông cạn và đẩy bè về phía một bờ lũy đất dài cắm cọc tre vót nhọn do quân phía nam giữ; cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, tiến lên, cờ chàm trơn giữ bờ; khói súng và bọt nước. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -188,6 +176,7 @@ env_vi: Nước bắn tung quanh chân quân lội, khói súng bùng dọc bờ
 
 ## scene 12
 
+cue: tense
 char:
 beat: Southern defenders behind the embankment fire bronze cannons and the northern attack falls back across the estuary.
 prompt: Wide view from behind a long earthen embankment above a river estuary at mid-morning, 1627; southern defenders with East-Asian faces in lacquered leather lamellar vests and conical straw hats crouch behind sharpened bamboo stakes, firing bronze cannons and matchlocks across the water, plain solid-indigo cloth banners, no emblem or lettering, planted along the top. Across the estuary, northern troops under plain solid-crimson cloth banners, no emblem or lettering, fall back to the far bank, dragging rafts, rattan shields raised; thick white smoke rolls over the water. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -232,16 +221,9 @@ env_vi: Lửa bốc cao từ bè và phản chiếu đỏ trên sóng, khói tr�
 
 ## scene 15
 
-char:
+cue: tense
 beat: Map of the long, narrow route from the northern delta to the southern frontier, squeezed between mountains and sea.
-prompt: Wide illustrated top-down relief map of the Đại Việt coast from the Thanh Hóa plain south to the Thuận Hóa frontier, 17th century, hand-painted watercolour on aged paper, nation-to-region scale; steep green mountain ranges crowd a thin coastal strip, rivers cut across it, the Hoành Sơn spur reaching the sea. A long crimson arrow crawls south along the strip from the northern plain, thinning as it goes, and stops short against a short indigo double line of ramparts at the frontier. Tiny columns trail the arrow, cloud shadows drift. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống bờ biển Đại Việt từ đồng bằng Thanh Hóa xuống biên giới Thuận Hóa, thế kỷ 17, màu nước trên giấy cũ, tầm quốc gia đến vùng; những dãy núi xanh dốc đứng ép một dải ven biển mảnh, các con sông cắt ngang, nhánh Hoành Sơn vươn ra biển. Một mũi tên đỏ thẫm dài bò về phía nam dọc dải đất từ đồng bằng phía bắc, mỏng dần, và dừng lại trước một đường lũy đôi ngắn màu chàm ở biên giới. Những đoàn quân nhỏ xíu theo sau mũi tên, bóng mây trôi. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: The camera flies south along the coastal strip, following the arrow tip.
-camera_vi: Máy quay bay về phía nam dọc dải ven biển, bám theo đầu mũi tên.
-action: The crimson arrow draws itself south and thins out, then stalls and shudders against the indigo rampart line.
-action_vi: Mũi tên đỏ thẫm tự vẽ dần về phía nam và mảnh đi, rồi khựng lại và rung lên trước đường lũy màu chàm.
-env: Tiny columns crawl along the route, cloud shadows sweep the mountains, and waves shimmer along the coast.
-env_vi: Những đoàn quân nhỏ xíu bò dọc tuyến đường, bóng mây quét qua núi và sóng lấp lánh dọc bờ biển.
+map: {"view":"bac-trung-bo","year":"1633","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.6,"at":0.3,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"at":0.5,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"grow":false,"at":0.7}],"labels":[{"text":"Quân Trịnh","place":"nghe-an","color":"orange","dx":-150,"dy":-60,"size":32,"at":0.4},{"text":"Phòng tuyến Nguyễn","place":"cua-gianh","color":"red","dx":150,"dy":-90,"size":32,"at":2.6}],"arrows":[{"from":"thanh-hoa","to":"cua-gianh","via":["nghe-an","ha-tinh","deo-ngang"],"color":"orange","at":0.8,"dur":2,"w":16}],"lines":[{"pts":[[106.62,17.72],[106.25,17.6]],"color":"yellow","dash":true,"w":6,"at":2.2,"dur":1}]}
 
 ## scene 16
 
@@ -279,13 +261,12 @@ title: Năm 1643: tuyến phòng thủ
 cue: tense
 host:
 narration: Năm 1643, quân Trịnh mở thêm một chiến dịch lớn. Những cuộc giao tranh diễn ra quanh hệ thống phòng thủ phía bắc của Đàng Trong. Tuy nhiên, quân Trịnh vẫn không thể đánh bại hoàn toàn lực lượng Nguyễn.
-char: char-e
-prompt: Wide high earthen rampart of the southern defensive line during a heavy monsoon downpour, 1643; northern troops with East-Asian faces in lacquered leather lamellar vests under plain solid-crimson cloth banners, no emblem or lettering, climb bamboo scaling ladders up the muddy slope through rows of wooden stakes. The character stands small and off-centre at about one-fifth frame height on the rampart top among southern defenders in conical straw hats under plain solid-indigo cloth banners, no emblem or lettering, directing them as they push ladders back with poles and roll logs down. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
-prompt_vi: Toàn cảnh một lũy đất cao của tuyến phòng thủ phía nam giữa trận mưa gió mùa xối xả, năm 1643; quân phía bắc gương mặt Đông Á mặc giáp phiến da sơn mài dưới cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, trèo thang tre lên con dốc lầy lội qua những hàng cọc gỗ. Nhân vật đứng nhỏ, lệch tâm, khoảng một phần năm khung hình trên mặt lũy giữa quân phòng thủ đội nón lá dưới cờ vải chàm trơn, không phù hiệu hay chữ viết, chỉ huy họ dùng sào đẩy thang ra và lăn gỗ xuống. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
+prompt: Wide high earthen rampart of the southern defensive line during a heavy monsoon downpour, 1643; northern troops with East-Asian faces in lacquered leather lamellar vests under plain solid-crimson cloth banners, no emblem or lettering, climb bamboo scaling ladders up the muddy slope through rows of wooden stakes. A southern commander stands small, seen from behind and off-centre at about one-fifth frame height on the rampart top among southern defenders in conical straw hats under plain solid-indigo cloth banners, no emblem or lettering, directing them as they push ladders back with poles and roll logs down. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
+prompt_vi: Toàn cảnh một lũy đất cao của tuyến phòng thủ phía nam giữa trận mưa gió mùa xối xả, năm 1643; quân phía bắc gương mặt Đông Á mặc giáp phiến da sơn mài dưới cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, trèo thang tre lên con dốc lầy lội qua những hàng cọc gỗ. Một võ quan phía nam đứng nhỏ, nhìn từ phía sau, lệch tâm, khoảng một phần năm khung hình trên mặt lũy giữa quân phòng thủ đội nón lá dưới cờ vải chàm trơn, không phù hiệu hay chữ viết, chỉ huy họ dùng sào đẩy thang ra và lăn gỗ xuống. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
 camera: Low-angle tilt up the muddy slope from the climbing troops to the rampart top.
 camera_vi: Máy quay góc thấp ngửa dần lên con dốc lầy từ toán quân đang trèo tới mặt lũy.
-action: The character sweeps an arm along the wall and the defenders shove a ladder over backwards while climbers below slide down the mud.
-action_vi: Nhân vật vung tay dọc mặt lũy và quân phòng thủ đẩy bật một chiếc thang ngã ngửa trong khi những người trèo bên dưới trượt xuống bùn.
+action: The commander sweeps an arm along the wall and the defenders shove a ladder over backwards while climbers below slide down the mud.
+action_vi: Võ quan vung tay dọc mặt lũy và quân phòng thủ đẩy bật một chiếc thang ngã ngửa trong khi những người trèo bên dưới trượt xuống bùn.
 env: Rain sheets across the frame, mud streams down the slope, and logs tumble through the stakes.
 env_vi: Mưa trút thành từng màn qua khung hình, bùn chảy tràn xuống dốc và những khúc gỗ lăn qua hàng cọc.
 
@@ -307,6 +288,7 @@ env_vi: Nhịp chèo khuấy dòng sông nâu, cờ đỏ thẫm tuôn bay từ 
 
 ## scene 20
 
+cue: tense
 char: char-e
 beat: Nguyễn Phúc Tần receives the seal of succession in the mourning hall after Nguyễn Phúc Lan's death in 1648.
 prompt: Wide timber ancestral hall of the Nguyễn court in Thuận Hóa at dim evening, 1648; the character kneels small and off-centre at about one-fifth frame height before a lacquered altar hung with white mourning cloth, receiving a lacquered seal box from an elderly official. Officials with East-Asian faces in white mourning robes over dark gowns kneel in rows behind, candles and incense burn on the altar, a memorial tablet stands under a white canopy, plain solid-indigo cloth banners, no emblem or lettering, furled against the columns. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -340,14 +322,8 @@ title: Năm 1655: đảo chiều
 cue: dramatic
 host:
 narration: Năm 1655, cục diện thay đổi khi quân Nguyễn chuyển sang tiến công ra phía bắc. Trong nhiều năm tiếp theo, lực lượng Nguyễn đánh ra vùng Nghệ An và giành quyền kiểm soát một số khu vực.
-prompt: Wide illustrated top-down relief map of central Đại Việt in 1655, hand-painted watercolour on aged paper, region scale; the Gianh river winds from the mountains to the sea, the Hoành Sơn spur and the Nghệ An plain lie to the north. Bold indigo arrows push north from the Gianh across the spur into the Nghệ An plain, and the indigo wash spreads behind them over several districts, the crimson wash pushed back toward the Lam river. Tiny columns of soldiers, elephants and boats follow the arrows, cloud shadows over the hills, the sea shimmers. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống miền trung Đại Việt năm 1655, màu nước trên giấy cũ, tầm vùng; sông Gianh uốn từ núi ra biển, nhánh Hoành Sơn và đồng bằng Nghệ An nằm phía bắc. Những mũi tên chàm đậm đẩy lên phía bắc từ sông Gianh qua nhánh núi vào đồng bằng Nghệ An, lớp màu chàm loang theo sau phủ nhiều huyện, lớp màu đỏ thẫm bị đẩy lùi về phía sông Lam. Những đoàn quân, voi và thuyền nhỏ xíu theo các mũi tên, bóng mây trên đồi, mặt biển lấp lánh. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow drift northward over the Gianh river and the mountain spur toward the Nghệ An plain.
-camera_vi: Máy quay trôi chậm về phía bắc qua sông Gianh và nhánh núi tới đồng bằng Nghệ An.
-action: Indigo arrows draw themselves north across the river and the spur, then the indigo wash blooms over the plain as the crimson wash recedes.
-action_vi: Các mũi tên chàm tự vẽ lên phía bắc qua sông và nhánh núi, rồi lớp màu chàm nở rộ trên đồng bằng khi lớp đỏ thẫm rút lui.
-env: Tiny columns march along the arrows, boats glide up the coast, and cloud shadows slide over the hills.
-env_vi: Những đoàn quân nhỏ xíu tiến theo mũi tên, thuyền lướt lên dọc bờ biển và bóng mây trượt qua đồi.
+beat: Map of the 1655 Nguyễn offensive pushing north across the Gianh and the Hoành Sơn spur into the Nghệ An plain.
+map: {"view":"bac-trung-bo","year":"1655","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.6,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.62,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"grow":false,"at":0.7},{"r":"manh-1653","color":"#d8383a","alpha":0.6,"grow":false,"at":0.8}],"labels":[{"text":"Quân Nguyễn","place":"dong-hoi","color":"red","dx":-170,"dy":60,"size":32,"at":1.2},{"text":"Nghệ An","place":"nghe-an","color":"brown","dx":150,"dy":70,"size":32,"at":1.9},{"text":"Quân Trịnh","place":"thanh-hoa","color":"orange","dx":-60,"dy":-60,"size":32,"at":2.5}],"names":[{"text":"Đàng Ngoài","place":[105,20.1],"color":"yellow","size":40,"at":0.7},{"text":"Đàng Trong","place":[105.9,17.15],"color":"white","size":40,"at":0.9}],"arrows":[{"from":[106.45,17.75],"to":"nghe-an","via":[[106.3,18.2],[105.9,18.5]],"color":"red","at":1,"dur":1.8,"w":16},{"from":[106.2,18.35],"to":[105.75,19.35],"via":[[105.6,18.85],[105.5,19.1]],"color":"orange","at":1.4,"dur":1.8,"w":16},{"from":[107.05,17.9],"to":[105.95,18.85],"via":[[107.05,18.4]],"color":"teal","at":1.8,"dur":1.8,"w":16}],"lines":[{"pts":[[105.6,17.92],[106.1,17.8],[106.55,17.7]],"color":"yellow","dash":true,"w":6,"at":0.6,"dur":1.2}],"rings":[{"place":[105.68,18.7],"r":62,"color":"red","at":3.1}]}
 
 ## scene 23
 
@@ -366,6 +342,7 @@ env_vi: Sương bong khỏi mặt nước, dòng chảy xoáy quanh chân voi v�
 
 ## scene 24
 
+cue: dramatic
 char:
 beat: Southern troops storm a northern fort on the Nghệ An plain at midday.
 prompt: Wide dry rice plain of Nghệ An at harsh midday, 1650s; southern troops with East-Asian faces in lacquered leather lamellar vests and conical straw hats storm a northern earthwork fort with a timber gate tower, setting bamboo ladders against its palisade while war elephants batter the gate. Northern defenders under plain solid-crimson cloth banners, no emblem or lettering, fire from the walls; the attackers advance under plain solid-indigo cloth banners, no emblem or lettering. Cracked dry paddies, dust clouds, distant blue hills. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -394,16 +371,9 @@ env_vi: Mưa quất ngang đèo, nước bùn chảy dọc con đường và th�
 
 ## scene 26
 
-char:
+cue: somber
 beat: Map of the stretched southern supply line running from the Gianh north over the Hoành Sơn spur to the Lam river.
-prompt: Wide illustrated top-down relief map close-up of the land between the Gianh and Lam rivers in the 1650s, hand-painted watercolour on aged paper, district scale; the Hoành Sơn ridge cuts across the narrow coast like a wall. A thin indigo supply line stretches from the Gianh north over the ridge to a cluster of small indigo rings on the Lam river, thin and broken in places, while short crimson arrows press in on it from the western hills. Tiny porter columns and boats crawl along the line, cloud shadows cross the ridge, the sea glints. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống, cận cảnh vùng đất giữa sông Gianh và sông Lam thập niên 1650, màu nước trên giấy cũ, tầm huyện; sống núi Hoành Sơn cắt ngang dải ven biển hẹp như một bức tường. Một đường tiếp tế chàm mảnh kéo dài từ sông Gianh lên phía bắc qua sống núi tới một cụm vòng tròn chàm nhỏ bên sông Lam, mảnh và đứt quãng từng đoạn, trong khi những mũi tên đỏ thẫm ngắn ép vào nó từ đồi núi phía tây. Những đoàn phu và thuyền nhỏ xíu bò dọc tuyến, bóng mây vượt qua sống núi, mặt biển lấp lánh. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow push-in along the supply line from the Gianh toward the Lam river.
-camera_vi: Máy quay đẩy chậm dọc tuyến tiếp tế từ sông Gianh về phía sông Lam.
-action: The indigo line stretches thinner and breaks in gaps, then the crimson arrows draw themselves in from the west toward the breaks.
-action_vi: Đường màu chàm kéo mảnh dần và đứt từng khúc, rồi các mũi tên đỏ thẫm tự vẽ từ phía tây lao vào những chỗ đứt.
-env: Tiny porter columns crawl and stall, cloud shadows pass over the ridge, and the sea shimmers along the coast.
-env_vi: Những đoàn phu nhỏ xíu bò rồi khựng lại, bóng mây lướt qua sống núi và biển lấp lánh dọc bờ.
+map: {"view":{"c":[106,18],"span":3.2},"year":"~1650","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.58,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"grow":false,"at":0.7}],"labels":[{"text":"Quân Nguyễn","place":"vinh","color":"red","dx":200,"dy":50,"size":32,"at":0.4},{"text":"Đường tiếp tế","place":"deo-ngang","color":"dark","dx":280,"dy":-40,"size":32,"at":1.1},{"text":"Quân Trịnh","place":[105.25,18.3],"color":"orange","dx":-80,"dy":60,"size":32,"at":2.6}],"names":[{"text":"Đàng Ngoài","place":[105.4,18.65],"color":"yellow","size":40,"at":2.9},{"text":"Đàng Trong","place":[106.2,17.55],"color":"yellow","size":40,"at":3.2}],"arrows":[{"from":[105,18.5],"to":[105.85,18.42],"via":[[105.4,18.48]],"color":"orange","at":1.6,"dur":1.6,"w":16},{"from":[105.1,18.12],"to":[105.95,18.06],"via":[[105.5,18.1]],"color":"orange","at":2.3,"dur":1.6,"w":16}],"lines":[{"pts":["cua-gianh","deo-ngang","ha-tinh","vinh"],"color":"yellow","dash":true,"w":6,"at":0.6,"dur":2}],"rings":[{"place":"vinh","r":55,"color":"teal","at":3}]}
 
 ## scene 27
 
@@ -411,17 +381,12 @@ title: Năm 1660: rút về
 cue: somber
 host:
 narration: Đến khoảng năm 1660, quân Nguyễn phải rút khỏi những vùng đã chiếm được. Cục diện lại trở về trạng thái giằng co. Không bên nào đủ sức tiêu diệt đối phương, nhưng cũng không bên nào chấp nhận từ bỏ tham vọng thống nhất quyền lực.
-prompt: Wide illustrated top-down relief map of the Gianh river region in 1660, hand-painted watercolour on aged paper, region scale; the river runs from the western mountains to a broad estuary on the sea. Indigo arrows curve back south from the Nghệ An plain over the Hoành Sơn spur to the Gianh, the indigo wash north of the river fading away, and the crimson wash flowing back down to the northern bank; small crossed-spear rings sit facing each other on both banks. Tiny boats ferry columns south across the river, cloud shadows drift, the sea glints. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống vùng sông Gianh năm 1660, màu nước trên giấy cũ, tầm vùng; dòng sông chảy từ núi phía tây ra một cửa sông rộng đổ ra biển. Những mũi tên chàm vòng ngược về phía nam từ đồng bằng Nghệ An qua nhánh Hoành Sơn về sông Gianh, lớp màu chàm phía bắc sông nhạt dần, lớp màu đỏ thẫm chảy ngược xuống tới bờ bắc; những vòng tròn giáo chéo nhỏ đối diện nhau trên hai bờ. Thuyền nhỏ xíu chở các đoàn quân về nam qua sông, bóng mây trôi, mặt biển lấp lánh. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow pull-back and rise from the river to the whole region.
-camera_vi: Máy quay lùi chậm và nâng lên từ dòng sông ra toàn vùng.
-action: The indigo arrows draw themselves back south to the river, the northern indigo wash drains away and the crimson wash flows back to the bank.
-action_vi: Các mũi tên chàm tự vẽ ngược về nam tới dòng sông, lớp màu chàm phía bắc rút đi và lớp đỏ thẫm chảy ngược lại tới bờ.
-env: Tiny boats shuttle across the river, cloud shadows pass, and the estuary waves shimmer.
-env_vi: Thuyền nhỏ xíu qua lại trên sông, bóng mây lướt qua và sóng cửa sông lấp lánh.
+beat: Map of the 1660 Nguyễn withdrawal falling back south from Nghệ An across the Hoành Sơn spur to the Gianh.
+map: {"view":{"c":[107,17.9],"span":4.2},"year":"~1660","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.6,"at":0.3,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"at":0.5,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"grow":false,"at":0.7},{"r":"manh-1653","color":"#d8383a","alpha":0.6,"grow":false,"at":0.8}],"labels":[{"text":"Quân Trịnh","place":"vinh","color":"orange","dx":160,"dy":120,"size":32,"at":1.6},{"text":"Quân Nguyễn rút","place":"dong-hoi","color":"red","dx":-230,"dy":-70,"size":32,"at":2.9}],"names":[{"text":"Đàng Ngoài","place":[105.9,18.55],"color":"yellow","size":42,"at":0.4},{"text":"Đàng Trong","place":[106.4,17.35],"color":"red","size":42,"at":0.7}],"arrows":[{"from":"nghe-an","to":"dong-hoi","via":["ha-tinh","deo-ngang"],"color":"white","at":1,"dur":2,"w":16},{"from":"vinh","to":[106.75,17.85],"via":[[106.1,18.35]],"color":"orange","at":1.4,"dur":1.8,"w":16},{"from":[106.9,17.74],"to":[106.55,17.6],"via":[],"color":"teal","at":2.6,"dur":1.4,"w":16}],"lines":[{"pts":[[105.6,17.95],[106.1,17.85],[106.6,17.72]],"color":"yellow","dash":true,"w":6,"at":0.6,"dur":1.6}],"rings":[{"place":[106.55,17.68],"r":50,"color":"#ffd23f","at":3.1},{"place":[106.78,17.8],"r":45,"color":"red","at":3.3}]}
 
 ## scene 28
 
+cue: somber
 char: char-e, char-f
 beat: Two hosts stand facing each other across a fog-bound river at a winter dusk, neither side moving.
 prompt: Wide fog-bound river at cold winter dusk, 1660; two armies hold opposite banks, neither moving. The two figures sit on horseback small and off-centre at about one-fifth frame height on opposite banks, facing each other across the grey water: the southern host under plain solid-indigo cloth banners, no emblem or lettering, behind earthen ramparts and stakes; the northern host under plain solid-crimson cloth banners, no emblem or lettering, behind a timber palisade. Soldiers with East-Asian faces in lacquered leather lamellar vests warm hands at campfires. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -451,6 +416,7 @@ env_vi: Gió giật mạnh những lá cờ, bụi và cỏ khô bay ngang con �
 
 ## scene 30
 
+cue: tense
 char:
 beat: Northern cannons bombard the long southern rampart at dusk, but the wall holds.
 prompt: Wide view along a very long high earthen rampart on the coastal plain at fiery dusk, 1661; northern gunners with East-Asian faces in lacquered leather lamellar vests fire rows of bronze cannons from behind wicker gabions under plain solid-crimson cloth banners, no emblem or lettering. Across a ditch of sharpened stakes, the rampart stretches to the horizon, its southern defenders under plain solid-indigo cloth banners, no emblem or lettering, firing back from embrasures; cannonballs throw up earth but the wall stands. Burning grass, smoke, sunset sea. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -482,7 +448,7 @@ env_vi: Khói mỏng xoắn lên từ đống tro, vũng nước gợn trong gi�
 title: Năm 1672: trận cuối
 cue: tense
 host:
-narration: Năm 1672, Trịnh Tạc mở cuộc tiến công lớn cuối cùng trong giai đoạn chiến tranh Trịnh – Nguyễn. Các trận đánh diễn ra quyết liệt tại khu vực phòng tuyến phía bắc Đàng Trong, trong đó có vùng Trấn Ninh.
+narration: Năm 1672, Trịnh Tạc mở cuộc tiến công lớn cuối cùng trong giai đoạn cuối của chiến tranh Trịnh Nguyễn. Các trận đánh diễn ra quyết liệt tại khu vực phòng tuyến phía bắc Đàng Trong, trong đó có vùng Trấn Ninh.
 char: char-f
 prompt: Wide night siege before the earthen fortress line of Trấn Ninh on the Nhật Lệ river plain, 1672; the character sits small and off-centre at about one-fifth frame height in a howdah on a war elephant on a rise, directing a vast night assault. Thousands of northern troops with East-Asian faces in lacquered leather lamellar vests carry torches and ladders toward high ramparts, bronze cannons flash, plain solid-crimson cloth banners, no emblem or lettering, glow in the firelight; the southern ramparts blaze with return fire under plain solid-indigo cloth banners, no emblem or lettering. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh trận vây ban đêm trước tuyến thành lũy đất Trấn Ninh trên đồng bằng sông Nhật Lệ, năm 1672; nhân vật ngồi nhỏ, lệch tâm, khoảng một phần năm khung hình trên bành voi chiến trên một gò cao, chỉ huy cuộc công kích đêm khổng lồ. Hàng nghìn quân phía bắc gương mặt Đông Á mặc giáp phiến da sơn mài mang đuốc và thang tiến về những lũy cao, súng thần công đồng lóe sáng, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, rực lên trong ánh lửa; lũy phía nam bừng lửa bắn trả dưới cờ vải chàm trơn, không phù hiệu hay chữ viết. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -495,6 +461,7 @@ env_vi: Đuốc tuôn như một dòng sông lửa, chớp pháo soi sáng làn 
 
 ## scene 33
 
+cue: tense
 char:
 beat: Morning after the night assault at Trấn Ninh: southern gunners pin the northern infantry in the paddies before the moat.
 prompt: Wide flooded rice paddies before the Trấn Ninh ramparts at bright morning, 1672; northern infantry with East-Asian faces in lacquered leather lamellar vests crouch behind raised rattan shields in the water under plain solid-crimson cloth banners, no emblem or lettering, pinned before a broad moat bristling with sharpened stakes. On the high earthen ramparts, southern gunners in conical straw hats under plain solid-indigo cloth banners, no emblem or lettering, fire bronze cannons and matchlocks down at them; abandoned ladders float in the moat, smoke drifts over the paddies. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -523,6 +490,7 @@ env_vi: Bụi lơ lửng thành làn sương vàng thấp, khói mỏng dần tr
 
 ## scene 35
 
+cue: somber
 char: char-e
 beat: Nguyễn Phúc Tần on the rampart watches the enemy withdraw but does not order a pursuit north.
 prompt: Wide high earthen rampart walk at hazy sunset, 1672; the character stands small and off-centre at about one-fifth frame height among officers at an embrasure, watching the northern army withdraw across the plain toward distant hills. Southern soldiers with East-Asian faces in lacquered leather lamellar vests and conical straw hats lean on their matchlocks, gunners cool bronze cannons with buckets of water, an officer gestures north as if to pursue; plain solid-indigo cloth banners, no emblem or lettering, along the wall, the long rampart curving into the distance. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -540,14 +508,8 @@ title: Sông Gianh thành ranh giới
 cue: neutral
 host:
 narration: Sau chiến dịch năm 1672, hai bên dần chấp nhận một ranh giới thực tế. Sông Gianh trở thành đường phân chia giữa Đàng Ngoài do chúa Trịnh kiểm soát và Đàng Trong do chúa Nguyễn cai quản.
-prompt: Wide illustrated top-down relief map of Đại Việt after 1672, hand-painted watercolour on aged paper, nation scale; the Gianh river is drawn as a bold dark-blue line from the mountains to the sea, the land north of it washed in soft crimson up to the northern delta, the land south of it washed in soft indigo down the long coast. Small fort rings sit along both banks of the Gianh. Tiny junks sail the coast, cloud shadows drift over the mountains; in the Biển Đông, the Hoàng Sa and Trường Sa island groups appear as small scattered islets in place. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống Đại Việt sau năm 1672, màu nước trên giấy cũ, tầm quốc gia; sông Gianh được vẽ thành một đường xanh sẫm đậm từ núi ra biển, vùng đất phía bắc sông phủ sắc đỏ thẫm nhạt tới tận châu thổ phía bắc, vùng đất phía nam phủ sắc chàm nhạt xuống dọc bờ biển dài. Những vòng tròn đồn lũy nhỏ nằm dọc hai bờ sông Gianh. Thuyền buồm nhỏ đi dọc bờ biển, bóng mây trôi trên núi; trên Biển Đông, quần đảo Hoàng Sa và Trường Sa hiện là những cụm đảo nhỏ rải rác đúng vị trí. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow push-in from the whole country down onto the Gianh river.
-camera_vi: Máy quay đẩy chậm từ toàn cảnh đất nước xuống dòng sông Gianh.
-action: The Gianh river line draws itself bold from the mountains to the sea, then the crimson and indigo washes settle firmly on either side.
-action_vi: Đường sông Gianh tự vẽ đậm dần từ núi ra biển, rồi hai lớp màu đỏ thẫm và chàm định hình vững chắc ở hai bên.
-env: Tiny junks glide along the coast, cloud shadows cross the mountains, and the sea shimmers around the islands.
-env_vi: Thuyền buồm nhỏ lướt dọc bờ biển, bóng mây vượt qua núi và biển lấp lánh quanh các đảo.
+beat: Map of Đại Việt after 1672 divided at the Gianh, the Trịnh north and the Nguyễn south, forts on both banks.
+map: {"view":"viet-nam","year":"1672","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.62,"at":0.4,"grow":false},{"r":"manh-1069","color":"#d8383a","alpha":0.6,"at":0.55,"grow":false},{"r":"manh-1306","color":"#d8383a","alpha":0.6,"at":0.7,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"at":0.85,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"at":1,"grow":false},{"r":"manh-1653","color":"#d8383a","alpha":0.6,"at":1.15,"grow":false},{"r":"manh-1471","color":"#d8383a","alpha":0.6,"grow":false,"at":1.3}],"labels":[{"text":"Chúa Trịnh","place":"thang-long","color":"orange","dx":-220,"dy":70,"size":32,"at":2},{"text":"Sông Gianh","place":"song-gianh","color":"blue","dx":-60,"dy":-180,"size":32,"at":2.4},{"text":"Chúa Nguyễn","place":"phu-xuan","color":"red","dx":170,"dy":-30,"size":32,"at":2.8}],"names":[{"text":"Đàng Ngoài","place":[104.9,21.4],"color":"orange","size":40,"at":1.2},{"text":"Đàng Trong","place":[107.2,15.2],"color":"red","size":40,"at":1.5}],"lines":[{"pts":[[105.4,17.8],[105.9,17.7],[106.3,17.65],[106.75,17.7]],"color":"yellow","dash":true,"w":6,"at":1.8,"dur":1.5}],"rings":[{"place":"cua-gianh","r":50,"color":"red","at":3.2}]}
 
 ## scene 37
 
@@ -567,6 +529,7 @@ env_vi: Những vệt nắng trôi lơ lửng bụi, rèm đỏ thẫm đung đ�
 
 ## scene 38
 
+cue: neutral
 char: char-e
 beat: In the southern capital, Nguyễn Phúc Tần runs his own court and army beside a river busy with trade ships.
 prompt: Wide riverside palace compound of the southern lords on the Hương river on a bright afternoon, 1670s; the character stands small and off-centre at about one-fifth frame height on a timber pavilion terrace above the water, reviewing officials who present ledgers while soldiers with East-Asian faces in lacquered leather lamellar vests drill in the courtyard below. On the river, merchant junks unload bales and ceramic jars at a wharf, porters in conical straw hats hurry along the bank; plain solid-indigo cloth banners, no emblem or lettering, over the gate. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -595,6 +558,7 @@ env_vi: Sương trôi qua chiến trường, mảnh vải rách bay phất phơ 
 
 ## scene 40
 
+cue: somber
 char:
 beat: Refugee families with carts and buffalo cross a river ford away from the war-torn frontier.
 prompt: Wide shallow river ford in the frontier countryside at a pale late afternoon, 17th century; a long line of refugee families with East-Asian faces in worn cotton tunics and conical straw hats wades across, carrying children, baskets and bundles on shoulder poles, ox-carts piled with household goods, water buffalo pulling a cart; elderly people helped by the young. On the near bank, untended rice fields overgrown with weeds and a burned hamlet; low hills and a faint smoke column behind. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -611,7 +575,7 @@ env_vi: Dòng nước gợn quanh chân người và bánh xe, cỏ dại lay đ
 title: Hơn một thế kỷ chia cắt
 cue: somber
 host:
-narration: Sự phân tranh Trịnh – Nguyễn không chấm dứt ngay sau năm 1672. Hai thế lực tiếp tục tồn tại thêm hơn một thế kỷ. Mãi đến năm 1786, khi quân Tây Sơn tiến ra Bắc và lật đổ chính quyền chúa Trịnh, cục diện Đàng Ngoài – Đàng Trong mới bước vào một giai đoạn kết thúc.
+narration: Sự phân tranh Trịnh Nguyễn không chấm dứt ngay sau năm 1672. Hai thế lực tiếp tục tồn tại thêm hơn một thế kỷ. Mãi đến năm 1786, khi quân Tây Sơn tiến ra Bắc và lật đổ chính quyền chúa Trịnh, cục diện Đàng Ngoài và Đàng Trong mới bước vào một giai đoạn kết thúc.
 prompt: Wide bank of the Gianh river at a quiet misty morning, generations after the war, 18th century; an old earthen rampart overgrown with grass and bamboo runs along the southern bank, its wooden stakes weathered grey, a moss-covered bronze cannon in an embrasure. A small ferry with a boatman in a conical straw hat poles across the river, fishermen with East-Asian faces cast nets, children herd ducks along the shore; on the far northern bank a small watchtower flies a faded plain crimson cloth banner, no emblem or lettering. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh bờ sông Gianh vào một buổi sáng yên tĩnh mờ sương, nhiều thế hệ sau chiến tranh, thế kỷ 18; một lũy đất cũ phủ cỏ và tre chạy dọc bờ nam, những cọc gỗ đã bạc màu thời gian, một khẩu thần công đồng phủ rêu trong lỗ châu mai. Một chiếc đò nhỏ với người lái đò đội nón lá chống sào qua sông, ngư dân gương mặt Đông Á quăng lưới, trẻ con lùa vịt dọc bờ; trên bờ bắc phía xa, một chòi canh nhỏ treo lá cờ vải đỏ thẫm trơn đã phai màu, không phù hiệu hay chữ viết. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
 camera: Slow push-in from the overgrown rampart across the river toward the far watchtower.
@@ -623,23 +587,16 @@ env_vi: Sương trôi thấp trên mặt nước, lá tre đung đưa trên lũy
 
 ## scene 42
 
-char:
+cue: somber
 beat: Map of the Tây Sơn march of 1786 from Phú Xuân north across the Gianh to Thăng Long.
-prompt: Wide illustrated top-down relief map of Đại Việt in 1786, hand-painted watercolour on aged paper, nation scale; the long S-shaped land with the Gianh river marked as a dark line, the old crimson wash in the north and indigo wash in the south both faded. A bold ochre-orange arrow sweeps north from the Hương river region along the coast, across the Gianh, past the Hoành Sơn spur, up to the northern delta, and an ochre wash spreads behind it. Tiny fleets and columns follow it; in the Biển Đông, the Hoàng Sa and Trường Sa island groups appear as small scattered islets in place. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống Đại Việt năm 1786, màu nước trên giấy cũ, tầm quốc gia; dải đất hình chữ S với sông Gianh được đánh dấu bằng một đường sẫm, lớp màu đỏ thẫm cũ ở phía bắc và màu chàm ở phía nam đều đã phai. Một mũi tên màu cam đất đậm quét lên phía bắc từ vùng sông Hương dọc bờ biển, vượt sông Gianh, qua nhánh Hoành Sơn, tới châu thổ phía bắc, và lớp màu cam đất loang theo sau. Những đoàn thuyền và đoàn quân nhỏ xíu theo sau; trên Biển Đông, quần đảo Hoàng Sa và Trường Sa hiện là những cụm đảo nhỏ rải rác đúng vị trí. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: The camera flies north up the coast following the ochre arrow from the Hương river to the northern delta.
-camera_vi: Máy quay bay lên phía bắc dọc bờ biển theo mũi tên cam đất từ sông Hương tới châu thổ phía bắc.
-action: The ochre arrow draws itself across the Gianh line and on to the north, and the ochre wash floods over the faded crimson.
-action_vi: Mũi tên cam đất tự vẽ vượt qua đường sông Gianh và tiếp tục lên phía bắc, lớp màu cam đất tràn phủ lên màu đỏ thẫm đã phai.
-env: Tiny fleets sail north along the coast, cloud shadows race over the mountains, and the sea glitters.
-env_vi: Những đoàn thuyền nhỏ xíu giương buồm lên phía bắc dọc bờ biển, bóng mây vụt qua núi và biển lấp lánh.
+map: {"view":"viet-nam","year":"1786","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.55,"grow":false,"at":0.3},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.55,"grow":false,"at":0.35},{"r":"manh-1471","color":"#d8383a","alpha":0.55,"grow":false,"at":0.4},{"r":"manh-1611","color":"#d8383a","alpha":0.55,"grow":false,"at":0.45},{"r":"manh-1653","color":"#d8383a","alpha":0.55,"grow":false,"at":0.5},{"r":"manh-1693","color":"#d8383a","alpha":0.55,"grow":false,"at":0.55},{"r":"manh-1698","color":"#d8383a","alpha":0.55,"grow":false,"at":0.6},{"r":"manh-1708","color":"#d8383a","alpha":0.55,"grow":false,"at":0.65},{"r":"manh-1732","color":"#d8383a","alpha":0.55,"grow":false,"at":0.7},{"r":"manh-1756","color":"#d8383a","alpha":0.55,"grow":false,"at":0.75},{"r":"manh-1757","color":"#d8383a","alpha":0.55,"grow":false,"at":0.8}],"labels":[{"text":"Phú Xuân","place":"phu-xuan","color":"red","dx":-180,"dy":40,"size":32,"at":0.4},{"text":"Sông Gianh","place":"song-gianh","color":"dark","dx":140,"dy":-50,"size":32,"at":1.2},{"text":"Thăng Long","place":"thang-long","color":"orange","dx":60,"dy":-60,"size":32,"at":2.4}],"names":[{"text":"Đàng Ngoài","place":"thanh-hoa","color":"orange","size":40,"at":0.6},{"text":"Đàng Trong","place":"quang-nam","color":"red","size":40,"at":0.7}],"arrows":[{"from":"phu-xuan","to":"thang-long","via":["dong-hoi","song-gianh","deo-ngang","ha-tinh","nghe-an","thanh-hoa","ninh-binh"],"color":"orange","at":0.8,"dur":2,"w":16},{"from":[108.2,16.6],"to":[107.8,20.9],"via":[[107.9,18],[107.5,19.5]],"color":"teal","at":1.3,"dur":1.8,"w":14}],"rings":[{"place":"thang-long","r":60,"color":"#ffd23f","at":3}]}
 
 ## scene 43
 
 title: Gốc rễ từ nhiều thế hệ
 cue: neutral
 host:
-narration: Nhìn lại, sự chia cắt ấy không bắt đầu từ một trận đánh duy nhất. Nó là kết quả của nhiều thập kỷ chuyển dịch quyền lực: từ Nguyễn Kim phục hưng nhà Lê, Trịnh Kiểm nắm quyền trong triều đình, Nguyễn Hoàng xây dựng cơ sở ở Thuận Hóa, cho đến Nguyễn Phúc Nguyên củng cố một chính quyền tự chủ ở phương nam.
+narration: Nhìn lại, sự chia cắt ấy không bắt đầu từ một trận đánh duy nhất. Nó là kết quả của nhiều thập kỷ chuyển dịch quyền lực. Từ Nguyễn Kim phục hưng nhà Lê, Trịnh Kiểm nắm quyền trong triều đình, Nguyễn Hoàng xây dựng cơ sở ở Thuận Hóa, cho đến Nguyễn Phúc Nguyên củng cố một chính quyền tự chủ ở phương nam.
 char: char-d
 prompt: Wide lamp-lit hall of the Lê Trung Hưng base in Thanh Hóa at evening, mid-16th century; the character stands small and off-centre at about one-fifth frame height before an ancestral altar with a memorial tablet draped in white cloth, holding a lacquered command baton, while generals with East-Asian faces in lacquered leather lamellar vests kneel in rows behind him and scribes hand him military rosters. Candles, incense, a plain wooden throne in the shadows behind, plain solid-crimson cloth banners, no emblem or lettering, against timber columns. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh sảnh thắp đèn của căn cứ Lê Trung Hưng ở Thanh Hóa lúc chiều tối, giữa thế kỷ 16; nhân vật đứng nhỏ, lệch tâm, khoảng một phần năm khung hình trước bàn thờ tổ có bài vị phủ vải trắng, cầm cây lệnh sơn mài, trong khi các tướng gương mặt Đông Á mặc giáp phiến da sơn mài quỳ thành hàng phía sau và thư lại dâng sổ quân. Nến, hương, một chiếc ngai gỗ đơn sơ trong bóng tối phía sau, cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, tựa vào cột gỗ. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
@@ -652,6 +609,7 @@ env_vi: Ngọn nến chao đảo, khói hương xoắn bay lên và tấm vải 
 
 ## scene 44
 
+cue: neutral
 char: char-c
 beat: Nguyễn Hoàng lands on the Thuận Hóa coast with his followers and lays out his new base at Ái Tử.
 prompt: Wide sandy river bank in Thuận Hóa at golden late afternoon, 1558; the character stands small and off-centre at about one-fifth frame height on the bank beside a staked-out site, pointing inland. Followers with East-Asian faces in cotton tunics and conical straw hats unload boats moored in the river, carry chests and rice sacks ashore, raise bamboo frames for the first thatched houses and a timber stockade; families with children and buffalo arrive along the path, plain solid-indigo cloth banners, no emblem or lettering, planted in the sand; dunes and green hills beyond. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
@@ -683,7 +641,7 @@ env_vi: Sương sớm trôi trên mặt nước, vệt thuyền tỏa thành nh�
 title: Tiếng súng lắng bên dòng Gianh
 cue: somber
 host:
-narration: Và khi tiếng súng tạm lắng bên dòng Gianh, đất nước vẫn chưa thể trở lại thống nhất. Hai miền tiếp tục đi trên những con đường chính trị riêng, để lại một trong những giai đoạn chia cắt dài nhất trong lịch sử Việt Nam.
+narration: Và khi tiếng súng tạm lắng bên dòng Gianh, đất nước vẫn chưa thể trở lại thống nhất. Hai miền tiếp tục đi trên những con đường chính trị riêng, để lại một vết chia cắt kéo dài hơn một thế kỷ. Theo bạn, điều gì đã khiến sự chia cắt ấy kéo dài đến vậy?
 prompt: Wide mouth of the Gianh river at a deep orange sunset after the war, 1672; on the northern bank a line of northern soldiers with East-Asian faces in lacquered leather lamellar vests lowers plain solid-crimson cloth banners, no emblem or lettering, and on the southern rampart southern soldiers in conical straw hats lower plain solid-indigo cloth banners, no emblem or lettering; bronze cannons stand silent with wisps of smoke, a few fishing boats return to the river mouth between them, sea birds overhead. No Qing, Nguyễn-dynasty, Ming Chinese or European elements.
 prompt_vi: Toàn cảnh cửa sông Gianh lúc hoàng hôn cam thẫm sau chiến tranh, năm 1672; trên bờ bắc, một hàng binh lính phía bắc gương mặt Đông Á mặc giáp phiến da sơn mài hạ cờ vải đỏ thẫm trơn, không phù hiệu hay chữ viết, và trên lũy phía nam, binh lính phía nam đội nón lá hạ cờ vải chàm trơn, không phù hiệu hay chữ viết; súng thần công đồng nằm im với những làn khói mỏng, vài chiếc thuyền đánh cá trở về cửa sông giữa hai bờ, chim biển bay trên cao. Không yếu tố Thanh, Nguyễn, Minh Trung Hoa hay châu Âu.
 camera: Slow pull-back and rise from the river mouth to frame both banks against the sunset.
@@ -695,13 +653,6 @@ env_vi: Làn khói pháo cuối cùng mỏng dần vào hoàng hôn, sóng lấp
 
 ## scene 47
 
-char:
+cue: somber
 beat: Closing map: the whole country divided at the Gianh, two colours side by side, the land not yet whole again.
-prompt: Wide illustrated top-down relief map of the whole of Đại Việt in the late 17th century, hand-painted watercolour on aged paper, nation scale at dusk light; the S-shaped land from the northern mountains and delta down the long coast to the southern plains, split at the Gianh river: the north washed in deep crimson, the south in deep indigo, the river a thin glowing line between them. Tiny lamps of towns glow on both sides, junks sail the coast; in the Biển Đông, the Hoàng Sa and Trường Sa island groups appear as small scattered islets in place. No labels, lettering or year badge. No Qing, Ming Chinese or European elements.
-prompt_vi: Bản đồ địa hình minh hoạ nhìn từ trên xuống toàn cõi Đại Việt cuối thế kỷ 17, màu nước trên giấy cũ, tầm quốc gia trong ánh chiều tà; dải đất hình chữ S từ núi rừng và châu thổ phía bắc xuống dọc bờ biển dài tới đồng bằng phía nam, chia cắt tại sông Gianh: phía bắc phủ màu đỏ thẫm đậm, phía nam phủ màu chàm đậm, dòng sông là một đường sáng mảnh ở giữa. Những ngọn đèn nhỏ của thành thị sáng lên ở cả hai bên, thuyền buồm đi dọc bờ biển; trên Biển Đông, quần đảo Hoàng Sa và Trường Sa hiện là những cụm đảo nhỏ rải rác đúng vị trí. Không nhãn, chữ hay huy hiệu năm. Không yếu tố Thanh, Minh Trung Hoa hay châu Âu.
-camera: Slow pull-back and rise from the Gianh river until the whole country fills the frame.
-camera_vi: Máy quay lùi chậm và nâng lên từ sông Gianh cho tới khi toàn bộ đất nước lấp đầy khung hình.
-action: The Gianh line glows brighter as the two colour washes deepen on either side, then the town lights blink on across both halves.
-action_vi: Đường sông Gianh sáng rực hơn khi hai lớp màu đậm dần ở hai bên, rồi đèn thành thị lần lượt sáng lên khắp hai nửa.
-env: Cloud shadows drift over the mountains, the sea shimmers in the dusk light, and tiny junks glide along the coast.
-env_vi: Bóng mây trôi trên núi, biển lấp lánh trong ánh chiều tà và thuyền buồm nhỏ xíu lướt dọc bờ biển.
+map: {"view":"viet-nam","regions":[{"r":"dang-ngoai","color":"#e0a526","alpha":0.6,"at":0.4,"grow":false},{"r":"dang-trong-1600","color":"#d8383a","alpha":0.6,"at":0.7,"grow":false},{"r":"manh-1611","color":"#d8383a","alpha":0.6,"at":0.9,"grow":false},{"r":"manh-1653","color":"#d8383a","alpha":0.6,"at":1.1,"grow":false},{"r":"manh-1471","color":"#d8383a","alpha":0.6,"grow":false,"at":1.7}],"labels":[{"text":"Sông Gianh","place":"song-gianh","color":"dark","dx":110,"dy":-70,"size":32,"at":2.9}],"names":[{"text":"Đàng Ngoài","place":"thang-long","color":"yellow","size":42,"at":1.8},{"text":"Đàng Trong","place":"hue","color":"white","size":42,"at":2.1}],"lines":[{"pts":["cua-gianh","song-gianh",[105.6,17.55]],"color":"yellow","dash":true,"w":6,"at":2.2,"dur":1.6}]}

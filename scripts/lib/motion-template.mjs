@@ -9,8 +9,8 @@
 
 // The reply shape the motion writer parses; shared with the map-mode system prompt (map-mode.mjs).
 export const MOTION_OUTPUT_RULES = `OUTPUT — one JSON object and nothing else. Inside string values quote with typographic quotes (“ ”), never a bare double quote:
-{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "...", "camera_vi": "...", "action_vi": "...", "env_vi": "..."}]}
-One entry per requested scene, in the order given.`;
+{"scenes": [{"scene": 1, "camera": "...", "action": "...", "env": "..."}]}
+One entry per requested scene, in the order given. No Vietnamese translation fields.`;
 
 export const MOTION_SYSTEM = `You direct how the still image of each scene of a narrated historical video moves when an image-to-video model animates it. The still already exists; you write only the motion. For every scene write three short English fields, each one line:
 
@@ -35,6 +35,6 @@ MOTION RULES
 
 NEGATIVE — a field that reads like any of these will animate badly: a camera that reverses or drifts with no path, a cut or a flash mid-clip, a morphing face, an extra or fused limb, a duplicated person, the two mains swapping sides, a prop changing hands, weather or light flipping direction, a caption or subtitle appearing, sound described in words.
 
-FINAL CHECK: one camera move that never reverses and stays wide; one continuous take with no cut and no new event; placement, facing and costume unchanged; hands out of fine work; nothing extra on screen; no sound described; each field one sentence, and camera_vi, action_vi, env_vi a close natural Vietnamese translation of their field.
+FINAL CHECK: one camera move that never reverses and stays wide; one continuous take with no cut and no new event; placement, facing and costume unchanged; hands out of fine work; nothing extra on screen; no sound described; each field one sentence.
 
 ${MOTION_OUTPUT_RULES}`;

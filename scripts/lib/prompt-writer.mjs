@@ -66,10 +66,7 @@ export const PROMPT_EXAMPLES = `EXAMPLES OF GOOD OUTPUT (English parts only — 
 
 const SYSTEM_PROMPT = `You write ONE scene-specific image-generation prompt for a historical illustration, from a short narration line. ${SCENE_PROMPT_RULES}
 
-OUTPUT FORMAT — output exactly two parts and nothing else:
-- First, the English scene prompt as plain prose (this is what counts against the character budget).
-- Then, on its own line, the delimiter ===VI===
-- Then a close, natural Vietnamese translation of that same English prompt (faithful meaning; keep proper names, dynasty/place names and untranslatable technical phrases as-is). The Vietnamese does NOT count against the character budget.
+OUTPUT FORMAT — output the English scene prompt as plain prose and nothing else (this is what counts against the character budget). No Vietnamese translation, no delimiter, no extra commentary.
 
 ${PROMPT_EXAMPLES}`;
 
@@ -150,7 +147,7 @@ export const generateScenePrompt = async ({ narration, characters = [], identity
     ? `\n\nAdjacent scenes (for visual continuity only — do NOT depict them, and do NOT reuse an adjacent beat's setting plus activity: change the terrain, time of day or action so this reads as a new shot):${context.prev ? `\nPrevious: "${context.prev}"` : ''}${context.next ? `\nNext: "${context.next}"` : ''}`
     : '';
   const shotSection = shotNote ? `\n\n${shotNote}` : '';
-  const userPrompt = `Narration for this scene:\n"${narration}"${shotSection}\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now. Keep the English scene prompt under ${budget} characters. Output the two parts in order, separated by the ===VI=== delimiter line.`;
+  const userPrompt = `Narration for this scene:\n"${narration}"${shotSection}\n\nCharacters available in this scene, in this exact order (use only these references):\n${charLines}${notes}${contextNote}\n\nWrite the scene prompt now. Keep the English scene prompt under ${budget} characters.`;
 
   const raw = await chatText({ system: SYSTEM_PROMPT, user: userPrompt, signal, onLog, label: 'Viết prompt ảnh' });
   const { text, vi } = splitSections(raw);

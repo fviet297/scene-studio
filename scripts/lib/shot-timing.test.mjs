@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { estimateNarrationSeconds, groupShotSeconds, MIN_STILL_SECONDS, MIN_TAIL_SHOT_SECONDS, parseMotionDuration, shotCountFor, shotGroups } from './shot-timing.mjs';
+import { estimateNarrationSeconds, flexibleShotSeconds, groupShotSeconds, MIN_STILL_SECONDS, MIN_TAIL_SHOT_SECONDS, parseMotionDuration, shotCountFor, shotGroups } from './shot-timing.mjs';
 
 test('scenes without narration join the narration before them as extra shots', () => {
   const scenes = [{ narration: 'a' }, { narration: '' }, { narration: '' }, { narration: 'b' }, { narration: 'c' }, { narration: '' }];
@@ -85,4 +85,21 @@ test('motion-duration accepts seconds within the bounds', () => {
   assert.deepEqual(parseMotionDuration(''), { value: undefined });
   assert.match(parseMotionDuration('0').error, /motion-duration/);
   assert.match(parseMotionDuration('abc').error, /motion-duration/);
+});
+
+test('a map shot is sized like a still: the narration left after the other clips, shared with the stills', () => {
+  // narration 14.16 s: a character still and a map shot → half each
+  assert.equal(flexibleShotSeconds({ audio: 14.16, shots: [{ clip: 0 }, { clip: 10, flexible: true }], index: 1 }), 7.08);
+  // a map shot alone takes the whole narration
+  assert.equal(flexibleShotSeconds({ audio: 8.02, shots: [{ clip: 10, flexible: true }], index: 0 }), 8.02);
+  // two map shots in one group share it, whatever their current clips last
+  assert.equal(flexibleShotSeconds({ audio: 9, shots: [{ clip: 10, flexible: true }, { clip: 4, flexible: true }], index: 0 }), 4.5);
+});
+
+test('a map shot next to a long motion clip gets the still minimum, never a negative length', () => {
+  assert.equal(flexibleShotSeconds({ audio: 9.07, shots: [{ clip: 10, flexible: true }, { clip: 10 }], index: 0 }), MIN_STILL_SECONDS);
+});
+
+test('a map shot has no length to fit before its narration has audio', () => {
+  assert.equal(flexibleShotSeconds({ audio: null, shots: [{ clip: 10, flexible: true }], index: 0 }), null);
 });

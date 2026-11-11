@@ -35,3 +35,7 @@ tools/ffmpeg/
 
 # Logo and intro video uploaded in the panel (shared by every project, per machine)
 public/brand/custom/
+
+# H2 map plugin (no licence, never published from this public repo; installed per machine by npm run setup-maps)
+*.plugin
+/h2-2d-studio/

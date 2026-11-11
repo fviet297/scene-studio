@@ -156,3 +156,17 @@ test('rejects unknown effect values and ignores unknown layers', () => {
   assert.equal(effects.layers.lasers, undefined);
   assert.equal(effects.layers.fog.enabled, false);
 });
+
+test('intro defaults to a 1.5s silent hold before scene 1', () => {
+  assert.deepEqual(normalizeBranding().intro, { enabled: true, padSeconds: 1.5 });
+  assert.deepEqual(normalizeBranding({ intro: { enabled: false } }).intro, { enabled: false, padSeconds: 1.5 });
+});
+
+test('keeps an intro hold length inside 0-5s, one decimal', () => {
+  assert.equal(normalizeBranding({ intro: { padSeconds: 0 } }).intro.padSeconds, 0);
+  assert.equal(normalizeBranding({ intro: { padSeconds: 2.5 } }).intro.padSeconds, 2.5);
+  assert.equal(normalizeBranding({ intro: { padSeconds: 1.34 } }).intro.padSeconds, 1.3);
+  assert.equal(normalizeBranding({ intro: { padSeconds: 99 } }).intro.padSeconds, 5);
+  assert.equal(normalizeBranding({ intro: { padSeconds: -2 } }).intro.padSeconds, 0);
+  assert.equal(normalizeBranding({ intro: { padSeconds: 'long' } }).intro.padSeconds, 1.5);
+});

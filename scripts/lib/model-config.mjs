@@ -27,7 +27,9 @@ export const BUILTIN_PROVIDERS = [
   { id: 'meta', label: 'Meta', prefix: 'meta:', kinds: ['image'], fields: { apiKey: 'MODEL_API_KEY', baseUrl: 'META_BASE_URL' }, defaults: { baseUrl: 'https://api.meta.ai/v1' } },
   { id: 'muse', label: 'muse2api', prefix: 'muse:', kinds: BOTH, fields: { apiKey: 'MUSE2API_KEY', baseUrl: 'MUSE2API_BASE_URL' }, defaults: { baseUrl: 'http://localhost:18610' } },
   { id: 'llm', label: 'LLM', kinds: [], fields: { apiKey: 'LLM_API_KEY', baseUrl: 'LLM_BASE_URL', model: 'LLM_MODEL', userAgent: 'LLM_USER_AGENT' },
-    placeholders: { baseUrl: 'API chuẩn OpenAI Chat, vd. https://api.openai.com/v1', model: 'vd. gpt-5', userAgent: 'tuỳ chọn — chỉ khi router đòi' } },
+    // Model "muse:<model>" (vd. muse:muse-spark) bỏ qua baseUrl/apiKey ở đây và dùng luôn
+    // MUSE2API_BASE_URL/MUSE2API_KEY của provider muse2api (ảnh/motion) — xem llm-client.mjs.
+    placeholders: { baseUrl: 'API chuẩn OpenAI Chat, vd. https://api.openai.com/v1', model: 'vd. gpt-5, hoặc muse:muse-spark để dùng chung key muse2api', userAgent: 'tuỳ chọn — chỉ khi router đòi' } },
   // Narration TTS (audio source `elevenlabs`, see elevenlabs-client.mjs): kinds [] and role 'tts', so
   // the manager shows a connection form only, like the LLM.
   { id: 'elevenlabs', label: 'ElevenLabs', role: 'tts', kinds: [], fields: { apiKey: 'ELEVENLABS_API_KEY', baseUrl: 'ELEVENLABS_BASE_URL', model: 'ELEVENLABS_MODEL' },

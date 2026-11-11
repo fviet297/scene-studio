@@ -24,6 +24,7 @@ import { providerOf } from './providers.mjs';
 import { parsePlanAspect, aspectInfo, applyAspectText, frameText, DEFAULT_ASPECT } from './aspect.mjs';
 import { TEMPLATE_VI_DEFAULTS } from './template-vi.mjs';
 import { MOTION_SYSTEM } from './motion-template.mjs';
+import { isMapScene, MAP_TEMPLATE } from './map-image.mjs';
 import { readPlanHeader, writePlanHeader } from './plan-writer.mjs';
 
 // Which project's public/projects/<slug>/images/ + asset-manifest.json this module reads and
@@ -139,6 +140,8 @@ NEGATIVE: [GUARD], character portrait, giant foreground figure.`;
 // scene's own prompt with these. Placeholders, filled in every template: [STYLE] = style DNA,
 // [GUARD] = the style's shared negative list, [FRAME] = the project aspect's frame and safe-zone
 // line (aspect.mjs), [SCENE-SPECIFIC PROMPT] = that scene's prompt from the plan.
+// `mapPrompt` replaces `text2img` for map scenes (map-image.mjs isMapScene) and deliberately uses
+// neither [STYLE] nor [GUARD].
 // `motionSystem` is not an image template: it is the system prompt the motion writer
 // (motion-writer.mjs) sends to the LLM that writes camera/action/env. It lives in this store so the
 // panel edits it beside the image templates and it follows the project's style version; it never
@@ -150,6 +153,7 @@ const TEMPLATE_DEFAULTS = {
   faceLockPrompt: FACE_LOCK_PROMPT,
   multiCharPrompt: MULTI_CHAR_PROMPT,
   text2img: TEXT2IMG_TEMPLATE,
+  mapPrompt: MAP_TEMPLATE,
   motionSystem: MOTION_SYSTEM,
 };
 export const TEMPLATE_KEYS = Object.keys(TEMPLATE_DEFAULTS);
@@ -230,6 +234,12 @@ const buildPrompt = (t, scenePrompt, template, aspect = currentAspect()) =>
     .replace('[SCENE-SPECIFIC PROMPT]', scenePrompt)}\n\n${FIGURE_RULES}\n\n${NO_TEXT_FINAL_CHECK}`, aspect);
 
 
+// Template for a scene with no character reference: a map frame gets the map template, anything
+// else the style's text2img.
+const noReferenceRoute = (scene, t) => (isMapScene(scene)
+  ? { route: 'map', template: t.mapPrompt }
+  : { route: 'text2img', template: t.text2img });
+
 // The full prompt string generateSceneImage would send for one scene (template + style + scene
 // prompt), so the review panel can count it against SEEDREAM_PROMPT_LIMIT before generating.
 // Routes by declared character count, mirroring generateSceneImage's template choice.
@@ -242,7 +252,7 @@ export const assemblePrompt = (scene, templates = getTemplates(), aspect = curre
     const template = multi ? templates.multiCharPrompt : face ? templates.faceLockPrompt : templates.masterPrompt;
     return buildPrompt(templates, scenePrompt, template, aspect);
   }
-  return buildPrompt(templates, scenePrompt, templates.text2img, aspect);
+  return buildPrompt(templates, scenePrompt, noReferenceRoute(scene, templates).template, aspect);
 };
 
 // Default image model for every scene regardless of reference count (single-character,
@@ -540,10 +550,11 @@ export const generateSceneImage = async (scene, characters, opts = {}) => {
     via = `${model} ${route}`;
   } else {
     const model = override ?? text;
-    const prompt = buildPrompt(t, scene.image.prompt, t.text2img, aspect);
-    onLog(`route: text2img, model=${model}, aspect=${aspect}, no reference, prompt=${prompt.length} chars`);
+    const { route, template } = noReferenceRoute(scene, t);
+    const prompt = buildPrompt(t, scene.image.prompt, template, aspect);
+    onLog(`route: ${route}, model=${model}, aspect=${aspect}, no reference, prompt=${prompt.length} chars`);
     url = await runImageModel(token, model, { prompt, refPaths: [], aspect, onLog, signal });
-    via = `${model} text2img`;
+    via = `${model} ${route}`;
   }
 
   signal?.throwIfAborted(); // cancelled while the provider finished: keep the current image

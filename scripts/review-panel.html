@@ -304,6 +304,7 @@
     <span class="bar-sep"></span>
     <span class="scene-no" id="tlScene">Scene</span>
     <span class="tag" id="tlKind"></span>
+    <button class="btn sm" type="button" id="tlDrawMap" hidden title="Vẽ bản đồ của scene này bằng code (bộ vẽ H2): ra cả ảnh và clip, không dùng model ảnh">Vẽ</button>
     <button class="btn sm quiet" type="button" id="batchInsert" title="Chèn một scene trống ngay dưới scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Chèn</button>
     <button class="btn sm quiet danger" type="button" id="batchDelete" title="Xoá scene đang chọn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 14h10l1-14"/></svg>Xoá</button>
     <span class="tl-undo" role="group" aria-label="Hoàn tác / làm lại scene đang chọn">
@@ -388,6 +389,7 @@
       <option value="all">Tất cả</option>
       <option value="failed" disabled>Scene lỗi gần nhất</option>
       <option value="needImg">Thiếu ảnh</option>
+      <option value="map" title="Mọi scene là bản đồ (vẽ bằng code)">Scene bản đồ</option>
       <option value="needAud">Thiếu audio</option>
       <option value="staleAud" title="Scene có narration đã sửa sau khi sinh audio">Audio cũ</option>
       <option value="needPrompt">Thiếu prompt</option>
@@ -497,6 +499,7 @@
       <div class="field"><label for="t_faceLockPrompt">Prompt khoá khuôn mặt</label><textarea id="t_faceLockPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="faceLockPrompt" data-out="tr_faceLockPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_faceLockPrompt" hidden></div></div>
       <div class="field"><label for="t_multiCharPrompt">Prompt nhiều nhân vật, từ 2 <code>char</code></label><textarea id="t_multiCharPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="multiCharPrompt" data-out="tr_multiCharPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_multiCharPrompt" hidden></div></div>
       <div class="field"><label for="t_text2img">Text-to-image, không nhân vật</label><textarea id="t_text2img" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="text2img" data-out="tr_text2img" data-label="Dịch">Dịch</button><div class="translation" id="tr_text2img" hidden></div></div>
+      <div class="field"><label for="t_mapPrompt">Bản đồ, cảnh không nhân vật mở bằng <code>Wide/Close top-down map</code></label><textarea id="t_mapPrompt" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="mapPrompt" data-out="tr_mapPrompt" data-label="Dịch">Dịch</button><div class="translation" id="tr_mapPrompt" hidden></div></div>
       <div class="field"><label for="t_guard">Guard / negative <code>[GUARD]</code></label><textarea id="t_guard" spellcheck="false"></textarea><button class="btn sm btn-translate" type="button" data-vi="guard" data-out="tr_guard" data-label="Dịch">Dịch</button><div class="translation" id="tr_guard" hidden></div></div>
       <details class="advanced tpl-advanced" id="tplAdvanced">
         <summary>Nâng cao: prompt hệ thống viết motion</summary>
@@ -594,6 +597,18 @@
           <button class="btn sm btn-translate" type="button" id="btnTransPrompt" data-vi="scenePrompt" data-out="promptTrans" data-label="Dịch">Dịch</button>
         </div>
         <div class="translation" id="promptTrans" hidden></div>
+      </div>
+
+      <div class="block" id="mapBlock" hidden>
+        <div class="block-head">
+          <span class="ttl">Bản đồ</span>
+          <span class="hint" id="mapHint"></span>
+          <span class="hint">vẽ bằng code, không dùng model ảnh</span>
+        </div>
+        <textarea id="mapBox" rows="8" spellcheck="false" aria-label="Đặc tả bản đồ (JSON) của scene đang chọn" placeholder='Để trống: khi vẽ, AI viết đặc tả từ lời đọc và prompt. Ví dụ: {"view":"bac-trung-bo","year":"1627","regions":[{"r":"goc","color":"#e0a526"}],"arrows":[{"from":"nghe-an","to":"song-gianh","color":"orange"}]}'></textarea>
+        <div class="btn-row">
+          <button class="btn sm" type="button" id="mapSave" disabled>Lưu bản đồ</button>
+        </div>
       </div>
 
       <div class="block" id="searchBlock" hidden>
@@ -1061,6 +1076,11 @@
             <input type="file" id="brandIntroFile" accept="video/mp4,video/quicktime,video/webm" aria-label="Chọn video intro MP4, MOV hoặc WebM" hidden />
             <video class="brand-intro-preview" id="brandIntroPreview" controls preload="metadata" hidden></video>
             <span class="note" id="brandIntroNote">Chưa có intro. Video tải lên là intro mặc định của mọi project.</span>
+          </div>
+          <div class="field brand-intro-field">
+            <label for="brandIntroPad">Khoảng lặng sau intro <output class="num" id="brandIntroPadVal" for="brandIntroPad"></output></label>
+            <input type="range" id="brandIntroPad" min="0" max="5" step="0.5" />
+            <span class="note">Im lặng trước khi người dẫn bắt đầu nói ở scene 1.</span>
           </div>
         </fieldset>
         <fieldset class="brand-group">

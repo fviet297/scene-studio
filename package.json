@@ -25,6 +25,7 @@
     "dev": "node scripts/build-remotion.mjs --stale && remotion studio",
     "review": "node scripts/review-server.mjs",
     "sync": "node scripts/sync-media.mjs",
+    "setup-maps": "node scripts/setup-map-kit.mjs",
     "setup:services": "node scripts/setup-services.mjs",
     "build": "node scripts/build-remotion.mjs --stale && remotion bundle",
     "upgrade": "remotion upgrade",

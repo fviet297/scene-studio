@@ -88,6 +88,7 @@ const TEMPLATE_FIELDS = [
   "faceLockPrompt",
   "multiCharPrompt",
   "text2img",
+  "mapPrompt",
   "guard",
   "motionSystem",
 ];
@@ -117,7 +118,16 @@ let templateVersions = [];
 // "Dịch" buttons on template fields can show the stored Vietnamese without any translation call.
 let currentTemplates = {};
 const selected = new Set();
-const drafts = { prompt: new Map(), narr: new Map(), motion: new Map(), edit: new Map() };
+const drafts = { prompt: new Map(), narr: new Map(), motion: new Map(), edit: new Map(), map: new Map() };
+// A map scene's spec (s.map, one JSON line) shown indented for editing; the raw text when it is not JSON.
+const prettyMap = (text) => {
+  if (!text) return "";
+  try {
+    return JSON.stringify(JSON.parse(text), null, 1);
+  } catch {
+    return text;
+  }
+};
 
 // A clip animated from an image that has since been replaced is kept on disk but never played:
 // the preview and the render show the current image until the motion is regenerated.
@@ -519,6 +529,7 @@ function syncJobUi() {
   renderPipeline();
   renderRail();
   renderStage();
+  syncTimelineMapButton();
   syncScriptGenButtons();
   updateScriptFoot();
   syncGlobalButtons();
@@ -613,6 +624,7 @@ function render() {
   renderRail();
   renderStage();
   renderSelection();
+  syncTimelineMapButton();
   syncScriptGenButtons();
   // The timeline lives in its own script (review-timeline.js) and redraws on this signal.
   document.dispatchEvent(new CustomEvent("studio:render"));
@@ -1020,9 +1032,9 @@ function renderStage() {
   const status = sceneStatus(s);
   $("stScene").textContent = `Scene ${s.scene}`;
   $("stKind").hidden = false;
-  $("stKind").textContent = s.kind === "ai" ? "AI" : "TÌM ẢNH";
-  $("stSource").hidden = s.source !== "upload";
-  $("stSource").textContent = "ảnh của bạn";
+  $("stKind").textContent = s.isMap ? "BẢN ĐỒ" : s.kind === "ai" ? "AI" : "TÌM ẢNH";
+  $("stSource").hidden = s.source !== "upload" && s.source !== "map";
+  $("stSource").textContent = s.source === "map" ? "vẽ bằng code" : "ảnh của bạn";
   $("stState").hidden = false;
   $("stState").textContent = STATE_LABEL[status];
   $("stState").classList.toggle("on", status === "done");
@@ -1194,6 +1206,65 @@ const genOrCancel = (kind, start) => () => {
   else start(s);
 };
 
+// A map scene is drawn by code (scripts/lib/map-render.mjs): one image job that writes the still
+// and the clip, with no prompt or model to send — so it never reads the image dialog's prompt box,
+// which may hold another scene's text when started from the timeline or the row button.
+// Many scenes at once go through the image batch endpoint, which draws each map scene in turn.
+function drawMapScenes(nums) {
+  enqueueJob({
+    lane: "media",
+    kind: "image",
+    scenes: nums,
+    label: (ns) =>
+      ns.length > 1
+        ? `Đang vẽ bản đồ cho scene ${sceneList(ns)}`
+        : `Đang vẽ bản đồ cho scene ${ns[0]}`,
+    run: consoleJob("/api/generate-batch", (ns) => ({ scenes: ns })),
+  });
+}
+const drawMapScene = (s) => drawMapScenes([s.scene]);
+
+// Timeline toolbar "Vẽ bản đồ": draws every map scene among the selection, else the scene the
+// timeline shows (review-timeline.js sets tlInfoSceneNo). Hidden when neither holds a map scene.
+let tlInfoSceneNo = null;
+function mapDrawTargets() {
+  const picked = [...selected].filter((n) => findScene(n)?.isMap);
+  if (picked.length) return picked.sort((a, b) => a - b);
+  const s = tlInfoSceneNo === null ? null : findScene(tlInfoSceneNo);
+  return s?.isMap ? [s.scene] : [];
+}
+function syncTimelineMapButton() {
+  const btn = $("tlDrawMap");
+  const nums = mapDrawTargets();
+  btn.hidden = nums.length === 0;
+  if (!nums.length) return;
+  const pending = nums.filter((n) => hasPending("image", n));
+  const allPending = pending.length === nums.length;
+  // Short label: the kind tag beside it already reads "bản đồ", and the toolbar is full at 1600 px.
+  btn.textContent = allPending
+    ? "Huỷ"
+    : nums.length > 1
+      ? `Vẽ lại ${nums.length}`
+      : nums.every((n) => findScene(n)?.hasImage)
+        ? "Vẽ lại"
+        : "Vẽ";
+  btn.classList.toggle("is-cancel", allPending);
+  btn.disabled = !allPending && Boolean(globalOp);
+  btn.title = allPending
+    ? `Huỷ vẽ bản đồ scene ${sceneList(nums)}`
+    : `Vẽ bản đồ scene ${sceneList(nums)} bằng code (bộ vẽ H2): ra cả ảnh và clip, không dùng model ảnh`;
+}
+$("tlDrawMap").addEventListener("click", () => {
+  const nums = mapDrawTargets();
+  if (!nums.length) return;
+  const pending = nums.filter((n) => hasPending("image", n));
+  if (pending.length === nums.length) {
+    for (const n of pending) cancelSceneJob("image", n);
+    return;
+  }
+  drawMapScenes(nums.filter((n) => !hasPending("image", n)));
+});
+
 // Stage-header done pill: shape (filled dot via .on) + word, matching the rail pips.
 function setStageState(id, done) {
   const el = $(id);
@@ -1228,7 +1299,9 @@ function syncInspector(s) {
 
   const isAi = s.kind === "ai";
   $("promptBlock").hidden = !isAi;
-  $("editBlock").hidden = !isAi;
+  // A map scene is drawn by code: no image model to pick and no AI edit of its picture.
+  $("editBlock").hidden = !isAi || Boolean(s.isMap);
+  $("imageModelSelect").hidden = Boolean(s.isMap);
   $("searchBlock").hidden = isAi;
   if (isAi) {
     const box = $("promptBox");
@@ -1244,9 +1317,21 @@ function syncInspector(s) {
       $("btnGen"),
       "image",
       s.scene,
-      s.hasImage ? "Sinh lại ảnh" : "Sinh ảnh",
-      !globalOp,
+      s.isMap
+        ? s.hasImage
+          ? "Vẽ lại bản đồ"
+          : "Vẽ bản đồ"
+        : s.hasImage
+          ? "Sinh lại ảnh"
+          : "Sinh ảnh",
+      // A map's clip length comes from its share of the narration audio: without audio yet that
+      // share is a guess, so block drawing until the narration has audio.
+      !globalOp && (!s.isMap || s.hasAudio),
     );
+    $("btnGen").title = s.isMap && !s.hasAudio
+      ? "Chưa có audio cho narration — sinh audio trước (độ dài bản đồ tính theo audio)"
+      : "";
+    syncMapBlock(s);
     $("btnGenPrompt").disabled =
       Boolean(globalOp) ||
       hasPending("prompt", s.scene) ||
@@ -1254,6 +1339,7 @@ function syncInspector(s) {
     syncEditBlock(s);
   } else {
     $("searchQuery").textContent = s.query || "chưa có từ khoá";
+    $("mapBlock").hidden = true;
   }
 
   $("btnUpload").textContent = s.hasImage
@@ -1264,19 +1350,30 @@ function syncInspector(s) {
   const hasPrompt = Boolean(
     (drafts.prompt.get(s.scene) ?? s.prompt ?? "").trim(),
   );
+  // A map scene is drawn by code from its map spec (or one the server writes): no prompt needed.
   syncGenButton(
     $("btnRowGenImage"),
     "image",
     s.scene,
-    s.hasImage ? "Sinh lại" : "Sinh",
-    !globalOp && isAi && hasPrompt,
+    s.isMap
+      ? s.hasImage
+        ? "Vẽ lại"
+        : "Vẽ"
+      : s.hasImage
+        ? "Sinh lại"
+        : "Sinh",
+    !globalOp && isAi && (s.isMap ? s.hasAudio : hasPrompt),
     true,
   );
   $("btnRowGenImage").title = !isAi
     ? "Scene tìm ảnh — không sinh bằng AI; tải ảnh lên trong popup Sửa"
-    : hasPrompt
-      ? "Sinh ảnh cho scene này từ prompt (model ở popup Sửa)"
-      : "Chưa có prompt — viết prompt trong popup Sửa";
+    : s.isMap
+      ? s.hasAudio
+        ? "Vẽ bản đồ của scene này bằng code (bộ vẽ H2): ra cả ảnh và clip, không dùng model ảnh"
+        : "Chưa có audio cho narration — sinh audio trước (độ dài bản đồ tính theo audio)"
+      : hasPrompt
+        ? "Sinh ảnh cho scene này từ prompt (model ở popup Sửa)"
+        : "Chưa có prompt — viết prompt trong popup Sửa";
   syncGenButton(
     $("btnAudio"),
     "audio",
@@ -1432,6 +1529,7 @@ function renderSelection() {
     cell.classList.toggle("selected", on);
     cell.querySelector(".tl-clip")?.setAttribute("aria-pressed", String(on));
   }
+  syncTimelineMapButton();
 }
 
 // ------------------------------------------------------------------ actions
@@ -2068,7 +2166,9 @@ async function generateImage() {
   const s = current();
   if (!s) return;
   const prompt = $("promptBox").value;
-  if (!prompt.trim()) {
+  // A map scene is drawn by code from its map spec (or, without one, a spec the server writes from
+  // the narration and prompt), so it needs neither a prompt nor an image model.
+  if (!prompt.trim() && !s.isMap) {
     showError("Prompt đang trống.");
     return;
   }
@@ -2081,9 +2181,46 @@ async function generateImage() {
     lane: "media",
     kind: "image",
     scenes: [s.scene],
-    label: () => `Đang sinh ảnh cho scene ${s.scene}`,
+    label: () =>
+      s.isMap
+        ? `Đang vẽ bản đồ cho scene ${s.scene}`
+        : `Đang sinh ảnh cho scene ${s.scene}`,
     run: consoleJob("/api/generate", () => ({ scene: s.scene, model })),
   });
+}
+
+// The map spec editor of a map scene (drawn by code, scripts/lib/map-render.mjs). Blank = no spec
+// yet: drawing the map then has the server write one from the narration and the prompt.
+function syncMapBlock(s) {
+  $("mapBlock").hidden = !s.isMap;
+  if (!s.isMap) return;
+  const box = $("mapBox");
+  const saved = prettyMap(s.map);
+  const draft = drafts.map.get(s.scene);
+  if (document.activeElement !== box) box.value = draft ?? saved;
+  markDirty(box, $("mapSave"), $("mapHint"), box.value.trim() !== saved.trim());
+}
+
+async function saveMapSpec() {
+  const s = current();
+  if (!s) return;
+  const btn = $("mapSave");
+  btn.disabled = true;
+  btn.textContent = "Đang lưu...";
+  try {
+    state = await api("/api/scene-field", {
+      scene: s.scene,
+      field: "map",
+      value: $("mapBox").value,
+    });
+    drafts.map.delete(s.scene);
+    render();
+    toast(`Scene ${s.scene}: đã lưu bản đồ. Bấm Vẽ lại bản đồ để cập nhật ảnh và clip.`);
+  } catch (e) {
+    toast(e.message, false);
+  } finally {
+    btn.textContent = "Lưu bản đồ";
+  }
 }
 
 // "Sửa ảnh đã có": the scene's current image plus the typed change go to the image model, which
@@ -2495,10 +2632,22 @@ $("motionWrite").addEventListener("click", () => {
 $("promptSave").addEventListener("click", () =>
   saveField("prompt", $("promptBox").value),
 );
+$("mapBox").addEventListener("input", (e) => {
+  const s = current();
+  if (!s) return;
+  drafts.map.set(s.scene, e.target.value);
+  markDirty(
+    e.target,
+    $("mapSave"),
+    $("mapHint"),
+    e.target.value.trim() !== prettyMap(s.map).trim(),
+  );
+});
+$("mapSave").addEventListener("click", saveMapSpec);
 $("btnGen").addEventListener("click", genOrCancel("image", generateImage));
 $("btnRowGenImage").addEventListener(
   "click",
-  genOrCancel("image", generateImage),
+  genOrCancel("image", (s) => (s.isMap ? drawMapScene(s) : generateImage())),
 );
 $("btnGenPrompt").addEventListener("click", generatePromptFromNarration);
 $("editBox").addEventListener("input", () => {
@@ -2693,11 +2842,13 @@ const pickWhere = (test) => {
 };
 const QUICK_PICKS = {
   all: () => true,
-  needImg: (s) => !s.hasImage && s.kind === "ai",
+  needImg: (s) => !s.hasImage && s.kind === "ai" && !s.isMap,
+  map: (s) => s.isMap,
   needAud: (s) => !s.hasAudio,
   staleAud: (s) => s.audioStale,
   failed: (s) => failedScenes().includes(s.scene),
-  needPrompt: (s) => s.kind === "ai" && !(s.prompt || "").trim(),
+  // A map scene is drawn by code from its map spec: it needs no image prompt or motion prompt.
+  needPrompt: (s) => s.kind === "ai" && !s.isMap && !(s.prompt || "").trim(),
   // Same meaning as the rail's "Thiếu motion" filter: ready for a motion video, none yet.
   needMotion: (s) => sceneStatus(s) === "need-render",
 };
@@ -2805,7 +2956,7 @@ const REWRITE_FIELDS = {
   motion: ["camera", "action", "env"],
 };
 function canWritePrompt(s, kind) {
-  if (s.kind !== "ai") return false;
+  if (s.kind !== "ai" || s.isMap) return false;
   if (kind === "motion")
     return Boolean((s.beat || "").trim() || (s.prompt || "").trim());
   return Boolean(drawnNarration(s));
@@ -3609,7 +3760,10 @@ const readBrandForm = () => ({
     enabled: $("brandWmOn").checked,
     opacity: Number($("brandWmOpacity").value) / 100,
   },
-  intro: { enabled: $("brandIntroOn").checked },
+  intro: {
+    enabled: $("brandIntroOn").checked,
+    padSeconds: Number($("brandIntroPad").value),
+  },
   // Not edited in this dialog (the timeline toggles own them); carried through so saving the
   // logo settings does not reset them.
   captions: state.branding?.captions,
@@ -3620,6 +3774,7 @@ const readBrandForm = () => ({
 const fillBrandForm = ({ name, logo, watermark, intro }) => {
   $("brandName").value = name;
   $("brandIntroOn").checked = intro?.enabled ?? true;
+  $("brandIntroPad").value = intro?.padSeconds ?? 1.5;
   $("brandLogoOn").checked = logo.enabled;
   $("brandLogoPos").value = logo.position;
   $("brandLogoAnchor").value = logo.anchor;
@@ -3696,6 +3851,7 @@ const renderBrandPreview = () => {
   $("brandLogoMarginVal").textContent = `${$("brandLogoMargin").value}px`;
   $("brandLogoSizeVal").textContent = `${$("brandLogoSize").value}px`;
   $("brandLogoTextVal").textContent = `${$("brandLogoText").value}px`;
+  $("brandIntroPadVal").textContent = `${$("brandIntroPad").value}s`;
   paintBrandLayer($("brandFrame"), readBrandForm());
 };
 
@@ -3720,6 +3876,7 @@ $("btnBrand").addEventListener("click", async () => {
 });
 for (const id of [
   "brandName",
+  "brandIntroPad",
   "brandLogoOn",
   "brandLogoPos",
   "brandLogoAnchor",
@@ -3740,11 +3897,17 @@ $("brandOverlay").addEventListener("click", (e) => {
 $("brandSave").addEventListener("click", async () => {
   $("brandSave").disabled = true;
   try {
-    const introWasOn = state.branding?.intro?.enabled ?? true;
+    // The player holds its own copy of the bundle, so a changed intro switch or hold length only
+    // shows after it reloads.
+    const introBefore = state.branding?.intro ?? {};
     const { branding } = await api("/api/branding", readBrandForm());
     state = { ...state, branding };
     render();
-    if (branding.intro.enabled !== introWasOn) reloadRenderPreview();
+    if (
+      branding.intro.enabled !== introBefore.enabled ||
+      branding.intro.padSeconds !== introBefore.padSeconds
+    )
+      reloadRenderPreview();
     $("brandOverlay").hidden = true;
     toast("Đã lưu logo & watermark. Áp dụng ở lần Render MP4 tiếp theo.");
   } catch (e) {
@@ -4209,6 +4372,7 @@ const scenesMissingPrompt = () =>
     .filter(
       (s) =>
         s.kind === "ai" &&
+        !s.isMap &&
         drawnNarration(s) &&
         !(s.prompt || "").trim() &&
         !hasPending("prompt", s.scene),
@@ -4235,6 +4399,7 @@ const scenesMissingMotion = () =>
     .filter(
       (s) =>
         s.kind === "ai" &&
+        !s.isMap &&
         ((s.beat || "").trim() || (s.prompt || "").trim()) &&
         ![s.camera, s.action, s.env].some((v) => (v || "").trim()) &&
         !hasPending("motionPrompt", s.scene),

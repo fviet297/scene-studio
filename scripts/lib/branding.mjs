@@ -50,13 +50,19 @@ const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 // Brand name under the corner logo and in the centre watermark; empty = logo only.
 export const BRAND_NAME_MAX = 24;
 
+// Silence held after the intro's last frame before scene 1 starts, in seconds. The intro ends with
+// the channel voice over its own music; starting the narrator on the next frame makes the two
+// voices collide, so every video gets a short breath first (bounds match the panel field).
+export const INTRO_PAD_RANGE = { min: 0, max: 5 };
+
 export const DEFAULT_BRANDING = {
   name: 'FVIET',
   logo: { enabled: true, position: 'top-right', anchor: 'crop', opacity: 0.85, margin: 24, size: 64, textSize: 18 },
   watermark: { enabled: true, opacity: 0.08 },
   // Intro video uploaded in the panel (lib/brand-assets.mjs) played before the first scene. On by
-  // default like the logo, but it only appears once an intro has been uploaded.
-  intro: { enabled: true },
+  // default like the logo, but it only appears once an intro has been uploaded. padSeconds is the
+  // silent hold between its last frame and scene 1 (INTRO_PAD_RANGE).
+  intro: { enabled: true, padSeconds: 1.5 },
   // Burned-in narration subtitles with a word-by-word highlight (src/CaptionTrack.tsx). Off by
   // default so existing projects keep rendering exactly as before.
   captions: {
@@ -91,6 +97,12 @@ const hexColor = (value, fallback) => (typeof value === 'string' && HEX_COLOR.te
 const clampInt = (value, { min, max }, fallback) => {
   const n = Number(value);
   return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback;
+};
+
+// One decimal place: the panel steps intro padding in half seconds.
+const clampSeconds = (value, { min, max }, fallback) => {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n * 10) / 10)) : fallback;
 };
 
 const normalizeEffects = (raw = {}) => {
@@ -135,7 +147,10 @@ export const normalizeBranding = (raw = {}) => {
       enabled: typeof watermark.enabled === 'boolean' ? watermark.enabled : d.watermark.enabled,
       opacity: clampOpacity(watermark.opacity, d.watermark.opacity),
     },
-    intro: { enabled: flag(raw.intro?.enabled, d.intro.enabled) },
+    intro: {
+      enabled: flag(raw.intro?.enabled, d.intro.enabled),
+      padSeconds: clampSeconds(raw.intro?.padSeconds, INTRO_PAD_RANGE, d.intro.padSeconds),
+    },
     captions: {
       enabled: typeof captions.enabled === 'boolean' ? captions.enabled : d.captions.enabled,
       font: CAPTION_FONTS.includes(captions.font) ? captions.font : d.captions.font,

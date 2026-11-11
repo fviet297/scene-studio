@@ -236,7 +236,13 @@ function timelineClips() {
 const clipsTotal = (clips) => clips.reduce((sum, c) => sum + c.seconds, 0);
 
 const clipKind = (s) =>
-  playsMotion(s) ? "motion video" : s.hasImage ? "ảnh tĩnh" : "chưa có ảnh";
+  s.isMap && s.hasImage
+    ? "bản đồ"
+    : playsMotion(s)
+      ? "motion video"
+      : s.hasImage
+        ? "ảnh tĩnh"
+        : "chưa có ảnh";
 
 // ------------------------------------------------------------------ render
 
@@ -488,6 +494,9 @@ function showSceneInfo(s) {
   ].filter(Boolean);
   $("tlKind").textContent = [clipKind(s), ...notes].join(" · ");
   $("tlKind").classList.toggle("stale", Boolean(s.motionStale));
+  // The "Vẽ bản đồ" button (review-panel.js) acts on the scene shown here.
+  tlInfoSceneNo = s.scene;
+  syncTimelineMapButton();
   syncTimelineHistory(s);
   for (const btn of $("tlClips").querySelectorAll(".tl-clip"))
     btn.setAttribute(
@@ -837,11 +846,13 @@ function loadPreviewScript() {
   return tlRender.script;
 }
 
-// The channel intro plays ahead of scene 1 in the player, but the timeline starts at scene 1: its
-// clip times are the player's frames minus these. While the intro plays the playhead waits at 0.
+// The channel intro (and the silent hold after it) plays ahead of scene 1 in the player, but the
+// timeline starts at scene 1: its clip times are the player's frames minus these. While the intro
+// and the hold run, the playhead waits at 0.
 function playerIntroFrames() {
   const project = tlRender.project;
-  return project?.introSrc ? (project.introFrames ?? 0) : 0;
+  if (!project?.introSrc) return 0;
+  return (project.introFrames ?? 0) + (project.introPadFrames ?? 0);
 }
 
 // The player owns the clock in the render modes; the timeline only follows its frame.

@@ -7,6 +7,13 @@
 // still parsed, since not every OpenAI-compatible server honours response_format. chatText returns
 // the plain reply (the image-prompt writer's delimiter format).
 
+// LLM_MODEL = "muse:<model>" reuses the muse2api image/motion provider's own endpoint and key
+// (MUSE2API_BASE_URL, MUSE2API_KEY) instead of LLM_BASE_URL/LLM_API_KEY, so a museapi chat model
+// (e.g. muse-spark) needs no separate key entered in the panel's LLM form.
+import { builtinDefault } from './model-config.mjs';
+
+const MUSE_PREFIX = 'muse:';
+
 // A whole-video story from a reasoning model can take several minutes to come back.
 const REQUEST_TIMEOUT_MS = 8 * 60_000;
 // Rate limits, gateway errors, and the Cloudflare 52x codes routers answer with when the model
@@ -15,11 +22,20 @@ const RETRY_STATUSES = [408, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524];
 const MAX_ATTEMPTS = 3;
 const RETRY_DELAY_MS = 2000;
 
+const museConfig = (model) => {
+  const baseUrl = (process.env.MUSE2API_BASE_URL ?? builtinDefault('muse', 'baseUrl')).replace(/\/+$/, '');
+  const apiKey = process.env.MUSE2API_KEY?.trim();
+  if (!apiKey) throw new Error('Thiếu MUSE2API_KEY trong .env hoặc Model › muse2api');
+  return { baseUrl: `${baseUrl}/v1`, apiKey, model: model.slice(MUSE_PREFIX.length), userAgent: null };
+};
+
 export const llmConfig = () => {
+  const model = process.env.LLM_MODEL?.trim();
+  if (model?.startsWith(MUSE_PREFIX)) return museConfig(model);
   const config = {
     baseUrl: process.env.LLM_BASE_URL?.trim().replace(/\/+$/, ''),
     apiKey: process.env.LLM_API_KEY?.trim(),
-    model: process.env.LLM_MODEL?.trim(),
+    model,
     userAgent: process.env.LLM_USER_AGENT?.trim() || null,
   };
   const missing = ['baseUrl', 'apiKey', 'model'].filter((key) => !config[key]);
@@ -33,6 +49,12 @@ export const llmConfig = () => {
 // "model @ host" for log lines, so a run shows which provider it hit. Never throws on missing config.
 export const describeLlm = () => {
   const model = process.env.LLM_MODEL?.trim() || '?';
+  if (model.startsWith(MUSE_PREFIX)) {
+    const baseUrl = process.env.MUSE2API_BASE_URL ?? builtinDefault('muse', 'baseUrl');
+    let host = '?';
+    try { host = new URL(baseUrl).host; } catch { /* unset or malformed — chatJson reports it */ }
+    return `${model} @ ${host}`;
+  }
   const baseUrl = process.env.LLM_BASE_URL?.trim();
   let host = '?';
   try { host = new URL(baseUrl).host; } catch { /* unset or malformed — chatJson reports it */ }

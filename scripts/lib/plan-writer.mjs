@@ -4,7 +4,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const FIELD_RE = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration)\s*:/i;
+const FIELD_RE = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration|map)\s*:/i;
 
 // Write one scene field, replacing an existing `field:` line or inserting one after
 // `narration:`. Leaves every other line intact.
@@ -61,7 +61,7 @@ export const removeSceneField = (planMd, sceneNo, field) => {
 // English part retires the scene's older single-line `motion:` / `motion_vi:`, which would
 // otherwise sit in the file looking authoritative while the three parts are what gets sent.
 export const writeMotionParts = (planMd, sceneNo, parts) => {
-  for (const f of MOTION_PART_KEYS) if (typeof parts[f] === 'string') writeSceneField(planMd, sceneNo, f, parts[f]);
+  for (const f of MOTION_PART_KEYS) if ((parts[f] ?? '').trim()) writeSceneField(planMd, sceneNo, f, parts[f]);
   if (['camera', 'action', 'env'].some((f) => (parts[f] ?? '').trim())) {
     removeSceneField(planMd, sceneNo, 'motion');
     removeSceneField(planMd, sceneNo, 'motion_vi');
@@ -83,6 +83,8 @@ const sceneBlockLines = (sceneNo, fields) => {
   if (fields.beat) block.push(`beat: ${clean(fields.beat)}`);
   if (fields.prompt) block.push(`prompt: ${clean(fields.prompt)}`);
   if (fields.prompt_vi) block.push(`prompt_vi: ${clean(fields.prompt_vi)}`);
+  // map: a map scene's one-line JSON spec, drawn by code instead of an image model (map-render.mjs).
+  if (fields.map) block.push(`map: ${clean(fields.map)}`);
   if (fields.motion) block.push(`motion: ${clean(fields.motion)}`);
   if (fields.motion_vi) block.push(`motion_vi: ${clean(fields.motion_vi)}`);
   for (const f of MOTION_PART_KEYS) if (fields[f]) block.push(`${f}: ${clean(fields[f])}`);

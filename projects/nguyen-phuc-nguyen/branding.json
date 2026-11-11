@@ -1,5 +1,5 @@
 {
-  "name": "FVIET",
+  "name": "",
   "logo": {
     "enabled": true,
     "position": "top-right",
@@ -12,6 +12,9 @@
   "watermark": {
     "enabled": true,
     "opacity": 0.08
+  },
+  "intro": {
+    "enabled": true
   },
   "captions": {
     "enabled": false,
@@ -30,14 +33,14 @@
   },
   "title": {
     "enabled": true,
-    "font": "montserrat",
+    "font": "playfair",
     "size": 33,
-    "color": "#ffffff",
-    "strokeWidth": 0,
-    "strokeColor": "#000000",
-    "backgroundOpacity": 0.7,
+    "color": "#f6d98b",
+    "strokeWidth": 3,
+    "strokeColor": "#1d1307",
+    "backgroundOpacity": 0,
     "uppercase": true,
-    "shadow": false,
+    "shadow": true,
     "scrim": true,
     "position": "bottom",
     "offsetY": 0

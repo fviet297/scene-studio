@@ -5,6 +5,10 @@
 //
 // Mirrors the lsvn skill's map mode (~/.claude/skills/lsvn/SKILL.md §9 and references/bandosu/),
 // which folds in the h2-bandosu-studio plugin. Change one, change the other.
+//
+// With the H2 map kit installed (map-render.mjs, `npm run setup-maps`), map scenes are drawn by
+// code: script-writer.mjs gives them a `map:` spec (map-spec-writer.mjs) and skips the image and
+// motion prompts, so MAP_PROMPT_RULES / MAP_MOTION_SYSTEM below only serve machines without the kit.
 
 import { MOTION_OUTPUT_RULES } from './motion-template.mjs';
 
@@ -39,18 +43,18 @@ SCENES — exactly the requested number, numbered 1..N in order
 - narration: the Vietnamese voice-over line.
 - cue: the delivery emotion, one of neutral | dramatic | tense | somber | hopeful | curious. Opening → curious or dramatic; stages → neutral; an invasion or a loss of land → tense; the three reasons → dramatic; legacy → hopeful; the closing question → curious. Vary it.
 - chars: usually [].
-- visual: English, one or two sentences naming the ONE map frame of this line: the view scale (a close-up of an island or harbour, a region, the whole nation, Southeast Asia), the geography by position and shape (coast, island, river, strait, gulf — never a name alone), what changes on the map in this beat (a region washed with colour, a route arrow, a ring round a place) and what moves on it (ships under sail, a caravan, smoke, cloud shadow). Change the view scale between neighbouring scenes. No lettering, labels or year badge, they are added later. Whenever the East Sea is in view, include the two island groups (Hoàng Sa in the north, Trường Sa in the south) as scattered islets.
+- visual: English, one or two sentences naming the ONE map frame of this line: the view scale (a close-up of an island or harbour, a region, the whole nation, Southeast Asia), the geography by position and shape (coast, island, river, strait, gulf — never a name alone), what changes on the map in this beat (a region filled with colour, a bold route arrow, a ring round a place) and what moves on it (ships under sail, a caravan, smoke, cloud shadow). Change the view scale between neighbouring scenes. No lettering, labels or year badge, they are added later. Whenever the East Sea is in view, include the two island groups (Hoàng Sa in the north, Trường Sa in the south) as scattered islets.
 
 ${outputRules}`;
 
 export const MAP_PROMPT_RULES = `This prompt is spliced into a larger template that already covers art style, frame shape, caption safe zones and the no-text rule — never restate any of that, and never name an art style, medium or rendering look.
 
 MAP FRAME
-1. The scene is an illustrated top-down relief map with life in it, never a table, a diagram or a globe. Open "Wide top-down view of <geography> at <time of day>, <year>;" (or "Close top-down view of …" for an island or a harbour). Match the view scale the beat names and keep it different from the neighbouring scenes (close-up, region, nation, Southeast Asia).
-2. Describe geography by position and shape, never by a name alone: compass directions, "a green teardrop island lying small off the western shore", "an S-shaped coastline", "the narrowest waist of the country". Use only the geography the beat gives; invent none.
-3. Territory is a translucent wash of colour with soft edges, with these fixed meanings across the whole video: red for Vietnam or Đàng Trong, orange for a piece that has just joined, teal for an autonomous or allied power, blue-violet for a foreign power, gold with a thin outline for Vietnam today. Historical borders are approximate: never a sharp line down to the village.
-4. Movement is a wide soft route arrow painted across the map: orange for an advancing army, red for one's own forces, teal for ships and envoys, white for a retreat, violet for diplomacy; a dashed yellow line for a boundary. A thin ring round a place, or a small pin, may mark the point of the beat.
-5. Fill the map with life at map scale — junk-rigged sailing boats on the sea, a caravan on a road, smoke from a burning camp, cloud shadows drifting over the land — matched to the beat. These are what the motion clip will animate.
+1. The scene is a clear illustrated map seen straight down, north at the top, never a landscape, a table, a diagram or a globe. Open "Wide top-down map of <geography> at <time of day>, <year>;" (or "Close top-down map of …" for an island, a pass or a harbour). Match the view scale the beat names and keep it different from the neighbouring scenes (close-up, region, nation, Southeast Asia).
+2. Describe geography by position and shape, never by a name alone: compass directions, "a green teardrop island lying small off the western shore", "an S-shaped coastline", "the narrowest waist of the country", "a mountain spur running east to the sea". Use only the geography the beat gives; invent none. Say where a coloured region starts and stops ("from the ridge down to a headland two thirds of the way south"), and keep land outside it plain.
+3. Territory is a flat, clearly coloured fill with a darker edge line of the same hue, with these fixed meanings across the whole video: red for Vietnam or Đàng Trong, mustard yellow for a rival Vietnamese power (the Trịnh north, Đàng Ngoài), orange for a piece that has just joined, teal for an autonomous or allied power, blue-violet for a foreign power, gold with a thin outline for Vietnam today. Historical borders are approximate: one clean simplified line, never detail down to the village.
+4. Movement is a bold solid arrow with a dark outline and a clear arrowhead, at most three per frame: orange for an advancing army, red for one's own forces, teal for ships and envoys, white for a retreat, violet for diplomacy; a bold dashed yellow line for a boundary. A bold ring round a place, or a small pin, may mark the point of the beat.
+5. Add only a little life at map scale, matched to the beat — two or three junk-rigged sailing boats, one fort, a plume of smoke, one small column of troops along an arrow. Never crowds, villages or clouds filling the land: the colours and arrows must read at a glance. These few things are what the motion clip will animate.
 6. NEVER any lettering, labels, place names, year badge or captions in the frame: they are added later.
 7. Sovereignty: whenever the East Sea (Biển Đông) is in view, draw the two island groups as scattered clusters of tiny islets in their places — Hoàng Sa in the north off the central coast, Trường Sa in the south-east — never washed in another country's colour and never with foreign border lines or a nine-dash line across the sea.
 8. Figures stay tiny (armies, boats, crowds). If a reference character is supplied for the scene, call them "the character" and never describe their appearance.
@@ -64,7 +68,7 @@ export const MAP_SCENES_STORY_RULES = `MAP SCENES — lines that are about geogr
 - A scene is a map scene ("map": true) when its line's main content is SPATIAL: a march, flight, exile, migration or sea route from one place to another; territory or control changing hands, or two powers holding different regions; where a base, capital or front lies relative to the enemy, a border, the sea or the mountains; a campaign moving across several named places in sequence. Every other scene is "map": false.
 - It is NOT a map scene when the line is about a person, an act or an idea: a coronation, a conversation, a death or poisoning, an introduction of a figure, a legend, a verdict, the closing question. Those stay ordinary drawable moments.
 - Use it sparingly: about 15 to 30 percent of the scenes, never more than two map scenes in a row, and never scene 1 unless its line is itself a question about a place. Zero map scenes is correct when no line is spatial.
-- A map scene has "chars": [] (this overrides the rule about keeping the main figure on screen: the map shows WHERE, the neighbouring scenes show WHO) and its "visual" names the map frame: the view scale (a close-up of a valley or harbour, a region, the whole country), the geography by position and shape, what changes on the map (a region washed with colour, a route arrow, a ring round a place) and what moves on it (tiny columns of troops, ships under sail, smoke, cloud shadow). Name only places the narration names; invent no geography. Change the view scale between neighbouring map scenes. No lettering, labels or year badge, they are added later. Whenever the East Sea is in view, include the two island groups (Hoàng Sa in the north, Trường Sa in the south) as scattered islets in their places.`;
+- A map scene has "chars": [] (this overrides the rule about keeping the main figure on screen: the map shows WHERE, the neighbouring scenes show WHO) and its "visual" names the map frame: the view scale (a close-up of a valley or harbour, a region, the whole country), the geography by position and shape, what changes on the map (a region filled with colour, a bold route arrow, a ring round a place) and what moves on it (tiny columns of troops, ships under sail, smoke, cloud shadow). Name only places the narration names; invent no geography. Change the view scale between neighbouring map scenes. No lettering, labels or year badge, they are added later. Whenever the East Sea is in view, include the two island groups (Hoàng Sa in the north, Trường Sa in the south) as scattered islets in their places.`;
 
 // Appended to the standard image-prompt system prompt: scenes marked MAP SCENE follow the map-frame
 // rules instead of the character-scene rules above.
@@ -75,7 +79,7 @@ ${MAP_PROMPT_RULES}
 
 [map scene prompt example] ${example}`;
 
-export const MAP_PROMPT_EXAMPLE = 'Wide top-down illustrated relief map of the Gulf of Thailand coast at dawn, 1708; the flat Mekong delta coastline curves along the east, a green teardrop island lies small off the western shore, and a narrow strip of coast around a harbour is washed in translucent teal with soft edges while the far east is washed in soft red; three junk-rigged sailing boats cross the bay toward the teal strip along a wide soft teal route arrow, cloud shadows drifting over the sea. Southeast Asian maritime setting, 18th century. No lettering or labels, no modern borders, no European ships.';
+export const MAP_PROMPT_EXAMPLE = 'Wide top-down map of the Gulf of Thailand coast at dawn, 1708; the flat Mekong delta coastline curves along the east, a green teardrop island lies small off the western shore, a narrow strip of coast around a harbour is a flat teal fill with a darker teal edge and the far east a flat red fill, the land between them plain; a bold teal arrow with a clear arrowhead crosses the bay toward the teal strip, three small junk-rigged sailing boats along it. Southeast Asian maritime setting, 18th century. No lettering or labels, no modern borders, no European ships.';
 
 export const MAP_MOTION_SYSTEM = `You direct how the still image of each scene of a narrated history video told on a map moves when an image-to-video model animates it. The still is an illustrated top-down relief map and already exists; you write only the motion. For every scene write three short English fields, each one line:
 
@@ -96,6 +100,6 @@ MOTION RULES
 
 NEGATIVE — a field that reads like any of these will animate badly: a camera that reverses or drifts with no path, a cut or a flash mid-clip, a wash or an arrow that jumps to another place, a coastline that reshapes, a label or caption appearing, sound described in words.
 
-FINAL CHECK: one camera move that never reverses; one continuous take with no cut and no new event; every wash, arrow and ring where the still puts it; nothing extra on screen; no sound described; each field one sentence, and camera_vi, action_vi, env_vi a close natural Vietnamese translation of their field.
+FINAL CHECK: one camera move that never reverses; one continuous take with no cut and no new event; every wash, arrow and ring where the still puts it; nothing extra on screen; no sound described; each field one sentence.
 
 ${MOTION_OUTPUT_RULES}`;

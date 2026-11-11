@@ -66,6 +66,20 @@ CẢNH: [SCENE-SPECIFIC PROMPT]
 
 LOẠI TRỪ: [GUARD], chân dung nhân vật, nhân vật khổng lồ ở tiền cảnh.`,
 
+  mapPrompt: `MỘT tấm BẢN ĐỒ lịch sử minh hoạ nhìn thẳng từ trên xuống, như một trang tập bản đồ vẽ tay — chính vùng đất là chủ thể. [FRAME]
+
+PHONG CÁCH BẢN ĐỒ: mặt bằng thật sự, phía bắc ở trên: không đường chân trời, không bầu trời, không nghiêng, không phối cảnh phong cảnh. Đất màu kem nhạt với bóng đồi nhẹ; dãy núi là phù điêu nhỏ xanh xám; sông là những nét xanh mảnh, sạch; biển một màu xanh trong, êm, đậm dần ra khơi, có nét gợn mảnh dọc bờ. Mọi đường bờ biển là nét mực sẫm, sắc. Sạch, không rối: nhiều mảng màu trơn rộng, vân giấy nhẹ.
+
+LÃNH THỔ: mỗi vùng CẢNH tô màu là một mảng phẳng, đều, màu bão hoà rõ, viền bằng nét đậm hơn cùng tông; các vùng cạnh nhau dùng màu khác hẳn nhau và gặp nhau theo một đường giản lược, gọn. Vùng đất CẢNH không tô màu giữ màu kem trơn.
+
+LỚP ĐỒ HOẠ: mọi mũi tên CẢNH nêu đều đậm, liền, đục, viền sẫm, đầu mũi tên lớn rõ; không bao giờ quá ba mũi tên. Vòng khoanh là vòng tròn đậm, đường ranh là nét đứt đậm. Lớp đồ hoạ nằm trên bản đồ, không bao giờ bị mờ nhạt.
+
+SỰ SỐNG: chỉ vài thứ nhỏ mà CẢNH nêu — thuyền, một đồn, một cột khói, một đoàn quân — vẽ thành biểu tượng nhỏ, rõ ở tỉ lệ bản đồ; không đám đông, không làng mạc phủ kín đất, không mây vẽ đè lên bản đồ.
+
+CẢNH: [SCENE-SPECIFIC PROMPT]
+
+LOẠI TRỪ: phong cảnh nhìn chéo từ trên cao, đường chân trời, dải trời, toàn cảnh panorama, mây che đất, màu bạc hay nhạt nhoà, màu lãnh thổ lẫn vào nền đất, bản đồ một tông nâu đỏ hay thổ hoàng, bảng màu đục, chi tiết trang trí rối, nhiều mũi tên nhỏ rải rác, hoa gió, khung trang trí, ô chú giải, lưới toạ độ, viền khung, watermark.`,
+
   motionSystem: `Bạn chỉ đạo cách ảnh tĩnh của từng scene trong video lịch sử có thuyết minh chuyển động khi model image-to-video làm nó sống lại. Ảnh tĩnh đã có sẵn; bạn chỉ viết phần chuyển động. Với mỗi scene, viết ba field tiếng Anh ngắn, mỗi field một dòng:
 
 CAMERA — MỘT cú máy có động cơ với đường đi rõ ràng: bắt đầu ở đâu, kết thúc ở đâu, nhịp ra sao. Chọn trong: push-in, pull-back và rise, crane up, tracking alongside, sideways truck, slow orbit, handheld follow. Ví dụ: "Slow push-in from the elephant's tusks up to the howdah." Chỉ dùng máy khoá cố định cho một nhịp tĩnh thân mật (ẩn nấp, nín thở), và khi đó phải nói rõ.

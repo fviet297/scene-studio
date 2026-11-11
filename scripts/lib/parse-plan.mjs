@@ -11,6 +11,7 @@ import { parsePlanAspect } from './aspect.mjs';
 import { parseMinDuration } from './scene-timing.mjs';
 import { parseMotionDuration, shotGroups } from './shot-timing.mjs';
 import { readPlanHeader } from './plan-writer.mjs';
+import { normalizeMapSpec } from './map-render.mjs';
 
 // A motion video only gets used when the file is actually a playable MP4 — a failed or
 // interrupted generation can leave a truncated file (or a stray placeholder saved with a .mp4
@@ -69,7 +70,7 @@ export const parsePlan = (slug, inputPath) => {
 
     const fields = {};
     for (const line of lines) {
-      const kv = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration)\s*:\s*(.+?)\s*$/i.exec(line);
+      const kv = /^(time|char|identity|narration|beat|prompt_vi|prompt|motion_vi|motion|camera_vi|camera|action_vi|action|env_vi|env|search|title|cue|host|duration|map)\s*:\s*(.+?)\s*$/i.exec(line);
       if (kv) fields[kv[1].toLowerCase()] = kv[2].trim();
     }
 
@@ -89,6 +90,11 @@ export const parsePlan = (slug, inputPath) => {
     const image = fields.search
       ? { kind: 'search', characters: [], query: fields.search }
       : { kind: 'ai', characters: ids, identity, prompt: fields.prompt ?? '', motion: fields.motion ?? '', promptVi: fields.prompt_vi ?? '', motionVi: fields.motion_vi ?? '', motionParts };
+    // map: a map scene's spec (one JSON line), drawn by code instead of an image model
+    // (map-render.mjs). A broken spec is reported and ignored, so one typo never breaks the plan.
+    if (fields.map && image.kind === 'ai') {
+      try { image.map = normalizeMapSpec(fields.map); } catch (e) { warnings.push(`scene ${sceneMatch[1]}: ${e.message} — ignored`); }
+    }
 
     // beat: the English drawable moment of the narration line (AI script writer), the motion
     // writer's input — so it never has to send the Vietnamese narration to the LLM.
@@ -127,7 +133,7 @@ export const parsePlan = (slug, inputPath) => {
   if (motionDuration.error) warnings.push(`${motionDuration.error} — ignored`);
 
   for (const s of scenes) {
-    if (s.image.kind === 'ai' && !s.image.prompt) warnings.push(`scene ${s.scene}: no prompt and no search`);
+    if (s.image.kind === 'ai' && !s.image.prompt && !s.image.map) warnings.push(`scene ${s.scene}: no prompt and no search`);
     for (const id of s.image.characters) {
       if (!characters[id]) warnings.push(`scene ${s.scene}: unknown character "${id}"`);
       else if (!existsSync(characters[id])) warnings.push(`scene ${s.scene}: reference file missing ${characters[id]}`);

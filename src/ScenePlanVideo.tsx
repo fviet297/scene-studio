@@ -3,6 +3,7 @@ import {
   AbsoluteFill,
   Audio,
   Easing,
+  Freeze,
   Img,
   interpolate,
   OffthreadVideo,
@@ -116,6 +117,10 @@ export type ProjectData = {
   // when this project keeps it on and one exists; durationInFrames already includes introFrames.
   introSrc?: string;
   introFrames?: number;
+  // Silent hold (branding.intro.padSeconds) after the intro's last frame and before scene 1, so the
+  // narrator does not start on top of the channel voice that ends the intro. Counted in
+  // durationInFrames too; absent in bundles built before it.
+  introPadFrames?: number;
   // Word timings in absolute seconds (scripts/lib/caption-align.mjs); empty until every scene has audio.
   captionGroups?: CaptionGroup[];
 };
@@ -264,6 +269,35 @@ function motionRate(
   return playedSeconds > 0 && playedSeconds < sequenceSeconds
     ? playedSeconds / sequenceSeconds
     : 1;
+}
+
+// Every prop SceneView needs for scene `index`, so the intro hold draws scene 1 exactly as the
+// film will once it starts on that same frame (no jump from a stand-in still).
+function sceneViewProps(
+  project: ProjectData,
+  effects: EffectsConfig,
+  index: number,
+  durationInFrames: number,
+  fadeInFrames: number,
+) {
+  return {
+    scene: project.scenes[index],
+    projectSlug: project.slug,
+    durationInFrames,
+    publicPrefix: project.publicPrefix,
+    uploadedScenes: project.uploadedScenes,
+    motionPlaybackRate: motionRate(
+      project.motionClipSeconds?.[index],
+      project.motionPlaybackRates?.[index],
+      project.motionHeadSeconds?.[index] ?? 0,
+      durationInFrames,
+      project.fps,
+    ),
+    motionStartFromSeconds: project.motionHeadSeconds?.[index] ?? 0,
+    fadeInFrames,
+    effects,
+    titleStyle: project.branding?.title,
+  };
 }
 
 export function SceneView({
@@ -455,15 +489,42 @@ export const ScenePlanVideo: React.FC<{ project: ProjectData }> = ({
   project,
 }) => {
   const introFrames = project.introSrc ? (project.introFrames ?? 0) : 0;
+  const introPadFrames = project.introSrc ? (project.introPadFrames ?? 0) : 0;
   const film = <ScenePlanFilm project={project} />;
   if (introFrames <= 0) return film;
+  // The silent hold after the intro shows scene 1 frozen on its first frame, exactly where the
+  // film picks it up, so the picture is already there while the narration waits. Freeze keeps
+  // scene 1's own first frame (motion clip included) instead of a look-alike still.
+  const padFilm =
+    introPadFrames > 0 && project.scenes.length > 0 ? (
+      <Sequence from={introFrames} durationInFrames={introPadFrames}>
+        <Freeze frame={0}>
+          <SceneView
+            {...sceneViewProps(
+              project,
+              resolveEffects(project.branding?.effects),
+              0,
+              sceneTimeline(project.scenes, project.sceneDurations).frames[0],
+              0,
+            )}
+          />
+        </Freeze>
+        {/* The film draws this from its own first frame; drawing it here too keeps the logo from
+            popping in at the cut. It is static, so the two frames match. */}
+        {project.branding && <BrandOverlay branding={project.branding} />}
+      </Sequence>
+    ) : null;
   return (
     <AbsoluteFill style={{ background: COLORS.ink }}>
       <Sequence durationInFrames={introFrames}>
         <IntroClip src={project.introSrc as string} />
       </Sequence>
+      {padFilm}
       {/* Scenes, audio, captions and branding run on their own clock, started after the intro. */}
-      <Sequence from={introFrames} premountFor={PREMOUNT_SECONDS * project.fps}>
+      <Sequence
+        from={introFrames + introPadFrames}
+        premountFor={PREMOUNT_SECONDS * project.fps}
+      >
         {film}
       </Sequence>
     </AbsoluteFill>
@@ -513,22 +574,13 @@ const ScenePlanFilm: React.FC<{ project: ProjectData }> = ({ project }) => {
                 premountFor={PREMOUNT_SECONDS * project.fps}
               >
                 <SceneView
-                  scene={scene}
-                  projectSlug={project.slug}
-                  durationInFrames={frames[i] + overlap}
-                  publicPrefix={project.publicPrefix}
-                  uploadedScenes={project.uploadedScenes}
-                  motionPlaybackRate={motionRate(
-                    project.motionClipSeconds?.[i],
-                    project.motionPlaybackRates?.[i],
-                    project.motionHeadSeconds?.[i] ?? 0,
+                  {...sceneViewProps(
+                    project,
+                    effects,
+                    i,
                     frames[i] + overlap,
-                    project.fps,
+                    overlap,
                   )}
-                  motionStartFromSeconds={project.motionHeadSeconds?.[i] ?? 0}
-                  fadeInFrames={overlap}
-                  effects={effects}
-                  titleStyle={project.branding?.title}
                 />
               </Sequence>
               {scene.hasAudio && (

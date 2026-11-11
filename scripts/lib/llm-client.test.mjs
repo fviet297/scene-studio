@@ -77,3 +77,35 @@ test('an HTTP error status reports the provider message', async () => {
   mode = 'http-400';
   await assert.rejects(chatJson({ system: 's', user: 'u', label: 'Viết' }), /Viết 400: bad model/);
 });
+
+test('LLM_MODEL "muse:<model>" routes to muse2api base URL and key, stripping the prefix', async () => {
+  mode = 'sse';
+  const prevModel = process.env.LLM_MODEL;
+  const prevBase = process.env.MUSE2API_BASE_URL;
+  const prevKey = process.env.MUSE2API_KEY;
+  process.env.LLM_MODEL = 'muse:muse-spark';
+  process.env.MUSE2API_BASE_URL = `http://127.0.0.1:${server.address().port}`;
+  process.env.MUSE2API_KEY = 'muse-key';
+  try {
+    const reply = await chatJson({ system: 's', user: 'u' });
+    assert.deepEqual(reply, { scenes: [1, 2] });
+    assert.equal(lastBody.model, 'muse-spark');
+  } finally {
+    process.env.LLM_MODEL = prevModel;
+    process.env.MUSE2API_BASE_URL = prevBase;
+    process.env.MUSE2API_KEY = prevKey;
+  }
+});
+
+test('LLM_MODEL "muse:<model>" without MUSE2API_KEY fails clearly', async () => {
+  const prevModel = process.env.LLM_MODEL;
+  const prevKey = process.env.MUSE2API_KEY;
+  process.env.LLM_MODEL = 'muse:muse-spark';
+  delete process.env.MUSE2API_KEY;
+  try {
+    await assert.rejects(chatJson({ system: 's', user: 'u' }), /MUSE2API_KEY/);
+  } finally {
+    process.env.LLM_MODEL = prevModel;
+    process.env.MUSE2API_KEY = prevKey;
+  }
+});
