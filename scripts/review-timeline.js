@@ -147,7 +147,10 @@ function tlGroupShotSeconds(audio, shots) {
       stills === shots.length ? 0 : TL_MIN_STILL_SECONDS,
     );
     const motionBudget = audio - share * stills;
-    if (motionSeconds > motionBudget) {
+    // Only a real motion shot can be cut; with none (motionSeconds 0, e.g. an all-map group whose
+    // clips aren't rendered yet), motionBudget is 0 by construction but float error can make it
+    // compare as negative — skip the cut instead of indexing a motion shot that does not exist.
+    if (motionSeconds > 0 && motionSeconds > motionBudget) {
       const last = shots.map(isMotion).lastIndexOf(true);
       const before = shots
         .slice(0, last)

@@ -2604,7 +2604,7 @@ const watchProjectInputs = () => {
   });
 };
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   watchProjectInputs();
-  process.stdout.write(`Review UI on http://127.0.0.1:${PORT}  (project: ${P.slug} — approve visuals, then audio is generated)\n`);
+  process.stdout.write(`Review UI on http://0.0.0.0:${PORT}  (project: ${P.slug} — approve visuals, then audio is generated)\n`);
 });
